@@ -1,0 +1,79 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+[type='checkbox'],
+[type='radio'] {
+    color: theme('colors.primary.DEFAULT');
+}
+
+html {
+    @apply min-h-fit scroll-smooth bg-white text-base text-dark;
+}
+
+body {
+    margin: 0 !important;
+    padding: 0;
+    height: fit-content;
+}
+
+body * {
+    box-sizing: border-box;
+}
+@layer components {
+    .gutters {
+        @apply px-16;
+    }
+
+    .bg-dotted {
+        background-image: radial-gradient(
+                theme('colors.white') 8%,
+                transparent 10%
+            ),
+            radial-gradient(theme('colors.white') 8%, transparent 10%);
+        background-size: 40px 40px;
+        background-position:
+            W 0 0,
+            60px 60px;
+        background-color: theme('colors.accent.DEFAULT');
+
+        animation-name: backgroundmovement;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+}
+
+@keyframes backgroundmovement {
+    0% {
+        background-position:
+            0px 0px,
+            60px 60px;
+    }
+    100% {
+        background-position:
+            60px 60px,
+            120px 120px;
+    }
+}
+
+* {
+    scrollbar-width: auto;
+    scrollbar-color: theme('colors.primary.DEFAULT');
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    height: 2px;
+    width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+    background: none;
+}
+
+*::-webkit-scrollbar-thumb {
+    @apply bg-primary;
+    border-radius: 20px;
+    height: 150px;
+}
