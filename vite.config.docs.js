@@ -7,13 +7,13 @@ export default ({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
     return defineConfig({
         plugins: [vue()],
-        base: '/shbc-vue-components',
+        base: '/nb-vue-components',
         /*
         build: {
             lib: {
                 entry: path.resolve(__dirname, 'src/index.js'),
-                name: '@shbc/vue-components',
-                fileName: (format) => `shbc-vue-components.${format}.js`,
+                name: '@nb/vue-components',
+                fileName: (format) => `nb-vue-components.${format}.js`,
             },
             rollupOptions: {
                 external: ['vue'],

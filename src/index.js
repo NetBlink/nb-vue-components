@@ -43,7 +43,7 @@ import DescriptionListItem from './components/DescriptionListItem.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
 
-const ComponentsSHBC = {
+const Componentsnb = {
     install(App) {
         for (const componentKey in components) {
             App.component(componentKey, components[componentKey]);
@@ -51,7 +51,7 @@ const ComponentsSHBC = {
     },
 };
 
-export default ComponentsSHBC;
+export default Componentsnb;
 export {
     // FORMS
     Checkbox,

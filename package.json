@@ -1,13 +1,13 @@
 {
-    "name": "@shbc/vue-components",
+    "name": "@nb/vue-components",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/shbc-vue-components.umd.js",
-    "module": "dist/shbc-vue-components.es.js",
+    "main": "dist/nb-vue-components.umd.js",
+    "module": "dist/nb-vue-components.es.js",
     "exports": {
         ".": {
-            "import": "./dist/shbc-vue-components.es.js",
-            "require": "./dist/shbc-vue-components.umd.js"
+            "import": "./dist/nb-vue-components.es.js",
+            "require": "./dist/nb-vue-components.umd.js"
         }
     },
     "scripts": {

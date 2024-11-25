@@ -11,12 +11,12 @@ Vue componenets library for Stack with:
 Install with for newest version:
 
 ```bash
-npm install git@github.com:samhargreaves/shbc-vue-components.git#release
+npm install git@github.com:NetBlink/nb-vue-components/.git#release
 ```
 
 # Documentation
 
-[docs](https://samhargreaves.github.io/shbc-vue-components/)
+[docs](https://NetBlink.github.io/nb-vue-components/)
 
 Available components:
 
@@ -156,7 +156,7 @@ Also you need to add this package to conent seciont and change mode to `jit`, fo
     "mode": "jit",
     "content": [
         /*...*/
-        "./node_modules/@shbc/**/*.js"
+        "./node_modules/@nb/**/*.js"
     ]
 }
 ```
@@ -165,7 +165,7 @@ After this you can use components like every other:
 
 ```jsx
 <script setup>
-    import { Section, PrimaryButton, InputError } from "@shbc/vue-components";
+    import { Section, PrimaryButton, InputError } from "@nb/vue-components";
 </script>
 <template>
     <Section>

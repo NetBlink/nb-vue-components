@@ -1,6 +1,6 @@
 import { mergeDataIntoQueryString, shouldIntercept } from '@inertiajs/core';
 import { defineComponent, h } from 'vue';
-//SHBC EDIT
+//nb EDIT
 import { getInertiaRouter } from '@/Helpers';
 
 const Link = defineComponent({

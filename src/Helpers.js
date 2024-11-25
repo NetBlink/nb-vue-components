@@ -30,7 +30,7 @@ function getInertiaRouter() {
         console.error(
             'Inertia router is not set. Please set it first:' +
                 '\n\n// app.js' +
-                "\nimport { setInertiaRouter } from '@shbc/vue-components';" +
+                "\nimport { setInertiaRouter } from '@nb/vue-components';" +
                 "\nimport { router } from '@inertiajs/vue3';" +
                 '\n// createInertiaApp(...);' +
                 '\nsetInertiaRouter(router);\n\n'

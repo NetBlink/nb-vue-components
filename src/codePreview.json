@@ -1,11 +1,11 @@
 {
     "Spinner": [
-        "import { Spinner } from \"@shbc-vue-components\";",
+        "import { Spinner } from \"@nb-vue-components\";",
         "",
         "<Spinner />"
     ],
     "Modal": [
-        "import { Modal } from \"@shbc-vue-components\";",
+        "import { Modal } from \"@nb-vue-components\";",
         "",
         "<SecondaryButton @click=\"modal = true\">Open Modal</SecondaryButton>",
         "<Modal :show=\"modal\" @close=\"modal = false\">",
@@ -13,12 +13,12 @@
         "</Modal>"
     ],
     "Logs": [
-        "import { Logs } from \"@shbc-vue-components\";",
+        "import { Logs } from \"@nb-vue-components\";",
         "",
         "<Logs header=\"myLogs\" :logs=\"{}\" />"
     ],
     "Dropdown": [
-        "import { Dropdown, DropdownLink } from \"@shbc-vue-components\";",
+        "import { Dropdown, DropdownLink } from \"@nb-vue-components\";",
         "",
         "<Dropdown align=\"left\" content-classes=\"p-2 bg-gray-200\">",
         "    <template #trigger>Click me</template>",
@@ -32,7 +32,7 @@
         "</Dropdown>"
     ],
     "DescriptionList": [
-        "import { DescriptionList, DescriptionListItem } from \"@shbc-vue-components\";",
+        "import { DescriptionList, DescriptionListItem } from \"@nb-vue-components\";",
         "",
         "<DescriptionList>",
         "   <DescriptionListItem editable>my description list</DescriptionListItem>",
@@ -40,12 +40,12 @@
         "</DescriptionList>"
     ],
     "Alert":[
-        "import { Alert } from \"@shbc-vue-components\";",
+        "import { Alert } from \"@nb-vue-components\";",
         "",
         "<Alert>My alert message</Alert>"
     ],
     "TableItemCard": [
-        "import { TableItemCard } from \"@shbc-vue-components\";",
+        "import { TableItemCard } from \"@nb-vue-components\";",
         "",
         "<TableItemCard",
         "  :itemId=\"{ id: 2, prefix: false }\"",
@@ -65,7 +65,7 @@
         "/>"
     ],
     "Table": [
-        "import { Table } from \"@shbc-vue-components\";",
+        "import { Table } from \"@nb-vue-components\";",
         "",
         "<Table",
         "  class=\"w-full\"",
@@ -115,17 +115,17 @@
         "</Table>"
     ],
     "TextInput": [
-        "import { TextInput } from \"@shbc-vue-components\";",
+        "import { TextInput } from \"@nb-vue-components\";",
         "",
         "<TextInput :form=\"form\" field=\"name\" label=\"Name\" modelValue=\"myValue\" />"
     ],
     "Textarea": [
-        "import { Textarea } from \"@shbc-vue-components\";",
+        "import { Textarea } from \"@nb-vue-components\";",
         "",
         "<Textarea :form=\"form\" field=\"note\" label=\"Note\" rows=\"4\" />"
     ],
     "SelectMultiple": [
-        "import { SelectMultiple } from \"@shbc-vue-components\";",
+        "import { SelectMultiple } from \"@nb-vue-components\";",
         "",
         "<SelectMultiple",
         "   id=\"ba_country\"",
@@ -144,7 +144,7 @@
     ],
     "SearchSelect": ["---"],
     "RadioButton": [
-        "import { RadioButton } from \"@shbc-vue-components\";",
+        "import { RadioButton } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4\">",
         "   <RadioButton :value=\"null\" v-model=\"form.option\" id=\"radioDefault01\" :isChecked=\"true\" name=\"option\" label=\"All\"/>",
@@ -153,7 +153,7 @@
         "</div>"
     ],
     "InputLabel": [
-        "import { InputLabel } from \"@shbc-vue-components\";",
+        "import { InputLabel } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4 flex-col\">",
         "   <InputLabel value=\"My Label - 1\" />",
@@ -162,7 +162,7 @@
         "</div>"
     ],
     "InputError": [
-        "import { InputError } from \"@shbc-vue-components\";",
+        "import { InputError } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4 flex-col\">",
         "   <textarea class=\"-mb-3\">My input</textarea>",
@@ -170,7 +170,7 @@
         "</div>"
     ],
     "DropdownSearchBar": [
-        "import { DropdownSearchbar } from \"@shbc-vue-components\";",
+        "import { DropdownSearchbar } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4 items-center\">",
         "   <DropdownSearchbar",
@@ -183,7 +183,7 @@
         "</div>"
     ],
     "Checkbox": [
-        "import { Checkbox } from \"@shbc-vue-components\";",
+        "import { Checkbox } from \"@nb-vue-components\";",
         "",
         "const form = useForm({",
         "  checkbox: false,",
@@ -197,7 +197,7 @@
         "</div>"
     ],
     "FileInput": [
-        "import { Input } from \"@shbc-vue-components\";",
+        "import { Input } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4 items-center\">",
         "<FileDropZoneInput :form=\"form\" field=\"img\" />",
@@ -205,7 +205,7 @@
         "</div>"
     ],
     "Switch": [
-        "import { Input } from \"@shbc-vue-components\";",
+        "import { Input } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex gap-4 items-center\">",
         "   <Input :form=\"form\" field=\"subscribe\" type=\"checkbox\" />",
@@ -214,7 +214,7 @@
         "</div>"
     ],
     "Input": [
-        "import { Input } from \"@shbc-vue-components\";",
+        "import { Input } from \"@nb-vue-components\";",
         "",
         "<div class=\"grid w-full gap-5 py-2 grid-cols-3\">",
         "   <Input :form=\"form\" field=\"name\" />",
@@ -226,7 +226,7 @@
         "</div>"
     ],
     "Buttons": [
-        "import { SubmitButton, PrimaryButton, SecondaryButton, DangerButton, LinkDropdownButton, LinkDropdownButtonItem } from \"@shbc-vue-components\";",
+        "import { SubmitButton, PrimaryButton, SecondaryButton, DangerButton, LinkDropdownButton, LinkDropdownButtonItem } from \"@nb-vue-components\";",
         "",
         "<div class=\"flex w-full gap-5 py-2\">",
         "   <SubmitButton :form=\"form\">Submit</SubmitButton>",
@@ -240,14 +240,14 @@
         "</div>"
     ],
     "Section": [
-        "import Section from \"./@shbc-vue-components/Section.vue\";",
+        "import Section from \"./@nb-vue-components/Section.vue\";",
         "",
         "<Section header=\"MySection\" :open=\"true\">",
         "        My Section Data",
         "</Section>"
     ],
     "CollapsibleSection": [
-        "import CollapsibleSection from \"./@shbc-vue-components/CollapsibleSection.vue\";",
+        "import CollapsibleSection from \"./@nb-vue-components/CollapsibleSection.vue\";",
         "",
         "<CollapsibleSection header=\"MyCollapsibleSection\">",
         "   My Section Data",
