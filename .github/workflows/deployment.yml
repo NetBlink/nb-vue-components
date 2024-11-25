@@ -1,0 +1,30 @@
+name: Deployment
+on:
+    push:
+        branches:
+            - main
+jobs:
+    Deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v4
+
+            - name: Setup NPM
+              uses: ./.github/actions/cache_and_install_node_modules
+
+            - name: Use Node.js 20.x
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.x
+
+            - name: Build application
+              run: npm run build
+
+            - name: Deploy with gh-pages
+              run: |
+                  git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+                  npx gh-pages -d dist --dest "dist/" -u "github-actions-bot <support+actions@github.com>" -b release --add true
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# https://www.npmjs.com/package/gh-pages#deploying-with-github-actions
