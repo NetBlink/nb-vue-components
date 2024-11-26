@@ -17,6 +17,10 @@
         "prettier": "npx prettier **/* --write --ignore-path ./.prettierignore --ignore-unknown --list-different",
         "prettier-check": "npx prettier **/* --check --ignore-path ./.prettierignore --ignore-unknown"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/NetBlink/nb-vue-components.git"
+    },
     "prettier": {
         "$schema": "http://json.schemastore.org/prettierrc",
         "trailingComma": "es5",
@@ -39,7 +43,8 @@
         ]
     },
     "keywords": [],
-    "author": "",
+    "author": "Lukasz Tlalka",
+    "homepage": "https://github.com/NetBlink/nb-vue-components#readme",
     "license": "ISC",
     "devDependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
