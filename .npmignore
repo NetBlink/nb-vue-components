@@ -1,0 +1,7 @@
+src/
+.docker/
+.github/
+node_modules/
+vite.config.js
+vite.config.docs.js
+*.log
