@@ -93,16 +93,16 @@ const perPageChanged = (e) => {
 };
 </script>
 <template>
-    <div v-if="filteredLinks.length > 3" class="flex justify-between">
+    <div class="flex justify-between pagination">
         <div>
-            <Input type="select" v-model="perPage" class="w-20" @changed="perPageChanged">
+            <Input type="select" v-model="perPage" class="w-20 per-page-input" @changed="perPageChanged">
                 <option v-for="option in perPageOptions" :key="option" :value="option" :selected="option == perPage">
                     {{ option }}
                 </option>
             </Input>
         </div>
 
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" v-if="filteredLinks.length > 3">
             <ul class="list-style-none flex" :class="{ [customListClass]: customListClass }">
                 <li v-for="(link, k) in filteredLinks" :key="k">
                     <template v-if="linkReturn">
