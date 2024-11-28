@@ -95,7 +95,7 @@ const perPageChanged = (e) => {
 <template>
     <div class="flex justify-between pagination">
         <div>
-            <Input type="select" v-model="perPage" class="w-20 per-page-input" @changed="perPageChanged">
+            <Input type="select" v-model="perPage" class="w-20 per-page-input" @changed="perPageChanged" v-if="showPerPage">
                 <option v-for="option in perPageOptions" :key="option" :value="option" :selected="option == perPage">
                     {{ option }}
                 </option>
