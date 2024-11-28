@@ -29,6 +29,14 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    showPerPage: {
+        type: Boolean,
+        default: false,
+    },
+    defaultPerPage: {
+        type: Number,
+        default: 100,
+    },
 });
 
 const table = ref(null);
@@ -130,6 +138,6 @@ if (props.sticky) {
             </div>
         </div>
         <slot v-if="$slots.pagination" name="pagination" />
-        <Pagination v-else-if="links" class="mt-6" :links="links" />
+        <Pagination v-else-if="links" class="mt-6" :links="links" :showPerPage="showPerPage" :defaultPerPage="defaultPerPage" />
     </div>
 </template>
