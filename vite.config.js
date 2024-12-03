@@ -10,7 +10,7 @@ export default ({ mode }) => {
         base: '/nb-vue-components',
         build: {
             lib: {
-                entry: path.resolve(__dirname, 'src/index.js'),
+                entry: path.resolve(__dirname, 'src/index.ts'),
                 name: '@nb/vue-components',
                 fileName: (format) => `nb-vue-components.${format}.js`,
             },
@@ -23,7 +23,7 @@ export default ({ mode }) => {
                     exports: 'named',
                 },
                 input: {
-                    main: path.resolve(__dirname, 'src/index.js'),
+                    main: path.resolve(__dirname, 'src/index.ts'),
                 },
             },
         },
