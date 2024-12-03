@@ -1,9 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { inject, onMounted, ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPencil, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faPenRuler } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
-library.add(faPencil, faCheck);
+library.add(faPencil, faPenRuler);
 
 const props = defineProps({
     editable: {
@@ -28,16 +28,38 @@ const props = defineProps({
 });
 
 const editing = ref(props.editable ? props.forceEditing : false);
-
 const toggleEditing = () => {
     if (!props.editable) return;
     editing.value = !editing.value;
 };
 
-watch(() => props.forceEditing, (newValue) => {
-    if (props.editable) {
-        editing.value = newValue;
+watch(
+    () => props.forceEditing,
+    (newValue) => {
+        if (props.editable) {
+            editing.value = newValue;
+        }
     }
+);
+
+const startEditing = () => {
+    if (!props.editable) return;
+    editing.value = true;
+};
+const stopEditing = () => {
+    if (!props.editable) return;
+    editing.value = false;
+};
+const registerItem = inject('registerItem');
+onMounted(() => {
+    if (registerItem) {
+        registerItem({ startEditing, stopEditing, toggleEditing });
+    }
+});
+defineExpose({
+    toggleEditing,
+    startEditing,
+    stopEditing,
 });
 </script>
 
@@ -51,24 +73,24 @@ watch(() => props.forceEditing, (newValue) => {
         <dd class="mt-1 min-h-[42px] text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div class="flex min-h-full items-center">
                 <template v-if="!editing">
-                    <div class="flex-grow slot-content">
+                    <div class="slot-content flex-grow">
                         <slot />
                         {{ value }}
                     </div>
                     <span class="ml-4 flex-shrink-0">
-                        <button type="button" @click="toggleEditing" class="text-lg font-bold text-primary hover:text-primary-400"  v-if="editable">
+                        <button type="button" @click="toggleEditing" class="text-lg font-bold text-primary hover:text-primary-400" v-if="editable">
                             <FontAwesomeIcon :icon="faPencil" />
                         </button>
                         <slot name="buttons" />
                     </span>
                 </template>
                 <template v-else>
-                    <div class="flex-grow slot-edit">
+                    <div class="slot-edit flex-grow">
                         <slot name="edit" />
                     </div>
                     <span class="ml-4 flex-shrink-0">
                         <button type="button" @click="toggleEditing" class="text-xl font-bold text-primary hover:text-primary-400">
-                            <FontAwesomeIcon :icon="faCheck" />
+                            <FontAwesomeIcon :icon="faPenRuler" />
                         </button>
                     </span>
                 </template>
