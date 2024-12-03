@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
 const props = defineProps({
     show: {
@@ -34,9 +34,14 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    resizable: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const emit = defineEmits(['close']);
+const modalContent = ref(null);
 
 watch(
     () => props.show,
@@ -65,6 +70,8 @@ onMounted(() => document.addEventListener('keydown', closeOnEscape));
 
 onUnmounted(() => {
     document.removeEventListener('keydown', closeOnEscape);
+    document.removeEventListener('mousemove', onResizeMouseMove);
+    document.removeEventListener('mouseup', onResizeMouseUp);
     document.body.style.overflow = null;
 });
 
@@ -83,6 +90,12 @@ const maxWidthClass = computed(() => {
             '5xl': 'sm:max-w-5xl',
             '6xl': 'sm:max-w-6xl',
             '7xl': 'sm:max-w-7xl',
+            '50%': 'sm:max-w-[50%]',
+            '60%': 'sm:max-w-[60%]',
+            '75%': 'sm:max-w-[75%]',
+            '80%': 'sm:max-w-[80%]',
+            '90%': 'sm:max-w-[90%]',
+            '95%': 'sm:max-w-[95%]',
         }[props.maxWidth]
     );
 
@@ -90,6 +103,49 @@ const maxWidthClass = computed(() => {
 
     return classes.join(' ');
 });
+
+/* Resize Logic */
+const resizing = ref(false);
+const resizeAxis = ref(null);
+const startX = ref(0);
+const startY = ref(0);
+const startWidth = ref(0);
+const startHeight = ref(0);
+const resizedWidth = ref(null);
+const resizedHeight = ref(null);
+const onResizeMouseDown = (e, axis) => {
+    resizing.value = true;
+    document.addEventListener('mousemove', onResizeMouseMove);
+    document.addEventListener('mouseup', onResizeMouseUp);
+
+    resizeAxis.value = axis;
+    startX.value = e.clientX;
+    startY.value = e.clientY;
+    startWidth.value = modalContent.value.offsetWidth;
+    startHeight.value = modalContent.value.offsetHeight;
+};
+const onResizeMouseUp = (e) => {
+    resizing.value = false;
+    document.removeEventListener('mousemove', onResizeMouseMove);
+    document.removeEventListener('mouseup', onResizeMouseUp);
+};
+
+const onResizeMouseMove = (e) => {
+    if (!resizing.value) return;
+
+    const dx = (e.clientX - startX.value) * 2;
+    const dy = e.clientY - startY.value;
+
+    if (resizeAxis.value.includes('x')) {
+        resizedWidth.value = startWidth.value + dx + 'px';
+    }
+    if (resizeAxis.value.includes('-x')) {
+        resizedWidth.value = startWidth.value - dx + 'px';
+    }
+    if (resizeAxis.value.includes('y')) {
+        resizedHeight.value = startHeight.value + dy + 'px';
+    }
+};
 </script>
 
 <template>
@@ -123,11 +179,56 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <div
+                        ref="modalContent"
                         v-show="show"
                         class="mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
                         :class="maxWidthClass + (showBorder ? ' border-pink rounded-md border-2 border-solid' : '')"
+                        :style="{
+                            userSelect: resizing ? 'none' : 'auto',
+                            transition: resizing ? 'none' : '',
+                            width: resizedWidth || '',
+                            height: resizedHeight || '',
+                            maxWidth: resizedWidth || '',
+                            maxHeight: resizedHeight || '',
+                        }"
                     >
                         <slot v-if="show" />
+
+                        <template v-if="resizable">
+                            <!-- Resize Handles -->
+                            <!-- <div
+                                class="absolute left-0 top-0 h-1 w-full cursor-row-resize bg-gray-200"
+                                @mousedown="onResizeMouseDown($event, 'y')"
+                                @mouseup="onResizeMouseUp"
+                            ></div> -->
+                            <div
+                                class="absolute bottom-0 left-0 h-1 w-full cursor-row-resize"
+                                @mousedown="onResizeMouseDown($event, 'y')"
+                                @mouseup="onResizeMouseUp"
+                            ></div>
+                            <div
+                                class="absolute left-0 top-0 h-full w-1 cursor-col-resize"
+                                @mousedown="onResizeMouseDown($event, '-x')"
+                                @mouseup="onResizeMouseUp"
+                            ></div>
+                            <div
+                                class="absolute right-0 top-0 h-full w-1 cursor-col-resize"
+                                @mousedown="onResizeMouseDown($event, 'x')"
+                                @mouseup="onResizeMouseUp"
+                            ></div>
+
+                            <!-- Corners -->
+                            <div
+                                class="absolute bottom-0 right-0 h-1 w-1 cursor-se-resize"
+                                @mousedown="onResizeMouseDown($event, 'xy')"
+                                @mouseup="onResizeMouseUp"
+                            ></div>
+                            <div
+                                class="absolute bottom-0 left-0 h-1 w-1 cursor-sw-resize"
+                                @mousedown="onResizeMouseDown($event, '-xy')"
+                                @mouseup="onResizeMouseUp"
+                            ></div>
+                        </template>
                     </div>
                 </transition>
             </div>

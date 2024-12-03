@@ -4,6 +4,7 @@
     "description": "",
     "main": "dist/nb-vue-components.umd.js",
     "module": "dist/nb-vue-components.es.js",
+    "types": "dist/nb-vue-components.d.ts",
     "exports": {
         ".": {
             "import": "./dist/nb-vue-components.es.js",
