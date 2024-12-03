@@ -1,8 +1,3 @@
-export default Componentsnb;
-export * from "./Helpers.js";
-declare namespace Componentsnb {
-    function install(App: any): void;
-}
 import Checkbox from './components/Forms/Checkbox.vue';
 import Input from './components/Forms/Input.vue';
 import InputError from './components/Forms/InputError.vue';
@@ -15,20 +10,17 @@ import FileDropZoneInput from './components/Forms/FileDropZoneInput.vue';
 import Images from './components/Forms/Images.vue';
 import RadioButton from './components/Forms/RadioButton.vue';
 import SubmitButton from './components/Forms/SubmitButton.vue';
-import Select2ajax from './components/Forms/Select2ajax.vue';
 import Table from './components/Tables/Table.vue';
 import Thead from './components/Tables/Thead.vue';
 import Th from './components/Tables/Th.vue';
 import Td from './components/Tables/Td.vue';
-import TrCollapse from './components/Tables/TrCollapse.vue';
 import TrCollapseHandler from './components/Tables/TrCollapseHandler.vue';
-import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
+import TrCollapse from './components/Tables/TrCollapse.vue';
 import TableItemCard from './components/Tables/TableItemCard.vue';
 import Alert from './components/Alert.vue';
 import CollapsableSection from './components/CollapsableSection.vue';
 import Dropdown from './components/Dropdown.vue';
 import DropdownLink from './components/DropdownLink.vue';
-import GravatarImg from './components/GravatarImg.vue';
 import LinkButton from './components/LinkButton.vue';
 import LinkDropdownButton from './components/LinkDropdownButton.vue';
 import LinkDropdownButtonItem from './components/LinkDropdownButtonItem.vue';
@@ -44,7 +36,15 @@ import SecondaryButton from './components/SecondaryButton.vue';
 import Section from './components/Section.vue';
 import Spinner from './components/Spinner.vue';
 import Stats from './components/Stats.vue';
+import Select2ajax from './components/Forms/Select2ajax.vue';
 import NavCollapse from './components/NavCollapse.vue';
 import DescriptionList from './components/DescriptionList.vue';
 import DescriptionListItem from './components/DescriptionListItem.vue';
-export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem };
+import GravatarImg from './components/GravatarImg.vue';
+import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
+declare const Componentsnb: {
+    install(App: any): void;
+};
+export default Componentsnb;
+export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, };
+export * from './Helpers.js';
