@@ -1,10 +1,10 @@
 declare const _default: import("vue").DefineComponent<{}, {
     $emit: (event: "update:modelValue", ...args: any[]) => void;
     required: boolean;
-    id: string;
     url: string;
     disabled: boolean;
     noLabel: boolean;
+    id: string;
     optionValue: string;
     optionText: string;
     optionDisabled: string;
@@ -17,10 +17,10 @@ declare const _default: import("vue").DefineComponent<{}, {
     queryParams?: Record<string, any>;
     $props: {
         readonly required?: boolean;
-        readonly id?: string;
         readonly url?: string;
         readonly disabled?: boolean;
         readonly noLabel?: boolean;
+        readonly id?: string;
         readonly optionValue?: string;
         readonly optionText?: string;
         readonly optionDisabled?: string;

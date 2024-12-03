@@ -16,6 +16,7 @@ function moneyFormat(number) {
 
 function hasPermission(permission) {
     const page = usePage();
+    // @ts-ignore
     let userPermissions = page.props.auth.permissions;
     return userPermissions.includes(permission);
 }

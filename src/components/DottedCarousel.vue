@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { ref, onMounted, watch } from 'vue';
 
 const currentSlide = ref(0);

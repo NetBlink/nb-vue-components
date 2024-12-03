@@ -5,14 +5,14 @@ type __VLS_WithTemplateSlots<T, S> = T & (new () => {
 });
 declare const __VLS_component: import("vue").DefineComponent<{}, {
     disabled: boolean;
-    target: string[];
+    target: "_self";
     colourClasses: string[];
     data?: Record<string, any>;
     href?: string;
     method?: string;
     $props: {
         readonly disabled?: boolean;
-        readonly target?: string[];
+        readonly target?: "_self";
         readonly colourClasses?: string[];
         readonly data?: Record<string, any>;
         readonly href?: string;

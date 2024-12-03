@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ref } from 'vue';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';

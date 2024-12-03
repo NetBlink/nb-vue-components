@@ -1,4 +1,3 @@
-export default Link;
 declare const Link: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     as: {
         type: StringConstructor;
@@ -94,3 +93,4 @@ declare const Link: import("vue").DefineComponent<import("vue").ExtractPropTypes
     headers: Record<string, any>;
     queryStringArrayFormat: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
+export default Link;

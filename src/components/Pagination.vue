@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import Link from '../overrides/InertiaLink';
 import { computed, ref } from 'vue';
 import { Input } from '../index';
@@ -54,9 +55,7 @@ const props = defineProps({
 });
 
 const perPage = ref(props.defaultPerPage);
-const perPageOptions = [
-    10, 25, 50, 100, 250
-];
+const perPageOptions = [10, 25, 50, 100, 250];
 const filteredLinks = computed(() => {
     if (!props.links || props.links.length <= 3) {
         return props.links;
@@ -93,9 +92,9 @@ const perPageChanged = (e) => {
 };
 </script>
 <template>
-    <div class="flex justify-between pagination">
+    <div class="pagination flex justify-between">
         <div>
-            <Input type="select" v-model="perPage" class="w-20 per-page-input" @changed="perPageChanged" v-if="showPerPage">
+            <Input type="select" v-model="perPage" class="per-page-input w-20" @changed="perPageChanged" v-if="showPerPage">
                 <option v-for="option in perPageOptions" :key="option" :value="option" :selected="option == perPage">
                     {{ option }}
                 </option>

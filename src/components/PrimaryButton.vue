@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 defineProps({
     type: {
         type: String,

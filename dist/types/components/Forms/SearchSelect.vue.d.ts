@@ -1,9 +1,9 @@
 declare const _default: import("vue").DefineComponent<{}, {
     $emit: (event: "update:modelValue" | "searchchange", ...args: any[]) => void;
     required: boolean;
-    id: string;
     disabled: boolean;
     noLabel: boolean;
+    id: string;
     list: unknown[];
     optionValue: string;
     optionText: string;
@@ -17,9 +17,9 @@ declare const _default: import("vue").DefineComponent<{}, {
     filterPredicate?: Function;
     $props: {
         readonly required?: boolean;
-        readonly id?: string;
         readonly disabled?: boolean;
         readonly noLabel?: boolean;
+        readonly id?: string;
         readonly list?: unknown[];
         readonly optionValue?: string;
         readonly optionText?: string;
