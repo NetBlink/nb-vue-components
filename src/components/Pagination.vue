@@ -1,6 +1,6 @@
 <script setup>
 import Link from '../overrides/InertiaLink';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Input } from '../index';
 
 const emit = defineEmits(['change']);
