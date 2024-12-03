@@ -1,6 +1,18 @@
 <script setup>
 import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
+/**
+ * @typedef {Object} Props
+ * @property {boolean} show - Whether the modal is visible or not
+ * @property {string} maxWidth - The maximum width of the modal
+ * @property {boolean} closeable - Whether the modal can be closed by clicking outside
+ * @property {boolean} hideOverflow - Whether to hide the overflow of the body when the modal is open
+ * @property {number} backdropDuration - The duration of the backdrop transition
+ * @property {number} modalDuration - The duration of the modal transition
+ * @property {boolean} alignCenter - Whether to align the modal to the center of the screen
+ * @property {boolean} showBorder - Whether to show a border around the modal
+ * @property {boolean} [resizable=false] - Whether the modal is resizable
+ */
 const props = defineProps({
     show: {
         type: Boolean,
@@ -54,6 +66,9 @@ watch(
     }
 );
 
+/**
+ * Closes the modal and emits the close event
+ */
 const close = () => {
     if (props.closeable) {
         emit('close');

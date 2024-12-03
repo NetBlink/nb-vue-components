@@ -96,7 +96,7 @@ function ucwords(text) {
     return res.join(' ');
 }
 
-const emit = defineEmits(['changed']);
+const emit = defineEmits(['changed', 'update:modelValue']);
 const noForm = ref(false);
 const model = defineModel();
 const value = ref();
@@ -162,7 +162,7 @@ const togglePassword = () => {
 defineExpose({
     togglePassword,
     setValueSilently,
-    getPreviousValue
+    getPreviousValue,
 });
 </script>
 
@@ -226,7 +226,7 @@ defineExpose({
                 :disabled="props.disabled"
                 :name="name ?? field"
                 class="focusable block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-                :class="{[inputCustomClass]: !!inputCustomClass}"
+                :class="{ [inputCustomClass]: !!inputCustomClass }"
             >
                 <slot />
             </select>
