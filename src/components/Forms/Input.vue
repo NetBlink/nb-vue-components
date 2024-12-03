@@ -226,6 +226,7 @@ defineExpose({
                 :disabled="props.disabled"
                 :name="name ?? field"
                 class="focusable block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                :class="{[inputCustomClass]: !!inputCustomClass}"
             >
                 <slot />
             </select>
@@ -236,27 +237,37 @@ defineExpose({
                 >
                     {{ addon }}
                 </span>
-                <TextInput
-                    :id="field"
-                    :type="displayType"
-                    class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-                    :class="{
-                        '!rounded-l-none': addon,
-                        '!rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
-                        [inputCustomClass]: !!inputCustomClass,
-                    }"
-                    v-model="value"
-                    :required="props.required"
-                    :disabled="props.disabled"
-                    :autocomplete="autocomplete ?? field"
-                    :min="props.min"
-                    :max="props.max"
-                    :step="props.step"
-                    :placeholder="props.placeholder"
-                    :autofocus="props.autofocus"
-                    :pattern="props.pattern"
-                    :name="name ?? field"
-                />
+                <div class="relative flex w-full">
+                    <TextInput
+                        :id="field"
+                        :type="displayType"
+                        class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                        :class="{
+                            '!rounded-l-none': addon,
+                            '!rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
+                            [inputCustomClass]: !!inputCustomClass,
+                        }"
+                        v-model="value"
+                        :required="props.required"
+                        :disabled="props.disabled"
+                        :autocomplete="autocomplete ?? field"
+                        :min="props.min"
+                        :max="props.max"
+                        :step="props.step"
+                        :placeholder="props.placeholder"
+                        :autofocus="props.autofocus"
+                        :pattern="props.pattern"
+                        :name="name ?? field"
+                    />
+                    <div
+                        v-if="type == 'password' && !hidePasswordToggler"
+                        @click="togglePassword"
+                        class="absolute right-0 top-0 z-[2] flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
+                    >
+                        <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" />
+                        <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" />
+                    </div>
+                </div>
                 <template v-if="form">
                     <SubmitButton
                         v-if="submitBtn"
@@ -286,14 +297,6 @@ defineExpose({
                 >
                     <FontAwesomeIcon v-bind:icon="'fab fa-whatsapp'" size="2xl" />
                 </a>
-                <div
-                    v-if="type == 'password' && !hidePasswordToggler"
-                    @click="togglePassword"
-                    class="absolute right-0 top-0 z-[2] flex h-full w-11 cursor-pointer items-center justify-center rounded-r bg-gray-300 text-xs font-medium leading-normal text-white"
-                >
-                    <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" size="2xl" />
-                    <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" size="2xl" />
-                </div>
             </template>
         </div>
         <InputError v-if="error || form?.errors?.[field]" :message="error ? error : form?.errors?.[field]" class="mt-2" />
