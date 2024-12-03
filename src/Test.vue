@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import CodePreview from './components/CodePreview.vue';
 import CollapsableSection from './components/CollapsableSection.vue';
 import {

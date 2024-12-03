@@ -1,5 +1,4 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
 import Link from '../overrides/InertiaLink';
 
 const props = defineProps({
@@ -8,7 +7,7 @@ const props = defineProps({
         default: () => ['bg-primary', 'text-white', 'hover:bg-primary-700'],
     },
     target: {
-        default: () => ['_self'],
+        default: () => '_self',
     },
     disabled: {
         type: Boolean,

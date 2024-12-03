@@ -1,8 +1,11 @@
-import { mergeDataIntoQueryString, shouldIntercept } from '@inertiajs/core';
+import {
+    mergeDataIntoQueryString,
+    shouldIntercept,
+    Method,
+} from '@inertiajs/core';
 import { defineComponent, h } from 'vue';
 //nb EDIT
-import { getInertiaRouter } from '@/Helpers';
-
+import { getInertiaRouter } from '../Helpers';
 const Link = defineComponent({
     name: 'Link',
     props: {
@@ -53,10 +56,10 @@ const Link = defineComponent({
             const as = props.as.toLowerCase();
             const method = props.method.toLowerCase();
             const [href, data] = mergeDataIntoQueryString(
-                method,
+                method as Method,
                 props.href || '',
                 props.data,
-                props.queryStringArrayFormat
+                props.queryStringArrayFormat as 'indices' | 'brackets'
             );
 
             if (as === 'a' && method !== 'get') {

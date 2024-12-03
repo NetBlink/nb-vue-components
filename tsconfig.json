@@ -6,7 +6,12 @@
     "allowJs": true,
     "checkJs": true,
     "noEmitOnError": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "CommonJS",
+    "target": "es2021",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.vue"],
   "exclude": ["node_modules"]

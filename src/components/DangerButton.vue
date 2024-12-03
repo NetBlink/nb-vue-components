@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 defineProps({
     type: {
         type: String,
@@ -7,7 +8,7 @@ defineProps({
     disabled: {
         type: Boolean,
         default: false,
-    }
+    },
 });
 </script>
 

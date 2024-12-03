@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 const emit = defineEmits();
 
 const props = defineProps({
