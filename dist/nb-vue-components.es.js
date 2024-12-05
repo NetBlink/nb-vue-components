@@ -13168,7 +13168,7 @@ const cs = new N2(), yr = {
                   ref_key: "modalContent",
                   ref: a,
                   class: X(["mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full", {
-                    maxWidthClass: l.value,
+                    [l.value]: !!l.value,
                     "border-pink rounded-md border-2 border-solid": e.showBorder,
                     [e.modalCustomClass]: !!e.modalCustomClass
                   }]),
