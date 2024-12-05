@@ -34,6 +34,15 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    modalCustomClass: {
+        type: String,
+        default: '',
+    },
+    backdropCustomClass: {
+        type: String,
+        default: '',
+    },
+
 });
 
 const emit = defineEmits(['close']);
@@ -110,7 +119,8 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0"
                 >
                     <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="backdrop absolute inset-0 bg-gray-500 opacity-75" />
+                        <div class="backdrop absolute inset-0 bg-gray-500 opacity-75"
+                            :class="{[backdropCustomClass]: !!backdropCustomClass}" />
                     </div>
                 </transition>
 
@@ -125,7 +135,10 @@ const maxWidthClass = computed(() => {
                     <div
                         v-show="show"
                         class="mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
-                        :class="maxWidthClass + (showBorder ? ' border-pink rounded-md border-2 border-solid' : '')"
+                        :class="{
+                            maxWidthClass,
+                            ' border-pink rounded-md border-2 border-solid': showBorder, 
+                            [modalCustomClass]: !!modalCustomClass}"
                     >
                         <slot v-if="show" />
                     </div>
