@@ -207,7 +207,7 @@ const onResizeMouseMove = (e) => {
                         v-show="show"
                         class="mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
                         :class="{
-                            maxWidthClass,
+                            [maxWidthClass]: !!maxWidthClass,
                             'border-pink rounded-md border-2 border-solid': showBorder, 
                             [modalCustomClass]: !!modalCustomClass}"
                         :style="{
