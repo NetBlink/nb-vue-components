@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { SearchSelect } from '../../index';
 import { ref, onMounted } from 'vue';
 

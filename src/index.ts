@@ -45,7 +45,9 @@ import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
 
 const Componentsnb = {
     install(App) {
+        // @ts-ignore
         for (const componentKey in components) {
+            // @ts-ignore
             App.component(componentKey, components[componentKey]);
         }
     },

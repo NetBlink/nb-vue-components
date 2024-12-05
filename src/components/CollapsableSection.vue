@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { onMounted, ref } from 'vue';
 import { Collapse } from 'tw-elements';
 
