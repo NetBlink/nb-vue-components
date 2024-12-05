@@ -42,6 +42,14 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         type: BooleanConstructor;
         default: boolean;
     };
+    modalCustomClass: {
+        type: StringConstructor;
+        default: string;
+    };
+    backdropCustomClass: {
+        type: StringConstructor;
+        default: string;
+    };
     resizable: {
         type: BooleanConstructor;
         default: boolean;
@@ -81,6 +89,14 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         type: BooleanConstructor;
         default: boolean;
     };
+    modalCustomClass: {
+        type: StringConstructor;
+        default: string;
+    };
+    backdropCustomClass: {
+        type: StringConstructor;
+        default: string;
+    };
     resizable: {
         type: BooleanConstructor;
         default: boolean;
@@ -96,6 +112,8 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
     modalDuration: number;
     alignCenter: boolean;
     showBorder: boolean;
+    modalCustomClass: string;
+    backdropCustomClass: string;
     resizable: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;

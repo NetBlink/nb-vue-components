@@ -13064,6 +13064,14 @@ const cs = new N2(), yr = {
       type: Boolean,
       default: !1
     },
+    modalCustomClass: {
+      type: String,
+      default: ""
+    },
+    backdropCustomClass: {
+      type: String,
+      default: ""
+    },
     resizable: {
       type: Boolean,
       default: !1
@@ -13137,9 +13145,11 @@ const cs = new N2(), yr = {
                 Be(D("div", {
                   class: "fixed inset-0 transform transition-all",
                   onClick: o
-                }, _[5] || (_[5] = [
-                  D("div", { class: "backdrop absolute inset-0 bg-gray-500 opacity-75" }, null, -1)
-                ]), 512), [
+                }, [
+                  D("div", {
+                    class: X(["backdrop absolute inset-0 bg-gray-500 opacity-75", { [e.backdropCustomClass]: !!e.backdropCustomClass }])
+                  }, null, 2)
+                ], 512), [
                   [Nt, e.show]
                 ])
               ]),
@@ -13157,7 +13167,11 @@ const cs = new N2(), yr = {
                 Be(D("div", {
                   ref_key: "modalContent",
                   ref: a,
-                  class: X(["mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full", l.value + (e.showBorder ? " border-pink rounded-md border-2 border-solid" : "")]),
+                  class: X(["mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full", {
+                    maxWidthClass: l.value,
+                    "border-pink rounded-md border-2 border-solid": e.showBorder,
+                    [e.modalCustomClass]: !!e.modalCustomClass
+                  }]),
                   style: $n({
                     userSelect: u.value ? "none" : "auto",
                     transition: u.value ? "none" : "",
