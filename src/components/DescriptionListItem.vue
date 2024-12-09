@@ -27,10 +27,12 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits(['editToggled']);
 const editing = ref(props.editable ? props.forceEditing : false);
 const toggleEditing = () => {
     if (!props.editable) return;
     editing.value = !editing.value;
+    emit('editToggled', editing.value);
 };
 
 watch(
