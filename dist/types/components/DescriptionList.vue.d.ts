@@ -7,6 +7,12 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     startEditing: () => void;
     stopEditing: () => void;
     toggleEditing: () => void;
+    stopEditOnSubmit: boolean;
+    form?: Record<string, any>;
+    $props: {
+        readonly stopEditOnSubmit?: boolean;
+        readonly form?: Record<string, any>;
+    };
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, HTMLDivElement>;
 type __VLS_TemplateResult = {
     attrs: Partial<typeof __VLS_inheritedAttrs>;

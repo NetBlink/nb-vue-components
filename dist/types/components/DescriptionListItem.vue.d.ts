@@ -7,6 +7,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     toggleEditing: () => void;
     startEditing: () => void;
     stopEditing: () => void;
+    isEditing: () => boolean;
     $emit: (event: "editToggled", ...args: any[]) => void;
     required: boolean;
     label: string;
