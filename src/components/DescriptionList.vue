@@ -1,5 +1,36 @@
 <script setup>
-import { provide, ref } from 'vue';
+import { provide, ref, watch } from 'vue';
+
+const props = defineProps({
+    form: {
+        type: Object,
+        required: false,
+    },
+    stopEditOnSubmit: {
+        type: Boolean,
+        default: false,
+    },
+});
+
+const wasProcessing = ref(false);
+watch(
+    () => props.form?.processing,
+    (processing) => {
+        // form started processing
+        if (processing) {
+            wasProcessing.value = true;
+            return;
+        }
+
+        if (wasProcessing.value) {
+            // form was processing and now it's not
+            wasProcessing.value = false;
+            if (props.stopEditOnSubmit) {
+                stopEditing();
+            }
+        }
+    }
+);
 
 const items = ref([]);
 const registerItem = (item) => {
