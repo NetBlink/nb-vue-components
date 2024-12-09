@@ -58,10 +58,14 @@ onMounted(() => {
         registerItem({ startEditing, stopEditing, toggleEditing });
     }
 });
+const isEditing = () => {
+    return editing.value;
+};
 defineExpose({
     toggleEditing,
     startEditing,
     stopEditing,
+    isEditing,
 });
 </script>
 
