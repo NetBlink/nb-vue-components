@@ -9,11 +9,14 @@ const props = defineProps({
     disabled: Boolean,
     form: Object,
     loading: { type: Boolean, default: false },
+    customButtonClass: {
+        type: String,
+    },
 });
 </script>
 
 <template>
-    <PrimaryButton :disabled="loading || form?.processing || disabled" :type="type" class="focusable">
+    <PrimaryButton :disabled="loading || form?.processing || disabled" :type="type" class="focusable" :customButtonClass="customButtonClass">
         <div :class="{ 'opacity-25': form?.processing || loading }">
             <slot />
         </div>
