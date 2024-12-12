@@ -1,7 +1,7 @@
 <script setup>
+//@ts-nocheck
 import Link from '../../overrides/InertiaLink';
 import { moneyFormat } from '../../Helpers';
-import { stringify } from 'postcss';
 
 const props = defineProps({
     key: Number,

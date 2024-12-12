@@ -3,7 +3,7 @@ const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
     id: String,
     name: String,
-    value: String | null,
+    value: String,
     isChecked: {
         type: Boolean,
         default: false,

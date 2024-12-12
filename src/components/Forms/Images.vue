@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';

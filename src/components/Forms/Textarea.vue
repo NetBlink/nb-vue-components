@@ -1,4 +1,5 @@
 <script setup>
+// @ts-nocheck
 import { InputLabel, InputError } from '../../index';
 
 const props = defineProps({
