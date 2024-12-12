@@ -10578,7 +10578,10 @@ const U1 = { class: "flex w-full flex-col" }, V1 = {
     },
     disabled: Boolean,
     form: Object,
-    loading: { type: Boolean, default: !1 }
+    loading: { type: Boolean, default: !1 },
+    customButtonClass: {
+      type: String
+    }
   },
   setup(e) {
     return (t, n) => {
@@ -10586,7 +10589,8 @@ const U1 = { class: "flex w-full flex-col" }, V1 = {
       return A(), oe(q(Nf), {
         disabled: e.loading || ((r = e.form) == null ? void 0 : r.processing) || e.disabled,
         type: e.type,
-        class: "focusable"
+        class: "focusable",
+        customButtonClass: e.customButtonClass
       }, {
         default: he(() => {
           var a, o;
@@ -10602,7 +10606,7 @@ const U1 = { class: "flex w-full flex-col" }, V1 = {
           ];
         }),
         _: 3
-      }, 8, ["disabled", "type"]);
+      }, 8, ["disabled", "type", "customButtonClass"]);
     };
   }
 }, pv = ["id"], hv = {
@@ -13394,16 +13398,22 @@ const cs = new N2(), yr = {
       type: String,
       default: "submit"
     },
-    disabled: Boolean
+    disabled: Boolean,
+    customButtonClass: {
+      type: String
+    }
   },
   setup(e) {
     return (t, n) => (A(), k("button", {
       type: e.type,
       disabled: e.disabled,
-      class: "focusable inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]"
+      class: X({
+        [e.customButtonClass]: !!e.customButtonClass,
+        "focusable inline-flex items-center rounded-md border border-transparent bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]": !e.customButtonClass
+      })
     }, [
       J(t.$slots, "default")
-    ], 8, Sw));
+    ], 10, Sw));
   }
 }, Ew = ["type", "disabled"], wx = {
   __name: "DangerButton",

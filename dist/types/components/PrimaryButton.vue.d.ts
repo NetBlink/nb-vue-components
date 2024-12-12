@@ -6,9 +6,11 @@ type __VLS_WithTemplateSlots<T, S> = T & (new () => {
 declare const __VLS_component: import("vue").DefineComponent<{}, {
     type: string;
     disabled: boolean;
+    customButtonClass?: string;
     $props: {
         readonly type?: string;
         readonly disabled?: boolean;
+        readonly customButtonClass?: string;
     };
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, HTMLButtonElement>;
 type __VLS_TemplateResult = {

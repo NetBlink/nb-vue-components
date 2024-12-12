@@ -8,11 +8,13 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     disabled: boolean;
     loading: boolean;
     form?: Record<string, any>;
+    customButtonClass?: string;
     $props: {
         readonly type?: string;
         readonly disabled?: boolean;
         readonly loading?: boolean;
         readonly form?: Record<string, any>;
+        readonly customButtonClass?: string;
     };
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 type __VLS_TemplateResult = {
