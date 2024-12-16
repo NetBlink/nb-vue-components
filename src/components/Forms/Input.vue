@@ -222,6 +222,7 @@ defineExpose({
             <select
                 v-else-if="type === 'select'"
                 v-model="value"
+                :id="field"
                 :required="props.required"
                 :disabled="props.disabled"
                 :name="name ?? field"
