@@ -238,7 +238,25 @@ defineExpose({
                 >
                     {{ addon }}
                 </span>
-                <div class="relative flex w-full">
+                <textarea
+                    v-if="type === 'textarea'"
+                    :id="field"
+                    class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                    :class="{
+                        '!rounded-l-none': addon,
+                        '!rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
+                        [inputCustomClass]: !!inputCustomClass,
+                    }"                   
+                    :rows="props.rows"
+                    v-model="value"
+                    :required="props.required"
+                    :disabled="props.disabled"
+                    :autocomplete="autocomplete ?? field"
+                    :placeholder="props.placeholder"
+                    :autofocus="props.autofocus"
+                    :name="name ?? field"
+                />
+                <div v-else class="relative flex w-full">
                     <TextInput
                         :id="field"
                         :type="displayType"
