@@ -3273,7 +3273,7 @@ const zn = (e, t) => {
 }, Oh = {
   key: 1,
   class: "mr-1"
-}, Ch = ["id", "disabled", "required", "name"], _h = { key: 5 }, Th = ["required", "disabled", "name"], kh = {
+}, Ch = ["id", "disabled", "required", "name"], _h = { key: 5 }, Th = ["id", "required", "disabled", "name"], kh = {
   key: 0,
   class: "border-gray flex items-center whitespace-nowrap rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center text-gray-500"
 }, Ph = { class: "relative flex w-full" }, $h = ["href"], Ih = {
@@ -3440,6 +3440,7 @@ const zn = (e, t) => {
           ])) : e.type === "select" ? Be((A(), k("select", {
             key: 1,
             "onUpdate:modelValue": S[1] || (S[1] = (M) => f.value = M),
+            id: e.field,
             required: r.required,
             disabled: r.disabled,
             name: e.name ?? e.field,
@@ -3531,7 +3532,7 @@ const zn = (e, t) => {
       ], 2);
     };
   }
-}, Dh = /* @__PURE__ */ zn(Ih, [["__scopeId", "data-v-10eb1ddb"]]), Fh = { class: "text-sm text-red-600" }, Fr = {
+}, Dh = /* @__PURE__ */ zn(Ih, [["__scopeId", "data-v-a4424f15"]]), Fh = { class: "text-sm text-red-600" }, Fr = {
   __name: "InputError",
   props: ["message"],
   setup(e) {
