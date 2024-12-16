@@ -10,6 +10,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     $emit: (event: "changed" | "update:modelValue", ...args: any[]) => void;
     required: boolean;
     disabled: boolean;
+    rows: number;
     noLabel: boolean;
     autofocus: boolean;
     leftDescription: string | boolean;
@@ -39,6 +40,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     $props: {
         readonly required?: boolean;
         readonly disabled?: boolean;
+        readonly rows?: number;
         readonly noLabel?: boolean;
         readonly autofocus?: boolean;
         readonly leftDescription?: string | boolean;
