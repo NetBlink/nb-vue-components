@@ -16,6 +16,7 @@ const props = defineProps({
     field: String,
     required: Boolean,
     disabled: Boolean,
+    FileDropCustomClass: String,
 });
 
 const errors = ref(null);
@@ -66,6 +67,7 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
             :class="{
                 'border-primary-400 bg-primary-100': isDragActive,
                 'border-red-600 bg-primary-100': props.form.errors[field] ?? errors,
+                [FileDropCustomClass]: !!FileDropCustomClass,
             }"
         >
             <div class="p-4' flex h-20 w-full cursor-copy flex-col items-center justify-center font-medium" v-bind="getRootProps()">
