@@ -13,6 +13,7 @@
  * @prop {number|string} min - The minimum value for the input
  * @prop {number|string} max - The maximum value for the input
  * @prop {number|string} step - The step value for the input
+ * @prop {number} rows - The number of rows for the textarea
  * @prop {object} form - The form object
  * @prop {string} addon - The addon text
  * @prop {string} placeholder - The placeholder for the input
@@ -45,6 +46,7 @@ const props = defineProps({
     min: { type: [Number, String] },
     max: { type: [Number, String] },
     step: { type: [Number, String] },
+    rows: { type: Number, default: 3 },
     form: Object,
     addon: String,
     placeholder: String,
