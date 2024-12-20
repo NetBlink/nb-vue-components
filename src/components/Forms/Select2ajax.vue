@@ -53,7 +53,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'changed']);
 const list = ref([]);
 const page = ref(1);
 const canIncreasePage = ref(true);
@@ -67,6 +67,7 @@ const onUpdate = (value) => {
     lastValue.value = currentValue.value;
     currentValue.value = value;
     emit('update:modelValue', value);
+    emit('changed', value);
 
     if (!value) {
         // user just reseted the value, clear the search and placeholder
@@ -145,6 +146,11 @@ onMounted(() => {
         }
     );
 });
+
+const getCurrentOption = () => {
+    return list.value.find((item) => item[props.optionValue] == currentValue.value);
+};
+defineExpose({ getCurrentOption });
 </script>
 
 <template>
