@@ -1,5 +1,6 @@
 declare const _default: import("vue").DefineComponent<{}, {
-    $emit: (event: "update:modelValue", ...args: any[]) => void;
+    getCurrentOption: () => any;
+    $emit: (event: "changed" | "update:modelValue", ...args: any[]) => void;
     required: boolean;
     url: string;
     disabled: boolean;
