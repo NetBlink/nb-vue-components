@@ -1,6 +1,6 @@
 <script setup>
-import { Deferred, usePage } from '@inertiajs/vue3';
-import TrPlaceholder from '../../index';
+import { Deferred } from '@inertiajs/vue3';
+import TrPlaceholder, { getInertiaPage } from '../../index';
 import { computed } from 'vue';
 import { Td } from '../../index';
 
@@ -29,7 +29,7 @@ const props = defineProps({
 });
 
 const records = computed(() => {
-    let page = usePage();
+    let page = getInertiaPage();
     let records = page.props[props.data] ?? null;
     // @ts-ignore
     if (props.recordsFromPagination) return records.data ?? null;
