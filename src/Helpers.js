@@ -40,10 +40,30 @@ function getInertiaRouter() {
     return inertiaRouter;
 }
 
+let inertiaPage = null;
+function setInertiaPage(page) {
+    inertiaPage = page;
+}
+
+function getInertiaPage() {
+    if (inertiaPage === null) {
+        console.error(
+            'Inertia page is not set. Please set it first:' +
+                '\n\n// app.js' +
+                "\nimport { setInertiaPage } from '@nb/vue-components';" +
+                '\n// createInertiaApp(...);' +
+                '\nsetInertiaPage(page);\n\n'
+        );
+    }
+    return inertiaPage;
+}
+
 export {
     numberFormat,
     moneyFormat,
     hasPermission,
     setInertiaRouter,
     getInertiaRouter,
+    setInertiaPage,
+    getInertiaPage,
 };
