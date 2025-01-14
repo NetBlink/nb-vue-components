@@ -1,0 +1,55 @@
+<script setup>
+import { Deferred, usePage } from '@inertiajs/vue3';
+import TrPlaceholder from '../../index';
+import { computed } from 'vue';
+import { Td } from '../../index';
+
+const props = defineProps({
+    data: {
+        type: String,
+        required: false,
+        default: '',
+    },
+    hidePlaceholder: {
+        type: Boolean,
+        default: false,
+    },
+    hideNoRecordsMessage: {
+        type: Boolean,
+        default: false,
+    },
+    recordsFromPagination: {
+        type: Boolean,
+        default: true,
+    },
+    noRecordsMessage: {
+        type: String,
+        default: 'No records found',
+    },
+});
+
+const records = computed(() => {
+    let page = usePage();
+    let records = page.props[props.data] ?? null;
+    if (props.recordsFromPagination) return records.data ?? null;
+    return records;
+});
+</script>
+
+<template>
+    <tbody>
+        <Deferred :data="props.data">
+            <template #fallback>
+                <TrPlaceholder v-if="!hidePlaceholder" />
+            </template>
+
+            <template v-if="!hideNoRecordsMessage && records">
+                <tr v-if="!records.length">
+                    <Td colspan="999" class="no-records-message !text-center text-gray-500">{{ noRecordsMessage }}</Td>
+                </tr>
+            </template>
+
+            <slot />
+        </Deferred>
+    </tbody>
+</template>

@@ -13,9 +13,11 @@ import SubmitButton from './Forms/SubmitButton.vue';
 import SelectMultiple from './Forms/SelectMultiple.vue';
 import Table from './Tables/Table.vue';
 import Thead from './Tables/Thead.vue';
+import Tbody from './Tables/Tbody.vue';
 import Th from './Tables/Th.vue';
 import Td from './Tables/Td.vue';
 import TrCollapseHandler from './Tables/TrCollapseHandler.vue';
+import TrPlaceholder from './Tables/TrPlaceholder.vue';
 import TableItemCard from './Tables/TableItemCard.vue';
 import Alert from './Alert.vue';
 import CollapsibleSection from './CollapsibleSection.vue';
@@ -59,9 +61,11 @@ export {
     // TABLES
     Table,
     Thead,
+    Tbody,
     Th,
     Td,
     TrCollapseHandler,
+    TrPlaceholder,
     TableItemCard,
     // COMPONENTS
     Alert,
