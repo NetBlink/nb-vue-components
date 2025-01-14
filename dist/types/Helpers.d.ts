@@ -3,3 +3,5 @@ export function moneyFormat(number: any): string;
 export function hasPermission(permission: any): any;
 export function setInertiaRouter(router: any): void;
 export function getInertiaRouter(): any;
+export function setInertiaPage(page: any): void;
+export function getInertiaPage(): any;
