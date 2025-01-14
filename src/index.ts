@@ -12,10 +12,12 @@ import RadioButton from './components/Forms/RadioButton.vue';
 import SubmitButton from './components/Forms/SubmitButton.vue';
 import Table from './components/Tables/Table.vue';
 import Thead from './components/Tables/Thead.vue';
+import Tbody from './components/Tables/Tbody.vue';
 import Th from './components/Tables/Th.vue';
 import Td from './components/Tables/Td.vue';
 import TrCollapseHandler from './components/Tables/TrCollapseHandler.vue';
 import TrCollapse from './components/Tables/TrCollapse.vue';
+import TrPlaceholder from './components/Tables/TrPlaceholder.vue';
 import TableItemCard from './components/Tables/TableItemCard.vue';
 import Alert from './components/Alert.vue';
 import CollapsableSection from './components/CollapsableSection.vue';
@@ -72,11 +74,13 @@ export {
     // TABLES
     Table,
     Thead,
+    Tbody,
     Th,
     Td,
     TrCollapse,
     TrCollapseHandler,
     TdCollapseHandler,
+    TrPlaceholder,
     TableItemCard,
     // COMPONENTS
     Alert,
