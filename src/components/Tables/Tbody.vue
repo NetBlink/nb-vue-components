@@ -31,6 +31,7 @@ const props = defineProps({
 const records = computed(() => {
     let page = usePage();
     let records = page.props[props.data] ?? null;
+    // @ts-ignore
     if (props.recordsFromPagination) return records.data ?? null;
     return records;
 });
