@@ -11,6 +11,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     seperate: boolean;
     showPerPage: boolean;
     defaultPerPage: number;
+    responsive: boolean;
     total?: number;
     links?: unknown[];
     $props: {
@@ -21,6 +22,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
         readonly seperate?: boolean;
         readonly showPerPage?: boolean;
         readonly defaultPerPage?: number;
+        readonly responsive?: boolean;
         readonly total?: number;
         readonly links?: unknown[];
     };
