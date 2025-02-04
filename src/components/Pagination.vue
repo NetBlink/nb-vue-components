@@ -81,7 +81,7 @@ const handleChange = (label) => {
 
 const perPageChanged = (e) => {
     let url = new URL(window.location.href);
-    url.searchParams.set('per_page', e.target.value);
+    url.searchParams.set('per_page', perPage.value);
 
     if (props.linkReturn) {
         handleChange(url.href);
