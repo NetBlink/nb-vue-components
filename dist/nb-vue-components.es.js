@@ -14242,7 +14242,7 @@ const qs = new Vx(), En = {
       r("change", c);
     }, f = (c) => {
       let u = new URL(window.location.href);
-      if (u.searchParams.set("per_page", c.target.value), n.linkReturn) {
+      if (u.searchParams.set("per_page", a.value), n.linkReturn) {
         l(u.href);
         return;
       }
