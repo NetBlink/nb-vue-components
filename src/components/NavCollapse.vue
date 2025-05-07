@@ -38,7 +38,7 @@ const onClick = () => {
             </svg>
         </button>
 
-        <ul class="!visible hidden space-y-1 px-4" :id="name ? name.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
+        <ul class="visible! hidden space-y-1 px-4" :id="name ? name.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
             <slot />
         </ul>
     </li>

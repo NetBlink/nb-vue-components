@@ -9,7 +9,7 @@ defineProps({
 <template>
     <tr>
         <td colspan="999">
-            <div :id="collapse_id" class="!visible hidden" data-te-collapse-item>
+            <div :id="collapse_id" class="visible! hidden" data-te-collapse-item>
                 <slot />
             </div>
         </td>

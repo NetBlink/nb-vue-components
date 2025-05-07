@@ -79,11 +79,11 @@ defineExpose({
         <dd class="mt-1 min-h-[42px] text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div class="flex min-h-full items-center">
                 <template v-if="!editing">
-                    <div class="slot-content flex-grow">
+                    <div class="slot-content grow">
                         <slot />
                         {{ value }}
                     </div>
-                    <span class="ml-4 flex-shrink-0">
+                    <span class="ml-4 shrink-0">
                         <button type="button" @click="toggleEditing" class="text-lg font-bold text-primary hover:text-primary-400" v-if="editable">
                             <FontAwesomeIcon :icon="faPencil" />
                         </button>
@@ -91,10 +91,10 @@ defineExpose({
                     </span>
                 </template>
                 <template v-else>
-                    <div class="slot-edit flex-grow">
+                    <div class="slot-edit grow">
                         <slot name="edit" />
                     </div>
-                    <span class="ml-4 flex-shrink-0">
+                    <span class="ml-4 shrink-0">
                         <button type="button" @click="toggleEditing" class="text-xl font-bold text-primary hover:text-primary-400">
                             <FontAwesomeIcon :icon="faPenRuler" />
                         </button>

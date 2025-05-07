@@ -19,6 +19,6 @@ const copy = () => {
 <template>
     <div class="relative mt-2 max-w-full overflow-auto overflow-x-scroll rounded-md">
         <div class="absolute right-3 top-1 text-right text-white hover:cursor-pointer" @click="copy">copy</div>
-        <pre v-highlightjs><code class="javascript !p-4" >{{ codeBlock }}</code></pre>
+        <pre v-highlightjs><code class="javascript p-4!" >{{ codeBlock }}</code></pre>
     </div>
 </template>

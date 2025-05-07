@@ -104,7 +104,7 @@ const getSelectedItems = () => {
                     </svg>
                 </span>
             </button>
-            <div class="absolute z-[1000] !-mt-1 hidden min-w-full bg-white [&[data-te-dropdown-show]]:block" data-te-dropdown-menu-ref>
+            <div class="absolute z-1000 -mt-1! hidden min-w-full bg-white data-te-dropdown-show:block" data-te-dropdown-menu-ref>
                 <ul
                     class="float-left m-0 box-border max-h-80 min-w-full list-none overflow-auto rounded rounded-t-none border border-t-0 border-gray-300 bg-clip-padding text-left text-base shadow"
                 >

@@ -196,7 +196,7 @@ defineExpose({
                 <div
                     tabindex="0"
                     v-if="type === 'switch'"
-                    class="toggle-switch focusable !ml-0"
+                    class="toggle-switch focusable ml-0!"
                     :class="{
                         checked: value,
                         disabled: props.disabled,
@@ -207,7 +207,7 @@ defineExpose({
                     v-else
                     class="focusable mr-1 p-1 text-primary"
                     :class="{
-                        '!text-gray-500': props.disabled,
+                        'text-gray-500!': props.disabled,
                         [checkboxCustomClass]: checkboxCustomClass,
                     }"
                 >
@@ -228,7 +228,7 @@ defineExpose({
                 :required="props.required"
                 :disabled="props.disabled"
                 :name="name ?? field"
-                class="focusable block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                class="focusable shadow-xs block w-full rounded border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
                 :class="{ [inputCustomClass]: !!inputCustomClass }"
             >
                 <slot />
@@ -245,10 +245,10 @@ defineExpose({
                     :id="field"
                     class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
                     :class="{
-                        '!rounded-l-none': addon,
-                        '!rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
+                        'rounded-l-none!': addon,
+                        'rounded-r-none!': !!submitBtn || whatsApp || $slots?.submit,
                         [inputCustomClass]: !!inputCustomClass,
-                    }"                   
+                    }"
                     :rows="props.rows"
                     v-model="value"
                     :required="props.required"
@@ -264,8 +264,8 @@ defineExpose({
                         :type="displayType"
                         class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
                         :class="{
-                            '!rounded-l-none': addon,
-                            '!rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
+                            'rounded-l-none!': addon,
+                            'rounded-r-none!': !!submitBtn || whatsApp || $slots?.submit,
                             [inputCustomClass]: !!inputCustomClass,
                         }"
                         v-model="value"
@@ -283,7 +283,7 @@ defineExpose({
                     <div
                         v-if="type == 'password' && !hidePasswordToggler"
                         @click="togglePassword"
-                        class="absolute right-0 top-0 z-[2] flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
+                        class="z-2 absolute right-0 top-0 flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
                     >
                         <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" />
                         <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" />
@@ -293,7 +293,7 @@ defineExpose({
                     <SubmitButton
                         v-if="submitBtn"
                         :form="form"
-                        class="z-[2] inline-block rounded-l-none"
+                        class="z-2 inline-block rounded-l-none"
                         :class="buttonCustomClass"
                         :id="`submit-button-${field}`"
                     >
@@ -302,7 +302,7 @@ defineExpose({
                     <SubmitButton
                         v-if="$slots?.submit"
                         :form="form"
-                        class="z-[2] inline-block rounded-l-none"
+                        class="z-2 inline-block rounded-l-none"
                         :class="buttonCustomClass"
                         id="button-input"
                     >
@@ -311,7 +311,7 @@ defineExpose({
                 </template>
                 <a
                     v-if="whatsApp"
-                    class="z-[2] inline-block rounded-r bg-primary px-2 py-2 text-xs font-medium uppercase leading-normal text-white shadow transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:z-[3] focus:bg-primary-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-lg"
+                    class="z-2 focus:z-3 focus:outline-hidden inline-block rounded-r bg-primary px-2 py-2 text-xs font-medium uppercase leading-normal text-white shadow transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-600 focus:shadow-lg focus:ring-0 active:bg-primary-700 active:shadow-lg"
                     :class="buttonCustomClass"
                     :href="whatsApp"
                     target="_blank"
@@ -324,14 +324,14 @@ defineExpose({
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .toggle-switch {
     @apply relative mx-2 inline-block h-6 w-12 flex-none cursor-pointer rounded-xl bg-gray-300 transition-all;
     box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08) inset;
 }
 
 .toggle-switch::before {
-    @apply absolute left-0.5 top-0.5 block h-5 w-5 rounded-full bg-white bg-gradient-to-br from-transparent to-gray-200;
+    @apply bg-linear-to-br absolute left-0.5 top-0.5 block h-5 w-5 rounded-full bg-white from-transparent to-gray-200;
     box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
     content: '';
     transition: left 150ms;

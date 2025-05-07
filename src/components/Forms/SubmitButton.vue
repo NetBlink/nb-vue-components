@@ -22,7 +22,7 @@ const props = defineProps({
         </div>
 
         <div v-if="form?.processing || loading" class="absolute inset-2 flex items-center justify-center">
-            <Spinner class="aspect-square !h-full !w-auto text-white" />
+            <Spinner class="aspect-square h-full! w-auto! text-white" />
         </div>
     </PrimaryButton>
 </template>

@@ -114,7 +114,7 @@ if (props.sticky) {
 <template>
     <div
         :class="{
-            '!visible hidden': collapsable,
+            'visible! hidden': collapsable,
             'overflow-hidden': overflow,
         }"
         :id="collapse_id"
@@ -131,12 +131,12 @@ if (props.sticky) {
                         ' border-separate border-spacing-y-5 px-2': seperate,
                         // reponsive classes
                         // thead & tbody
-                        ' [&_thead]:max-sm:hidden': responsive,
+                        ' max-sm:[&_thead]:hidden': responsive,
                         // td&th
-                        ' [&_.td-label]:max-sm:!block [&_td:last-child]:max-sm:!border-b-0 [&_td]:max-sm:flex [&_td]:max-sm:justify-between [&_td]:max-sm:border-b [&_td]:max-sm:!px-2':
+                        ' max-sm:[&_.td-label]:block! max-sm:[&_td:last-child]:border-b-0! max-sm:[&_td]:flex max-sm:[&_td]:justify-between max-sm:[&_td]:border-b max-sm:[&_td]:px-2!':
                             responsive,
                         // tr
-                        ' [&_tr]:max-sm:mb-2 [&_tr]:max-sm:flex [&_tr]:max-sm:flex-col [&_tr]:max-sm:rounded-md [&_tr]:max-sm:border [&_tr]:max-sm:border-gray-200 [&_tr]:max-sm:shadow-md':
+                        ' max-sm:[&_tr]:mb-2 max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_tr]:rounded-md max-sm:[&_tr]:border max-sm:[&_tr]:border-gray-200 max-sm:[&_tr]:shadow-md':
                             responsive,
                     }"
                     ref="table"

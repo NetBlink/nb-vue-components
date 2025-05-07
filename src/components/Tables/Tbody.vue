@@ -46,7 +46,7 @@ const records = computed(() => {
 
             <template v-if="!hideNoRecordsMessage && records">
                 <tr v-if="!records.length">
-                    <Td colspan="999" class="no-records-message !text-center text-gray-500">{{ noRecordsMessage }}</Td>
+                    <Td colspan="999" class="no-records-message text-center! text-gray-500">{{ noRecordsMessage }}</Td>
                 </tr>
             </template>
 

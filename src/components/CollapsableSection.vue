@@ -34,7 +34,7 @@ const onClick = () => {
         <div class="bg-white sm:rounded-lg" :class="{ 'p-1': !header }">
             <div
                 @click="onClick"
-                class="focusable !block rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
+                class="focusable block! rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
                 tabindex="0"
                 :aria-controls="header ? header.replaceAll(' ', '_') : `collapsable`"
                 :style="{ backgroundColor: headerColor }"
@@ -44,7 +44,7 @@ const onClick = () => {
                     {{ isVisible ? 'Hide' : 'Show' }}
                 </button>
             </div>
-            <div class="!visible hidden overflow-hidden" :id="header ? header.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
+            <div class="visible! hidden overflow-hidden" :id="header ? header.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
                 <div :class="{ 'px-4 pb-2': header }" class="mt-2">
                     <slot />
                 </div>

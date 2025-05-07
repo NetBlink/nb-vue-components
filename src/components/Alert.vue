@@ -15,7 +15,7 @@ onMounted(() => {
     <div role="alert">
         <div>
             <div
-                class="mt-2 hidden w-full items-center rounded bg-primary-100 px-6 py-1 text-base text-neutral-800 shadow-sm data-[te-alert-show]:inline-flex sm:rounded-lg"
+                class="mt-2 hidden w-full items-center rounded bg-primary-100 px-6 py-1 text-base text-neutral-800 shadow-xs data-te-alert-show:inline-flex sm:rounded-lg"
                 role="alert"
                 data-te-alert-init
                 data-te-alert-show
@@ -23,7 +23,7 @@ onMounted(() => {
                 <slot></slot>
                 <button
                     type="button"
-                    class="ml-auto box-content rounded-none border-none p-1 text-neutral-900 opacity-50 hover:text-neutral-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                    class="ml-auto box-content rounded-none border-none p-1 text-neutral-900 opacity-50 hover:text-neutral-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-hidden"
                     data-te-alert-dismiss
                     aria-label="Close"
                 >
