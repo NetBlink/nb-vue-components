@@ -1,8 +1,7 @@
 <script setup>
 import { Deferred } from '@inertiajs/vue3';
-import TrPlaceholder, { getInertiaPage } from '../../index';
+import { TrPlaceholder, Td, getInertiaPage } from '../../index'; 
 import { computed } from 'vue';
-import { Td } from '../../index';
 
 const props = defineProps({
     data: {
