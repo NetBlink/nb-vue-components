@@ -1,6 +1,6 @@
-declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
+declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;
-type __VLS_WithTemplateSlots<T, S> = T & (new () => {
+type __VLS_WithSlots<T, S> = T & (new () => {
     $slots: S;
 });
 declare const __VLS_component: import("vue").DefineComponent<{}, {
@@ -26,19 +26,9 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
         readonly total?: number;
         readonly links?: unknown[];
     };
-}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, HTMLDivElement>;
-type __VLS_TemplateResult = {
-    attrs: Partial<typeof __VLS_inheritedAttrs>;
-    slots: {
-        default?(_: {}): any;
-        pagination?(_: {}): any;
-    };
-    refs: {
-        table_container: HTMLDivElement;
-        table: HTMLTableElement;
-        sticky_wrapper: HTMLDivElement;
-        sticky_header: HTMLDivElement;
-    };
-    rootEl: HTMLDivElement;
+}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
+type __VLS_Slots = {
+    default?: (props: {}) => any;
+} & {
+    pagination?: (props: {}) => any;
 };
-declare var __VLS_inheritedAttrs: {};

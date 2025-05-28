@@ -23,6 +23,7 @@ import Alert from './components/Alert.vue';
 import CollapsableSection from './components/CollapsableSection.vue';
 import Dropdown from './components/Dropdown.vue';
 import DropdownLink from './components/DropdownLink.vue';
+import DropdownSeparator from './components/DropdownSeparator.vue';
 import LinkButton from './components/LinkButton.vue';
 import LinkDropdownButton from './components/LinkDropdownButton.vue';
 import LinkDropdownButtonItem from './components/LinkDropdownButtonItem.vue';
@@ -48,5 +49,5 @@ declare const Componentsnb: {
     install(App: any): void;
 };
 export default Componentsnb;
-export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, };
+export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, };
 export * from './Helpers.js';
