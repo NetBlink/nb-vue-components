@@ -1,7 +1,9 @@
 <script setup>
 // @ts-nocheck
-import { onMounted, ref } from 'vue';
-import { Collapse } from 'tw-elements';
+import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
+import { onMounted, ref, watch } from 'vue';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
     header: String,
@@ -13,42 +15,36 @@ const props = defineProps({
         type: String,
     },
 });
-
-const collapseRef = ref(null);
-const collapseTe = ref(null);
-const isVisible = ref(props.open);
+const isOpen = ref(props.open);
+watch(
+    () => props.open,
+    (v) => (isOpen.value = v)
+);
 
 onMounted(() => {
-    collapseTe.value = new Collapse(collapseRef.value, {
-        toggle: props.open,
-    });
+    isOpen.value = props.open;
 });
-
-const onClick = () => {
-    collapseTe.value.toggle();
-    isVisible.value = !isVisible.value;
-};
 </script>
 <template>
-    <div class="mt-2 rounded-lg border-2 border-gray-200 dark:border-gray-700" :class="{ 'px-4 py-2': !header }">
-        <div class="bg-white sm:rounded-lg" :class="{ 'p-1': !header }">
-            <div
-                @click="onClick"
-                class="focusable block! rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
-                tabindex="0"
-                :aria-controls="header ? header.replaceAll(' ', '_') : `collapsable`"
-                :style="{ backgroundColor: headerColor }"
-            >
-                {{ header }}
-                <button class="text-xs font-semibold uppercase leading-normal text-primary hover:text-primary-700" type="button">
-                    {{ isVisible ? 'Hide' : 'Show' }}
-                </button>
+    <CollapsibleRoot :defaultOpen="open" v-model:open="isOpen" class="mt-2 rounded-lg border-2 border-gray-200 dark:border-gray-700">
+        <CollapsibleTrigger
+            class="focusable relative flex w-full items-center gap-2 justify-center cursor-pointer rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
+            :style="{ backgroundColor: headerColor }"
+        >
+            <div class="text-primary overflow-clip w-5">
+                <Transition name="collapse-icon" mode="out-in">
+                    <FontAwesomeIcon v-if="isOpen" :icon="faMinus" />
+                    <FontAwesomeIcon v-else :icon="faPlus" />
+                </Transition>
             </div>
-            <div class="visible! hidden overflow-hidden" :id="header ? header.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
-                <div :class="{ 'px-4 pb-2': header }" class="mt-2">
-                    <slot />
-                </div>
+            <div v-if="header">{{ header }}</div>
+            <slot v-else name="trigger" />
+        </CollapsibleTrigger>
+
+        <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
+            <div class="mt-2" :class="{ 'px-4 pb-2': header }">
+                <slot />
             </div>
-        </div>
-    </div>
+        </CollapsibleContent>
+    </CollapsibleRoot>
 </template>

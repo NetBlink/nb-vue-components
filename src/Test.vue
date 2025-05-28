@@ -21,6 +21,7 @@ import {
     DescriptionList,
     DescriptionListItem,
     Dropdown,
+    DropdownSeparator,
     LinkButton,
     Logs,
     Modal,
@@ -64,9 +65,9 @@ const modal = ref(false);
         <main class="content-container h-fit w-full bg-white py-8 pl-64">
             <Section class="mx-16 mb-8 text-center">
                 <h1 class="text-xl">Components showcase</h1>
-                <div class="inline-block h-4 w-4 rounded-full bg-primary" />
+                <div class="bg-primary inline-block h-4 w-4 rounded-full" />
                 Primary
-                <div class="inline-block h-4 w-4 rounded-full bg-accent" />
+                <div class="bg-accent inline-block h-4 w-4 rounded-full" />
                 Accent
             </Section>
 
@@ -1416,14 +1417,16 @@ const modal = ref(false);
                 <H2 title="Dropdown" />
 
                 <div class="gutters bg-white py-2">
-                    <Dropdown align="left" content-classes="p-2 bg-gray-200">
-                        <template #trigger>Click me</template>
+                    <Dropdown align="start">
+                        <template #trigger>
+                            <PrimaryButton>Click me</PrimaryButton>
+                        </template>
                         <template #content>
-                            <ul>
-                                <DropdownLink href="#url1">item 1</DropdownLink>
-                                <DropdownLink href="#url2">item 2</DropdownLink>
-                                <DropdownLink href="#url3">item 3</DropdownLink>
-                            </ul>
+                            <DropdownLink href="#url1">item 1</DropdownLink>
+                            <DropdownLink href="#url2">item 2</DropdownLink>
+                            <DropdownLink href="#url3">item 3</DropdownLink>
+                            <DropdownSeparator />
+                            <DropdownLink href="#url4">item 4</DropdownLink>
                         </template>
                     </Dropdown>
 
@@ -1440,64 +1443,13 @@ const modal = ref(false);
                     <tbody class="[&>*:nth-child(odd)]:bg-gray-50">
                         <Tr>
                             <Td>align</Td>
-                            <Td>String</Td>
-                            <Td>right</Td>
+                            <Td>'start' | 'center' | 'end'</Td>
+                            <Td>start</Td>
                         </Tr>
                         <Tr>
-                            <Td>width</Td>
-                            <Td>String</Td>
-                            <Td>48</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>contentClasses</Td>
-                            <Td>String</Td>
-                            <Td>py-1 bg-white</Td>
-                        </Tr>
-                    </tbody>
-                </Table>
-            </div>
-
-            <!-- * Dropdown -->
-            <div class="my-40">
-                <H2 title="Dropdown" />
-
-                <div class="gutters bg-white py-2">
-                    <Dropdown align="left" content-classes="p-2 bg-gray-200">
-                        <template #trigger>Click me</template>
-                        <template #content>
-                            <ul>
-                                <DropdownLink href="#url1">item 1</DropdownLink>
-                                <DropdownLink href="#url2">item 2</DropdownLink>
-                                <DropdownLink href="#url3">item 3</DropdownLink>
-                            </ul>
-                        </template>
-                    </Dropdown>
-
-                    <CodePreview :code="codePreview.Dropdown" />
-                </div>
-                <Table class="gutters mt-4">
-                    <Thead>
-                        <Tr>
-                            <Th>Propertie</Th>
-                            <Th>Type</Th>
-                            <Th>Default</Th>
-                        </Tr>
-                    </Thead>
-                    <tbody class="[&>*:nth-child(odd)]:bg-gray-50">
-                        <Tr>
-                            <Td>align</Td>
-                            <Td>String</Td>
-                            <Td>right</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>width</Td>
-                            <Td>String</Td>
-                            <Td>48</Td>
-                        </Tr>
-                        <Tr>
-                            <Td>contentClasses</Td>
-                            <Td>String</Td>
-                            <Td>py-1 bg-white</Td>
+                            <Td>alignOffset</Td>
+                            <Td>number</Td>
+                            <Td>5</Td>
                         </Tr>
                     </tbody>
                 </Table>

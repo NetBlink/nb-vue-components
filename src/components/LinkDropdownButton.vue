@@ -1,38 +1,63 @@
-<script setup>
+<script setup lang="ts">
 
-const props = defineProps({
+import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
+import { onMounted, ref, watch } from 'vue';
+
+import { PropType } from 'vue';
+import type { Align } from '@/Types';
+import { Align as AlignValue } from '@/Types';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+
+const props = defineProps({    
+    align: {
+        type: String as PropType<Align>,
+        default: AlignValue.START,
+        validator(value: Align) {
+            return Object.values(AlignValue).includes(value);
+        },
+    },
+    alignOffset: {
+        type: Number,
+        default: 5,
+    },
     title: String,
 });
+
+const toggleState = ref(false);
 </script>
 
 <template>
-    <div class="relative inline-flex" data-te-dropdown-ref>
-        <button
-            class="focusable flex items-center whitespace-nowrap rounded bg-primary px-2 text-sm text-white hover:bg-primary-700 motion-reduce:transition-none"
-            type="button"
-            :id="title"
-            data-te-dropdown-toggle-ref
-            aria-expanded="false"
-            data-te-ripple-init
-            data-te-ripple-color="light"
-        >
-            {{ title }}
-            <span class="mx-1 w-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                    <path
-                        fill-rule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-            </span>
-        </button>
-        <ul
-            class="absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 data-te-dropdown-show:block"
-            :aria-labelledby="title"
-            data-te-dropdown-menu-ref
-        >
-            <slot />
-        </ul>
-    </div>
+
+    <DropdownMenuRoot v-model:open="toggleState">
+        <DropdownMenuTrigger aria-label="Dropdown" asChild>        
+            <button
+                class="focusable flex items-center whitespace-nowrap rounded bg-primary px-2 text-sm text-white hover:bg-primary-700 motion-reduce:transition-none"
+                type="button"
+            >
+                {{ title }}
+                <span class="mx-1 w-2">
+                    <FontAwesomeIcon :icon="faChevronCircleDown" />
+                </span>
+            </button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuPortal>
+            <DropdownMenuContent
+                :alignOffset="alignOffset"
+                v-bind="$attrs"
+                :align="align"
+                class="ring-opacity-5 z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform] data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade"
+            >
+                <ul
+                    class="absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 data-te-dropdown-show:block"
+                    :aria-labelledby="title"
+                    data-te-dropdown-menu-ref
+                >
+                    <slot />
+                </ul>
+            </DropdownMenuContent>
+        </DropdownMenuPortal>
+    </DropdownMenuRoot>
+
 </template>

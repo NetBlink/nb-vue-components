@@ -1,51 +1,51 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+// @ts-nocheck
+import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
+
+import { faChevronCircleDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+import { computed, ref, onMounted, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
 import { Collapse } from 'tw-elements';
 
 const props = defineProps({
-    show: { type: Boolean, default: false },
+    open: { type: Boolean, default: false },
     name: String,
 });
-const collapseRef = ref(null);
-const collapseTe = ref(null);
-const isVisible = ref(props.show);
+
+const isOpen = ref(props.open);
+watch(
+    () => props.open,
+    (v) => (isOpen.value = v)
+);
 
 onMounted(() => {
-    collapseTe.value = new Collapse(collapseRef.value, {
-        toggle: props.show,
-    });
+    isOpen.value = props.open;
 });
 
-const onClick = () => {
-    collapseTe.value.toggle();
-    isVisible.value = !isVisible.value;
-};
 </script>
 
 <template>
     <li>
-        <button
-            :id="name"
-            @click="onClick"
-            class="focusable group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            :aria-controls="name ? name.replaceAll(' ', '_') : `collapsable`"
-        >
-            <slot name="icon" />
-            <span class="ml-3 flex-1 whitespace-nowrap text-left">{{ name }}</span>
-            <svg class="h-3 w-3 transform" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-            </svg>
-        </button>
+        <CollapsibleRoot :defaultOpen="open" v-model:open="isOpen">
+            <CollapsibleTrigger asChild >
+                <button
+                    :id="name"
+                    @click="onClick"
+                    class="focusable group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                    <slot name="icon" />
+                    <span class="ml-3 flex-1 whitespace-nowrap text-left">{{ name }}</span>
+                    <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{'rotate-180': !isOpen}" />
+                </button>
+            </CollapsibleTrigger>
 
-        <ul class="visible! hidden space-y-1 px-4" :id="name ? name.replaceAll(' ', '_') : `collapsable`" ref="collapseRef">
-            <slot />
-        </ul>
+            <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
+                <ul class="space-y-1 px-4" >
+                    <slot />
+                </ul>
+            </CollapsibleContent>
+        </CollapsibleRoot>
     </li>
 </template>
-
-<style scoped>
-[data-te-collapse-collapsed] > svg {
-    transform: rotate(180deg);
-}
-</style>

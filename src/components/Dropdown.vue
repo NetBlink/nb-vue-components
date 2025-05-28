@@ -1,76 +1,40 @@
-<script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+<script setup lang="ts">
+import type { PropType } from 'vue';
+import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
+import type { Align } from '@/Types';
+import { Align as AlignValue } from '@/Types';
+import { ref } from 'vue';
 
 const props = defineProps({
     align: {
-        default: 'right',
+        type: String as PropType<Align>,
+        default: AlignValue.START,
+        validator(value: Align) {
+            return Object.values(AlignValue).includes(value);
+        },
     },
-    width: {
-        default: '48',
-    },
-    contentClasses: {
-        default: () => ['py-1', 'bg-white'],
+    alignOffset: {
+        type: Number,
+        default: 5,
     },
 });
 
-const closeOnEscape = (e) => {
-    if (open.value && e.key === 'Escape') {
-        open.value = false;
-    }
-};
-
-onMounted(() => document.addEventListener('keydown', closeOnEscape));
-onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
-
-const widthClass = computed(() => {
-    if (isNaN(parseInt(props.width))) {
-        return props.width;
-    }
-
-    return 'w-' + props.width;
-});
-
-const alignmentClasses = computed(() => {
-    if (props.align === 'left') {
-        return 'origin-top-left left-0';
-    } else if (props.align === 'right') {
-        return 'origin-top-right right-0';
-    } else {
-        return 'origin-top';
-    }
-});
-
-const open = ref(false);
+const toggleState = ref(false);
 </script>
 
 <template>
-    <div class="relative">
-        <div @click="open = !open">
-            <slot name="trigger" />
-        </div>
+    <DropdownMenuRoot v-model:open="toggleState">
+        <DropdownMenuTrigger aria-label="Dropdown"><slot name="trigger" /></DropdownMenuTrigger>
 
-        <!-- Full Screen Dropdown Overlay -->
-        <div v-show="open" class="fixed inset-0 z-40" @click="open = false"></div>
-
-        <transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="transform opacity-0 scale-95"
-            enter-to-class="transform opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
-            leave-from-class="transform opacity-100 scale-100"
-            leave-to-class="transform opacity-0 scale-95"
-        >
-            <div
-                v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg"
-                :class="[widthClass, alignmentClasses]"
-                style="display: none"
-                @click="open = false"
+        <DropdownMenuPortal>
+            <DropdownMenuContent
+                :alignOffset="alignOffset"
+                v-bind="$attrs"
+                :align="align"
+                class="ring-opacity-5 z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform] data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade"
             >
-                <div class="rounded ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
-                </div>
-            </div>
-        </transition>
-    </div>
+                <slot name="content" />
+            </DropdownMenuContent>
+        </DropdownMenuPortal>
+    </DropdownMenuRoot>
 </template>

@@ -23,6 +23,7 @@ import Alert from './components/Alert.vue';
 import CollapsableSection from './components/CollapsableSection.vue';
 import Dropdown from './components/Dropdown.vue';
 import DropdownLink from './components/DropdownLink.vue';
+import DropdownSeparator from './components/DropdownSeparator.vue';
 import LinkButton from './components/LinkButton.vue';
 import LinkDropdownButton from './components/LinkDropdownButton.vue';
 import LinkDropdownButtonItem from './components/LinkDropdownButtonItem.vue';
@@ -88,6 +89,7 @@ export {
     CollapsableSection as CollapsibleSection,
     Dropdown,
     DropdownLink,
+    DropdownSeparator,
     GravatarImg,
     LinkButton,
     LinkDropdownButton,

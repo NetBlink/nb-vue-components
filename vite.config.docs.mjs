@@ -2,11 +2,12 @@ import path from 'path';
 import { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 
 export default ({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
     return defineConfig({
-        plugins: [vue()],
+        plugins: [vue(), tailwindcss()],
         base: '/nb-vue-components',
         /*
         build: {
@@ -30,7 +31,7 @@ export default ({ mode }) => {
         }, */
         resolve: {
             alias: {
-                '@': resolve(__dirname, '/src'),
+                '@': resolve(__dirname, 'src'),
             },
         },
         server: {
@@ -46,12 +47,6 @@ export default ({ mode }) => {
             hmr: {
                 host: process.env.VITE_HMR_HOST,
                 port: 80,
-            },
-        },
-
-        css: {
-            postcss: {
-                plugins: [require('tailwindcss'), require('autoprefixer')],
             },
         },
     });

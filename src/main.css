@@ -2,7 +2,16 @@
 
 @plugin '@tailwindcss/forms';
 
-@config '../../tailwind.config.js';
+@config '../tailwind.config.js';
+
+@theme {
+    --animate-slide-up: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-slide-down: slideDown 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-slide-up-fade: slideUpFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-slide-down-fade: slideDownFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-slide-left-fade: slideLeftFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-slide-right-fade: slideRightFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @layer base {
     *,
@@ -39,7 +48,7 @@
     }
 
     html {
-        @apply min-h-fit scroll-smooth bg-white text-base text-dark;
+        @apply text-dark min-h-fit scroll-smooth bg-white text-base;
     }
 
     body {
@@ -85,4 +94,56 @@
     @apply bg-primary;
     border-radius: 20px;
     height: 150px;
+}
+
+/* Components default animations */
+
+@keyframes slideDown {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--reka-collapsible-content-height);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        height: var(--reka-collapsible-content-height);
+    }
+    to {
+        height: 0;
+    }
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(4px) }
+    to { opacity: 1; transform: translateY(0) }
+}
+@keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-4px) }
+    to { opacity: 1; transform: translateY(0) }
+}
+@keyframes slideLeftFade {
+    from { opacity: 0; transform: translateX(4px) }
+    to { opacity: 1; transform: translateX(0) }
+}
+@keyframes slideRightFade {
+    from { opacity: 0; transform: translateX(-4px) }
+    to { opacity: 1; transform: translateX(0) }
+}
+
+.collapse-icon-enter-active,
+.collapse-icon-leave-active {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    rotate: 0;
+    opacity: 1;
+}
+
+.collapse-icon-enter-from {
+    transform: translateY(-20px);
+}
+
+.collapse-icon-leave-to {
+    transform: translateY(20px);
 }
