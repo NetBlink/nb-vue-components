@@ -1,13 +1,10 @@
 <script setup>
 // @ts-nocheck
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
-
 import { faChevronCircleDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-import { computed, ref, onMounted, watch } from 'vue';
+import { computed, ref, watch } from 'vue'; 
 import Link from '../overrides/InertiaLink';
-import { Collapse } from 'tw-elements';
 
 const props = defineProps({
     open: { type: Boolean, default: false },
@@ -20,9 +17,6 @@ watch(
     (v) => (isOpen.value = v)
 );
 
-onMounted(() => {
-    isOpen.value = props.open;
-});
 
 </script>
 
@@ -32,12 +26,12 @@ onMounted(() => {
             <CollapsibleTrigger asChild >
                 <button
                     :id="name"
-                    @click="onClick"
+                    @click="onClick" 
                     class="focusable group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                     <slot name="icon" />
                     <span class="ml-3 flex-1 whitespace-nowrap text-left">{{ name }}</span>
-                    <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{'rotate-180': !isOpen}" />
+                    <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{'rotate-180': isOpen}" />
                 </button>
             </CollapsibleTrigger>
 
