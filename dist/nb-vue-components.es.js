@@ -17510,7 +17510,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ J({
         Q(S(RO), null, {
           default: z(() => [
             Q(S(ZS), { class: "bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30" }),
-            Q(S(WS), ue({ class: "data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 shadow-lg/20 focus:outline-none z-[100]" }, o.$attrs), {
+            Q(S(WS), ue({ class: "data-[state=open]:animate-slide-up-fade overflow-y-auto fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 shadow-lg/20 focus:outline-none z-[100]" }, o.$attrs), {
               default: z(() => [
                 e.title || o.$slots.header ? (C(), H(S(tO), {
                   key: 0,
@@ -17525,7 +17525,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ J({
                 })) : Y("", !0),
                 e.description || o.$slots.description ? (C(), H(S(KS), {
                   key: 1,
-                  class: "mt-2 mb-5 text-sm leading-normal"
+                  class: "mt-2 mb-3 text-sm leading-normal"
                 }, {
                   default: z(() => [
                     U(o.$slots, "description", {}, () => [
