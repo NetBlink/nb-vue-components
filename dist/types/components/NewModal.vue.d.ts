@@ -11,10 +11,6 @@ type __VLS_Slots = {} & {
     footer?: (props: typeof __VLS_42) => any;
 };
 declare const __VLS_component: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
-    show: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     title: {
         type: StringConstructor;
     };
@@ -25,17 +21,12 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         type: BooleanConstructor;
         default: boolean;
     };
-    open: {
-        type: BooleanConstructor;
-        default: boolean;
+    modelValue: {
+        type: import("vue").PropType<boolean>;
     };
 }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
-    "update:open": (...args: any[]) => void;
+    "update:modelValue": (value: boolean) => any;
 }, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
-    show: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     title: {
         type: StringConstructor;
     };
@@ -46,16 +37,13 @@ declare const __VLS_component: import("vue").DefineComponent<import("vue").Extra
         type: BooleanConstructor;
         default: boolean;
     };
-    open: {
-        type: BooleanConstructor;
-        default: boolean;
+    modelValue: {
+        type: import("vue").PropType<boolean>;
     };
 }>> & Readonly<{
-    "onUpdate:open"?: (...args: any[]) => any;
+    "onUpdate:modelValue"?: (value: boolean) => any;
 }>, {
-    open: boolean;
     defaultOpen: boolean;
-    show: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 declare const _default: __VLS_WithSlots<typeof __VLS_component, __VLS_Slots>;
 export default _default;
