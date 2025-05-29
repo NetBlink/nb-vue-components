@@ -1,6 +1,6 @@
 import * as sl from "vue";
 import { computed as G, withDirectives as ot, createElementBlock as L, openBlock as C, normalizeClass as ee, vModelCheckbox as Bc, defineComponent as Q, watch as fe, h as je, mergeModels as fi, ref as q, useModel as jc, onMounted as Oe, createBlock as H, createCommentVNode as Y, createElementVNode as j, unref as x, renderSlot as z, toDisplayString as Z, createVNode as X, Transition as un, withCtx as U, vModelSelect as ch, Fragment as ie, vModelText as qc, createTextVNode as me, vShow as Dn, resolveDirective as fh, normalizeProps as xe, guardReactiveProps as Ce, renderList as et, resolveDynamicComponent as Ko, mergeProps as ue, toHandlers as dh, withModifiers as Tt, withKeys as on, normalizeStyle as Wt, shallowRef as co, markRaw as di, onUnmounted as Nt, reactive as pr, toRefs as en, getCurrentScope as Uc, onScopeDispose as zc, shallowReadonly as On, Comment as ph, cloneVNode as hh, effectScope as Vc, onBeforeUnmount as mh, getCurrentInstance as mn, customRef as yh, toValue as Kt, watchEffect as St, readonly as gh, nextTick as Ve, inject as ss, provide as ls, toHandlerKey as vh, camelize as Hc, Teleport as Wc, toRef as bh, watchPostEffect as Kc, mergeDefaults as Gc, isRef as wh } from "vue";
-const xh = ["value"], HE = {
+const xh = ["value"], WE = {
   __name: "Checkbox",
   props: {
     checked: {
@@ -3583,7 +3583,7 @@ const If = {
       ref: n
     }, null, 40, pg));
   }
-}, mg = { class: "relative mb-4 flex w-full flex-wrap items-stretch" }, yg = ["id", "required", "disabled", "autocomplete", "placeholder", "autofocus", "rows"], WE = {
+}, mg = { class: "relative mb-4 flex w-full flex-wrap items-stretch" }, yg = ["id", "required", "disabled", "autocomplete", "placeholder", "autofocus", "rows"], KE = {
   __name: "Textarea",
   props: {
     field: String,
@@ -4401,7 +4401,7 @@ function ev(e, t, n, r, o, a) {
     z(e.$slots, "footer", xe(Ce(a.scope.footer)))
   ], 10, Ug);
 }
-const tv = /* @__PURE__ */ Os(qg, [["render", ev]]), KE = {
+const tv = /* @__PURE__ */ Os(qg, [["render", ev]]), GE = {
   __name: "DropdownSearchbar",
   props: {
     options: Array,
@@ -8399,22 +8399,22 @@ ve.getAdapter = Fd.getAdapter;
 ve.HttpStatusCode = qi;
 ve.default = ve;
 const {
-  Axios: XE,
-  AxiosError: JE,
-  CanceledError: QE,
-  isCancel: ZE,
-  CancelToken: eA,
-  VERSION: tA,
-  all: nA,
-  Cancel: rA,
-  isAxiosError: oA,
-  spread: aA,
-  toFormData: iA,
-  AxiosHeaders: sA,
-  HttpStatusCode: lA,
-  formToJSON: uA,
-  getAdapter: cA,
-  mergeConfig: fA
+  Axios: JE,
+  AxiosError: QE,
+  CanceledError: ZE,
+  isCancel: eA,
+  CancelToken: tA,
+  VERSION: nA,
+  all: rA,
+  Cancel: oA,
+  isAxiosError: aA,
+  spread: iA,
+  toFormData: sA,
+  AxiosHeaders: lA,
+  HttpStatusCode: uA,
+  formToJSON: cA,
+  getAdapter: fA,
+  mergeConfig: dA
 } = ve;
 function Ui(e, t) {
   let n;
@@ -9876,7 +9876,7 @@ Q({ name: "WhenVisible", props: { data: { type: [String, Array] }, params: { typ
   let e = [];
   return (this.$props.always || !this.loaded) && e.push(je(this.$props.as)), this.loaded ? this.$slots.default && e.push(this.$slots.default()) : e.push(this.$slots.fallback ? this.$slots.fallback() : null), e;
 } });
-function hA(e) {
+function mA(e) {
   return e.toLocaleString("en-GB", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
@@ -9888,11 +9888,11 @@ function L1(e) {
     currency: "GBP"
   }).format(e);
 }
-function mA(e) {
+function yA(e) {
   return I1().props.auth.permissions.includes(e);
 }
 let Hi = null;
-function yA(e) {
+function gA(e) {
   Hi = e;
 }
 function wr() {
@@ -9909,7 +9909,7 @@ setInertiaRouter(router);
   ), Hi;
 }
 let Wi = null;
-function gA(e) {
+function vA(e) {
   Wi = e;
 }
 function _1() {
@@ -10698,7 +10698,7 @@ const pw = { class: "flex w-full flex-col" }, hw = {
 }, gw = { key: 2 }, vw = {
   key: 3,
   class: "select-none"
-}, vA = {
+}, bA = {
   __name: "FileDropZoneInput",
   props: {
     accept: { String, default: "image/*" },
@@ -10765,7 +10765,7 @@ const pw = { class: "flex w-full flex-col" }, hw = {
 }, kw = {
   key: 1,
   class: "mt-2"
-}, Dw = { class: "container mx-auto px-5 py-2 lg:px-8 lg:pt-8" }, $w = { class: "-m-1 flex flex-wrap md:-m-2" }, Tw = { class: "flex w-1/3 flex-wrap" }, Fw = { class: "h-full w-full p-1 shadow md:p-2" }, Iw = ["src"], bA = {
+}, Dw = { class: "container mx-auto px-5 py-2 lg:px-8 lg:pt-8" }, $w = { class: "-m-1 flex flex-wrap md:-m-2" }, Tw = { class: "flex w-1/3 flex-wrap" }, Fw = { class: "h-full w-full p-1 shadow md:p-2" }, Iw = ["src"], wA = {
   __name: "Images",
   props: {
     images: Object,
@@ -10910,7 +10910,7 @@ const pw = { class: "flex w-full flex-col" }, hw = {
       ])) : Y("", !0)
     ], 64));
   }
-}, Rw = { class: "mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]" }, Lw = ["name", "value", "id", "checked"], _w = ["for"], wA = {
+}, Rw = { class: "mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]" }, Lw = ["name", "value", "id", "checked"], _w = ["for"], xA = {
   __name: "RadioButton",
   props: {
     id: String,
@@ -10991,7 +10991,7 @@ const pw = { class: "flex w-full flex-col" }, hw = {
 }, Mw = ["id"], Bw = {
   key: 0,
   class: "text-sm text-gray-600"
-}, jw = { class: "flex flex-col" }, xA = {
+}, jw = { class: "flex flex-col" }, SA = {
   __name: "Table",
   props: {
     total: Number,
@@ -11124,7 +11124,7 @@ function zw(e, t) {
     z(e.$slots, "default")
   ]);
 }
-const SA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, OA = {
+const OA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, EA = {
   __name: "Tbody",
   props: {
     data: {
@@ -11184,7 +11184,7 @@ const SA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, OA = {
 }, Hw = { class: "flex items-center justify-between" }, Ww = {
   key: 0,
   class: "order-arrows flex h-full w-4 items-center md:right-4"
-}, EA = {
+}, AA = {
   __name: "Th",
   props: {
     orderBy: String
@@ -11249,7 +11249,7 @@ const SA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, OA = {
       z(n.$slots, "default")
     ]));
   }
-}, Yw = ["data-te-target", "aria-controls"], AA = {
+}, Yw = ["data-te-target", "aria-controls"], CA = {
   __name: "TrCollapseHandler",
   props: {
     collapse_id: {
@@ -11267,7 +11267,7 @@ const SA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, OA = {
       z(t.$slots, "default")
     ], 8, Yw));
   }
-}, Xw = { colspan: "999" }, Jw = ["id"], CA = {
+}, Xw = { colspan: "999" }, Jw = ["id"], PA = {
   __name: "TrCollapse",
   props: {
     collapse_id: {
@@ -11319,7 +11319,7 @@ const SA = /* @__PURE__ */ go(qw, [["render", zw]]), Vw = { key: 0 }, OA = {
 }, a2 = { class: "mb-1" }, i2 = {
   key: 0,
   class: "w-full whitespace-normal font-semibold text-primary"
-}, s2 = { class: "w-full break-words" }, l2 = { class: "mb-1 flex flex-col" }, u2 = { key: 1 }, PA = {
+}, s2 = { class: "w-full break-words" }, l2 = { class: "mb-1 flex flex-col" }, u2 = { key: 1 }, kA = {
   __name: "TableItemCard",
   props: {
     key: Number,
@@ -13000,7 +13000,7 @@ const Ji = new J2(), tr = {
   role: "alert",
   "data-te-alert-init": "",
   "data-te-alert-show": ""
-}, kA = {
+}, DA = {
   __name: "Alert",
   props: {
     message: String
@@ -14494,7 +14494,7 @@ function Ct(e, t) {
     );
   }, (i) => (ls(r, i), i)];
 }
-const [Hs, DA] = Ct("ConfigProvider");
+const [Hs, $A] = Ct("ConfigProvider");
 function Ws(e) {
   const t = Hs({
     dir: q("ltr")
@@ -15801,7 +15801,7 @@ function aO(e, t = !1) {
     if (r === n || (r.focus({ preventScroll: t }), Ke() !== n))
       return;
 }
-const [$A, iO] = Ct("RovingFocusGroup"), sO = /* @__PURE__ */ Q({
+const [TA, iO] = Ct("RovingFocusGroup"), sO = /* @__PURE__ */ Q({
   __name: "RovingFocusGroup",
   props: {
     orientation: { default: void 0 },
@@ -15979,7 +15979,7 @@ const Wp = {
   positionStrategy: "fixed",
   updatePositionStrategy: "optimized",
   prioritizePosition: !1
-}, [TA, hO] = Ct("PopperContent"), mO = /* @__PURE__ */ Q({
+}, [FA, hO] = Ct("PopperContent"), mO = /* @__PURE__ */ Q({
   inheritAttrs: !1,
   __name: "PopperContent",
   props: /* @__PURE__ */ Gc({
@@ -16967,7 +16967,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
   START: "start",
   CENTER: "center",
   END: "end"
-}, FA = /* @__PURE__ */ Q({
+}, IA = /* @__PURE__ */ Q({
   __name: "Dropdown",
   props: {
     align: {
@@ -17013,7 +17013,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       _: 3
     }, 8, ["open"]));
   }
-}), IA = {
+}), RA = {
   __name: "DropdownLink",
   props: {
     href: {
@@ -17037,12 +17037,12 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       _: 3
     }));
   }
-}, RA = {
+}, LA = {
   __name: "DropdownSeparator",
   setup(e) {
     return (t, n) => (C(), H(x(NO), { class: "mx-1 my-px h-px bg-gray-300" }));
   }
-}, qO = ["href", "target"], LA = {
+}, qO = ["href", "target"], _A = {
   __name: "LinkButton",
   props: {
     href: String,
@@ -17087,7 +17087,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
 }, UO = {
   class: "focusable flex items-center whitespace-nowrap rounded bg-primary px-2 text-sm text-white hover:bg-primary-700 motion-reduce:transition-none",
   type: "button"
-}, zO = { class: "mx-1 w-2" }, VO = ["aria-labelledby"], _A = /* @__PURE__ */ Q({
+}, zO = { class: "mx-1 w-2" }, VO = ["aria-labelledby"], NA = /* @__PURE__ */ Q({
   __name: "LinkDropdownButton",
   props: {
     align: {
@@ -17148,7 +17148,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       _: 3
     }, 8, ["open"]));
   }
-}), HO = ["href"], NA = {
+}), HO = ["href"], MA = {
   __name: "LinkDropdownButtonItem",
   props: {
     href: String,
@@ -17162,7 +17162,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       }, Z(e.title), 9, HO)
     ]));
   }
-}, MA = {
+}, BA = {
   __name: "Logs",
   props: {
     header: { default: "Logs" },
@@ -17262,7 +17262,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       }, null, 8, ["links"])) : Y("", !0)
     ]));
   }
-}, BA = /* @__PURE__ */ Q({
+}, jA = /* @__PURE__ */ Q({
   __name: "Modal",
   props: {
     show: {
@@ -17457,8 +17457,11 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
   }
 }), lE = {
   key: 2,
+  class: "mb-3"
+}, uE = {
+  key: 3,
   class: "mt-5 flex justify-end gap-1.5"
-}, jA = /* @__PURE__ */ Q({
+}, qA = /* @__PURE__ */ Q({
   __name: "NewModal",
   props: /* @__PURE__ */ fi({
     title: {
@@ -17525,7 +17528,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
                 })) : Y("", !0),
                 e.description || o.$slots.description ? (C(), H(x(KS), {
                   key: 1,
-                  class: "mt-2 mb-3 text-sm leading-normal"
+                  class: "mt-2 text-sm leading-normal"
                 }, {
                   default: U(() => [
                     z(o.$slots, "description", {}, () => [
@@ -17534,8 +17537,9 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
                   ]),
                   _: 3
                 })) : Y("", !0),
+                e.title || o.$slots.header || e.description || o.$slots.description ? (C(), L("div", lE)) : Y("", !0),
                 z(o.$slots, "default"),
-                o.$slots.footer ? (C(), L("div", lE, [
+                o.$slots.footer ? (C(), L("div", uE, [
                   z(o.$slots, "footer")
                 ])) : Y("", !0),
                 X(x(bS), {
@@ -17557,7 +17561,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       _: 3
     }, 8, ["defaultOpen", "open"]));
   }
-}), uE = { class: "ml-3 flex-1 whitespace-nowrap" }, qA = {
+}), cE = { class: "ml-3 flex-1 whitespace-nowrap" }, UA = {
   __name: "NavLink",
   props: {
     href: String,
@@ -17573,17 +17577,17 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
     }, {
       default: U(() => [
         z(r.$slots, "icon"),
-        j("span", uE, [
+        j("span", cE, [
           z(r.$slots, "default")
         ])
       ]),
       _: 3
     }, 8, ["href", "class"]));
   }
-}, cE = { class: "pagination flex justify-between" }, fE = ["value", "selected"], dE = {
+}, fE = { class: "pagination flex justify-between" }, dE = ["value", "selected"], pE = {
   key: 0,
   "aria-label": "Page navigation"
-}, pE = ["innerHTML"], hE = ["innerHTML", "onClick"], eh = {
+}, hE = ["innerHTML"], mE = ["innerHTML", "onClick"], eh = {
   __name: "Pagination",
   props: {
     links: Array,
@@ -17650,7 +17654,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       }
       window.location.href = u.href;
     };
-    return (l, u) => (C(), L("div", cE, [
+    return (l, u) => (C(), L("div", fE, [
       j("div", null, [
         e.showPerPage ? (C(), H(x(sg), {
           key: 0,
@@ -17665,12 +17669,12 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
               key: f,
               value: f,
               selected: f == o.value
-            }, Z(f), 9, fE)), 64))
+            }, Z(f), 9, dE)), 64))
           ]),
           _: 1
         }, 8, ["modelValue"])) : Y("", !0)
       ]),
-      i.value.length > 3 ? (C(), L("nav", dE, [
+      i.value.length > 3 ? (C(), L("nav", pE, [
         j("ul", {
           class: ee(["list-style-none flex", { [e.customListClass]: e.customListClass }])
         }, [
@@ -17683,7 +17687,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
                 }]),
                 innerHTML: f.label,
                 onClick: u[1] || (u[1] = (h) => s(""))
-              }, null, 10, pE)) : (C(), L("button", {
+              }, null, 10, hE)) : (C(), L("button", {
                 key: 1,
                 class: ee(["focusable relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white", {
                   "font-bold text-primary": f.active,
@@ -17692,7 +17696,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
                 }]),
                 innerHTML: f.label,
                 onClick: (h) => s(f.url)
-              }, null, 10, hE))
+              }, null, 10, mE))
             ], 64)) : (C(), L(ie, { key: 1 }, [
               f.url === null ? (C(), H(x(ct), {
                 key: 0,
@@ -17721,7 +17725,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       u[2] || (u[2] = j("div", null, null, -1))
     ]));
   }
-}, mE = ["type", "disabled"], th = {
+}, yE = ["type", "disabled"], th = {
   __name: "PrimaryButton",
   props: {
     type: {
@@ -17743,9 +17747,9 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       })
     }, [
       z(t.$slots, "default")
-    ], 10, mE));
+    ], 10, yE));
   }
-}, yE = ["type", "disabled"], UA = {
+}, gE = ["type", "disabled"], zA = {
   __name: "DangerButton",
   props: {
     type: {
@@ -17764,9 +17768,9 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       class: "focusable inline-flex items-center rounded border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-red-500 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]"
     }, [
       z(t.$slots, "default")
-    ], 8, yE));
+    ], 8, gE));
   }
-}, zA = {
+}, VA = {
   __name: "ResponsiveNavLink",
   props: ["href", "active"],
   setup(e) {
@@ -17783,7 +17787,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       _: 3
     }, 8, ["href", "class"]));
   }
-}, gE = ["type"], vE = {
+}, vE = ["type"], bE = {
   __name: "SecondaryButton",
   props: {
     type: {
@@ -17797,15 +17801,15 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       class: "focusable inline-flex items-center rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 disabled:opacity-25"
     }, [
       z(t.$slots, "default")
-    ], 8, gE));
+    ], 8, vE));
   }
-}, bE = {
-  key: 0,
-  class: "relative mb-2 rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
 }, wE = {
   key: 0,
+  class: "relative mb-2 rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
+}, xE = {
+  key: 0,
   class: "absolute right-0 top-0 mr-2 mt-1"
-}, VA = {
+}, HA = {
   __name: "Section",
   props: {
     header: String,
@@ -17821,9 +17825,9 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       j("div", {
         class: ee(["sm:rounded-lg", { "p-1": !e.header }])
       }, [
-        e.header ? (C(), L("div", bE, [
+        e.header ? (C(), L("div", wE, [
           j("span", null, Z(e.header), 1),
-          t.$slots.headerButton ? (C(), L("div", wE, [
+          t.$slots.headerButton ? (C(), L("div", xE, [
             z(t.$slots, "headerButton")
           ])) : Y("", !0)
         ])) : Y("", !0),
@@ -17835,16 +17839,16 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       ], 2)
     ], 2));
   }
-}, xE = {}, SE = {
+}, SE = {}, OE = {
   class: "inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]",
   role: "status"
 };
-function OE(e, t) {
-  return C(), L("div", SE, t[0] || (t[0] = [
+function EE(e, t) {
+  return C(), L("div", OE, t[0] || (t[0] = [
     j("span", { class: "absolute! -m-px! h-px! w-px! overflow-hidden! whitespace-nowrap! border-0! p-0! [clip:rect(0,0,0,0)]!" }, "Loading...", -1)
   ]));
 }
-const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { class: "h:10 rounded-t-lg bg-white py-1 text-center md:h-10 md:py-2" }, HA = {
+const nh = /* @__PURE__ */ go(SE, [["render", EE]]), AE = ["onClick"], CE = { class: "h:10 rounded-t-lg bg-white py-1 text-center md:h-10 md:py-2" }, WA = {
   __name: "Stats",
   props: {
     stats: Object,
@@ -17886,7 +17890,7 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
           key: c.value
         }, [
           j("div", null, [
-            j("div", AE, [
+            j("div", CE, [
               j("h5", {
                 class: ee(["text-xl font-medium leading-tight text-neutral-800", { [e.customStatValueClass]: e.customStatValueClass }])
               }, Z(c.value), 3)
@@ -17895,11 +17899,11 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
           j("div", {
             class: ee(["flex flex-auto flex-col gap-y-4 p-1 text-center md:py-2", { [e.customStatLabelClass]: e.customStatLabelClass }])
           }, Z(c.label ?? c.name), 3)
-        ], 10, EE))), 128))
+        ], 10, AE))), 128))
       ], 2)
     ]));
   }
-}, WA = {
+}, KA = {
   __name: "Select2ajax",
   props: {
     id: {
@@ -18003,7 +18007,7 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
       filterPredicate: (A, P) => !0
     }, null, 8, ["id", "label", "list", "optionValue", "optionText", "optionDisabled", "placeholder", "field", "form", "modelValue", "noLabel", "disabled", "noForm", "required"]));
   }
-}, CE = ["id"], PE = { class: "ml-3 flex-1 whitespace-nowrap text-left" }, kE = { class: "space-y-1 px-4" }, KA = {
+}, PE = ["id"], kE = { class: "ml-3 flex-1 whitespace-nowrap text-left" }, DE = { class: "space-y-1 px-4" }, GA = {
   __name: "NavCollapse",
   props: {
     open: { type: Boolean, default: !1 },
@@ -18029,18 +18033,18 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
                 class: "focusable group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               }, [
                 z(r.$slots, "icon"),
-                j("span", PE, Z(e.name), 1),
+                j("span", kE, Z(e.name), 1),
                 X(x(Ie), {
                   icon: x(xs),
                   class: ee(["transition-all", { "rotate-180": n.value }])
                 }, null, 8, ["icon", "class"])
-              ], 8, CE)
+              ], 8, PE)
             ]),
             _: 3
           }),
           X(x(Gs), { class: "data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden" }, {
             default: U(() => [
-              j("ul", kE, [
+              j("ul", DE, [
                 z(r.$slots, "default")
               ])
             ]),
@@ -18051,7 +18055,7 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
       }, 8, ["defaultOpen", "open"])
     ]));
   }
-}, DE = { class: "border-t border-gray-100" }, $E = { class: "divide-y divide-gray-100" }, GA = {
+}, $E = { class: "border-t border-gray-100" }, TE = { class: "divide-y divide-gray-100" }, YA = {
   __name: "DescriptionList",
   props: {
     form: {
@@ -18099,16 +18103,16 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
           l && typeof l.toggleEditing == "function" && l.toggleEditing();
         });
       }
-    }), (l, u) => (C(), L("div", DE, [
-      j("dl", $E, [
+    }), (l, u) => (C(), L("div", $E, [
+      j("dl", TE, [
         z(l.$slots, "default")
       ])
     ]));
   }
-}, TE = { class: "description-list-item px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" }, FE = { class: "flex items-center text-sm font-medium" }, IE = {
+}, FE = { class: "description-list-item px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" }, IE = { class: "flex items-center text-sm font-medium" }, RE = {
   key: 0,
   class: "ml-1 text-red-500"
-}, RE = { class: "mt-1 min-h-[42px] text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" }, LE = { class: "flex min-h-full items-center" }, _E = { class: "slot-content grow" }, NE = { class: "ml-4 shrink-0" }, ME = { class: "slot-edit grow" }, BE = { class: "ml-4 shrink-0" }, YA = {
+}, LE = { class: "mt-1 min-h-[42px] text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0" }, _E = { class: "flex min-h-full items-center" }, NE = { class: "slot-content grow" }, ME = { class: "ml-4 shrink-0" }, BE = { class: "slot-edit grow" }, jE = { class: "ml-4 shrink-0" }, XA = {
   __name: "DescriptionListItem",
   props: {
     editable: {
@@ -18155,19 +18159,19 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
       startEditing: s,
       stopEditing: c,
       isEditing: () => a.value
-    }), (f, p) => (C(), L("div", TE, [
-      j("dt", FE, [
+    }), (f, p) => (C(), L("div", FE, [
+      j("dt", IE, [
         me(Z(e.label) + " ", 1),
         z(f.$slots, "label"),
-        e.required ? (C(), L("span", IE, "*")) : Y("", !0)
+        e.required ? (C(), L("span", RE, "*")) : Y("", !0)
       ]),
-      j("dd", RE, [
-        j("div", LE, [
+      j("dd", LE, [
+        j("div", _E, [
           a.value ? (C(), L(ie, { key: 1 }, [
-            j("div", ME, [
+            j("div", BE, [
               z(f.$slots, "edit")
             ]),
-            j("span", BE, [
+            j("span", jE, [
               j("button", {
                 type: "button",
                 onClick: i,
@@ -18177,11 +18181,11 @@ const nh = /* @__PURE__ */ go(xE, [["render", OE]]), EE = ["onClick"], AE = { cl
               ])
             ])
           ], 64)) : (C(), L(ie, { key: 0 }, [
-            j("div", _E, [
+            j("div", NE, [
               z(f.$slots, "default"),
               me(" " + Z(e.value), 1)
             ]),
-            j("span", NE, [
+            j("span", ME, [
               e.editable ? (C(), L("button", {
                 key: 0,
                 type: "button",
@@ -18209,7 +18213,7 @@ var ci = { exports: {} };
  * @license MIT
  */
 var Mc;
-function jE() {
+function qE() {
   return Mc || (Mc = 1, function(e) {
     (function() {
       var t = "input is invalid type", n = "finalize already called", r = typeof window == "object", o = r ? window : {};
@@ -18389,8 +18393,8 @@ function jE() {
     })();
   }(ci)), ci.exports;
 }
-var qE = jE();
-const UE = ["src", "alt"], XA = {
+var UE = qE();
+const zE = ["src", "alt"], JA = {
   __name: "GravatarImg",
   props: {
     email: {
@@ -18403,13 +18407,13 @@ const UE = ["src", "alt"], XA = {
     }
   },
   setup(e) {
-    const t = e, n = G(() => qE.md5(t.email.trim().toLowerCase())), r = G(() => `https://www.gravatar.com/avatar/${n.value}?s=${t.size}`), o = G(() => `Gravatar for ${t.email}`);
+    const t = e, n = G(() => UE.md5(t.email.trim().toLowerCase())), r = G(() => `https://www.gravatar.com/avatar/${n.value}?s=${t.size}`), o = G(() => `Gravatar for ${t.email}`);
     return (a, i) => (C(), L("img", {
       src: r.value,
       alt: o.value
-    }, null, 8, UE));
+    }, null, 8, zE));
   }
-}, JA = {
+}, QA = {
   __name: "TdCollapseHandler",
   props: {
     collapse_id: {
@@ -18431,7 +18435,7 @@ const UE = ["src", "alt"], XA = {
       _: 3
     }, 8, ["data-te-target", "aria-controls"]));
   }
-}, zE = { class: "mt-2" }, QA = {
+}, VE = { class: "mt-2" }, ZA = {
   __name: "Collapse",
   props: {
     open: {
@@ -18459,7 +18463,7 @@ const UE = ["src", "alt"], XA = {
         X(x(Ys), { asChild: "" }, {
           default: U(() => [
             z(r.$slots, "trigger", {}, () => [
-              X(vE, xe(Ce(r.$attrs)), {
+              X(bE, xe(Ce(r.$attrs)), {
                 default: U(() => [
                   j("span", null, Z(n.value ? e.button[1] : e.button[0]), 1),
                   X(x(Ie), {
@@ -18475,7 +18479,7 @@ const UE = ["src", "alt"], XA = {
         }),
         X(x(Gs), { class: "data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden" }, {
           default: U(() => [
-            j("div", zE, [
+            j("div", VE, [
               z(r.$slots, "default")
             ])
           ]),
@@ -18485,69 +18489,69 @@ const UE = ["src", "alt"], XA = {
       _: 3
     }, 8, ["defaultOpen", "open"]));
   }
-}, ZA = {
+}, e3 = {
   install(e) {
     for (const t in components)
       e.component(t, components[t]);
   }
 };
 export {
-  kA as Alert,
-  HE as Checkbox,
+  DA as Alert,
+  WE as Checkbox,
   jO as CollapsableSection,
-  QA as Collapse,
+  ZA as Collapse,
   jO as CollapsibleSection,
-  UA as DangerButton,
-  GA as DescriptionList,
-  YA as DescriptionListItem,
-  FA as Dropdown,
-  IA as DropdownLink,
-  KE as DropdownSearchbar,
-  RA as DropdownSeparator,
-  vA as FileDropZoneInput,
-  XA as GravatarImg,
-  bA as Images,
+  zA as DangerButton,
+  YA as DescriptionList,
+  XA as DescriptionListItem,
+  IA as Dropdown,
+  RA as DropdownLink,
+  GE as DropdownSearchbar,
+  LA as DropdownSeparator,
+  bA as FileDropZoneInput,
+  JA as GravatarImg,
+  wA as Images,
   sg as Input,
   gr as InputError,
   Ss as InputLabel,
-  LA as LinkButton,
-  _A as LinkDropdownButton,
-  NA as LinkDropdownButtonItem,
-  MA as Logs,
+  _A as LinkButton,
+  NA as LinkDropdownButton,
+  MA as LinkDropdownButtonItem,
+  BA as Logs,
   sE as LogsContent,
-  BA as Modal,
-  KA as NavCollapse,
-  qA as NavLink,
-  jA as NewModal,
+  jA as Modal,
+  GA as NavCollapse,
+  UA as NavLink,
+  qA as NewModal,
   eh as Pagination,
   th as PrimaryButton,
-  wA as RadioButton,
-  zA as ResponsiveNavLink,
+  xA as RadioButton,
+  VA as ResponsiveNavLink,
   fv as SearchSelect,
-  vE as SecondaryButton,
-  VA as Section,
-  WA as Select2ajax,
+  bE as SecondaryButton,
+  HA as Section,
+  KA as Select2ajax,
   nh as Spinner,
-  HA as Stats,
+  WA as Stats,
   mc as SubmitButton,
-  xA as Table,
-  PA as TableItemCard,
-  OA as Tbody,
+  SA as Table,
+  kA as TableItemCard,
+  EA as Tbody,
   Fs as Td,
-  JA as TdCollapseHandler,
+  QA as TdCollapseHandler,
   hg as TextInput,
-  WE as Textarea,
-  EA as Th,
-  SA as Thead,
-  CA as TrCollapse,
-  AA as TrCollapseHandler,
+  KE as Textarea,
+  AA as Th,
+  OA as Thead,
+  PA as TrCollapse,
+  CA as TrCollapseHandler,
   Qw as TrPlaceholder,
-  ZA as default,
+  e3 as default,
   _1 as getInertiaPage,
   wr as getInertiaRouter,
-  mA as hasPermission,
+  yA as hasPermission,
   L1 as moneyFormat,
-  hA as numberFormat,
-  gA as setInertiaPage,
-  yA as setInertiaRouter
+  mA as numberFormat,
+  vA as setInertiaPage,
+  gA as setInertiaRouter
 };
