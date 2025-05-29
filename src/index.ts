@@ -46,6 +46,7 @@ import DescriptionList from './components/DescriptionList.vue';
 import DescriptionListItem from './components/DescriptionListItem.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
+import Collapse from './components/Collapse.vue';
 
 const Componentsnb = {
     install(App) {
@@ -111,5 +112,6 @@ export {
     NavCollapse,
     DescriptionList,
     DescriptionListItem,
+    Collapse,
 };
 export * from './Helpers.js';

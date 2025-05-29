@@ -89,4 +89,5 @@ export {
     Section,
     Spinner,
     Stats,
+    Collapse,
 };

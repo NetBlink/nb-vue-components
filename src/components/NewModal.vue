@@ -67,7 +67,7 @@ watch(() => props.defaultOpen, (newValue) => {
 
         <slot />
 
-        <div v-if="$slots.footer" class="mt-5 flex justify-end">
+        <div v-if="$slots.footer" class="mt-5 flex justify-end gap-1.5">
             <slot name="footer" />
         </div>
 
