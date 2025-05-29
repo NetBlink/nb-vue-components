@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleDown} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import SecondaryButton from './SecondaryButton.vue';
 
