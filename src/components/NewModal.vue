@@ -11,12 +11,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from 'reka-ui'
+import { onMounted, onUnmounted, watch } from 'vue';
 
 const props = defineProps({
-  show: {
-    type: Boolean,
-    default: false,
-  },
   title: {
     type: String,
   },
@@ -27,21 +24,32 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  open: {
-    type: Boolean,
-    default: false,
-  },
 });
 
-const emit = defineEmits(['update:open']);
+//creat a 'open' bind (v-model) that can be used wiht and/or with a trigger 
+const open = defineModel({
+  type: Boolean,
+  default: false,
+});
 const updateOpen = (value: boolean) => {
-  emit('update:open', value);
+  open.value = value;
 };
+onMounted(() => {
+  if (props.defaultOpen) {
+    open.value = true;
+  }
+});
+onUnmounted(() => {
+  open.value = false;
+});
+watch(() => props.defaultOpen, (newValue) => {
+  open.value = newValue;
+});
 
 </script>
 
 <template>
-  <DialogRoot :defaultOpen="defaultOpen" v-model:open="props.open" @update:open="updateOpen">
+  <DialogRoot :defaultOpen="defaultOpen" v-model:open="open" @update:open="updateOpen">
     <DialogTrigger v-if="$slots.trigger" asChild>
       <slot name="trigger"/>
     </DialogTrigger>
@@ -65,7 +73,7 @@ const updateOpen = (value: boolean) => {
         </div>
 
         <DialogClose
-          class="focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none transition-all"
+          class="focusable cursor-pointer text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none transition-all"
           aria-label="Close"
         >
           <FontAwesomeIcon :icon="faTimes" />
