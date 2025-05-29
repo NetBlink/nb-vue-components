@@ -44,6 +44,7 @@ import DropdownLink from './components/DropdownLink.vue';
 import LinkDropdownButton from './components/LinkDropdownButton.vue';
 import Stats from './components/Stats.vue';
 import { ref } from 'vue';
+import NewModal from './components/NewModal.vue';
 
 const form = useForm({
     name: '',
@@ -1495,6 +1496,13 @@ const modal = ref(false);
                     <Modal :show="modal" @close="modal = false">
                         <div class="p-4">My modal content</div>
                     </Modal>
+                    <NewModal>
+                        <template #trigger><PrimaryButton>New Modal</PrimaryButton></template>
+                        <template #header>Header</template>
+                        <template #description>Description</template>
+                        <template #footer>Footer</template>
+                        <div class="p-4">My new modal content</div>
+                    </NewModal>
                     <CodePreview :code="codePreview.Modal" />
                 </div>
                 <Table class="gutters mt-4">

@@ -29,6 +29,7 @@ import LinkDropdownButtonItem from './LinkDropdownButtonItem.vue';
 import Logs from './Logs.vue';
 import LogsContent from './LogsContent.vue';
 import Modal from './Modal.vue';
+import NewModal from './NewModal.vue';
 import NavLink from './NavLink.vue';
 import Pagination from './Pagination.vue';
 import PrimaryButton from './PrimaryButton.vue';
@@ -78,6 +79,7 @@ export {
     Logs,
     LogsContent,
     Modal,
+    NewModal,
     NavLink,
     Pagination,
     PrimaryButton,
