@@ -30,6 +30,7 @@ import LinkDropdownButtonItem from './components/LinkDropdownButtonItem.vue';
 import Logs from './components/Logs.vue';
 import LogsContent from './components/LogsContent.vue';
 import Modal from './components/Modal.vue';
+import NewModal from './components/NewModal.vue';
 import NavLink from './components/NavLink.vue';
 import Pagination from './components/Pagination.vue';
 import PrimaryButton from './components/PrimaryButton.vue';
@@ -49,5 +50,5 @@ declare const Componentsnb: {
     install(App: any): void;
 };
 export default Componentsnb;
-export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, };
+export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NewModal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, };
 export * from './Helpers.js';
