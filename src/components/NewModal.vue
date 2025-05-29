@@ -61,9 +61,11 @@ watch(() => props.defaultOpen, (newValue) => {
         <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold">
           <slot name="header">{{ title }}</slot>
         </DialogTitle>
-        <DialogDescription v-if="description || $slots.description" class=" mt-2 mb-3 text-sm leading-normal">
+        <DialogDescription v-if="description || $slots.description" class=" mt-2 text-sm leading-normal">
              <slot name="description">{{ description }}</slot>
         </DialogDescription>
+        
+        <div v-if="title || $slots.header || description || $slots.description" class="mb-3"></div>
 
         <slot />
 
