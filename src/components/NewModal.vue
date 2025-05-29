@@ -55,13 +55,13 @@ watch(() => props.defaultOpen, (newValue) => {
     <DialogPortal>
       <DialogOverlay class="bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30" />
       <DialogContent
-            class="data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 shadow-lg/20 focus:outline-none z-[100]"
+            class="data-[state=open]:animate-slide-up-fade overflow-y-auto fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 shadow-lg/20 focus:outline-none z-[100]"
             v-bind="$attrs"
       >
         <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold">
           <slot name="header">{{ title }}</slot>
         </DialogTitle>
-        <DialogDescription v-if="description || $slots.description" class=" mt-2 mb-5 text-sm leading-normal">
+        <DialogDescription v-if="description || $slots.description" class=" mt-2 mb-3 text-sm leading-normal">
              <slot name="description">{{ description }}</slot>
         </DialogDescription>
 

@@ -1502,6 +1502,15 @@ const modal = ref(false);
                         <template #description>Description</template>
                         <template #footer>Footer</template>
                         <div class="p-4">My new modal content</div>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente ipsum laborum, itaque odit ex ab dolor illo quasi blanditiis aliquam commodi illum quae deleniti, hic saepe earum doloribus vel animi.
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit illo inventore minus fuga quam incidunt quae eos reprehenderit deleniti! Voluptate totam, possimus fugiat fuga praesentium consequatur adipisci ea asperiores quibusdam.
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Error odio suscipit quis neque, delectus qui aut cum quisquam distinctio omnis nesciunt ullam esse nam possimus atque laudantium vitae quidem accusamus.
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur dolor voluptatibus fugit culpa assumenda eum natus voluptatum explicabo cumque ipsa dicta, quam nesciunt odit error porro officia accusamus debitis maiores?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat sit et sint culpa temporibus illum ratione autem eaque, soluta, quis non facilis officia blanditiis cumque nulla illo quod magni eveniet!
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, nesciunt dolores rem perspiciatis animi dicta rerum odit repellat qui quo dolorem assumenda tempore minima suscipit. Voluptate, porro asperiores. Officia, laboriosam.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste reprehenderit cumque repellendus inventore error temporibus amet numquam exercitationem quaerat sint atque accusantium tenetur nam ut praesentium fugiat maxime, sequi quas.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus modi possimus deserunt dolore ex reprehenderit perferendis eius voluptatum aut id. Incidunt fugiat minus atque harum, doloribus natus sequi laudantium itaque.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, placeat possimus ipsa nam iusto necessitatibus ullam neque corrupti exercitationem voluptates quasi esse ab temporibus enim ipsum laborum, est iste? Inventore?
                     </NewModal>
                     <CodePreview :code="codePreview.Modal" />
                 </div>
