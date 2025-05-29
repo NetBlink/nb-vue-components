@@ -26,7 +26,6 @@ const props = defineProps({
   },
 });
 
-//creat a 'open' bind (v-model) that can be used wiht and/or with a trigger 
 const open = defineModel({
   type: Boolean,
   default: false,
