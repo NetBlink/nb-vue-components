@@ -17490,9 +17490,12 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
       t.defaultOpen && (n.value = !0);
     }), Nt(() => {
       n.value = !1;
-    }), fe(() => t.defaultOpen, (o) => {
-      n.value = o;
-    }), (o, a) => (C(), H(x(vS), {
+    }), fe(
+      () => t.defaultOpen,
+      (o) => {
+        n.value = o;
+      }
+    ), (o, a) => (C(), H(x(vS), {
       defaultOpen: e.defaultOpen,
       open: n.value,
       "onUpdate:open": [
@@ -17513,7 +17516,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
         X(x(RO), null, {
           default: U(() => [
             X(x(ZS), { class: "bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30" }),
-            X(x(WS), ue({ class: "data-[state=open]:animate-slide-up-fade overflow-y-auto fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 shadow-lg/20 focus:outline-none z-[100]" }, o.$attrs), {
+            X(x(WS), ue({ class: "data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] z-[100] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded bg-white p-5 shadow-lg/20 focus:outline-none" }, o.$attrs), {
               default: U(() => [
                 e.title || o.$slots.header ? (C(), H(x(tO), {
                   key: 0,
@@ -17543,7 +17546,7 @@ const [Kp, AO] = Ct("MenuContent"), Gp = /* @__PURE__ */ Q({
                   z(o.$slots, "footer")
                 ])) : Y("", !0),
                 X(x(bS), {
-                  class: "focusable cursor-pointer text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none transition-all",
+                  class: "focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] cursor-pointer appearance-none items-center justify-center rounded-full transition-all focus:shadow-[0_0_0_2px] focus:outline-none",
                   "aria-label": "Close"
                 }, {
                   default: U(() => [
