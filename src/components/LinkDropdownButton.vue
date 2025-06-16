@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
 
@@ -9,7 +8,7 @@ import { Align as AlignValue } from '@/Types';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 
-const props = defineProps({    
+const props = defineProps({
     align: {
         type: String as PropType<Align>,
         default: AlignValue.START,
@@ -28,11 +27,10 @@ const toggleState = ref(false);
 </script>
 
 <template>
-
     <DropdownMenuRoot v-model:open="toggleState">
-        <DropdownMenuTrigger aria-label="Dropdown" asChild>        
+        <DropdownMenuTrigger aria-label="Dropdown" asChild>
             <button
-                class="focusable flex items-center whitespace-nowrap rounded bg-primary px-2 text-sm text-white hover:bg-primary-700 motion-reduce:transition-none"
+                class="focusable bg-primary hover:bg-primary-700 flex cursor-pointer items-center rounded px-2 text-sm whitespace-nowrap text-white motion-reduce:transition-none"
                 type="button"
             >
                 {{ title }}
@@ -47,10 +45,10 @@ const toggleState = ref(false);
                 :alignOffset="alignOffset"
                 v-bind="$attrs"
                 :align="align"
-                class="ring-opacity-5 z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform] data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade"
+                class="ring-opacity-5 data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform]"
             >
                 <ul
-                    class="absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 data-te-dropdown-show:block"
+                    class="absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg data-te-dropdown-show:block dark:bg-neutral-700"
                     :aria-labelledby="title"
                     data-te-dropdown-menu-ref
                 >
@@ -59,5 +57,4 @@ const toggleState = ref(false);
             </DropdownMenuContent>
         </DropdownMenuPortal>
     </DropdownMenuRoot>
-
 </template>
