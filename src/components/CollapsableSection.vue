@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleUp, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
@@ -28,17 +28,17 @@ onMounted(() => {
 <template>
     <CollapsibleRoot :defaultOpen="open" v-model:open="isOpen" class="mt-2 rounded-lg border-2 border-gray-200 dark:border-gray-700">
         <CollapsibleTrigger
-            class="focusable relative flex w-full items-center gap-2 justify-center cursor-pointer rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
+            class="focusable relative flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-b-2 border-gray-200 bg-neutral-50 px-6 py-1 text-center"
             :style="{ backgroundColor: headerColor }"
         >
-            <div class="text-primary overflow-clip w-5">
-                <Transition name="collapse-icon" mode="out-in">
-                    <FontAwesomeIcon v-if="isOpen" :icon="faMinus" />
-                    <FontAwesomeIcon v-else :icon="faPlus" />
-                </Transition>
-            </div>
             <div v-if="header">{{ header }}</div>
             <slot v-else name="trigger" />
+            <div class="text-primary w-5 overflow-clip">
+                <Transition name="collapse-icon" mode="out-in">
+                    <FontAwesomeIcon v-if="isOpen" :icon="faChevronCircleUp" />
+                    <FontAwesomeIcon v-else :icon="faChevronCircleDown" />
+                </Transition>
+            </div>
         </CollapsibleTrigger>
 
         <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
