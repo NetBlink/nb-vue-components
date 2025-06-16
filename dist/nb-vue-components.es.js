@@ -16999,7 +16999,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
           default: U(() => [
             X(x(Xp), ue({ alignOffset: e.alignOffset }, n.$attrs, {
               align: e.align,
-              class: "ring-opacity-5 z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform] data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade"
+              class: "ring-opacity-5 data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 cursor-pointer rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform]"
             }), {
               default: U(() => [
                 z(n.$slots, "content")
@@ -17085,7 +17085,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
     ], 10, UO));
   }
 }, zO = {
-  class: "focusable flex items-center whitespace-nowrap rounded bg-primary px-2 text-sm text-white hover:bg-primary-700 motion-reduce:transition-none",
+  class: "focusable bg-primary hover:bg-primary-700 flex cursor-pointer items-center rounded px-2 text-sm whitespace-nowrap text-white motion-reduce:transition-none",
   type: "button"
 }, VO = { class: "mx-1 w-2" }, HO = ["aria-labelledby"], MA = /* @__PURE__ */ Q({
   __name: "LinkDropdownButton",
@@ -17128,11 +17128,11 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
           default: U(() => [
             X(x(Xp), ue({ alignOffset: e.alignOffset }, n.$attrs, {
               align: e.align,
-              class: "ring-opacity-5 z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform] data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade"
+              class: "ring-opacity-5 data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform]"
             }), {
               default: U(() => [
                 j("ul", {
-                  class: "absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 data-te-dropdown-show:block",
+                  class: "absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg data-te-dropdown-show:block dark:bg-neutral-700",
                   "aria-labelledby": e.title,
                   "data-te-dropdown-menu-ref": ""
                 }, [
@@ -17572,7 +17572,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
   },
   setup(e) {
     const t = e, n = G(
-      () => t.active ? "focusable flex items-center p-2 text-base font-normal bg-accent text-gray-900 rounded-lg dark:text-white bg-gray-100 dark:hover:bg-gray-700" : "focusable flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+      () => t.active ? "cursor-pointer focusable flex items-center p-2 text-base font-normal bg-accent text-gray-900 rounded-lg dark:text-white bg-gray-100 dark:hover:bg-gray-700" : "cursor-pointer focusable flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
     );
     return (r, o) => (C(), H(x(ct), {
       href: e.href,
@@ -17768,7 +17768,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
     return (t, n) => (C(), L("button", {
       type: e.type,
       disabled: e.disabled,
-      class: "focusable inline-flex items-center rounded border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-red-500 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]"
+      class: "focusable inline-flex cursor-pointer items-center rounded border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out hover:bg-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden active:bg-red-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]"
     }, [
       z(t.$slots, "default")
     ], 8, vE));
@@ -17778,7 +17778,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
   props: ["href", "active"],
   setup(e) {
     const t = e, n = G(
-      () => t.active ? "focusable block w-full pl-3 pr-4 py-2 border-l-4 border-accent-400 text-left text-base font-medium text-accent-700 bg-accent-50 focus:outline-hidden focus:text-accent-800 focus:bg-accent-100 focus:border-accent-700 transition duration-150 ease-in-out" : "focusable block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-left text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-hidden focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
+      () => t.active ? "cursor-pointer focusable block w-full pl-3 pr-4 py-2 border-l-4 border-accent-400 text-left text-base font-medium text-accent-700 bg-accent-50 focus:outline-hidden focus:text-accent-800 focus:bg-accent-100 focus:border-accent-700 transition duration-150 ease-in-out" : "cursor-pointer focusable block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-left text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-hidden focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
     );
     return (r, o) => (C(), H(x(ct), {
       href: e.href,
@@ -18010,7 +18010,7 @@ const th = /* @__PURE__ */ vo(OE, [["render", AE]]), CE = ["onClick"], PE = { cl
       filterPredicate: (A, P) => !0
     }, null, 8, ["id", "label", "list", "optionValue", "optionText", "optionDisabled", "placeholder", "field", "form", "modelValue", "noLabel", "disabled", "noForm", "required"]));
   }
-}, kE = ["id"], DE = { class: "ml-3 flex-1 whitespace-nowrap text-left" }, $E = { class: "space-y-1 px-4" }, YA = {
+}, kE = ["id"], DE = { class: "ml-3 flex-1 text-left whitespace-nowrap" }, $E = { class: "space-y-1 px-4" }, YA = {
   __name: "NavCollapse",
   props: {
     open: { type: Boolean, default: !1 },
@@ -18033,7 +18033,7 @@ const th = /* @__PURE__ */ vo(OE, [["render", AE]]), CE = ["onClick"], PE = { cl
               j("button", {
                 id: e.name,
                 onClick: o[0] || (o[0] = (...a) => r.onClick && r.onClick(...a)),
-                class: "focusable group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                class: "focusable group flex w-full cursor-pointer items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               }, [
                 z(r.$slots, "icon"),
                 j("span", DE, Z(e.name), 1),
