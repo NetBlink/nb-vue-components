@@ -33,7 +33,7 @@ onMounted(() => {
         >
             <div v-if="header">{{ header }}</div>
             <slot v-else name="trigger" />
-            <div class="text-primary w-5 overflow-clip">
+            <div class="text-primary mx-1 w-5 overflow-clip">
                 <Transition name="collapse-icon" mode="out-in">
                     <FontAwesomeIcon v-if="isOpen" :icon="faChevronCircleUp" />
                     <FontAwesomeIcon v-else :icon="faChevronCircleDown" />
