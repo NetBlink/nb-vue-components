@@ -16897,7 +16897,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
       _: 3
     }));
   }
-}), BO = { key: 0 }, jO = { class: "text-primary w-5 overflow-clip" }, qO = {
+}), BO = { key: 0 }, jO = { class: "text-primary mx-1 w-5 overflow-clip" }, qO = {
   __name: "CollapsableSection",
   props: {
     header: String,
