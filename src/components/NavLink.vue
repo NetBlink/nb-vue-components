@@ -15,7 +15,7 @@ const classes = computed(() =>
 
 <template>
     <Link :href="href" :class="classes">
-        <div v-if="$slots.icon" class="size-4">
+        <div v-if="$slots.icon" class="flex size-4 items-center justify-center">
             <slot name="icon" />
         </div>
         <span class="ml-3 flex-1 whitespace-nowrap">
