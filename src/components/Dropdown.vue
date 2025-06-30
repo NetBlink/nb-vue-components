@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 
 const props = defineProps({
     align: {
@@ -30,29 +30,45 @@ const props = defineProps({
 const toggleState = ref(false);
 let hoverTimeout: number | null = null;
 
-const handleMouseEnter = () => {
+const handleMouseEnter = async () => {
     if (!props.openOnHover) return;
 
+    // Clear any pending close timeout
     if (hoverTimeout) {
         clearTimeout(hoverTimeout);
         hoverTimeout = null;
     }
 
+    // Use nextTick to ensure the state change is processed properly
+    await nextTick();
     toggleState.value = true;
 };
 
 const handleMouseLeave = () => {
     if (!props.openOnHover) return;
 
-    hoverTimeout = setTimeout(() => {
+    // Add a delay before closing to prevent flickering
+    hoverTimeout = setTimeout(async () => {
+        await nextTick();
         toggleState.value = false;
         hoverTimeout = null;
     }, props.hoverDelay);
 };
+
+// Handle manual state changes when not using hover
+const handleOpenChange = (open: boolean) => {
+    // Always sync our local state with the component state
+    toggleState.value = open;
+};
 </script>
 
 <template>
-    <DropdownMenuRoot v-model:open="toggleState" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    <DropdownMenuRoot 
+        v-model:open="toggleState" 
+        @update:open="handleOpenChange"
+        @mouseenter="handleMouseEnter" 
+        @mouseleave="handleMouseLeave"
+    >
         <DropdownMenuTrigger aria-label="Dropdown"><slot name="trigger" /></DropdownMenuTrigger>
 
         <DropdownMenuPortal>
