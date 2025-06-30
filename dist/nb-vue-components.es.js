@@ -18256,7 +18256,7 @@ const sE = /* @__PURE__ */ X({
   }
 }), UE = {
   key: 0,
-  class: "size-4"
+  class: "flex size-4 items-center justify-center"
 }, zE = { class: "ml-3 flex-1 whitespace-nowrap" }, OC = {
   __name: "NavLink",
   props: {
@@ -18707,7 +18707,7 @@ const mh = /* @__PURE__ */ So(tA, [["render", rA]]), oA = ["onClick"], aA = { cl
   }
 }, iA = ["id"], sA = {
   key: 0,
-  class: "size-4"
+  class: "flex size-4 items-center justify-center"
 }, lA = { class: "ml-3 flex-1 text-left whitespace-nowrap" }, uA = { class: "space-y-1 px-4 py-1" }, TC = {
   __name: "NavCollapse",
   props: {
