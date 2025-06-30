@@ -32,7 +32,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     side: 'top',
-    delayDuration: 700,
+    delayDuration: 100,
     disabled: false,
     contentClass: '',
     arrowClass: '',
@@ -51,11 +51,13 @@ const defaultContentClasses = [
     'z-50',
     'overflow-hidden',
     'rounded-md',
-    'bg-neutral-900',
+    'bg-primary-100',
+    'border',
+    'border-primary-200',
     'px-3',
-    'py-1.5',
-    'text-xs',
-    'text-white',
+    'py-2',
+    'text-sm',
+    'text-neutral-800',
     'shadow-md',
     'animate-in',
     'fade-in-0',
@@ -70,7 +72,7 @@ const defaultContentClasses = [
 ].join(' ');
 
 // Default arrow classes
-const defaultArrowClasses = 'fill-neutral-900';
+const defaultArrowClasses = 'fill-primary-100 stroke-primary-200';
 </script>
 
 <template>
