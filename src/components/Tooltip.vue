@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Tooltip component using Reka UI
  *
@@ -17,44 +17,32 @@
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui';
 import { computed } from 'vue';
 
-const props = defineProps({
-    content: {
-        type: String,
-        required: true,
-    },
-    side: {
-        type: String,
-        default: 'top',
-    },
-    delayDuration: {
-        type: Number,
-        default: 700,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    contentClass: {
-        type: String,
-        default: '',
-    },
-    arrowClass: {
-        type: String,
-        default: '',
-    },
-    sideOffset: {
-        type: Number,
-        default: 4,
-    },
-    collisionPadding: {
-        type: Number,
-        default: 8,
-    },
+type TooltipSide = 'top' | 'bottom' | 'left' | 'right';
+
+interface Props {
+    content: string;
+    side?: TooltipSide;
+    delayDuration?: number;
+    disabled?: boolean;
+    contentClass?: string;
+    arrowClass?: string;
+    sideOffset?: number;
+    collisionPadding?: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    side: 'top',
+    delayDuration: 700,
+    disabled: false,
+    contentClass: '',
+    arrowClass: '',
+    sideOffset: 4,
+    collisionPadding: 8,
 });
 
 // Ensure side is one of the valid values
-const tooltipSide = computed(() => {
-    const validSides = ['top', 'bottom', 'left', 'right'];
+const tooltipSide = computed((): TooltipSide => {
+    const validSides: TooltipSide[] = ['top', 'bottom', 'left', 'right'];
     return validSides.includes(props.side) ? props.side : 'top';
 });
 
