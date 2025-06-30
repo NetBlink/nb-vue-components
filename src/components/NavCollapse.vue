@@ -27,7 +27,9 @@ watch(
                     @click="onClick"
                     class="focusable group flex w-full cursor-pointer items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
-                    <slot name="icon" />
+                    <div v-if="$slots.icon" class="size-5.5">
+                        <slot name="icon" />
+                    </div>
                     <span class="ml-3 flex-1 text-left whitespace-nowrap">{{ name }}</span>
                     <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{ 'rotate-180': isOpen }" />
                 </button>
