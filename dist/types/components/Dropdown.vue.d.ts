@@ -1,10 +1,10 @@
 import type { PropType } from 'vue';
 import type { Align } from '@/Types';
-declare var __VLS_15: {}, __VLS_30: {};
+declare var __VLS_16: {}, __VLS_31: {};
 type __VLS_Slots = {} & {
-    trigger?: (props: typeof __VLS_15) => any;
+    trigger?: (props: typeof __VLS_16) => any;
 } & {
-    content?: (props: typeof __VLS_30) => any;
+    content?: (props: typeof __VLS_31) => any;
 };
 declare const __VLS_component: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     align: {
