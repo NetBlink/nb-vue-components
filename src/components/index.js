@@ -40,6 +40,7 @@ import Section from './Section.vue';
 import Spinner from './Spinner.vue';
 import Stats from './Stats.vue';
 import Select2ajax from './Forms/Select2ajax.vue';
+import Tooltip from './Tooltip.vue';
 // FORMS
 // TABLES
 // COMPONENTS
@@ -89,5 +90,6 @@ export {
     Section,
     Spinner,
     Stats,
+    Tooltip,
     Collapse,
 };

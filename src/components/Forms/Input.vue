@@ -24,17 +24,18 @@
  * @prop {string} whatsApp - The WhatsApp link
  * @prop {string} switchDescription - The description for the switch
  * @prop {string} sublabel - The sublabel for the input
+ * @prop {string} tooltip - The tooltip text to show next to the label
  */
 
-import { InputLabel, TextInput, InputError, SubmitButton } from '../../index';
+import { InputLabel, TextInput, InputError, SubmitButton, Tooltip } from '../../index';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSquareCheck, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faSquareCheck, faEye, faEyeSlash, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faSquare } from '@fortawesome/free-regular-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { onMounted, ref, watch, defineModel } from 'vue';
-library.add(faWhatsapp, faSquareCheck, faSquare, faEye, faEyeSlash);
+library.add(faWhatsapp, faSquareCheck, faSquare, faEye, faEyeSlash, faCircleQuestion);
 
 const props = defineProps({
     type: String,
@@ -86,6 +87,7 @@ const props = defineProps({
     },
 
     error: String,
+    tooltip: String,
 });
 function ucwords(text) {
     let res = [];
@@ -177,6 +179,7 @@ defineExpose({
             :value="label ? label : field ? ucwords(field) : ''"
             :sublabel="sublabel"
             :required="required"
+            :tooltip="tooltip"
         />
         <div class="relative flex w-full max-w-full items-stretch">
             <label v-if="type === 'switch' || type === 'checkbox'" class="flex items-center">
