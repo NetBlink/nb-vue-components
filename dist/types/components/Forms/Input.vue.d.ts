@@ -37,6 +37,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     sublabel?: string;
     autocomplete?: string;
     error?: string;
+    tooltip?: string;
     $props: {
         readonly required?: boolean;
         readonly disabled?: boolean;
@@ -67,6 +68,7 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
         readonly sublabel?: string;
         readonly autocomplete?: string;
         readonly error?: string;
+        readonly tooltip?: string;
     };
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 type __VLS_Slots = {

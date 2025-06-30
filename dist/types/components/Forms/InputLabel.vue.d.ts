@@ -8,11 +8,13 @@ declare const __VLS_component: import("vue").DefineComponent<{}, {
     required?: any;
     customClass?: any;
     sublabel?: any;
+    tooltip?: any;
     $props: {
         readonly value?: any;
         readonly required?: any;
         readonly customClass?: any;
         readonly sublabel?: any;
+        readonly tooltip?: any;
     };
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 type __VLS_Slots = {

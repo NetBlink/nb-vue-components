@@ -47,9 +47,10 @@ import DescriptionListItem from './components/DescriptionListItem.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
 import Collapse from './components/Collapse.vue';
+import Tooltip from './components/Tooltip.vue';
 declare const Componentsnb: {
     install(App: any): void;
 };
 export default Componentsnb;
-export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NewModal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, Collapse, };
+export { Checkbox, Input, InputError, InputLabel, TextInput, Textarea, DropdownSearchbar, SearchSelect, FileDropZoneInput, Images, RadioButton, SubmitButton, Select2ajax, Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder, TableItemCard, Alert, CollapsableSection, CollapsableSection as CollapsibleSection, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs, LogsContent, Modal, NewModal, NavLink, Pagination, PrimaryButton, DangerButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats, NavCollapse, DescriptionList, DescriptionListItem, Collapse, Tooltip, };
 export * from './Helpers.js';
