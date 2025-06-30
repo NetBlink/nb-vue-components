@@ -63,7 +63,7 @@ const handleOpenChange = (open: boolean) => {
 </script>
 
 <template>
-    <DropdownMenuRoot v-model:open="toggleState" @update:open="handleOpenChange" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    <DropdownMenuRoot v-model:open="toggleState" @update:open="handleOpenChange">
         <DropdownMenuTrigger aria-label="Dropdown"><slot name="trigger" /></DropdownMenuTrigger>
 
         <DropdownMenuPortal>
