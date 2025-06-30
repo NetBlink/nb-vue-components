@@ -17591,7 +17591,7 @@ const [Wp, CO] = Ct("MenuContent"), Kp = /* @__PURE__ */ Q({
   }
 }), fE = {
   key: 0,
-  class: "size-5.5"
+  class: "size-5"
 }, dE = { class: "ml-3 flex-1 whitespace-nowrap" }, HA = {
   __name: "NavLink",
   props: {
@@ -18042,7 +18042,7 @@ const th = /* @__PURE__ */ vo(EE, [["render", CE]]), PE = ["onClick"], kE = { cl
   }
 }, $E = ["id"], DE = {
   key: 0,
-  class: "size-5.5"
+  class: "size-5"
 }, TE = { class: "ml-3 flex-1 text-left whitespace-nowrap" }, FE = { class: "space-y-1 px-4 py-1" }, JA = {
   __name: "NavCollapse",
   props: {
