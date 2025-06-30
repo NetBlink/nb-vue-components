@@ -169,7 +169,7 @@ defineExpose({
 </script>
 
 <template>
-    <div class="noLabel ? 'mb-2' : 'mb-4'">
+    <div :class="noLabel ? 'mb-2' : 'mb-4'">
         <InputLabel
             :customClass="labelCustomClass"
             v-if="!noLabel"
