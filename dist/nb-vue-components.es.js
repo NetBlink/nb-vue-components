@@ -3554,10 +3554,10 @@ const jf = {
     ]);
   }
 }, Sg = { key: 0 }, Og = { key: 1 }, Eg = {
-  key: 2,
+  key: 3,
   class: "ml-2 text-xs text-gray-500"
 }, Ag = {
-  key: 3,
+  key: 4,
   class: "ml-1 text-red-500"
 }, As = {
   __name: "InputLabel",
@@ -3569,21 +3569,21 @@ const jf = {
       e.value ? (E(), F("span", Sg, Z(e.value), 1)) : (E(), F("span", Og, [
         j(t.$slots, "default")
       ])),
-      e.sublabel ? (E(), F("span", Eg, Z(e.sublabel), 1)) : J("", !0),
-      e.required ? (E(), F("span", Ag, "*")) : J("", !0),
       e.tooltip ? (E(), V(b(CA), {
-        key: 4,
+        key: 2,
         content: e.tooltip,
         class: "ml-1 inline-block"
       }, {
         default: M(() => [
           Y(b(De), {
             icon: b(Li),
-            class: "h-3 w-3 cursor-help text-gray-400 transition-colors hover:text-gray-600"
+            class: "mx-1 cursor-help"
           }, null, 8, ["icon"])
         ]),
         _: 1
-      }, 8, ["content"])) : J("", !0)
+      }, 8, ["content"])) : J("", !0),
+      e.sublabel ? (E(), F("span", Eg, Z(e.sublabel), 1)) : J("", !0),
+      e.required ? (E(), F("span", Ag, "*")) : J("", !0)
     ], 2));
   }
 }, Cg = ["value"], Pg = {
@@ -19194,12 +19194,12 @@ const OA = ["src", "alt"], FC = {
       _: 3
     }, 8, ["defaultOpen", "open"]));
   }
-}, AA = "fill-neutral-900", CA = /* @__PURE__ */ X({
+}, AA = "fill-primary-100 stroke-primary-200", CA = /* @__PURE__ */ X({
   __name: "Tooltip",
   props: {
     content: {},
     side: { default: "top" },
-    delayDuration: { default: 700 },
+    delayDuration: { default: 100 },
     disabled: { type: Boolean, default: !1 },
     contentClass: { default: "" },
     arrowClass: { default: "" },
@@ -19211,11 +19211,13 @@ const OA = ["src", "alt"], FC = {
       "z-50",
       "overflow-hidden",
       "rounded-md",
-      "bg-neutral-900",
+      "bg-primary-100",
+      "border",
+      "border-primary-200",
       "px-3",
-      "py-1.5",
-      "text-xs",
-      "text-white",
+      "py-2",
+      "text-sm",
+      "text-neutral-800",
       "shadow-md",
       "animate-in",
       "fade-in-0",
