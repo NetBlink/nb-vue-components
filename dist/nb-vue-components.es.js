@@ -17674,9 +17674,7 @@ const sE = /* @__PURE__ */ X({
       "onUpdate:open": [
         c[0] || (c[0] = (l) => n.value = l),
         i
-      ],
-      onMouseenter: o,
-      onMouseleave: a
+      ]
     }, {
       default: M(() => [
         Y(b(ch), { "aria-label": "Dropdown" }, {
