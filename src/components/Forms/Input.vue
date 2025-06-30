@@ -169,7 +169,7 @@ defineExpose({
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <div class="noLabel ? 'mb-2' : 'mb-4'">
         <InputLabel
             :customClass="labelCustomClass"
             v-if="!noLabel"
@@ -205,7 +205,7 @@ defineExpose({
                 <div
                     tabindex="0"
                     v-else
-                    class="focusable mr-1 p-1 text-primary"
+                    class="focusable text-primary mr-1 p-1"
                     :class="{
                         'text-gray-500!': props.disabled,
                         [checkboxCustomClass]: checkboxCustomClass,
@@ -228,7 +228,7 @@ defineExpose({
                 :required="props.required"
                 :disabled="props.disabled"
                 :name="name ?? field"
-                class="focusable shadow-xs block w-full rounded border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                class="focusable block w-full rounded disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500"
                 :class="{ [inputCustomClass]: !!inputCustomClass }"
             >
                 <slot />
@@ -236,7 +236,7 @@ defineExpose({
             <template v-else>
                 <span
                     v-if="addon"
-                    class="border-gray flex items-center whitespace-nowrap rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center text-gray-500"
+                    class="border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
                 >
                     {{ addon }}
                 </span>
@@ -283,7 +283,7 @@ defineExpose({
                     <div
                         v-if="type == 'password' && !hidePasswordToggler"
                         @click="togglePassword"
-                        class="z-2 absolute right-0 top-0 flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
+                        class="absolute top-0 right-0 z-2 flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
                     >
                         <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" />
                         <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" />
@@ -311,7 +311,7 @@ defineExpose({
                 </template>
                 <a
                     v-if="whatsApp"
-                    class="z-2 focus:z-3 focus:outline-hidden inline-block rounded-r bg-primary px-2 py-2 text-xs font-medium uppercase leading-normal text-white shadow transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-600 focus:shadow-lg focus:ring-0 active:bg-primary-700 active:shadow-lg"
+                    class="bg-primary hover:bg-primary-700 focus:bg-primary-600 active:bg-primary-700 z-2 inline-block rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg"
                     :class="buttonCustomClass"
                     :href="whatsApp"
                     target="_blank"
@@ -331,7 +331,7 @@ defineExpose({
 }
 
 .toggle-switch::before {
-    @apply bg-linear-to-br absolute left-0.5 top-0.5 block h-5 w-5 rounded-full bg-white from-transparent to-gray-200;
+    @apply absolute top-0.5 left-0.5 block h-5 w-5 rounded-full bg-white bg-linear-to-br from-transparent to-gray-200;
     box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
     content: '';
     transition: left 150ms;

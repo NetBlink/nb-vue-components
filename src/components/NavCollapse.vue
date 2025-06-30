@@ -34,7 +34,7 @@ watch(
             </CollapsibleTrigger>
 
             <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
-                <ul class="space-y-1 px-4">
+                <ul class="space-y-1 px-4 py-1">
                     <slot />
                 </ul>
             </CollapsibleContent>

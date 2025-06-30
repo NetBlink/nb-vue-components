@@ -28,7 +28,7 @@ const getClass = () => {
         :href="href"
         :method="method"
         :data="data"
-        class="focusable inline-flex cursor-pointer select-none items-center justify-center gap-2 rounded px-2 text-sm font-medium leading-normal"
+        class="focusable inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-2 text-sm leading-normal font-medium select-none"
         :class="getClass()"
         as="button"
         tabindex="0"
@@ -40,7 +40,7 @@ const getClass = () => {
         v-else
         :href="href"
         :target="target"
-        class="focusable inline-flex cursor-pointer select-none items-center justify-center gap-2 rounded px-2 text-sm font-medium leading-normal"
+        class="focusable inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-2 text-sm leading-normal font-medium select-none"
         :class="getClass()"
         tabindex="0"
     >
