@@ -23,18 +23,23 @@ const form = useForm({
     image: [],
 });
 
+// Helper function to create route (placeholder implementation)
+const route = (name: string, params?: any) => {
+    // This should be replaced with proper route helper implementation
+    return `/${name.replace('.', '/')}${params ? `/${params}` : ''}`;
+};
+
 function submit() {
     let formData = new FormData();
     form.image.forEach((image, index) => {
         formData.append(`image[${index}]`, image.file);
     });
-    formData.append('item_type', props.itemType);
-    formData.append('item_id', props.itemId);
+    formData.append('item_type', props.itemType || '');
+    formData.append('item_id', String(props.itemId || ''));
     router.post(route(props.endPoint), formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
-        _method: 'post',
         forceFormData: true,
         onFinish: () => {
             form.recentlySuccessful = true;
@@ -61,18 +66,21 @@ const onDrop = (acceptFiles, rejectReasons) => {
 function removeImage(index) {
     form.image.splice(index, 1);
 }
-const { getRootProps, getInputProps, ...rest } = useDropzone({
+const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: true,
     accept: 'image/*',
 });
+
+// Reactive state for drag events
+const dragEntered = ref(false);
 </script>
 <template>
     <form @submit.prevent="submit" class="w-full" v-if="canUpload">
         <div class="flex w-full">
             <div
                 class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary w-full rounded-l-lg border-2 border-r-0 border-dashed transition duration-100 ease-in-out"
-                :class="{ 'border-primary-400 bg-primary-100': dragEneted }"
+                :class="{ 'border-primary-400 bg-primary-100': dragEntered }"
             >
                 <div class="p-4' flex h-20 w-full cursor-copy items-center justify-center font-medium" v-bind="getRootProps()">
                     <input v-bind="getInputProps()" />
@@ -105,7 +113,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
         <hr />
         <div class="container mx-auto px-5 py-2 lg:px-8 lg:pt-8">
             <div class="-m-1 flex flex-wrap md:-m-2">
-                <div v-for="image in images" class="flex w-1/3 flex-wrap">
+                <div v-for="(image, index) in images" :key="index" class="flex w-1/3 flex-wrap">
                     <div class="h-full w-full p-1 shadow md:p-2">
                         <img alt="gallery" class="block h-auto w-auto rounded-lg object-cover object-center" :src="image.url" />
                         <Link

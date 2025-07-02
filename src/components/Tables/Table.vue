@@ -1,46 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { Pagination } from '../../index';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { getInertiaRouter } from '../../Helpers';
 
 const router = getInertiaRouter();
 
-const props = defineProps({
-    total: Number,
-    links: Array,
-    collapsable: {
-        type: Boolean,
-        default: false,
-    },
-    collapse_id: {
-        type: String,
-        default: 'collapse',
-    },
-    sticky: {
-        type: Boolean,
-        default: true,
-    },
-    overflow: {
-        type: Boolean,
-        default: true,
-    },
-    seperate: {
-        type: Boolean,
-        default: false,
-    },
-    showPerPage: {
-        type: Boolean,
-        default: false,
-    },
-    defaultPerPage: {
-        type: Number,
-        default: 100,
-    },
-    responsive: {
-        type: Boolean,
-        default: true,
-    },
-});
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+const props = defineProps<{
+    total?: number;
+    links?: PaginationLink[];
+    collapsable?: boolean;
+    collapse_id?: string;
+    sticky?: boolean;
+    overflow?: boolean;
+    seperate?: boolean;
+    showPerPage?: boolean;
+    defaultPerPage?: number;
+    responsive?: boolean;
+}>();
 
 const table = ref(null);
 const table_container = ref(null);

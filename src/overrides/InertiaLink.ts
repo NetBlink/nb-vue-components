@@ -2,6 +2,7 @@ import {
     mergeDataIntoQueryString,
     shouldIntercept,
     Method,
+    VisitOptions,
 } from '@inertiajs/core';
 import { defineComponent, h } from 'vue';
 import { getInertiaRouter } from '../Helpers';
@@ -78,23 +79,22 @@ const Link = defineComponent({
 
                             router.visit(href, {
                                 data: data,
-                                method: method,
+                                method: method as Method,
                                 replace: props.replace,
                                 preserveScroll: props.preserveScroll,
                                 preserveState:
                                     props.preserveState ?? method !== 'get',
-                                only: props.only,
+                                only: props.only as string[],
                                 headers: props.headers,
-                                onCancelToken:
-                                    attrs.onCancelToken || (() => ({})),
-                                onBefore: attrs.onBefore || (() => ({})),
-                                onStart: attrs.onStart || (() => ({})),
-                                onProgress: attrs.onProgress || (() => ({})),
-                                onFinish: attrs.onFinish || (() => ({})),
-                                onCancel: attrs.onCancel || (() => ({})),
-                                onSuccess: attrs.onSuccess || (() => ({})),
-                                onError: attrs.onError || (() => ({})),
-                            });
+                                onCancelToken: attrs.onCancelToken as any,
+                                onBefore: attrs.onBefore as any,
+                                onStart: attrs.onStart as any,
+                                onProgress: attrs.onProgress as any,
+                                onFinish: attrs.onFinish as any,
+                                onCancel: attrs.onCancel as any,
+                                onSuccess: attrs.onSuccess as any,
+                                onError: attrs.onError as any,
+                            } as VisitOptions);
                         }
                     },
                 },
