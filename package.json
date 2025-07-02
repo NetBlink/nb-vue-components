@@ -16,6 +16,9 @@
         "start": "vite dev",
         "build": "vite build",
         "test": "vite preview",
+        "docs:dev": "vite --config vite.config.docs.mjs",
+        "docs:build": "vite build --config vite.config.docs.mjs",
+        "docs:preview": "vite preview --config vite.config.docs.mjs",
         "prettier": "npx prettier **/* --write --ignore-path ./.prettierignore --ignore-unknown --list-different",
         "prettier-check": "npx prettier **/* --check --ignore-path ./.prettierignore --ignore-unknown",
         "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist/types"

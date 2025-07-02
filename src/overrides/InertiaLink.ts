@@ -4,7 +4,6 @@ import {
     Method,
 } from '@inertiajs/core';
 import { defineComponent, h } from 'vue';
-//nb EDIT
 import { getInertiaRouter } from '../Helpers';
 const Link = defineComponent({
     name: 'Link',

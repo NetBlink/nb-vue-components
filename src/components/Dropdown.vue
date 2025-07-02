@@ -5,26 +5,22 @@ import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
 import { ref, nextTick } from 'vue';
 
-const props = defineProps({
-    align: {
-        type: String as PropType<Align>,
-        default: AlignValue.START,
-        validator(value: Align) {
-            return Object.values(AlignValue).includes(value);
-        },
-    },
-    alignOffset: {
-        type: Number,
-        default: 5,
-    },
-    openOnHover: {
-        type: Boolean,
-        default: false,
-    },
-    hoverDelay: {
-        type: Number,
-        default: 150,
-    },
+interface DropdownProps {
+    /** Alignment of the dropdown content relative to trigger */
+    align?: Align;
+    /** Offset from the alignment position */
+    alignOffset?: number;
+    /** Whether to open dropdown on hover instead of click */
+    openOnHover?: boolean;
+    /** Delay in milliseconds before closing on mouse leave */
+    hoverDelay?: number;
+}
+
+const props = withDefaults(defineProps<DropdownProps>(), {
+    align: AlignValue.START,
+    alignOffset: 5,
+    openOnHover: false,
+    hoverDelay: 150,
 });
 
 const toggleState = ref(false);

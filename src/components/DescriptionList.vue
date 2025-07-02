@@ -1,15 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { provide, ref, watch } from 'vue';
 
-const props = defineProps({
-    form: {
-        type: Object,
-        required: false,
-    },
-    stopEditOnSubmit: {
-        type: Boolean,
-        default: false,
-    },
+interface DescriptionListItem {
+    startEditing?: () => void;
+    stopEditing?: () => void;
+    toggleEditing?: () => void;
+}
+
+interface DescriptionListProps {
+    /** Form object with processing state */
+    form?: {
+        processing?: boolean;
+        [key: string]: any;
+    };
+    /** Whether to automatically stop editing when form submission completes */
+    stopEditOnSubmit?: boolean;
+}
+
+const props = withDefaults(defineProps<DescriptionListProps>(), {
+    form: undefined,
+    stopEditOnSubmit: false,
 });
 
 const wasProcessing = ref(false);
@@ -32,8 +42,8 @@ watch(
     }
 );
 
-const items = ref([]);
-const registerItem = (item) => {
+const items = ref<DescriptionListItem[]>([]);
+const registerItem = (item: DescriptionListItem) => {
     items.value.push(item);
 };
 provide('registerItem', registerItem);

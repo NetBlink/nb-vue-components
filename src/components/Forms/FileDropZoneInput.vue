@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import { getInertiaRouter } from '@/Helpers';
+import { getInertiaRouter } from '../../Helpers';
 
 import Link from '../../overrides/InertiaLink';
 import { PrimaryButton, InputError } from '../../index';
@@ -63,15 +63,15 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
 <template>
     <div class="flex w-full flex-col">
         <div
-            class="w-full rounded-lg border-2 border-dashed border-primary-200 bg-primary-50 text-primary-200 transition duration-100 ease-in-out hover:border-primary-600 hover:text-primary"
+            class="border-primary-200 bg-primary-50 text-primary-200 hover:border-primary-600 hover:text-primary w-full rounded-lg border-2 border-dashed transition duration-100 ease-in-out"
             :class="{
                 'border-primary-400 bg-primary-100': isDragActive,
-                'border-red-600 bg-primary-100': props.form.errors[field] ?? errors,
+                'bg-primary-100 border-red-600': props.form.errors[field] ?? errors,
                 [FileDropCustomClass]: !!FileDropCustomClass,
             }"
         >
             <div class="p-4' flex h-20 w-full cursor-copy flex-col items-center justify-center font-medium" v-bind="getRootProps()">
-                <p v-if="label" class="select-none text-black">{{ label }}</p>
+                <p v-if="label" class="text-black select-none">{{ label }}</p>
                 <input v-bind="getInputProps()" :name="field" />
                 <span v-if="isDragActive" class="select-none">Drop the {{ ucwords(field) }} here ...</span>
                 <span v-else-if="form[field]">{{ form[field]?.path ?? 'File prepared' }}</span>

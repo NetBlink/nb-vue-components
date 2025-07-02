@@ -46,19 +46,21 @@ const tooltipSide = computed((): TooltipSide => {
     return validSides.includes(props.side) ? props.side : 'top';
 });
 
-// Default content classes following the component library's design system
+// Modern content classes following NewModal's design system
 const defaultContentClasses = [
     'z-50',
+    'max-w-xs',
     'overflow-hidden',
-    'rounded-md',
-    'bg-primary-100',
+    'rounded-lg',
+    'bg-white',
     'border',
-    'border-primary-200',
+    'border-gray-200',
     'px-3',
     'py-2',
     'text-sm',
-    'text-neutral-800',
-    'shadow-md',
+    'text-gray-900',
+    'shadow-lg',
+    'backdrop-blur-sm',
     'animate-in',
     'fade-in-0',
     'zoom-in-95',
@@ -71,8 +73,8 @@ const defaultContentClasses = [
     'data-[side=top]:slide-in-from-bottom-2',
 ].join(' ');
 
-// Default arrow classes
-const defaultArrowClasses = 'fill-primary-100 stroke-primary-200';
+// Modern arrow classes to match the tooltip styling
+const defaultArrowClasses = 'fill-white stroke-gray-200';
 </script>
 
 <template>

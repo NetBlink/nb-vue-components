@@ -1,35 +1,83 @@
-<script setup>
-const emit = defineEmits(['update:modelValue']);
-const props = defineProps({
-    id: String,
-    name: String,
-    value: String,
-    isChecked: {
-        type: Boolean,
-        default: false,
-    },
-    modelValue: String, // This is used with v-model on the parent component
+<script setup lang="ts">
+import { computed } from 'vue';
 
-    label: String,
+interface RadioButtonEmits {
+    /** Emitted when the radio button value changes */
+    'update:modelValue': [value: string];
+}
+
+interface RadioButtonProps {
+    /** Unique identifier for the radio button */
+    id?: string;
+    /** Name attribute for grouping radio buttons */
+    name?: string;
+    /** Value of the radio button */
+    value?: string;
+    /** Whether the radio button is checked (deprecated - use modelValue) */
+    isChecked?: boolean;
+    /** The current selected value (used with v-model) */
+    modelValue?: string;
+    /** Label text for the radio button */
+    label?: string;
+    /** Form object containing field values and errors */
+    form?: {
+        [key: string]: any;
+        errors?: { [key: string]: string };
+    };
+    /** Field name for form binding */
+    field?: string;
+}
+
+const emit = defineEmits<RadioButtonEmits>();
+const props = withDefaults(defineProps<RadioButtonProps>(), {
+    id: undefined,
+    name: undefined,
+    value: undefined,
+    isChecked: false,
+    modelValue: undefined,
+    label: undefined,
+    form: undefined,
+    field: undefined,
 });
 
-// This method is called whenever the radio button value changes
-const updateValue = (event) => {
-    emit('update:modelValue', event.target.value);
+/**
+ * Handle radio button value change
+ */
+const updateValue = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    if (props.form && props.field) {
+        props.form[props.field] = target.value;
+    }
+    emit('update:modelValue', target.value);
 };
+
+// Computed value for checking if this radio is selected
+const isSelected = computed(() => {
+    if (props.form && props.field) {
+        return props.form[props.field] === props.value;
+    }
+    return props.modelValue === props.value;
+});
+
+// Generate unique ID if not provided
+const radioId = computed(() => {
+    return props.id || `radio-${props.field || 'radio'}-${props.value}`;
+});
 </script>
 
 <template>
-    <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+    <div class="flex items-center space-x-3">
         <input
-            class="relative float-left -ml-[1.5rem] mr-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-neutral-300 ring-accent before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-1 after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-accent checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-accent checked:after:bg-accent checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-hidden focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-accent checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px] checked:focus:before:shadow-primary checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+            :id="radioId"
             type="radio"
-            :name="name"
+            :name="name || field"
             :value="value"
-            :id="id"
-            :checked="modelValue === value"
+            :checked="isSelected"
             @change="updateValue"
+            class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
         />
-        <label class="mt-px inline-block pl-[0.15rem] hover:cursor-pointer" :for="id">{{ label }}</label>
+        <label :for="radioId" class="cursor-pointer text-sm font-medium text-gray-700">
+            {{ label }}
+        </label>
     </div>
 </template>

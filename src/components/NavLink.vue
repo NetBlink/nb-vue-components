@@ -1,10 +1,22 @@
-<script setup>
+<script setup lang="ts">
+/**
+ * Navigation Link component
+ *
+ * @component
+ *
+ * @prop {string} href - The URL to navigate to
+ * @prop {boolean} active - Whether this link is currently active
+ */
+
 import { computed } from 'vue';
 import Link from '../overrides/InertiaLink';
-const props = defineProps({
-    href: String,
-    active: Boolean,
-});
+
+interface Props {
+    href: string;
+    active?: boolean;
+}
+
+const props = defineProps<Props>();
 
 const classes = computed(() =>
     props.active

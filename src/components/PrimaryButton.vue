@@ -1,27 +1,35 @@
-<script setup>
-// @ts-nocheck
-defineProps({
-    type: {
-        type: String,
-        default: 'submit',
-    },
-    disabled: Boolean,
-    customButtonClass: {
-        type: String,
-    },
+<script setup lang="ts">
+/**
+ * Primary Button component
+ *
+ * @component
+ *
+ * @prop {'button' | 'submit' | 'reset'} type - The button type (default: 'submit')
+ * @prop {boolean} disabled - Whether the button is disabled
+ * @prop {string} customButtonClass - Custom CSS classes to apply
+ * @prop {'xs' | 'sm' | 'md' | 'lg'} size - Button size (default: 'md')
+ */
+
+import { Button } from './index.js';
+import { ComponentTheme } from '../Types';
+
+interface Props {
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    customButtonClass?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    type: 'submit',
+    disabled: false,
+    customButtonClass: '',
+    size: 'md',
 });
 </script>
 
 <template>
-    <button
-        :type="type"
-        :disabled="disabled"
-        :class="{
-            [customButtonClass]: !!customButtonClass,
-            'focusable bg-primary hover:bg-primary-700 focus:bg-primary-700 focus:ring-primary-500 active:bg-primary-700 inline-flex cursor-pointer items-center rounded-md border border-transparent px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]':
-                !customButtonClass,
-        }"
-    >
+    <Button :theme="ComponentTheme.PRIMARY" :type="type" :disabled="disabled" :custom-class="customButtonClass" :size="size">
         <slot />
-    </button>
+    </Button>
 </template>

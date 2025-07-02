@@ -1,8 +1,6 @@
 <script setup>
-import { Td } from '../../index';
-
 const props = defineProps({
-    placeholders: {
+    columns: {
         type: Number,
         required: false,
         default: 5,
@@ -11,9 +9,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <tr v-for="i in placeholders">
-        <Td colspan="999">
-            <div class="tr-placeholder h-8 w-full animate-pulse rounded-md bg-gray-500 bg-opacity-75"></div>
-        </Td>
+    <tr>
+        <td v-for="i in columns" :key="i" class="px-6 py-4">
+            <div class="h-4 w-full animate-pulse rounded bg-gray-200"></div>
+        </td>
     </tr>
 </template>

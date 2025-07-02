@@ -1,11 +1,11 @@
-<script setup>
-// @ts-nocheck
+<script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
 import { ref, reactive } from 'vue';
-import { getInertiaRouter } from '@/Helpers';
+import { getInertiaRouter } from '../../Helpers';
+
 const router = getInertiaRouter();
 
 const props = defineProps({
@@ -71,7 +71,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
     <form @submit.prevent="submit" class="w-full" v-if="canUpload">
         <div class="flex w-full">
             <div
-                class="w-full rounded-l-lg border-2 border-r-0 border-dashed border-primary-200 bg-primary-50 transition duration-100 ease-in-out hover:border-primary-600 hover:text-primary"
+                class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary w-full rounded-l-lg border-2 border-r-0 border-dashed transition duration-100 ease-in-out"
                 :class="{ 'border-primary-400 bg-primary-100': dragEneted }"
             >
                 <div class="p-4' flex h-20 w-full cursor-copy items-center justify-center font-medium" v-bind="getRootProps()">
@@ -81,7 +81,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
                 </div>
                 <div v-if="form.image.length > 0" class="flex flex-wrap gap-2 p-4">
                     <div class="relative cursor-pointer select-none" v-for="(image, index) in form.image" @click="removeImage(index)" :key="index">
-                        <div class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                        <div class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 font-bold text-white">
                             -
                         </div>
                         <img :src="image.dataUrl" class="h-auto max-w-[150px]" />
@@ -111,7 +111,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
                         <Link
                             :href="route('images.delete', image.id)"
                             method="delete"
-                            class="mt-1 w-full items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-center text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-red-500 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-700"
+                            class="mt-1 w-full items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-center text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out hover:bg-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden active:bg-red-700"
                             as="button"
                             v-if="canUpload"
                         >

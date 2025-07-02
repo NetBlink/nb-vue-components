@@ -8,27 +8,13 @@ export default ({ mode }) => {
     process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
     return defineConfig({
         plugins: [vue(), tailwindcss()],
-        base: '/nb-vue-components',
-        /*
+        base: '/nb-vue-components/',
         build: {
-            lib: {
-                entry: path.resolve(__dirname, 'src/index.js'),
-                name: '@nb/vue-components',
-                fileName: (format) => `nb-vue-components.${format}.js`,
-            },
+            outDir: 'docs-dist',
             rollupOptions: {
-                external: ['vue'],
-                output: {
-                    globals: {
-                        vue: 'Vue',
-                    },
-                    exports: 'named',
-                },
-                input: {
-                    main: path.resolve(__dirname, 'src/index.js'),
-                },
+                input: resolve(__dirname, 'docs.html'),
             },
-        }, */
+        },
         resolve: {
             alias: {
                 '@': resolve(__dirname, 'src'),

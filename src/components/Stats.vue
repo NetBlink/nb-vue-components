@@ -1,70 +1,105 @@
-<script setup>
-// @ts-nocheck
-const emit = defineEmits();
+<script setup lang="ts">
+import { computed } from 'vue';
+import { getInertiaPage } from '../Helpers';
 
-const props = defineProps({
-    stats: Object,
-    statusName: {
-        type: String,
-        default: null,
-    },
-    customContainerClass: {
-        type: String,
-        default: '',
-    },
-    customStatClass: {
-        type: String,
-        default: '',
-    },
-    customStatLabelClass: {
-        type: String,
-        default: '',
-    },
-    customStatValueClass: {
-        type: String,
-        default: '',
-    },
+/**
+ * Stats component for displaying statistical data with clickable filters
+ *
+ * @component
+ *
+ * @prop {object} stats - Object containing statistical data
+ * @prop {string} statusName - Name of the status parameter for routing
+ * @prop {string} customContainerClass - Custom CSS classes for the container
+ * @prop {string} customStatClass - Custom CSS classes for each stat item
+ * @prop {string} customStatLabelClass - Custom CSS classes for stat labels
+ * @prop {string} customStatValueClass - Custom CSS classes for stat values
+ */
+
+interface StatItem {
+    name: string;
+    value: number;
+    label?: string;
+}
+
+interface Props {
+    stats: StatItem[];
+    statusName?: string | null;
+    customContainerClass?: string;
+    customStatClass?: string;
+    customStatLabelClass?: string;
+    customStatValueClass?: string;
+}
+
+const emit = defineEmits<{
+    updateSearch: [status: string | null];
+}>();
+
+const props = withDefaults(defineProps<Props>(), {
+    statusName: null,
+    customContainerClass: '',
+    customStatClass: '',
+    customStatLabelClass: '',
+    customStatValueClass: '',
 });
 
-const onClick = (status) => {
+// Access route parameters through the helper pattern
+const page = getInertiaPage();
+
+const onClick = (status: string) => {
+    let newStatus: string | null = status;
     if (ifSelected(status)) {
-        status = null;
+        newStatus = null;
     }
-    emit('updateSearch', status);
+    emit('updateSearch', newStatus);
 };
 
-const ifSelected = (status) => {
-    if (props.statusName != null) {
-        return route().params[props.statusName] == status;
+const ifSelected = (status: string): boolean => {
+    const params: Record<string, string> = {};
+
+    if (page.url.includes('?')) {
+        const searchParams = new URLSearchParams(page.url.split('?')[1]);
+        searchParams.forEach((value, key) => {
+            params[key] = value;
+        });
     }
-    return route().params.status == status;
+
+    if (props.statusName != null) {
+        return params[props.statusName] == status;
+    }
+    return params.status == status;
 };
 </script>
 
 <template>
-    <div>
-        <div class="flex flex-wrap gap-2 lg:flex-nowrap" :class="{ [customContainerClass]: customContainerClass }">
-            <div
-                v-for="s in stats"
-                class="flex w-full cursor-pointer flex-col rounded-lg border bg-gray-100 shadow"
-                :class="{
-                    'border-primary bg-primary-50 shadow-primary-50': ifSelected(s.name),
-                    [customStatClass]: customStatClass,
-                }"
-                @click="onClick(s.name)"
-                :key="s.value"
-            >
-                <div>
-                    <div class="h:10 rounded-t-lg bg-white py-1 text-center md:h-10 md:py-2">
-                        <h5 class="text-xl font-medium leading-tight text-neutral-800" :class="{ [customStatValueClass]: customStatValueClass }">
-                            {{ s.value }}
-                        </h5>
-                    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" :class="{ [customContainerClass]: customContainerClass }">
+        <div
+            v-for="s in stats"
+            :key="s.value"
+            class="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md"
+            :class="{
+                'border-primary-200 bg-primary-50 ring-primary-500 ring-2': ifSelected(s.name),
+                [customStatClass]: customStatClass,
+            }"
+            @click="onClick(s.name)"
+        >
+            <!-- Value Section -->
+            <div class="px-6 py-4" :class="{ [customStatValueClass]: customStatValueClass }">
+                <div class="group-hover:text-primary-600 text-2xl font-bold text-gray-900 transition-colors">
+                    {{ s.value }}
                 </div>
-                <div class="flex flex-auto flex-col gap-y-4 p-1 text-center md:py-2" :class="{ [customStatLabelClass]: customStatLabelClass }">
+            </div>
+
+            <!-- Label Section -->
+            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3" :class="{ [customStatLabelClass]: customStatLabelClass }">
+                <div class="text-sm font-medium text-gray-600 transition-colors group-hover:text-gray-900">
                     {{ s.label ?? s.name }}
                 </div>
             </div>
+
+            <!-- Hover Effect Indicator -->
+            <div
+                class="from-primary-500 to-primary-600 absolute bottom-0 left-0 h-1 w-full scale-x-0 transform bg-gradient-to-r transition-transform duration-200 group-hover:scale-x-100"
+            ></div>
         </div>
     </div>
 </template>

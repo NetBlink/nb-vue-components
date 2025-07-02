@@ -1,15 +1,23 @@
+import PropsTable from './components/PropsTable.vue';
+import InputWrapper from './components/InputWrapper.vue';
+import UnderConstruction from './components/UnderConstruction.vue';
 import Checkbox from './components/Forms/Checkbox.vue';
 import Input from './components/Forms/Input.vue';
 import InputError from './components/Forms/InputError.vue';
 import InputLabel from './components/Forms/InputLabel.vue';
 import TextInput from './components/Forms/TextInput.vue';
 import Textarea from './components/Forms/Textarea.vue';
+import Switch from './components/Forms/Switch.vue';
+import Select from './components/Forms/Select.vue';
+import RichSelect from './components/Forms/RichSelect.vue';
 import DropdownSearchbar from './components/Forms/DropdownSearchbar.vue';
 import SearchSelect from './components/Forms/SearchSelect.vue';
+import Select2ajax from './components/Forms/Select2ajax.vue';
 import FileDropZoneInput from './components/Forms/FileDropZoneInput.vue';
 import Images from './components/Forms/Images.vue';
 import RadioButton from './components/Forms/RadioButton.vue';
 import SubmitButton from './components/Forms/SubmitButton.vue';
+import SelectMultiple from './components/Forms/SelectMultiple.vue';
 import Table from './components/Tables/Table.vue';
 import Thead from './components/Tables/Thead.vue';
 import Tbody from './components/Tables/Tbody.vue';
@@ -40,14 +48,23 @@ import SecondaryButton from './components/SecondaryButton.vue';
 import Section from './components/Section.vue';
 import Spinner from './components/Spinner.vue';
 import Stats from './components/Stats.vue';
-import Select2ajax from './components/Forms/Select2ajax.vue';
 import NavCollapse from './components/NavCollapse.vue';
 import DescriptionList from './components/DescriptionList.vue';
 import DescriptionListItem from './components/DescriptionListItem.vue';
+import DottedCarousel from './components/DottedCarousel.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
+import TableCollapse from './components/Tables/TableCollapse.vue';
 import Collapse from './components/Collapse.vue';
 import Tooltip from './components/Tooltip.vue';
+import Button from './components/Button.vue';
+import WarningButton from './components/WarningButton.vue';
+import InfoButton from './components/InfoButton.vue';
+import SuccessButton from './components/SuccessButton.vue';
+
+// Helper components
+import CodePreview from './components/CodePreview.vue';
+import H2 from './HelperComponents/H2.vue';
 
 const Componentsnb = {
     install(App) {
@@ -68,13 +85,17 @@ export {
     InputLabel,
     TextInput,
     Textarea,
+    Switch,
+    Select,
+    RichSelect,
     DropdownSearchbar,
     SearchSelect,
+    Select2ajax,
     FileDropZoneInput,
     Images,
     RadioButton,
     SubmitButton,
-    Select2ajax,
+    SelectMultiple,
     // TABLES
     Table,
     Thead,
@@ -84,6 +105,7 @@ export {
     TrCollapse,
     TrCollapseHandler,
     TdCollapseHandler,
+    TableCollapse,
     TrPlaceholder,
     TableItemCard,
     // COMPONENTS
@@ -105,6 +127,9 @@ export {
     Pagination,
     PrimaryButton,
     DangerButton,
+    WarningButton,
+    InfoButton,
+    SuccessButton,
     ResponsiveNavLink,
     SecondaryButton,
     Section,
@@ -113,7 +138,15 @@ export {
     NavCollapse,
     DescriptionList,
     DescriptionListItem,
+    DottedCarousel,
     Collapse,
     Tooltip,
+    Button,
+    // Helper components
+    CodePreview,
+    H2,
+    PropsTable,
+    InputWrapper,
+    UnderConstruction,
 };
-export * from './Helpers.js';
+export * from './Helpers';

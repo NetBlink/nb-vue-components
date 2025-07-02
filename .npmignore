@@ -1,7 +1,42 @@
+# Source files (only dist should be included in npm package)
 src/
+docs-dist/
+
+# Development and build tools
 .docker/
 .github/
 node_modules/
 vite.config.js
-vite.config.docs.js
+vite.config.mjs
+vite.config.docs.mjs
+tsconfig.json
+tailwind.config.js
+
+# Documentation files
+docs.html
+index.html
+README.md
+CHANGELOG.md
+DOCUMENTATION.md
+SELECT_MIGRATION.md
+
+# Environment and config files
+.env*
+.gitignore
+.npmignore
+
+# Log files
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

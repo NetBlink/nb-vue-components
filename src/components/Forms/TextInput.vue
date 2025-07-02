@@ -1,27 +1,43 @@
-<script setup>
-// @ts-nocheck
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-defineProps(['modelValue']);
+interface TextInputEmits {
+    /** Emitted when the input value changes */
+    'update:modelValue': [value: string];
+}
 
-defineEmits(['update:modelValue']);
+interface TextInputProps {
+    /** The input value */
+    modelValue?: string;
+}
 
-const input = ref(null);
+const props = defineProps<TextInputProps>();
+const emit = defineEmits<TextInputEmits>();
+
+const input = ref<HTMLInputElement | null>(null);
+
+const handleInput = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    emit('update:modelValue', target.value);
+};
 
 onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
+    if (input.value?.hasAttribute('autofocus')) {
         input.value.focus();
     }
 });
 
-defineExpose({ focus: () => input.value.focus() });
+defineExpose({
+    /** Focus the input element */
+    focus: () => input.value?.focus(),
+});
 </script>
 
 <template>
     <input
-        class="max-w-full rounded border-gray-300 shadow focus:border-accent-500 focus:ring-accent-500"
+        class="focusable focus:border-primary-500 focus:ring-primary-500 relative m-0 block w-full flex-auto rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="handleInput"
         ref="input"
     />
 </template>

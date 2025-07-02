@@ -1,23 +1,35 @@
-<script setup>
-// @ts-nocheck
-defineProps({
-    type: {
-        type: String,
-        default: 'submit',
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
+<script setup lang="ts">
+/**
+ * Danger Button component
+ *
+ * @component
+ *
+ * @prop {'button' | 'submit' | 'reset'} type - The button type (default: 'submit')
+ * @prop {boolean} disabled - Whether the button is disabled
+ * @prop {string} customClass - Custom CSS classes to apply
+ * @prop {'xs' | 'sm' | 'md' | 'lg'} size - Button size (default: 'md')
+ */
+
+import { Button } from './index.js';
+import { ComponentTheme } from '../Types';
+
+interface Props {
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    customClass?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    type: 'submit',
+    disabled: false,
+    customClass: '',
+    size: 'md',
 });
 </script>
 
 <template>
-    <button
-        :type="type"
-        :disabled="disabled"
-        class="focusable inline-flex cursor-pointer items-center rounded border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out hover:bg-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-hidden active:bg-red-700 disabled:cursor-not-allowed disabled:brightness-125 disabled:grayscale-[30%]"
-    >
+    <Button :theme="ComponentTheme.DANGER" :type="type" :disabled="disabled" :custom-class="customClass" :size="size">
         <slot />
-    </button>
+    </Button>
 </template>

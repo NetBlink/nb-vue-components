@@ -1,36 +1,58 @@
-<script setup>
-// @ts-nocheck
+<script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { onMounted } from 'vue';
-import { onUnmounted } from 'vue';
-import { getInertiaRouter } from '../../Helpers';
+import { getInertiaRouter, getInertiaPage } from '../../Helpers';
+
+/**
+ * Table header component with sortable functionality
+ *
+ * @component
+ *
+ * @prop {string} orderBy - The field name to order by when this header is clicked
+ */
 
 library.add(faSortUp, faSortDown);
 
-const props = defineProps({
-    orderBy: String,
-});
-const orderDirection = ref('asc');
+interface Props {
+    orderBy?: string;
+}
+
+const props = defineProps<Props>();
+const orderDirection = ref<'asc' | 'desc'>('asc');
 const isOrdering = ref(false);
-let navigateEvent = null;
+let navigateEvent: (() => void) | null = null;
 const router = getInertiaRouter();
+const page = getInertiaPage();
 
 onMounted(() => {
     if (!props.orderBy) return;
     navigateEvent = router.on('navigate', updateOrderDirection);
+    updateOrderDirection(); // Initialize the state
 });
 
 onUnmounted(() => {
     navigateEvent?.(); // Unsubscribe from the event
 });
 
+const parseUrlParams = (url: string): Record<string, string> => {
+    const params: Record<string, string> = {};
+
+    if (url.includes('?')) {
+        const searchParams = new URLSearchParams(url.split('?')[1]);
+        searchParams.forEach((value, key) => {
+            params[key] = value;
+        });
+    }
+
+    return params;
+};
+
 const updateOrderDirection = () => {
-    const params = route().params;
+    const params = parseUrlParams(page.url);
     if (params.order_by === props.orderBy) {
-        orderDirection.value = params.order_dir;
+        orderDirection.value = (params.order_dir as 'asc' | 'desc') || 'asc';
         isOrdering.value = true;
         return;
     }
@@ -41,12 +63,19 @@ const updateOrderDirection = () => {
 const toggleOrder = () => {
     if (!props.orderBy) return;
 
-    const newOrderDirection = orderDirection.value === 'asc' ? 'desc' : 'asc';
-    const params = route().params;
-    params.order_by = props.orderBy;
-    params.order_dir = newOrderDirection;
+    const newOrderDirection: 'asc' | 'desc' = orderDirection.value === 'asc' ? 'desc' : 'asc';
+    const currentParams = parseUrlParams(page.url);
 
-    router.get(route(route().current()), params, {
+    const params = {
+        ...currentParams,
+        order_by: props.orderBy,
+        order_dir: newOrderDirection,
+    };
+
+    // Get current route name from page component or use a default path
+    const currentPath = page.url.split('?')[0];
+
+    router.get(currentPath, params, {
         preserveState: true,
     });
 
@@ -54,7 +83,7 @@ const toggleOrder = () => {
     isOrdering.value = true;
 };
 
-const getArrowColor = (direction) => {
+const getArrowColor = (direction: 'asc' | 'desc'): string => {
     return orderDirection.value === direction && isOrdering.value ? 'active text-primary' : 'text-gray-400';
 };
 </script>

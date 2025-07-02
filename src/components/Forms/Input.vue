@@ -27,7 +27,7 @@
  * @prop {string} tooltip - The tooltip text to show next to the label
  */
 
-import { InputLabel, TextInput, InputError, SubmitButton, Tooltip } from '../../index';
+import { InputLabel, TextInput, InputError, SubmitButton, Tooltip, Textarea, Switch, Checkbox } from '../../index';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faSquareCheck, faEye, faEyeSlash, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
@@ -171,7 +171,95 @@ defineExpose({
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <!-- Delegate to Textarea component for textarea type -->
+    <Textarea
+        v-if="type === 'textarea'"
+        :form="form"
+        :field="field"
+        :label="label"
+        :required="required"
+        :disabled="disabled"
+        :addon="addon"
+        :placeholder="placeholder"
+        :no-label="noLabel"
+        :autofocus="autofocus"
+        :rows="rows"
+        :name="name"
+        :sublabel="sublabel"
+        :submit-btn="submitBtn"
+        :whats-app="whatsApp"
+        :autocomplete="autocomplete"
+        :tooltip="tooltip"
+        :custom-class="inputCustomClass"
+        :label-custom-class="labelCustomClass"
+        :button-custom-class="buttonCustomClass"
+        :error="error"
+        v-model="value"
+        @changed="(data) => emit('changed', data)"
+    >
+        <template v-if="$slots?.submit" #submit>
+            <slot name="submit" />
+        </template>
+    </Textarea>
+
+    <!-- Delegate to Switch component for switch type -->
+    <Switch
+        v-else-if="type === 'switch'"
+        :form="form"
+        :field="field"
+        :label="label"
+        :required="required"
+        :disabled="disabled"
+        :no-label="noLabel"
+        :name="name"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :left-description="leftDescription"
+        :right-description="rightDescription"
+        :custom-class="inputCustomClass"
+        :label-custom-class="labelCustomClass"
+        :error="error"
+        v-model="value"
+        @changed="(data) => emit('changed', data)"
+    >
+        <template v-if="$slots?.leftDescription" #leftDescription>
+            <slot name="leftDescription" />
+        </template>
+        <template v-if="$slots?.rightDescription" #rightDescription>
+            <slot name="rightDescription" />
+        </template>
+    </Switch>
+
+    <!-- Delegate to Checkbox component for checkbox type -->
+    <Checkbox
+        v-else-if="type === 'checkbox'"
+        :form="form"
+        :field="field"
+        :label="label"
+        :required="required"
+        :disabled="disabled"
+        :no-label="noLabel"
+        :name="name"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :left-description="leftDescription"
+        :right-description="rightDescription"
+        :custom-class="inputCustomClass"
+        :label-custom-class="labelCustomClass"
+        :error="error"
+        v-model="value"
+        @changed="(data) => emit('changed', data)"
+    >
+        <template v-if="$slots?.leftDescription" #leftDescription>
+            <slot name="leftDescription" />
+        </template>
+        <template v-if="$slots?.rightDescription" #rightDescription>
+            <slot name="rightDescription" />
+        </template>
+    </Checkbox>
+
+    <!-- Original Input implementation for other types -->
+    <div v-else :class="noLabel ? 'mb-2' : 'mb-4'">
         <InputLabel
             :customClass="labelCustomClass"
             v-if="!noLabel"
@@ -182,56 +270,14 @@ defineExpose({
             :tooltip="tooltip"
         />
         <div class="relative flex w-full max-w-full items-stretch">
-            <label v-if="type === 'switch' || type === 'checkbox'" class="flex items-center">
-                <slot v-if="$slots?.leftDescription" name="leftDescription" />
-                <span v-else-if="leftDescription" class="mr-1">
-                    {{ leftDescription ? leftDescription : 'Disable' }}
-                </span>
-                <input
-                    :id="field"
-                    type="checkbox"
-                    class="hidden"
-                    v-model="value"
-                    :disabled="props.disabled"
-                    :required="props.required"
-                    :name="name ?? field"
-                />
-                <div
-                    tabindex="0"
-                    v-if="type === 'switch'"
-                    class="toggle-switch focusable ml-0!"
-                    :class="{
-                        checked: value,
-                        disabled: props.disabled,
-                    }"
-                />
-                <div
-                    tabindex="0"
-                    v-else
-                    class="focusable text-primary mr-1 p-1"
-                    :class="{
-                        'text-gray-500!': props.disabled,
-                        [checkboxCustomClass]: checkboxCustomClass,
-                    }"
-                >
-                    <Transition name="popup" mode="out-in">
-                        <FontAwesomeIcon key="checked" v-if="props.form[field]" v-bind:icon="'fas fa-square-check'" />
-                        <FontAwesomeIcon key="unchecked" v-else v-bind:icon="'far fa-square'" />
-                    </Transition>
-                </div>
-                <slot v-if="$slots?.rightDescription" name="rightDescription" />
-                <span v-else-if="rightDescription">
-                    {{ rightDescription }}
-                </span>
-            </label>
             <select
-                v-else-if="type === 'select'"
+                v-if="type === 'select'"
                 v-model="value"
                 :id="field"
                 :required="props.required"
                 :disabled="props.disabled"
                 :name="name ?? field"
-                class="focusable block w-full rounded disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500"
+                class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
                 :class="{ [inputCustomClass]: !!inputCustomClass }"
             >
                 <slot />
@@ -239,35 +285,17 @@ defineExpose({
             <template v-else>
                 <span
                     v-if="addon"
-                    class="border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
+                    class="flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
+                    :class="{ shadow: !props.disabled }"
                 >
                     {{ addon }}
                 </span>
-                <textarea
-                    v-if="type === 'textarea'"
-                    :id="field"
-                    class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-                    :class="{
-                        'rounded-l-none!': addon,
-                        'rounded-r-none!': !!submitBtn || whatsApp || $slots?.submit,
-                        [inputCustomClass]: !!inputCustomClass,
-                    }"
-                    :rows="props.rows"
-                    v-model="value"
-                    :required="props.required"
-                    :disabled="props.disabled"
-                    :autocomplete="autocomplete ?? field"
-                    :placeholder="props.placeholder"
-                    :autofocus="props.autofocus"
-                    :name="name ?? field"
-                />
-                <div v-else class="relative flex w-full">
+                <div class="relative flex w-full">
                     <TextInput
                         :id="field"
                         :type="displayType"
-                        class="focusable relative m-0 block w-full flex-auto disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
                         :class="{
-                            'rounded-l-none!': addon,
+                            'rounded-l-none! shadow-none!': addon,
                             'rounded-r-none!': !!submitBtn || whatsApp || $slots?.submit,
                             [inputCustomClass]: !!inputCustomClass,
                         }"
@@ -326,35 +354,3 @@ defineExpose({
         <InputError v-if="error || form?.errors?.[field]" :message="error ? error : form?.errors?.[field]" class="mt-2" />
     </div>
 </template>
-
-<style scoped lang="postcss">
-.toggle-switch {
-    @apply relative mx-2 inline-block h-6 w-12 flex-none cursor-pointer rounded-xl bg-gray-300 transition-all;
-    box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08) inset;
-}
-
-.toggle-switch::before {
-    @apply absolute top-0.5 left-0.5 block h-5 w-5 rounded-full bg-white bg-linear-to-br from-transparent to-gray-200;
-    box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
-    content: '';
-    transition: left 150ms;
-    will-change: left;
-}
-.toggle-switch:hover {
-    box-shadow: 0.0625em 0.0625em 0.125em rgba(0, 0, 0, 0.12) inset;
-}
-
-.toggle-switch:hover::before {
-    background-image: radial-gradient(circle at 0.375em 0.375em, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.0375) 1em);
-    box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.12);
-}
-
-.checked {
-    @apply bg-primary;
-}
-
-.checked::before {
-    background-image: radial-gradient(circle at 0.375em 0.375em, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.05) 1em);
-    left: 1.625em;
-}
-</style>

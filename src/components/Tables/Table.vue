@@ -1,8 +1,7 @@
 <script setup>
 import { Pagination } from '../../index';
-import { nextTick } from 'vue';
-import { onMounted, onUnmounted, ref } from 'vue';
-import { getInertiaRouter } from '@/Helpers';
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { getInertiaRouter } from '../../Helpers';
 
 const router = getInertiaRouter();
 
@@ -127,16 +126,16 @@ if (props.sticky) {
                 <table
                     class="min-w-full text-left text-sm font-light"
                     :class="{
-                        'mb-14 [&>*>tr]:border-l-4 [&>*>tr]:border-l-primary-500': collapsable,
-                        ' border-separate border-spacing-y-5 px-2': seperate,
+                        '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': collapsable,
+                        'border-separate border-spacing-y-5 px-2': seperate,
                         // reponsive classes
                         // thead & tbody
-                        ' max-sm:[&_thead]:hidden': responsive,
+                        'max-sm:[&_thead]:hidden': responsive,
                         // td&th
-                        ' max-sm:[&_.td-label]:block! max-sm:[&_td:last-child]:border-b-0! max-sm:[&_td]:flex max-sm:[&_td]:justify-between max-sm:[&_td]:border-b max-sm:[&_td]:px-2!':
+                        'max-sm:[&_.td-label]:block! max-sm:[&_td]:flex max-sm:[&_td]:justify-between max-sm:[&_td]:border-b max-sm:[&_td]:px-2! max-sm:[&_td:last-child]:border-b-0!':
                             responsive,
                         // tr
-                        ' max-sm:[&_tr]:mb-2 max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_tr]:rounded-md max-sm:[&_tr]:border max-sm:[&_tr]:border-gray-200 max-sm:[&_tr]:shadow-md':
+                        'max-sm:[&_tr]:mb-2 max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_tr]:rounded-md max-sm:[&_tr]:border max-sm:[&_tr]:border-gray-200 max-sm:[&_tr]:shadow-md':
                             responsive,
                     }"
                     ref="table"

@@ -1,14 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import Link from '../overrides/InertiaLink';
 import { DropdownMenuItem } from 'reka-ui';
-import { ref } from 'vue';
 
-const props = defineProps({
-    href: {
-        type: String,
-        required: true,
-    },
-});
+interface DropdownLinkProps {
+    /** The URL to navigate to */
+    href: string;
+}
+
+const props = defineProps<DropdownLinkProps>();
 </script>
 
 <template>

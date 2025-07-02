@@ -1,33 +1,37 @@
-<script setup>
+<script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPencil, faPenRuler } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 library.add(faPencil, faPenRuler);
 
-const props = defineProps({
-    editable: {
-        type: Boolean,
-        default: false,
-    },
-    label: {
-        type: String,
-        default: '',
-    },
-    value: {
-        type: String,
-    },
-    forceEditing: {
-        type: Boolean,
-        default: false,
-    },
-    required: {
-        type: Boolean,
-        default: false,
-    },
+interface DescriptionListItemProps {
+    /** Whether the item can be edited */
+    editable?: boolean;
+    /** Label text for the item */
+    label?: string;
+    /** Value text for the item */
+    value?: string;
+    /** Whether to force editing mode on mount */
+    forceEditing?: boolean;
+    /** Whether the field is required (shows asterisk) */
+    required?: boolean;
+}
+
+interface DescriptionListItemEmits {
+    /** Emitted when edit mode is toggled */
+    editToggled: [isEditing: boolean];
+}
+
+const props = withDefaults(defineProps<DescriptionListItemProps>(), {
+    editable: false,
+    label: '',
+    value: undefined,
+    forceEditing: false,
+    required: false,
 });
 
-const emit = defineEmits(['editToggled']);
+const emit = defineEmits<DescriptionListItemEmits>();
 const editing = ref(props.editable ? props.forceEditing : false);
 const toggleEditing = () => {
     if (!props.editable) return;
@@ -52,7 +56,10 @@ const stopEditing = () => {
     if (!props.editable) return;
     editing.value = false;
 };
-const registerItem = inject('registerItem');
+
+type RegisterItemFunction = (item: { startEditing: () => void; stopEditing: () => void; toggleEditing: () => void }) => void;
+
+const registerItem = inject<RegisterItemFunction>('registerItem');
 onMounted(() => {
     if (registerItem) {
         registerItem({ startEditing, stopEditing, toggleEditing });
@@ -84,7 +91,7 @@ defineExpose({
                         {{ value }}
                     </div>
                     <span class="ml-4 shrink-0">
-                        <button type="button" @click="toggleEditing" class="text-lg font-bold text-primary hover:text-primary-400" v-if="editable">
+                        <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-lg font-bold" v-if="editable">
                             <FontAwesomeIcon :icon="faPencil" />
                         </button>
                         <slot name="buttons" />
@@ -95,7 +102,7 @@ defineExpose({
                         <slot name="edit" />
                     </div>
                     <span class="ml-4 shrink-0">
-                        <button type="button" @click="toggleEditing" class="text-xl font-bold text-primary hover:text-primary-400">
+                        <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-xl font-bold">
                             <FontAwesomeIcon :icon="faPenRuler" />
                         </button>
                     </span>

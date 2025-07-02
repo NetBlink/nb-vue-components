@@ -1,13 +1,15 @@
-<script setup>
-import { defineProps } from 'vue';
-const props = defineProps({
-    title: String,
-});
+<script setup lang="ts">
+interface H2Props {
+    title: string;
+}
+
+const props = defineProps<H2Props>();
 </script>
 
 <template>
-    <div class="gutters mt-10 flex items-center">
-        <h2 :id="title.toLowerCase()" class="mr-4 whitespace-nowrap text-lg font-bold text-primary"># {{ title }}</h2>
-        <div class="w-full grow border-t-2 border-dashed border-primary"></div>
+    <div class="mt-12 mb-8">
+        <h2 :id="title.toLowerCase().replace(/\s+/g, '-')" class="border-primary-600 mb-6 border-b-2 pb-2 text-2xl font-bold text-gray-900">
+            {{ title }}
+        </h2>
     </div>
 </template>

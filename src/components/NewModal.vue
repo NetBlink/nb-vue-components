@@ -4,17 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
 import { onMounted, onUnmounted, watch } from 'vue';
 
-const props = defineProps({
-    title: {
-        type: String,
-    },
-    description: {
-        type: String,
-    },
-    defaultOpen: {
-        type: Boolean,
-        default: false,
-    },
+interface NewModalProps {
+    /** Modal title text */
+    title?: string;
+    /** Modal description text */
+    description?: string;
+    /** Whether the modal is open by default */
+    defaultOpen?: boolean;
+}
+
+const props = withDefaults(defineProps<NewModalProps>(), {
+    title: undefined,
+    description: undefined,
+    defaultOpen: false,
 });
 
 const open = defineModel({

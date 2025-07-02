@@ -1,18 +1,35 @@
-<script setup>
-// @ts-nocheck
-defineProps({
-    type: {
-        type: String,
-        default: 'button',
-    },
+<script setup lang="ts">
+/**
+ * Secondary Button component
+ *
+ * @component
+ *
+ * @prop {'button' | 'submit' | 'reset'} type - The button type (default: 'button')
+ * @prop {boolean} disabled - Whether the button is disabled
+ * @prop {string} customClass - Custom CSS classes to apply
+ * @prop {'xs' | 'sm' | 'md' | 'lg'} size - Button size (default: 'md')
+ */
+
+import { Button } from './index.js';
+import { ComponentTheme } from '../Types';
+
+interface Props {
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    customClass?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    type: 'button',
+    disabled: false,
+    customClass: '',
+    size: 'md',
 });
 </script>
 
 <template>
-    <button
-        :type="type"
-        class="focusable focus:ring-accent-500 inline-flex cursor-pointer items-center rounded border border-gray-300 bg-white px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase shadow transition duration-150 ease-in-out hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:opacity-25"
-    >
+    <Button :theme="ComponentTheme.SECONDARY" :type="type" :disabled="disabled" :custom-class="customClass" :size="size">
         <slot />
-    </button>
+    </Button>
 </template>

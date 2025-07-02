@@ -1,16 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { md5 } from 'js-md5';
 
-const props = defineProps({
-    email: {
-        type: String,
-        required: true,
-    },
-    size: {
-        type: Number,
-        default: 100,
-    },
+interface GravatarImgProps {
+    /** Email address for the Gravatar */
+    email: string;
+    /** Size of the image in pixels */
+    size?: number;
+}
+
+const props = withDefaults(defineProps<GravatarImgProps>(), {
+    size: 100,
 });
 
 const hash = computed(() => {

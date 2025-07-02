@@ -1,45 +1,204 @@
-<script setup>
-import { Alert, initTE } from 'tw-elements';
-import { onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { 
+    faCheckCircle, 
+    faTimesCircle, 
+    faExclamationTriangle, 
+    faInfoCircle,
+    faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
-const props = defineProps({
-    message: String,
+interface Props {
+    /** The type/variant of the alert */
+    type?: 'success' | 'error' | 'warning' | 'info';
+    /** Alert title (optional) */
+    title?: string;
+    /** Whether the alert can be dismissed */
+    dismissible?: boolean;
+    /** Whether the alert is initially visible */
+    modelValue?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    type: 'info',
+    title: undefined,
+    dismissible: false,
+    modelValue: true,
 });
 
-onMounted(() => {
-    initTE({ Alert });
+const emit = defineEmits<{
+    'update:modelValue': [value: boolean];
+    dismiss: [];
+}>();
+
+// Local visibility state
+const isVisible = ref(props.modelValue);
+
+// Watch for external changes to modelValue
+const show = computed({
+    get: () => isVisible.value,
+    set: (value: boolean) => {
+        isVisible.value = value;
+        emit('update:modelValue', value);
+    }
 });
+
+// Sync isVisible with modelValue changes from parent
+watch(() => props.modelValue, (newValue) => {
+    isVisible.value = newValue;
+}, { immediate: true });
+
+// Alert type styles
+const alertClasses = computed(() => {
+    const baseClasses = 'relative w-full rounded-lg border px-4 py-3 text-sm';
+    
+    switch (props.type) {
+        case 'success':
+            return `${baseClasses} border-green-200 bg-green-50 text-green-800`;
+        case 'error':
+            return `${baseClasses} border-red-200 bg-red-50 text-red-800`;
+        case 'warning':
+            return `${baseClasses} border-yellow-200 bg-yellow-50 text-yellow-800`;
+        case 'info':
+        default:
+            return `${baseClasses} border-blue-200 bg-blue-50 text-blue-800`;
+    }
+});
+
+// Icon for each alert type
+const alertIcon = computed(() => {
+    switch (props.type) {
+        case 'success':
+            return faCheckCircle;
+        case 'error':
+            return faTimesCircle;
+        case 'warning':
+            return faExclamationTriangle;
+        case 'info':
+        default:
+            return faInfoCircle;
+    }
+});
+
+// Handle dismiss
+const handleDismiss = () => {
+    show.value = false;
+    emit('dismiss');
+};
+
+// Transition hooks for smooth height animation
+const onBeforeEnter = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.height = '0';
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(-8px) scale(0.95)';
+};
+
+const onEnter = (el: Element, done: () => void) => {
+    const element = el as HTMLElement;
+    const height = element.scrollHeight;
+    
+    element.style.transition = 'all 400ms ease-out';
+    
+    // Use requestAnimationFrame to ensure the styles are applied
+    requestAnimationFrame(() => {
+        element.style.height = `${height}px`;
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0) scale(1)';
+    });
+    
+    setTimeout(done, 400);
+};
+
+const onAfterEnter = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.height = 'auto';
+};
+
+const onBeforeLeave = (el: Element) => {
+    const element = el as HTMLElement;
+    const height = element.scrollHeight;
+    element.style.height = `${height}px`;
+};
+
+const onLeave = (el: Element, done: () => void) => {
+    const element = el as HTMLElement;
+    
+    element.style.transition = 'all 350ms ease-in';
+    
+    requestAnimationFrame(() => {
+        element.style.height = '0';
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-8px) scale(0.95)';
+    });
+    
+    setTimeout(done, 350);
+};
+
+const onAfterLeave = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.height = '';
+    element.style.opacity = '';
+    element.style.transform = '';
+    element.style.transition = '';
+};
 </script>
 
 <template>
-    <div role="alert">
-        <div>
-            <div
-                class="mt-2 hidden w-full items-center rounded bg-primary-100 px-6 py-1 text-base text-neutral-800 shadow-xs data-te-alert-show:inline-flex sm:rounded-lg"
-                role="alert"
-                data-te-alert-init
-                data-te-alert-show
-            >
-                <slot></slot>
-                <button
-                    type="button"
-                    class="ml-auto box-content rounded-none border-none p-1 text-neutral-900 opacity-50 hover:text-neutral-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-hidden"
-                    data-te-alert-dismiss
-                    aria-label="Close"
-                >
-                    <span
-                        class="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25"
+    <Transition
+        name="alert"
+        @before-enter="onBeforeEnter"
+        @enter="onEnter"
+        @after-enter="onAfterEnter"
+        @before-leave="onBeforeLeave"
+        @leave="onLeave"
+        @after-leave="onAfterLeave"
+        :css="false"
+    >
+        <div v-if="show" :class="alertClasses" role="alert" style="overflow: hidden;">
+            <div class="flex">
+                <!-- Icon -->
+                <div class="flex-shrink-0">
+                    <FontAwesomeIcon
+                        :icon="alertIcon"
+                        class="h-5 w-5"
+                        :class="{
+                            'text-green-400': type === 'success',
+                            'text-red-400': type === 'error',
+                            'text-yellow-400': type === 'warning',
+                            'text-blue-400': type === 'info'
+                        }"
+                    />
+                </div>
+
+                <!-- Content -->
+                <div class="ml-3 flex-1">
+                    <h3 v-if="title" class="text-sm font-medium mb-1">
+                        {{ title }}
+                    </h3>
+                    <div class="text-sm">
+                        <slot />
+                    </div>
+                </div>
+
+                <!-- Dismiss button -->
+                <div v-if="dismissible" class="ml-auto flex-shrink-0">
+                    <button
+                        @click="handleDismiss"
+                        class="inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-150"
+                        :class="{
+                            'text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50': type === 'success',
+                            'text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50': type === 'error',
+                            'text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50': type === 'warning',
+                            'text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50': type === 'info'
+                        }"
+                        aria-label="Dismiss alert"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path
-                                fill-rule="evenodd"
-                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </span>
-                </button>
+                        <FontAwesomeIcon :icon="faTimes" class="h-5 w-5" />
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </Transition>
 </template>

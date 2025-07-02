@@ -1,18 +1,37 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist/types",
-    "allowJs": true,
-    "checkJs": true,
-    "noEmitOnError": false,
-    "skipLibCheck": true,
-    "module": "CommonJS",
-    "target": "es2021",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src/**/*.vue", "dist/types/**/*.d.ts"],
-  "exclude": ["node_modules", "dist"]
+    "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "dist/types",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmitOnError": false,
+        "skipLibCheck": true,
+        "module": "ESNext",
+        "target": "ES2020",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.vue",
+        "src/**/*.ts",
+        "src/**/*.js",
+        "dist/types/**/*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }

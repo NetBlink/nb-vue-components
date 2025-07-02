@@ -1,61 +1,69 @@
-<script setup>
-// @ts-nocheck
+<script setup lang="ts">
+/**
+ * Pagination component for navigating through pages of data
+ *
+ * @component
+ *
+ * @prop {Array} links - Array of pagination link objects
+ * @prop {boolean} linkReturn - Whether to return links instead of navigating
+ * @prop {number} maxPagesToShow - Maximum number of page links to display
+ * @prop {boolean} logs - Whether this is used for logs pagination
+ * @prop {string} customLinkClass - Custom CSS classes for pagination links
+ * @prop {string} customActiveLinkClass - Custom CSS classes for active link
+ * @prop {string} customListClass - Custom CSS classes for the pagination list
+ * @prop {boolean} preserveScroll - Whether to preserve scroll position
+ * @prop {boolean} preserveState - Whether to preserve component state
+ * @prop {Array} only - Array of properties to preserve during navigation
+ * @prop {boolean} showPerPage - Whether to show per-page selector
+ * @prop {number} defaultPerPage - Default number of items per page
+ */
+
 import Link from '../overrides/InertiaLink';
 import { computed, ref } from 'vue';
 import { Input } from '../index';
 
-const emit = defineEmits(['change']);
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
 
-const props = defineProps({
-    links: Array,
-    linkReturn: {
-        type: Boolean,
-        default: false,
-    },
-    maxPagesToShow: {
-        type: Number,
-        default: 20,
-    },
-    logs: {
-        type: Boolean,
-        default: false,
-    },
-    customLinkClass: {
-        type: String,
-        default: '',
-    },
-    customActiveLinkClass: {
-        type: String,
-        default: '',
-    },
-    customListClass: {
-        type: String,
-        default: '',
-    },
-    preserveScroll: {
-        type: Boolean,
-        default: false,
-    },
-    preserveState: {
-        type: Boolean,
-        default: false,
-    },
-    only: {
-        type: Array,
-        default: [],
-    },
-    showPerPage: {
-        type: Boolean,
-        default: false,
-    },
-    defaultPerPage: {
-        type: Number,
-        default: 100,
-    },
+interface Props {
+    links: PaginationLink[];
+    linkReturn?: boolean;
+    maxPagesToShow?: number;
+    logs?: boolean;
+    customLinkClass?: string;
+    customActiveLinkClass?: string;
+    customListClass?: string;
+    preserveScroll?: boolean;
+    preserveState?: boolean;
+    only?: string[];
+    showPerPage?: boolean;
+    defaultPerPage?: number;
+}
+
+const emit = defineEmits<{
+    change: [url: string];
+}>();
+
+const props = withDefaults(defineProps<Props>(), {
+    linkReturn: false,
+    maxPagesToShow: 20,
+    logs: false,
+    customLinkClass: '',
+    customActiveLinkClass: '',
+    customListClass: '',
+    preserveScroll: false,
+    preserveState: false,
+    only: () => [],
+    showPerPage: false,
+    defaultPerPage: 100,
 });
 
 const perPage = ref(props.defaultPerPage);
 const perPageOptions = [10, 25, 50, 100, 250];
+
 const filteredLinks = computed(() => {
     if (!props.links || props.links.length <= 3) {
         return props.links;
@@ -118,7 +126,7 @@ const perPageChanged = (e) => {
                             v-else
                             class="focusable relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
                             :class="{
-                                'font-bold text-primary': link.active,
+                                'text-primary font-bold': link.active,
                                 [customLinkClass]: customLinkClass,
                                 [customActiveLinkClass]: link.active && customActiveLinkClass,
                             }"
@@ -140,7 +148,7 @@ const perPageChanged = (e) => {
                             v-else
                             class="focusable relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
                             :class="{
-                                'font-bold text-primary': link.active,
+                                'text-primary font-bold': link.active,
                                 [customLinkClass]: customLinkClass,
                                 [customActiveLinkClass]: link.active && customActiveLinkClass,
                             }"

@@ -1,17 +1,30 @@
-<script setup>
-// @ts-nocheck
+<script setup lang="ts">
+/**
+ * Navigation Collapse component with expandable/collapsible content
+ *
+ * @component
+ *
+ * @prop {boolean} open - Whether the collapse is initially open
+ * @prop {string} name - Name/title for the collapse section
+ */
+
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { faChevronCircleDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { computed, ref, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
 
-const props = defineProps({
-    open: { type: Boolean, default: false },
-    name: String,
+interface Props {
+    open?: boolean;
+    name: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    open: false,
 });
 
 const isOpen = ref(props.open);
+
 watch(
     () => props.open,
     (v) => (isOpen.value = v)
