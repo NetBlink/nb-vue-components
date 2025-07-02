@@ -229,7 +229,9 @@ const paginationProps = [
         <section id="alerts">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Alerts</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Contextual alert messages with smooth show/hide animations for success, error, warning, and informational feedback.</p>
+                <p class="mb-4 text-gray-600">
+                    Contextual alert messages with smooth show/hide animations for success, error, warning, and informational feedback.
+                </p>
 
                 <div class="mb-6 space-y-4">
                     <!-- Basic Alert Examples -->
@@ -248,39 +250,47 @@ const paginationProps = [
                 <div class="mb-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
                     <h4 class="mb-3 font-semibold text-gray-800">Interactive Animation Demo</h4>
                     <p class="mb-4 text-sm text-gray-600">Click the buttons below to see the smooth show/hide animations:</p>
-                    
+
                     <div class="mb-4 flex flex-wrap gap-2">
-                        <button @click="showSuccessAlert = !showSuccessAlert" 
-                                class="rounded bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700 transition-colors">
+                        <button
+                            @click="showSuccessAlert = !showSuccessAlert"
+                            class="rounded bg-green-600 px-3 py-1 text-sm text-white transition-colors hover:bg-green-700"
+                        >
                             {{ showSuccessAlert ? 'Hide' : 'Show' }} Success
                         </button>
-                        <button @click="showErrorAlert = !showErrorAlert" 
-                                class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700 transition-colors">
+                        <button
+                            @click="showErrorAlert = !showErrorAlert"
+                            class="rounded bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
+                        >
                             {{ showErrorAlert ? 'Hide' : 'Show' }} Error
                         </button>
-                        <button @click="showWarningAlert = !showWarningAlert" 
-                                class="rounded bg-yellow-600 px-3 py-1 text-sm text-white hover:bg-yellow-700 transition-colors">
+                        <button
+                            @click="showWarningAlert = !showWarningAlert"
+                            class="rounded bg-yellow-600 px-3 py-1 text-sm text-white transition-colors hover:bg-yellow-700"
+                        >
                             {{ showWarningAlert ? 'Hide' : 'Show' }} Warning
                         </button>
-                        <button @click="showInfoAlert = !showInfoAlert" 
-                                class="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700 transition-colors">
+                        <button
+                            @click="showInfoAlert = !showInfoAlert"
+                            class="rounded bg-blue-600 px-3 py-1 text-sm text-white transition-colors hover:bg-blue-700"
+                        >
                             {{ showInfoAlert ? 'Hide' : 'Show' }} Info
                         </button>
                     </div>
-                    
+
                     <div class="space-y-3">
                         <Alert v-model="showSuccessAlert" type="success" title="Animated Success" :dismissible="true">
                             This alert smoothly fades and slides in/out with beautiful animations!
                         </Alert>
-                        
+
                         <Alert v-model="showErrorAlert" type="error" title="Animated Error" :dismissible="true">
                             Watch the smooth transitions as this alert appears and disappears.
                         </Alert>
-                        
+
                         <Alert v-model="showWarningAlert" type="warning" title="Animated Warning" :dismissible="true">
                             The animations include opacity, scale, and translate transforms.
                         </Alert>
-                        
+
                         <Alert v-model="showInfoAlert" type="info" title="Animated Info" :dismissible="true">
                             All animations are CSS-based for optimal performance.
                         </Alert>
@@ -466,11 +476,7 @@ const paginationProps = [
                                 class="flex w-full items-center justify-between rounded-lg bg-gray-100 p-4 text-left hover:bg-gray-200"
                             >
                                 <span class="font-semibold">Advanced Settings</span>
-                                <FontAwesomeIcon
-                                    :icon="faChevronDown"
-                                    class="h-4 w-4 transition-transform"
-                                    :class="{ 'rotate-180': collapseOpen }"
-                                />
+                                <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
                             </button>
                         </template>
                         <div class="rounded-b-lg border border-t-0 p-4">

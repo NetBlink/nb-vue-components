@@ -112,7 +112,9 @@ const descriptionListExamples = [
 
                     <Section class="border border-blue-200 bg-blue-50">
                         <h4 class="mb-2 text-lg font-medium">Custom Styled Section</h4>
-                        <p class="text-gray-600">This section demonstrates custom styling with background color and border that overrides the defaults.</p>
+                        <p class="text-gray-600">
+                            This section demonstrates custom styling with background color and border that overrides the defaults.
+                        </p>
                     </Section>
 
                     <Section variant="outlined">
@@ -125,7 +127,7 @@ const descriptionListExamples = [
                         <p class="text-gray-600">A minimal section with just rounded corners.</p>
                     </Section>
 
-                    <Section unstyled class="bg-gradient-to-r from-purple-400 to-pink-400 p-8 rounded-xl">
+                    <Section unstyled class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 p-8">
                         <h4 class="mb-2 text-lg font-medium text-white">Fully Custom Section</h4>
                         <p class="text-purple-100">This section uses the unstyled prop for complete custom styling freedom.</p>
                     </Section>

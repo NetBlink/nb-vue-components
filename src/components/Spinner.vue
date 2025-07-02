@@ -45,7 +45,7 @@ const colorClasses = computed(() => {
         :class="[
             'inline-block animate-spin rounded-full border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
             sizeClasses,
-            colorClasses
+            colorClasses,
         ]"
         role="status"
         aria-label="Loading"

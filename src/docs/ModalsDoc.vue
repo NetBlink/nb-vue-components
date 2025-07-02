@@ -192,15 +192,15 @@ const modalEvents = [
 
                 <NewModal v-model:open="showConfirmModal">
                     <div class="p-6">
-                        <div class="flex items-center mb-4">
+                        <div class="mb-4 flex items-center">
                             <FontAwesomeIcon :icon="faExclamationTriangle" class="mr-3 h-6 w-6 text-red-600" />
                             <h3 class="text-lg font-semibold text-gray-900">Confirm Deletion</h3>
                         </div>
-                        
+
                         <p class="mb-6 text-gray-600">
                             Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
                         </p>
-                        
+
                         <div class="flex justify-end space-x-3">
                             <SecondaryButton @click="showConfirmModal = false">Cancel</SecondaryButton>
                             <DangerButton @click="handleConfirm">Delete Account</DangerButton>

@@ -84,7 +84,7 @@ const getSelectedItems = () => {
         <InputLabel v-if="!noLabel && (label || field)" :for="id ?? field" :value="ucwords(label ?? field)" />
         <div class="model-list relative flex w-full min-w-[10rem]" data-te-dropdown-ref :id="id ?? field">
             <button
-                class="flex h-10 w-full items-center justify-between whitespace-nowrap rounded border border-gray-300 px-3 py-2 pr-5 text-base leading-normal shadow outline outline-1 outline-transparent transition duration-150 ease-in-out aria-expanded:rounded-b-none aria-expanded:border-accent-500 aria-expanded:outline-accent-500 motion-reduce:transition-none"
+                class="aria-expanded:border-accent-500 aria-expanded:outline-accent-500 flex h-10 w-full items-center justify-between rounded border border-gray-300 px-3 py-2 pr-5 text-base leading-normal whitespace-nowrap shadow outline outline-1 outline-transparent transition duration-150 ease-in-out aria-expanded:rounded-b-none motion-reduce:transition-none"
                 type="button"
                 data-te-dropdown-toggle-ref
                 data-te-auto-close="outside"
@@ -108,9 +108,9 @@ const getSelectedItems = () => {
                         v-for="item of list"
                         @click="click(item)"
                         :key="item[optionValue]"
-                        class="flex w-full min-w-full cursor-pointer items-center justify-start border-t border-gray-50 px-4 py-3 text-sm font-normal leading-4 hover:bg-[rgba(0,0,0,.03)]"
+                        class="flex w-full min-w-full cursor-pointer items-center justify-start border-t border-gray-50 px-4 py-3 text-sm leading-4 font-normal hover:bg-[rgba(0,0,0,.03)]"
                     >
-                        <div class="-ml-2 mr-2 h-4 w-4 rounded border" :class="isSelected(item) ? 'bg-primary' : 'bg-white'"></div>
+                        <div class="mr-2 -ml-2 h-4 w-4 rounded border" :class="isSelected(item) ? 'bg-primary' : 'bg-white'"></div>
                         {{ item[optionText] }}
                     </li>
                 </ul>

@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { 
-    faChevronDown, 
-    faUser, 
-    faCog, 
-    faCreditCard, 
-    faSignOutAlt 
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faUser, faCog, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import {
     NavLink,
     ResponsiveNavLink,

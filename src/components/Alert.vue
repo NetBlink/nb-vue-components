@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { 
-    faCheckCircle, 
-    faTimesCircle, 
-    faExclamationTriangle, 
-    faInfoCircle,
-    faTimes
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTimesCircle, faExclamationTriangle, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     /** The type/variant of the alert */
@@ -41,18 +35,22 @@ const show = computed({
     set: (value: boolean) => {
         isVisible.value = value;
         emit('update:modelValue', value);
-    }
+    },
 });
 
 // Sync isVisible with modelValue changes from parent
-watch(() => props.modelValue, (newValue) => {
-    isVisible.value = newValue;
-}, { immediate: true });
+watch(
+    () => props.modelValue,
+    (newValue) => {
+        isVisible.value = newValue;
+    },
+    { immediate: true }
+);
 
 // Alert type styles
 const alertClasses = computed(() => {
     const baseClasses = 'relative w-full rounded-lg border px-4 py-3 text-sm';
-    
+
     switch (props.type) {
         case 'success':
             return `${baseClasses} border-green-200 bg-green-50 text-green-800`;
@@ -98,16 +96,16 @@ const onBeforeEnter = (el: Element) => {
 const onEnter = (el: Element, done: () => void) => {
     const element = el as HTMLElement;
     const height = element.scrollHeight;
-    
+
     element.style.transition = 'all 400ms ease-out';
-    
+
     // Use requestAnimationFrame to ensure the styles are applied
     requestAnimationFrame(() => {
         element.style.height = `${height}px`;
         element.style.opacity = '1';
         element.style.transform = 'translateY(0) scale(1)';
     });
-    
+
     setTimeout(done, 400);
 };
 
@@ -124,15 +122,15 @@ const onBeforeLeave = (el: Element) => {
 
 const onLeave = (el: Element, done: () => void) => {
     const element = el as HTMLElement;
-    
+
     element.style.transition = 'all 350ms ease-in';
-    
+
     requestAnimationFrame(() => {
         element.style.height = '0';
         element.style.opacity = '0';
         element.style.transform = 'translateY(-8px) scale(0.95)';
     });
-    
+
     setTimeout(done, 350);
 };
 
@@ -156,7 +154,7 @@ const onAfterLeave = (el: Element) => {
         @after-leave="onAfterLeave"
         :css="false"
     >
-        <div v-if="show" :class="alertClasses" role="alert" style="overflow: hidden;">
+        <div v-if="show" :class="alertClasses" role="alert" style="overflow: hidden">
             <div class="flex">
                 <!-- Icon -->
                 <div class="flex-shrink-0">
@@ -167,14 +165,14 @@ const onAfterLeave = (el: Element) => {
                             'text-green-400': type === 'success',
                             'text-red-400': type === 'error',
                             'text-yellow-400': type === 'warning',
-                            'text-blue-400': type === 'info'
+                            'text-blue-400': type === 'info',
                         }"
                     />
                 </div>
 
                 <!-- Content -->
                 <div class="ml-3 flex-1">
-                    <h3 v-if="title" class="text-sm font-medium mb-1">
+                    <h3 v-if="title" class="mb-1 text-sm font-medium">
                         {{ title }}
                     </h3>
                     <div class="text-sm">
@@ -186,12 +184,12 @@ const onAfterLeave = (el: Element) => {
                 <div v-if="dismissible" class="ml-auto flex-shrink-0">
                     <button
                         @click="handleDismiss"
-                        class="inline-flex rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-150"
+                        class="inline-flex rounded-md p-1.5 transition-colors duration-150 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                         :class="{
                             'text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50': type === 'success',
                             'text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50': type === 'error',
                             'text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50': type === 'warning',
-                            'text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50': type === 'info'
+                            'text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50': type === 'info',
                         }"
                         aria-label="Dismiss alert"
                     >

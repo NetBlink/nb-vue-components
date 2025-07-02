@@ -32,9 +32,9 @@ const baseClasses = computed(() => {
     if (props.unstyled) {
         return '';
     }
-    
+
     const base = 'rounded-lg';
-    
+
     switch (props.variant) {
         case 'outlined':
             return `${base} border border-gray-300`;
@@ -48,22 +48,22 @@ const baseClasses = computed(() => {
 
 const containerClasses = computed(() => {
     const classes = [];
-    
+
     // Add base classes if not unstyled
     if (!props.unstyled) {
         classes.push(baseClasses.value);
     }
-    
+
     // Add overflow class if needed
     if (props.overflow) {
         classes.push('overflow-hidden');
     }
-    
+
     // Add custom class if provided (this will override defaults due to CSS specificity)
     if (attrs.class && typeof attrs.class === 'string') {
         classes.push(attrs.class);
     }
-    
+
     return classes.filter(Boolean).join(' ');
 });
 
