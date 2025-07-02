@@ -13,6 +13,11 @@ export default ({ mode }) => {
             outDir: 'docs-dist',
             rollupOptions: {
                 input: resolve(__dirname, 'docs.html'),
+                output: {
+                    entryFileNames: 'assets/docs-[hash].js',
+                    assetFileNames: 'assets/docs-[hash].[ext]',
+                    chunkFileNames: 'assets/docs-[hash].js',
+                },
             },
         },
         resolve: {
