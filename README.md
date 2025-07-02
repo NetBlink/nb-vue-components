@@ -1,176 +1,329 @@
-# VUE Components
+# NB Vue Components
 
-Vue componenets library for Stack with:
+##  Features
 
--   VUE (3)
--   Inertia
--   TailwindCSS
--   Tailwind Elements
--   Laravel (with ziggy routes)
+- **Vue 3** with Composition API
+- **TypeScript** support with full type definitions
+- **TailwindCSS** for styling
+- **FontAwesome** icons for consistency
+- **Inertia.js** integration
+- **Accessible** components following WCAG guidelines
+- **Tree-shakable** ES modules
+- **Comprehensive documentation** with live examples
 
-Install with for newest version:
+## Installation
+
+Install the latest stable version:
 
 ```bash
-npm install git@github.com:NetBlink/nb-vue-components/.git#release
+npm install @netblink/vue-components
 ```
 
-# Documentation
 
-[docs](https://NetBlink.github.io/nb-vue-components/)
 
-Available components:
+##  Documentation
 
--   Checkbox
--   Input
--   InputError
--   InputLabel
--   TextInput
--   Textarea
--   DropdownSearchbar
--   SearchSelect
--   FileDropZoneInput
--   Table
--   Thead
--   Th
--   Td
--   TrCollapseHandler
--   Alert
--   CollapsibleSection
--   Dropdown
--   DropdownLink
--   LinkButton
--   LinkDropdownButton
--   LinkDropdownButtonItem
--   Logs
--   LogsContent
--   Modal
--   NavLink
--   Pagination
--   PrimaryButton
--   ResponsiveNavLink
--   Section
--   SecondaryButton
--   Spinner
--   Stats
+**[📖 Full Documentation & Live Examples](https://netblink.github.io/nb-vue-components/)**
 
-## USAGE:
+Explore all components with interactive examples, props documentation, and usage guides.
 
-For this to work you have to configure those values in tailwind (especially colors). For all values for Tailwind you can use page like [UI Colors](https://uicolors.app/create), but remember to add `DEAFULT` value.
+##  Component Categories
+
+### Form Controls
+- **Input** - Text input with label, validation, and tooltip support
+- **Textarea** - Multi-line text input
+- **Select** - Dropdown selection
+- **RichSelect** - Enhanced select with search and multi-select
+- **Checkbox** - Boolean input with custom styling
+- **RadioButton** - Single selection from multiple options
+- **Switch** - Toggle control
+- **FileDropZoneInput** - Drag & drop file upload
+- **SearchSelect** - Searchable dropdown
+- **SelectMultiple** - Multiple selection dropdown
+- **DropdownSearchbar** - Search input with dropdown results
+
+### Buttons
+- **Button** - Base button component with theme support
+- **PrimaryButton** - Primary call-to-action button
+- **SecondaryButton** - Secondary action button
+- **DangerButton** - Destructive action button
+- **WarningButton** - Warning action button
+- **InfoButton** - Information button
+- **SuccessButton** - Success action button
+- **LinkButton** - Button styled as a link with theme support
+- **LinkDropdownButton** - Link button with dropdown
+- **SubmitButton** - Form submission button
+
+### Tables
+- **Table** - Responsive table with sorting and pagination
+- **Thead** / **Tbody** - Table header and body
+- **Th** / **Td** - Table header and data cells
+- **TableCollapse** - Expandable table rows
+- **TableItemCard** - Card view for table items
+
+### Navigation
+- **NavLink** - Navigation link component
+- **ResponsiveNavLink** - Mobile-responsive navigation
+- **NavCollapse** - Collapsible navigation sections
+- **Dropdown** - Dropdown menu container
+- **DropdownLink** - Individual dropdown items
+- **DropdownSeparator** - Visual separator for dropdowns
+
+### Layout & UI
+- **Section** - Content section with variant support
+- **Modal** / **NewModal** - Dialog overlays
+- **Alert** - Notification messages with animations
+- **Collapse** - Expandable content areas
+- **Tooltip** - Contextual information overlays
+- **Spinner** - Loading indicators with size variants
+- **Stats** - Statistical display component
+- **Pagination** - Page navigation
+- **DescriptionList** - Key-value pair displays
+- **DottedCarousel** - Image carousel with navigation
+- **GravatarImg** - Gravatar image display
+
+### Utility Components
+- **InputWrapper** - Standardized input container with label/error handling
+- **InputLabel** / **InputError** - Form field labels and error messages
+- **UnderConstruction** - Work-in-progress placeholder
+- **PropsTable** - Documentation prop tables
+- **CodePreview** - Code example display
+
+##  Setup & Configuration
+
+### 1. TailwindCSS Configuration
+
+Add this package to your Tailwind content and configure the required theme colors:
 
 ```js
-{
-    theme: {
-        extend: {
-            colors: {
-                dark: "#161b1c",
-                muted: "#a0a0a0",
-                white: "#ffffff",
-
-                primary: {
-                    DEFAULT: "#aad3d9",
-                    50: "#f4f9fb",
-                    100: "#e9f2f5",
-                },
-                accent: {
-                    DEFAULT: "#e1b8c3",
-                    50: "#fbf5f6",
-                    100: "#f7ecef",
-                },
-                danger: {
-                    DEFAULT: "#f36262",
-                    50: "#fef2f2",
-                    100: "#fde3e3",
-                },
-                warning: {
-                    DEFAULT: "#f3cf62",
-                    50: "#fefaec",
-                    100: "#fbf0ca",
-                },
-                success: {
-                    DEFAULT: "#87f362",
-                    50: "#eefee7",
-                    100: "#d9fccb",
-                },
-                info: {
-                    DEFAULT: "#6262f3",
-                    50: "#eef2ff",
-                    100: "#e0e6ff",
-                },
-            },
-            fontSize: {
-                xxs: ".65rem",
-                xs: ".75rem",
-                sm: ".875rem",
-                tiny: ".875rem",
-                base: "1rem",
-                lg: "1.125rem",
-                xl: "1.25rem",
-                "2xl": "1.5rem",
-                "3xl": "1.875rem",
-                "4xl": "2.25rem",
-                "5xl": "3rem",
-                "6xl": "4rem",
-                "7xl": "5rem",
-                "45px": "45px",
-            },
-            fontFamily: {
-                sans: ["Poppins", ...defaultTheme.fontFamily.sans],
-                opensans: ["Open Sans", ...defaultTheme.fontFamily.sans],
-            },
-            fontWeight: {
-                light: 300,
-                normal: 400,
-                semibold: 600,
-                bold: 700,
-            },
-            screens: {
-                xxs: "410px",
-                xs: "490px",
-                sm: "640px",
-                md: "768px",
-                lg: "1024px",
-                xl: "1084px",
-                laptop: "1084px",
-                "2xl": "1084px",
-                "3xl": "1360px",
-            },
-            borderRadius: {
-                none: "0",
-                sm: ".125rem",
-                DEFAULT: ".25rem",
-                md: ".375rem",
-                lg: ".5rem",
-                full: "9999px",
-            },
-            boxShadow: {
-                DEFAULT: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-            },
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}"
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: "#3b82f6",
+          50: "#eff6ff",
+          100: "#dbeafe",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
         },
-    }
-```
-
-Also you need to add this package to conent seciont and change mode to `jit`, for tailwind to dynamically add styling:
-
-```js
-{
-    "mode": "jit",
-    "content": [
-        /*...*/
-        "./node_modules/@nb/**/*.js"
-    ]
+        danger: {
+          DEFAULT: "#ef4444",
+          50: "#fef2f2",
+          100: "#fee2e2",
+          500: "#ef4444",
+          600: "#dc2626",
+        },
+        warning: {
+          DEFAULT: "#f59e0b",
+          50: "#fffbeb",
+          100: "#fef3c7",
+          500: "#f59e0b",
+          600: "#d97706",
+        },
+        success: {
+          DEFAULT: "#10b981",
+          50: "#ecfdf5",
+          100: "#d1fae5",
+          500: "#10b981",
+          600: "#059669",
+        },
+        info: {
+          DEFAULT: "#3b82f6",
+          50: "#eff6ff",
+          100: "#dbeafe",
+          500: "#3b82f6",
+          600: "#2563eb",
+        },
+      },
+    },
+  },
+  plugins: [],
 }
 ```
 
-After this you can use components like every other:
+### 2. FontAwesome Icons
 
-```jsx
+Install FontAwesome for Vue:
+
+```bash
+npm install @fortawesome/vue-fontawesome @fortawesome/free-solid-svg-icons
+```
+
+### 3. Vue Application Setup
+
+```js
+// main.js
+import { createApp } from 'vue'
+import App from './App.vue'
+
+// Import TailwindCSS
+import './style.css'
+
+const app = createApp(App)
+
+// Mount your app
+app.mount('#app')
+```
+
+##  Usage Examples
+
+### Basic Form
+
+```vue
 <script setup>
-    import { Section, PrimaryButton, InputError } from "@nb/vue-components";
+import { 
+  Section, 
+  Input, 
+  Button, 
+  Alert 
+} from '@netblink/vue-components'
+import { ref } from 'vue'
+
+const form = ref({
+  name: '',
+  email: ''
+})
+const showSuccess = ref(false)
+
+const submit = () => {
+  // Handle form submission
+  showSuccess.value = true
+}
 </script>
+
 <template>
-    <Section>
-        <PrimaryButton>Click me</PrimaryButton>
-        <InputError>Some error</InputError>
-    </Section>
+  <Section>
+    <Alert 
+      v-if="showSuccess"
+      type="success" 
+      title="Success!"
+      message="Form submitted successfully"
+      :dismissible="true"
+    />
+    
+    <form @submit.prevent="submit" class="space-y-4">
+      <Input
+        v-model="form.name"
+        label="Full Name"
+        placeholder="Enter your name"
+        required
+      />
+      
+      <Input
+        v-model="form.email"
+        type="email"
+        label="Email Address"
+        placeholder="Enter your email"
+        tooltip="We'll never share your email"
+        required
+      />
+      
+      <Button type="submit" theme="primary">
+        Submit Form
+      </Button>
+    </form>
+  </Section>
 </template>
 ```
+
+### Data Table
+
+```vue
+<script setup>
+import { 
+  Table, 
+  Thead, 
+  Tbody, 
+  Th, 
+  Td 
+} from '@netblink/vue-components'
+
+const users = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+]
+</script>
+
+<template>
+  <Table>
+    <Thead>
+      <Th>Name</Th>
+      <Th>Email</Th>
+      <Th>Role</Th>
+    </Thead>
+    <Tbody>
+      <tr v-for="user in users" :key="user.id">
+        <Td>{{ user.name }}</Td>
+        <Td>{{ user.email }}</Td>
+        <Td>{{ user.role }}</Td>
+      </tr>
+    </Tbody>
+  </Table>
+</template>
+```
+
+### Navigation with Dropdown
+
+```vue
+<script setup>
+import { 
+  NavLink, 
+  Dropdown, 
+  DropdownLink 
+} from '@netblink/vue-components'
+</script>
+
+<template>
+  <nav class="flex items-center space-x-4">
+    <NavLink href="/dashboard">Dashboard</NavLink>
+    <NavLink href="/projects">Projects</NavLink>
+    
+    <Dropdown align="end">
+      <template #trigger>
+        <button class="flex items-center text-gray-700 hover:text-gray-900">
+          Account
+        </button>
+      </template>
+      
+      <template #content>
+        <DropdownLink href="/profile">Profile</DropdownLink>
+        <DropdownLink href="/settings">Settings</DropdownLink>
+        <DropdownLink href="/logout" method="post">Logout</DropdownLink>
+      </template>
+    </Dropdown>
+  </nav>
+</template>
+```
+
+##  Development
+
+```bash
+# Clone the repository
+git clone https://github.com/NetBlink/nb-vue-components.git
+cd nb-vue-components
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run docs:dev
+
+# Build documentation
+npm run docs:build
+
+# Build library
+npm run build
+
+# Type checking
+npm run build:types
+```
+
+
+Made with ❤️ by [NetBlink](https://github.com/NetBlink)
