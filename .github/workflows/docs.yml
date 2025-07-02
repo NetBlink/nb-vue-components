@@ -34,9 +34,6 @@ jobs:
       - name: Build documentation
         run: npm run docs:build
         
-      - name: Copy .nojekyll to docs-dist
-        run: cp .nojekyll docs-dist/.nojekyll
-        
       - name: Rename docs.html to index.html
         run: mv docs-dist/docs.html docs-dist/index.html
         
