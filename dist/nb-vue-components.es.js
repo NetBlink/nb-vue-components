@@ -12136,8 +12136,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
     })), (l, u) => (x(), P("div", {
       class: Z({
         "!visible hidden": t.collapsable,
-        "overflow-hidden": !t.overflow,
-        "rounded-xl border border-gray-200 bg-white shadow": !0
+        "overflow-hidden": !t.overflow
       }),
       id: t.collapse_id,
       "data-te-collapse-item": ""
@@ -12150,7 +12149,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
           ref: r
         }, [
           D("table", {
-            class: Z(["min-w-full overflow-hidden rounded-lg text-left text-sm font-light", {
+            class: Z(["min-w-full overflow-hidden text-left text-sm font-light", {
               "[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4": t.collapsable,
               "border-separate border-spacing-y-5": t.seperate,
               "[&_thead]:max-sm:hidden": t.responsive,
@@ -12305,7 +12304,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
       ])
     ], 2));
   }
-}), C2 = { class: "rounded-lg py-2 text-center whitespace-nowrap transition hover:bg-gray-50 md:px-6 md:py-4 md:text-left" }, E2 = { class: "td-label hidden font-bold" }, Ms = /* @__PURE__ */ U({
+}), C2 = { class: "rounded-lg py-2 text-center whitespace-nowrap transition md:px-6 md:py-4 md:text-left" }, E2 = { class: "td-label hidden font-bold" }, Ms = /* @__PURE__ */ U({
   __name: "Td",
   props: {
     label: {}
