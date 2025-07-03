@@ -12145,7 +12145,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
       t.total != null ? (x(), P("p", y2, "Found: " + Q(t.total), 1)) : G("", !0),
       D("div", g2, [
         D("div", {
-          class: Z(["w-full", t.overflow ? "overflow-x-auto" : "", "px-2"]),
+          class: Z(["w-full", t.overflow ? "overflow-x-auto" : ""]),
           ref_key: "table_container",
           ref: r
         }, [
