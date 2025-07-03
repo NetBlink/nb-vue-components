@@ -12212,7 +12212,7 @@ const Iw = { class: "flex w-full flex-col" }, _w = {
       }
     });
     return (r, o) => (x(), P("tbody", null, [
-      r.skipDeferred ? j(r.$slots, "default", { key: 1 }) : (x(), P(re, { key: 0 }, [
+      r.skipDeferred ? Y("", !0) : (x(), P(re, { key: 0 }, [
         !r.hideNoRecordsMessage && n.value ? (x(), P(re, { key: 0 }, [
           n.value.length ? Y("", !0) : (x(), P("tr", g2, [
             Q(b(Kf), {
