@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { H2, Input, Checkbox, Textarea, Switch, RadioButton, Select, RichSelect, CodePreview, CollapsableSection, PropsTable } from '../index';
+import DescriptionList from '@/components/DescriptionList.vue';
+import DescriptionListItem from '@/components/DescriptionListItem.vue';
 
 // Mock form setup
 const form = useForm({
@@ -62,6 +64,33 @@ const radioExamples = [
 const selectExamples = [
     '<Select :form="form" field="country" label="Country" :options="countries" />',
     '<RichSelect :form="form" field="framework" label="Framework" :options="frameworks" />',
+];
+
+const descriptionListExamples = [
+    '<DescriptionList>',
+    '  <DescriptionListItem label="Name">John Doe</DescriptionListItem>',
+    '  <DescriptionListItem label="Email">john@example.com</DescriptionListItem>',
+    '  <DescriptionListItem label="Role">Admin</DescriptionListItem>',
+    '</DescriptionList>',
+];
+
+const descriptionListEditableExamples = [
+    '<DescriptionList>',
+    '  <DescriptionListItem label="Name" editable>John Doe</DescriptionListItem>',
+    '  <DescriptionListItem label="Email" editable>john@example.com</DescriptionListItem>',
+    '  <DescriptionListItem label="Role" editable>Admin</DescriptionListItem>',
+    '</DescriptionList>',
+];
+
+const descriptionListAdvancedExamples = [
+    '<DescriptionList>',
+    '  <DescriptionListItem label="Required" required editable>Required value</DescriptionListItem>',
+    '  <DescriptionListItem label="With value prop" :value="\'Value from prop\'" />',
+    '  <DescriptionListItem>',
+    '    <template #label>Custom <b>Label</b></template>',
+    '    Custom content with <span class="text-primary">slot</span>',
+    '  </DescriptionListItem>',
+    '</DescriptionList>',
 ];
 
 // Props data for tables
@@ -136,6 +165,16 @@ const frameworks = [
     { value: 'vue', label: 'Vue.js' },
     { value: 'react', label: 'React' },
     { value: 'angular', label: 'Angular' },
+];
+
+const descriptionListProps = [
+    { prop: 'form', type: 'object', default: '-', description: 'Inertia form object for auto-edit integration (DescriptionList)' },
+    { prop: 'stopEditOnSubmit', type: 'boolean', default: 'false', description: 'Stop editing when form submits (DescriptionList)' },
+    { prop: 'label', type: 'string', default: "''", description: 'Label for the item (DescriptionListItem)' },
+    { prop: 'value', type: 'string', default: 'undefined', description: 'Value for the item (alternative to slot)' },
+    { prop: 'editable', type: 'boolean', default: 'false', description: 'Enable inline editing (DescriptionListItem)' },
+    { prop: 'forceEditing', type: 'boolean', default: 'false', description: 'Force editing mode (DescriptionListItem)' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Show required asterisk (DescriptionListItem)' },
 ];
 </script>
 
@@ -286,6 +325,51 @@ const frameworks = [
 
                 <CollapsableSection header="Select Props & Parameters" class="mt-6">
                     <PropsTable :rows="selectProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="description-list">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Description List</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">
+                    Description lists are great for displaying key-value pairs, user profiles, or summary data. Supports static, editable, and
+                    advanced usage.
+                </p>
+
+                <h4 class="mb-2 font-semibold text-gray-800">Basic Example</h4>
+                <DescriptionList>
+                    <DescriptionListItem label="Name">John Doe</DescriptionListItem>
+                    <DescriptionListItem label="Email">john@example.com</DescriptionListItem>
+                    <DescriptionListItem label="Role">Admin</DescriptionListItem>
+                </DescriptionList>
+                <CodePreview :code="descriptionListExamples" class="mt-4" />
+
+                <h4 class="mt-8 mb-2 font-semibold text-gray-800">Editable Example</h4>
+                <DescriptionList>
+                    <DescriptionListItem label="Name" editable>John Doe</DescriptionListItem>
+                    <DescriptionListItem label="Email" editable>john@example.com</DescriptionListItem>
+                    <DescriptionListItem label="Role" editable>Admin</DescriptionListItem>
+                </DescriptionList>
+                <CodePreview :code="descriptionListEditableExamples" class="mt-4" />
+
+                <h4 class="mt-8 mb-2 font-semibold text-gray-800">Advanced Example</h4>
+                <DescriptionList>
+                    <DescriptionListItem label="Required" required editable>Required value</DescriptionListItem>
+                    <DescriptionListItem label="With value prop" :value="'Value from prop'" />
+                    <DescriptionListItem>
+                        <template #label>
+                            Custom
+                            <b>Label</b>
+                        </template>
+                        Custom content with
+                        <span class="text-primary">slot</span>
+                    </DescriptionListItem>
+                </DescriptionList>
+                <CodePreview :code="descriptionListAdvancedExamples" class="mt-4" />
+
+                <CollapsableSection header="DescriptionList & Item Props" class="mt-6">
+                    <PropsTable :rows="descriptionListProps" />
                 </CollapsableSection>
             </div>
         </section>

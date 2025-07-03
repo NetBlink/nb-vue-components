@@ -88,8 +88,13 @@ const getArrowColor = (direction: 'asc' | 'desc'): string => {
 };
 </script>
 <template>
-    <th scope="col" class="relative py-4 text-center md:px-6 md:text-left" @click="toggleOrder" :class="orderBy ? 'cursor-pointer' : ''">
-        <div class="flex items-center justify-between">
+    <th
+        scope="col"
+        class="relative border-b border-gray-200 bg-neutral-100 px-4 py-3 text-center font-semibold text-gray-700 transition select-none hover:rounded-t-lg hover:bg-neutral-200 md:px-6 md:text-left"
+        @click="toggleOrder"
+        :class="orderBy ? 'cursor-pointer' : ''"
+    >
+        <div class="flex items-center justify-between gap-2">
             <slot />
             <span v-if="orderBy" class="order-arrows flex h-full w-4 items-center md:right-4">
                 <FontAwesomeIcon icon="fa-sort-up" class="absolute" :class="getArrowColor('desc')" />

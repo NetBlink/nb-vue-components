@@ -8,7 +8,9 @@ const props = defineProps({
 });
 </script>
 <template>
-    <td class="whitespace-nowrap py-2 text-center md:px-6 md:py-4 md:text-left">
+    <td
+        class="rounded-none bg-white px-4 py-3 text-center whitespace-nowrap text-gray-600 transition-all group-hover:bg-neutral-100 hover:rounded-lg hover:bg-neutral-50 md:px-6 md:py-4 md:text-left"
+    >
         <span class="td-label hidden font-bold">{{ props.label }}</span>
         <slot />
     </td>

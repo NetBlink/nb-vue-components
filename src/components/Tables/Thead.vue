@@ -8,7 +8,7 @@
  */
 </script>
 <template>
-    <thead class="border-b bg-neutral-100 font-medium dark:border-neutral-500">
+    <thead class="rounded-t-xl border-b border-gray-200 bg-neutral-50 font-semibold">
         <slot />
     </thead>
 </template>

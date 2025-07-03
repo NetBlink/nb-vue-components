@@ -103,13 +103,13 @@ if (props.sticky) {
     >
         <p v-if="total != null" class="text-sm text-gray-600">Found: {{ total }}</p>
 
-        <div class="flex flex-col">
+        <div class="flex max-w-full flex-col">
             <div :class="{ 'overflow-x-auto': overflow }" ref="table_container">
                 <table
-                    class="min-w-full text-left text-sm font-light"
+                    class="min-w-full overflow-hidden rounded-xl border border-gray-200 bg-white text-left text-sm font-light shadow-sm"
                     :class="{
                         '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': collapsable,
-                        'border-separate border-spacing-y-5 px-2': seperate,
+                        'border-separate border-spacing-y-3 px-2': seperate,
                         // reponsive classes
                         // thead & tbody
                         'max-sm:[&_thead]:hidden': responsive,
@@ -117,12 +117,16 @@ if (props.sticky) {
                         'max-sm:[&_.td-label]:block! max-sm:[&_td]:flex max-sm:[&_td]:justify-between max-sm:[&_td]:border-b max-sm:[&_td]:px-2! max-sm:[&_td:last-child]:border-b-0!':
                             responsive,
                         // tr
-                        'max-sm:[&_tr]:mb-2 max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_tr]:rounded-md max-sm:[&_tr]:border max-sm:[&_tr]:border-gray-200 max-sm:[&_tr]:shadow-md':
+                        'max-sm:[&_tr]:mb-2 max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_tr]:rounded-lg max-sm:[&_tr]:border max-sm:[&_tr]:border-gray-200 max-sm:[&_tr]:shadow-md':
                             responsive,
                     }"
                     ref="table"
                 >
-                    <div v-if="sticky" ref="sticky_wrapper" class="fixed isolate z-40 hidden w-full overflow-hidden bg-neutral-100">
+                    <div
+                        v-if="sticky"
+                        ref="sticky_wrapper"
+                        class="fixed isolate z-40 hidden w-full overflow-hidden rounded-t-xl bg-neutral-100 shadow-md"
+                    >
                         <div
                             ref="sticky_header"
                             class="w-max [&>th]:align-middle"

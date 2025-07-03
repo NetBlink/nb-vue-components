@@ -99,6 +99,80 @@ const collapsibleTableExamples = [
     '  </Tbody>',
     '</Table>',
 ];
+
+const sortableTableExamples = [
+    '<Table>',
+    '  <Thead>',
+    '    <tr>',
+    '      <Th orderBy="name">Name</Th>',
+    '      <Th orderBy="email">Email</Th>',
+    '      <Th orderBy="role">Role</Th>',
+    '      <Th orderBy="status">Status</Th>',
+    '      <Th orderBy="created">Created</Th>',
+    '    </tr>',
+    '  </Thead>',
+    '  <Tbody skipDeferred>',
+    '    <tr v-for="user in users" :key="user.id">',
+    '      <Td>{{ user.name }}</Td>',
+    '      <Td>{{ user.email }}</Td>',
+    '      <Td>{{ user.role }}</Td>',
+    '      <Td>{{ user.status }}</Td>',
+    '      <Td>{{ user.created }}</Td>',
+    '    </tr>',
+    '  </Tbody>',
+    '</Table>',
+];
+
+const stickyTableExamples = [
+    '<Table :sticky="true">',
+    '  <Thead>',
+    '    <tr>',
+    '      <Th>Name</Th>',
+    '      <Th>Email</Th>',
+    '      <Th>Role</Th>',
+    '      <Th>Status</Th>',
+    '      <Th>Created</Th>',
+    '    </tr>',
+    '  </Thead>',
+    '  <Tbody skipDeferred>',
+    '    <tr v-for="user in users">',
+    '      <Td>{{ user.name }}</Td>',
+    '      <Td>{{ user.email }}</Td>',
+    '      <Td>{{ user.role }}</Td>',
+    '      <Td>{{ user.status }}</Td>',
+    '      <Td>{{ user.created }}</Td>',
+    '    </tr>',
+    '  </Tbody>',
+    '</Table>',
+];
+
+const paginationTableExamples = [
+    '<Table :links="[',
+    '  { url: "#", label: "1", active: true },',
+    '  { url: "#", label: "2", active: false },',
+    '  { url: "#", label: "3", active: false },',
+    '  { url: "#", label: "Next", active: false },',
+    ']">',
+    '  <Thead>',
+    '    <tr>',
+    '      <Th>Name</Th>',
+    '      <Th>Email</Th>',
+    '      <Th>Role</Th>',
+    '      <Th>Status</Th>',
+    '      <Th>Created</Th>',
+    '    </tr>',
+    '  </Thead>',
+    '  <Tbody skipDeferred>',
+    '    <tr v-for="user in users">',
+    '      <Td>{{ user.name }}</Td>',
+    '      <Td>{{ user.email }}</Td>',
+    '      <Td>{{ user.role }}</Td>',
+    '      <Td>{{ user.status }}</Td>',
+    '      <Td>{{ user.created }}</Td>',
+    '    </tr>',
+    '  </Tbody>',
+    '</Table>',
+];
 </script>
 
 <template>
@@ -228,43 +302,277 @@ const collapsibleTableExamples = [
             </div>
         </section>
 
-        <!-- Best Practices -->
-        <section id="table-best-practices">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Best Practices</h3>
+        <!-- Sortable Table Example -->
+        <section id="sortable-table">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Sortable Table</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <div class="space-y-4 text-gray-600">
-                    <h4 class="font-semibold text-gray-800">Table Structure</h4>
-                    <ul class="ml-4 list-inside list-disc space-y-1">
-                        <li>Always use proper semantic HTML structure (table, thead, tbody, th, td)</li>
-                        <li>Include meaningful headers for accessibility</li>
-                        <li>Use consistent column widths and alignment</li>
-                        <li>Consider responsive design for mobile devices</li>
-                    </ul>
-
-                    <h4 class="mt-6 font-semibold text-gray-800">Data Presentation</h4>
-                    <ul class="ml-4 list-inside list-disc space-y-1">
-                        <li>Use status badges for categorical data</li>
-                        <li>Format dates and numbers consistently</li>
-                        <li>Provide clear action buttons with appropriate themes</li>
-                        <li>Use collapsible rows for detailed information</li>
-                    </ul>
-
-                    <h4 class="mt-6 font-semibold text-gray-800">Performance</h4>
-                    <ul class="ml-4 list-inside list-disc space-y-1">
-                        <li>Use pagination for large datasets</li>
-                        <li>Implement virtual scrolling for very large tables</li>
-                        <li>Use placeholder rows during loading states</li>
-                        <li>Consider TableItemCard for mobile-friendly layouts</li>
-                    </ul>
-
-                    <h4 class="mt-6 font-semibold text-gray-800">Accessibility</h4>
-                    <ul class="ml-4 list-inside list-disc space-y-1">
-                        <li>Provide proper table headers and scope attributes</li>
-                        <li>Ensure sufficient color contrast for status indicators</li>
-                        <li>Make interactive elements keyboard navigable</li>
-                        <li>Use aria-labels for complex table interactions</li>
-                    </ul>
+                <p class="mb-4 text-gray-600">
+                    Click on the column headers to sort the table. Uses the
+                    <code>orderBy</code>
+                    prop on
+                    <code>Th</code>
+                    .
+                </p>
+                <div class="mb-6">
+                    <Table>
+                        <Thead>
+                            <tr>
+                                <Th orderBy="name">Name</Th>
+                                <Th orderBy="email">Email</Th>
+                                <Th orderBy="role">Role</Th>
+                                <Th orderBy="status">Status</Th>
+                                <Th orderBy="created">Created</Th>
+                            </tr>
+                        </Thead>
+                        <Tbody skipDeferred>
+                            <tr v-for="user in users" :key="user.id">
+                                <Td>{{ user.name }}</Td>
+                                <Td>{{ user.email }}</Td>
+                                <Td>{{ user.role }}</Td>
+                                <Td>{{ user.status }}</Td>
+                                <Td>{{ user.created }}</Td>
+                            </tr>
+                        </Tbody>
+                    </Table>
                 </div>
+                <CodePreview :code="sortableTableExamples" />
+            </div>
+        </section>
+
+        <!-- Sticky Header Table Example -->
+        <section id="sticky-header-table">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Sticky/Floating Header Table</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">
+                    The table header stays visible as you scroll. Uses the
+                    <code>sticky</code>
+                    prop on
+                    <code>Table</code>
+                    .
+                </p>
+                <div class="mb-6" style="max-height: 250px; overflow-y: auto">
+                    <Table :sticky="true" style="min-width: 600px">
+                        <Thead>
+                            <tr>
+                                <Th>Name</Th>
+                                <Th>Email</Th>
+                                <Th>Role</Th>
+                                <Th>Status</Th>
+                                <Th>Created</Th>
+                            </tr>
+                        </Thead>
+                        <Tbody skipDeferred>
+                            <tr v-for="user in users.concat(users, users)" :key="user.id + '-' + Math.random()">
+                                <Td>{{ user.name }}</Td>
+                                <Td>{{ user.email }}</Td>
+                                <Td>{{ user.role }}</Td>
+                                <Td>{{ user.status }}</Td>
+                                <Td>{{ user.created }}</Td>
+                            </tr>
+                        </Tbody>
+                    </Table>
+                </div>
+                <CodePreview :code="stickyTableExamples" />
+            </div>
+        </section>
+
+        <!-- Pagination Table Example -->
+        <section id="pagination-table">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Table with Pagination</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">
+                    Showcases the
+                    <code>links</code>
+                    prop for paginated data. (Demo uses static links.)
+                </p>
+                <div class="mb-6">
+                    <Table
+                        :links="[
+                            { url: '#', label: '1', active: true },
+                            { url: '#', label: '2', active: false },
+                            { url: '#', label: '3', active: false },
+                            { url: '#', label: 'Next', active: false },
+                        ]"
+                    >
+                        <Thead>
+                            <tr>
+                                <Th>Name</Th>
+                                <Th>Email</Th>
+                                <Th>Role</Th>
+                                <Th>Status</Th>
+                                <Th>Created</Th>
+                            </tr>
+                        </Thead>
+                        <Tbody skipDeferred>
+                            <tr v-for="user in users" :key="user.id">
+                                <Td>{{ user.name }}</Td>
+                                <Td>{{ user.email }}</Td>
+                                <Td>{{ user.role }}</Td>
+                                <Td>{{ user.status }}</Td>
+                                <Td>{{ user.created }}</Td>
+                            </tr>
+                        </Tbody>
+                    </Table>
+                </div>
+                <CodePreview :code="paginationTableExamples" />
+            </div>
+        </section>
+
+        <!-- Table Components Props Documentation -->
+        <section id="table-components-props">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Table Components Props Reference</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-neutral-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left font-semibold">Component</th>
+                            <th class="px-4 py-2 text-left font-semibold">Prop</th>
+                            <th class="px-4 py-2 text-left font-semibold">Type</th>
+                            <th class="px-4 py-2 text-left font-semibold">Default</th>
+                            <th class="px-4 py-2 text-left font-semibold">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table.vue -->
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>total</td>
+                            <td>number</td>
+                            <td></td>
+                            <td>Total records count</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>links</td>
+                            <td>PaginationLink[]</td>
+                            <td></td>
+                            <td>Pagination links array</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>collapsable</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Enable collapsible rows</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>collapse_id</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Collapse group id</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>sticky</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Enable sticky/floating header</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>overflow</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Enable horizontal scroll</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>seperate</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Use separated rows</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>showPerPage</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Show per-page selector</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>defaultPerPage</td>
+                            <td>number</td>
+                            <td></td>
+                            <td>Default per-page value</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Table</td>
+                            <td>responsive</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Enable responsive/mobile layout</td>
+                        </tr>
+                        <!-- Thead.vue -->
+                        <tr>
+                            <td class="font-mono">Thead</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Styled table header wrapper</td>
+                        </tr>
+                        <!-- Tbody.vue -->
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>data</td>
+                            <td>string</td>
+                            <td>''</td>
+                            <td>Key in page props for data</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>hidePlaceholder</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Hide loading placeholder</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>hideNoRecordsMessage</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Hide "no records" message</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>recordsFromPagination</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Get records from pagination</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>noRecordsMessage</td>
+                            <td>string</td>
+                            <td>'No records found'</td>
+                            <td>Message for no records</td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono">Tbody</td>
+                            <td>skipDeferred</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Skip deferred loading</td>
+                        </tr>
+                        <!-- Th.vue -->
+                        <tr>
+                            <td class="font-mono">Th</td>
+                            <td>orderBy</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>Enable sorting for column</td>
+                        </tr>
+                        <!-- Td.vue -->
+                        <tr>
+                            <td class="font-mono">Td</td>
+                            <td>label</td>
+                            <td>string</td>
+                            <td>''</td>
+                            <td>Label for mobile/responsive</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>

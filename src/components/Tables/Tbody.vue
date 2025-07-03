@@ -45,10 +45,14 @@ const records = computed(() => {
         <template v-if="!skipDeferred">
             <template v-if="!hideNoRecordsMessage && records">
                 <tr v-if="!records.length">
-                    <Td colspan="999" class="no-records-message text-center! text-gray-500">{{ noRecordsMessage }}</Td>
+                    <Td colspan="999" class="no-records-message bg-neutral-50 text-center! text-gray-400">{{ noRecordsMessage }}</Td>
                 </tr>
             </template>
-            <slot />
+            <template v-for="row in records" :key="row.id">
+                <tr class="group">
+                    <slot :row="row" />
+                </tr>
+            </template>
         </template>
 
         <!-- Direct rendering for documentation/standalone usage -->
