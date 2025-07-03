@@ -18145,7 +18145,7 @@ const L3 = /* @__PURE__ */ U({
       }), r.statusName != null ? c[r.statusName] == i : c.status == i;
     };
     return (i, c) => (x(), P("div", {
-      class: Z(["grid", [i.customContainerClass]]),
+      class: Z(["grid gap-4", [i.customContainerClass]]),
       style: { "grid-template-columns": "repeat(auto-fit, minmax(164px, 1fr))" }
     }, [
       (x(!0), P(re, null, Ee(i.stats, (l) => (x(), P("div", {
