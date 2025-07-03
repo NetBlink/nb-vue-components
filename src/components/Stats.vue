@@ -71,7 +71,7 @@ const ifSelected = (status: string): boolean => {
 </script>
 
 <template>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" :class="{ [customContainerClass]: customContainerClass }">
+    <div class="grid" :class="[customContainerClass]" style="grid-template-columns: repeat(auto-fit, minmax(164px, 1fr))">
         <div
             v-for="s in stats"
             :key="s.value"
@@ -83,14 +83,14 @@ const ifSelected = (status: string): boolean => {
             @click="onClick(s.name)"
         >
             <!-- Value Section -->
-            <div class="px-6 py-4" :class="{ [customStatValueClass]: customStatValueClass }">
+            <div class="px-6 py-4" :class="[customStatValueClass]">
                 <div class="group-hover:text-primary-600 text-2xl font-bold text-gray-900 transition-colors">
                     {{ s.value }}
                 </div>
             </div>
 
             <!-- Label Section -->
-            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3" :class="{ [customStatLabelClass]: customStatLabelClass }">
+            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3" :class="[customStatLabelClass]">
                 <div class="text-sm font-medium text-gray-600 transition-colors group-hover:text-gray-900">
                     {{ s.label ?? s.name }}
                 </div>
