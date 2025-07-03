@@ -54,7 +54,6 @@ import DescriptionListItem from './components/DescriptionListItem.vue';
 import DottedCarousel from './components/DottedCarousel.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
-import TableCollapse from './components/Tables/TableCollapse.vue';
 import Collapse from './components/Collapse.vue';
 import Tooltip from './components/Tooltip.vue';
 import Button from './components/Button.vue';
@@ -105,7 +104,6 @@ export {
     TrCollapse,
     TrCollapseHandler,
     TdCollapseHandler,
-    TableCollapse,
     TrPlaceholder,
     TableItemCard,
     // COMPONENTS

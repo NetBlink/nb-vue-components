@@ -1,112 +1,56 @@
-<script setup>
+<script setup lang="ts">
 //@ts-nocheck
 import Link from '../../overrides/InertiaLink';
 import { moneyFormat } from '../../Helpers';
 
-const props = defineProps({
-    key: Number,
-    item: Object,
-    itemId: {
-        type: Object,
-        id: {
-            type: String,
-            required: true,
-        },
-        routeName: {
-            type: String,
-            default: null,
-            required: false,
-        },
-        routeData: {
-            type: String,
-            required: false,
-        },
-        prefix: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
-    },
-    extraText: String,
-    title: {
-        type: Object,
-        text: {
-            type: String,
-            required: true,
-        },
-        href: {
-            type: String,
-            default: null,
-            required: false,
-        },
-        routeName: {
-            type: String,
-            default: null,
-            required: false,
-        },
-        routeData: {
-            type: String,
-            default: null,
-            required: false,
-        },
-    },
-    pills: {
-        type: Array,
-        text: {
-            type: String,
-            required: true,
-        },
-        color: {
-            type: String,
-            required: false,
-        },
-    },
-    options: {
-        type: Object,
-        text: {
-            type: String,
-            required: true,
-        },
-        color: {
-            type: String,
-            required: false,
-        },
-        routeName: {
-            type: String,
-            default: null,
-            required: false,
-        },
-        href: {
-            type: String,
-            default: null,
-            required: false,
-        },
-        routeData: {
-            type: String,
-            default: null,
-            required: false,
-        },
-    },
-    timeStamp: String,
-    amount: {
-        text: {
-            type: String,
-            required: false,
-            default: 'Amount: ',
-        },
-        amount: {
-            type: String,
-            required: true,
-            default: '0.00',
-        },
-    },
-});
+interface ItemId {
+    id: string;
+    routeName?: string | null;
+    routeData?: string;
+    prefix?: boolean;
+}
+interface Title {
+    text: string;
+    href?: string | null;
+    routeName?: string | null;
+    routeData?: string | null;
+}
+interface Pill {
+    text: string;
+    color?: string;
+    routeName?: string | null;
+    href?: string | null;
+    routeData?: string | null;
+}
+interface Option {
+    text: string;
+    color?: string;
+    routeName?: string | null;
+    href?: string | null;
+    routeData?: string | null;
+}
+interface Amount {
+    text?: string;
+    amount: string;
+}
+interface TableItemCardProps {
+    key?: number;
+    item?: Record<string, any>;
+    itemId?: ItemId;
+    extraText?: string;
+    title?: Title;
+    pills?: Pill[];
+    options?: Option[];
+    timeStamp?: string;
+    amount?: Amount;
+}
+const props = defineProps<TableItemCardProps>();
 </script>
 
 <template>
     <div :key="props.key" class="mt-3 rounded-md border border-gray-300 bg-white px-4 py-3 lg:border lg:border-gray-300">
-        <div class="mb-2 flex w-full flex-wrap justify-between text-sm text-gray-600 max-xxs:text-xxs">
-            <div v-if="props.itemId || props.timeStamp" class="mb-2 h-fit w-full xs:w-fit">
+        <div class="max-xxs:text-xxs mb-2 flex w-full flex-wrap justify-between text-sm text-gray-600">
+            <div v-if="props.itemId || props.timeStamp" class="xs:w-fit mb-2 h-fit w-full">
                 <!-- ID -->
                 <template v-if="props.itemId">
                     <span v-if="!props.itemId.routeName">
@@ -129,7 +73,7 @@ const props = defineProps({
                 <template v-for="(pill, index) in pills" :key="index">
                     <span
                         v-if="pill.text"
-                        class="whitespace-nowrap rounded-md border bg-primary p-1 px-2 text-white"
+                        class="bg-primary rounded-md border p-1 px-2 whitespace-nowrap text-white"
                         :style="{
                             backgroundColor: pill.color ? pill.color : null,
                         }"
@@ -150,14 +94,14 @@ const props = defineProps({
         </template>
         <!-- Engineer Note -->
         <div class="mb-1">
-            <p class="w-full whitespace-normal font-semibold text-primary" v-if="props.extraText">
+            <p class="text-primary w-full font-semibold whitespace-normal" v-if="props.extraText">
                 Engineer Note:
                 <span class="w-full break-words">{{ props.extraText }}</span>
             </p>
         </div>
         <!-- Options -->
         <div class="mb-1 flex flex-col">
-            <template v-for="(option, index) in options">
+            <template v-for="(option, index) in options" :key="index">
                 <span v-if="!option.routeName && !option.href" :style="{ color: option.color ? option.color : '#000' }">
                     {{ option.text }}
                 </span>
@@ -165,6 +109,7 @@ const props = defineProps({
                     v-else
                     :href="option.href ? option.href : route(option.routeName, option.routeData)"
                     :style="{ color: option.color ? option.color : '#000' }"
+                    :key="'link-' + index"
                 >
                     {{ option.text }}
                 </Link>

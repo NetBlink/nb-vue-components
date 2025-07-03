@@ -1,14 +1,9 @@
 <script setup lang="ts">
-/**
- * Table header component
- *
- * @component
- *
- * Provides styled table header wrapper.
- */
+interface TheadProps {}
+defineProps<TheadProps>();
 </script>
 <template>
-    <thead class="rounded-t-xl border-b border-gray-200 bg-neutral-50 font-semibold">
+    <thead class="border-b bg-neutral-100 font-medium dark:border-neutral-500">
         <slot />
     </thead>
 </template>
