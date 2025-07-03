@@ -103,7 +103,6 @@ if (props.sticky) {
         :class="{
             '!visible hidden': props.collapsable,
             'overflow-hidden': !props.overflow,
-            'rounded-xl border border-gray-200 bg-white shadow': true,
         }"
         :id="props.collapse_id"
         data-te-collapse-item
@@ -112,7 +111,7 @@ if (props.sticky) {
         <div class="flex flex-col">
             <div :class="['w-full', props.overflow ? 'overflow-x-auto' : '']" ref="table_container">
                 <table
-                    class="min-w-full overflow-hidden rounded-lg text-left text-sm font-light"
+                    class="min-w-full overflow-hidden text-left text-sm font-light"
                     :class="{
                         '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': props.collapsable,
                         'border-separate border-spacing-y-5': props.seperate,
