@@ -71,7 +71,7 @@ const ifSelected = (status: string): boolean => {
 </script>
 
 <template>
-    <div class="grid" :class="[customContainerClass]" style="grid-template-columns: repeat(auto-fit, minmax(164px, 1fr))">
+    <div class="grid gap-4" :class="[customContainerClass]" style="grid-template-columns: repeat(auto-fit, minmax(164px, 1fr))">
         <div
             v-for="s in stats"
             :key="s.value"
