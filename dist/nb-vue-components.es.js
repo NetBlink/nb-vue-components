@@ -12305,7 +12305,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
       ])
     ], 2));
   }
-}), C2 = { class: "rounded-lg py-2 text-center whitespace-nowrap transition group-hover:bg-red-500 hover:bg-gray-50 has-[>&:hover]:bg-gray-600 md:px-6 md:py-4 md:text-left" }, E2 = { class: "td-label hidden font-bold" }, Ms = /* @__PURE__ */ U({
+}), C2 = { class: "rounded-lg py-2 text-center whitespace-nowrap transition hover:bg-gray-50 md:px-6 md:py-4 md:text-left" }, E2 = { class: "td-label hidden font-bold" }, Ms = /* @__PURE__ */ U({
   __name: "Td",
   props: {
     label: {}
