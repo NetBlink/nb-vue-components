@@ -12086,19 +12086,20 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
   props: {
     total: {},
     links: {},
-    collapsable: { type: Boolean },
+    collapsable: { type: Boolean, default: !1 },
     collapse_id: {},
-    sticky: { type: Boolean },
-    overflow: { type: Boolean },
-    seperate: { type: Boolean },
-    showPerPage: { type: Boolean },
-    defaultPerPage: {},
-    responsive: { type: Boolean }
+    sticky: { type: Boolean, default: !1 },
+    overflow: { type: Boolean, default: !0 },
+    seperate: { type: Boolean, default: !1 },
+    showPerPage: { type: Boolean, default: !1 },
+    defaultPerPage: { default: 25 },
+    responsive: { type: Boolean, default: !0 }
   },
   setup(e) {
     wr();
     const t = e, n = L(null), r = L(null), o = L(null), a = L(null), s = () => {
       var f;
+      if (!t.sticky) return;
       const l = n.value;
       if (!l) return;
       const u = l.getBoundingClientRect().top, d = document.querySelector("nav"), g = d ? d.offsetHeight : 0, y = u - g, m = o.value, p = l.getBoundingClientRect().height + u - g * 2;
@@ -12111,7 +12112,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
     }, i = () => {
       a.value && r.value && (a.value.style.marginLeft = -r.value.scrollLeft + "px");
     }, c = () => {
-      if (!n.value) return;
+      if (!t.sticky || !n.value) return;
       const l = n.value.querySelector("thead tr");
       let u = a.value;
       if (!u) return;
@@ -12134,32 +12135,32 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
       window.removeEventListener("scroll", s), window.removeEventListener("resize", c), (l = r.value) == null || l.removeEventListener("scroll", i);
     })), (l, u) => (x(), P("div", {
       class: Z({
-        "!visible hidden": l.collapsable,
-        "overflow-hidden": l.overflow,
+        "!visible hidden": t.collapsable,
+        "overflow-hidden": !t.overflow,
         "rounded-xl border border-gray-200 bg-white shadow": !0
       }),
-      id: l.collapse_id,
+      id: t.collapse_id,
       "data-te-collapse-item": ""
     }, [
-      l.total != null ? (x(), P("p", y2, "Found: " + Q(l.total), 1)) : G("", !0),
+      t.total != null ? (x(), P("p", y2, "Found: " + Q(t.total), 1)) : G("", !0),
       D("div", g2, [
         D("div", {
-          class: Z({ "overflow-x-auto": l.overflow }),
+          class: Z(["w-full", t.overflow ? "overflow-x-auto" : "", "px-2"]),
           ref_key: "table_container",
           ref: r
         }, [
           D("table", {
-            class: Z(["min-w-full overflow-hidden rounded-lg text-left text-sm font-light [&_td]:relative [&_tr]:relative [&_tr]:rounded-lg [&_tr]:before:absolute [&_tr]:before:-z-0 [&_tr]:before:size-full [&_tr]:before:bg-transparent [&_tr]:before:transition-all [&_tr]:hover:before:bg-gray-50/50", {
-              "[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4": l.collapsable,
-              "border-separate border-spacing-y-5 px-2": l.seperate,
-              "[&_thead]:max-sm:hidden": l.responsive,
-              "[&_.td-label]:max-sm:!block [&_td]:max-sm:flex [&_td]:max-sm:justify-between [&_td]:max-sm:border-b [&_td]:max-sm:!px-2 [&_td:last-child]:max-sm:!border-b-0": l.responsive,
-              "[&_tr]:max-sm:mb-2 [&_tr]:max-sm:flex [&_tr]:max-sm:flex-col [&_tr]:max-sm:rounded-md [&_tr]:max-sm:border [&_tr]:max-sm:border-gray-200 [&_tr]:max-sm:shadow-md": l.responsive
+            class: Z(["min-w-full overflow-hidden rounded-lg text-left text-sm font-light", {
+              "[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4": t.collapsable,
+              "border-separate border-spacing-y-5": t.seperate,
+              "[&_thead]:max-sm:hidden": t.responsive,
+              "[&_.td-label]:max-sm:!block [&_td]:max-sm:flex [&_td]:max-sm:justify-between [&_td]:max-sm:border-b [&_td]:max-sm:!px-2 [&_td:last-child]:max-sm:!border-b-0": t.responsive,
+              "[&_tr]:max-sm:mb-2 [&_tr]:max-sm:flex [&_tr]:max-sm:flex-col [&_tr]:max-sm:rounded-md [&_tr]:max-sm:border [&_tr]:max-sm:border-gray-200 [&_tr]:max-sm:shadow-md": t.responsive
             }]),
             ref_key: "table",
             ref: n
           }, [
-            l.sticky ? (x(), P("div", {
+            t.sticky ? (x(), P("div", {
               key: 0,
               ref_key: "sticky_wrapper",
               ref: o,
@@ -12169,7 +12170,7 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
                 ref_key: "sticky_header",
                 ref: a,
                 class: Z(["w-max [&>th]:align-middle", {
-                  "max-sm:hidden": l.responsive
+                  "max-sm:hidden": t.responsive
                 }])
               }, null, 2)
             ], 512)) : G("", !0),
@@ -12177,12 +12178,12 @@ const Lw = { class: "flex w-full flex-col" }, Bw = {
           ], 2)
         ], 2)
       ]),
-      l.$slots.pagination ? j(l.$slots, "pagination", { key: 1 }) : l.links ? (x(), H(b(_p), {
+      l.$slots.pagination ? j(l.$slots, "pagination", { key: 1 }) : t.links ? (x(), H(b(_p), {
         key: 2,
         class: "mt-6",
-        links: l.links,
-        showPerPage: l.showPerPage,
-        defaultPerPage: l.defaultPerPage
+        links: t.links,
+        showPerPage: t.showPerPage,
+        defaultPerPage: t.defaultPerPage
       }, null, 8, ["links", "showPerPage", "defaultPerPage"])) : G("", !0)
     ], 10, h2));
   }
