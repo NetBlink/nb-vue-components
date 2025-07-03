@@ -18,7 +18,15 @@ interface TableProps {
     responsive?: boolean;
 }
 
-const props = defineProps<TableProps>();
+const props = withDefaults(defineProps<TableProps>(), {
+    sticky: false,
+    overflow: true,
+    responsive: true,
+    seperate: false,
+    collapsable: false,
+    showPerPage: false,
+    defaultPerPage: 25,
+});
 
 const table = ref<HTMLElement | null>(null);
 const table_container = ref<HTMLElement | null>(null);
@@ -26,6 +34,7 @@ const sticky_wrapper = ref<HTMLElement | null>(null);
 const sticky_header = ref<HTMLElement | null>(null);
 
 const handleScroll = () => {
+    if (!props.sticky) return;
     const tableEl = table.value;
     if (!tableEl) return;
     const headerPosition = tableEl.getBoundingClientRect().top;
@@ -55,7 +64,7 @@ const updateScrollX = () => {
 };
 
 const initSticky = () => {
-    if (!table.value) return;
+    if (!props.sticky || !table.value) return;
     const header = table.value.querySelector('thead tr');
     let cloneContainer = sticky_header.value;
     if (!cloneContainer) return;
@@ -92,31 +101,31 @@ if (props.sticky) {
 <template>
     <div
         :class="{
-            '!visible hidden': collapsable,
-            'overflow-hidden': overflow,
+            '!visible hidden': props.collapsable,
+            'overflow-hidden': !props.overflow,
             'rounded-xl border border-gray-200 bg-white shadow': true,
         }"
-        :id="collapse_id"
+        :id="props.collapse_id"
         data-te-collapse-item
     >
-        <p v-if="total != null" class="px-4 pt-4 text-sm text-gray-600">Found: {{ total }}</p>
+        <p v-if="props.total != null" class="px-4 pt-4 text-sm text-gray-600">Found: {{ props.total }}</p>
         <div class="flex flex-col">
-            <div :class="{ 'overflow-x-auto': overflow }" ref="table_container">
+            <div :class="['w-full', props.overflow ? 'overflow-x-auto' : '', 'px-2']" ref="table_container">
                 <table
-                    class="min-w-full overflow-hidden rounded-lg text-left text-sm font-light [&_td]:relative [&_tr]:relative [&_tr]:rounded-lg [&_tr]:before:absolute [&_tr]:before:-z-0 [&_tr]:before:size-full [&_tr]:before:bg-transparent [&_tr]:before:transition-all [&_tr]:hover:before:bg-gray-50/50"
+                    class="min-w-full overflow-hidden rounded-lg text-left text-sm font-light"
                     :class="{
-                        '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': collapsable,
-                        'border-separate border-spacing-y-5 px-2': seperate,
-                        '[&_thead]:max-sm:hidden': responsive,
+                        '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': props.collapsable,
+                        'border-separate border-spacing-y-5': props.seperate,
+                        '[&_thead]:max-sm:hidden': props.responsive,
                         '[&_.td-label]:max-sm:!block [&_td]:max-sm:flex [&_td]:max-sm:justify-between [&_td]:max-sm:border-b [&_td]:max-sm:!px-2 [&_td:last-child]:max-sm:!border-b-0':
-                            responsive,
+                            props.responsive,
                         '[&_tr]:max-sm:mb-2 [&_tr]:max-sm:flex [&_tr]:max-sm:flex-col [&_tr]:max-sm:rounded-md [&_tr]:max-sm:border [&_tr]:max-sm:border-gray-200 [&_tr]:max-sm:shadow-md':
-                            responsive,
+                            props.responsive,
                     }"
                     ref="table"
                 >
                     <div
-                        v-if="sticky"
+                        v-if="props.sticky"
                         ref="sticky_wrapper"
                         class="fixed isolate z-40 hidden w-full overflow-hidden rounded-t-xl bg-neutral-100 shadow"
                     >
@@ -124,7 +133,7 @@ if (props.sticky) {
                             ref="sticky_header"
                             class="w-max [&>th]:align-middle"
                             :class="{
-                                'max-sm:hidden': responsive,
+                                'max-sm:hidden': props.responsive,
                             }"
                         ></div>
                     </div>
@@ -133,6 +142,12 @@ if (props.sticky) {
             </div>
         </div>
         <slot v-if="$slots.pagination" name="pagination" />
-        <Pagination v-else-if="links" class="mt-6" :links="links" :showPerPage="showPerPage" :defaultPerPage="defaultPerPage" />
+        <Pagination
+            v-else-if="props.links"
+            class="mt-6"
+            :links="props.links"
+            :showPerPage="props.showPerPage"
+            :defaultPerPage="props.defaultPerPage"
+        />
     </div>
 </template>
