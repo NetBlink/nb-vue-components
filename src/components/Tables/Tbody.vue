@@ -50,10 +50,5 @@ const records = computed(() => {
             </template>
             <slot />
         </template>
-
-        <!-- Direct rendering for documentation/standalone usage -->
-        <template v-else>
-            <slot />
-        </template>
     </tbody>
 </template>
