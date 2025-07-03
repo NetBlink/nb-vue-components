@@ -103,7 +103,7 @@ if (props.sticky) {
     >
         <p v-if="total != null" class="text-sm text-gray-600">Found: {{ total }}</p>
 
-        <div class="flex max-w-full flex-col">
+        <div class="flex flex-col">
             <div :class="{ 'overflow-x-auto': overflow }" ref="table_container">
                 <table
                     class="min-w-full overflow-hidden rounded-xl border border-gray-200 bg-white text-left text-sm font-light shadow-sm"
