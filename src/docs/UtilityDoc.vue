@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleDown, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import {
     Alert,
     Spinner,
@@ -14,6 +14,7 @@ import {
     DescriptionListItem,
     CodePreview,
     PropsTable,
+    DataTile,
 } from '../index';
 
 // Component state
@@ -528,6 +529,44 @@ const paginationProps = [
                 <div class="mt-6">
                     <h4 class="mb-3 font-semibold text-gray-800">Pagination Props</h4>
                     <PropsTable :rows="paginationProps" />
+                </div>
+            </div>
+        </section>
+
+        <section id="data-tiles">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">DataTile Component</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">The DataTile component is used to display statistical data with dynamic theming support.</p>
+                <DataTile :value="123" label="Example Label" :icon="faChevronCircleDown" theme="success" />
+
+                <div class="mt-4 mb-6">
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800">Usage</h4>
+                    <CodePreview
+                        :code="[
+                            '<DataTile',
+                            '    :value=\'123\'',
+                            '    label=\'Example Label\'',
+                            '    icon=\'example-icon\'',
+                            '    theme=\'success\'',
+                            '/>',
+                        ]"
+                    />
+                </div>
+
+                <div class="mt-6">
+                    <h4 class="mb-3 font-semibold text-gray-800">DataTile Props</h4>
+                    <PropsTable
+                        :props="[
+                            { name: 'value', type: 'string | number', required: true, description: 'The value to display.' },
+                            { name: 'label', type: 'string', required: true, description: 'The label for the tile.' },
+                            { name: 'icon', type: 'string', required: true, description: 'The icon to display.' },
+                            { name: 'selected', type: 'boolean', required: false, description: 'Indicates if the tile is selected.' },
+                            { name: 'customStatClass', type: 'string', required: false, description: 'Custom CSS class for the tile.' },
+                            { name: 'customStatValueClass', type: 'string', required: false, description: 'Custom CSS class for the value section.' },
+                            { name: 'customStatLabelClass', type: 'string', required: false, description: 'Custom CSS class for the label section.' },
+                            { name: 'theme', type: 'ComponentTheme', required: false, description: 'The theme for the tile.' },
+                        ]"
+                    />
                 </div>
             </div>
         </section>

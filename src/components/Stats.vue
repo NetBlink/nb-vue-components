@@ -98,7 +98,7 @@ const ifSelected = (status: string): boolean => {
 
             <!-- Hover Effect Indicator -->
             <div
-                class="from-primary-500 to-primary-600 absolute bottom-0 left-0 h-1 w-full scale-x-0 transform bg-gradient-to-r transition-transform duration-200 group-hover:scale-x-100"
+                class="from-primary-500 to-primary-600 absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-gradient-to-r transition-transform duration-200 group-hover:scale-x-100"
             ></div>
         </div>
     </div>

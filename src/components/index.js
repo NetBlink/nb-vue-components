@@ -51,6 +51,7 @@ import DropdownSeparator from './DropdownSeparator.vue';
 import GravatarImg from './GravatarImg.vue';
 import NavCollapse from './NavCollapse.vue';
 import DottedCarousel from './DottedCarousel.vue';
+import DataTile from './DataTile.vue';
 // FORMS
 // TABLES
 // COMPONENTS
@@ -111,4 +112,6 @@ export {
     GravatarImg,
     NavCollapse,
     DottedCarousel,
+    // DATA TILES
+    DataTile,
 };

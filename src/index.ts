@@ -60,6 +60,7 @@ import Button from './components/Button.vue';
 import WarningButton from './components/WarningButton.vue';
 import InfoButton from './components/InfoButton.vue';
 import SuccessButton from './components/SuccessButton.vue';
+import DataTile from './components/DataTile.vue';
 
 // Helper components
 import CodePreview from './components/CodePreview.vue';
@@ -140,6 +141,7 @@ export {
     Collapse,
     Tooltip,
     Button,
+    DataTile,
     // Helper components
     CodePreview,
     H2,

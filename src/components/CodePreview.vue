@@ -15,7 +15,11 @@ const copyStatus = ref<string>('Copy');
  * Joins code array into a single string on mount
  */
 onMounted(() => {
-    codeBlock.value = props.code.join('\n');
+    if (Array.isArray(props.code)) {
+        codeBlock.value = props.code.join('\n');
+    } else {
+        console.error('CodePreview: `code` prop is not an array of strings.', props.code);
+    }
 });
 
 /**
