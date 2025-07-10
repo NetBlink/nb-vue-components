@@ -44,7 +44,7 @@ const themeVariants: Record<ComponentTheme, string> = {
 };
 
 interface Props {
-    href: string;
+    href?: string;
     colourClasses?: string[];
     theme?: ComponentTheme;
     target?: string;
