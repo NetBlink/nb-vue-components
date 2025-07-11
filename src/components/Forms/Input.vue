@@ -1,169 +1,77 @@
-<script setup>
-/**
- * Input component
- *
- * @component
- *
- * @prop {string} type - The type of the input
- * @prop {string} field - The field name
- * @prop {string} label - The label for the input
- * @prop {string} name - The name attribute for the input
- * @prop {boolean} required - Whether the input is required
- * @prop {boolean} disabled - Whether the input is disabled
- * @prop {number|string} min - The minimum value for the input
- * @prop {number|string} max - The maximum value for the input
- * @prop {number|string} step - The step value for the input
- * @prop {number} rows - The number of rows for the textarea
- * @prop {object} form - The form object
- * @prop {string} addon - The addon text
- * @prop {string} placeholder - The placeholder for the input
- * @prop {boolean} noLabel - Whether to hide the label
- * @prop {string} submitBtn - The submit button text
- * @prop {boolean} autofocus - Whether the input should be autofocused
- * @prop {string} pattern - The pattern for the input
- * @prop {string} whatsApp - The WhatsApp link
- * @prop {string} switchDescription - The description for the switch
- * @prop {string} sublabel - The sublabel for the input
- * @prop {string} tooltip - The tooltip text to show next to the label
- */
+<script setup lang="ts">
 
-import { InputLabel, TextInput, InputError, SubmitButton, Tooltip, Textarea, Switch, Checkbox } from '../../index';
+import { computed, defineModel, type ModelRef } from 'vue';
+import { 
+    Textarea, 
+    Switch, 
+    Checkbox 
+} from '../../index';
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSquareCheck, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import { faEye, faEyeSlash, faSquare } from '@fortawesome/free-regular-svg-icons';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { onMounted, ref, watch, defineModel } from 'vue';
-library.add(faWhatsapp, faSquareCheck, faSquare, faEye, faEyeSlash, faCircleQuestion);
+import { InputWrapper, BaseInput, SelectInput, PasswordInput, InputWithActions } from './inputs';
 
-const props = defineProps({
-    type: String,
-    field: String,
-    label: String,
-    name: String,
-    required: Boolean,
-    disabled: Boolean,
-    min: { type: [Number, String] },
-    max: { type: [Number, String] },
-    step: { type: [Number, String] },
-    rows: { type: Number, default: 3 },
-    form: Object,
-    addon: String,
-    placeholder: String,
-    noLabel: Boolean,
-    submitBtn: String,
-    autofocus: Boolean,
-    pattern: String,
-    whatsApp: String,
-    leftDescription: { type: [String, Boolean], default: false },
-    rightDescription: { type: [String, Boolean], default: 'Enable' },
-    switchDescription: String,
-    sublabel: String,
-    hidePasswordToggler: {
-        type: Boolean,
-        default: false,
-    },
-    autocomplete: {
-        type: String,
-        default: null,
-    },
+import { useInputValue } from '../../composables/useInputValue';
+import { usePasswordToggle } from '../../composables/usePasswordToggle';
+import { useFormIntegration } from '../../composables/useFormIntegration';
+import { useInputUtils } from '../../composables/useInputUtils';
 
-    inputCustomClass: {
-        type: String,
-        default: '',
-    },
-    checkboxCustomClass: {
-        type: String,
-        default: '',
-    },
-    buttonCustomClass: {
-        type: String,
-        default: '',
-    },
-    labelCustomClass: {
-        type: String,
-        default: '',
-    },
+import type { InputProps, InputEmits } from './types';
 
-    error: String,
-    tooltip: String,
-});
-function ucwords(text) {
-    let res = [];
-    text.split('_')
-        .join(' ')
-        .split(' ')
-        .map(function (v) {
-            res.push(v[0].toUpperCase() + v.slice(1));
-        });
-    return res.join(' ');
-}
-
-const emit = defineEmits(['changed', 'update:modelValue']);
-const noForm = ref(false);
-const model = defineModel();
-const value = ref();
-const prevValue = ref();
-const displayType = ref(props.type);
-
-onMounted(() => {
-    noForm.value = !props.form;
-    value.value = noForm.value ? model.value : (props.form ? props.form[props.field] : null);
+const props = withDefaults(defineProps<InputProps>(), {
+    type: 'text',
+    rows: 3,
+    required: false,
+    disabled: false,
+    noLabel: false,
+    autofocus: false,
+    hidePasswordToggler: false,
+    leftDescription: false,
+    rightDescription: 'Enable',
+    inputCustomClass: '',
+    checkboxCustomClass: '',
+    buttonCustomClass: '',
+    labelCustomClass: '',
+    autocomplete: null,
 });
 
-watch(
-    () => value.value,
-    (val, oldval) => {
-        if (val === oldval) return;
-        if (noForm.value) {
-            model.value = val;
-        } else {
-            if (props.form) {
-                props.form[props.field] = val;
-            }
-        }
-        prevValue.value = oldval;
-        emit('update:modelValue', val);
+const emit = defineEmits<InputEmits>();
 
-        if (isSettingSilently.value) {
-            isSettingSilently.value = false;
-            return;
-        }
-        emit('changed', { value: val, old_value: oldval });
-    }
-);
+const model: ModelRef<any> = defineModel();
 
-const isSettingSilently = ref(false);
-const setValueSilently = (val) => {
-    value.value = val;
-    isSettingSilently.value = true;
-};
+const {
+    getComputedLabel,
+    getComputedName,
+    getComputedAutocomplete,
+    isPasswordType,
+    isSelectType
+} = useInputUtils();
 
-const getPreviousValue = () => {
-    return prevValue.value;
-};
+const {
+    value,
+    setValueSilently,
+    getPreviousValue
+} = useInputValue(props.field, props.form, model, emit);
 
-watch(
-    () => (props.field && props.form ? props.form[props.field] : null),
-    (val) => {
-        value.value = noForm.value ? model.value : val;
-    },
-    {
-        deep: true,
-    }
-);
+const { displayType, togglePassword } = usePasswordToggle(props.type);
 
-watch(
-    () => model.value,
-    (val) => {
-        value.value = val;
-    }
-);
+const { hasFormErrors, formError } = useFormIntegration(props.form, props.field, props.error);
 
-const togglePassword = () => {
-    displayType.value = displayType.value === 'password' ? 'text' : 'password';
-};
+const computedLabel = getComputedLabel(props.label, props.field);
+const computedName = getComputedName(props.name, props.field);
+const computedAutocomplete = getComputedAutocomplete(props.autocomplete, props.field);
+
+const hasActions = computed(() => {
+    return props.addon || props.submitBtn || props.whatsApp;
+});
+
+const inputType = computed(() => {
+    if (props.type === 'textarea') return 'textarea';
+    if (props.type === 'switch') return 'switch';
+    if (props.type === 'checkbox') return 'checkbox';
+    if (props.type === 'select') return 'select';
+    if (isPasswordType(props.type)) return 'password';
+    if (hasActions.value) return 'with-actions';
+    return 'base';
+});
 
 defineExpose({
     togglePassword,
@@ -173,9 +81,8 @@ defineExpose({
 </script>
 
 <template>
-    <!-- Delegate to Textarea component for textarea type -->
     <Textarea
-        v-if="type === 'textarea'"
+        v-if="inputType === 'textarea'"
         :form="form"
         :field="field"
         :label="label"
@@ -186,11 +93,11 @@ defineExpose({
         :no-label="noLabel"
         :autofocus="autofocus"
         :rows="rows"
-        :name="name"
+        :name="computedName"
         :sublabel="sublabel"
         :submit-btn="submitBtn"
         :whats-app="whatsApp"
-        :autocomplete="autocomplete"
+        :autocomplete="computedAutocomplete"
         :tooltip="tooltip"
         :custom-class="inputCustomClass"
         :label-custom-class="labelCustomClass"
@@ -204,16 +111,15 @@ defineExpose({
         </template>
     </Textarea>
 
-    <!-- Delegate to Switch component for switch type -->
     <Switch
-        v-else-if="type === 'switch'"
+        v-else-if="inputType === 'switch'"
         :form="form"
         :field="field"
         :label="label"
         :required="required"
         :disabled="disabled"
         :no-label="noLabel"
-        :name="name"
+        :name="computedName"
         :sublabel="sublabel"
         :tooltip="tooltip"
         :left-description="leftDescription"
@@ -232,16 +138,15 @@ defineExpose({
         </template>
     </Switch>
 
-    <!-- Delegate to Checkbox component for checkbox type -->
     <Checkbox
-        v-else-if="type === 'checkbox'"
+        v-else-if="inputType === 'checkbox'"
         :form="form"
         :field="field"
         :label="label"
         :required="required"
         :disabled="disabled"
         :no-label="noLabel"
-        :name="name"
+        :name="computedName"
         :sublabel="sublabel"
         :tooltip="tooltip"
         :left-description="leftDescription"
@@ -260,100 +165,140 @@ defineExpose({
         </template>
     </Checkbox>
 
-    <!-- Original Input implementation for other types -->
-    <div v-else :class="noLabel ? 'mb-2' : 'mb-4'">
-        <InputLabel
-            :customClass="labelCustomClass"
-            v-if="!noLabel"
-            :for="field"
-            :value="label ? label : field ? ucwords(field) : ''"
-            :sublabel="sublabel"
+    <!-- Select Input -->
+    <InputWrapper
+        v-else-if="inputType === 'select'"
+        :field="field"
+        :label="label"
+        :no-label="noLabel"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :required="required"
+        :label-custom-class="labelCustomClass"
+        :computed-label="computedLabel"
+        :has-form-errors="hasFormErrors"
+        :form-error="formError"
+    >
+        <SelectInput
+            :field="field"
+            :name="name"
             :required="required"
-            :tooltip="tooltip"
+            :disabled="disabled"
+            :input-custom-class="inputCustomClass"
+            :computed-name="computedName"
+            v-model="value"
+        >
+            <slot />
+        </SelectInput>
+    </InputWrapper>
+
+    <!-- Password Input -->
+    <InputWrapper
+        v-else-if="inputType === 'password'"
+        :field="field"
+        :label="label"
+        :no-label="noLabel"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :required="required"
+        :label-custom-class="labelCustomClass"
+        :computed-label="computedLabel"
+        :has-form-errors="hasFormErrors"
+        :form-error="formError"
+    >
+        <PasswordInput
+            :field="field"
+            :name="name"
+            :required="required"
+            :disabled="disabled"
+            :placeholder="placeholder"
+            :autofocus="autofocus"
+            :pattern="pattern"
+            :autocomplete="autocomplete"
+            :hide-password-toggler="hidePasswordToggler"
+            :input-custom-class="inputCustomClass"
+            :computed-name="computedName"
+            :computed-autocomplete="computedAutocomplete"
+            :display-type="displayType"
+            v-model="value"
+            @toggle-password="togglePassword"
         />
-        <div class="relative flex w-full max-w-full items-stretch">
-            <select
-                v-if="type === 'select'"
-                v-model="value"
-                :id="field"
-                :required="props.required"
-                :disabled="props.disabled"
-                :name="name ?? field"
-                class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-                :class="{ [inputCustomClass]: !!inputCustomClass }"
-            >
-                <slot />
-            </select>
-            <template v-else>
-                <span
-                    v-if="addon"
-                    class="flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
-                    :class="{ shadow: !props.disabled }"
-                >
-                    {{ addon }}
-                </span>
-                <div class="relative flex w-full">
-                    <TextInput
-                        :id="field"
-                        :type="displayType"
-                        :class="{
-                            'rounded-l-none! shadow-none!': addon,
-                            'rounded-r-none!': !!submitBtn || whatsApp || $slots?.submit,
-                            [inputCustomClass]: !!inputCustomClass,
-                        }"
-                        v-model="value"
-                        :required="props.required"
-                        :disabled="props.disabled"
-                        :autocomplete="autocomplete ?? field"
-                        :min="props.min"
-                        :max="props.max"
-                        :step="props.step"
-                        :placeholder="props.placeholder"
-                        :autofocus="props.autofocus"
-                        :pattern="props.pattern"
-                        :name="name ?? field"
-                    />
-                    <div
-                        v-if="type == 'password' && !hidePasswordToggler"
-                        @click="togglePassword"
-                        class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600"
-                        :class="{'bg-primary-50': displayType !== 'password'}"
-                        >
-                        <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" />
-                        <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" />
-                    </div>
-                </div>
-                <template v-if="form">
-                    <SubmitButton
-                        v-if="submitBtn"
-                        :form="form"
-                        class="z-2 inline-block rounded-l-none"
-                        :class="buttonCustomClass"
-                        :id="`submit-button-${field}`"
-                    >
-                        {{ submitBtn }}
-                    </SubmitButton>
-                    <SubmitButton
-                        v-if="$slots?.submit"
-                        :form="form"
-                        class="z-2 inline-block rounded-l-none"
-                        :class="buttonCustomClass"
-                        id="button-input"
-                    >
-                        <slot name="submit" />
-                    </SubmitButton>
-                </template>
-                <a
-                    v-if="whatsApp"
-                    class="bg-primary hover:bg-primary-700 focus:bg-primary-600 active:bg-primary-700 z-2 inline-block rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg"
-                    :class="buttonCustomClass"
-                    :href="whatsApp"
-                    target="_blank"
-                >
-                    <FontAwesomeIcon v-bind:icon="'fab fa-whatsapp'" size="2xl" />
-                </a>
+    </InputWrapper>
+
+    <!-- Input with Actions -->
+    <InputWrapper
+        v-else-if="inputType === 'with-actions'"
+        :field="field"
+        :label="label"
+        :no-label="noLabel"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :required="required"
+        :label-custom-class="labelCustomClass"
+        :computed-label="computedLabel"
+        :has-form-errors="hasFormErrors"
+        :form-error="formError"
+    >
+        <InputWithActions
+            :type="type"
+            :field="field"
+            :name="name"
+            :required="required"
+            :disabled="disabled"
+            :placeholder="placeholder"
+            :autofocus="autofocus"
+            :pattern="pattern"
+            :min="min"
+            :max="max"
+            :step="step"
+            :autocomplete="autocomplete"
+            :input-custom-class="inputCustomClass"
+            :button-custom-class="buttonCustomClass"
+            :addon="addon"
+            :submit-btn="submitBtn"
+            :whats-app="whatsApp"
+            :computed-name="computedName"
+            :computed-autocomplete="computedAutocomplete"
+            :form="form"
+            v-model="value"
+        >
+            <template v-if="$slots?.submit" #submit>
+                <slot name="submit" />
             </template>
-        </div>
-        <InputError v-if="error || form?.errors?.[field]" :message="error ? error : form?.errors?.[field]" class="mt-2" />
-    </div>
+        </InputWithActions>
+    </InputWrapper>
+
+    <!-- Base Input -->
+    <InputWrapper
+        v-else
+        :field="field"
+        :label="label"
+        :no-label="noLabel"
+        :sublabel="sublabel"
+        :tooltip="tooltip"
+        :required="required"
+        :label-custom-class="labelCustomClass"
+        :computed-label="computedLabel"
+        :has-form-errors="hasFormErrors"
+        :form-error="formError"
+    >
+        <BaseInput
+            :type="type"
+            :field="field"
+            :name="name"
+            :required="required"
+            :disabled="disabled"
+            :placeholder="placeholder"
+            :autofocus="autofocus"
+            :pattern="pattern"
+            :min="min"
+            :max="max"
+            :step="step"
+            :autocomplete="autocomplete"
+            :input-custom-class="inputCustomClass"
+            :computed-name="computedName"
+            :computed-autocomplete="computedAutocomplete"
+            v-model="value"
+        />
+    </InputWrapper>
 </template>

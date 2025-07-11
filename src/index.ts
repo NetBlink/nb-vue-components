@@ -155,4 +155,6 @@ export {
 };
 export * from './Helpers';
 export * from './composables/useTable';
+export * from './composables';
 export * from './components/Tables/types';
+export * from './components/Forms/types';
