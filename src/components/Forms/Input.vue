@@ -30,8 +30,8 @@
 import { InputLabel, TextInput, InputError, SubmitButton, Tooltip, Textarea, Switch, Checkbox } from '../../index';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSquareCheck, faEye, faEyeSlash, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import { faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faSquareCheck, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { onMounted, ref, watch, defineModel } from 'vue';
@@ -109,7 +109,7 @@ const displayType = ref(props.type);
 
 onMounted(() => {
     noForm.value = !props.form;
-    value.value = noForm.value ? model.value : props.form[props.field];
+    value.value = noForm.value ? model.value : (props.form ? props.form[props.field] : null);
 });
 
 watch(
@@ -119,7 +119,9 @@ watch(
         if (noForm.value) {
             model.value = val;
         } else {
-            props.form[props.field] = val;
+            if (props.form) {
+                props.form[props.field] = val;
+            }
         }
         prevValue.value = oldval;
         emit('update:modelValue', val);
@@ -143,7 +145,7 @@ const getPreviousValue = () => {
 };
 
 watch(
-    () => (props.field ? props.form[props.field] : null),
+    () => (props.field && props.form ? props.form[props.field] : null),
     (val) => {
         value.value = noForm.value ? model.value : val;
     },
@@ -314,8 +316,9 @@ defineExpose({
                     <div
                         v-if="type == 'password' && !hidePasswordToggler"
                         @click="togglePassword"
-                        class="absolute top-0 right-0 z-2 flex h-full w-11 cursor-pointer items-center justify-center text-lg leading-normal text-black"
-                    >
+                        class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600"
+                        :class="{'bg-primary-50': displayType !== 'password'}"
+                        >
                         <FontAwesomeIcon v-if="displayType === 'password'" v-bind:icon="faEye" />
                         <FontAwesomeIcon v-else v-bind:icon="faEyeSlash" />
                     </div>
