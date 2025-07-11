@@ -3,7 +3,7 @@
  */
 
 import { ref, watch, onMounted, type Ref } from 'vue';
-import type { InertiaForm, InputChangeEvent, UseInputValueReturn } from './types';
+import type { InertiaForm, InputChangeEvent, UseInputValueReturn } from '../components/Forms/types';
 
 export function useInputValue(
     field: string | undefined,
