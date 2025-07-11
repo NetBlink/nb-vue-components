@@ -1,70 +1,91 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { ref, onMounted, onUnmounted } from 'vue';
-import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { getInertiaRouter } from '../../Helpers';
+import { computed, onMounted, onUnmounted } from 'vue';
+import { useTableSort } from '../../composables/useTable';
+import type { TableHeaderCellProps } from './types';
 
-library.add(faSortUp, faSortDown);
-
-interface ThProps {
+interface ThProps extends TableHeaderCellProps {
     orderBy?: string;
-}
-const props = defineProps<ThProps>();
-const orderDirection = ref<'asc' | 'desc'>('asc');
-const isOrdering = ref(false);
-let navigateEvent: (() => void) | null = null;
-const router = getInertiaRouter();
-
-function getRoute() {
-    // @ts-ignore
-    return window.route;
+    column?: string; 
 }
 
-const updateOrderDirection = () => {
-    const route = getRoute();
-    const params = route().params;
-    if (params.order_by === props.orderBy) {
-        orderDirection.value = params.order_dir;
-        isOrdering.value = true;
-        return;
-    }
-    isOrdering.value = false;
-};
+const props = withDefaults(defineProps<ThProps>(), {
+    sortable: false,
+    align: 'left',
+    responsive: true
+});
 
-const toggleOrder = () => {
-    if (!props.orderBy) return;
-    const route = getRoute();
-    const newOrderDirection = orderDirection.value === 'asc' ? 'desc' : 'asc';
-    const params = route().params;
-    params.order_by = props.orderBy;
-    params.order_dir = newOrderDirection;
-    router.get(route(route().current()), params, {
-        preserveState: true,
-    });
-    orderDirection.value = newOrderDirection;
-    isOrdering.value = true;
+const columnKey = computed(() => props.column || props.orderBy);
+
+const { getSortDirection, isSorted, sort } = useTableSort();
+
+const sortDirection = computed(() => {
+    return columnKey.value ? getSortDirection(columnKey.value) : null;
+});
+
+const isCurrentlySorted = computed(() => {
+    return columnKey.value ? isSorted(columnKey.value) : false;
+});
+
+const isSortable = computed(() => {
+    return props.sortable && columnKey.value;
+});
+
+const handleSort = () => {
+    if (!isSortable.value || !columnKey.value) return;
+    sort(columnKey.value);
 };
 
 const getArrowColor = (direction: 'asc' | 'desc') => {
-    return orderDirection.value === direction && isOrdering.value ? 'active text-primary' : 'text-gray-400';
+    return sortDirection.value === direction && isCurrentlySorted.value 
+        ? 'text-blue-600' 
+        : 'text-gray-400';
 };
 
-onMounted(() => {
-    if (!props.orderBy) return;
-    navigateEvent = router.on('navigate', updateOrderDirection);
-});
-onUnmounted(() => {
-    navigateEvent?.();
-});
+const thClasses = computed(() => [
+    'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50',
+    {
+        'cursor-pointer hover:bg-gray-100': isSortable.value,
+        'text-left': props.align === 'left',
+        'text-center': props.align === 'center',
+        'text-right': props.align === 'right',
+        'w-0': props.width === 'auto',
+    },
+    props.width && props.width !== 'auto' ? `w-${props.width}` : ''
+]);
+
+const thStyles = computed(() => ({
+    width: props.width && props.width !== 'auto' ? props.width : undefined
+}));
 </script>
 <template>
-    <th scope="col" class="relative py-4 text-center md:px-6 md:text-left" @click="toggleOrder" :class="orderBy ? 'cursor-pointer' : ''">
+    <th 
+        scope="col" 
+        :class="thClasses"
+        :style="thStyles"
+        @click="handleSort"
+    >
         <div class="flex items-center justify-between">
             <slot />
-            <span v-if="orderBy" class="order-arrows flex h-full w-4 items-center md:right-4">
-                <FontAwesomeIcon icon="fa-sort-up" class="absolute" :class="getArrowColor('desc')" />
-                <FontAwesomeIcon icon="fa-sort-down" class="absolute" :class="getArrowColor('asc')" />
+            <span 
+                v-if="isSortable" 
+                class="sort-arrows ml-2 flex flex-col items-center"
+            >
+                <svg 
+                    class="h-3 w-3 -mb-1"
+                    :class="getArrowColor('asc')"
+                    fill="currentColor"
+                    viewBox="0 0 12 12"
+                >
+                    <path d="M6 3L2 7h8L6 3z"/>
+                </svg>
+                <svg 
+                    class="h-3 w-3"
+                    :class="getArrowColor('desc')"
+                    fill="currentColor"
+                    viewBox="0 0 12 12"
+                >
+                    <path d="M6 9L2 5h8L6 9z"/>
+                </svg>
             </span>
         </div>
     </th>

@@ -19,6 +19,10 @@ import Td from './Tables/Td.vue';
 import TrCollapseHandler from './Tables/TrCollapseHandler.vue';
 import TrPlaceholder from './Tables/TrPlaceholder.vue';
 import TableItemCard from './Tables/TableItemCard.vue';
+import TrCollapse from './Tables/TrCollapse.vue';
+import TdCollapseHandler from './Tables/TdCollapseHandler.vue';
+import Tr from './Tables/Tr.vue';
+import EnhancedTable from './Tables/EnhancedTable.vue';
 import Alert from './Alert.vue';
 import CollapsibleSection from './CollapsableSection.vue';
 import Dropdown from './Dropdown.vue';
@@ -79,6 +83,10 @@ export {
     TrCollapseHandler,
     TrPlaceholder,
     TableItemCard,
+    TrCollapse,
+    TdCollapseHandler,
+    Tr,
+    EnhancedTable,
     // COMPONENTS
     Alert,
     CollapsibleSection,

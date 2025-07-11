@@ -54,6 +54,8 @@ import DescriptionListItem from './components/DescriptionListItem.vue';
 import DottedCarousel from './components/DottedCarousel.vue';
 import GravatarImg from './components/GravatarImg.vue';
 import TdCollapseHandler from './components/Tables/TdCollapseHandler.vue';
+import Tr from './components/Tables/Tr.vue';
+import EnhancedTable from './components/Tables/EnhancedTable.vue';
 import Collapse from './components/Collapse.vue';
 import Tooltip from './components/Tooltip.vue';
 import Button from './components/Button.vue';
@@ -107,6 +109,8 @@ export {
     TdCollapseHandler,
     TrPlaceholder,
     TableItemCard,
+    Tr,
+    EnhancedTable,
     // COMPONENTS
     Alert,
     CollapsableSection,
@@ -150,3 +154,5 @@ export {
     UnderConstruction,
 };
 export * from './Helpers';
+export * from './composables/useTable';
+export * from './components/Tables/types';

@@ -52,7 +52,20 @@ const Link = defineComponent({
     },
     setup(props, { slots, attrs }) {
         return () => {
-            const router = getInertiaRouter();
+            let router;
+            try {
+                router = getInertiaRouter();
+            } catch (error) {
+                // In docs environment, create a mock router that prevents navigation
+                console.log('InertiaLink: Router not available, preventing navigation');
+                router = {
+                    visit: (href: string, options: any) => {
+                        console.log('InertiaLink: Navigation prevented (docs environment):', href);
+                        // Do nothing - prevent navigation
+                    }
+                };
+            }
+            
             const as = props.as.toLowerCase();
             const method = props.method.toLowerCase();
             const [href, data] = mergeDataIntoQueryString(

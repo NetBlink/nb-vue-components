@@ -1,47 +1,103 @@
 <script setup lang="ts">
-import { Deferred } from '@inertiajs/vue3';
-import TrPlaceholder, { getInertiaPage } from '../../index';
 import { computed } from 'vue';
-import { Td } from '../../index';
+import { Deferred } from '@inertiajs/vue3';
+import { TrPlaceholder, Td } from '../../index';
+import { useInertiaTable } from '../../composables/useTable';
+import type { TableBodyProps, TableRow } from './types';
 
 interface TbodyProps {
-    data?: string;
+    // New props
+    loading?: boolean;
+    data?: TableRow[] | string; // Allow both array of data or string key
+    emptyMessage?: string;
+    loadingRows?: number;
+    responsive?: boolean;
+    
+    // Legacy props for backward compatibility
     hidePlaceholder?: boolean;
     hideNoRecordsMessage?: boolean;
     recordsFromPagination?: boolean;
     noRecordsMessage?: string;
     ignoreDefer?: boolean;
 }
-const props = defineProps<TbodyProps>();
 
-const records = computed(() => {
-    let page = getInertiaPage();
-    let records = props.data ? page.props[props.data] ?? null : null;
-    // @ts-ignore
-    if (props.recordsFromPagination) return records?.data ?? null;
-    return records;
+const props = withDefaults(defineProps<TbodyProps>(), {
+    loading: false,
+    emptyMessage: 'No records found',
+    loadingRows: 3,
+    responsive: true,
+    hidePlaceholder: false,
+    hideNoRecordsMessage: false,
+    recordsFromPagination: false,
+    noRecordsMessage: 'No records found',
+    ignoreDefer: false
 });
+
+const inertiaTable = typeof props.data === 'string' ? useInertiaTable(props.data) : null;
+
+const tableData = computed(() => {
+    if (Array.isArray(props.data)) {
+        return props.data;
+    }
+    
+    if (typeof props.data === 'string' && inertiaTable) {
+        return props.recordsFromPagination ? inertiaTable.data.value?.data : inertiaTable.rows.value;
+    }
+    
+    return [];
+});
+
+const isEmpty = computed(() => {
+    return Array.isArray(tableData.value) && tableData.value.length === 0;
+});
+
+const showEmptyMessage = computed(() => {
+    const hasDataProp = props.data !== undefined;
+    return !props.hideNoRecordsMessage && hasDataProp && isEmpty.value;
+});
+
+const showPlaceholder = computed(() => {
+    return !props.hidePlaceholder && (props.loading || (inertiaTable?.isLoading.value));
+});
+
+const shouldUseDefer = computed(() => {
+    return !props.ignoreDefer && typeof props.data === 'string';
+});
+
+const records = computed(() => tableData.value);
 </script>
 
 <template>
-    <tbody v-if="props.ignoreDefer">
-        <template v-if="!props.hideNoRecordsMessage && records">
-            <tr v-if="!records.length">
-                <Td colspan="999" class="no-records-message !text-center text-gray-500">{{ props.noRecordsMessage }}</Td>
+    <tbody v-if="!shouldUseDefer">
+        <TrPlaceholder v-if="showPlaceholder" :placeholders="loadingRows" />
+        
+        <template v-else-if="showEmptyMessage">
+            <tr>
+                <Td colspan="999" class="text-center text-gray-500 py-8">
+                    {{ props.emptyMessage || props.noRecordsMessage }}
+                </Td>
             </tr>
         </template>
-        <slot />
+        
+        <template v-else>
+            <slot />
+        </template>
     </tbody>
+    
     <tbody v-else>
-        <Deferred :data="props.data">
+        <Deferred :data="typeof props.data === 'string' ? props.data : ''">
             <template #fallback>
-                <TrPlaceholder v-if="!props.hidePlaceholder" />
+                <TrPlaceholder v-if="!props.hidePlaceholder" :placeholders="loadingRows" />
             </template>
-            <template v-if="!props.hideNoRecordsMessage && records">
-                <tr v-if="!records.length">
-                    <Td colspan="999" class="no-records-message !text-center text-gray-500">{{ props.noRecordsMessage }}</Td>
+            
+            <template v-if="showEmptyMessage">
+                <tr>
+                    <Td colspan="999" class="text-center text-gray-500 py-8">
+                        {{ props.emptyMessage || props.noRecordsMessage }}
+                    </Td>
                 </tr>
             </template>
+            
             <slot />
         </Deferred>
     </tbody>
