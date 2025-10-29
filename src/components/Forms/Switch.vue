@@ -22,7 +22,8 @@
  */
 
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
-import { InputLabel, InputError, Tooltip } from '../../index';
+import { SwitchRoot, SwitchThumb } from 'reka-ui';
+import { InputLabel, InputError } from '../../index';
 
 interface SwitchProps {
     /** Form object containing field values and errors */
@@ -91,15 +92,17 @@ function ucwords(text: string): string {
 
 // State management
 const noForm = ref(false);
-const model = defineModel();
-const value = ref();
-const prevValue = ref();
+const model = defineModel<boolean | undefined>();
+const value = ref<boolean>(false);
+const prevValue = ref<boolean>(false);
 const isSettingSilently = ref(false);
 
 // Initialize component
 onMounted(() => {
     noForm.value = !props.form;
-    value.value = noForm.value ? model.value : props.form?.[props.field!];
+    const initialValue = noForm.value ? Boolean(model.value) : Boolean(props.form?.[props.field!]);
+    value.value = initialValue;
+    prevValue.value = initialValue;
 });
 
 // Watch for value changes
@@ -130,7 +133,7 @@ watch(
 watch(
     () => (props.field && props.form ? props.form[props.field] : null),
     (val) => {
-        value.value = noForm.value ? model.value : val;
+        value.value = noForm.value ? Boolean(model.value) : Boolean(val);
     },
     { deep: true }
 );
@@ -139,7 +142,7 @@ watch(
 watch(
     () => model.value,
     (val) => {
-        value.value = val;
+        value.value = Boolean(val);
     }
 );
 
@@ -154,8 +157,8 @@ const errorMessage = computed(() => {
 });
 
 // Exposed methods for compatibility with Input component
-const setValueSilently = (val: any) => {
-    value.value = val;
+const setValueSilently = (val: unknown) => {
+    value.value = Boolean(val);
     isSettingSilently.value = true;
 };
 
@@ -187,18 +190,20 @@ defineExpose({
                 {{ leftDescription === true ? 'Disable' : leftDescription }}
             </span>
 
-            <input :id="field" type="checkbox" class="hidden" v-model="value" :disabled="disabled" :required="required" :name="name || field" />
-
-            <div
-                tabindex="0"
-                class="toggle-switch focusable relative mx-2 ml-0 inline-block h-6 w-12 flex-none cursor-pointer rounded-xl bg-gray-300 transition-all"
-                :class="{
-                    'checked bg-primary': value,
-                    'disabled cursor-not-allowed opacity-50': disabled,
-                    [customClass]: customClass,
-                }"
-                style="box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08) inset"
-            />
+            <SwitchRoot
+                :id="field"
+                v-model:checked="value"
+                :name="name || field"
+                :required="required"
+                :disabled="disabled"
+                :aria-label="computedLabel || undefined"
+                class="focus-visible:ring-primary data-[state=checked]:bg-primary relative mx-2 ml-0 inline-flex h-6 w-12 flex-none items-center rounded-xl bg-gray-300 shadow transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+                :class="customClass"
+            >
+                <SwitchThumb
+                    class="pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]"
+                />
+            </SwitchRoot>
 
             <slot v-if="$slots?.rightDescription" name="rightDescription" />
             <span v-else-if="rightDescription" class="ml-1">
@@ -209,34 +214,3 @@ defineExpose({
         <InputError v-if="errorMessage" :message="errorMessage" class="mt-2" />
     </div>
 </template>
-
-<style scoped>
-.toggle-switch::before {
-    content: '';
-    position: absolute;
-    top: 0.125rem;
-    left: 0.125rem;
-    display: block;
-    height: 1.25rem;
-    width: 1.25rem;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
-    transition: left 150ms;
-    will-change: left;
-}
-
-.toggle-switch:hover {
-    box-shadow: 0.0625em 0.0625em 0.125em rgba(0, 0, 0, 0.12) inset !important;
-}
-
-.toggle-switch:hover::before {
-    background-image: radial-gradient(circle at 0.375em 0.375em, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.0375) 1em);
-    box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.12);
-}
-
-.checked::before {
-    background-image: radial-gradient(circle at 0.375em 0.375em, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.05) 1em);
-    left: 1.625rem;
-}
-</style>
