@@ -32,6 +32,7 @@ export interface InputProps extends BaseInputProps {
     min?: number | string;
     max?: number | string;
     step?: number | string;
+    noNumberSpinners?: boolean;
 
     rows?: number;
 

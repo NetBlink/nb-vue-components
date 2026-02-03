@@ -9,7 +9,7 @@ import type { InputProps } from '../types';
 
 interface BaseInputProps extends Pick<InputProps, 
     'field' | 'name' | 'required' | 'disabled' | 'placeholder' | 
-    'autofocus' | 'pattern' | 'min' | 'max' | 'step' | 'autocomplete' | 'inputCustomClass'
+    'autofocus' | 'pattern' | 'min' | 'max' | 'step' | 'autocomplete' | 'inputCustomClass' | 'noNumberSpinners'
 > {
     type?: string;
     modelValue?: any;
@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<BaseInputProps>(), {
     disabled: false,
     autofocus: false,
     inputCustomClass: '',
+    noNumberSpinners: false,
 });
 
 const emit = defineEmits<{
@@ -51,5 +52,6 @@ const model = computed({
         :autofocus="autofocus"
         :pattern="pattern"
         :name="computedName"
+        :no-number-spinners="noNumberSpinners"
     />
 </template>

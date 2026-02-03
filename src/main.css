@@ -28,6 +28,17 @@
 @utility gutters {
     @apply px-16;
 }
+
+@utility no-spinners {
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    /* Firefox */
+    -moz-appearance: textfield;
+}
 @utility bg-dotted {
     background-image: radial-gradient(var(--color-white) 8%, transparent 10%),
         radial-gradient(var(--color-white) 8%, transparent 10%);

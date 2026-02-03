@@ -9,11 +9,27 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import type { InputProps, InertiaForm } from '../types';
 
-interface InputWithActionsProps extends Pick<InputProps, 
-    'field' | 'name' | 'required' | 'disabled' | 'placeholder' | 
-    'autofocus' | 'pattern' | 'min' | 'max' | 'step' | 'autocomplete' |
-    'inputCustomClass' | 'buttonCustomClass' | 'addon' | 'submitBtn' | 'whatsApp'
-> {
+interface InputWithActionsProps
+    extends Pick<
+        InputProps,
+        | 'field'
+        | 'name'
+        | 'required'
+        | 'disabled'
+        | 'placeholder'
+        | 'autofocus'
+        | 'pattern'
+        | 'min'
+        | 'max'
+        | 'step'
+        | 'autocomplete'
+        | 'inputCustomClass'
+        | 'buttonCustomClass'
+        | 'addon'
+        | 'submitBtn'
+        | 'whatsApp'
+        | 'noNumberSpinners'
+    > {
     type?: string;
     modelValue?: any;
     computedName?: string;
@@ -28,6 +44,7 @@ const props = withDefaults(defineProps<InputWithActionsProps>(), {
     autofocus: false,
     inputCustomClass: '',
     buttonCustomClass: '',
+    noNumberSpinners: false,
 });
 
 const emit = defineEmits<{
@@ -36,7 +53,7 @@ const emit = defineEmits<{
 
 const model = computed({
     get: () => props.modelValue,
-    set: (value) => emit('update:modelValue', value)
+    set: (value) => emit('update:modelValue', value),
 });
 
 const inputClasses = computed(() => ({
@@ -71,6 +88,7 @@ const inputClasses = computed(() => ({
             :autofocus="autofocus"
             :pattern="pattern"
             :name="computedName"
+            :no-number-spinners="noNumberSpinners"
         />
 
         <template v-if="form">
@@ -84,14 +102,7 @@ const inputClasses = computed(() => ({
                 {{ submitBtn }}
             </SubmitButton>
 
-
-            <SubmitButton
-                v-if="$slots?.submit"
-                :form="form"
-                class="z-2 inline-block rounded-l-none"
-                :class="buttonCustomClass"
-                id="button-input"
-            >
+            <SubmitButton v-if="$slots?.submit" :form="form" class="z-2 inline-block rounded-l-none" :class="buttonCustomClass" id="button-input">
                 <slot name="submit" />
             </SubmitButton>
         </template>

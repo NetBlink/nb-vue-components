@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<InputProps>(), {
     labelCustomClass: '',
     autocomplete: null,
     inputmode: null,
+    noNumberSpinners: false,
 });
 
 const emit = defineEmits<InputEmits>();
@@ -251,6 +252,7 @@ defineExpose({
             :computed-autocomplete="computedAutocomplete"
             :inputmode="inputmode"
             :form="form"
+            :no-number-spinners="noNumberSpinners"
             v-model="value"
         >
             <template v-if="$slots?.submit" #submit>
@@ -290,6 +292,7 @@ defineExpose({
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
             :inputmode="inputmode"
+            :no-number-spinners="noNumberSpinners"
             v-model="value"
         />
     </InputWrapper>
