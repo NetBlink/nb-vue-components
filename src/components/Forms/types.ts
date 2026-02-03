@@ -32,25 +32,26 @@ export interface InputProps extends BaseInputProps {
     min?: number | string;
     max?: number | string;
     step?: number | string;
-    
+
     rows?: number;
-    
+
     addon?: string;
     inputCustomClass?: string;
     checkboxCustomClass?: string;
     buttonCustomClass?: string;
     labelCustomClass?: string;
-    
+
     submitBtn?: string;
     whatsApp?: string;
-    
+
     hidePasswordToggler?: boolean;
-    
+
     leftDescription?: string | boolean;
     rightDescription?: string | boolean;
     switchDescription?: string;
-    
+
     pattern?: string;
+    inputmode?: InputMode;
 }
 
 export interface UseInputValueReturn {
@@ -72,7 +73,17 @@ export interface UseFormIntegrationReturn {
     updateFormValue: (value: any) => void;
 }
 
-export type InputType = 
+export type InputMode =
+    | 'text'
+    | 'none'
+    | 'tel'
+    | 'url'
+    | 'email'
+    | 'numeric'
+    | 'decimal'
+    | 'search';
+
+export type InputType =
     | 'text'
     | 'email'
     | 'password'

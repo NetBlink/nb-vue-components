@@ -1,11 +1,6 @@
 <script setup lang="ts">
-
 import { computed, defineModel, type ModelRef } from 'vue';
-import { 
-    Textarea, 
-    Switch, 
-    Checkbox 
-} from '../../index';
+import { Textarea, Switch, Checkbox } from '../../index';
 
 import { InputWrapper, BaseInput, SelectInput, PasswordInput, InputWithActions } from './inputs';
 
@@ -31,25 +26,16 @@ const props = withDefaults(defineProps<InputProps>(), {
     buttonCustomClass: '',
     labelCustomClass: '',
     autocomplete: null,
+    inputmode: null,
 });
 
 const emit = defineEmits<InputEmits>();
 
 const model: ModelRef<any> = defineModel();
 
-const {
-    getComputedLabel,
-    getComputedName,
-    getComputedAutocomplete,
-    isPasswordType,
-    isSelectType
-} = useInputUtils();
+const { getComputedLabel, getComputedName, getComputedAutocomplete, isPasswordType, isSelectType } = useInputUtils();
 
-const {
-    value,
-    setValueSilently,
-    getPreviousValue
-} = useInputValue(props.field, props.form, model, emit);
+const { value, setValueSilently, getPreviousValue } = useInputValue(props.field, props.form, model, emit);
 
 const { displayType, togglePassword } = usePasswordToggle(props.type);
 
@@ -103,6 +89,7 @@ defineExpose({
         :label-custom-class="labelCustomClass"
         :button-custom-class="buttonCustomClass"
         :error="error"
+        :inputmode="inputmode"
         v-model="value"
         @changed="(data) => emit('changed', data)"
     >
@@ -127,6 +114,7 @@ defineExpose({
         :custom-class="inputCustomClass"
         :label-custom-class="labelCustomClass"
         :error="error"
+        :inputmode="inputmode"
         v-model="value"
         @changed="(data) => emit('changed', data)"
     >
@@ -154,6 +142,7 @@ defineExpose({
         :custom-class="inputCustomClass"
         :label-custom-class="labelCustomClass"
         :error="error"
+        :inputmode="inputmode"
         v-model="value"
         @changed="(data) => emit('changed', data)"
     >
@@ -220,6 +209,7 @@ defineExpose({
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
             :display-type="displayType"
+            :inputmode="inputmode"
             v-model="value"
             @toggle-password="togglePassword"
         />
@@ -259,6 +249,7 @@ defineExpose({
             :whats-app="whatsApp"
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
+            :inputmode="inputmode"
             :form="form"
             v-model="value"
         >
@@ -298,6 +289,7 @@ defineExpose({
             :input-custom-class="inputCustomClass"
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
+            :inputmode="inputmode"
             v-model="value"
         />
     </InputWrapper>
