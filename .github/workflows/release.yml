@@ -8,6 +8,9 @@ on:
 jobs:
     release:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
 
         steps:
             - name: Checkout code
@@ -31,7 +34,6 @@ jobs:
             - name: Bump version
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                   git config user.name "GitHub Actions"
                   git config user.email "actions@github.com"
@@ -47,4 +49,7 @@ jobs:
                   git checkout -b release/v$VERSION
                   git push origin release/v$VERSION
 
-                  npm publish --access=public
+            - name: Publish to npm
+              run: npm publish --access=public --provenance
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
