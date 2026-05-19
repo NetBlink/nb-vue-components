@@ -11,20 +11,29 @@ export default ({ mode }) => {
         base: '/nb-vue-components',
         build: {
             lib: {
-                entry: path.resolve(__dirname, 'src/index.ts'),
-                name: '@nb/vue-components',
-                fileName: (format) => `nb-vue-components.${format}.js`,
+                entry: {
+                    'nb-vue-components': path.resolve(__dirname, 'src/index.ts'),
+                    'icons':             path.resolve(__dirname, 'src/icons/index.ts'),
+                    'icons/fa':          path.resolve(__dirname, 'src/icons/presets/fa.ts'),
+                    'icons/heroicons':   path.resolve(__dirname, 'src/icons/presets/heroicons.ts'),
+                    'icons/lucide':      path.resolve(__dirname, 'src/icons/presets/lucide.ts'),
+                },
+                formats: ['es'],
+                fileName: (format, entryName) => `${entryName}.${format}.js`,
             },
             rollupOptions: {
-                external: ['vue'],
+                external: [
+                    'vue',
+                    'isomorphic-dompurify',
+                    '@fortawesome/fontawesome-svg-core',
+                    '@fortawesome/vue-fontawesome',
+                    '@fortawesome/free-solid-svg-icons',
+                    '@fortawesome/free-brands-svg-icons',
+                    '@fortawesome/free-regular-svg-icons',
+                ],
                 output: {
-                    globals: {
-                        vue: 'Vue',
-                    },
+                    globals: { vue: 'Vue' },
                     exports: 'named',
-                },
-                input: {
-                    main: path.resolve(__dirname, 'src/index.ts'),
                 },
             },
         },
