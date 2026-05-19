@@ -1,6 +1,25 @@
-# Changelog - Vue Component Library v2.0
+# Changelog - Vue Component Library
 
-## Overview
+## [Unreleased]
+
+### Breaking
+- FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. The shipped codemod (`npx @netblink/vue-components-migrate`) automates the first option for existing FA-using projects.
+- `DataTile.icon` prop changed type from `IconProp` (FA) to `IconLike`. Existing `:icon="faXyz"` calls continue to work as long as the FA preset is registered.
+- The internal hardcoded `<FontAwesomeIcon icon="fab fa-whatsapp" …>` form in `InputWithActions` was replaced with `<NbIcon name="$whatsapp" …>`. Consumers who use `InputWithActions` or `Textarea`'s WhatsApp affordance must register a `$whatsapp` alias.
+
+### Added
+- `<NbIcon>` rendering primitive (`@netblink/vue-components/icons`).
+- `createNbIcons({ aliases, sets, defaultSet, strict })` Vue plugin for configuring providers.
+- `useNbIcons()` composable.
+- `faAliasPreset` + `faSet` drop-in preset preserving v2.x visuals.
+- 13 built-in alias names (`$expand`, `$close`, `$success`, `$error`, `$warning`, `$info`, `$search`, `$eye`, `$eye-off`, `$help`, `$edit`, `$edit-alt`, `$construction`) shipping default inline SVGs.
+- `#icon` slot escape hatch on `DataTile` and other Bucket-2 components.
+
+### Removed
+- Direct `@fortawesome/*` imports from every internal component (the FA packages are now optional peer dependencies, only required when consumers opt into the FA preset).
+- Dead `library.add(...)` and unused FA imports across several components.
+
+## v2.0 — Overview
 
 Major update transitioning from tw-elements to Reka UI with enhanced TypeScript support and improved accessibility.
 
