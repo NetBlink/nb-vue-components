@@ -1,6 +1,6 @@
 # Changelog - Vue Component Library
 
-## [Unreleased]
+## [3.0.0] - 2026-05-19
 
 ### Breaking
 - FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. The shipped codemod (`npx @netblink/vue-components-migrate`) automates the first option for existing FA-using projects.
