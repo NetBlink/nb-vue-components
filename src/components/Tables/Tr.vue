@@ -25,7 +25,7 @@ const handleClick = (event: MouseEvent) => {
 };
 
 const trClasses = computed(() => [
-    'border-b border-gray-200 last:border-b-0 transition-colors',
+    'border-b border-gray-200 dark:border-gray-700 last:border-b-0 transition-colors',
     {
         'hover:bg-gray-50': props.hoverable && !props.selected,
         'bg-blue-50 border-blue-200': props.selected,
@@ -35,7 +35,7 @@ const trClasses = computed(() => [
         'border-red-200 bg-red-50': props.variant === 'danger',
         'border-blue-200 bg-blue-50': props.variant === 'info',
         'sm:table-row': true,
-        'flex flex-col mb-4 rounded-lg border border-gray-200 shadow-sm bg-white sm:mb-0 sm:rounded-none sm:border-0 sm:shadow-none sm:bg-transparent': true
+        'flex flex-col mb-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm bg-white sm:mb-0 sm:rounded-none sm:border-0 sm:shadow-none sm:bg-transparent': true
     }
 ]);
 </script>

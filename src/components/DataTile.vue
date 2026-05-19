@@ -86,7 +86,7 @@ const themeClasses = computed(() => {
 
 <template>
     <div
-        class="group relative cursor-pointer overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-200 hover:shadow-md"
+        class="group relative cursor-pointer overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:bg-gray-800 dark:hover:shadow-black/40"
         :class="{
             [themeClasses.base]: true,
             'ring-2': selected,
@@ -97,19 +97,20 @@ const themeClasses = computed(() => {
         <div class="relative overflow-clip px-6 py-4" :class="[customStatValueClass]">
             <div class="absolute inset-0 isolate z-0 size-full">
                 <FontAwesomeIcon
+                    v-if="icon"
                     :icon="icon"
                     :class="[themeClasses.hoverText]"
                     size="3x"
-                    class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 text-gray-400 opacity-50 transition-colors"
+                    class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 text-gray-400 opacity-50 transition-colors dark:text-gray-600"
                 />
             </div>
-            <div :class="[themeClasses.hoverText]" class="text-2xl font-bold text-gray-900 transition-colors">
+            <div :class="[themeClasses.hoverText]" class="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100">
                 {{ value }}
             </div>
         </div>
 
-        <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3" :class="[customStatLabelClass]">
-            <div :class="[themeClasses.hoverText]" class="text-sm font-medium text-gray-600 transition-colors">
+        <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40" :class="[customStatLabelClass]">
+            <div :class="[themeClasses.hoverText]" class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors dark:text-gray-400">
                 {{ label }}
             </div>
         </div>

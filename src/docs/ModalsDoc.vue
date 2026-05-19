@@ -64,7 +64,7 @@ const basicExamples = [
 
 const confirmationExamples = [
     '<NewModal v-model:open="showConfirmModal" title="Confirm deletion">',
-    '  <p class="text-gray-600">Are you sure? This cannot be undone.</p>',
+    '  <p class="text-gray-600 dark:text-gray-400">Are you sure? This cannot be undone.</p>',
     '  <template #footer>',
     '    <SecondaryButton @click="showConfirmModal = false">Cancel</SecondaryButton>',
     '    <DangerButton @click="handleConfirm">Delete account</DangerButton>',
@@ -138,22 +138,27 @@ const newModalSlots = [
 <template>
     <div class="space-y-12">
         <section>
-            <div class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
-                <strong>NewModal</strong> is the canonical dialog — built on reka-ui's <code class="rounded bg-white px-1">Dialog</code>,
-                drives state with <code class="rounded bg-white px-1">v-model:open</code>, and ships named
-                <code class="rounded bg-white px-1">header</code> / <code class="rounded bg-white px-1">description</code> /
-                <code class="rounded bg-white px-1">footer</code> / <code class="rounded bg-white px-1">trigger</code> slots. Use it for all new
-                code. The older single-slot <code class="rounded bg-white px-1">Modal</code> is deprecated and lives at the bottom of this page.
+            <div
+                class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
+            >
+                <strong>NewModal</strong> is the canonical dialog — built on reka-ui's
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">Dialog</code>, drives state with
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">v-model:open</code>, and ships named
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">header</code> /
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">description</code> /
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">footer</code> /
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">trigger</code> slots. Use it for all new code. The older single-slot
+                <code class="rounded bg-white px-1 dark:bg-blue-900/50">Modal</code> is deprecated and lives at the bottom of this page.
             </div>
         </section>
 
         <section id="basic">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Basic dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
-                    Pass a <code class="rounded bg-gray-100 px-1">title</code> for the header bar (or use the
-                    <code class="rounded bg-gray-100 px-1">#header</code> slot for custom markup). Body goes in the default slot, action buttons
-                    in <code class="rounded bg-gray-100 px-1">#footer</code>.
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic dialog</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">title</code> for the header bar (or use the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot for custom markup). Body goes in the default slot, action buttons
+                    in <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#footer</code>.
                 </p>
 
                 <div class="mb-6">
@@ -161,9 +166,9 @@ const newModalSlots = [
                 </div>
 
                 <NewModal v-model:open="showBasic" title="Welcome to Our App">
-                    <p class="text-gray-600">
-                        This is a basic dialog demonstrating <code class="rounded bg-gray-100 px-1">title</code> + default slot +
-                        <code class="rounded bg-gray-100 px-1">#footer</code>.
+                    <p class="text-gray-600 dark:text-gray-400">
+                        This is a basic dialog demonstrating <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">title</code> + default slot +
+                        <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#footer</code>.
                     </p>
                     <template #footer>
                         <SecondaryButton @click="showBasic = false">Cancel</SecondaryButton>
@@ -176,9 +181,9 @@ const newModalSlots = [
         </section>
 
         <section id="confirmation">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Confirmation dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Use the <code class="rounded bg-gray-100 px-1">#header</code> slot when you need icon + title together.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Confirmation dialog</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot when you need icon + title together.</p>
 
                 <div class="mb-6">
                     <DangerButton @click="showConfirmModal = true">Delete account</DangerButton>
@@ -191,7 +196,7 @@ const newModalSlots = [
                             Confirm deletion
                         </span>
                     </template>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-gray-400">
                         Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
                     </p>
                     <template #footer>
@@ -205,9 +210,9 @@ const newModalSlots = [
         </section>
 
         <section id="form">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Form dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Forms render inside the default slot. Keep buttons in the footer so they pin to the bottom.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form dialog</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Forms render inside the default slot. Keep buttons in the footer so they pin to the bottom.</p>
 
                 <div class="mb-6">
                     <PrimaryButton @click="showFormModal = true">Open contact form</PrimaryButton>
@@ -238,8 +243,8 @@ const newModalSlots = [
         </section>
 
         <section id="api">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">NewModal API</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">NewModal API</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <CollapsableSection header="Props" :open="true">
                     <PropsTable :rows="newModalProps" />
                 </CollapsableSection>
@@ -251,19 +256,21 @@ const newModalSlots = [
         </section>
 
         <section id="deprecated">
-            <h3 class="mb-4 flex items-center gap-2 border-b-2 border-amber-200 pb-2 text-xl font-semibold text-amber-700">
+            <h3 class="mb-4 flex items-center gap-2 border-b-2 border-amber-200 pb-2 text-xl font-semibold text-amber-700 dark:border-amber-700/60 dark:text-amber-400">
                 Deprecated
-                <span class="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-amber-800">
+                <span
+                    class="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                >
                     Will not be supported
                 </span>
             </h3>
 
-            <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6">
-                <p class="mb-4 text-sm text-amber-900">
-                    The original <code class="rounded bg-white px-1">Modal</code> component is documented here for backwards reference only — it
+            <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-900/40 dark:bg-amber-950/30">
+                <p class="mb-4 text-sm text-amber-900 dark:text-amber-200">
+                    The original <code class="rounded bg-white px-1 dark:bg-amber-900/40">Modal</code> component is documented here for backwards reference only — it
                     will not be receiving further work. <strong>Migrate to NewModal for all new code.</strong> Modal exposes only a single default
-                    slot (no named header/footer slots) and uses <code class="rounded bg-white px-1">:show + @close</code> instead of
-                    <code class="rounded bg-white px-1">v-model:open</code>.
+                    slot (no named header/footer slots) and uses <code class="rounded bg-white px-1 dark:bg-amber-900/40">:show + @close</code> instead of
+                    <code class="rounded bg-white px-1 dark:bg-amber-900/40">v-model:open</code>.
                 </p>
 
                 <div class="mb-4">
@@ -272,8 +279,8 @@ const newModalSlots = [
 
                 <Modal :show="showLegacyModal" @close="showLegacyModal = false">
                     <div class="p-6">
-                        <h3 class="mb-4 text-lg font-semibold text-gray-900">Legacy Modal</h3>
-                        <p class="text-gray-600">All header, body and footer markup must be supplied via the single default slot.</p>
+                        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Legacy Modal</h3>
+                        <p class="text-gray-600 dark:text-gray-400">All header, body and footer markup must be supplied via the single default slot.</p>
                         <div class="mt-6 flex justify-end gap-3">
                             <SecondaryButton @click="showLegacyModal = false">Close</SecondaryButton>
                         </div>

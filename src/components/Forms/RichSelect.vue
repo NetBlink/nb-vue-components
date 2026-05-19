@@ -389,7 +389,7 @@ onUnmounted(cleanup);
                 :id="selectId"
                 @click="toggleDropdown"
                 :disabled="disabled"
-                class="focusable focus:border-primary-500 focus:ring-primary-500 relative w-full cursor-pointer rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500"
+                class="focusable focus:border-primary-500 focus:ring-primary-500 relative w-full cursor-pointer rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left text-gray-900 shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500"
                 :class="[
                     customClass,
                     {
@@ -404,7 +404,7 @@ onUnmounted(cleanup);
                         <span
                             v-for="option in selectedOptions"
                             :key="getOptionValue(option)"
-                            class="bg-primary-100 text-primary-800 inline-flex items-center gap-1 rounded px-2 py-1 text-xs"
+                            class="bg-primary-100 text-primary-800 inline-flex items-center gap-1 rounded px-2 py-1 text-xs dark:bg-primary-900/50 dark:text-primary-100"
                         >
                             {{ getOptionLabel(option) }}
                             <button type="button" @click="removeOption(option, $event)" class="hover:text-primary-600 transition-colors">
@@ -414,7 +414,7 @@ onUnmounted(cleanup);
                     </template>
 
                     <!-- Single selection or placeholder -->
-                    <span v-else class="block truncate" :class="{ 'text-gray-500': !selectedOptions.length }">
+                    <span v-else class="block truncate" :class="{ 'text-gray-500 dark:text-gray-400': !selectedOptions.length }">
                         {{ displayText }}
                     </span>
                 </div>
@@ -448,9 +448,12 @@ onUnmounted(cleanup);
                 leave-from-class="opacity-100 scale-100"
                 leave-to-class="opacity-0 scale-95"
             >
-                <div v-show="isOpen" class="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg">
+                <div
+                    v-show="isOpen"
+                    class="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/40"
+                >
                     <!-- Search input -->
-                    <div v-if="searchable" class="border-b border-gray-200 p-2">
+                    <div v-if="searchable" class="border-b border-gray-200 dark:border-gray-700 p-2">
                         <div class="relative">
                             <FontAwesomeIcon :icon="faSearch" class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                             <input
@@ -459,7 +462,7 @@ onUnmounted(cleanup);
                                 v-model="searchQuery"
                                 @input="handleSearch(searchQuery)"
                                 placeholder="Search options..."
-                                class="focus:border-primary-500 focus:ring-primary-500 w-full rounded border border-gray-300 py-2 pr-3 pl-10 text-sm focus:ring-2 focus:ring-offset-0"
+                                class="focus:border-primary-500 focus:ring-primary-500 w-full rounded border border-gray-300 py-2 pr-3 pl-10 text-sm focus:ring-2 focus:ring-offset-0 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
                             />
                         </div>
                     </div>
@@ -467,7 +470,7 @@ onUnmounted(cleanup);
                     <!-- Loading state -->
                     <div v-if="isLoading" class="flex items-center justify-center p-4">
                         <Spinner class="h-5 w-5" />
-                        <span class="ml-2 text-sm text-gray-600">Loading...</span>
+                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">Loading...</span>
                     </div>
 
                     <!-- Options -->
@@ -476,7 +479,7 @@ onUnmounted(cleanup);
                             <div v-for="(groupOptions, groupName) in groupedOptions" :key="groupName">
                                 <div
                                     v-if="groupName !== 'ungrouped'"
-                                    class="bg-gray-50 px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase"
+                                    class="bg-gray-50 dark:bg-gray-900/40 px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase"
                                 >
                                     {{ groupName }}
                                 </div>
@@ -486,10 +489,10 @@ onUnmounted(cleanup);
                                     type="button"
                                     @click="toggleOption(option)"
                                     :disabled="option.disabled"
-                                    class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                    class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                                     :class="{
-                                        'bg-primary-100 text-primary-900': isSelected(option),
-                                        'text-gray-900': !isSelected(option),
+                                        'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
+                                        'text-gray-900 dark:text-gray-100': !isSelected(option),
                                     }"
                                 >
                                     <span class="block truncate">{{ getOptionLabel(option) }}</span>
@@ -508,10 +511,10 @@ onUnmounted(cleanup);
                                 type="button"
                                 @click="toggleOption(option)"
                                 :disabled="option.disabled"
-                                class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                                 :class="{
-                                    'bg-primary-100 text-primary-900': isSelected(option),
-                                    'text-gray-900': !isSelected(option),
+                                    'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
+                                    'text-gray-900 dark:text-gray-100': !isSelected(option),
                                 }"
                             >
                                 <span class="block truncate">{{ getOptionLabel(option) }}</span>
@@ -520,7 +523,7 @@ onUnmounted(cleanup);
                         </template>
 
                         <!-- No options message -->
-                        <div v-if="!filteredOptions.length" class="px-3 py-2 text-center text-sm text-gray-500">No options found</div>
+                        <div v-if="!filteredOptions.length" class="px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400">No options found</div>
                     </div>
                 </div>
             </transition>

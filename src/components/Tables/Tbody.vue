@@ -73,7 +73,7 @@ const records = computed(() => tableData.value);
         
         <template v-else-if="showEmptyMessage">
             <tr>
-                <Td colspan="999" class="text-center text-gray-500 py-8">
+                <Td colspan="999" class="text-center text-gray-500 dark:text-gray-400 py-8 dark:text-gray-400">
                     {{ props.emptyMessage || props.noRecordsMessage }}
                 </Td>
             </tr>
@@ -92,7 +92,7 @@ const records = computed(() => tableData.value);
             
             <template v-if="showEmptyMessage">
                 <tr>
-                    <Td colspan="999" class="text-center text-gray-500 py-8">
+                    <Td colspan="999" class="text-center text-gray-500 dark:text-gray-400 py-8 dark:text-gray-400">
                         {{ props.emptyMessage || props.noRecordsMessage }}
                     </Td>
                 </tr>

@@ -280,9 +280,9 @@ const dataTileProps = [
 <template>
     <div class="space-y-12">
         <section id="alerts">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Alerts</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Alerts</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Contextual alert messages with smooth show/hide animations for success, error, warning, and informational feedback.
                 </p>
 
@@ -300,9 +300,9 @@ const dataTileProps = [
                 </div>
 
                 <!-- Interactive Animation Demo -->
-                <div class="mb-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Interactive Animation Demo</h4>
-                    <p class="mb-4 text-sm text-gray-600">Click the buttons below to see the smooth show/hide animations:</p>
+                <div class="mb-6 rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Interactive Animation Demo</h4>
+                    <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">Click the buttons below to see the smooth show/hide animations:</p>
 
                     <div class="mb-4 flex flex-wrap gap-2">
                         <button
@@ -353,68 +353,68 @@ const dataTileProps = [
                 <CodePreview :code="alertExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Alert Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Alert Props</h4>
                     <PropsTable :rows="alertProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
                     <PropsTable :rows="alertEvents" />
                 </div>
             </div>
         </section>
 
         <section id="spinners">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Loading Spinners</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Loading indicators for async operations and data fetching states.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Loading Spinners</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Loading indicators for async operations and data fetching states.</p>
 
                 <div class="mb-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">Spinner Sizes</h4>
-                    <div class="flex items-center space-x-8 rounded border bg-gray-50 p-4">
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Spinner Sizes</h4>
+                    <div class="flex items-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="text-center">
                             <Spinner size="xs" />
-                            <p class="mt-2 text-sm text-gray-600">Extra Small</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Extra Small</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="sm" />
-                            <p class="mt-2 text-sm text-gray-600">Small</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Small</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="md" />
-                            <p class="mt-2 text-sm text-gray-600">Medium (Default)</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Medium (Default)</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="lg" />
-                            <p class="mt-2 text-sm text-gray-600">Large</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Large</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="xl" />
-                            <p class="mt-2 text-sm text-gray-600">Extra Large</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Extra Large</p>
                         </div>
                     </div>
 
-                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800">With Custom Colors</h4>
-                    <div class="flex items-center space-x-8 rounded border bg-gray-50 p-4">
+                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Custom Colors</h4>
+                    <div class="flex items-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="text-center">
                             <Spinner size="md" color="text-green-600" />
-                            <p class="mt-2 text-sm text-gray-600">Green</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Green</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="md" color="text-red-600" />
-                            <p class="mt-2 text-sm text-gray-600">Red</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Red</p>
                         </div>
                         <div class="text-center">
                             <Spinner size="md" color="text-purple-600" />
-                            <p class="mt-2 text-sm text-gray-600">Purple</p>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Purple</p>
                         </div>
                     </div>
 
-                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800">With Text</h4>
-                    <div class="rounded border bg-gray-50 p-4">
+                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Text</h4>
+                    <div class="rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="flex items-center justify-center space-x-3">
                             <Spinner size="sm" />
-                            <span class="text-gray-700">Loading your data...</span>
+                            <span class="text-gray-700 dark:text-gray-200">Loading your data...</span>
                         </div>
                     </div>
                 </div>
@@ -422,19 +422,19 @@ const dataTileProps = [
                 <CodePreview :code="spinnerExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Spinner Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Spinner Props</h4>
                     <PropsTable :rows="spinnerProps" />
                 </div>
             </div>
         </section>
 
         <section id="tooltips">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Tooltips</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Contextual help text that appears on hover or focus.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tooltips</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Contextual help text that appears on hover or focus.</p>
 
                 <div class="mb-6">
-                    <div class="flex items-center justify-center space-x-8 rounded border bg-gray-50 p-8">
+                    <div class="flex items-center justify-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-8">
                         <Tooltip content="This tooltip appears on the bottom" side="bottom">
                             <button class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">Bottom Tooltip</button>
                         </Tooltip>
@@ -456,20 +456,20 @@ const dataTileProps = [
                 <CodePreview :code="tooltipExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Tooltip Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Tooltip Props</h4>
                     <PropsTable :rows="tooltipProps" />
                 </div>
             </div>
         </section>
 
         <section id="stats">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Statistics Display</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Statistics Display</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Clickable stat cards. Each item is selectable; clicking emits
-                    <code class="rounded bg-gray-100 px-1">updateSearch</code> with the selected name (or null when the same stat is clicked again).
-                    Selection state is read from a URL query parameter named by <code class="rounded bg-gray-100 px-1">statusName</code> (defaults to
-                    <code class="rounded bg-gray-100 px-1">status</code>).
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">updateSearch</code> with the selected name (or null when the same stat is clicked again).
+                    Selection state is read from a URL query parameter named by <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">statusName</code> (defaults to
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">status</code>).
                 </p>
 
                 <div class="mb-6">
@@ -479,25 +479,25 @@ const dataTileProps = [
                 <CodePreview :code="statsExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Stats Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Stats Props</h4>
                     <PropsTable :rows="statsProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
                     <PropsTable :rows="statsEvents" />
                 </div>
             </div>
         </section>
 
         <section id="sections">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Structured content sections with titles and optional action areas.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Structured content sections with titles and optional action areas.</p>
 
                 <div class="mb-6 space-y-6">
                     <Section header="User Profile">
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-400">
                             This section contains user profile information and settings. You can edit your personal details, update your avatar, and
                             manage your account preferences.
                         </p>
@@ -507,7 +507,7 @@ const dataTileProps = [
                         <template #headerButton>
                             <button class="rounded bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600">Change Password</button>
                         </template>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-400">
                             Manage your account security settings including password, two-factor authentication, and login sessions.
                         </p>
                     </Section>
@@ -516,24 +516,24 @@ const dataTileProps = [
                 <CodePreview :code="sectionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Section Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Section Props</h4>
                     <PropsTable :rows="sectionProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
                     <PropsTable :rows="sectionSlots" />
                 </div>
             </div>
         </section>
 
         <section id="collapsible">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapse</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-3 text-gray-600">
-                    Low-level open/close container. By default it renders a <code class="rounded bg-gray-100 px-1">SecondaryButton</code> as the
-                    trigger (labels come from the <code class="rounded bg-gray-100 px-1">button</code> prop); pass a
-                    <code class="rounded bg-gray-100 px-1">#trigger</code> slot to override.
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapse</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-3 text-gray-600 dark:text-gray-400">
+                    Low-level open/close container. By default it renders a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">SecondaryButton</code> as the
+                    trigger (labels come from the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">button</code> prop); pass a
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#trigger</code> slot to override.
                 </p>
 
                 <!-- Family comparison: there are three "collapsible" components and they get confused -->
@@ -552,48 +552,48 @@ const dataTileProps = [
                     </ul>
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800">Default trigger (`button` prop)</h4>
+                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Default trigger (`button` prop)</h4>
                 <Collapse class="mb-6">
-                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                        <p class="text-gray-600">
+                    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
+                        <p class="text-gray-600 dark:text-gray-400">
                             Default trigger uses a SecondaryButton labelled by the <code class="rounded bg-white px-1">button</code> prop.
                             <br />
-                            <span class="text-gray-500">Try the labels: pass <code class="rounded bg-white px-1">:button="['Details', 'Hide']"</code>.</span>
+                            <span class="text-gray-500 dark:text-gray-400">Try the labels: pass <code class="rounded bg-white px-1">:button="['Details', 'Hide']"</code>.</span>
                         </p>
                     </div>
                 </Collapse>
 
                 <Collapse :button="['View advanced details', 'Hide advanced details']" class="mb-6">
-                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                        <p class="text-gray-600">
+                    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
+                        <p class="text-gray-600 dark:text-gray-400">
                             Same Collapse, with custom button labels via <code class="rounded bg-white px-1">:button="['…', '…']"</code>.
                         </p>
                     </div>
                 </Collapse>
 
-                <h4 class="mb-3 font-semibold text-gray-800">Custom trigger (#trigger slot)</h4>
+                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Custom trigger (#trigger slot)</h4>
                 <Collapse :open="collapseOpen" class="mb-6">
                     <template #trigger>
                         <button
                             @click="collapseOpen = !collapseOpen"
-                            class="flex w-full items-center justify-between rounded-lg bg-gray-100 p-3 text-left transition-colors hover:bg-gray-200"
+                            class="flex w-full items-center justify-between rounded-lg bg-gray-100 dark:bg-gray-900/60 p-3 text-left transition-colors hover:bg-gray-200"
                         >
                             <span class="font-semibold">Advanced settings</span>
                             <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
                         </button>
                     </template>
-                    <div class="mt-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
-                        <p class="mb-3 text-sm text-gray-600">
+                    <div class="mt-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
+                        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                             When you supply your own trigger, you also own the open state — toggle <code class="rounded bg-white px-1">collapseOpen</code>
                             yourself.
                         </p>
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <label class="block">
-                                <span class="font-medium text-gray-700">API timeout</span>
+                                <span class="font-medium text-gray-700 dark:text-gray-200">API timeout</span>
                                 <input type="number" class="mt-1 block w-full rounded border-gray-300" value="30" />
                             </label>
                             <label class="block">
-                                <span class="font-medium text-gray-700">Max retries</span>
+                                <span class="font-medium text-gray-700 dark:text-gray-200">Max retries</span>
                                 <input type="number" class="mt-1 block w-full rounded border-gray-300" value="3" />
                             </label>
                         </div>
@@ -621,55 +621,55 @@ const dataTileProps = [
                 />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Collapse Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Collapse Props</h4>
                     <PropsTable :rows="collapseProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
                     <PropsTable :rows="collapseSlots" />
                 </div>
             </div>
         </section>
 
         <section id="pagination">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Pagination</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Navigation controls for paginated content and data tables.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Pagination</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Navigation controls for paginated content and data tables.</p>
 
                 <div class="mb-6 flex justify-center">
                     <Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />
                 </div>
 
-                <div class="mb-6 text-center text-sm text-gray-600">Current page: {{ currentPage }} of 15</div>
+                <div class="mb-6 text-center text-sm text-gray-600 dark:text-gray-400">Current page: {{ currentPage }} of 15</div>
 
                 <CodePreview :code="paginationExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">Pagination Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Pagination Props</h4>
                     <PropsTable :rows="paginationProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
                     <PropsTable :rows="paginationEvents" />
                 </div>
             </div>
         </section>
 
         <section id="data-tiles">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">DataTile</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-2 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DataTile</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-600 dark:text-gray-400">
                     A themed single-statistic tile with a large value, a label, and a FontAwesome watermark icon. Like
-                    <code class="rounded bg-gray-100 px-1">Stats</code> but for one number you've computed yourself — drop several into a grid for
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> but for one number you've computed yourself — drop several into a grid for
                     a dashboard layout.
                 </p>
-                <p class="mb-6 text-sm text-gray-500">
+                <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
                     The tile fills its container by default; render multiple inside a CSS grid for the dashboard look.
                 </p>
 
-                <h4 class="mb-3 font-semibold text-gray-800">Themed grid</h4>
+                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Themed grid</h4>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
                     <DataTile :value="1284" label="Active users" :icon="faUsers" theme="primary" />
                     <DataTile :value="'£45,678'" label="Revenue (MTD)" :icon="faChartLine" theme="success" />
@@ -677,9 +677,9 @@ const dataTileProps = [
                     <DataTile :value="'4.8 / 5'" label="Customer rating" :icon="faCircleCheck" theme="success" />
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800">Selected state</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    Set <code class="rounded bg-gray-100 px-1">selected</code> when the tile represents a currently-active filter or selection.
+                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Selected state</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selected</code> when the tile represents a currently-active filter or selection.
                 </p>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
                     <DataTile :value="7" label="Pending reviews" :icon="faGears" theme="primary" />
@@ -687,8 +687,8 @@ const dataTileProps = [
                     <DataTile :value="2" label="Pending reviews" :icon="faGears" theme="danger" />
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800">Standalone</h4>
-                <p class="mb-3 text-sm text-gray-600">
+                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Standalone</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     A single tile fills the available width — wrap it in a sized container if you don't want it stretching across the page.
                 </p>
                 <div class="mb-6 max-w-xs">
@@ -711,7 +711,7 @@ const dataTileProps = [
                 />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">DataTile Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DataTile Props</h4>
                     <PropsTable :rows="dataTileProps" />
                 </div>
             </div>

@@ -114,7 +114,7 @@ const displayData = computed(() => {
                     v-for="(row, index) in displayData"
                     :key="row.id || index"
                     :class="[
-                        'border-b border-gray-200 transition-colors hover:bg-gray-50',
+                        'border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-50',
                         {
                             'cursor-pointer': props.selectable,
                             'bg-blue-50': table.isSelected?.(row)

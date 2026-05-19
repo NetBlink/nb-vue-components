@@ -74,9 +74,9 @@ const radioId = computed(() => {
             :value="value"
             :checked="isSelected"
             @change="updateValue"
-            class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+            class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:checked:bg-blue-500 dark:focus:ring-offset-gray-800"
         />
-        <label :for="radioId" class="cursor-pointer text-sm font-medium text-gray-700">
+        <label :for="radioId" class="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-200">
             {{ label }}
         </label>
     </div>

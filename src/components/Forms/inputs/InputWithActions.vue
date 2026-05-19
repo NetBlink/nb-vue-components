@@ -67,7 +67,7 @@ const inputClasses = computed(() => ({
     <div class="relative flex w-full max-w-full items-stretch">
         <span
             v-if="addon"
-            class="flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
+            class="flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500 dark:text-gray-400"
             :class="{ shadow: !disabled }"
         >
             {{ addon }}

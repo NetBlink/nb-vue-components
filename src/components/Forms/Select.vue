@@ -213,11 +213,11 @@ defineExpose({
             :required="required"
             :disabled="disabled"
             :name="name || field"
-            class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+            class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500 dark:[&>option]:bg-gray-800 dark:[&>option]:text-gray-100"
             :class="customClass"
         >
             <!-- Placeholder option -->
-            <option v-if="placeholder" value="" disabled :selected="!value" class="text-gray-500">
+            <option v-if="placeholder" value="" disabled :selected="!value" class="text-gray-500 dark:text-gray-400">
                 {{ placeholder }}
             </option>
 

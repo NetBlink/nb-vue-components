@@ -42,9 +42,9 @@ const getArrowColor = (direction: 'asc' | 'desc') => {
 };
 
 const thClasses = computed(() => [
-    'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50',
+    'px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-900/50 dark:text-gray-400',
     {
-        'cursor-pointer hover:bg-gray-100': isSortable.value,
+        'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900/80': isSortable.value,
         'text-left': props.align === 'left',
         'text-center': props.align === 'center',
         'text-right': props.align === 'right',

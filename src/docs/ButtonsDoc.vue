@@ -120,11 +120,11 @@ const underConstructionProps = [
 <template>
     <div class="space-y-12">
         <section id="standard-buttons">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Standard Buttons</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">A collection of styled button components for different actions and contexts.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Standard Buttons</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">A collection of styled button components for different actions and contexts.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Button Variants</h4>
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Variants</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <PrimaryButton>Primary</PrimaryButton>
                     <SecondaryButton>Secondary</SecondaryButton>
@@ -134,7 +134,7 @@ const underConstructionProps = [
                     <InfoButton>Info</InfoButton>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Disabled States</h4>
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <PrimaryButton disabled>Primary Disabled</PrimaryButton>
                     <SecondaryButton disabled>Secondary Disabled</SecondaryButton>
@@ -144,21 +144,21 @@ const underConstructionProps = [
                 <CodePreview :code="buttonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">Button Props</h4>
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Props</h4>
                     <PropsTable :rows="buttonProps" />
                 </div>
             </div>
         </section>
 
         <section id="submitbutton">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">SubmitButton</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
-                    A themed button that shows a spinner while an Inertia form is processing. Pass <code class="rounded bg-gray-100 px-1">:form</code>
-                    for automatic state, or <code class="rounded bg-gray-100 px-1">:loading</code> for manual control.
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SubmitButton</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A themed button that shows a spinner while an Inertia form is processing. Pass <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">:form</code>
+                    for automatic state, or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">:loading</code> for manual control.
                 </p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Idle / Loading</h4>
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Idle / Loading</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <SubmitButton>Save Changes</SubmitButton>
                     <SubmitButton loading>Saving…</SubmitButton>
@@ -168,18 +168,18 @@ const underConstructionProps = [
                 <CodePreview :code="submitButtonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">SubmitButton Props</h4>
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">SubmitButton Props</h4>
                     <PropsTable :rows="submitButtonProps" />
                 </div>
             </div>
         </section>
 
         <section id="linkbutton">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">LinkButton with Themes</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">LinkButton component now supports predefined themes for consistent styling across your application.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LinkButton with Themes</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">LinkButton component now supports predefined themes for consistent styling across your application.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Theme Examples</h4>
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Theme Examples</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <LinkButton href="#" theme="primary">Primary</LinkButton>
                     <LinkButton href="#" theme="secondary">Secondary</LinkButton>
@@ -189,7 +189,7 @@ const underConstructionProps = [
                     <LinkButton href="#" theme="info">Info</LinkButton>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Disabled States</h4>
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <LinkButton href="#" theme="primary" disabled>Primary Disabled</LinkButton>
                     <LinkButton href="#" theme="success" disabled>Success Disabled</LinkButton>
@@ -199,39 +199,39 @@ const underConstructionProps = [
                 <CodePreview :code="linkButtonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">LinkButton Props & Themes</h4>
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">LinkButton Props & Themes</h4>
                     <PropsTable :rows="linkButtonProps" />
                 </div>
             </div>
         </section>
 
         <section id="underconstruction">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">UnderConstruction Component</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">UnderConstruction Component</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A utility component to display placeholders for sections that are still being developed. Perfect for work-in-progress areas of
                     your application.
                 </p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Basic Usage</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Usage</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <UnderConstruction />
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Custom Message</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Custom Message</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <UnderConstruction info="Feature coming soon!&#10;Stay tuned for updates." />
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Full Height Container</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4" style="height: 200px">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Full Height Container</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4" style="height: 200px">
                     <UnderConstruction full info="Dashboard analytics&#10;Coming in Q2 2025" />
                 </div>
 
                 <CodePreview :code="underConstructionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">UnderConstruction Props</h4>
+                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">UnderConstruction Props</h4>
                     <PropsTable :rows="underConstructionProps" />
                 </div>
             </div>

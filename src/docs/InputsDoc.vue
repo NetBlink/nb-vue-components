@@ -396,9 +396,9 @@ const descriptionListProps = [
 <template>
     <div class="space-y-12">
         <section id="input">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Basic Input</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">The foundational input component supporting various types including text, email, password, and more.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic Input</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">The foundational input component supporting various types including text, email, password, and more.</p>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <Input :form="form" field="name" />
@@ -413,8 +413,8 @@ const descriptionListProps = [
 
                 <CodePreview :code="inputExamples" />
 
-                <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800">Advanced Features</h4>
-                <p class="mb-4 text-gray-600">Input component supports advanced features like tooltips, sublabels, and integrated submit buttons.</p>
+                <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Features</h4>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Input component supports advanced features like tooltips, sublabels, and integrated submit buttons.</p>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Input :form="form" field="tooltip_field" tooltip="This is a helpful tooltip" />
@@ -434,13 +434,13 @@ const descriptionListProps = [
         </section>
 
         <section id="checkbox">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Checkbox</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Checkbox</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use checkbox:
-                    <code class="rounded bg-gray-100 px-1">&lt;Input type="checkbox"&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="checkbox"&gt;</code>
                     or
-                    <code class="rounded bg-gray-100 px-1">&lt;Checkbox&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Checkbox&gt;</code>
                     - both are API-compatible.
                 </p>
 
@@ -459,13 +459,13 @@ const descriptionListProps = [
         </section>
 
         <section id="switch">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Switch</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Switch</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use switch:
-                    <code class="rounded bg-gray-100 px-1">&lt;Input type="switch"&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="switch"&gt;</code>
                     or
-                    <code class="rounded bg-gray-100 px-1">&lt;Switch&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Switch&gt;</code>
                     - both are API-compatible.
                 </p>
 
@@ -484,13 +484,13 @@ const descriptionListProps = [
         </section>
 
         <section id="textarea">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Textarea</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Textarea</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use textarea:
-                    <code class="rounded bg-gray-100 px-1">&lt;Input type="textarea"&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="textarea"&gt;</code>
                     or
-                    <code class="rounded bg-gray-100 px-1">&lt;Textarea&gt;</code>
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Textarea&gt;</code>
                     - both are API-compatible.
                 </p>
 
@@ -508,9 +508,9 @@ const descriptionListProps = [
         </section>
 
         <section id="radio">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Radio Buttons</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Radio buttons for single-choice selections with proper form integration and label association.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Radio Buttons</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Radio buttons for single-choice selections with proper form integration and label association.</p>
 
                 <div class="mb-6 space-y-3">
                     <RadioButton :form="form" field="choice" value="option1" label="Option 1" />
@@ -527,58 +527,58 @@ const descriptionListProps = [
         </section>
 
         <section id="select">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Select Components</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
-                    <code class="rounded bg-gray-100 px-1">Select</code> is a thin wrapper around a native
-                    <code class="rounded bg-gray-100 px-1">&lt;select&gt;</code> — use it for short lists. Reach for
-                    <code class="rounded bg-gray-100 px-1">RichSelect</code> when you need search, multiple selection, grouping, API-backed
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select Components</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Select</code> is a thin wrapper around a native
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> — use it for short lists. Reach for
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">RichSelect</code> when you need search, multiple selection, grouping, API-backed
                     autocomplete, or custom option shapes.
                 </p>
 
-                <h4 class="mb-2 font-semibold text-gray-800">Simple side-by-side</h4>
+                <h4 class="mb-2 font-semibold text-gray-800 dark:text-gray-200">Simple side-by-side</h4>
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Select :form="form" field="country" label="Country (Simple)" :options="countries" />
                     <RichSelect :form="form" field="framework" label="Framework (Rich)" :options="frameworks" />
                 </div>
                 <CodePreview :code="selectExamples" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — searchable + clearable</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    Add <code class="rounded bg-gray-100 px-1">searchable</code> for an in-dropdown filter, and
-                    <code class="rounded bg-gray-100 px-1">clearable</code> for an × button to reset the value.
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — searchable + clearable</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    Add <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">searchable</code> for an in-dropdown filter, and
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">clearable</code> for an × button to reset the value.
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="searchableFramework" :options="frameworks" searchable clearable label="Framework" />
                 </div>
-                <p class="mb-4 text-xs text-gray-500">Selected value: <code class="rounded bg-gray-100 px-1">{{ searchableFramework ?? 'null' }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ searchableFramework ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectSearchExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — multiple</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    Set <code class="rounded bg-gray-100 px-1">multiple</code> and bind to an array. Selected options render as removable chips.
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — multiple</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">multiple</code> and bind to an array. Selected options render as removable chips.
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="selectedTags" :options="tagOptions" multiple searchable label="Tags" />
                 </div>
-                <p class="mb-4 text-xs text-gray-500">Selected: <code class="rounded bg-gray-100 px-1">{{ JSON.stringify(selectedTags) }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ JSON.stringify(selectedTags) }}</code></p>
                 <CodePreview :code="richSelectMultipleExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — grouping</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    With <code class="rounded bg-gray-100 px-1">grouping</code>, options are bucketed by their
-                    <code class="rounded bg-gray-100 px-1">group</code> field (configurable via
-                    <code class="rounded bg-gray-100 px-1">optionGroup</code>).
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — grouping</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    With <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">grouping</code>, options are bucketed by their
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">group</code> field (configurable via
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionGroup</code>).
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="selectedTool" :options="groupedTools" grouping searchable clearable label="Tool" />
                 </div>
                 <CodePreview :code="richSelectGroupingExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — custom option keys</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    Already have records shaped like <code class="rounded bg-gray-100 px-1">{ id, title }</code>? Map them with
-                    <code class="rounded bg-gray-100 px-1">optionValue</code> and <code class="rounded bg-gray-100 px-1">optionLabel</code>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — custom option keys</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    Already have records shaped like <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{ id, title }</code>? Map them with
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionValue</code> and <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionLabel</code>
                     rather than reformatting your data.
                 </p>
                 <div class="mb-3 max-w-md">
@@ -592,15 +592,15 @@ const descriptionListProps = [
                         clearable
                     />
                 </div>
-                <p class="mb-4 text-xs text-gray-500">Selected id: <code class="rounded bg-gray-100 px-1">{{ selectedUserId ?? 'null' }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ selectedUserId ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectCustomKeysExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — API search</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    <code class="rounded bg-gray-100 px-1">apiSearch</code> debounces the search box and hits
-                    <code class="rounded bg-gray-100 px-1">apiUrl</code> with the query in
-                    <code class="rounded bg-gray-100 px-1">apiSearchParam</code>. Use
-                    <code class="rounded bg-gray-100 px-1">apiTransform</code> to map the response into the option shape RichSelect expects. (No
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — API search</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiSearch</code> debounces the search box and hits
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiUrl</code> with the query in
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiSearchParam</code>. Use
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiTransform</code> to map the response into the option shape RichSelect expects. (No
                     live demo here — wire it up to a real endpoint in your app.)
                 </p>
                 <CodePreview :code="richSelectApiExample" />
@@ -616,14 +616,14 @@ const descriptionListProps = [
         </section>
 
         <section id="description-list">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Description List</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Description List</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Description lists are great for displaying key-value pairs, user profiles, or summary data. Supports static, editable, and
                     advanced usage.
                 </p>
 
-                <h4 class="mb-2 font-semibold text-gray-800">Basic Example</h4>
+                <h4 class="mb-2 font-semibold text-gray-800 dark:text-gray-200">Basic Example</h4>
                 <DescriptionList>
                     <DescriptionListItem label="Name">John Doe</DescriptionListItem>
                     <DescriptionListItem label="Email">john@example.com</DescriptionListItem>
@@ -631,10 +631,10 @@ const descriptionListProps = [
                 </DescriptionList>
                 <CodePreview :code="descriptionListExamples" class="mt-4" />
 
-                <h4 class="mt-8 mb-2 font-semibold text-gray-800">Editable Example</h4>
-                <p class="mb-3 text-sm text-gray-600">
+                <h4 class="mt-8 mb-2 font-semibold text-gray-800 dark:text-gray-200">Editable Example</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Click the pencil to switch each row into edit mode. The component swaps the default slot for the
-                    <code class="rounded bg-gray-100 px-1">#edit</code> slot — that's where you put the actual input.
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#edit</code> slot — that's where you put the actual input.
                 </p>
                 <DescriptionList :form="form">
                     <DescriptionListItem label="Name" editable>
@@ -658,11 +658,11 @@ const descriptionListProps = [
                 </DescriptionList>
                 <CodePreview :code="descriptionListEditableExamples" class="mt-4" />
 
-                <h4 class="mt-8 mb-2 font-semibold text-gray-800">Advanced Example</h4>
-                <p class="mb-3 text-sm text-gray-600">
-                    Mix and match: <code class="rounded bg-gray-100 px-1">forceEditing</code> opens in edit mode on mount, the
-                    <code class="rounded bg-gray-100 px-1">value</code> prop is a shortcut when there's no slot content, and the
-                    <code class="rounded bg-gray-100 px-1">#label</code> / <code class="rounded bg-gray-100 px-1">#buttons</code> slots are
+                <h4 class="mt-8 mb-2 font-semibold text-gray-800 dark:text-gray-200">Advanced Example</h4>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    Mix and match: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">forceEditing</code> opens in edit mode on mount, the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">value</code> prop is a shortcut when there's no slot content, and the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#label</code> / <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#buttons</code> slots are
                     available too.
                 </p>
                 <DescriptionList :form="form">

@@ -197,7 +197,7 @@ const onResizeMouseMove = (e) => {
                     leave-to-class="opacity-0"
                 >
                     <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="backdrop absolute inset-0 bg-gray-500 opacity-75"
+                        <div class="backdrop absolute inset-0 bg-gray-500 opacity-75 dark:bg-black dark:opacity-70"
                             :class="{[backdropCustomClass]: !!backdropCustomClass}" />
                     </div>
                 </transition>
@@ -213,7 +213,7 @@ const onResizeMouseMove = (e) => {
                     <div
                         ref="modalContent"
                         v-show="show"
-                        class="mb-6 transform rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
+                        class="mb-6 transform rounded-lg bg-white text-gray-900 dark:text-gray-100 shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-gray-100"
                         :class="{
                             [maxWidthClass]: !!maxWidthClass,
                             'border-pink rounded-md border-2 border-solid': showBorder, 

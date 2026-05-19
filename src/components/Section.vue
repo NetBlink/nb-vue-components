@@ -37,12 +37,12 @@ const baseClasses = computed(() => {
 
     switch (props.variant) {
         case 'outlined':
-            return `${base} border border-gray-300`;
+            return `${base} border border-gray-300 dark:border-gray-700`;
         case 'minimal':
             return base;
         case 'default':
         default:
-            return `${base} border border-gray-200 bg-white shadow`;
+            return `${base} border border-gray-200 dark:border-gray-700 bg-white shadow dark:border-gray-700 dark:bg-gray-800`;
     }
 });
 
@@ -75,9 +75,9 @@ const nonClassAttrs = computed(() => {
 </script>
 <template>
     <div :class="containerClasses" v-bind="nonClassAttrs">
-        <div v-if="header" class="border-b border-gray-200 bg-gray-50/50 px-6 py-4">
+        <div v-if="header" class="border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
             <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-gray-900">{{ header }}</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ header }}</h3>
                 <div v-if="$slots.headerButton">
                     <slot name="headerButton" />
                 </div>

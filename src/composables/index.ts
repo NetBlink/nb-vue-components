@@ -10,3 +10,6 @@ export * from './useInputValue';
 export * from './usePasswordToggle';
 export * from './useFormIntegration';
 export * from './useInputUtils';
+
+// Theming
+export * from './useDarkMode';

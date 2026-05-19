@@ -53,14 +53,14 @@ const alertClasses = computed(() => {
 
     switch (props.type) {
         case 'success':
-            return `${baseClasses} border-green-200 bg-green-50 text-green-800`;
+            return `${baseClasses} border-green-200 bg-green-50 text-green-800 dark:border-green-800/70 dark:bg-green-950/60 dark:text-green-100`;
         case 'error':
-            return `${baseClasses} border-red-200 bg-red-50 text-red-800`;
+            return `${baseClasses} border-red-200 bg-red-50 text-red-800 dark:border-red-800/70 dark:bg-red-950/60 dark:text-red-100`;
         case 'warning':
-            return `${baseClasses} border-yellow-200 bg-yellow-50 text-yellow-800`;
+            return `${baseClasses} border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-700/70 dark:bg-yellow-950/60 dark:text-yellow-100`;
         case 'info':
         default:
-            return `${baseClasses} border-blue-200 bg-blue-50 text-blue-800`;
+            return `${baseClasses} border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800/70 dark:bg-blue-950/60 dark:text-blue-100`;
     }
 });
 
@@ -162,10 +162,10 @@ const onAfterLeave = (el: Element) => {
                         :icon="alertIcon"
                         class="h-5 w-5"
                         :class="{
-                            'text-green-400': type === 'success',
-                            'text-red-400': type === 'error',
-                            'text-yellow-400': type === 'warning',
-                            'text-blue-400': type === 'info',
+                            'text-green-500 dark:text-green-300': type === 'success',
+                            'text-red-500 dark:text-red-300': type === 'error',
+                            'text-yellow-500 dark:text-yellow-300': type === 'warning',
+                            'text-blue-500 dark:text-blue-300': type === 'info',
                         }"
                     />
                 </div>
@@ -186,10 +186,10 @@ const onAfterLeave = (el: Element) => {
                         @click="handleDismiss"
                         class="inline-flex rounded-md p-1.5 transition-colors duration-150 focus:ring-2 focus:ring-offset-2 focus:outline-none"
                         :class="{
-                            'text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50': type === 'success',
-                            'text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50': type === 'error',
-                            'text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50': type === 'warning',
-                            'text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50': type === 'info',
+                            'text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50 dark:text-green-300 dark:hover:bg-green-900/40 dark:focus:ring-green-400 dark:focus:ring-offset-green-950': type === 'success',
+                            'text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50 dark:text-red-300 dark:hover:bg-red-900/40 dark:focus:ring-red-400 dark:focus:ring-offset-red-950': type === 'error',
+                            'text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50 dark:text-yellow-300 dark:hover:bg-yellow-900/40 dark:focus:ring-yellow-400 dark:focus:ring-offset-yellow-950': type === 'warning',
+                            'text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50 dark:text-blue-300 dark:hover:bg-blue-900/40 dark:focus:ring-blue-400 dark:focus:ring-offset-blue-950': type === 'info',
                         }"
                         aria-label="Dismiss alert"
                     >

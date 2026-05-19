@@ -64,15 +64,15 @@ watch(
             <slot name="trigger" />
         </DialogTrigger>
         <DialogPortal>
-            <DialogOverlay class="bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30" />
+            <DialogOverlay class="bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30 dark:bg-black/70" />
             <DialogContent
-                class="data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] z-[100] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded bg-white p-5 shadow-lg/20 focus:outline-none"
+                class="data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] z-[100] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded bg-white p-5 text-gray-900 dark:text-gray-100 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
                 v-bind="$attrs"
             >
-                <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold">
+                <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold dark:text-gray-100">
                     <slot name="header">{{ title }}</slot>
                 </DialogTitle>
-                <DialogDescription v-if="description || $slots.description" class="mt-2 text-sm leading-normal">
+                <DialogDescription v-if="description || $slots.description" class="mt-2 text-sm leading-normal dark:text-gray-300">
                     <slot name="description">{{ description }}</slot>
                 </DialogDescription>
 
@@ -85,7 +85,7 @@ watch(
                 </div>
 
                 <DialogClose
-                    class="focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] cursor-pointer appearance-none items-center justify-center rounded-full transition-all focus:shadow-[0_0_0_2px] focus:outline-none"
+                    class="focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] cursor-pointer appearance-none items-center justify-center rounded-full transition-all focus:shadow-[0_0_0_2px] focus:outline-none dark:text-gray-200 dark:hover:bg-primary/30 dark:focus:bg-primary/40"
                     aria-label="Close"
                 >
                     <FontAwesomeIcon :icon="faTimes" />

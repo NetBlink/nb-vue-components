@@ -68,12 +68,49 @@ import DataTile from './components/DataTile.vue';
 import CodePreview from './components/CodePreview.vue';
 import H2 from './HelperComponents/H2.vue';
 
+/**
+ * Plugin install options for `app.use(Componentsnb, { … })`.
+ */
+export interface ComponentsnbOptions {
+    /**
+     * Dark-mode bootstrap. Default: `false` — colours are unchanged.
+     *
+     * - `'class'` — initialise the {@link useDarkMode} composable; respects a
+     *   previously-persisted user choice (and falls back to OS preference at
+     *   first load), but does not subscribe to OS changes thereafter. Use when
+     *   you want to drive dark mode entirely from a UI toggle.
+     * - `'system'` — same as `'class'`, plus subscribes to
+     *   `prefers-color-scheme` so the OS-level switch flips the app live
+     *   until the user makes an explicit choice (which then wins).
+     * - `false` (default) — do not touch dark mode at all.
+     */
+    darkMode?: 'class' | 'system' | false;
+    /** Override the element that receives the `.dark` class (default: `document.documentElement`). */
+    darkModeTarget?: HTMLElement;
+    /** Override the localStorage key (default: `'nb-vue-components:dark'`). Pass `false` to disable persistence. */
+    darkModeStorageKey?: string | false;
+}
+
+import { useDarkMode } from './composables/useDarkMode';
+
 const Componentsnb = {
-    install(App) {
+    install(App: any, options: ComponentsnbOptions = {}) {
         // @ts-ignore
         for (const componentKey in components) {
             // @ts-ignore
             App.component(componentKey, components[componentKey]);
+        }
+
+        // Opt-in dark-mode bootstrap. Pure no-op unless the host passes `darkMode`.
+        if (options.darkMode) {
+            const dm = useDarkMode({
+                target: options.darkModeTarget,
+                storageKey: options.darkModeStorageKey,
+            });
+            dm.initialize();
+            if (options.darkMode === 'system') {
+                dm.setupSystemPreference();
+            }
         }
     },
 };

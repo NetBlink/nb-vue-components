@@ -32,7 +32,7 @@ const getStatusBadge = (status: string) => {
         processing: 'bg-blue-100 text-blue-800',
         cancelled: 'bg-red-100 text-red-800'
     };
-    return badges[status as keyof typeof badges] || 'bg-gray-100 text-gray-800';
+    return badges[status as keyof typeof badges] || 'bg-gray-100 dark:bg-gray-900/60 text-gray-800 dark:text-gray-200';
 };
 
 // Event handlers for demo
@@ -272,11 +272,11 @@ const trProps = [
     <div class="space-y-12">
         <!-- Basic Table -->
         <section id="basic-table">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Basic Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     The basic table structure uses Table, Thead, Tbody, Th, and Td components for full control over the table layout.
                 </p>
 
@@ -310,11 +310,11 @@ const trProps = [
 
         <!-- Sortable Table -->
         <section id="sortable-table">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Sortable Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Add sorting functionality to table headers. Works with Inertia.js for server-side sorting.
                 </p>
 
@@ -344,11 +344,11 @@ const trProps = [
 
         <!-- Responsive Table -->
         <section id="responsive-table">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Responsive Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Tables automatically adapt to smaller screens. Use the 'label' prop on Td components for better mobile display.
                 </p>
 
@@ -382,11 +382,11 @@ const trProps = [
 
         <!-- Enhanced Table -->
         <section id="enhanced-table">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Enhanced Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     The EnhancedTable component provides auto-column generation, built-in sorting, selection, and custom cell rendering.
                     Here's an example using a standard table with enhanced features:
                 </p>
@@ -431,7 +431,7 @@ const trProps = [
                 <!-- Simple Auto-Generated Table Example -->
                 <div class="mb-6">
                     <h4 class="mb-2 font-medium">Auto-Generated Columns (Simple Data)</h4>
-                    <p class="mb-4 text-sm text-gray-600">
+                    <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
                         Here's how EnhancedTable can auto-generate columns from simple data:
                     </p>
                     <Table striped>
@@ -468,11 +468,11 @@ const trProps = [
 
         <!-- Table Variants -->
         <section id="table-variants">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Table Variants
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Different table styling variants to match your design system.
                 </p>
 
@@ -562,11 +562,11 @@ const trProps = [
 
         <!-- Sticky Header -->
         <section id="sticky-header">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Sticky Header
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Keep table headers visible while scrolling through long tables.
                 </p>
 
@@ -606,18 +606,18 @@ const trProps = [
 
         <!-- Using Composables -->
         <section id="composables">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Using Table Composables
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Use table composables for advanced functionality like sorting, selection, and Inertia integration.
                 </p>
 
                 <!-- Composable Example -->
-                <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/40 rounded-lg">
                     <h4 class="mb-2 font-medium">Table Composables Demo:</h4>
-                    <div class="text-sm text-gray-600">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
                         <p>Sort State: {{ sortState ? `${sortState.column} ${sortState.direction}` : 'None' }}</p>
                         <p>Available Functions: sort(), getSortDirection(), isSorted()</p>
                         <p>Mock Data Loaded: {{ users.length }} users, {{ orders.length }} orders</p>
@@ -630,11 +630,11 @@ const trProps = [
 
         <!-- Props Documentation -->
         <section id="props">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Component Props
             </h3>
 
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <CollapsableSection header="Table Props" class="mb-6">
                     <PropsTable :rows="tableProps" />
                 </CollapsableSection>
@@ -656,8 +656,8 @@ const trProps = [
         <!-- Migration / back-compat notes -->
         <section id="migration">
             <CollapsableSection header="Migration & back-compat notes">
-                <p class="mb-4 text-gray-600">All older table code still works; these are the modern equivalents:</p>
-                <ul class="list-inside list-disc space-y-1 text-sm text-gray-600">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">All older table code still works; these are the modern equivalents:</p>
+                <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li><code>seperate</code> → <code>separate</code></li>
                     <li><code>collapsable</code> → <code>collapsible</code></li>
                     <li><code>collapse_id</code> → <code>collapseId</code></li>

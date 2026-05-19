@@ -26,8 +26,8 @@ const props = defineProps<Props>();
 
 const classes = computed(() =>
     props.active
-        ? 'cursor-pointer focusable flex items-center p-2 text-base font-normal bg-accent text-gray-900 rounded-lg dark:text-white bg-gray-100 dark:hover:bg-gray-700'
-        : 'cursor-pointer focusable flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
+        ? 'cursor-pointer focusable flex items-center p-2 text-base font-normal rounded-lg bg-accent-100 text-accent-900 dark:bg-primary-900/50 dark:text-primary-100'
+        : 'cursor-pointer focusable flex items-center p-2 text-base font-normal rounded-lg text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
 );
 </script>
 

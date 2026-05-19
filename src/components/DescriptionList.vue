@@ -78,8 +78,8 @@ defineExpose({
 </script>
 
 <template>
-    <div class="border-t border-gray-100">
-        <dl class="divide-y divide-gray-100">
+    <div class="border-t border-gray-100 dark:border-gray-700">
+        <dl class="divide-y divide-gray-100 dark:divide-gray-700">
             <slot />
         </dl>
     </div>

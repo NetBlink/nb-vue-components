@@ -49,7 +49,7 @@ const responsiveNavExamples = [
 const dropdownNavExamples = [
     '<Dropdown align="end" :alignOffset="0">',
     '  <template #trigger>',
-    '    <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">',
+    '    <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700">',
     '      <GravatarImg email="user@example.com" :size="32" class="rounded-full mr-2" />',
     '      John Doe',
     '    </button>',
@@ -127,12 +127,12 @@ const navCollapseSlots = [
 <template>
     <div class="space-y-12">
         <section id="nav-links">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Navigation Links</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Clean navigation links with active state styling and Inertia.js integration.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Navigation Links</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Clean navigation links with active state styling and Inertia.js integration.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Desktop Navigation</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="flex space-x-8">
                         <NavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">Dashboard</NavLink>
                         <NavLink href="/projects" :active="currentRoute === '/projects'" @click="currentRoute = '/projects'">Projects</NavLink>
@@ -141,8 +141,8 @@ const navCollapseSlots = [
                     </nav>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Mobile Navigation</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Mobile Navigation</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <div class="space-y-1">
                         <ResponsiveNavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">
                             Dashboard
@@ -167,22 +167,22 @@ const navCollapseSlots = [
                     <PropsTable :rows="navLinkSlots" />
                 </CollapsableSection>
 
-                <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800">Responsive Navigation</h4>
+                <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Responsive Navigation</h4>
                 <CodePreview :code="responsiveNavExamples" />
             </div>
         </section>
 
         <section id="dropdown-navigation">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Dropdown Navigation</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Dropdown menus for user navigation, settings, and contextual actions.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Dropdown menus for user navigation, settings, and contextual actions.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">User Menu Dropdown</h4>
-                <div class="mb-6 flex justify-end rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</h4>
+                <div class="mb-6 flex justify-end rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <Dropdown align="end">
                         <template #trigger>
                             <button
-                                class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:text-gray-700 focus:outline-none"
+                                class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 transition duration-150 ease-in-out hover:text-gray-700 focus:text-gray-700 focus:outline-none"
                             >
                                 <GravatarImg email="john@example.com" class="mr-2 h-8 w-8 rounded-full" />
                                 <span>John Doe</span>
@@ -224,12 +224,12 @@ const navCollapseSlots = [
         </section>
 
         <section id="gravatar">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Gravatar Images</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Automatically generated user avatars from Gravatar service with fallback options.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Gravatar Images</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Automatically generated user avatars from Gravatar service with fallback options.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Different Sizes</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</h4>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <div class="flex items-center space-x-4">
                         <GravatarImg email="john@example.com" :size="32" class="rounded-full" />
                         <GravatarImg email="jane@example.com" :size="48" class="rounded-full" />
@@ -245,11 +245,11 @@ const navCollapseSlots = [
         </section>
 
         <section id="nav-collapse">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapsible Navigation</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Collapsible navigation sections for organizing menu items into groups.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsible Navigation</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Collapsible navigation sections for organizing menu items into groups.</p>
 
-                <div class="mb-6 rounded border bg-gray-50 p-4">
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="space-y-2">
                         <NavCollapse name="Dashboard" :open="true">
                             <div class="space-y-1 pl-4">

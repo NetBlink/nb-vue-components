@@ -32,12 +32,13 @@ watch(
 </script>
 
 <template>
-    <li>
+    <!-- `list-none m-0` keeps the bullet marker away even when the parent isn't a properly-styled <ul> (e.g. <nav>). -->
+    <li class="list-none m-0 ml-0 before:hidden">
         <CollapsibleRoot :defaultOpen="open" v-model:open="isOpen">
             <CollapsibleTrigger asChild>
                 <button
                     :id="name"
-                    class="focusable group flex w-full cursor-pointer items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="focusable group flex w-full cursor-pointer items-center rounded-lg p-2 text-base text-gray-900 dark:text-gray-100 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                     <div v-if="$slots.icon" class="flex size-4 items-center justify-center">
                         <slot name="icon" />

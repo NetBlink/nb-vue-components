@@ -39,21 +39,21 @@ const {
 } = useStickyTableHeader(computed(() => backwardCompatProps.value.sticky), stickyOffset);
 
 const tableClasses = computed(() => [
-    'min-w-full divide-y divide-gray-200',
+    'min-w-full divide-y divide-gray-200 dark:divide-gray-700',
     {
         'text-xs': props.size === 'sm',
         'text-sm': props.size === 'md',
         'text-base': props.size === 'lg',
-        
+
         'border-separate border-spacing-y-2': backwardCompatProps.value.separate,
-        'border border-gray-200 rounded-lg': props.bordered,
-        
-        '[&_tbody_tr:nth-child(even)]:bg-gray-50': props.striped,
-        
-        '[&_tbody_tr:hover]:bg-gray-50 [&_tbody_tr]:transition-colors': props.hover,
-        
+        'border border-gray-200 dark:border-gray-700 rounded-lg dark:border-gray-700': props.bordered,
+
+        '[&_tbody_tr:nth-child(even)]:bg-gray-50 dark:[&_tbody_tr:nth-child(even)]:bg-gray-900/40': props.striped,
+
+        '[&_tbody_tr:hover]:bg-gray-50 [&_tbody_tr]:transition-colors dark:[&_tbody_tr:hover]:bg-gray-900/60': props.hover,
+
         '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': backwardCompatProps.value.collapsible,
-        
+
         'shadow-sm rounded-lg overflow-hidden': props.variant === 'elevated',
         'border-0': props.variant === 'minimal'
     }
@@ -62,8 +62,8 @@ const tableClasses = computed(() => [
 const containerClasses = computed(() => [
     'w-full overflow-x-auto',
     {
-        'rounded-lg border border-gray-200 bg-white shadow-sm': props.variant === 'elevated',
-        'border border-gray-200 rounded-lg': props.bordered && props.variant !== 'elevated'
+        'rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800': props.variant === 'elevated',
+        'border border-gray-200 dark:border-gray-700 rounded-lg dark:border-gray-700': props.bordered && props.variant !== 'elevated'
     }
 ]);
 
@@ -113,7 +113,7 @@ const showPaginationComponent = computed(() => {
     >
         <div 
             v-if="props.total != null" 
-            class="px-4 pt-4 text-sm text-gray-600"
+            class="px-4 pt-4 text-sm text-gray-600 dark:text-gray-400"
         >
             Found: {{ props.total }}
         </div>

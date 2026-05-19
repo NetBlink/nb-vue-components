@@ -180,7 +180,7 @@ defineExpose({
         <div class="relative flex w-full max-w-full items-stretch">
             <span
                 v-if="addon"
-                class="border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500"
+                class="border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-900/40 dark:text-gray-400"
                 :class="{ shadow: !disabled }"
             >
                 {{ addon }}
@@ -188,7 +188,7 @@ defineExpose({
 
             <textarea
                 :id="field"
-                class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+                class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500"
                 :class="{
                     'rounded-l-none shadow-none': addon,
                     'rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,

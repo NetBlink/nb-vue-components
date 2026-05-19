@@ -104,7 +104,7 @@ const carouselExamples = [
     '<DottedCarousel :gap="20">',
     '  <div v-for="slide in slides" :key="slide.id" class="min-w-full snap-start">',
     '    <h3 class="text-xl font-medium mb-4">{{ slide.title }}</h3>',
-    '    <p class="text-gray-600">{{ slide.description }}</p>',
+    '    <p class="text-gray-600 dark:text-gray-400">{{ slide.description }}</p>',
     '  </div>',
     '</DottedCarousel>',
 ];
@@ -134,31 +134,31 @@ const collapsableSectionSlots = [
 <template>
     <div class="space-y-12">
         <section id="sections">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Basic layout sections for organizing content with consistent styling.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Basic layout sections for organizing content with consistent styling.</p>
 
                 <div class="mb-6 space-y-4">
                     <Section>
                         <h4 class="mb-2 text-lg font-medium">Basic Section</h4>
-                        <p class="text-gray-600">This is a basic section component that provides consistent spacing and styling for content areas.</p>
+                        <p class="text-gray-600 dark:text-gray-400">This is a basic section component that provides consistent spacing and styling for content areas.</p>
                     </Section>
 
                     <Section class="border border-blue-200 bg-blue-50">
                         <h4 class="mb-2 text-lg font-medium">Custom Styled Section</h4>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-400">
                             This section demonstrates custom styling with background color and border that overrides the defaults.
                         </p>
                     </Section>
 
                     <Section variant="outlined">
                         <h4 class="mb-2 text-lg font-medium">Outlined Variant</h4>
-                        <p class="text-gray-600">A section with just a border and no background or shadow.</p>
+                        <p class="text-gray-600 dark:text-gray-400">A section with just a border and no background or shadow.</p>
                     </Section>
 
                     <Section variant="minimal">
                         <h4 class="mb-2 text-lg font-medium">Minimal Variant</h4>
-                        <p class="text-gray-600">A minimal section with just rounded corners.</p>
+                        <p class="text-gray-600 dark:text-gray-400">A minimal section with just rounded corners.</p>
                     </Section>
 
                     <Section unstyled class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 p-8">
@@ -169,32 +169,32 @@ const collapsableSectionSlots = [
 
                 <CodePreview :code="sectionExamples" />
 
-                <p class="mt-4 text-sm text-gray-600">
-                    See the <strong>Sections</strong> entry under <code class="rounded bg-gray-100 px-1">Utility Components</code> for the full prop
+                <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                    See the <strong>Sections</strong> entry under <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Utility Components</code> for the full prop
                     table.
                 </p>
             </div>
         </section>
 
         <section id="collapsable-sections">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapsable Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-2 text-gray-600">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsable Sections</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-600 dark:text-gray-400">
                     Styled card with a header bar — click the header to expand or collapse the body. Use for sectioning long forms or settings into
                     expandable groups.
                 </p>
-                <p class="mb-4 text-sm text-gray-500">
-                    Related: <code class="rounded bg-gray-100 px-1">Collapse</code> (inline disclosure, see <em>Utility Components</em>) and
-                    <code class="rounded bg-gray-100 px-1">NavCollapse</code> (nav menus, see <em>Navigation Components</em>).
+                <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+                    Related: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Collapse</code> (inline disclosure, see <em>Utility Components</em>) and
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">NavCollapse</code> (nav menus, see <em>Navigation Components</em>).
                 </p>
 
                 <div class="mb-6 space-y-4">
                     <CollapsableSection header="Feature Documentation">
                         <div class="p-4">
-                            <p class="mb-4 text-gray-600">This content can be collapsed and expanded by clicking the header above.</p>
-                            <div class="rounded bg-gray-50 p-4">
+                            <p class="mb-4 text-gray-600 dark:text-gray-400">This content can be collapsed and expanded by clicking the header above.</p>
+                            <div class="rounded bg-gray-50 dark:bg-gray-900/40 p-4">
                                 <h5 class="mb-2 font-medium">Key Features:</h5>
-                                <ul class="space-y-1 text-sm text-gray-600">
+                                <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                                     <li>• Smooth animations</li>
                                     <li>• Customizable headers</li>
                                     <li>• Initial state control</li>
@@ -206,7 +206,7 @@ const collapsableSectionSlots = [
 
                     <CollapsableSection header="Advanced Options" :open="true">
                         <div class="p-4">
-                            <p class="text-gray-600">This section starts in an expanded state and demonstrates the open prop.</p>
+                            <p class="text-gray-600 dark:text-gray-400">This section starts in an expanded state and demonstrates the open prop.</p>
                         </div>
                     </CollapsableSection>
                 </div>
@@ -214,23 +214,23 @@ const collapsableSectionSlots = [
                 <CodePreview :code="collapsableSectionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">CollapsableSection Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">CollapsableSection Props</h4>
                     <PropsTable :rows="collapsableSectionProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
                     <PropsTable :rows="collapsableSectionSlots" />
                 </div>
             </div>
         </section>
 
         <section id="carousel">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Dotted Carousel</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Interactive carousel component with dot navigation for displaying multiple slides.</p>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dotted Carousel</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Interactive carousel component with dot navigation for displaying multiple slides.</p>
 
-                <p class="mb-3 text-sm text-gray-500">Click the dots below the panel — or swipe / scroll horizontally — to move between slides.</p>
+                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Click the dots below the panel — or swipe / scroll horizontally — to move between slides.</p>
                 <div class="mb-6">
                     <DottedCarousel>
                         <div
@@ -242,11 +242,12 @@ const collapsableSectionSlots = [
                             <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md">
                                 <FontAwesomeIcon :icon="item.icon" :class="['text-3xl', item.accent]" />
                             </div>
+                            <!-- Slide chrome forces dark text because the gradient is always light, even in dark mode. -->
                             <div class="mb-2 text-xs font-medium uppercase tracking-widest text-gray-500">
                                 Slide {{ item.id }} / {{ carouselItems.length }}
                             </div>
                             <h3 class="mb-3 text-2xl font-semibold text-gray-900">{{ item.title }}</h3>
-                            <p class="mx-auto max-w-md text-gray-600">{{ item.description }}</p>
+                            <p class="mx-auto max-w-md text-gray-700">{{ item.description }}</p>
                         </div>
                     </DottedCarousel>
                 </div>
@@ -254,12 +255,12 @@ const collapsableSectionSlots = [
                 <CodePreview :code="carouselExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800">DottedCarousel Props</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DottedCarousel Props</h4>
                     <PropsTable :rows="carouselProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
                     <PropsTable :rows="carouselSlots" />
                 </div>
             </div>

@@ -65,7 +65,7 @@ const handleToggle = () => {
         <div
             v-if="showToggle"
             @click="handleToggle"
-            class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600"
+            class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600 dark:text-gray-400"
             :class="{ 'bg-primary-50': displayType !== 'password' }"
         >
             <FontAwesomeIcon 

@@ -82,23 +82,23 @@ const ifSelected = (status: string): boolean => {
         <div
             v-for="s in stats"
             :key="s.value"
-            class="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md"
+            class="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40"
             :class="{
-                'border-primary-200 bg-primary-50 ring-primary-500 ring-2': ifSelected(s.name),
+                'border-primary-200 bg-primary-50 ring-primary-500 ring-2 dark:border-primary-700 dark:bg-primary-900/30': ifSelected(s.name),
                 [customStatClass]: customStatClass,
             }"
             @click="onClick(s.name)"
         >
             <!-- Value Section -->
             <div class="px-6 py-4" :class="[customStatValueClass]">
-                <div class="group-hover:text-primary-600 text-2xl font-bold text-gray-900 transition-colors">
+                <div class="group-hover:text-primary-600 text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100 dark:group-hover:text-primary-300">
                     {{ s.value }}
                 </div>
             </div>
 
             <!-- Label Section -->
-            <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3" :class="[customStatLabelClass]">
-                <div class="text-sm font-medium text-gray-600 transition-colors group-hover:text-gray-900">
+            <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40" :class="[customStatLabelClass]">
+                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100">
                     {{ s.label ?? s.name }}
                 </div>
             </div>

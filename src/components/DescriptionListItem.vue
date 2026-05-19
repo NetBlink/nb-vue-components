@@ -78,12 +78,12 @@ defineExpose({
 
 <template>
     <div class="description-list-item px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="flex items-center text-sm font-medium">
+        <dt class="flex items-center text-sm font-medium dark:text-gray-200">
             {{ label }}
             <slot name="label" />
-            <span class="ml-1 text-red-500" v-if="required">*</span>
+            <span class="ml-1 text-red-500 dark:text-red-400" v-if="required">*</span>
         </dt>
-        <dd class="mt-1 min-h-[42px] text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+        <dd class="mt-1 min-h-[42px] text-sm leading-6 text-gray-700 dark:text-gray-200 sm:col-span-2 sm:mt-0 dark:text-gray-200">
             <div class="flex min-h-full items-center">
                 <template v-if="!editing">
                     <div class="slot-content grow">

@@ -105,7 +105,7 @@ const dragEntered = ref(false);
         <InputError v-if="$page.props.errors.image" class="mt-2" :message="$page.props.errors.image" />
         <div class="flex items-center gap-4">
             <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Images uploaded.</p>
+                <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Images uploaded.</p>
             </Transition>
         </div>
     </form>

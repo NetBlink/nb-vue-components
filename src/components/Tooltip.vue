@@ -54,13 +54,19 @@ const defaultContentClasses = [
     'rounded-lg',
     'bg-white',
     'border',
-    'border-gray-200',
+    'border-gray-200 dark:border-gray-700',
     'px-3',
     'py-2',
     'text-sm',
-    'text-gray-900',
+    'text-gray-900 dark:text-gray-100',
     'shadow-lg',
     'backdrop-blur-sm',
+    // Dark mode
+    'dark:bg-gray-800',
+    'dark:border-gray-700',
+    'dark:text-gray-100',
+    'dark:shadow-black/40',
+    // Animations
     'animate-in',
     'fade-in-0',
     'zoom-in-95',
@@ -73,8 +79,8 @@ const defaultContentClasses = [
     'data-[side=top]:slide-in-from-bottom-2',
 ].join(' ');
 
-// Modern arrow classes to match the tooltip styling
-const defaultArrowClasses = 'fill-white stroke-gray-200';
+// Arrow classes — match the bubble background/border so the arrow blends in
+const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:stroke-gray-700';
 </script>
 
 <template>
