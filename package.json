@@ -23,6 +23,14 @@
             "types": "./dist/types/icons/presets/heroicons.d.ts",
             "import": "./dist/icons/heroicons.es.js"
         },
+        "./icons/material": {
+            "types": "./dist/types/icons/presets/material.d.ts",
+            "import": "./dist/icons/material.es.js"
+        },
+        "./icons/solar": {
+            "types": "./dist/types/icons/presets/solar.d.ts",
+            "import": "./dist/icons/solar.es.js"
+        },
         "./icons/lucide": {
             "types": "./dist/types/icons/presets/lucide.d.ts",
             "import": "./dist/icons/lucide.es.js"
@@ -97,6 +105,10 @@
         "vue3-dropzone": "^2.1.2"
     },
     "dependencies": {
+        "@iconify-json/heroicons": "^1.2.3",
+        "@iconify-json/material-symbols": "^1.2.73",
+        "@iconify-json/solar": "^1.2.5",
+        "@iconify/vue": "^4.3.0",
         "@netblink/nb-prettier": "github:LukaszTlalka/nb-prettier",
         "@tailwindcss/vite": "^4.1.5",
         "dotenv": "^16.4.5",
@@ -114,6 +126,7 @@
         "@fortawesome/free-regular-svg-icons": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "@fortawesome/vue-fontawesome": "^3.0.3",
+        "@iconify/vue": "^4.0.0",
         "vue": "^3.5.0"
     },
     "peerDependenciesMeta": {
@@ -130,6 +143,9 @@
             "optional": true
         },
         "@fortawesome/free-regular-svg-icons": {
+            "optional": true
+        },
+        "@iconify/vue": {
             "optional": true
         }
     }

@@ -16,6 +16,8 @@ export default ({ mode }) => {
                     'icons':             path.resolve(__dirname, 'src/icons/index.ts'),
                     'icons/fa':          path.resolve(__dirname, 'src/icons/presets/fa.ts'),
                     'icons/heroicons':   path.resolve(__dirname, 'src/icons/presets/heroicons.ts'),
+                    'icons/material':    path.resolve(__dirname, 'src/icons/presets/material.ts'),
+                    'icons/solar':       path.resolve(__dirname, 'src/icons/presets/solar.ts'),
                     'icons/lucide':      path.resolve(__dirname, 'src/icons/presets/lucide.ts'),
                 },
                 formats: ['es'],
@@ -30,6 +32,7 @@ export default ({ mode }) => {
                     '@fortawesome/free-solid-svg-icons',
                     '@fortawesome/free-brands-svg-icons',
                     '@fortawesome/free-regular-svg-icons',
+                    '@iconify/vue',
                 ],
                 output: {
                     globals: { vue: 'Vue' },

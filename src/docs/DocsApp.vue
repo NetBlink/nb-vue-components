@@ -6,6 +6,7 @@ import { useDarkMode } from '../composables/useDarkMode';
 
 // Import documentation components
 import SetupDoc from './SetupDoc.vue';
+import IconsDoc from './IconsDoc.vue';
 import InputsDoc from './InputsDoc.vue';
 import ButtonsDoc from './ButtonsDoc.vue';
 import TablesDoc from './TablesDoc.vue';
@@ -20,6 +21,7 @@ const activeSection = ref<string>('setup');
 // Available documentation sections — Setup ships first so newcomers can install before exploring.
 const sections: Record<string, { component: any; title: string }> = {
     setup: { component: SetupDoc, title: 'Getting Started' },
+    icons: { component: IconsDoc, title: 'Icons' },
     inputs: { component: InputsDoc, title: 'Input Components' },
     buttons: { component: ButtonsDoc, title: 'Button Components' },
     tables: { component: TablesDoc, title: 'Table Components' },
