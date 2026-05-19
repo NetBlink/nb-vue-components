@@ -69,11 +69,11 @@
     "homepage": "https://github.com/NetBlink/nb-vue-components#readme",
     "license": "ISC",
     "devDependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.4.0",
-        "@fortawesome/free-brands-svg-icons": "^6.4.0",
-        "@fortawesome/free-regular-svg-icons": "^6.4.0",
-        "@fortawesome/free-solid-svg-icons": "^6.4.0",
-        "@fortawesome/vue-fontawesome": "^3.0.3",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-regular-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
+        "@fortawesome/vue-fontawesome": "^3.2.0",
         "@inertiajs/vue3": "^2.0.5",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/postcss": "^4.1.5",
@@ -107,5 +107,30 @@
     },
     "overrides": {
         "axios": "^1.16.1"
+    },
+    "peerDependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.4.0",
+        "@fortawesome/free-brands-svg-icons": "^6.4.0",
+        "@fortawesome/free-regular-svg-icons": "^6.4.0",
+        "@fortawesome/free-solid-svg-icons": "^6.4.0",
+        "@fortawesome/vue-fontawesome": "^3.0.3",
+        "vue": "^3.5.0"
+    },
+    "peerDependenciesMeta": {
+        "@fortawesome/fontawesome-svg-core": {
+            "optional": true
+        },
+        "@fortawesome/vue-fontawesome": {
+            "optional": true
+        },
+        "@fortawesome/free-solid-svg-icons": {
+            "optional": true
+        },
+        "@fortawesome/free-brands-svg-icons": {
+            "optional": true
+        },
+        "@fortawesome/free-regular-svg-icons": {
+            "optional": true
+        }
     }
 }
