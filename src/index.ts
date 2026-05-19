@@ -195,3 +195,7 @@ export * from './composables/useTable';
 export * from './composables';
 export * from './components/Tables/types';
 export * from './components/Forms/types';
+
+// Icon provider system — v3.0.0
+export { NbIcon, createNbIcons, useNbIcons, defaultAliases } from './icons';
+export type { AliasName, IconLike, IconSet, NbIconsOptions, RawSvg, SetPrefixed } from './icons';
