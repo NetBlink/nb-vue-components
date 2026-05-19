@@ -89,6 +89,11 @@ async function refreshHeadings(): Promise<void> {
         const text = (el.textContent || '').replace(/#\s*$/, '').trim();
         if (!text) return;
 
+        // Skip prop-table heading clutter ("Foo Props & Parameters", etc.).
+        // The component docs use these for the PropsTable sub-section under each
+        // component - useful in-page but noisy in the sidebar.
+        if (/\b(props|parameters)\b/i.test(text)) return;
+
         let id = el.id;
         if (!id) {
             const base = slugify(text) || 'section';
@@ -173,8 +178,8 @@ function onMainScroll(e: Event): void {
 <template>
     <div class="flex h-screen w-full">
         <!-- Sidebar Navigation -->
-        <nav class="bg-primary-900 fixed top-0 left-0 z-10 flex h-full w-64 flex-col overflow-y-auto text-white">
-            <ul class="flex flex-1 flex-col gap-2 p-4">
+        <nav class="bg-primary-900 fixed top-0 left-0 z-10 flex h-full w-64 flex-col overflow-hidden text-white">
+            <ul class="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
                 <li class="text-primary-100 mb-4 text-lg font-bold">NB Components</li>
 
                 <li v-for="(section, key) in sections" :key="key">
@@ -186,14 +191,7 @@ function onMainScroll(e: Event): void {
                         {{ section.title }}
                     </button>
                     <!-- Sub-anchors: live, on the active section only -->
-                    <transition
-                        enter-active-class="transition-all duration-200 ease-out"
-                        enter-from-class="opacity-0 -translate-y-1 max-h-0"
-                        enter-to-class="opacity-100 translate-y-0 max-h-[1000px]"
-                        leave-active-class="transition-all duration-150 ease-in"
-                        leave-from-class="opacity-100 max-h-[1000px]"
-                        leave-to-class="opacity-0 max-h-0"
-                    >
+                    <transition name="anchor-list">
                         <ul
                             v-if="activeSection === key && headings.length"
                             class="ml-2 mt-1 space-y-px overflow-hidden border-l border-white/10 pl-2"
@@ -219,8 +217,8 @@ function onMainScroll(e: Event): void {
                 </li>
             </ul>
 
-            <!-- Dark-mode toggle pinned to the bottom -->
-            <div class="border-t border-white/10 p-4">
+            <!-- Dark-mode toggle: stays put while the list above scrolls -->
+            <div class="flex-shrink-0 border-t border-white/10 p-4">
                 <button
                     @click="toggle"
                     class="flex w-full items-center justify-between gap-2 rounded-md bg-white/5 px-3 py-2 text-sm transition-colors hover:bg-white/10"
@@ -295,6 +293,31 @@ nav::-webkit-scrollbar-thumb {
 
 nav::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+/*
+ * Sub-anchor list transition. Uses the same motion tokens the rest of the
+ * package's animations do (--duration-base + --ease-emphasised from @theme),
+ * so collapse/expand here feels like every other animated thing on the site.
+ */
+.anchor-list-enter-active,
+.anchor-list-leave-active {
+    transition:
+        max-height var(--duration-base, 400ms) var(--ease-emphasised, cubic-bezier(0.16, 1, 0.3, 1)),
+        opacity    var(--duration-base, 400ms) var(--ease-emphasised, cubic-bezier(0.16, 1, 0.3, 1)),
+        transform  var(--duration-base, 400ms) var(--ease-emphasised, cubic-bezier(0.16, 1, 0.3, 1));
+}
+.anchor-list-enter-from,
+.anchor-list-leave-to {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-2px);
+}
+.anchor-list-enter-to,
+.anchor-list-leave-from {
+    opacity: 1;
+    max-height: 1000px;
+    transform: translateY(0);
 }
 </style>
 
