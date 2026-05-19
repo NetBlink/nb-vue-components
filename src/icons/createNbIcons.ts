@@ -1,11 +1,12 @@
 import { shallowReactive, type App, type Plugin } from 'vue';
 import { defaultAliases } from './aliases';
-import { NB_ICONS_KEY, setDefaultRegistry, type NbIconsRegistry } from './inject';
+import { NB_ICONS_KEY, type NbIconsRegistry } from './inject';
 import type { AliasName, IconLike, NbIconsOptions } from './types';
 
 function buildRegistry(options: NbIconsOptions): NbIconsRegistry {
-    // shallowReactive — top-level alias mutations trigger NbIcon re-renders,
-    // but the alias *values* (Vue components, FA icon defs) stay as-is.
+    // shallowReactive on the alias map: mutations to `aliases[$foo]` trigger
+    // NbIcon re-renders, but the values themselves (Vue components, FA icon
+    // defs) are stored as-is so they don't get wrapped in reactive proxies.
     const aliases = shallowReactive({
         ...defaultAliases,
         ...(options.aliases ?? {}),
@@ -24,24 +25,21 @@ function buildRegistry(options: NbIconsOptions): NbIconsRegistry {
 }
 
 /**
- * Vue plugin factory. Use:
+ * Vue plugin factory. Mandatory — install before mounting:
  *
  * ```ts
  * import { createNbIcons } from '@netblink/vue-components/icons';
  * app.use(createNbIcons({ aliases: { $expand: MyChevron } }));
  * ```
  *
- * If no createNbIcons() is installed, components fall back to a zero-config
- * registry seeded with the built-in inline-SVG defaults.
+ * If you don't pass any options, components fall back to the inline-SVG
+ * defaults shipped with the package.
  */
 export function createNbIcons(options: NbIconsOptions = {}): Plugin {
     const reg = buildRegistry(options);
-    setDefaultRegistry(reg);
     return {
         install(app: App) {
             app.provide(NB_ICONS_KEY, reg);
         },
     };
 }
-
-setDefaultRegistry(buildRegistry({}));
