@@ -1,8 +1,23 @@
 <script setup lang="ts">
 import { ref, computed, markRaw } from 'vue';
-import { CodePreview } from '../index';
+import {
+    CodePreview,
+    Alert,
+    Collapse,
+    CollapsableSection,
+    NewModal,
+    DataTile,
+    DescriptionList,
+    DescriptionListItem,
+    UnderConstruction,
+    Input,
+    InputLabel,
+    PrimaryButton,
+    SecondaryButton,
+} from '../index';
 import { useNbIcons, NbIcon } from '../icons';
 import type { AliasName, IconLike } from '../icons/types';
+import { faRocket } from '@fortawesome/free-solid-svg-icons';
 
 // === Real, programmer-style icon imports ====================================
 // This is exactly what a consumer project would write. The library's prepared
@@ -348,6 +363,84 @@ const switchCmd = [
     'npx @netblink/vue-components-migrate switch material  # Google Material Symbols',
     'npx @netblink/vue-components-migrate switch solar     # Solar',
 ];
+
+// === "Custom libraries / your own SVG" snippets ============================
+
+const lucideSnippet = [
+    '// Lucide — exactly the same pattern as Heroicons:',
+    "import { ChevronDown, X, Search, Eye, EyeOff } from 'lucide-vue-next';",
+    '',
+    'app.use(createNbIcons({',
+    '    aliases: {',
+    '        $expand:  ChevronDown,',
+    '        $close:   X,',
+    '        $search:  Search,',
+    '        $eye:     Eye,',
+    "        '$eye-off': EyeOff,",
+    '    },',
+    '}));',
+];
+
+const mdiSnippet = [
+    '// MDI — per-icon imports via @mdi/js + a tiny render component:',
+    "import { mdiChevronDown, mdiClose } from '@mdi/js';",
+    "import { defineComponent, h } from 'vue';",
+    '',
+    '// Tiny MDI render component. Real apps usually have one of these',
+    '// already — anything that renders an <svg> works here.',
+    'const MdiIcon = defineComponent({',
+    '    props: { path: String },',
+    "    render() { return h('svg', { viewBox: '0 0 24 24' }, h('path', { d: this.path })); },",
+    '});',
+    '',
+    'app.use(createNbIcons({',
+    '    aliases: {',
+    '        $expand: h(MdiIcon, { path: mdiChevronDown }),',
+    '        $close:  h(MdiIcon, { path: mdiClose }),',
+    '    },',
+    '}));',
+];
+
+const rawSvgSnippet = [
+    '// Raw inline SVG — wrap it in `{ svg: \'...\' }`:',
+    'app.use(createNbIcons({',
+    '    aliases: {',
+    "        $expand: { svg: '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\">' +",
+    "                          '<path d=\"M6 9l6 6 6-6\"/></svg>' },",
+    '    },',
+    '}));',
+];
+
+const customComponentSnippet = [
+    '// Your own Vue component — anything goes:',
+    "import MyHandRolledIcon from './icons/MyHandRolledIcon.vue';",
+    '',
+    'app.use(createNbIcons({',
+    '    aliases: {',
+    '        $expand: MyHandRolledIcon,',
+    '    },',
+    '}));',
+];
+
+const cssClassSnippet = [
+    '// CSS class-based icons (Bootstrap Icons, Material Icons font, etc.) —',
+    "// pass a string that doesn't start with $ and contains no `:`. NbIcon",
+    '// renders <i class="..."> for you:',
+    'app.use(createNbIcons({',
+    '    aliases: {',
+    "        $expand: 'bi bi-chevron-down',",
+    "        $close:  'material-icons close',",
+    '    },',
+    '}));',
+];
+
+// === Live component examples state =========================================
+
+const alertVisible = ref(true);
+const collapseExpanded = ref(false);
+const modalOpen = ref(false);
+const passwordValue = ref('s3cret');
+
 </script>
 
 <template>
@@ -488,6 +581,166 @@ const switchCmd = [
                     </dd>
                 </div>
             </dl>
+        </section>
+
+        <!-- ANY LIBRARY / OWN SVG ============================================ -->
+        <section class="space-y-3">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Any other library — or your own SVG</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                The four tabs above are just examples. The <code>aliases</code> map accepts <strong>any</strong> Vue component, render function,
+                inline SVG, or CSS class string — there's no list of "supported" providers. Mix as many as you like in one project.
+            </p>
+
+            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Anything that ships per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, …) works the same way as Heroicons. Just import and pass.
+            </p>
+            <CodePreview language="javascript" :code="lucideSnippet" />
+
+            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a tiny wrapper component. Most apps already have one.
+            </p>
+            <CodePreview language="javascript" :code="mdiSnippet" />
+
+            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Have a custom SVG you want to drop in for one alias? Wrap it in <code>{ svg: '…' }</code>. The string is sanitized before rendering.
+            </p>
+            <CodePreview language="javascript" :code="rawSvgSnippet" />
+
+            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Any <code>.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
+            </p>
+            <CodePreview language="javascript" :code="customComponentSnippet" />
+
+            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font — pass a class string and
+                NbIcon renders <code>&lt;i class="…" /&gt;</code> for you.
+            </p>
+            <CodePreview language="javascript" :code="cssClassSnippet" />
+        </section>
+
+        <!-- LIVE COMPONENT EXAMPLES ========================================== -->
+        <section class="space-y-3">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">See it in real components</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Click any provider in the <strong>Live preview</strong> at the top of this page — every icon below is a real
+                <code>@netblink/vue-components</code> component using the same aliases as your app, so they all re-render with the chosen set.
+            </p>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <!-- Alert variants -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        Alert · <code>$success</code> <code>$error</code> <code>$warning</code> <code>$info</code> <code>$close</code>
+                    </div>
+                    <Alert type="success">Order placed — confirmation sent to your inbox.</Alert>
+                    <Alert type="error">Something went wrong. Please try again.</Alert>
+                    <Alert type="warning">Your trial expires in 3 days.</Alert>
+                    <Alert v-model="alertVisible" type="info" dismissible>
+                        Dismissible alert — click the × to hide it. (Re-toggle below.)
+                    </Alert>
+                    <button
+                        type="button"
+                        class="text-xs text-primary-600 underline dark:text-primary-300"
+                        @click="alertVisible = !alertVisible"
+                    >
+                        {{ alertVisible ? 'Hide' : 'Show' }} dismissible alert
+                    </button>
+                </div>
+
+                <!-- Collapse / chevron -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        Collapse · <code>$expand</code>
+                    </div>
+                    <Collapse name="Settings" :open="collapseExpanded">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Watch the chevron when you click the header — it rotates and changes glyph with the active provider.
+                        </p>
+                    </Collapse>
+
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 pt-2">
+                        CollapsableSection · <code>$expand</code>
+                    </div>
+                    <CollapsableSection title="Advanced options">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            Same alias, different wrapper. Section variant flips with the switcher too.
+                        </p>
+                    </CollapsableSection>
+                </div>
+
+                <!-- DataTile with user-supplied icon -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        DataTile · user-supplied <code>:icon</code> (always FA here)
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        Components that take an <code>icon</code> prop accept any <code>IconLike</code> — the prop value wins over aliases,
+                        so the rocket below stays FA regardless of the switcher.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <DataTile :value="42" label="Launches today" :icon="faRocket" theme="primary" />
+                        <DataTile :value="'£12.4k'" label="MTD" :icon="faRocket" theme="success" />
+                    </div>
+                </div>
+
+                <!-- Modal trigger / NewModal close button -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        NewModal · <code>$close</code>
+                    </div>
+                    <PrimaryButton @click="modalOpen = true">Open modal</PrimaryButton>
+                    <NewModal v-model="modalOpen" title="Switch the icon set">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            The close (×) button in the header uses the <code>$close</code> alias. Pick another provider while this modal is open
+                            and watch the glyph swap.
+                        </p>
+                        <template #footer>
+                            <SecondaryButton @click="modalOpen = false">Close</SecondaryButton>
+                        </template>
+                    </NewModal>
+                </div>
+
+                <!-- InputLabel tooltip indicator -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        InputLabel · <code>$help</code>
+                    </div>
+                    <Input
+                        v-model="passwordValue"
+                        label="Account ID"
+                        :tooltip="'This is your unique account identifier — the help-circle next to the label uses $help.'"
+                        placeholder="acc_…"
+                    />
+                </div>
+
+                <!-- UnderConstruction -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        UnderConstruction · <code>$construction</code>
+                    </div>
+                    <UnderConstruction info="Demo block — picks up $construction from the active provider." />
+                </div>
+
+                <!-- DescriptionList edit icons -->
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60 lg:col-span-2">
+                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        DescriptionList · <code>$edit</code> <code>$edit-alt</code>
+                    </div>
+                    <DescriptionList>
+                        <DescriptionListItem label="Display name" editable @edit="() => {}">
+                            John Doe
+                        </DescriptionListItem>
+                        <DescriptionListItem label="Email" editable @edit="() => {}">
+                            john@example.com
+                        </DescriptionListItem>
+                    </DescriptionList>
+                </div>
+            </div>
         </section>
     </div>
 </template>

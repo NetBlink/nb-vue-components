@@ -28,8 +28,8 @@ const props = withDefaults(defineProps<UnderConstructionProps>(), {
 
 <template>
     <div class="bg-stripes p-ui flex w-full items-center justify-center" :class="{ grow: full }">
-        <div class="py-ui px-ui gap-ui-half flex flex-col rounded bg-white text-center dark:bg-gray-800">
-            <NbIcon name="$construction" class="text-primary text-4xl" />
+        <div class="py-ui px-ui gap-ui-half flex flex-col items-center rounded bg-white text-center dark:bg-gray-800">
+            <NbIcon name="$construction" size="2xl" class="text-primary" />
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Under Construction</h1>
             <p class="whitespace-pre-line text-gray-600 dark:text-gray-300">{{ info }}</p>
         </div>
