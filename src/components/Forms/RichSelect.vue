@@ -31,8 +31,7 @@
 
 import { computed, ref, watch, nextTick, onMounted } from 'vue';
 import { InputWrapper, Spinner } from '../../index';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronDown, faTimes, faSearch } from '@fortawesome/free-solid-svg-icons';
+import NbIcon from '../../icons/NbIcon.vue';
 
 interface SelectOption {
     [key: string]: any;
@@ -408,7 +407,7 @@ onUnmounted(cleanup);
                         >
                             {{ getOptionLabel(option) }}
                             <button type="button" @click="removeOption(option, $event)" class="hover:text-primary-600 transition-colors">
-                                <FontAwesomeIcon :icon="faTimes" class="h-3 w-3" />
+                                <NbIcon name="$close" class="h-3 w-3" />
                             </button>
                         </span>
                     </template>
@@ -426,13 +425,13 @@ onUnmounted(cleanup);
                     @click="clearSelection"
                     class="absolute inset-y-0 right-8 flex items-center pr-2 text-gray-400 transition-colors hover:text-gray-600"
                 >
-                    <FontAwesomeIcon :icon="faTimes" class="h-4 w-4" />
+                    <NbIcon name="$close" class="h-4 w-4" />
                 </button>
 
                 <!-- Dropdown chevron -->
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <FontAwesomeIcon
-                        :icon="faChevronDown"
+                    <NbIcon
+                        name="$expand"
                         class="h-4 w-4 text-gray-400 transition-transform duration-200"
                         :class="{ 'rotate-180': isOpen }"
                     />
@@ -455,7 +454,7 @@ onUnmounted(cleanup);
                     <!-- Search input -->
                     <div v-if="searchable" class="border-b border-gray-200 dark:border-gray-700 p-2">
                         <div class="relative">
-                            <FontAwesomeIcon :icon="faSearch" class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                            <NbIcon name="$search" class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
                             <input
                                 ref="searchInputRef"
                                 type="text"
