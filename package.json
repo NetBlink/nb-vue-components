@@ -84,6 +84,7 @@
         "@netblink/nb-prettier": "github:LukaszTlalka/nb-prettier",
         "@tailwindcss/vite": "^4.1.5",
         "dotenv": "^16.4.5",
+        "isomorphic-dompurify": "^2.36.0",
         "js-md5": "^0.8.3",
         "reka-ui": "^2.2.1",
         "vue3-highlightjs": "^1.0.5"
