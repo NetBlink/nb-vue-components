@@ -18,12 +18,8 @@
 }
 </style>
 <script setup>
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
-
-library.add(faWhatsapp);
 
 const props = defineProps({
     options: Array,
