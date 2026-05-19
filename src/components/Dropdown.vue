@@ -1,17 +1,17 @@
 <script setup lang="ts">
 /**
- * Dropdown — menu popover built on reka-ui's `DropdownMenu` primitives.
+ * Dropdown - menu popover built on reka-ui's `DropdownMenu` primitives.
  *
  * Provide a `#trigger` slot for the toggle element and a `#content` slot for
  * the menu items (typically `DropdownLink` / `DropdownSeparator`). All
  * non-listed attrs are forwarded to the underlying `DropdownMenuContent`.
  *
- * @prop {Align} [align='start'] — `'start' | 'center' | 'end'` — anchors menu to the trigger
- * @prop {number} [alignOffset=5] — pixel offset from the alignment point
- * @prop {boolean} [openOnHover=false] — open the menu on hover instead of click
- * @prop {number} [hoverDelay=150] — ms to wait before closing on mouse leave (only when openOnHover is true)
- * @slot trigger — element that opens the menu
- * @slot content — menu items
+ * @prop {Align} [align='start'] - `'start' | 'center' | 'end'` - anchors menu to the trigger
+ * @prop {number} [alignOffset=5] - pixel offset from the alignment point
+ * @prop {boolean} [openOnHover=false] - open the menu on hover instead of click
+ * @prop {number} [hoverDelay=150] - ms to wait before closing on mouse leave (only when openOnHover is true)
+ * @slot trigger - element that opens the menu
+ * @slot content - menu items
  */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import type { Align } from '@/Types';

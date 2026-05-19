@@ -3,24 +3,24 @@ import { computed } from 'vue';
 import { getInertiaPage } from '../Helpers';
 
 /**
- * Stats — clickable stat tiles used as quick filters.
+ * Stats - clickable stat tiles used as quick filters.
  *
  * Each item is a `{ name, value, label? }` object. Clicking a tile emits
  * `updateSearch` with the tile's name (or `null` when the same tile is
  * clicked again to clear). Selection state is read from a URL query
  * parameter named by `statusName` (defaults to `status`).
  *
- * @prop {StatItem[]}    stats — `{ name, value, label? }[]` — label falls back to `name` for display
- * @prop {string|null}   [statusName=null] — query-string parameter used to compute the selected tile
- * @prop {string}        [customContainerClass=''] — extra classes on the outer grid
- * @prop {string}        [customStatClass=''] — extra classes on each stat card
- * @prop {string}        [customStatLabelClass=''] — extra classes on each stat label
- * @prop {string}        [customStatValueClass=''] — extra classes on each stat value
- * @emits updateSearch — `(name: string | null)` — fires when a tile is clicked
+ * @prop {StatItem[]}    stats - `{ name, value, label? }[]` - label falls back to `name` for display
+ * @prop {string|null}   [statusName=null] - query-string parameter used to compute the selected tile
+ * @prop {string}        [customContainerClass=''] - extra classes on the outer grid
+ * @prop {string}        [customStatClass=''] - extra classes on each stat card
+ * @prop {string}        [customStatLabelClass=''] - extra classes on each stat label
+ * @prop {string}        [customStatValueClass=''] - extra classes on each stat value
+ * @emits updateSearch - `(name: string | null)` - fires when a tile is clicked
  */
 
 interface StatItem {
-    /** Unique key for the stat — emitted in updateSearch */
+    /** Unique key for the stat - emitted in updateSearch */
     name: string;
     /** Number displayed in the value area */
     value: number;

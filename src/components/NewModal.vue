@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * NewModal — accessible dialog built on reka-ui's headless `Dialog` primitives.
+ * NewModal - accessible dialog built on reka-ui's headless `Dialog` primitives.
  *
  * Preferred for new code. Drives open-state with `v-model:open`, and offers named
  * header / description / footer / trigger slots in addition to the default slot
@@ -9,11 +9,11 @@
  * Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props
  * (`aria-*`, `role`, …) and custom classes pass through.
  *
- * @slot default — body content
- * @slot header — overrides the `title` prop
- * @slot description — overrides the `description` prop
- * @slot footer — right-aligned footer area
- * @slot trigger — element that opens the dialog when clicked
+ * @slot default - body content
+ * @slot header - overrides the `title` prop
+ * @slot description - overrides the `description` prop
+ * @slot footer - right-aligned footer area
+ * @slot trigger - element that opens the dialog when clicked
  */
 import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';

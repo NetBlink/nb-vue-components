@@ -79,7 +79,7 @@ const defaultContentClasses = [
     'data-[side=top]:slide-in-from-bottom-2',
 ].join(' ');
 
-// Arrow classes — match the bubble background/border so the arrow blends in
+// Arrow classes - match the bubble background/border so the arrow blends in
 const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:stroke-gray-700';
 </script>
 

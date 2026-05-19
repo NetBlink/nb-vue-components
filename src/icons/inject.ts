@@ -2,7 +2,7 @@ import { inject, shallowReactive, type InjectionKey } from 'vue';
 import { defaultAliases } from './aliases';
 import type { AliasName, IconLike, IconSet } from './types';
 
-/** Internal registry shape — built by createNbIcons, consumed by NbIcon. */
+/** Internal registry shape - built by createNbIcons, consumed by NbIcon. */
 export interface NbIconsRegistry {
     aliases: Record<AliasName, IconLike>;
     sets: Record<string, IconSet>;
@@ -12,7 +12,7 @@ export interface NbIconsRegistry {
 }
 
 /**
- * String key (not Symbol) — keeps provide/inject identity stable across HMR
+ * String key (not Symbol) - keeps provide/inject identity stable across HMR
  * reloads and any edge case where the module could be evaluated twice.
  * Cast through `unknown` so consumers still get strong typing on `inject(NB_ICONS_KEY)`.
  */
@@ -38,7 +38,7 @@ function buildSoftFallback(): NbIconsRegistry {
  * Returns the icon registry provided by `createNbIcons()`.
  *
  * If no plugin has been installed (or Vue's inject can't find it for any
- * reason), we warn ONCE in dev and return a minimal fallback registry —
+ * reason), we warn ONCE in dev and return a minimal fallback registry -
  * NbIcon renders the shipped inline-SVG defaults so the page doesn't crash.
  */
 export function useNbIcons(): NbIconsRegistry {

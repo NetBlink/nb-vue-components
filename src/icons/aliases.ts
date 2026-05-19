@@ -16,7 +16,7 @@ import Sun from './svg/Sun.vue';
 import Moon from './svg/Moon.vue';
 
 /**
- * Built-in alias defaults. `$whatsapp` intentionally has no default — users
+ * Built-in alias defaults. `$whatsapp` intentionally has no default - users
  * who consume the components that reference it must map it explicitly via
  * `createNbIcons({ aliases: { $whatsapp: … } })`.
  */
@@ -36,6 +36,6 @@ export const defaultAliases: Record<AliasName, IconLike> = {
     $construction: Construction,
     $sun: Sun,
     $moon: Moon,
-    // Brand icons have no default — see spec §5.
+    // Brand icons have no default - see spec §5.
     $whatsapp: undefined as unknown as IconLike,
 };

@@ -25,7 +25,7 @@ function buildRegistry(options: NbIconsOptions): NbIconsRegistry {
 }
 
 /**
- * Vue plugin factory. Mandatory — install before mounting:
+ * Vue plugin factory. Mandatory - install before mounting:
  *
  * ```ts
  * import { createNbIcons } from '@netblink/vue-components/icons';

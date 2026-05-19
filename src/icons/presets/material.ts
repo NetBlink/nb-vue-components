@@ -1,5 +1,5 @@
 /**
- * Google Material Symbols preset — Iconify-backed.
+ * Google Material Symbols preset - Iconify-backed.
  *
  * Uses the outline variant by default. Requires `@iconify/vue` (optional peer)
  * and `@iconify-json/material-symbols` (data).

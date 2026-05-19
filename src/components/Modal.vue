@@ -2,24 +2,24 @@
 import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
 /**
- * Modal — teleported, backdropped dialog with a single default slot.
+ * Modal - teleported, backdropped dialog with a single default slot.
  *
  * Render your own header, body, and footer inside the default slot. For a
  * Radix/reka-ui based dialog with named header/footer/description slots,
  * use `NewModal` instead.
  *
- * @prop {boolean} show — visibility (use `:show` + `@close` or `v-model:show`)
- * @prop {string} [maxWidth='2xl'] — sm | md | lg | xl | 2xl–7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
- * @prop {boolean} [closeable=true] — allow closing via backdrop click or Escape key
- * @prop {boolean} [hideOverflow=true] — apply overflow-hidden to the modal container
- * @prop {boolean} [alignCenter=false] — vertically center the modal (default top-aligns)
- * @prop {boolean} [showBorder=false] — add the brand-coloured border around the panel
- * @prop {boolean} [resizable=false] — render edge/corner handles so the user can resize the modal
- * @prop {number}  [backdropDuration=200] — backdrop fade duration (ms)
- * @prop {number}  [modalDuration=200] — modal enter/leave duration (ms)
- * @prop {string}  [modalCustomClass=''] — extra classes for the modal panel
- * @prop {string}  [backdropCustomClass=''] — extra classes for the backdrop
- * @emits close — fires when the user clicks the backdrop or presses Escape (only when `closeable` is true)
+ * @prop {boolean} show - visibility (use `:show` + `@close` or `v-model:show`)
+ * @prop {string} [maxWidth='2xl'] - sm | md | lg | xl | 2xl–7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
+ * @prop {boolean} [closeable=true] - allow closing via backdrop click or Escape key
+ * @prop {boolean} [hideOverflow=true] - apply overflow-hidden to the modal container
+ * @prop {boolean} [alignCenter=false] - vertically center the modal (default top-aligns)
+ * @prop {boolean} [showBorder=false] - add the brand-coloured border around the panel
+ * @prop {boolean} [resizable=false] - render edge/corner handles so the user can resize the modal
+ * @prop {number}  [backdropDuration=200] - backdrop fade duration (ms)
+ * @prop {number}  [modalDuration=200] - modal enter/leave duration (ms)
+ * @prop {string}  [modalCustomClass=''] - extra classes for the modal panel
+ * @prop {string}  [backdropCustomClass=''] - extra classes for the backdrop
+ * @emits close - fires when the user clicks the backdrop or presses Escape (only when `closeable` is true)
  */
 const props = defineProps({
     show: {

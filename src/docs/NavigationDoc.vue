@@ -85,7 +85,7 @@ const navCollapseExamples = [
     '</NavCollapse>',
 ];
 
-// Props data — verified against the actual components
+// Props data - verified against the actual components
 const navLinkProps = [
     { prop: 'href', type: 'string', default: '-', description: 'Destination URL. NavLink wraps the Inertia Link, so this performs an Inertia visit.', required: true },
     { prop: 'active', type: 'boolean', default: 'false', description: 'Applies the active styling (the caller decides activeness, e.g. via `route().current()`)' },
@@ -93,7 +93,7 @@ const navLinkProps = [
 
 const navLinkSlots = [
     { prop: 'default', type: 'slot', default: '-', description: 'Link label text' },
-    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the label (NavLink only — ResponsiveNavLink has no icon slot)' },
+    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the label (NavLink only - ResponsiveNavLink has no icon slot)' },
 ];
 
 const dropdownProps = [
@@ -105,17 +105,17 @@ const dropdownProps = [
 
 const dropdownSlots = [
     { prop: 'trigger', type: 'slot', default: '-', description: 'Element that opens the menu (button, link, etc.)' },
-    { prop: 'content', type: 'slot', default: '-', description: 'Menu items — typically a list of DropdownLink / DropdownSeparator' },
+    { prop: 'content', type: 'slot', default: '-', description: 'Menu items - typically a list of DropdownLink / DropdownSeparator' },
 ];
 
 const gravatarProps = [
-    { prop: 'email', type: 'string', default: '-', description: 'Email — md5-hashed and used to look up the Gravatar', required: true },
+    { prop: 'email', type: 'string', default: '-', description: 'Email - md5-hashed and used to look up the Gravatar', required: true },
     { prop: 'size', type: 'number', default: '100', description: 'Image size in pixels (the requested s= parameter on the Gravatar URL)' },
 ];
 
 const navCollapseProps = [
     { prop: 'name', type: 'string', default: '-', description: 'Title shown in the toggle row', required: true },
-    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (also reactive — updating this re-opens or closes the section)' },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (also reactive - updating this re-opens or closes the section)' },
 ];
 
 const navCollapseSlots = [

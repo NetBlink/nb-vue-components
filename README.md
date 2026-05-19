@@ -5,7 +5,7 @@
 - **Vue 3** with Composition API
 - **TypeScript** support with full type definitions
 - **TailwindCSS** for styling
-- **Provider-neutral icons** — works with FontAwesome, Heroicons, Lucide, MDI, or hand-rolled SVGs via the icon-provider system
+- **Provider-neutral icons** - works with FontAwesome, Heroicons, Lucide, MDI, or hand-rolled SVGs via the icon-provider system
 - **Inertia.js** integration
 - **Accessible** components following WCAG guidelines
 - **Tree-shakable** ES modules
@@ -166,13 +166,13 @@ app.mount('#app')
 
 ### 3. Icon Provider (optional)
 
-The components draw their own affordances (chevrons, close buttons, etc.) using inline SVGs by default — no setup required. To replace them with icons from a specific provider, install the `createNbIcons` plugin:
+The components draw their own affordances (chevrons, close buttons, etc.) using inline SVGs by default - no setup required. To replace them with icons from a specific provider, install the `createNbIcons` plugin:
 
 ```ts
 // main.ts
 import { createNbIcons } from '@netblink/vue-components/icons';
 
-// Drop-in v2 parity — keeps FontAwesome visuals everywhere:
+// Drop-in v2 parity - keeps FontAwesome visuals everywhere:
 import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';
 app.use(createNbIcons({
     aliases: faAliasPreset,
@@ -187,7 +187,7 @@ app.use(createNbIcons({
 }));
 ```
 
-Components with a user-facing icon prop (`DataTile`, `LogsContent`) accept an `IconLike` value — a built-in alias (`'$expand'`), a set-prefixed string (`'fa:home'`), any Vue component, a raw SVG (`{ svg: '<svg>…</svg>' }`), or a FontAwesome icon object. Every such component also exposes a `#icon` slot for full template-side control.
+Components with a user-facing icon prop (`DataTile`, `LogsContent`) accept an `IconLike` value - a built-in alias (`'$expand'`), a set-prefixed string (`'fa:home'`), any Vue component, a raw SVG (`{ svg: '<svg>…</svg>' }`), or a FontAwesome icon object. Every such component also exposes a `#icon` slot for full template-side control.
 
 Upgrading from v2.x? Run the codemod, which injects the FA preset and rewrites the few deprecated forms:
 

@@ -37,12 +37,12 @@ const props = withDefaults(defineProps<UnderConstructionProps>(), {
 </template>
 
 <style scoped>
-/* Striped background pattern — light theme */
+/* Striped background pattern - light theme */
 .bg-stripes {
     background-image: repeating-linear-gradient(45deg, #f3f4f6, #f3f4f6 10px, #e5e7eb 10px, #e5e7eb 20px);
 }
 
-/* Striped background pattern — dark theme (darker greys so the card pops) */
+/* Striped background pattern - dark theme (darker greys so the card pops) */
 :global(.dark) .bg-stripes {
     background-image: repeating-linear-gradient(45deg, #1f2937, #1f2937 10px, #111827 10px, #111827 20px);
 }

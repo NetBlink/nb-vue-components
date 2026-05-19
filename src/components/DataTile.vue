@@ -1,19 +1,19 @@
 <script setup lang="ts">
 /**
- * DataTile — themed statistic tile with a background icon.
+ * DataTile - themed statistic tile with a background icon.
  *
  * Renders a card with a large value, a label below it, and a FontAwesome icon
  * watermark behind the value. Hover animates a coloured underline. Set
- * `selected` to show a ring outline — wire it to your own selection state.
+ * `selected` to show a ring outline - wire it to your own selection state.
  *
- * @prop {string|number} value — value rendered as the big number
- * @prop {string}        label — label rendered under the value
- * @prop {IconLike}      [icon] — icon shown in the background; pass an alias, a Vue component, an FA icon object, etc.
- * @prop {ComponentTheme}[theme='primary'] — primary | secondary | success | danger | warning
- * @prop {boolean}       [selected=false] — show a ring outline
- * @prop {string}        [customStatClass=''] — extra classes on the outer card
- * @prop {string}        [customStatValueClass=''] — extra classes on the value area
- * @prop {string}        [customStatLabelClass=''] — extra classes on the label area
+ * @prop {string|number} value - value rendered as the big number
+ * @prop {string}        label - label rendered under the value
+ * @prop {IconLike}      [icon] - icon shown in the background; pass an alias, a Vue component, an FA icon object, etc.
+ * @prop {ComponentTheme}[theme='primary'] - primary | secondary | success | danger | warning
+ * @prop {boolean}       [selected=false] - show a ring outline
+ * @prop {string}        [customStatClass=''] - extra classes on the outer card
+ * @prop {string}        [customStatValueClass=''] - extra classes on the value area
+ * @prop {string}        [customStatLabelClass=''] - extra classes on the label area
  */
 
 import NbIcon from '../icons/NbIcon.vue';
@@ -36,7 +36,7 @@ interface Props {
     customStatValueClass?: string;
     /** Extra classes on the label section */
     customStatLabelClass?: string;
-    /** Colour theme — primary | secondary | success | danger | warning */
+    /** Colour theme - primary | secondary | success | danger | warning */
     theme?: ComponentTheme;
 }
 
