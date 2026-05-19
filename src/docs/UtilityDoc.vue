@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
     faChevronCircleDown,
     faChevronDown,
@@ -10,6 +9,7 @@ import {
     faCircleCheck,
     faGears,
 } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import {
     Alert,
     Spinner,
@@ -144,7 +144,7 @@ const tooltipExamples = [
 ];
 
 const statsExamples = [
-    '<!-- Each stat is { name, value, label? } — clicking emits updateSearch -->',
+    '<!-- Each stat is { name, value, label? } - clicking emits updateSearch -->',
     '<Stats :stats="statsData" @updateSearch="onStatusChange" />',
     '',
     '<!-- Wire the selected state to a query-string parameter -->',
@@ -182,7 +182,7 @@ const paginationExamples = [
     '<Pagination :links="paginationLinks" :showPerPage="true" :defaultPerPage="25" />',
 ];
 
-// Props data — verified against actual components
+// Props data - verified against actual components
 const alertProps = [
     { prop: 'type', type: "'success' | 'error' | 'warning' | 'info'", default: "'info'", description: 'Visual variant (also controls the icon)' },
     { prop: 'title', type: 'string', default: '-', description: 'Bold title rendered above the slot content' },
@@ -212,7 +212,7 @@ const tooltipProps = [
 ];
 
 const statsProps = [
-    { prop: 'stats', type: 'StatItem[]', default: '-', description: 'Each item is `{ name, value, label? }` — `label` falls back to `name` for display', required: true },
+    { prop: 'stats', type: 'StatItem[]', default: '-', description: 'Each item is `{ name, value, label? }` - `label` falls back to `name` for display', required: true },
     { prop: 'statusName', type: 'string | null', default: 'null', description: 'Name of the URL query parameter used to determine the selected stat' },
     { prop: 'customContainerClass', type: 'string', default: "''", description: 'Extra classes on the outer grid' },
     { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on each stat card' },
@@ -228,7 +228,7 @@ const sectionProps = [
     { prop: 'header', type: 'string', default: '-', description: 'Optional heading text displayed in a styled bar at the top' },
     { prop: 'variant', type: "'default' | 'outlined' | 'minimal'", default: "'default'", description: 'Visual style of the surrounding card' },
     { prop: 'overflow', type: 'boolean', default: 'false', description: 'Add overflow-hidden to the outer container' },
-    { prop: 'unstyled', type: 'boolean', default: 'false', description: 'Remove all default styling — useful when you want full control' },
+    { prop: 'unstyled', type: 'boolean', default: 'false', description: 'Remove all default styling - useful when you want full control' },
 ];
 
 const sectionSlots = [
@@ -237,7 +237,7 @@ const sectionSlots = [
 ];
 
 const collapseProps = [
-    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive — updating the prop opens/closes the section)' },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive - updating the prop opens/closes the section)' },
     { prop: 'button', type: '[string, string]', default: "['Show more', 'Show less']", description: 'Labels for the built-in trigger button (only used when no #trigger slot is provided)' },
 ];
 
@@ -250,7 +250,7 @@ const paginationProps = [
     { prop: 'links', type: 'PaginationLink[]', default: '-', description: 'Laravel-style links array: `{ url, label, active }[]`', required: true },
     { prop: 'linkReturn', type: 'boolean', default: 'false', description: 'When true, render <button> elements and emit `change(url)` instead of using Inertia Link', highlight: true },
     { prop: 'maxPagesToShow', type: 'number', default: '20', description: 'Maximum visible page links (first/last always shown)' },
-    { prop: 'logs', type: 'boolean', default: 'false', description: 'Convenience flag for paginating server-side logs — sets preserveScroll/preserveState and only=[\'logs\']' },
+    { prop: 'logs', type: 'boolean', default: 'false', description: 'Convenience flag for paginating server-side logs - sets preserveScroll/preserveState and only=[\'logs\']' },
     { prop: 'preserveScroll', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
     { prop: 'preserveState', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
     { prop: 'only', type: 'string[]', default: '[]', description: 'Forwarded to Inertia Link (partial reload property names)' },
@@ -540,13 +540,13 @@ const dataTileProps = [
                 <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
                     <strong>Picking the right one:</strong>
                     <ul class="mt-2 list-inside list-disc space-y-1">
-                        <li><strong>Collapse</strong> — minimal show/hide for inline disclosure (this section).</li>
+                        <li><strong>Collapse</strong> - minimal show/hide for inline disclosure (this section).</li>
                         <li>
-                            <strong>CollapsableSection</strong> — styled card with a header bar; use for sectioning content into expandable groups.
+                            <strong>CollapsableSection</strong> - styled card with a header bar; use for sectioning content into expandable groups.
                             See <em>Layout Components → Collapsable Sections</em>.
                         </li>
                         <li>
-                            <strong>NavCollapse</strong> — expandable group inside a navigation list (renders as an <code class="rounded bg-blue-100 px-1">&lt;li&gt;</code>).
+                            <strong>NavCollapse</strong> - expandable group inside a navigation list (renders as an <code class="rounded bg-blue-100 px-1">&lt;li&gt;</code>).
                             See <em>Navigation Components → Collapsible Navigation</em>.
                         </li>
                     </ul>
@@ -579,12 +579,12 @@ const dataTileProps = [
                             class="flex w-full items-center justify-between rounded-lg bg-gray-100 dark:bg-gray-900/60 p-3 text-left transition-colors hover:bg-gray-200"
                         >
                             <span class="font-semibold">Advanced settings</span>
-                            <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
+                            <NbIcon :name="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
                         </button>
                     </template>
                     <div class="mt-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                         <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                            When you supply your own trigger, you also own the open state — toggle <code class="rounded bg-white px-1">collapseOpen</code>
+                            When you supply your own trigger, you also own the open state - toggle <code class="rounded bg-white px-1">collapseOpen</code>
                             yourself.
                         </p>
                         <div class="grid grid-cols-2 gap-3 text-sm">
@@ -662,7 +662,7 @@ const dataTileProps = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-2 text-gray-600 dark:text-gray-400">
                     A themed single-statistic tile with a large value, a label, and a FontAwesome watermark icon. Like
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> but for one number you've computed yourself — drop several into a grid for
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> but for one number you've computed yourself - drop several into a grid for
                     a dashboard layout.
                 </p>
                 <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
@@ -689,7 +689,7 @@ const dataTileProps = [
 
                 <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Standalone</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    A single tile fills the available width — wrap it in a sized container if you don't want it stretching across the page.
+                    A single tile fills the available width - wrap it in a sized container if you don't want it stretching across the page.
                 </p>
                 <div class="mb-6 max-w-xs">
                     <DataTile :value="123" label="Example label" :icon="faChevronCircleDown" theme="success" />

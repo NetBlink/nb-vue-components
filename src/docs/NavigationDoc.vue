@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { NbIcon } from '../icons';
 import { faChevronDown, faUser, faCog, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import {
     NavLink,
@@ -79,13 +79,13 @@ const navCollapseExamples = [
     '<!-- With a custom icon -->',
     '<NavCollapse name="Reports">',
     '  <template #icon>',
-    '    <FontAwesomeIcon :icon="faChartBar" />',
+    '    <NbIcon :name="faChartBar" />',
     '  </template>',
     '  <NavLink href="/reports/daily">Daily</NavLink>',
     '</NavCollapse>',
 ];
 
-// Props data — verified against the actual components
+// Props data - verified against the actual components
 const navLinkProps = [
     { prop: 'href', type: 'string', default: '-', description: 'Destination URL. NavLink wraps the Inertia Link, so this performs an Inertia visit.', required: true },
     { prop: 'active', type: 'boolean', default: 'false', description: 'Applies the active styling (the caller decides activeness, e.g. via `route().current()`)' },
@@ -93,7 +93,7 @@ const navLinkProps = [
 
 const navLinkSlots = [
     { prop: 'default', type: 'slot', default: '-', description: 'Link label text' },
-    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the label (NavLink only — ResponsiveNavLink has no icon slot)' },
+    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the label (NavLink only - ResponsiveNavLink has no icon slot)' },
 ];
 
 const dropdownProps = [
@@ -105,17 +105,17 @@ const dropdownProps = [
 
 const dropdownSlots = [
     { prop: 'trigger', type: 'slot', default: '-', description: 'Element that opens the menu (button, link, etc.)' },
-    { prop: 'content', type: 'slot', default: '-', description: 'Menu items — typically a list of DropdownLink / DropdownSeparator' },
+    { prop: 'content', type: 'slot', default: '-', description: 'Menu items - typically a list of DropdownLink / DropdownSeparator' },
 ];
 
 const gravatarProps = [
-    { prop: 'email', type: 'string', default: '-', description: 'Email — md5-hashed and used to look up the Gravatar', required: true },
+    { prop: 'email', type: 'string', default: '-', description: 'Email - md5-hashed and used to look up the Gravatar', required: true },
     { prop: 'size', type: 'number', default: '100', description: 'Image size in pixels (the requested s= parameter on the Gravatar URL)' },
 ];
 
 const navCollapseProps = [
     { prop: 'name', type: 'string', default: '-', description: 'Title shown in the toggle row', required: true },
-    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (also reactive — updating this re-opens or closes the section)' },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (also reactive - updating this re-opens or closes the section)' },
 ];
 
 const navCollapseSlots = [
@@ -186,25 +186,25 @@ const navCollapseSlots = [
                             >
                                 <GravatarImg email="john@example.com" class="mr-2 h-8 w-8 rounded-full" />
                                 <span>John Doe</span>
-                                <FontAwesomeIcon :icon="faChevronDown" class="ml-2 h-4 w-4" />
+                                <NbIcon :name="faChevronDown" class="ml-2 h-4 w-4" />
                             </button>
                         </template>
                         <template #content>
                             <DropdownLink href="/profile">
-                                <FontAwesomeIcon :icon="faUser" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faUser" class="mr-2 h-4 w-4" />
                                 Profile
                             </DropdownLink>
                             <DropdownLink href="/settings">
-                                <FontAwesomeIcon :icon="faCog" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faCog" class="mr-2 h-4 w-4" />
                                 Settings
                             </DropdownLink>
                             <DropdownLink href="/billing">
-                                <FontAwesomeIcon :icon="faCreditCard" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faCreditCard" class="mr-2 h-4 w-4" />
                                 Billing
                             </DropdownLink>
                             <DropdownSeparator />
                             <DropdownLink href="/logout" method="post">
-                                <FontAwesomeIcon :icon="faSignOutAlt" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faSignOutAlt" class="mr-2 h-4 w-4" />
                                 Logout
                             </DropdownLink>
                         </template>

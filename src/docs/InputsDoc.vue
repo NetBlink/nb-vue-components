@@ -146,7 +146,7 @@ const descriptionListExamples = [
 ];
 
 const descriptionListEditableExamples = [
-    '<!-- Each editable item needs an #edit slot — that\'s what the pencil swaps to. -->',
+    '<!-- Each editable item needs an #edit slot - that\'s what the pencil swaps to. -->',
     '<DescriptionList :form="form" stopEditOnSubmit>',
     '  <DescriptionListItem label="Name" editable>',
     '    {{ form.full_name }}',
@@ -290,7 +290,7 @@ const radioProps = [
     { prop: 'label', type: 'string', default: '-', description: 'Label text displayed next to the radio' },
     { prop: 'name', type: 'string', default: '-', description: 'Name attribute for grouping radios (falls back to field)' },
     { prop: 'id', type: 'string', default: '-', description: 'Input id (auto-generated from field + value when omitted)' },
-    { prop: 'isChecked', type: 'boolean', default: 'false', description: 'Deprecated — use v-model or form/field instead' },
+    { prop: 'isChecked', type: 'boolean', default: 'false', description: 'Deprecated - use v-model or form/field instead' },
 ];
 
 const selectProps = [
@@ -372,7 +372,7 @@ const groupedTools = [
     { value: 'prettier', label: 'Prettier', group: 'Linters' },
 ];
 
-// Custom option keys demo — note `id`/`title` instead of `value`/`label`
+// Custom option keys demo - note `id`/`title` instead of `value`/`label`
 const selectedUserId = ref<number | undefined>(undefined);
 const userRecords = [
     { id: 1, title: 'Ada Lovelace' },
@@ -383,13 +383,13 @@ const userRecords = [
 ];
 
 const descriptionListProps = [
-    { prop: 'form', type: 'InertiaForm', default: '-', description: 'DescriptionList — Inertia form whose `processing` state can auto-exit edit mode' },
-    { prop: 'stopEditOnSubmit', type: 'boolean', default: 'false', description: 'DescriptionList — when true, stop editing once form.processing flips back to false' },
-    { prop: 'editable', type: 'boolean', default: 'false', description: 'DescriptionListItem — render a pencil button that toggles an "edit" slot' },
-    { prop: 'forceEditing', type: 'boolean', default: 'false', description: 'DescriptionListItem — open in edit mode on mount (only when editable is true)' },
-    { prop: 'label', type: 'string', default: "''", description: 'DescriptionListItem — label text (use #label slot for custom markup)' },
-    { prop: 'value', type: 'string', default: 'undefined', description: 'DescriptionListItem — value text (alternative to default slot)' },
-    { prop: 'required', type: 'boolean', default: 'false', description: 'DescriptionListItem — render a red asterisk next to the label' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'DescriptionList - Inertia form whose `processing` state can auto-exit edit mode' },
+    { prop: 'stopEditOnSubmit', type: 'boolean', default: 'false', description: 'DescriptionList - when true, stop editing once form.processing flips back to false' },
+    { prop: 'editable', type: 'boolean', default: 'false', description: 'DescriptionListItem - render a pencil button that toggles an "edit" slot' },
+    { prop: 'forceEditing', type: 'boolean', default: 'false', description: 'DescriptionListItem - open in edit mode on mount (only when editable is true)' },
+    { prop: 'label', type: 'string', default: "''", description: 'DescriptionListItem - label text (use #label slot for custom markup)' },
+    { prop: 'value', type: 'string', default: 'undefined', description: 'DescriptionListItem - value text (alternative to default slot)' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'DescriptionListItem - render a red asterisk next to the label' },
 ];
 </script>
 
@@ -531,7 +531,7 @@ const descriptionListProps = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Select</code> is a thin wrapper around a native
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> — use it for short lists. Reach for
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> - use it for short lists. Reach for
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">RichSelect</code> when you need search, multiple selection, grouping, API-backed
                     autocomplete, or custom option shapes.
                 </p>
@@ -543,7 +543,7 @@ const descriptionListProps = [
                 </div>
                 <CodePreview :code="selectExamples" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — searchable + clearable</h4>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect - searchable + clearable</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Add <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">searchable</code> for an in-dropdown filter, and
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">clearable</code> for an × button to reset the value.
@@ -554,7 +554,7 @@ const descriptionListProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ searchableFramework ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectSearchExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — multiple</h4>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect - multiple</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">multiple</code> and bind to an array. Selected options render as removable chips.
                 </p>
@@ -564,7 +564,7 @@ const descriptionListProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ JSON.stringify(selectedTags) }}</code></p>
                 <CodePreview :code="richSelectMultipleExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — grouping</h4>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect - grouping</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     With <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">grouping</code>, options are bucketed by their
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">group</code> field (configurable via
@@ -575,7 +575,7 @@ const descriptionListProps = [
                 </div>
                 <CodePreview :code="richSelectGroupingExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — custom option keys</h4>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect - custom option keys</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Already have records shaped like <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{ id, title }</code>? Map them with
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionValue</code> and <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionLabel</code>
@@ -595,13 +595,13 @@ const descriptionListProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ selectedUserId ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectCustomKeysExample" />
 
-                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect — API search</h4>
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800 dark:text-gray-200">RichSelect - API search</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiSearch</code> debounces the search box and hits
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiUrl</code> with the query in
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiSearchParam</code>. Use
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">apiTransform</code> to map the response into the option shape RichSelect expects. (No
-                    live demo here — wire it up to a real endpoint in your app.)
+                    live demo here - wire it up to a real endpoint in your app.)
                 </p>
                 <CodePreview :code="richSelectApiExample" />
 
@@ -634,7 +634,7 @@ const descriptionListProps = [
                 <h4 class="mt-8 mb-2 font-semibold text-gray-800 dark:text-gray-200">Editable Example</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Click the pencil to switch each row into edit mode. The component swaps the default slot for the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#edit</code> slot — that's where you put the actual input.
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#edit</code> slot - that's where you put the actual input.
                 </p>
                 <DescriptionList :form="form">
                     <DescriptionListItem label="Name" editable>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
-import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
 import { SecondaryButton } from './index.js';
 
 interface CollapseProps {
@@ -34,7 +33,7 @@ onMounted(() => {
                     <span>
                         {{ isOpen ? button[1] : button[0] }}
                     </span>
-                    <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{ 'rotate-180': isOpen }" />
+                    <NbIcon name="$expand" class="transition-all" :class="{ 'rotate-180': isOpen }" />
                 </SecondaryButton>
             </slot>
         </CollapsibleTrigger>

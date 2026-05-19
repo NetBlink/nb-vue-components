@@ -1,20 +1,20 @@
 <script setup lang="ts">
 /**
- * GravatarImg — `<img>` pointing at the Gravatar for an email.
+ * GravatarImg - `<img>` pointing at the Gravatar for an email.
  *
  * MD5-hashes the (trimmed, lowercased) email and builds a
  * `https://www.gravatar.com/avatar/<hash>?s=<size>` URL. The `alt` text is
- * derived from the email — no `alt` prop. Pair with utility classes like
+ * derived from the email - no `alt` prop. Pair with utility classes like
  * `rounded-full` to shape the image; the component doesn't apply any.
  *
- * @prop {string} email — email address used to compute the avatar hash
- * @prop {number} [size=100] — requested image size in pixels (Gravatar `s=` parameter)
+ * @prop {string} email - email address used to compute the avatar hash
+ * @prop {number} [size=100] - requested image size in pixels (Gravatar `s=` parameter)
  */
 import { computed } from 'vue';
 import { md5 } from 'js-md5';
 
 interface GravatarImgProps {
-    /** Email — md5-hashed (after trim + lowercase) for the Gravatar lookup */
+    /** Email - md5-hashed (after trim + lowercase) for the Gravatar lookup */
     email: string;
     /** Pixel size requested from Gravatar (the `s=` query parameter) */
     size?: number;

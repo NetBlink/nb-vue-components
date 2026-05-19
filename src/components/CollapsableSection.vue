@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
 
 interface CollapsableSectionProps {
     /** Header text for the collapsible section */
@@ -45,7 +44,7 @@ onMounted(() => {
                 <slot v-else name="trigger" />
             </h3>
             <div class="text-primary-600 transition-transform duration-300 ease-in-out dark:text-primary-300" :class="{ 'rotate-180': isOpen }">
-                <FontAwesomeIcon :icon="faChevronDown" class="h-5 w-5" />
+                <NbIcon name="$expand" class="h-5 w-5" />
             </div>
         </CollapsibleTrigger>
 

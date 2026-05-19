@@ -1,6 +1,5 @@
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import NbIcon from '../../icons/NbIcon.vue';
 import { InputLabel, InputError } from '../../index';
 
 const props = defineProps({
@@ -97,7 +96,7 @@ const getSelectedItems = () => {
                     {{ placeholder }}
                 </span>
                 <span class="ml-2 w-2">
-                    <FontAwesomeIcon :icon="faChevronDown" class="h-5 w-5" />
+                    <NbIcon name="$expand" class="h-5 w-5" />
                 </span>
             </button>
             <div class="absolute z-1000 -mt-1! hidden min-w-full bg-white data-te-dropdown-show:block" data-te-dropdown-menu-ref>

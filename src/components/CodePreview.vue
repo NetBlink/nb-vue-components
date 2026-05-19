@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 interface CodePreviewProps {
     /** Array of code lines to display */
@@ -8,19 +8,14 @@ interface CodePreviewProps {
 
 const props = defineProps<CodePreviewProps>();
 
-const codeBlock = ref<string>('');
-const copyStatus = ref<string>('Copy');
-
-/**
- * Joins code array into a single string on mount
- */
-onMounted(() => {
-    if (Array.isArray(props.code)) {
-        codeBlock.value = props.code.join('\n');
-    } else {
+const codeBlock = computed<string>(() => {
+    if (!Array.isArray(props.code)) {
         console.error('CodePreview: `code` prop is not an array of strings.', props.code);
+        return '';
     }
+    return props.code.join('\n');
 });
+const copyStatus = ref<string>('Copy');
 
 /**
  * Copies the code to clipboard

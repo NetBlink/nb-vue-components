@@ -1,15 +1,39 @@
 {
     "name": "@netblink/vue-components",
-    "version": "2.0.49",
+    "version": "3.0.0",
     "description": "",
-    "main": "dist/nb-vue-components.umd.js",
+    "type": "module",
+    "main": "dist/nb-vue-components.es.js",
     "module": "dist/nb-vue-components.es.js",
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/types/index.d.ts",
-            "import": "./dist/nb-vue-components.es.js",
-            "require": "./dist/nb-vue-components.umd.js"
+            "import": "./dist/nb-vue-components.es.js"
+        },
+        "./icons": {
+            "types": "./dist/types/icons/index.d.ts",
+            "import": "./dist/icons.es.js"
+        },
+        "./icons/fa": {
+            "types": "./dist/types/icons/presets/fa.d.ts",
+            "import": "./dist/icons/fa.es.js"
+        },
+        "./icons/heroicons": {
+            "types": "./dist/types/icons/presets/heroicons.d.ts",
+            "import": "./dist/icons/heroicons.es.js"
+        },
+        "./icons/material": {
+            "types": "./dist/types/icons/presets/material.d.ts",
+            "import": "./dist/icons/material.es.js"
+        },
+        "./icons/solar": {
+            "types": "./dist/types/icons/presets/solar.d.ts",
+            "import": "./dist/icons/solar.es.js"
+        },
+        "./icons/lucide": {
+            "types": "./dist/types/icons/presets/lucide.d.ts",
+            "import": "./dist/icons/lucide.es.js"
         }
     },
     "scripts": {
@@ -53,11 +77,11 @@
     "homepage": "https://github.com/NetBlink/nb-vue-components#readme",
     "license": "ISC",
     "devDependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.4.0",
-        "@fortawesome/free-brands-svg-icons": "^6.4.0",
-        "@fortawesome/free-regular-svg-icons": "^6.4.0",
-        "@fortawesome/free-solid-svg-icons": "^6.4.0",
-        "@fortawesome/vue-fontawesome": "^3.0.3",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-regular-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
+        "@fortawesome/vue-fontawesome": "^3.2.0",
         "@inertiajs/vue3": "^2.0.5",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/postcss": "^4.1.5",
@@ -81,14 +105,53 @@
         "vue3-dropzone": "^2.1.2"
     },
     "dependencies": {
+        "@heroicons/vue": "^2.2.0",
+        "@iconify-icons/heroicons": "^1.2.9",
+        "@iconify-icons/material-symbols": "^1.2.58",
+        "@iconify-icons/solar": "^1.2.3",
+        "@iconify-json/heroicons": "^1.2.3",
+        "@iconify-json/material-symbols": "^1.2.73",
+        "@iconify-json/solar": "^1.2.5",
+        "@iconify/vue": "^4.0.0",
         "@netblink/nb-prettier": "github:LukaszTlalka/nb-prettier",
         "@tailwindcss/vite": "^4.1.5",
+        "colord": "^2.9.3",
         "dotenv": "^16.4.5",
+        "isomorphic-dompurify": "^2.36.0",
         "js-md5": "^0.8.3",
         "reka-ui": "^2.2.1",
         "vue3-highlightjs": "^1.0.5"
     },
     "overrides": {
         "axios": "^1.16.1"
+    },
+    "peerDependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.4.0",
+        "@fortawesome/free-brands-svg-icons": "^6.4.0",
+        "@fortawesome/free-regular-svg-icons": "^6.4.0",
+        "@fortawesome/free-solid-svg-icons": "^6.4.0",
+        "@fortawesome/vue-fontawesome": "^3.0.3",
+        "@iconify/vue": "^4.0.0",
+        "vue": "^3.5.0"
+    },
+    "peerDependenciesMeta": {
+        "@fortawesome/fontawesome-svg-core": {
+            "optional": true
+        },
+        "@fortawesome/vue-fontawesome": {
+            "optional": true
+        },
+        "@fortawesome/free-solid-svg-icons": {
+            "optional": true
+        },
+        "@fortawesome/free-brands-svg-icons": {
+            "optional": true
+        },
+        "@fortawesome/free-regular-svg-icons": {
+            "optional": true
+        },
+        "@iconify/vue": {
+            "optional": true
+        }
     }
 }
