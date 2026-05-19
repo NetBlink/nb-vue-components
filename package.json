@@ -2,14 +2,30 @@
     "name": "@netblink/vue-components",
     "version": "2.0.48",
     "description": "",
-    "main": "dist/nb-vue-components.umd.js",
+    "type": "module",
+    "main": "dist/nb-vue-components.es.js",
     "module": "dist/nb-vue-components.es.js",
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/types/index.d.ts",
-            "import": "./dist/nb-vue-components.es.js",
-            "require": "./dist/nb-vue-components.umd.js"
+            "import": "./dist/nb-vue-components.es.js"
+        },
+        "./icons": {
+            "types": "./dist/types/icons/index.d.ts",
+            "import": "./dist/icons.es.js"
+        },
+        "./icons/fa": {
+            "types": "./dist/types/icons/presets/fa.d.ts",
+            "import": "./dist/icons/fa.es.js"
+        },
+        "./icons/heroicons": {
+            "types": "./dist/types/icons/presets/heroicons.d.ts",
+            "import": "./dist/icons/heroicons.es.js"
+        },
+        "./icons/lucide": {
+            "types": "./dist/types/icons/presets/lucide.d.ts",
+            "import": "./dist/icons/lucide.es.js"
         }
     },
     "scripts": {
