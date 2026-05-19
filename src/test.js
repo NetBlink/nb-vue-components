@@ -5,8 +5,10 @@ import VueHighlightJS from 'vue3-highlightjs';
 import 'highlight.js/styles/atom-one-dark.css';
 import { setInertiaRouter, setInertiaPage } from './Helpers';
 import { router } from '@inertiajs/vue3';
+import { buildIconsPlugin } from './docs/setup-icons';
 
 const app = createApp(DocsApp);
+app.use(buildIconsPlugin());
 
 // Mock page for testing - using a simple object that matches what components expect
 const mockPage = {
