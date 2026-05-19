@@ -92,6 +92,8 @@ export interface ComponentsnbOptions {
 }
 
 import { useDarkMode } from './composables/useDarkMode';
+import { createNbIcons } from './icons/createNbIcons';
+import { NB_ICONS_KEY } from './icons/inject';
 
 const Componentsnb = {
     install(App: any, options: ComponentsnbOptions = {}) {
@@ -99,6 +101,16 @@ const Componentsnb = {
         for (const componentKey in components) {
             // @ts-ignore
             App.component(componentKey, components[componentKey]);
+        }
+
+        // Auto-install a default icon registry if the host hasn't already
+        // installed one (via `app.use(createNbIcons({...}))`). This keeps
+        // zero-config consumers working: NbIcon renders the shipped inline
+        // SVGs out of the box.
+        // @ts-ignore — Vue's App type doesn't expose _context publicly.
+        const alreadyHasRegistry = App._context?.provides?.[NB_ICONS_KEY as unknown as string];
+        if (!alreadyHasRegistry) {
+            App.use(createNbIcons());
         }
 
         // Opt-in dark-mode bootstrap. Pure no-op unless the host passes `darkMode`.

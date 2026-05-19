@@ -10,24 +10,25 @@ export interface NbIconsRegistry {
     registerAlias(name: AliasName, icon: IconLike): void;
 }
 
-export const NB_ICONS_KEY: InjectionKey<NbIconsRegistry> = Symbol('nb-icons');
+/**
+ * String key (not Symbol) — keeps provide/inject identity stable across HMR
+ * reloads and any edge case where the module could be evaluated twice.
+ * Cast through `unknown` so consumers still get strong typing on `inject(NB_ICONS_KEY)`.
+ */
+export const NB_ICONS_KEY = 'nb-vue-components:icon-registry' as unknown as InjectionKey<NbIconsRegistry>;
 
-/** Fallback registry — used when no createNbIcons() plugin is installed. */
-let defaultRegistry: NbIconsRegistry | null = null;
-export function setDefaultRegistry(reg: NbIconsRegistry): void {
-    defaultRegistry = reg;
-}
-export function getDefaultRegistry(): NbIconsRegistry | null {
-    return defaultRegistry;
-}
-
-/** Public composable. Resolves either the injected registry or the auto-default. */
+/**
+ * Returns the icon registry provided by `createNbIcons()`. Throws a clear
+ * error if no plugin has been installed — there is no silent fallback.
+ */
 export function useNbIcons(): NbIconsRegistry {
-    const injected = inject(NB_ICONS_KEY, null);
-    if (injected) return injected;
-    if (defaultRegistry) return defaultRegistry;
-    throw new Error(
-        '[nb-vue-components] icon registry missing. Either call app.use(createNbIcons()) ' +
-        'or import "@netblink/vue-components/icons" once at app boot to load defaults.'
-    );
+    const reg = inject(NB_ICONS_KEY, null);
+    if (!reg) {
+        throw new Error(
+            '[nb-vue-components] No icon registry found. Call ' +
+            '`app.use(createNbIcons({ ... }))` before mounting — or ' +
+            '`app.use(NbVueComponents)` which auto-installs a default registry.'
+        );
+    }
+    return reg;
 }
