@@ -12,6 +12,8 @@ import Help from './svg/Help.vue';
 import Edit from './svg/Edit.vue';
 import EditAlt from './svg/EditAlt.vue';
 import Construction from './svg/Construction.vue';
+import Sun from './svg/Sun.vue';
+import Moon from './svg/Moon.vue';
 
 /**
  * Built-in alias defaults. `$whatsapp` intentionally has no default — users
@@ -32,6 +34,8 @@ export const defaultAliases: Record<AliasName, IconLike> = {
     $edit: Edit,
     '$edit-alt': EditAlt,
     $construction: Construction,
+    $sun: Sun,
+    $moon: Moon,
     // Brand icons have no default — see spec §5.
     $whatsapp: undefined as unknown as IconLike,
 };

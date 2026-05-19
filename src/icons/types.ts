@@ -15,6 +15,8 @@ export type AliasName =
     | '$edit'
     | '$edit-alt'
     | '$construction'
+    | '$sun'
+    | '$moon'
     | '$whatsapp';
 
 /** A `"<set>:<name>"` string referring to a registered IconSet. */
