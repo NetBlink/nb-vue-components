@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPencil, faPenRuler } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
-library.add(faPencil, faPenRuler);
+import NbIcon from '../icons/NbIcon.vue';
 
 interface DescriptionListItemProps {
     /** Whether the item can be edited */
@@ -92,7 +89,7 @@ defineExpose({
                     </div>
                     <span class="ml-4 shrink-0">
                         <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-lg font-bold" v-if="editable">
-                            <FontAwesomeIcon :icon="faPencil" />
+                            <NbIcon name="$edit" />
                         </button>
                         <slot name="buttons" />
                     </span>
@@ -103,7 +100,7 @@ defineExpose({
                     </div>
                     <span class="ml-4 shrink-0">
                         <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-xl font-bold">
-                            <FontAwesomeIcon :icon="faPenRuler" />
+                            <NbIcon name="$edit-alt" />
                         </button>
                     </span>
                 </template>
