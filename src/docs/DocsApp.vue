@@ -6,6 +6,7 @@ import { useDarkMode } from '../composables/useDarkMode';
 // Import documentation components
 import SetupDoc from './SetupDoc.vue';
 import IconsDoc from './IconsDoc.vue';
+import ThemeDoc from './ThemeDoc.vue';
 import InputsDoc from './InputsDoc.vue';
 import ButtonsDoc from './ButtonsDoc.vue';
 import TablesDoc from './TablesDoc.vue';
@@ -13,6 +14,10 @@ import ModalsDoc from './ModalsDoc.vue';
 import NavigationDoc from './NavigationDoc.vue';
 import LayoutDoc from './LayoutDoc.vue';
 import UtilityDoc from './UtilityDoc.vue';
+import ThemeBuilderModal from './ThemeBuilderModal.vue';
+import { useThemeBuilder } from './composables/useThemeBuilder';
+
+const { isModalOpen: isThemeBuilderOpen } = useThemeBuilder();
 
 // Current active section
 const activeSection = ref<string>('setup');
@@ -21,6 +26,7 @@ const activeSection = ref<string>('setup');
 const sections: Record<string, { component: any; title: string }> = {
     setup: { component: SetupDoc, title: 'Getting Started' },
     icons: { component: IconsDoc, title: 'Icons' },
+    theme: { component: ThemeDoc, title: 'Theme & Tokens' },
     inputs: { component: InputsDoc, title: 'Input Components' },
     buttons: { component: ButtonsDoc, title: 'Button Components' },
     tables: { component: TablesDoc, title: 'Table Components' },
@@ -100,6 +106,19 @@ const navigateTo = (section: string) => {
                 <component :is="currentComponent" />
             </div>
         </main>
+
+        <!-- Floating theme-builder trigger - visible on every docs page -->
+        <button
+            type="button"
+            @click="isThemeBuilderOpen = true"
+            class="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl"
+            aria-label="Open theme builder"
+        >
+            <NbIcon name="$edit" size="sm" />
+            <span class="hidden sm:inline">Theme</span>
+        </button>
+
+        <ThemeBuilderModal />
     </div>
 </template>
 
