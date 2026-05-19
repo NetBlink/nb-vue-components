@@ -5,8 +5,7 @@
 
 import { computed } from 'vue';
 import { TextInput } from '../../../index';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import NbIcon from '../../../icons/NbIcon.vue';
 import type { InputProps } from '../types';
 
 interface PasswordInputProps extends Pick<InputProps, 
@@ -68,9 +67,7 @@ const handleToggle = () => {
             class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600 dark:text-gray-400"
             :class="{ 'bg-primary-50': displayType !== 'password' }"
         >
-            <FontAwesomeIcon 
-                :icon="displayType === 'password' ? faEye : faEyeSlash" 
-            />
+            <NbIcon :name="displayType === 'password' ? '$eye' : '$eye-off'" />
         </div>
     </div>
 </template>
