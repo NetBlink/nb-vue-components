@@ -11,8 +11,7 @@
  * @prop {string} info - Custom message to display (supports line breaks with \n)
  */
 
-import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
 
 interface UnderConstructionProps {
     /** Whether to take full height (grows to fill container) */
@@ -30,7 +29,7 @@ const props = withDefaults(defineProps<UnderConstructionProps>(), {
 <template>
     <div class="bg-stripes p-ui flex w-full items-center justify-center" :class="{ grow: full }">
         <div class="py-ui px-ui gap-ui-half flex flex-col rounded bg-white text-center dark:bg-gray-800">
-            <FontAwesomeIcon :icon="faPersonDigging" class="text-primary text-4xl" />
+            <NbIcon name="$construction" class="text-primary text-4xl" />
             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Under Construction</h1>
             <p class="whitespace-pre-line text-gray-600 dark:text-gray-300">{{ info }}</p>
         </div>
