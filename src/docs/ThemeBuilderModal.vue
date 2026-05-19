@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { NewModal, PrimaryButton, SecondaryButton } from '../index';
+import { NewModal, SecondaryButton } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
 const {
     state,
     isModalOpen,
+    outputFormat,
     shades,
+    defaultShadeFor,
     setColorAnchor,
     setColorShade,
     resetAll,
     resetColor,
-    tailwindConfigSnippet,
+    activeSnippet,
+    activeFilename,
 } = useThemeBuilder();
 
 const COLOR_NAMES: ColorName[] = ['primary', 'accent', 'danger', 'warning', 'success', 'info'];
@@ -26,16 +29,24 @@ const tabs: { id: Tab; label: string }[] = [
     { id: 'breakpoints', label: 'Breakpoints' },
 ];
 
-// Track which color's per-shade panel is open
 const expandedColor = ref<ColorName | null>(null);
 function toggleColor(name: ColorName): void {
     expandedColor.value = expandedColor.value === name ? null : name;
 }
 
+// Vue's template parser doesn't accept `as` casts in inline expressions,
+// so extract event handlers and do the typing here.
+function onAnchorInput(name: ColorName, e: Event): void {
+    setColorAnchor(name, (e.target as HTMLInputElement).value);
+}
+function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): void {
+    setColorShade(name, shade, (e.target as HTMLInputElement).value);
+}
+
 const copyStatus = ref<'idle' | 'copied' | 'failed'>('idle');
 async function copySnippet(): Promise<void> {
     try {
-        await navigator.clipboard.writeText(tailwindConfigSnippet.value);
+        await navigator.clipboard.writeText(activeSnippet.value);
         copyStatus.value = 'copied';
     } catch {
         copyStatus.value = 'failed';
@@ -43,12 +54,12 @@ async function copySnippet(): Promise<void> {
     setTimeout(() => (copyStatus.value = 'idle'), 2000);
 }
 
-const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slice(0, 16));
+const snippetLineCount = computed(() => activeSnippet.value.split('\n').length);
 </script>
 
 <template>
-    <NewModal v-model="isModalOpen" title="Theme builder" size="2xl">
-        <div class="flex flex-col gap-4">
+    <NewModal v-model="isModalOpen" title="Theme builder" size="3xl">
+        <div class="flex flex-col gap-5">
             <!-- Tabs -->
             <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700">
                 <button
@@ -56,7 +67,7 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
                     :key="t.id"
                     type="button"
                     @click="tab = t.id"
-                    class="-mb-px border-b-2 px-3 py-1.5 text-sm font-medium transition-colors"
+                    class="-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors"
                     :class="tab === t.id
                         ? 'border-primary-600 text-primary-600 dark:border-primary-300 dark:text-primary-300'
                         : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
@@ -68,65 +79,71 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
             <!-- COLORS ============================================== -->
             <div v-if="tab === 'colors'" class="space-y-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Pick a base for each colour. The 50–950 scale is derived automatically (lighter shades mix toward white,
+                    Pick a base for each colour. The 50&ndash;950 scale is derived automatically (lighter shades mix toward white,
                     darker toward black). Expand a row to override individual shades.
                 </p>
 
                 <div
                     v-for="name in COLOR_NAMES"
                     :key="name"
-                    class="rounded-lg border border-gray-200 dark:border-gray-700"
+                    class="overflow-hidden rounded-lg border border-gray-200 transition-shadow dark:border-gray-700"
+                    :class="expandedColor === name ? 'shadow-md' : 'hover:shadow-sm'"
                 >
-                    <div class="flex items-center gap-3 p-3">
+                    <!-- Row -->
+                    <div class="flex items-center gap-3 bg-white p-3 dark:bg-gray-800/40">
                         <div
-                            class="h-10 w-10 flex-shrink-0 rounded-md border border-black/10 dark:border-white/10"
+                            class="h-12 w-12 flex-shrink-0 rounded-md ring-1 ring-black/10 dark:ring-white/10"
                             :style="{ background: state.colors[name][500] }"
                         />
                         <div class="min-w-0 flex-1">
-                            <div class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ name }}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">base (500): {{ state.colors[name][500] }}</div>
+                            <div class="text-sm font-semibold capitalize text-gray-900 dark:text-gray-100">{{ name }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                base 500 · DEFAULT = {{ defaultShadeFor[name] }} = <span class="font-mono">{{ state.colors[name][defaultShadeFor[name]] }}</span>
+                            </div>
                         </div>
-                        <input
-                            type="color"
-                            :value="state.colors[name][500]"
-                            @input="setColorAnchor(name, ($event.target as HTMLInputElement).value)"
-                            class="h-10 w-10 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
-                            aria-label="Base colour"
-                        />
-                        <input
-                            type="text"
-                            :value="state.colors[name][500]"
-                            @change="setColorAnchor(name, ($event.target as HTMLInputElement).value)"
-                            class="w-24 rounded border border-gray-300 px-2 py-1 font-mono text-xs dark:border-gray-600 dark:bg-gray-800"
-                            aria-label="Base colour hex"
-                        />
-                        <button
-                            type="button"
-                            @click="toggleColor(name)"
-                            class="text-xs text-primary-600 underline dark:text-primary-300"
-                        >
-                            {{ expandedColor === name ? 'collapse' : 'edit scale' }}
-                        </button>
-                        <button
-                            type="button"
-                            @click="resetColor(name)"
-                            class="text-xs text-gray-500 underline hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                        >
-                            reset
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <input
+                                type="color"
+                                :value="state.colors[name][500]"
+                                @input="onAnchorInput(name, $event)"
+                                class="h-9 w-9 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
+                                aria-label="Base colour picker"
+                            />
+                            <input
+                                type="text"
+                                :value="state.colors[name][500]"
+                                @change="onAnchorInput(name, $event)"
+                                class="w-24 rounded border border-gray-300 px-2 py-1 font-mono text-xs dark:border-gray-600 dark:bg-gray-800"
+                                aria-label="Base colour hex"
+                            />
+                            <button
+                                type="button"
+                                @click="toggleColor(name)"
+                                class="rounded px-2 py-1 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:text-primary-300 dark:hover:bg-primary-900/30"
+                            >
+                                {{ expandedColor === name ? 'collapse' : 'edit scale' }}
+                            </button>
+                            <button
+                                type="button"
+                                @click="resetColor(name)"
+                                class="rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
+                            >
+                                reset
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Per-shade panel -->
                     <div
                         v-if="expandedColor === name"
-                        class="grid grid-cols-2 gap-2 border-t border-gray-200 p-3 sm:grid-cols-4 lg:grid-cols-6 dark:border-gray-700"
+                        class="grid grid-cols-2 gap-2 border-t border-gray-200 bg-gray-50 p-3 sm:grid-cols-4 lg:grid-cols-6 dark:border-gray-700 dark:bg-gray-900/40"
                     >
                         <div v-for="shade in shades" :key="shade" class="flex items-center gap-2">
                             <input
                                 type="color"
                                 :value="state.colors[name][shade]"
-                                @input="setColorShade(name, shade, ($event.target as HTMLInputElement).value)"
-                                class="h-6 w-6 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
+                                @input="onShadeInput(name, shade, $event)"
+                                class="h-7 w-7 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
                                 :aria-label="`${name} ${shade}`"
                             />
                             <div class="min-w-0 flex-1">
@@ -139,32 +156,32 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
                     </div>
                 </div>
 
-                <!-- Plain colors -->
-                <div class="rounded-lg border border-gray-200 p-3 dark:border-gray-700">
-                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Plain tokens</div>
+                <!-- Plain tokens -->
+                <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/40">
+                    <div class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Plain tokens</div>
                     <div class="grid grid-cols-2 gap-3">
-                        <label class="flex items-center gap-2">
+                        <label class="flex items-center gap-3">
                             <input
                                 type="color"
                                 v-model="state.dark"
-                                class="h-9 w-9 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
+                                class="h-10 w-10 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
                                 aria-label="dark"
                             />
-                            <div class="flex flex-col">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">dark</span>
-                                <span class="font-mono text-xs text-gray-500 dark:text-gray-400">{{ state.dark }}</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-medium text-gray-700 dark:text-gray-200">dark</div>
+                                <div class="font-mono text-xs text-gray-500 dark:text-gray-400">{{ state.dark }}</div>
                             </div>
                         </label>
-                        <label class="flex items-center gap-2">
+                        <label class="flex items-center gap-3">
                             <input
                                 type="color"
                                 v-model="state.muted"
-                                class="h-9 w-9 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
+                                class="h-10 w-10 cursor-pointer rounded border border-gray-300 dark:border-gray-600"
                                 aria-label="muted"
                             />
-                            <div class="flex flex-col">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">muted</span>
-                                <span class="font-mono text-xs text-gray-500 dark:text-gray-400">{{ state.muted }}</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-medium text-gray-700 dark:text-gray-200">muted</div>
+                                <div class="font-mono text-xs text-gray-500 dark:text-gray-400">{{ state.muted }}</div>
                             </div>
                         </label>
                     </div>
@@ -174,57 +191,61 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
             <!-- TYPOGRAPHY ========================================== -->
             <div v-if="tab === 'typography'" class="space-y-4">
                 <div class="grid gap-3 sm:grid-cols-2">
-                    <label class="flex flex-col gap-1">
+                    <label class="flex flex-col gap-1.5">
                         <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Sans family</span>
                         <input
                             type="text"
                             v-model="state.fontSans"
-                            class="rounded border border-gray-300 px-2 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-800"
+                            class="rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
                         />
                     </label>
-                    <label class="flex flex-col gap-1">
+                    <label class="flex flex-col gap-1.5">
                         <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Open Sans family</span>
                         <input
                             type="text"
                             v-model="state.fontSerif"
-                            class="rounded border border-gray-300 px-2 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-800"
+                            class="rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
                         />
                     </label>
                 </div>
+
                 <div class="grid gap-3 sm:grid-cols-4">
-                    <label v-for="(_, key) in state.fontSize" :key="key" class="flex flex-col gap-1">
+                    <label v-for="(_, key) in state.fontSize" :key="key" class="flex flex-col gap-1.5">
                         <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">text-{{ key }}</span>
                         <input
                             type="text"
                             v-model="state.fontSize[key]"
-                            class="rounded border border-gray-300 px-2 py-1.5 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
+                            class="rounded-md border border-gray-300 px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
                         />
                     </label>
                 </div>
-                <div class="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-900/40">
-                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Sans preview</div>
-                    <div class="mt-1 font-sans" style="font-family: var(--font-sans, sans-serif)">The quick brown fox jumps over the lazy dog</div>
-                    <div class="mt-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Open Sans preview</div>
-                    <div class="mt-1" style="font-family: var(--font-opensans, sans-serif)">The quick brown fox jumps over the lazy dog</div>
+
+                <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
+                    <div class="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Sans preview</div>
+                    <div style="font-family: var(--font-sans, sans-serif)" class="text-base">The quick brown fox jumps over the lazy dog</div>
+                    <div class="mt-3 mb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Open Sans preview</div>
+                    <div style="font-family: var(--font-opensans, sans-serif)" class="text-base">The quick brown fox jumps over the lazy dog</div>
                 </div>
             </div>
 
             <!-- LAYOUT (radius) ===================================== -->
             <div v-if="tab === 'layout'" class="space-y-3">
-                <p class="text-sm text-gray-600 dark:text-gray-400">Border-radius scale.</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Border-radius scale used by buttons, cards, inputs, etc.</p>
                 <div class="grid gap-3 sm:grid-cols-2">
-                    <label v-for="(_, key) in state.radius" :key="key" class="flex flex-col gap-1">
-                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">rounded-{{ key === 'default' ? '(default)' : key }}</span>
-                        <div class="flex items-center gap-3">
+                    <label v-for="(_, key) in state.radius" :key="key" class="flex items-center gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-700">
+                        <div
+                            class="h-12 w-12 flex-shrink-0 bg-primary-500"
+                            :style="{ borderRadius: state.radius[key] }"
+                            aria-label="preview"
+                        />
+                        <div class="min-w-0 flex-1">
+                            <div class="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                                rounded-{{ key === 'default' ? '(default)' : key }}
+                            </div>
                             <input
                                 type="text"
                                 v-model="state.radius[key]"
-                                class="flex-1 rounded border border-gray-300 px-2 py-1.5 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
-                            />
-                            <div
-                                class="h-10 w-10 bg-primary-500"
-                                :style="{ borderRadius: state.radius[key] }"
-                                aria-label="preview"
+                                class="w-full rounded border border-gray-300 px-2 py-1 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
                             />
                         </div>
                     </label>
@@ -233,17 +254,17 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
 
             <!-- EFFECTS (shadow) ==================================== -->
             <div v-if="tab === 'effects'" class="space-y-3">
-                <label class="flex flex-col gap-1">
-                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">shadow (default)</span>
+                <label class="flex flex-col gap-1.5">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">shadow (DEFAULT)</span>
                     <input
                         type="text"
                         v-model="state.shadow"
-                        class="rounded border border-gray-300 px-2 py-1.5 font-mono text-xs dark:border-gray-600 dark:bg-gray-800"
+                        class="rounded-md border border-gray-300 px-3 py-2 font-mono text-xs dark:border-gray-600 dark:bg-gray-800"
                     />
                 </label>
-                <div class="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900/40">
-                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Preview</div>
-                    <div class="mt-3 inline-block rounded-md bg-white px-6 py-4 text-sm dark:bg-gray-800" :style="{ boxShadow: state.shadow }">
+                <div class="rounded-lg border border-gray-200 bg-gray-50 p-8 dark:border-gray-700 dark:bg-gray-900/40">
+                    <div class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Preview</div>
+                    <div class="inline-block rounded-md bg-white px-6 py-4 text-sm dark:bg-gray-800" :style="{ boxShadow: state.shadow }">
                         Card with current shadow
                     </div>
                 </div>
@@ -252,34 +273,62 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
             <!-- BREAKPOINTS ========================================= -->
             <div v-if="tab === 'breakpoints'" class="space-y-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Min-widths for each breakpoint. The package also defines <code>xxs</code>, <code>xs</code>, <code>laptop</code>, and <code>3xl</code> — left alone here.
+                    Min-widths for each breakpoint. The package also defines <code>xxs</code>, <code>xs</code>, <code>laptop</code>, and <code>3xl</code> &mdash; left alone here.
                 </p>
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                    <label v-for="(_, key) in state.screens" :key="key" class="flex flex-col gap-1">
+                    <label v-for="(_, key) in state.screens" :key="key" class="flex flex-col gap-1.5">
                         <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{{ key }}</span>
                         <input
                             type="text"
                             v-model="state.screens[key]"
-                            class="rounded border border-gray-300 px-2 py-1.5 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
+                            class="rounded-md border border-gray-300 px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-800"
                         />
                     </label>
                 </div>
             </div>
 
             <!-- OUTPUT PREVIEW ====================================== -->
-            <div class="rounded-lg border border-gray-200 bg-gray-900 p-3 text-gray-100 dark:border-gray-700">
-                <div class="mb-2 flex items-center justify-between">
-                    <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">tailwind.config.js (preview)</div>
-                    <button
-                        type="button"
-                        @click="copySnippet"
-                        class="rounded bg-primary-600 px-3 py-1 text-xs font-medium text-white hover:bg-primary-700"
-                    >
-                        {{ copyStatus === 'copied' ? '✓ Copied' : copyStatus === 'failed' ? '✗ Failed' : 'Copy full snippet' }}
-                    </button>
+            <div class="overflow-hidden rounded-lg border border-gray-700 bg-gray-900 text-gray-100">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-700 bg-gray-800 px-3 py-2">
+                    <div class="flex items-center gap-3">
+                        <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">{{ activeFilename }}</div>
+                        <div class="text-[10px] text-gray-500">{{ snippetLineCount }} lines</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <!-- v3 / v4 toggle -->
+                        <div class="inline-flex rounded-md border border-gray-600 bg-gray-900 p-0.5 text-xs">
+                            <button
+                                type="button"
+                                @click="outputFormat = 'v4'"
+                                class="rounded px-2 py-1 transition-colors"
+                                :class="outputFormat === 'v4' ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'"
+                            >
+                                v4 (CSS)
+                            </button>
+                            <button
+                                type="button"
+                                @click="outputFormat = 'v3'"
+                                class="rounded px-2 py-1 transition-colors"
+                                :class="outputFormat === 'v3' ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'"
+                            >
+                                v3 (config)
+                            </button>
+                        </div>
+                        <button
+                            type="button"
+                            @click="copySnippet"
+                            class="rounded-md px-3 py-1 text-xs font-medium transition-colors"
+                            :class="copyStatus === 'copied'
+                                ? 'bg-success-600 text-white'
+                                : copyStatus === 'failed'
+                                ? 'bg-danger-600 text-white'
+                                : 'bg-primary-600 text-white hover:bg-primary-700'"
+                        >
+                            {{ copyStatus === 'copied' ? '✓ Copied' : copyStatus === 'failed' ? '✗ Failed' : 'Copy snippet' }}
+                        </button>
+                    </div>
                 </div>
-                <pre class="overflow-x-auto whitespace-pre font-mono text-[11px] leading-snug"><code>{{ previewLines.join('\n') }}<span v-if="previewLines.length < tailwindConfigSnippet.split('\n').length">
-…</span></code></pre>
+                <pre class="max-h-72 overflow-auto bg-gray-900 px-3 py-2 font-mono text-[11px] leading-snug"><code>{{ activeSnippet }}</code></pre>
             </div>
         </div>
 
@@ -292,7 +341,10 @@ const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slic
                 >
                     Reset to defaults
                 </button>
-                <SecondaryButton @click="isModalOpen = false">Close</SecondaryButton>
+                <div class="flex items-center gap-3">
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Edits auto-save to your browser</span>
+                    <SecondaryButton @click="isModalOpen = false">Close</SecondaryButton>
+                </div>
             </div>
         </template>
     </NewModal>
