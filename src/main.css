@@ -9,7 +9,7 @@
  *
  * Activates the Tailwind `dark:` variant whenever an ancestor (or the element
  * itself) carries a `.dark` class. Components only need to add `dark:…` utility
- * classes — they stay inert unless the app toggles the class on, so default
+ * classes - they stay inert unless the app toggles the class on, so default
  * styles are unchanged.
  *
  * Toggle it from app code with:

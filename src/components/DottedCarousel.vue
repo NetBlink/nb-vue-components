@@ -1,22 +1,22 @@
 <script setup>
 // @ts-nocheck
 /**
- * DottedCarousel — horizontal snap-scroll carousel with dot navigation.
+ * DottedCarousel - horizontal snap-scroll carousel with dot navigation.
  *
  * Each top-level child of the default slot becomes one slide; mark each as
  * `class="min-w-full snap-start"` so the snap scrolling lines up. The dots
  * appear underneath and animate to follow the active slide.
  *
- * @prop {number} [gap=20] — pixel gap between slides (also used in scroll math)
- * @prop {number} [padding=0] — outer padding offset applied to the scroll calculation when navigating via the dots
- * @slot default — carousel slides
+ * @prop {number} [gap=20] - pixel gap between slides (also used in scroll math)
+ * @prop {number} [padding=0] - outer padding offset applied to the scroll calculation when navigating via the dots
+ * @slot default - carousel slides
  */
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const currentSlide = ref(0);
 const activeDot = ref(null);
 const container = ref(null);
-// Count rendered children directly from the DOM — `$slots.default().length`
+// Count rendered children directly from the DOM - `$slots.default().length`
 // returns 1 when the slot content is a v-for (it's wrapped in a Fragment vnode),
 // which gives us only one dot regardless of how many slides exist.
 const slideCount = ref(0);
@@ -63,7 +63,7 @@ onMounted(() => {
     refreshSlideCount();
     updateCurrentSlide();
     container.value.addEventListener('scroll', updateCurrentSlide);
-    // Slide list can change (v-for items added/removed) — keep dot count in sync
+    // Slide list can change (v-for items added/removed) - keep dot count in sync
     childObserver = new MutationObserver(refreshSlideCount);
     childObserver.observe(container.value, { childList: true });
 });

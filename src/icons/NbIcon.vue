@@ -6,9 +6,9 @@ import { resolve } from './resolve';
 import type { IconLike } from './types';
 
 interface Props {
-    /** What to render — see IconLike. Required unless the default slot is used. */
+    /** What to render - see IconLike. Required unless the default slot is used. */
     name?: IconLike;
-    /** Sizing token — see size table below. */
+    /** Sizing token - see size table below. */
     size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3x' | number | string;
 }
 
@@ -48,7 +48,7 @@ const sizeStyle = computed<Record<string, string> | undefined>(() => {
 const descriptor = computed(() => resolve(props.name, registry));
 
 // Every render shape ends up inside an inline-flex <span> wrapper. Without
-// this, different icon libraries layout inconsistently — FontAwesome ships
+// this, different icon libraries layout inconsistently - FontAwesome ships
 // CSS that forces `display: inline-block; vertical-align: -0.125em`, while
 // raw Heroicons SVGs default to `display: inline` and Iconify's <Icon>
 // applies its own quirky rules. Wrapping uniformly means `<NbIcon>` sits

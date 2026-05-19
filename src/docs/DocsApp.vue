@@ -17,7 +17,7 @@ import UtilityDoc from './UtilityDoc.vue';
 // Current active section
 const activeSection = ref<string>('setup');
 
-// Available documentation sections — Setup ships first so newcomers can install before exploring.
+// Available documentation sections - Setup ships first so newcomers can install before exploring.
 const sections: Record<string, { component: any; title: string }> = {
     setup: { component: SetupDoc, title: 'Getting Started' },
     icons: { component: IconsDoc, title: 'Icons' },
@@ -30,7 +30,7 @@ const sections: Record<string, { component: any; title: string }> = {
     utilities: { component: UtilityDoc, title: 'Utility Components' },
 };
 
-// Dark-mode plumbing — drives the toggle and persists user choice.
+// Dark-mode plumbing - drives the toggle and persists user choice.
 const { isDark, toggle, initialize } = useDarkMode();
 onMounted(() => {
     initialize();

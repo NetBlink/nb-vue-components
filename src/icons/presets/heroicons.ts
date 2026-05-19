@@ -1,5 +1,5 @@
 /**
- * Heroicons preset — Iconify-backed.
+ * Heroicons preset - Iconify-backed.
  *
  * Requires `@iconify/vue` (optional peer) and `@iconify-json/heroicons` (data).
  *

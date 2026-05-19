@@ -5,7 +5,7 @@
 // and pass them to createNbIcons.
 //
 // We register four providers here only because the IconsDoc page needs to flip
-// between them live — a normal app would pick one.
+// between them live - a normal app would pick one.
 
 import { createNbIcons } from '../icons';
 import { faAliasPreset, faSet } from '../icons/presets/fa';

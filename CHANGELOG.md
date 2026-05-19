@@ -19,7 +19,7 @@
 - Direct `@fortawesome/*` imports from every internal component (the FA packages are now optional peer dependencies, only required when consumers opt into the FA preset).
 - Dead `library.add(...)` and unused FA imports across several components.
 
-## v2.0 — Overview
+## v2.0 - Overview
 
 Major update transitioning from tw-elements to Reka UI with enhanced TypeScript support and improved accessibility.
 

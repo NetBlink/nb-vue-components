@@ -22,10 +22,10 @@ import { faRocket } from '@fortawesome/free-solid-svg-icons';
 // === Real, programmer-style icon imports ====================================
 // This is exactly what a consumer project would write. The library's prepared
 // presets (e.g. `heroiconsAliasPreset`) are just pre-baked versions of these
-// alias maps — kept for one-line drop-in usage, but the docs lead with the raw
+// alias maps - kept for one-line drop-in usage, but the docs lead with the raw
 // approach so you can see what's actually happening and customize freely.
 
-// FontAwesome — each `faXyz` is an IconDefinition object passed through the
+// FontAwesome - each `faXyz` is an IconDefinition object passed through the
 // FA set we registered in `docs/main.js`.
 import {
     faChevronDown, faTimes, faCheckCircle, faTimesCircle,
@@ -33,7 +33,7 @@ import {
     faCircleQuestion, faPencil, faPenRuler, faPersonDigging, faSun, faMoon,
 } from '@fortawesome/free-solid-svg-icons';
 
-// Heroicons — official Vue components. Tree-shakable, one import per icon.
+// Heroicons - official Vue components. Tree-shakable, one import per icon.
 import {
     ChevronDownIcon, XMarkIcon, CheckCircleIcon, XCircleIcon,
     ExclamationTriangleIcon, InformationCircleIcon, MagnifyingGlassIcon,
@@ -42,7 +42,7 @@ import {
 } from '@heroicons/vue/24/outline';
 
 // Material Symbols + Solar use Iconify. The icon data is pre-registered with
-// `addCollection(...)` once in `docs/main.js` — these strings then resolve to
+// `addCollection(...)` once in `docs/main.js` - these strings then resolve to
 // real Iconify-rendered icons. You'd do the same in your own app.
 
 // ============================================================================
@@ -151,7 +151,7 @@ const showcaseAliases: AliasName[] = [
 ];
 
 // === Code snippets for the "Wire it up" tabs ================================
-// Each snippet shows what a programmer literally writes in their app — no
+// Each snippet shows what a programmer literally writes in their app - no
 // preset abstractions, just real package imports and an inline alias map.
 
 const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
@@ -160,7 +160,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
             '# 1. The component library',
             'npm install @netblink/vue-components',
             '',
-            '# 2. FontAwesome (one of the four — pick whichever set you like)',
+            '# 2. FontAwesome (one of the four - pick whichever set you like)',
             'npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core \\',
             '            @fortawesome/free-solid-svg-icons',
         ],
@@ -180,7 +180,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
             "const app = createApp(App);",
             "app.use(NbVueComponents);",
             "",
-            "// Wire the icon registry. Order doesn't matter — call createNbIcons",
+            "// Wire the icon registry. Order doesn't matter - call createNbIcons",
             "// before or after NbVueComponents; the explicit one always wins.",
             "app.use(createNbIcons({",
             "    aliases: {",
@@ -205,7 +205,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     },
     heroicons: {
         install: [
-            '# Heroicons ships official Vue components — no Iconify needed',
+            '# Heroicons ships official Vue components - no Iconify needed',
             'npm install @netblink/vue-components @heroicons/vue',
         ],
         wire: [
@@ -243,7 +243,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     },
     material: {
         install: [
-            '# Material Symbols has no native Vue package — use Iconify.',
+            '# Material Symbols has no native Vue package - use Iconify.',
             '# Per-icon imports tree-shake naturally (each file is ~200B):',
             'npm install @netblink/vue-components @iconify/vue @iconify-icons/material-symbols',
         ],
@@ -254,7 +254,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
             "import { createNbIcons } from '@netblink/vue-components/icons';",
             "import { Icon as IconifyIcon, addIcon } from '@iconify/vue';",
             "",
-            "// Per-icon imports — add only what you actually reference.",
+            "// Per-icon imports - add only what you actually reference.",
             "import expandMore  from '@iconify-icons/material-symbols/expand-more';",
             "import close       from '@iconify-icons/material-symbols/close';",
             "import checkCircle from '@iconify-icons/material-symbols/check-circle';",
@@ -294,7 +294,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     },
     solar: {
         install: [
-            '# Solar — Iconify-only, same per-icon pattern as Material Symbols',
+            '# Solar - Iconify-only, same per-icon pattern as Material Symbols',
             'npm install @netblink/vue-components @iconify/vue @iconify-icons/solar',
         ],
         wire: [
@@ -343,7 +343,7 @@ const activeWire = computed(() => setupSnippets[setupTab.value as SetKey].wire);
 const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].install);
 
 const usageSnippet = [
-    '<!-- Built-in alias — changes with the active provider -->',
+    '<!-- Built-in alias - changes with the active provider -->',
     '<NbIcon name="$expand" />',
     '<NbIcon name="$close" class="text-red-500" size="lg" />',
     '',
@@ -367,7 +367,7 @@ const switchCmd = [
 // === "Custom libraries / your own SVG" snippets ============================
 
 const lucideSnippet = [
-    '// Lucide — exactly the same pattern as Heroicons:',
+    '// Lucide - exactly the same pattern as Heroicons:',
     "import { ChevronDown, X, Search, Eye, EyeOff } from 'lucide-vue-next';",
     '',
     'app.use(createNbIcons({',
@@ -382,12 +382,12 @@ const lucideSnippet = [
 ];
 
 const mdiSnippet = [
-    '// MDI — per-icon imports via @mdi/js + a tiny render component:',
+    '// MDI - per-icon imports via @mdi/js + a tiny render component:',
     "import { mdiChevronDown, mdiClose } from '@mdi/js';",
     "import { defineComponent, h } from 'vue';",
     '',
     '// Tiny MDI render component. Real apps usually have one of these',
-    '// already — anything that renders an <svg> works here.',
+    '// already - anything that renders an <svg> works here.',
     'const MdiIcon = defineComponent({',
     '    props: { path: String },',
     "    render() { return h('svg', { viewBox: '0 0 24 24' }, h('path', { d: this.path })); },",
@@ -402,7 +402,7 @@ const mdiSnippet = [
 ];
 
 const rawSvgSnippet = [
-    '// Raw inline SVG — wrap it in `{ svg: \'...\' }`:',
+    '// Raw inline SVG - wrap it in `{ svg: \'...\' }`:',
     'app.use(createNbIcons({',
     '    aliases: {',
     "        $expand: { svg: '<svg viewBox=\"0 0 24 24\" fill=\"currentColor\">' +",
@@ -412,7 +412,7 @@ const rawSvgSnippet = [
 ];
 
 const customComponentSnippet = [
-    '// Your own Vue component — anything goes:',
+    '// Your own Vue component - anything goes:',
     "import MyHandRolledIcon from './icons/MyHandRolledIcon.vue';",
     '',
     'app.use(createNbIcons({',
@@ -423,7 +423,7 @@ const customComponentSnippet = [
 ];
 
 const cssClassSnippet = [
-    '// CSS class-based icons (Bootstrap Icons, Material Icons font, etc.) —',
+    '// CSS class-based icons (Bootstrap Icons, Material Icons font, etc.) -',
     "// pass a string that doesn't start with $ and contains no `:`. NbIcon",
     '// renders <i class="..."> for you:',
     'app.use(createNbIcons({',
@@ -450,9 +450,9 @@ const passwordValue = ref('s3cret');
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Icons</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 The library draws its UI through a single <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code> primitive.
-                Bring whatever icon library you already use — FontAwesome, Heroicons, Material Symbols, Solar, anything on
+                Bring whatever icon library you already use - FontAwesome, Heroicons, Material Symbols, Solar, anything on
                 <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a>,
-                or your own SVG components — and map them to a handful of named aliases. <strong>FontAwesome</strong> is the default.
+                or your own SVG components - and map them to a handful of named aliases. <strong>FontAwesome</strong> is the default.
             </p>
         </header>
 
@@ -461,7 +461,7 @@ const passwordValue = ref('s3cret');
             <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Live preview</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider — every icon below (and the rest of this docs site) re-renders.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider - every icon below (and the rest of this docs site) re-renders.</p>
                 </div>
                 <div class="inline-flex rounded-lg border border-gray-200 bg-white p-1 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                     <button
@@ -500,7 +500,7 @@ const passwordValue = ref('s3cret');
                     <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
                         <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>
                         is the universal icon browser. Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
-                        and pass it straight to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> —
+                        and pass it straight to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> -
                         provided you've installed the matching <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">@iconify-json/&lt;set&gt;</code> data package
                         and registered it once with <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">addCollection()</code>.
                     </p>
@@ -512,16 +512,16 @@ const passwordValue = ref('s3cret');
         <section class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Using NbIcon in your templates</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Three forms — pick whichever matches what you have on hand. They mix and match freely in the same project.
+                Three forms - pick whichever matches what you have on hand. They mix and match freely in the same project.
             </p>
             <CodePreview language="html" :code="usageSnippet" />
         </section>
 
-        <!-- SETUP TABS — example-led -->
+        <!-- SETUP TABS - example-led -->
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Setup — by example</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Setup - by example</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Each tab is what you'd literally write in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">main.ts</code> —
+                Each tab is what you'd literally write in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">main.ts</code> -
                 real package imports, an inline alias map you can adapt. Mix providers freely in one project.
             </p>
 
@@ -545,6 +545,46 @@ const passwordValue = ref('s3cret');
                 <CodePreview language="bash" :code="activeInstall" />
                 <p class="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">2. Wire it up in your entry file</p>
                 <CodePreview language="javascript" :code="activeWire" />
+            </div>
+
+            <!-- Inline subsection: anything outside the four tabs -->
+            <div class="mt-10 space-y-3 border-t border-gray-200 pt-6 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Or use any other source</h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                    The four tabs above are just examples. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map
+                    accepts <strong>any</strong> Vue component, render function, inline SVG, or CSS class string. Mix as many as you like in one project.
+                </p>
+
+                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Anything that ships per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, …) works the same way as Heroicons. Just import and pass.
+                </p>
+                <CodePreview language="javascript" :code="lucideSnippet" />
+
+                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a tiny wrapper component. Most apps already have one.
+                </p>
+                <CodePreview language="javascript" :code="mdiSnippet" />
+
+                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Have a custom SVG you want to drop in for one alias? Wrap it in <code>{ svg: '…' }</code>. The string is sanitized before rendering.
+                </p>
+                <CodePreview language="javascript" :code="rawSvgSnippet" />
+
+                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Any <code>.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
+                </p>
+                <CodePreview language="javascript" :code="customComponentSnippet" />
+
+                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font: pass a class string and
+                    NbIcon renders <code>&lt;i class="…" /&gt;</code> for you.
+                </p>
+                <CodePreview language="javascript" :code="cssClassSnippet" />
             </div>
         </section>
 
@@ -571,63 +611,23 @@ const passwordValue = ref('s3cret');
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Sets</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Registered renderers — FA, an Iconify component, etc. Reference any icon from a set by its full name: <code>"solar:home-bold"</code>.
+                        Registered renderers - FA, an Iconify component, etc. Reference any icon from a set by its full name: <code>"solar:home-bold"</code>.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Slots</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Every icon-bearing component has an <code>#icon</code> slot — drop in your own Vue component and skip the resolver entirely.
+                        Every icon-bearing component has an <code>#icon</code> slot - drop in your own Vue component and skip the resolver entirely.
                     </dd>
                 </div>
             </dl>
-        </section>
-
-        <!-- ANY LIBRARY / OWN SVG ============================================ -->
-        <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Any other library — or your own SVG</h2>
-            <p class="text-gray-600 dark:text-gray-400">
-                The four tabs above are just examples. The <code>aliases</code> map accepts <strong>any</strong> Vue component, render function,
-                inline SVG, or CSS class string — there's no list of "supported" providers. Mix as many as you like in one project.
-            </p>
-
-            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Anything that ships per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, …) works the same way as Heroicons. Just import and pass.
-            </p>
-            <CodePreview language="javascript" :code="lucideSnippet" />
-
-            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a tiny wrapper component. Most apps already have one.
-            </p>
-            <CodePreview language="javascript" :code="mdiSnippet" />
-
-            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Have a custom SVG you want to drop in for one alias? Wrap it in <code>{ svg: '…' }</code>. The string is sanitized before rendering.
-            </p>
-            <CodePreview language="javascript" :code="rawSvgSnippet" />
-
-            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Any <code>.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
-            </p>
-            <CodePreview language="javascript" :code="customComponentSnippet" />
-
-            <h3 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font — pass a class string and
-                NbIcon renders <code>&lt;i class="…" /&gt;</code> for you.
-            </p>
-            <CodePreview language="javascript" :code="cssClassSnippet" />
         </section>
 
         <!-- LIVE COMPONENT EXAMPLES ========================================== -->
         <section class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">See it in real components</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Click any provider in the <strong>Live preview</strong> at the top of this page — every icon below is a real
+                Click any provider in the <strong>Live preview</strong> at the top of this page - every icon below is a real
                 <code>@netblink/vue-components</code> component using the same aliases as your app, so they all re-render with the chosen set.
             </p>
 
@@ -637,11 +637,11 @@ const passwordValue = ref('s3cret');
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                         Alert · <code>$success</code> <code>$error</code> <code>$warning</code> <code>$info</code> <code>$close</code>
                     </div>
-                    <Alert type="success">Order placed — confirmation sent to your inbox.</Alert>
+                    <Alert type="success">Order placed - confirmation sent to your inbox.</Alert>
                     <Alert type="error">Something went wrong. Please try again.</Alert>
                     <Alert type="warning">Your trial expires in 3 days.</Alert>
                     <Alert v-model="alertVisible" type="info" dismissible>
-                        Dismissible alert — click the × to hide it. (Re-toggle below.)
+                        Dismissible alert - click the × to hide it. (Re-toggle below.)
                     </Alert>
                     <button
                         type="button"
@@ -659,7 +659,7 @@ const passwordValue = ref('s3cret');
                     </div>
                     <Collapse name="Settings" :open="collapseExpanded">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Watch the chevron when you click the header — it rotates and changes glyph with the active provider.
+                            Watch the chevron when you click the header - it rotates and changes glyph with the active provider.
                         </p>
                     </Collapse>
 
@@ -679,7 +679,7 @@ const passwordValue = ref('s3cret');
                         DataTile · user-supplied <code>:icon</code> (always FA here)
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400">
-                        Components that take an <code>icon</code> prop accept any <code>IconLike</code> — the prop value wins over aliases,
+                        Components that take an <code>icon</code> prop accept any <code>IconLike</code> - the prop value wins over aliases,
                         so the rocket below stays FA regardless of the switcher.
                     </p>
                     <div class="grid grid-cols-2 gap-3">
@@ -713,7 +713,7 @@ const passwordValue = ref('s3cret');
                     <Input
                         v-model="passwordValue"
                         label="Account ID"
-                        :tooltip="'This is your unique account identifier — the help-circle next to the label uses $help.'"
+                        :tooltip="'This is your unique account identifier - the help-circle next to the label uses $help.'"
                         placeholder="acc_…"
                     />
                 </div>
@@ -723,7 +723,7 @@ const passwordValue = ref('s3cret');
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                         UnderConstruction · <code>$construction</code>
                     </div>
-                    <UnderConstruction info="Demo block — picks up $construction from the active provider." />
+                    <UnderConstruction info="Demo block - picks up $construction from the active provider." />
                 </div>
 
                 <!-- DescriptionList edit icons -->

@@ -1,5 +1,5 @@
 /**
- * Solar icon-set preset — Iconify-backed.
+ * Solar icon-set preset - Iconify-backed.
  *
  * Uses the linear variant. Requires `@iconify/vue` (optional peer) and
  * `@iconify-json/solar` (data).
