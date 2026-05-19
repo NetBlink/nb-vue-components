@@ -131,6 +131,14 @@ const setMeta: Record<SetKey, { label: string }> = {
     solar:     { label: 'Solar' },
 };
 
+// Setup section has one extra tab beyond the live-switcher providers:
+// the "any other source" patterns (Lucide, MDI, inline SVG, your own Vue
+// component, CSS-class icon fonts).
+const setupTabMeta: Record<string, { label: string }> = {
+    ...setMeta,
+    other: { label: 'Any other source' },
+};
+
 const activeSet = ref<SetKey>('fa');
 const registry = useNbIcons();
 
@@ -527,7 +535,7 @@ const passwordValue = ref('s3cret');
 
             <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700">
                 <button
-                    v-for="(meta, key) in setMeta"
+                    v-for="(meta, key) in setupTabMeta"
                     :key="key"
                     type="button"
                     @click="setupTab = key"
@@ -540,22 +548,22 @@ const passwordValue = ref('s3cret');
                 </button>
             </div>
 
-            <div class="pt-3">
+            <!-- Four provider tabs: simple install + wire pair -->
+            <div v-if="setupTab !== 'other'" class="pt-3">
                 <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">1. Install</p>
                 <CodePreview language="bash" :code="activeInstall" />
                 <p class="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">2. Wire it up in your entry file</p>
                 <CodePreview language="javascript" :code="activeWire" />
             </div>
 
-            <!-- Inline subsection: anything outside the four tabs -->
-            <div class="mt-10 space-y-3 border-t border-gray-200 pt-6 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Or use any other source</h3>
+            <!-- "Any other source" tab: five patterns -->
+            <div v-else class="pt-3 space-y-3">
                 <p class="text-gray-600 dark:text-gray-400">
                     The four tabs above are just examples. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map
                     accepts <strong>any</strong> Vue component, render function, inline SVG, or CSS class string. Mix as many as you like in one project.
                 </p>
 
-                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h4>
+                <h4 class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Anything that ships per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, …) works the same way as Heroicons. Just import and pass.
                 </p>
