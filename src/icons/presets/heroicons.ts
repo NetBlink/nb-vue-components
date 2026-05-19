@@ -1,13 +1,39 @@
 /**
- * Heroicons preset — placeholder.
+ * Heroicons preset — Iconify-backed.
  *
- * v3.0.0 ships the subpath import surface but no curated alias map yet
- * (Heroicons' outline vs solid distinction makes a "one true preset" awkward;
- * a follow-up minor will ship `heroiconsOutlinePreset` / `heroiconsSolidPreset`).
+ * Requires `@iconify/vue` (optional peer) and `@iconify-json/heroicons` (data).
  *
- * Usage today:
+ * Usage:
  *
- *     import { ChevronDownIcon } from '@heroicons/vue/24/outline';
- *     app.use(createNbIcons({ aliases: { $expand: ChevronDownIcon } }));
+ *     import { createNbIcons } from '@netblink/vue-components/icons';
+ *     import { heroiconsAliasPreset, heroiconsSet } from '@netblink/vue-components/icons/heroicons';
+ *
+ *     app.use(createNbIcons({
+ *         aliases: heroiconsAliasPreset,
+ *         sets: { heroicons: heroiconsSet },
+ *     }));
  */
-export {};
+import { Icon } from '@iconify/vue';
+import type { AliasName, IconLike, IconSet } from '../types';
+
+export const heroiconsSet: IconSet = {
+    component: Icon,
+    resolve: (name) => `heroicons:${name}`,
+};
+
+export const heroiconsAliasPreset: Record<AliasName, IconLike> = {
+    $expand:       'heroicons:chevron-down',
+    $close:        'heroicons:x-mark',
+    $success:      'heroicons:check-circle',
+    $error:        'heroicons:x-circle',
+    $warning:      'heroicons:exclamation-triangle',
+    $info:         'heroicons:information-circle',
+    $search:       'heroicons:magnifying-glass',
+    $eye:          'heroicons:eye',
+    '$eye-off':    'heroicons:eye-slash',
+    $help:         'heroicons:question-mark-circle',
+    $edit:         'heroicons:pencil',
+    '$edit-alt':   'heroicons:pencil-square',
+    $construction: 'heroicons:wrench-screwdriver',
+    $whatsapp:     'heroicons:chat-bubble-left-ellipsis',
+};
