@@ -1,28 +1,33 @@
-import { reactive, computed, watch, ref } from 'vue';
+import { reactive, computed, watch, ref, toRaw } from 'vue';
 import { colord, extend } from 'colord';
 import mixPlugin from 'colord/plugins/mix';
 
 extend([mixPlugin]);
 
 /**
- * Theme-builder state — covers every token in `tailwind.config.js` the package
- * uses. Live edits inject CSS variables onto <html> so the docs site updates
- * immediately. Output is copyable as a `tailwind.config.js` `theme.extend`
- * snippet.
+ * Theme-builder state — covers every token in the package's `@theme` block in
+ * main.css (Tailwind v4 CSS-first). Live edits inject matching CSS variables
+ * onto <html> so the entire docs site (every utility class that compiles to
+ * `var(--color-foo-500)`) updates instantly. Output is copyable as either a
+ * v4 `@theme {}` CSS block or a v3 `tailwind.config.js` snippet.
+ *
+ * Persists to localStorage so reloads keep the user's edits.
  *
  * Docs-app-only composable (lives under src/docs/) — not exported from the
  * package itself.
  */
 
 export type ColorName = 'primary' | 'accent' | 'danger' | 'warning' | 'success' | 'info';
+export type ConfigFormat = 'v4' | 'v3';
 
-/** Anchor shade for each color (used to seed the scale from one input). */
 export const COLOR_ANCHOR_SHADE = 500;
 
 const COLOR_SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
 type Shade = typeof COLOR_SHADES[number];
 
-/** Defaults — mirror `tailwind.config.js` exactly. */
+const STORAGE_KEY = 'nb-vue-components:theme-builder';
+
+/** Defaults — mirror @theme in main.css exactly. */
 const COLOR_DEFAULTS: Record<ColorName, Record<Shade, string>> = {
     primary: { 50: '#f4f9fb', 100: '#e9f2f5', 200: '#cee5e9', 300: '#aad3d9', 400: '#72b6be', 500: '#509da7', 600: '#3d808c', 700: '#326772', 800: '#2d585f', 900: '#294a51', 950: '#1b3036' },
     accent:  { 50: '#fbf5f6', 100: '#f7ecef', 200: '#f0dbe1', 300: '#e1b8c3', 400: '#d399a9', 500: '#c0738b', 600: '#a95574', 700: '#8c445f', 800: '#763b54', 900: '#66354b', 950: '#381926' },
@@ -32,11 +37,15 @@ const COLOR_DEFAULTS: Record<ColorName, Record<Shade, string>> = {
     info:    { 50: '#eef2ff', 100: '#e0e6ff', 200: '#c6d1ff', 300: '#a4b1fd', 400: '#7f88fa', 500: '#6262f3', 600: '#5044e7', 700: '#4436cc', 800: '#392ea5', 900: '#322d82', 950: '#1e1a4c' },
 };
 
+/** DEFAULT shade per color (Tailwind exposes plain `--color-<name>`). */
+const COLOR_DEFAULT_SHADE: Record<ColorName, Shade> = {
+    primary: 300, accent: 300, danger: 400, warning: 300, success: 300, info: 500,
+};
+
 /**
  * Generate an 11-shade scale anchored at `500` from a single hex input —
- * mirrors uicolors.app's approach (single source of truth, derived rest).
- * Lighter shades mix toward white; darker shades mix toward black. The anchor
- * shade always equals the input exactly.
+ * mirrors uicolors.app's approach. Lighter shades mix toward white; darker
+ * shades mix toward black. The anchor shade always equals the input exactly.
  */
 export function generateScale(baseHex: string): Record<Shade, string> {
     const c = colord(baseHex);
@@ -79,55 +88,82 @@ const DEFAULTS: ThemeState = {
     screens:   { sm: '640px', md: '768px', lg: '1024px', xl: '1084px', '2xl': '1084px' },
 };
 
-const state = reactive<ThemeState>(structuredClone(DEFAULTS));
-const isModalOpen = ref(false);
+function loadFromStorage(): ThemeState {
+    if (typeof localStorage === 'undefined') return structuredClone(DEFAULTS);
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(DEFAULTS);
+        const parsed = JSON.parse(raw);
+        // Shallow merge against defaults so a corrupt/partial entry doesn't crash.
+        return {
+            ...structuredClone(DEFAULTS),
+            ...parsed,
+            colors: { ...structuredClone(DEFAULTS.colors), ...(parsed.colors ?? {}) },
+            fontSize: { ...DEFAULTS.fontSize, ...(parsed.fontSize ?? {}) },
+            radius: { ...DEFAULTS.radius, ...(parsed.radius ?? {}) },
+            screens: { ...DEFAULTS.screens, ...(parsed.screens ?? {}) },
+        };
+    } catch {
+        return structuredClone(DEFAULTS);
+    }
+}
 
-/**
- * Apply current state to the live <html> element via CSS variables.
- * Tailwind v4 emits `--color-<name>-<shade>` vars from `@theme` blocks;
- * overriding them here flips every utility class instantly.
- */
+const state = reactive<ThemeState>(loadFromStorage());
+const isModalOpen = ref(false);
+const outputFormat = ref<ConfigFormat>('v4');
+
+/** Apply current state to the live <html> element via CSS variables. */
 function applyToDocument(): void {
     if (typeof document === 'undefined') return;
     const root = document.documentElement.style;
 
-    // Color scales
     (Object.keys(state.colors) as ColorName[]).forEach((name) => {
         const scale = state.colors[name];
         COLOR_SHADES.forEach((shade) => {
             root.setProperty(`--color-${name}-${shade}`, scale[shade]);
         });
-        // DEFAULT shade — Tailwind exposes plain --color-<name>
-        root.setProperty(`--color-${name}`, scale[300]);
+        root.setProperty(`--color-${name}`, scale[COLOR_DEFAULT_SHADE[name]]);
     });
 
-    // Plain colors
-    root.setProperty('--color-dark', state.dark);
+    root.setProperty('--color-dark',  state.dark);
     root.setProperty('--color-muted', state.muted);
 
-    // Fonts
-    root.setProperty('--font-sans', `"${state.fontSans}", system-ui, sans-serif`);
-    root.setProperty('--font-opensans', `"${state.fontSerif}", system-ui, sans-serif`);
+    root.setProperty('--font-sans',     `"${state.fontSans}", ui-sans-serif, system-ui, sans-serif`);
+    root.setProperty('--font-opensans', `"${state.fontSerif}", ui-sans-serif, system-ui, sans-serif`);
 
-    // Sizes
     root.setProperty('--text-base', state.fontSize.base);
     root.setProperty('--text-lg',   state.fontSize.lg);
     root.setProperty('--text-xl',   state.fontSize.xl);
     root.setProperty('--text-2xl',  state.fontSize['2xl']);
 
-    // Radius
-    root.setProperty('--radius-sm',      state.radius.sm);
-    root.setProperty('--radius',         state.radius.default);
-    root.setProperty('--radius-md',      state.radius.md);
-    root.setProperty('--radius-lg',      state.radius.lg);
+    root.setProperty('--radius-sm', state.radius.sm);
+    root.setProperty('--radius',    state.radius.default);
+    root.setProperty('--radius-md', state.radius.md);
+    root.setProperty('--radius-lg', state.radius.lg);
 
-    // Shadow
     root.setProperty('--shadow', state.shadow);
+
+    root.setProperty('--breakpoint-sm',  state.screens.sm);
+    root.setProperty('--breakpoint-md',  state.screens.md);
+    root.setProperty('--breakpoint-lg',  state.screens.lg);
+    root.setProperty('--breakpoint-xl',  state.screens.xl);
+    root.setProperty('--breakpoint-2xl', state.screens['2xl']);
 }
 
-watch(state, applyToDocument, { deep: true, immediate: true });
+function persistToStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(toRaw(state)));
+    } catch {
+        /* quota / private mode — silently skip */
+    }
+}
 
-/** When the anchor (shade 500) of a color changes, regenerate the rest. */
+watch(state, () => {
+    applyToDocument();
+    persistToStorage();
+}, { deep: true, immediate: true });
+
 function setColorAnchor(name: ColorName, hex: string): void {
     if (!colord(hex).isValid()) return;
     state.colors[name] = generateScale(hex);
@@ -140,79 +176,143 @@ function setColorShade(name: ColorName, shade: Shade, hex: string): void {
 
 function resetAll(): void {
     Object.assign(state, structuredClone(DEFAULTS));
+    if (typeof localStorage !== 'undefined') localStorage.removeItem(STORAGE_KEY);
 }
 
 function resetColor(name: ColorName): void {
     state.colors[name] = structuredClone(COLOR_DEFAULTS[name]);
 }
 
-/** Build a `tailwind.config.js` `extend` snippet from current state. */
-const tailwindConfigSnippet = computed<string>(() => {
-    const indent = (s: string, n: number) => ' '.repeat(n) + s;
+// ============================================================================
+// Output formats
+// ============================================================================
 
-    const colorBlock = (Object.keys(state.colors) as ColorName[])
-        .map((name) => {
-            const scale = state.colors[name];
-            const lines = [`    ${name}: {`, `        DEFAULT: '${scale[300]}',`];
-            COLOR_SHADES.forEach((sh) => lines.push(`        ${sh}: '${scale[sh]}',`));
-            lines.push('    },');
-            return lines.join('\n');
-        })
-        .join('\n');
+/** Tailwind v4 — single `@theme {}` block of CSS custom properties. */
+const v4Snippet = computed<string>(() => {
+    const lines: string[] = ['/* app.css */', "@import 'tailwindcss';", '', '@theme {'];
 
-    return [
-        '// tailwind.config.js',
-        "/** @type {import('tailwindcss').Config} */",
-        'module.exports = {',
-        '    theme: {',
-        '        extend: {',
-        '            colors: {',
-        `                dark: '${state.dark}',`,
-        `                muted: '${state.muted}',`,
-        colorBlock.replace(/^/gm, '            ').replace(/^ {16}/gm, '                '),
-        '            },',
-        '            fontFamily: {',
-        `                sans: ['${state.fontSans}', 'system-ui', 'sans-serif'],`,
-        `                opensans: ['${state.fontSerif}', 'system-ui', 'sans-serif'],`,
-        '            },',
-        '            fontSize: {',
-        `                base: '${state.fontSize.base}',`,
-        `                lg: '${state.fontSize.lg}',`,
-        `                xl: '${state.fontSize.xl}',`,
-        `                '2xl': '${state.fontSize['2xl']}',`,
-        '            },',
-        '            borderRadius: {',
-        `                sm: '${state.radius.sm}',`,
-        `                DEFAULT: '${state.radius.default}',`,
-        `                md: '${state.radius.md}',`,
-        `                lg: '${state.radius.lg}',`,
-        '            },',
-        '            boxShadow: {',
-        `                DEFAULT: '${state.shadow}',`,
-        '            },',
-        '            screens: {',
-        `                sm: '${state.screens.sm}',`,
-        `                md: '${state.screens.md}',`,
-        `                lg: '${state.screens.lg}',`,
-        `                xl: '${state.screens.xl}',`,
-        `                '2xl': '${state.screens['2xl']}',`,
-        '            },',
-        '        },',
-        '    },',
-        '};',
-    ].join('\n');
+    lines.push('    /* Plain colors */');
+    lines.push(`    --color-dark:  ${state.dark};`);
+    lines.push(`    --color-muted: ${state.muted};`);
+    lines.push('');
+
+    (Object.keys(state.colors) as ColorName[]).forEach((name) => {
+        const scale = state.colors[name];
+        lines.push(`    /* ${name[0].toUpperCase() + name.slice(1)} */`);
+        lines.push(`    --color-${name}:     ${scale[COLOR_DEFAULT_SHADE[name]]};`);
+        COLOR_SHADES.forEach((sh) => {
+            lines.push(`    --color-${name}-${sh}: ${scale[sh]};`);
+        });
+        lines.push('');
+    });
+
+    lines.push('    /* Typography */');
+    lines.push(`    --font-sans:     '${state.fontSans}', ui-sans-serif, system-ui, sans-serif;`);
+    lines.push(`    --font-opensans: '${state.fontSerif}', ui-sans-serif, system-ui, sans-serif;`);
+    lines.push(`    --text-base: ${state.fontSize.base};`);
+    lines.push(`    --text-lg:   ${state.fontSize.lg};`);
+    lines.push(`    --text-xl:   ${state.fontSize.xl};`);
+    lines.push(`    --text-2xl:  ${state.fontSize['2xl']};`);
+    lines.push('');
+
+    lines.push('    /* Radius */');
+    lines.push(`    --radius:    ${state.radius.default};`);
+    lines.push(`    --radius-sm: ${state.radius.sm};`);
+    lines.push(`    --radius-md: ${state.radius.md};`);
+    lines.push(`    --radius-lg: ${state.radius.lg};`);
+    lines.push('');
+
+    lines.push('    /* Shadow */');
+    lines.push(`    --shadow: ${state.shadow};`);
+    lines.push('');
+
+    lines.push('    /* Breakpoints */');
+    lines.push(`    --breakpoint-sm:  ${state.screens.sm};`);
+    lines.push(`    --breakpoint-md:  ${state.screens.md};`);
+    lines.push(`    --breakpoint-lg:  ${state.screens.lg};`);
+    lines.push(`    --breakpoint-xl:  ${state.screens.xl};`);
+    lines.push(`    --breakpoint-2xl: ${state.screens['2xl']};`);
+
+    lines.push('}');
+    return lines.join('\n');
 });
+
+/** Tailwind v3 — `theme.extend` block in tailwind.config.js. */
+const v3Snippet = computed<string>(() => {
+    const lines: string[] = [];
+    lines.push('// tailwind.config.js');
+    lines.push("/** @type {import('tailwindcss').Config} */");
+    lines.push('module.exports = {');
+    lines.push('    content: [');
+    lines.push("        './src/**/*.{vue,js,ts,jsx,tsx}',");
+    lines.push("        './node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}',");
+    lines.push('    ],');
+    lines.push('    theme: {');
+    lines.push('        extend: {');
+    lines.push('            colors: {');
+    lines.push(`                dark: '${state.dark}',`);
+    lines.push(`                muted: '${state.muted}',`);
+    (Object.keys(state.colors) as ColorName[]).forEach((name) => {
+        const scale = state.colors[name];
+        lines.push(`                ${name}: {`);
+        lines.push(`                    DEFAULT: '${scale[COLOR_DEFAULT_SHADE[name]]}',`);
+        COLOR_SHADES.forEach((sh) => lines.push(`                    ${sh}: '${scale[sh]}',`));
+        lines.push('                },');
+    });
+    lines.push('            },');
+    lines.push('            fontFamily: {');
+    lines.push(`                sans: ['${state.fontSans}', 'ui-sans-serif', 'system-ui', 'sans-serif'],`);
+    lines.push(`                opensans: ['${state.fontSerif}', 'ui-sans-serif', 'system-ui', 'sans-serif'],`);
+    lines.push('            },');
+    lines.push('            fontSize: {');
+    lines.push(`                base: '${state.fontSize.base}',`);
+    lines.push(`                lg: '${state.fontSize.lg}',`);
+    lines.push(`                xl: '${state.fontSize.xl}',`);
+    lines.push(`                '2xl': '${state.fontSize['2xl']}',`);
+    lines.push('            },');
+    lines.push('            borderRadius: {');
+    lines.push(`                sm: '${state.radius.sm}',`);
+    lines.push(`                DEFAULT: '${state.radius.default}',`);
+    lines.push(`                md: '${state.radius.md}',`);
+    lines.push(`                lg: '${state.radius.lg}',`);
+    lines.push('            },');
+    lines.push('            boxShadow: {');
+    lines.push(`                DEFAULT: '${state.shadow}',`);
+    lines.push('            },');
+    lines.push('            screens: {');
+    lines.push(`                sm: '${state.screens.sm}',`);
+    lines.push(`                md: '${state.screens.md}',`);
+    lines.push(`                lg: '${state.screens.lg}',`);
+    lines.push(`                xl: '${state.screens.xl}',`);
+    lines.push(`                '2xl': '${state.screens['2xl']}',`);
+    lines.push('            },');
+    lines.push('        },');
+    lines.push('    },');
+    lines.push("    plugins: [require('@tailwindcss/forms')],");
+    lines.push('};');
+    return lines.join('\n');
+});
+
+const activeSnippet = computed(() => (outputFormat.value === 'v4' ? v4Snippet.value : v3Snippet.value));
+const activeFilename = computed(() => (outputFormat.value === 'v4' ? 'app.css (Tailwind v4)' : 'tailwind.config.js (Tailwind v3)'));
 
 export function useThemeBuilder() {
     return {
         state,
         isModalOpen,
+        outputFormat,
         defaults: DEFAULTS,
         shades: COLOR_SHADES,
+        defaultShadeFor: COLOR_DEFAULT_SHADE,
         setColorAnchor,
         setColorShade,
         resetAll,
         resetColor,
-        tailwindConfigSnippet,
+        v4Snippet,
+        v3Snippet,
+        activeSnippet,
+        activeFilename,
+        /** @deprecated alias for activeSnippet (kept for back-compat). */
+        tailwindConfigSnippet: activeSnippet,
     };
 }
