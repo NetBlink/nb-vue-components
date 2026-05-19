@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import { Section, CollapsableSection, DottedCarousel, CodePreview, PropsTable } from '../index';
 
 // Carousel slides — varied content so there's something to actually swipe through
@@ -240,7 +240,7 @@ const collapsableSectionSlots = [
                             :class="item.gradient"
                         >
                             <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md">
-                                <FontAwesomeIcon :icon="item.icon" :class="['text-3xl', item.accent]" />
+                                <NbIcon :name="item.icon" :class="['text-3xl', item.accent]" />
                             </div>
                             <!-- Slide chrome forces dark text because the gradient is always light, even in dark mode. -->
                             <div class="mb-2 text-xs font-medium uppercase tracking-widest text-gray-500">

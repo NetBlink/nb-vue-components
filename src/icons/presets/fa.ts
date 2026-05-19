@@ -12,6 +12,8 @@ import {
     faPencil,
     faPenRuler,
     faPersonDigging,
+    faSun,
+    faMoon,
 } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -36,6 +38,8 @@ export const faAliasPreset: Record<AliasName, IconLike> = {
     $edit: faPencil,
     '$edit-alt': faPenRuler,
     $construction: faPersonDigging,
+    $sun: faSun,
+    $moon: faMoon,
     $whatsapp: faWhatsapp,
 };
 

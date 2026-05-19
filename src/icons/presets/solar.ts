@@ -36,5 +36,7 @@ export const solarAliasPreset: Record<AliasName, IconLike> = {
     $edit:         'solar:pen-linear',
     '$edit-alt':   'solar:pen-new-square-linear',
     $construction: 'solar:wrench-linear',
+    $sun:          'solar:sun-linear',
+    $moon:         'solar:moon-linear',
     $whatsapp:     'solar:chat-line-linear',
 };

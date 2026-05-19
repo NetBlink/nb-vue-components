@@ -36,5 +36,7 @@ export const materialAliasPreset: Record<AliasName, IconLike> = {
     $edit:         'material-symbols:edit',
     '$edit-alt':   'material-symbols:edit-note',
     $construction: 'material-symbols:construction',
+    $sun:          'material-symbols:light-mode',
+    $moon:         'material-symbols:dark-mode',
     $whatsapp:     'material-symbols:chat',
 };

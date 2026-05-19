@@ -35,5 +35,7 @@ export const heroiconsAliasPreset: Record<AliasName, IconLike> = {
     $edit:         'heroicons:pencil',
     '$edit-alt':   'heroicons:pencil-square',
     $construction: 'heroicons:wrench-screwdriver',
+    $sun:          'heroicons:sun',
+    $moon:         'heroicons:moon',
     $whatsapp:     'heroicons:chat-bubble-left-ellipsis',
 };

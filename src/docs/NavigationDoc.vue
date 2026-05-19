@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { NbIcon } from '../icons';
 import { faChevronDown, faUser, faCog, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import {
     NavLink,
@@ -79,7 +79,7 @@ const navCollapseExamples = [
     '<!-- With a custom icon -->',
     '<NavCollapse name="Reports">',
     '  <template #icon>',
-    '    <FontAwesomeIcon :icon="faChartBar" />',
+    '    <NbIcon :name="faChartBar" />',
     '  </template>',
     '  <NavLink href="/reports/daily">Daily</NavLink>',
     '</NavCollapse>',
@@ -186,25 +186,25 @@ const navCollapseSlots = [
                             >
                                 <GravatarImg email="john@example.com" class="mr-2 h-8 w-8 rounded-full" />
                                 <span>John Doe</span>
-                                <FontAwesomeIcon :icon="faChevronDown" class="ml-2 h-4 w-4" />
+                                <NbIcon :name="faChevronDown" class="ml-2 h-4 w-4" />
                             </button>
                         </template>
                         <template #content>
                             <DropdownLink href="/profile">
-                                <FontAwesomeIcon :icon="faUser" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faUser" class="mr-2 h-4 w-4" />
                                 Profile
                             </DropdownLink>
                             <DropdownLink href="/settings">
-                                <FontAwesomeIcon :icon="faCog" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faCog" class="mr-2 h-4 w-4" />
                                 Settings
                             </DropdownLink>
                             <DropdownLink href="/billing">
-                                <FontAwesomeIcon :icon="faCreditCard" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faCreditCard" class="mr-2 h-4 w-4" />
                                 Billing
                             </DropdownLink>
                             <DropdownSeparator />
                             <DropdownLink href="/logout" method="post">
-                                <FontAwesomeIcon :icon="faSignOutAlt" class="mr-2 h-4 w-4" />
+                                <NbIcon :name="faSignOutAlt" class="mr-2 h-4 w-4" />
                                 Logout
                             </DropdownLink>
                         </template>

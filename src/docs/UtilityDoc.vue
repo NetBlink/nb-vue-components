@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
     faChevronCircleDown,
     faChevronDown,
@@ -10,6 +9,7 @@ import {
     faCircleCheck,
     faGears,
 } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import {
     Alert,
     Spinner,
@@ -579,7 +579,7 @@ const dataTileProps = [
                             class="flex w-full items-center justify-between rounded-lg bg-gray-100 dark:bg-gray-900/60 p-3 text-left transition-colors hover:bg-gray-200"
                         >
                             <span class="font-semibold">Advanced settings</span>
-                            <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
+                            <NbIcon :name="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
                         </button>
                     </template>
                     <div class="mt-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">

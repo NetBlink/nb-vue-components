@@ -1,13 +1,15 @@
-import type { App, Plugin } from 'vue';
+import { shallowReactive, type App, type Plugin } from 'vue';
 import { defaultAliases } from './aliases';
 import { NB_ICONS_KEY, setDefaultRegistry, type NbIconsRegistry } from './inject';
 import type { AliasName, IconLike, NbIconsOptions } from './types';
 
 function buildRegistry(options: NbIconsOptions): NbIconsRegistry {
-    const aliases: Record<AliasName, IconLike> = {
+    // shallowReactive — top-level alias mutations trigger NbIcon re-renders,
+    // but the alias *values* (Vue components, FA icon defs) stay as-is.
+    const aliases = shallowReactive({
         ...defaultAliases,
         ...(options.aliases ?? {}),
-    } as Record<AliasName, IconLike>;
+    }) as Record<AliasName, IconLike>;
 
     const reg: NbIconsRegistry = {
         aliases,
@@ -34,7 +36,7 @@ function buildRegistry(options: NbIconsOptions): NbIconsRegistry {
  */
 export function createNbIcons(options: NbIconsOptions = {}): Plugin {
     const reg = buildRegistry(options);
-    setDefaultRegistry(reg); // also make this the global fallback
+    setDefaultRegistry(reg);
     return {
         install(app: App) {
             app.provide(NB_ICONS_KEY, reg);
@@ -42,6 +44,4 @@ export function createNbIcons(options: NbIconsOptions = {}): Plugin {
     };
 }
 
-// Auto-install a zero-config default the first time this module is evaluated,
-// so consumers who never call createNbIcons() still get working icons.
 setDefaultRegistry(buildRegistry({}));

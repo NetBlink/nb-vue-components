@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import { useDarkMode } from '../composables/useDarkMode';
 
 // Import documentation components
@@ -70,7 +69,7 @@ const navigateTo = (section: string) => {
                     aria-label="Toggle dark mode"
                 >
                     <span class="flex items-center gap-2">
-                        <FontAwesomeIcon :icon="isDark ? faMoon : faSun" class="h-4 w-4" />
+                        <NbIcon :name="isDark ? '$moon' : '$sun'" class="h-4 w-4" />
                         <span>{{ isDark ? 'Dark mode' : 'Light mode' }}</span>
                     </span>
                     <span

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import {
     Modal,
     NewModal,
@@ -192,7 +191,7 @@ const newModalSlots = [
                 <NewModal v-model:open="showConfirmModal">
                     <template #header>
                         <span class="flex items-center gap-2">
-                            <FontAwesomeIcon :icon="faExclamationTriangle" class="h-5 w-5 text-red-600" />
+                            <NbIcon name="$warning" class="h-5 w-5 text-red-600" />
                             Confirm deletion
                         </span>
                     </template>
