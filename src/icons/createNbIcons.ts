@@ -40,6 +40,9 @@ export function createNbIcons(options: NbIconsOptions = {}): Plugin {
     return {
         install(app: App) {
             app.provide(NB_ICONS_KEY, reg);
+            if (typeof console !== 'undefined' && (import.meta as any).env?.DEV) {
+                console.info('[nb-vue-components] icon registry installed with sets:', Object.keys(reg.sets));
+            }
         },
     };
 }
