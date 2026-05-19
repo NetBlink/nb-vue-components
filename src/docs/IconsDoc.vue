@@ -1,31 +1,130 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, markRaw } from 'vue';
 import { CodePreview } from '../index';
 import { useNbIcons, NbIcon } from '../icons';
-import { faAliasPreset } from '../icons/presets/fa';
-import { heroiconsAliasPreset } from '../icons/presets/heroicons';
-import { materialAliasPreset } from '../icons/presets/material';
-import { solarAliasPreset } from '../icons/presets/solar';
-import type { AliasName } from '../icons/types';
+import type { AliasName, IconLike } from '../icons/types';
+
+// === Real, programmer-style icon imports ====================================
+// This is exactly what a consumer project would write. The library's prepared
+// presets (e.g. `heroiconsAliasPreset`) are just pre-baked versions of these
+// alias maps — kept for one-line drop-in usage, but the docs lead with the raw
+// approach so you can see what's actually happening and customize freely.
+
+// FontAwesome — each `faXyz` is an IconDefinition object passed through the
+// FA set we registered in `docs/main.js`.
+import {
+    faChevronDown, faTimes, faCheckCircle, faTimesCircle,
+    faExclamationTriangle, faInfoCircle, faSearch, faEye, faEyeSlash,
+    faCircleQuestion, faPencil, faPenRuler, faPersonDigging, faSun, faMoon,
+} from '@fortawesome/free-solid-svg-icons';
+
+// Heroicons — official Vue components. Tree-shakable, one import per icon.
+import {
+    ChevronDownIcon, XMarkIcon, CheckCircleIcon, XCircleIcon,
+    ExclamationTriangleIcon, InformationCircleIcon, MagnifyingGlassIcon,
+    EyeIcon, EyeSlashIcon, QuestionMarkCircleIcon, PencilIcon,
+    PencilSquareIcon, WrenchScrewdriverIcon, SunIcon, MoonIcon,
+} from '@heroicons/vue/24/outline';
+
+// Material Symbols + Solar use Iconify. The icon data is pre-registered with
+// `addCollection(...)` once in `docs/main.js` — these strings then resolve to
+// real Iconify-rendered icons. You'd do the same in your own app.
+
+// ============================================================================
 
 type SetKey = 'fa' | 'heroicons' | 'material' | 'solar';
 
-const sets: Record<SetKey, { label: string; preset: Record<AliasName, unknown> }> = {
-    fa:        { label: 'FontAwesome',      preset: faAliasPreset as any },
-    heroicons: { label: 'Heroicons',        preset: heroiconsAliasPreset as any },
-    material:  { label: 'Material Symbols', preset: materialAliasPreset as any },
-    solar:     { label: 'Solar',            preset: solarAliasPreset as any },
+const aliasMaps: Record<SetKey, Record<AliasName, IconLike>> = {
+    fa: {
+        $expand: faChevronDown,
+        $close: faTimes,
+        $success: faCheckCircle,
+        $error: faTimesCircle,
+        $warning: faExclamationTriangle,
+        $info: faInfoCircle,
+        $search: faSearch,
+        $eye: faEye,
+        '$eye-off': faEyeSlash,
+        $help: faCircleQuestion,
+        $edit: faPencil,
+        '$edit-alt': faPenRuler,
+        $construction: faPersonDigging,
+        $sun: faSun,
+        $moon: faMoon,
+        $whatsapp: faChevronDown, // fallback for the unmapped brand icon
+    },
+    heroicons: {
+        $expand: markRaw(ChevronDownIcon),
+        $close: markRaw(XMarkIcon),
+        $success: markRaw(CheckCircleIcon),
+        $error: markRaw(XCircleIcon),
+        $warning: markRaw(ExclamationTriangleIcon),
+        $info: markRaw(InformationCircleIcon),
+        $search: markRaw(MagnifyingGlassIcon),
+        $eye: markRaw(EyeIcon),
+        '$eye-off': markRaw(EyeSlashIcon),
+        $help: markRaw(QuestionMarkCircleIcon),
+        $edit: markRaw(PencilIcon),
+        '$edit-alt': markRaw(PencilSquareIcon),
+        $construction: markRaw(WrenchScrewdriverIcon),
+        $sun: markRaw(SunIcon),
+        $moon: markRaw(MoonIcon),
+        $whatsapp: markRaw(ChevronDownIcon),
+    },
+    material: {
+        $expand: 'material-symbols:expand-more',
+        $close: 'material-symbols:close',
+        $success: 'material-symbols:check-circle',
+        $error: 'material-symbols:cancel',
+        $warning: 'material-symbols:warning',
+        $info: 'material-symbols:info',
+        $search: 'material-symbols:search',
+        $eye: 'material-symbols:visibility',
+        '$eye-off': 'material-symbols:visibility-off',
+        $help: 'material-symbols:help',
+        $edit: 'material-symbols:edit',
+        '$edit-alt': 'material-symbols:edit-note',
+        $construction: 'material-symbols:construction',
+        $sun: 'material-symbols:light-mode',
+        $moon: 'material-symbols:dark-mode',
+        $whatsapp: 'material-symbols:chat',
+    },
+    solar: {
+        $expand: 'solar:alt-arrow-down-linear',
+        $close: 'solar:close-circle-linear',
+        $success: 'solar:check-circle-linear',
+        $error: 'solar:close-square-linear',
+        $warning: 'solar:danger-triangle-linear',
+        $info: 'solar:info-circle-linear',
+        $search: 'solar:magnifer-linear',
+        $eye: 'solar:eye-linear',
+        '$eye-off': 'solar:eye-closed-linear',
+        $help: 'solar:question-circle-linear',
+        $edit: 'solar:pen-linear',
+        '$edit-alt': 'solar:pen-new-square-linear',
+        $construction: 'solar:wrench-linear',
+        $sun: 'solar:sun-linear',
+        $moon: 'solar:moon-linear',
+        $whatsapp: 'solar:chat-line-linear',
+    },
+};
+
+const setMeta: Record<SetKey, { label: string }> = {
+    fa:        { label: 'FontAwesome' },
+    heroicons: { label: 'Heroicons' },
+    material:  { label: 'Material Symbols' },
+    solar:     { label: 'Solar' },
 };
 
 const activeSet = ref<SetKey>('fa');
 const registry = useNbIcons();
 
 function switchTo(key: string): void {
-    if (!(key in sets)) return;
+    if (!(key in aliasMaps)) return;
     const k = key as SetKey;
-    const preset = sets[k].preset;
-    (Object.keys(preset) as AliasName[]).forEach((alias) => {
-        registry.registerAlias(alias, preset[alias] as any);
+    const map = aliasMaps[k];
+    (Object.keys(map) as AliasName[]).forEach((alias) => {
+        registry.registerAlias(alias, map[alias]);
     });
     activeSet.value = k;
 }
@@ -36,85 +135,189 @@ const showcaseAliases: AliasName[] = [
     '$construction', '$sun', '$moon',
 ];
 
-// Code snippets ----------------------------------------------------------------
+// === Code snippets for the "Wire it up" tabs ================================
+// Each snippet shows what a programmer literally writes in their app — no
+// preset abstractions, just real package imports and an inline alias map.
 
 const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     fa: {
         install: [
+            '# 1. The component library',
             'npm install @netblink/vue-components',
-            'npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core',
-            'npm install @fortawesome/free-solid-svg-icons @fortawesome/free-brands-svg-icons',
+            '',
+            '# 2. FontAwesome (one of the four — pick whichever set you like)',
+            'npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core \\',
+            '            @fortawesome/free-solid-svg-icons',
         ],
         wire: [
+            "// main.ts",
+            "import { createApp } from 'vue';",
             "import { createNbIcons } from '@netblink/vue-components/icons';",
-            "import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';",
-            '',
-            'app.use(createNbIcons({',
-            '    aliases: faAliasPreset,',
-            '    sets: { fa: faSet },',
+            "import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';",
+            "import {",
+            "    faChevronDown, faTimes, faCheckCircle, faXmark,",
+            "    faSearch, faEye, faEyeSlash, faPencil,",
+            "} from '@fortawesome/free-solid-svg-icons';",
+            "import App from './App.vue';",
+            "",
+            "const app = createApp(App);",
+            "",
+            "app.use(createNbIcons({",
+            "    aliases: {",
+            "        $expand:  faChevronDown,",
+            "        $close:   faTimes,",
+            "        $success: faCheckCircle,",
+            "        $search:  faSearch,",
+            "        $eye:     faEye,",
+            "        '$eye-off': faEyeSlash,",
+            "        $edit:    faPencil,",
+            "        // …map every alias you use",
+            "    },",
+            "    sets: { fa: { component: FontAwesomeIcon } },",
             "    defaultSet: 'fa',",
-            '}));',
+            "}));",
+            "",
+            "app.mount('#app');",
         ],
     },
     heroicons: {
-        install: ['npm install @iconify/vue @iconify-json/heroicons'],
+        install: [
+            '# Heroicons ships official Vue components — no Iconify needed',
+            'npm install @heroicons/vue',
+        ],
         wire: [
+            "// main.ts",
+            "import { createApp } from 'vue';",
             "import { createNbIcons } from '@netblink/vue-components/icons';",
-            "import { heroiconsAliasPreset, heroiconsSet } from '@netblink/vue-components/icons/heroicons';",
-            '',
-            'app.use(createNbIcons({',
-            '    aliases: heroiconsAliasPreset,',
-            '    sets: { heroicons: heroiconsSet },',
-            '}));',
+            "import {",
+            "    ChevronDownIcon, XMarkIcon, CheckCircleIcon,",
+            "    MagnifyingGlassIcon, EyeIcon, EyeSlashIcon, PencilIcon,",
+            "} from '@heroicons/vue/24/outline';",
+            "import App from './App.vue';",
+            "",
+            "const app = createApp(App);",
+            "",
+            "app.use(createNbIcons({",
+            "    aliases: {",
+            "        $expand:  ChevronDownIcon,",
+            "        $close:   XMarkIcon,",
+            "        $success: CheckCircleIcon,",
+            "        $search:  MagnifyingGlassIcon,",
+            "        $eye:     EyeIcon,",
+            "        '$eye-off': EyeSlashIcon,",
+            "        $edit:    PencilIcon,",
+            "        // …",
+            "    },",
+            "}));",
+            "",
+            "app.mount('#app');",
         ],
     },
     material: {
-        install: ['npm install @iconify/vue @iconify-json/material-symbols'],
+        install: [
+            '# Material Symbols has no native Vue package — use Iconify',
+            'npm install @iconify/vue @iconify-json/material-symbols',
+        ],
         wire: [
+            "// main.ts",
+            "import { createApp } from 'vue';",
             "import { createNbIcons } from '@netblink/vue-components/icons';",
-            "import { materialAliasPreset, materialSet } from '@netblink/vue-components/icons/material';",
-            '',
-            'app.use(createNbIcons({',
-            '    aliases: materialAliasPreset,',
-            "    sets: { 'material-symbols': materialSet },",
-            '}));',
+            "import { Icon as IconifyIcon, addCollection } from '@iconify/vue';",
+            "import materialData from '@iconify-json/material-symbols/icons.json';",
+            "import App from './App.vue';",
+            "",
+            "// Preload the icon data so Iconify renders offline (no API fetch)",
+            "addCollection(materialData);",
+            "",
+            "const app = createApp(App);",
+            "",
+            "app.use(createNbIcons({",
+            "    aliases: {",
+            "        $expand:  'material-symbols:expand-more',",
+            "        $close:   'material-symbols:close',",
+            "        $success: 'material-symbols:check-circle',",
+            "        $search:  'material-symbols:search',",
+            "        $eye:     'material-symbols:visibility',",
+            "        '$eye-off': 'material-symbols:visibility-off',",
+            "        $edit:    'material-symbols:edit',",
+            "        // …",
+            "    },",
+            "    sets: {",
+            "        'material-symbols': {",
+            "            component: IconifyIcon,",
+            "            resolve: name => `material-symbols:${name}`,",
+            "        },",
+            "    },",
+            "}));",
+            "",
+            "app.mount('#app');",
         ],
     },
     solar: {
-        install: ['npm install @iconify/vue @iconify-json/solar'],
+        install: [
+            '# Solar — Iconify-only, same shape as Material Symbols',
+            'npm install @iconify/vue @iconify-json/solar',
+        ],
         wire: [
+            "// main.ts",
+            "import { createApp } from 'vue';",
             "import { createNbIcons } from '@netblink/vue-components/icons';",
-            "import { solarAliasPreset, solarSet } from '@netblink/vue-components/icons/solar';",
-            '',
-            'app.use(createNbIcons({',
-            '    aliases: solarAliasPreset,',
-            '    sets: { solar: solarSet },',
-            '}));',
+            "import { Icon as IconifyIcon, addCollection } from '@iconify/vue';",
+            "import solarData from '@iconify-json/solar/icons.json';",
+            "import App from './App.vue';",
+            "",
+            "addCollection(solarData);",
+            "",
+            "const app = createApp(App);",
+            "",
+            "app.use(createNbIcons({",
+            "    aliases: {",
+            "        $expand:  'solar:alt-arrow-down-linear',",
+            "        $close:   'solar:close-circle-linear',",
+            "        $success: 'solar:check-circle-linear',",
+            "        $search:  'solar:magnifer-linear',",
+            "        $eye:     'solar:eye-linear',",
+            "        '$eye-off': 'solar:eye-closed-linear',",
+            "        // …browse icons at icon-sets.iconify.design/solar",
+            "    },",
+            "    sets: {",
+            "        solar: {",
+            "            component: IconifyIcon,",
+            "            resolve: name => `solar:${name}`,",
+            "        },",
+            "    },",
+            "}));",
+            "",
+            "app.mount('#app');",
         ],
     },
 };
 
 const setupTab = ref<string>('fa');
+const activeWire = computed(() => setupSnippets[setupTab.value as SetKey].wire);
+const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].install);
 
 const usageSnippet = [
-    '<NbIcon name="$expand" />                       <!-- alias (changes with provider) -->',
-    '<NbIcon name="$close" class="text-red-500" />',
+    '<!-- Built-in alias — changes with the active provider -->',
+    '<NbIcon name="$expand" />',
+    '<NbIcon name="$close" class="text-red-500" size="lg" />',
     '',
-    '<NbIcon name="solar:rocket-bold" size="lg" />   <!-- any Iconify icon -->',
-    '<NbIcon name="heroicons:user" />',
+    '<!-- Any icon from any Iconify set (search at icon-sets.iconify.design) -->',
+    '<NbIcon name="solar:rocket-bold" size="xl" />',
+    '<NbIcon name="material-symbols:home-outline" />',
     '',
-    '<NbIcon :name="MyVueIcon" />                    <!-- raw Vue component -->',
+    '<!-- Any Vue icon component you already have -->',
+    '<NbIcon :name="ChevronDownIcon" />     <!-- @heroicons/vue -->',
+    '<NbIcon :name="faGears" />             <!-- @fortawesome/free-solid-svg-icons -->',
 ];
 
-const switchSnippet = [
+const switchCmd = [
+    '# Convenience helper that rewrites your createNbIcons() call:',
     'npx @netblink/vue-components-migrate switch fa        # FontAwesome (default)',
     'npx @netblink/vue-components-migrate switch hero      # Heroicons',
     'npx @netblink/vue-components-migrate switch material  # Google Material Symbols',
     'npx @netblink/vue-components-migrate switch solar     # Solar',
 ];
-
-const activeWire = computed(() => setupSnippets[setupTab.value as SetKey].wire);
-const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].install);
 </script>
 
 <template>
@@ -123,22 +326,23 @@ const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].ins
         <header class="space-y-3">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Icons</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Every NB component draws its UI through a single <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code>
-                primitive. Pick an icon provider once via <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> —
-                every chevron, close button, and validation icon across the library follows. <strong>FontAwesome</strong> is the default.
+                The library draws its UI through a single <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code> primitive.
+                Bring whatever icon library you already use — FontAwesome, Heroicons, Material Symbols, Solar, anything on
+                <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a>,
+                or your own SVG components — and map them to a handful of named aliases. <strong>FontAwesome</strong> is the default.
             </p>
         </header>
 
-        <!-- LIVE PREVIEW CARD -->
+        <!-- LIVE PREVIEW -->
         <section class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800/60">
-            <div class="flex items-center justify-between gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Live preview</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider — every icon below (and across the rest of this docs site) re-renders.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider — every icon below (and the rest of this docs site) re-renders.</p>
                 </div>
                 <div class="inline-flex rounded-lg border border-gray-200 bg-white p-1 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                     <button
-                        v-for="(meta, key) in sets"
+                        v-for="(meta, key) in setMeta"
                         :key="key"
                         type="button"
                         @click="switchTo(key)"
@@ -164,49 +368,43 @@ const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].ins
             </div>
         </section>
 
-        <!-- USAGE -->
-        <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Using NbIcon</h2>
-            <p class="text-gray-600 dark:text-gray-400">
-                Three accepted forms: a built-in alias, any Iconify set-prefixed name, or any Vue component / raw SVG you already have.
-            </p>
-            <CodePreview language="html" :code="usageSnippet" />
-        </section>
-
         <!-- ICONIFY SEARCH CALLOUT -->
         <section class="rounded-xl border border-primary-200 bg-primary-50/50 p-5 dark:border-primary-700/50 dark:bg-primary-900/20">
             <div class="flex items-start gap-3">
-                <NbIcon name="$search" class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600 dark:text-primary-300" />
+                <NbIcon name="$search" size="lg" class="mt-0.5 flex-shrink-0 text-primary-600 dark:text-primary-300" />
                 <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">Find any icon</h3>
+                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">Browse 200+ icon sets at Iconify</h3>
                     <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
-                        Heroicons, Material Symbols, Solar and ~200 other sets are all browsable on
-                        <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>.
-                        Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
-                        and pass it straight to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code>.
+                        <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>
+                        is the universal icon browser. Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
+                        and pass it straight to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> —
+                        provided you've installed the matching <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">@iconify-json/&lt;set&gt;</code> data package
+                        and registered it once with <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">addCollection()</code>.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- SWITCHING VIA CLI -->
+        <!-- USAGE -->
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Switching providers</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Using NbIcon in your templates</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                One command rewrites the <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> call in
-                your app entrypoint and prints the matching <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">npm install</code>:
+                Three forms — pick whichever matches what you have on hand. They mix and match freely in the same project.
             </p>
-            <CodePreview language="bash" :code="switchSnippet" />
+            <CodePreview language="html" :code="usageSnippet" />
         </section>
 
-        <!-- SETUP TABS -->
+        <!-- SETUP TABS — example-led -->
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wire it up by hand</h2>
-            <p class="text-gray-600 dark:text-gray-400">If you'd rather edit your entry file directly, pick a provider:</p>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Setup — by example</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Each tab is what you'd literally write in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">main.ts</code> —
+                real package imports, an inline alias map you can adapt. Mix providers freely in one project.
+            </p>
 
             <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700">
                 <button
-                    v-for="(meta, key) in sets"
+                    v-for="(meta, key) in setMeta"
                     :key="key"
                     type="button"
                     @click="setupTab = key"
@@ -222,9 +420,19 @@ const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].ins
             <div class="pt-3">
                 <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">1. Install</p>
                 <CodePreview language="bash" :code="activeInstall" />
-                <p class="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">2. Wire in your entry file</p>
+                <p class="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">2. Wire it up in your entry file</p>
                 <CodePreview language="javascript" :code="activeWire" />
             </div>
+        </section>
+
+        <!-- CLI SWITCH -->
+        <section class="space-y-3">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Already wired up? Swap providers with one command</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                The migrate package can rewrite the <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> block in your entry file
+                and print the matching <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">npm install</code>:
+            </p>
+            <CodePreview language="bash" :code="switchCmd" />
         </section>
 
         <!-- CONCEPTS -->
@@ -234,19 +442,19 @@ const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].ins
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Aliases</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Semantic names like <code>$expand</code>, <code>$close</code>, <code>$success</code>. The library references these everywhere; each preset maps them to a concrete icon.
+                        Semantic names like <code>$expand</code>, <code>$close</code>, <code>$success</code>. The library references these internally; you map each one to a concrete icon from any source.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Sets</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Registered providers (<code>fa</code>, <code>heroicons</code>, <code>solar</code>…). Reference any icon by its full name — <code>"solar:home-bold"</code>.
+                        Registered renderers — FA, an Iconify component, etc. Reference any icon from a set by its full name: <code>"solar:home-bold"</code>.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Slots</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Every icon-bearing component has a <code>#icon</code> slot — drop in your own Vue component and the system gets out of your way.
+                        Every icon-bearing component has an <code>#icon</code> slot — drop in your own Vue component and skip the resolver entirely.
                     </dd>
                 </div>
             </dl>
