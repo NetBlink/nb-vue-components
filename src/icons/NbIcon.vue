@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
+import { computed, h, useSlots, type VNode } from 'vue';
 import DOMPurify from 'isomorphic-dompurify';
 import { useNbIcons } from './inject';
 import { resolve } from './resolve';
@@ -21,15 +21,16 @@ const slots = useSlots();
 const registry = useNbIcons();
 
 const sizeClass = computed<string | undefined>(() => {
-    if (typeof props.size === 'number' || (typeof props.size === 'string' && !['sm', 'md', 'lg', 'xl', '2xl', '3x'].includes(props.size))) return undefined;
+    if (typeof props.size === 'number') return undefined;
+    if (typeof props.size === 'string' && !['sm', 'md', 'lg', 'xl', '2xl', '3x'].includes(props.size)) return undefined;
     switch (props.size) {
-        case 'sm': return 'h-4 w-4';
-        case 'lg': return 'h-6 w-6';
-        case 'xl': return 'h-8 w-8';
+        case 'sm':  return 'h-4 w-4';
+        case 'lg':  return 'h-6 w-6';
+        case 'xl':  return 'h-8 w-8';
         case '2xl': return 'h-12 w-12';
-        case '3x': return 'h-16 w-16';
+        case '3x':  return 'h-16 w-16';
         case 'md':
-        default:   return 'h-5 w-5';
+        default:    return 'h-5 w-5';
     }
 });
 
@@ -46,34 +47,33 @@ const sizeStyle = computed<Record<string, string> | undefined>(() => {
 
 const descriptor = computed(() => resolve(props.name, registry));
 
-const sanitizedSvg = computed(() => {
-    if (descriptor.value.kind !== 'svg') return '';
-    return DOMPurify.sanitize(descriptor.value.svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+const rendered = computed<VNode | null>(() => {
+    const cls = sizeClass.value;
+    const style = sizeStyle.value;
+
+    if (slots.default) {
+        return h('span', { class: ['inline-flex items-center justify-center', cls], style }, slots.default());
+    }
+
+    const d = descriptor.value;
+    switch (d.kind) {
+        case 'component':
+            // Pass the component's props (e.g. `icon` for FontAwesomeIcon, `icon` for Iconify Icon)
+            // and our forwarded class/style together. Class is preserved by Vue's prop merging.
+            return h(d.component as any, { ...d.props, class: cls, style });
+        case 'svg': {
+            const sanitized = DOMPurify.sanitize(d.svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+            return h('span', { class: cls, style, innerHTML: sanitized });
+        }
+        case 'class':
+            return h('i', { class: [d.cls, cls], style, 'aria-hidden': 'true' });
+        case 'empty':
+        default:
+            return null;
+    }
 });
 </script>
 
 <template>
-    <span v-if="slots.default" :class="sizeClass" :style="sizeStyle" class="inline-flex items-center justify-center">
-        <slot />
-    </span>
-    <component
-        v-else-if="descriptor.kind === 'component'"
-        :is="descriptor.component"
-        v-bind="descriptor.props"
-        :class="sizeClass"
-        :style="sizeStyle"
-    />
-    <span
-        v-else-if="descriptor.kind === 'svg'"
-        :class="sizeClass"
-        :style="sizeStyle"
-        v-html="sanitizedSvg"
-    />
-    <i
-        v-else-if="descriptor.kind === 'class'"
-        :class="[descriptor.cls, sizeClass]"
-        :style="sizeStyle"
-        aria-hidden="true"
-    />
-    <!-- kind === 'empty' renders nothing -->
+    <component :is="rendered" />
 </template>

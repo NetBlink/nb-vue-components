@@ -48,9 +48,9 @@ export default ({ mode }) => {
         server: {
             watch: {
                 ignored: [
-                    '!**/node_modules/**',
                     '**/vendor/**',
                     '**/.docker/**',
+                    '**/node_modules/@iconify-icons/**',
                 ],
             },
             host: '0.0.0.0',

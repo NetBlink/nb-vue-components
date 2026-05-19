@@ -106,6 +106,9 @@
     },
     "dependencies": {
         "@heroicons/vue": "^2.2.0",
+        "@iconify-icons/heroicons": "^1.2.9",
+        "@iconify-icons/material-symbols": "^1.2.58",
+        "@iconify-icons/solar": "^1.2.3",
         "@iconify-json/heroicons": "^1.2.3",
         "@iconify-json/material-symbols": "^1.2.73",
         "@iconify-json/solar": "^1.2.5",
