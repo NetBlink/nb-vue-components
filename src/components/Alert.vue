@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheckCircle, faTimesCircle, faExclamationTriangle, faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import NbIcon from '../icons/NbIcon.vue';
 
 interface Props {
     /** The type/variant of the alert */
@@ -65,17 +64,13 @@ const alertClasses = computed(() => {
 });
 
 // Icon for each alert type
-const alertIcon = computed(() => {
+const alertIcon = computed<'$success' | '$error' | '$warning' | '$info'>(() => {
     switch (props.type) {
-        case 'success':
-            return faCheckCircle;
-        case 'error':
-            return faTimesCircle;
-        case 'warning':
-            return faExclamationTriangle;
+        case 'success': return '$success';
+        case 'error':   return '$error';
+        case 'warning': return '$warning';
         case 'info':
-        default:
-            return faInfoCircle;
+        default:        return '$info';
     }
 });
 
@@ -158,8 +153,8 @@ const onAfterLeave = (el: Element) => {
             <div class="flex">
                 <!-- Icon -->
                 <div class="flex-shrink-0">
-                    <FontAwesomeIcon
-                        :icon="alertIcon"
+                    <NbIcon
+                        :name="alertIcon"
                         class="h-5 w-5"
                         :class="{
                             'text-green-500 dark:text-green-300': type === 'success',
@@ -193,7 +188,7 @@ const onAfterLeave = (el: Element) => {
                         }"
                         aria-label="Dismiss alert"
                     >
-                        <FontAwesomeIcon :icon="faTimes" class="h-5 w-5" />
+                        <NbIcon name="$close" class="h-5 w-5" />
                     </button>
                 </div>
             </div>
