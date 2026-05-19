@@ -16,23 +16,7 @@ import {
     PropsTable,
 } from '../index';
 
-// Navigation state
-const isMobileMenuOpen = ref(false);
 const currentRoute = ref('/dashboard');
-
-// Mock navigation data
-const mainNavItems = [
-    { name: 'Dashboard', href: '/dashboard', current: true },
-    { name: 'Projects', href: '/projects', current: false },
-    { name: 'Team', href: '/team', current: false },
-    { name: 'Reports', href: '/reports', current: false },
-];
-
-const userNavItems = [
-    { name: 'Profile', href: '/profile' },
-    { name: 'Settings', href: '/settings' },
-    { name: 'Billing', href: '/billing' },
-];
 
 // Code examples
 const navLinkExamples = [
@@ -63,11 +47,10 @@ const responsiveNavExamples = [
 ];
 
 const dropdownNavExamples = [
-    '<!-- Dropdown Navigation -->',
-    '<Dropdown align="right" width="48">',
+    '<Dropdown align="end" :alignOffset="0">',
     '  <template #trigger>',
     '    <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700">',
-    '      <GravatarImg email="user@example.com" class="h-8 w-8 mr-2" />',
+    '      <GravatarImg email="user@example.com" :size="32" class="rounded-full mr-2" />',
     '      John Doe',
     '    </button>',
     '  </template>',
@@ -78,51 +61,66 @@ const dropdownNavExamples = [
     '    <DropdownLink href="/logout" method="post">Logout</DropdownLink>',
     '  </template>',
     '</Dropdown>',
+    '',
+    '<!-- Open on hover -->',
+    '<Dropdown openOnHover :hoverDelay="200">',
+    '  <template #trigger>…</template>',
+    '  <template #content>…</template>',
+    '</Dropdown>',
 ];
 
 const navCollapseExamples = [
-    '<!-- Collapsible Navigation Section -->',
-    '<NavCollapse title="Admin Tools" :defaultOpen="false">',
-    '  <div class="pl-4 space-y-2">',
-    '    <NavLink href="/admin/users">User Management</NavLink>',
-    '    <NavLink href="/admin/settings">System Settings</NavLink>',
-    '    <NavLink href="/admin/logs">Activity Logs</NavLink>',
-    '  </div>',
+    '<NavCollapse name="Admin Tools" :open="false">',
+    '  <NavLink href="/admin/users">User Management</NavLink>',
+    '  <NavLink href="/admin/settings">System Settings</NavLink>',
+    '  <NavLink href="/admin/logs">Activity Logs</NavLink>',
+    '</NavCollapse>',
+    '',
+    '<!-- With a custom icon -->',
+    '<NavCollapse name="Reports">',
+    '  <template #icon>',
+    '    <FontAwesomeIcon :icon="faChartBar" />',
+    '  </template>',
+    '  <NavLink href="/reports/daily">Daily</NavLink>',
     '</NavCollapse>',
 ];
 
-// Props data
+// Props data — verified against the actual components
 const navLinkProps = [
-    { prop: 'href', type: 'string', default: '-', description: 'The URL to navigate to' },
-    { prop: 'active', type: 'boolean', default: 'false', description: 'Whether this link represents the current page' },
-    { prop: 'method', type: 'string', default: "'get'", description: 'HTTP method for Inertia requests' },
-    { prop: 'as', type: 'string', default: "'a'", description: 'HTML element or component to render as' },
-    { prop: 'preserveScroll', type: 'boolean', default: 'false', description: 'Preserve scroll position during navigation' },
-    { prop: 'preserveState', type: 'boolean', default: 'false', description: 'Preserve component state during navigation' },
+    { prop: 'href', type: 'string', default: '-', description: 'Destination URL. NavLink wraps the Inertia Link, so this performs an Inertia visit.', required: true },
+    { prop: 'active', type: 'boolean', default: 'false', description: 'Applies the active styling (the caller decides activeness, e.g. via `route().current()`)' },
+];
+
+const navLinkSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Link label text' },
+    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the label (NavLink only — ResponsiveNavLink has no icon slot)' },
 ];
 
 const dropdownProps = [
-    { prop: 'align', type: 'string', default: "'right'", description: 'Dropdown alignment: left, right' },
-    { prop: 'width', type: 'string', default: "'48'", description: 'Dropdown width in Tailwind width classes' },
-    { prop: 'contentClasses', type: 'string[]', default: '[]', description: 'Additional CSS classes for dropdown content' },
+    { prop: 'align', type: "'start' | 'center' | 'end'", default: "'start'", description: 'Where the dropdown anchors to the trigger' },
+    { prop: 'alignOffset', type: 'number', default: '5', description: 'Pixel offset from the alignment point' },
+    { prop: 'openOnHover', type: 'boolean', default: 'false', description: 'Open the menu on hover instead of click', highlight: true },
+    { prop: 'hoverDelay', type: 'number', default: '150', description: 'Delay in ms before closing after mouse leave (only when openOnHover is true)' },
 ];
 
 const dropdownSlots = [
-    { prop: 'trigger', type: 'slot', default: '-', description: 'Dropdown trigger element (button, link, etc.)' },
-    { prop: 'content', type: 'slot', default: '-', description: 'Dropdown menu content' },
+    { prop: 'trigger', type: 'slot', default: '-', description: 'Element that opens the menu (button, link, etc.)' },
+    { prop: 'content', type: 'slot', default: '-', description: 'Menu items — typically a list of DropdownLink / DropdownSeparator' },
 ];
 
 const gravatarProps = [
-    { prop: 'email', type: 'string', default: '-', description: 'Email address for Gravatar lookup' },
-    { prop: 'size', type: 'number', default: '80', description: 'Image size in pixels' },
-    {
-        prop: 'defaultImage',
-        type: 'string',
-        default: "'mp'",
-        description: 'Default image type: mp, identicon, monsterid, wavatar, retro, robohash, blank',
-    },
-    { prop: 'rating', type: 'string', default: "'g'", description: 'Maximum rating: g, pg, r, x' },
-    { prop: 'alt', type: 'string', default: "'Avatar'", description: 'Alt text for the image' },
+    { prop: 'email', type: 'string', default: '-', description: 'Email — md5-hashed and used to look up the Gravatar', required: true },
+    { prop: 'size', type: 'number', default: '100', description: 'Image size in pixels (the requested s= parameter on the Gravatar URL)' },
+];
+
+const navCollapseProps = [
+    { prop: 'name', type: 'string', default: '-', description: 'Title shown in the toggle row', required: true },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (also reactive — updating this re-opens or closes the section)' },
+];
+
+const navCollapseSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Child links rendered when expanded (typically NavLink elements)' },
+    { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the title' },
 ];
 </script>
 
@@ -161,8 +159,12 @@ const gravatarProps = [
 
                 <CodePreview :code="navLinkExamples" />
 
-                <CollapsableSection header="NavLink Props" class="mt-6">
+                <CollapsableSection header="NavLink / ResponsiveNavLink Props" class="mt-6">
                     <PropsTable :rows="navLinkProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="Slots" class="mt-4">
+                    <PropsTable :rows="navLinkSlots" />
                 </CollapsableSection>
 
                 <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800">Responsive Navigation</h4>
@@ -177,7 +179,7 @@ const gravatarProps = [
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800">User Menu Dropdown</h4>
                 <div class="mb-6 flex justify-end rounded border bg-gray-50 p-4">
-                    <Dropdown align="end" width="48">
+                    <Dropdown align="end">
                         <template #trigger>
                             <button
                                 class="flex items-center px-3 py-2 text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:text-gray-700 focus:outline-none"
@@ -236,28 +238,6 @@ const gravatarProps = [
                     </div>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800">Default Image Types</h4>
-                <div class="mb-6 rounded border bg-gray-50 p-4">
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="text-center">
-                            <GravatarImg email="test1@example.com" :size="60" defaultImage="mp" class="mx-auto mb-2 rounded-full" />
-                            <span class="text-xs text-gray-600">Mystery Person</span>
-                        </div>
-                        <div class="text-center">
-                            <GravatarImg email="test2@example.com" :size="60" defaultImage="identicon" class="mx-auto mb-2 rounded-full" />
-                            <span class="text-xs text-gray-600">Identicon</span>
-                        </div>
-                        <div class="text-center">
-                            <GravatarImg email="test3@example.com" :size="60" defaultImage="retro" class="mx-auto mb-2 rounded-full" />
-                            <span class="text-xs text-gray-600">Retro</span>
-                        </div>
-                        <div class="text-center">
-                            <GravatarImg email="test4@example.com" :size="60" defaultImage="robohash" class="mx-auto mb-2 rounded-full" />
-                            <span class="text-xs text-gray-600">Robohash</span>
-                        </div>
-                    </div>
-                </div>
-
                 <CollapsableSection header="GravatarImg Props" class="mt-6">
                     <PropsTable :rows="gravatarProps" />
                 </CollapsableSection>
@@ -298,6 +278,14 @@ const gravatarProps = [
                 </div>
 
                 <CodePreview :code="navCollapseExamples" />
+
+                <CollapsableSection header="NavCollapse Props" class="mt-6">
+                    <PropsTable :rows="navCollapseProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="NavCollapse Slots" class="mt-4">
+                    <PropsTable :rows="navCollapseSlots" />
+                </CollapsableSection>
             </div>
         </section>
     </div>

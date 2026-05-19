@@ -1,18 +1,24 @@
 <script setup lang="ts">
 /**
- * Navigation Link component
+ * NavLink — sidebar / header navigation link wrapping an Inertia `<Link>`.
  *
- * @component
+ * The caller decides activeness (typically via `route().current(...)`); this
+ * component only applies the active styling. Renders an optional left icon
+ * via the `#icon` slot.
  *
- * @prop {string} href - The URL to navigate to
- * @prop {boolean} active - Whether this link is currently active
+ * @prop {string}  href — destination URL (Inertia visit)
+ * @prop {boolean} [active=false] — apply the active styling
+ * @slot default — link label
+ * @slot icon — optional icon rendered to the left of the label
  */
 
 import { computed } from 'vue';
 import Link from '../overrides/InertiaLink';
 
 interface Props {
+    /** Destination URL — performs an Inertia visit */
     href: string;
+    /** Apply active styling (the parent decides activeness) */
     active?: boolean;
 }
 

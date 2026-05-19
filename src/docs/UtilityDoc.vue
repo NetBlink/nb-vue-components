@@ -73,12 +73,12 @@ const statsData = [
 ];
 
 const userDetails = [
-    { term: 'Full Name', description: 'John Doe' },
-    { term: 'Email', description: 'john.doe@example.com' },
-    { term: 'Role', description: 'Administrator' },
-    { term: 'Department', description: 'Engineering' },
-    { term: 'Location', description: 'San Francisco, CA' },
-    { term: 'Joined', description: 'March 15, 2023' },
+    { label: 'Full Name', value: 'John Doe' },
+    { label: 'Email', value: 'john.doe@example.com' },
+    { label: 'Role', value: 'Administrator' },
+    { label: 'Department', value: 'Engineering' },
+    { label: 'Location', value: 'San Francisco, CA' },
+    { label: 'Joined', value: 'March 15, 2023' },
 ];
 
 // Code examples
@@ -140,88 +140,143 @@ const tooltipExamples = [
     '  <button class="text-blue-600 underline">Hover me</button>',
     '</Tooltip>',
     '',
-    '<!-- Positioned Tooltip -->',
-    '<Tooltip content="Tooltip on top" position="top">',
+    '<!-- Side + delay -->',
+    '<Tooltip content="Tooltip on top" side="top" :delayDuration="300">',
     '  <button class="bg-blue-500 text-white px-4 py-2 rounded">Top</button>',
     '</Tooltip>',
 ];
 
 const statsExamples = [
-    '<!-- Stats Grid -->',
-    '<Stats :data="statsData" />',
+    '<!-- Each stat is { name, value, label? } — clicking emits updateSearch -->',
+    '<Stats :stats="statsData" @updateSearch="onStatusChange" />',
     '',
-    '<!-- Custom Stats Layout -->',
-    '<div class="grid grid-cols-1 md:grid-cols-4 gap-6">',
-    '  <div v-for="stat in statsData" :key="stat.label" class="bg-white p-6 rounded-lg shadow">',
-    '    <h3 class="text-lg font-semibold">{{ stat.label }}</h3>',
-    '    <p class="text-2xl font-bold">{{ stat.value }}</p>',
-    "    <p :class=\"stat.positive ? 'text-green-600' : 'text-red-600'\">{{ stat.change }}</p>",
-    '  </div>',
-    '</div>',
+    '<!-- Wire the selected state to a query-string parameter -->',
+    '<Stats :stats="statsData" statusName="status" />',
 ];
 
 const sectionExamples = [
-    '<!-- Basic Section -->',
-    '<Section title="User Settings">',
-    '  <p>Section content goes here...</p>',
+    '<!-- Basic Section (header prop renders a styled heading bar) -->',
+    '<Section header="User Settings">',
+    '  <p>Section content goes here…</p>',
     '</Section>',
     '',
-    '<!-- Section with Actions -->',
-    '<Section title="Account Information">',
-    '  <template #actions>',
+    '<!-- Section with a button on the header -->',
+    '<Section header="Account Information">',
+    '  <template #headerButton>',
     '    <PrimaryButton>Edit</PrimaryButton>',
     '  </template>',
     '  <p>Account details and information.</p>',
     '</Section>',
+    '',
+    '<!-- Variants -->',
+    '<Section header="Outlined" variant="outlined">…</Section>',
+    '<Section header="Minimal" variant="minimal">…</Section>',
+    '<Section unstyled>Just the inner padding, no border/shadow.</Section>',
 ];
 
 const paginationExamples = [
-    '<!-- Basic Pagination with links -->',
-    '<Pagination',
-    '  :links="paginationLinks"',
-    '  :linkReturn="true"',
-    '  @change="handlePageChange"',
-    '/>',
+    '<!-- Inertia-style pagination using Laravel\'s links payload -->',
+    '<Pagination :links="paginationLinks" />',
     '',
-    '<!-- Pagination with per-page selector -->',
-    '<Pagination',
-    '  :links="paginationLinks"',
-    '  :showPerPage="true"',
-    '  :defaultPerPage="25"',
-    '/>',
+    '<!-- Disable navigation, emit a `change` event instead (use this when you handle URLs yourself) -->',
+    '<Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />',
+    '',
+    '<!-- Show a per-page selector alongside the page links -->',
+    '<Pagination :links="paginationLinks" :showPerPage="true" :defaultPerPage="25" />',
 ];
 
-// Props data
+// Props data — verified against actual components
 const alertProps = [
-    { prop: 'type', type: 'string', default: "'info'", description: 'Alert type: success, error, warning, info' },
-    { prop: 'title', type: 'string', default: '-', description: 'Alert title/heading' },
-    { prop: 'dismissible', type: 'boolean', default: 'false', description: 'Show dismiss button' },
-    { prop: 'modelValue', type: 'boolean', default: 'true', description: 'Control alert visibility (v-model)' },
-    { prop: '@update:modelValue', type: 'event', default: '-', description: 'Emitted when visibility changes' },
-    { prop: '@dismiss', type: 'event', default: '-', description: 'Emitted when alert is dismissed' },
+    { prop: 'type', type: "'success' | 'error' | 'warning' | 'info'", default: "'info'", description: 'Visual variant (also controls the icon)' },
+    { prop: 'title', type: 'string', default: '-', description: 'Bold title rendered above the slot content' },
+    { prop: 'dismissible', type: 'boolean', default: 'false', description: 'Show an × close button on the right' },
+    { prop: 'v-model', type: 'boolean', default: 'true', description: 'Two-way binding for visibility (also accepts :modelValue + @update:modelValue)' },
+];
+
+const alertEvents = [
+    { prop: '@update:modelValue', type: 'event(boolean)', default: '-', description: 'Fired when visibility changes' },
+    { prop: '@dismiss', type: 'event()', default: '-', description: 'Fired when the user clicks the dismiss button' },
 ];
 
 const spinnerProps = [
-    { prop: 'size', type: 'string', default: "'md'", description: 'Spinner size: xs, sm, md, lg, xl' },
-    { prop: 'color', type: 'string', default: "'text-primary'", description: 'Custom color class (e.g., text-red-600)' },
+    { prop: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: 'Spinner diameter and border-thickness' },
+    { prop: 'color', type: 'string', default: "'text-primary'", description: 'Tailwind text-color class applied to the spinner' },
 ];
 
 const tooltipProps = [
-    { prop: 'content', type: 'string', default: '-', description: 'Tooltip text content' },
-    { prop: 'position', type: 'string', default: "'bottom'", description: 'Tooltip position: top, bottom, left, right' },
-    { prop: 'delay', type: 'number', default: '0', description: 'Show delay in milliseconds' },
+    { prop: 'content', type: 'string', default: '-', description: 'Tooltip text content', required: true },
+    { prop: 'side', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'", description: 'Side of the trigger the tooltip appears on' },
+    { prop: 'delayDuration', type: 'number', default: '100', description: 'Hover delay in ms before the tooltip appears' },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the tooltip entirely (trigger still renders)' },
+    { prop: 'sideOffset', type: 'number', default: '4', description: 'Pixel offset between trigger and tooltip' },
+    { prop: 'collisionPadding', type: 'number', default: '8', description: 'Pixels of padding to keep from the viewport edge' },
+    { prop: 'contentClass', type: 'string', default: "''", description: 'Extra classes for the tooltip bubble' },
+    { prop: 'arrowClass', type: 'string', default: "''", description: 'Extra classes for the arrow' },
 ];
 
 const statsProps = [
-    { prop: 'data', type: 'array', default: '[]', description: 'Array of stat objects with label, value, change properties' },
-    { prop: 'columns', type: 'number', default: '4', description: 'Number of columns in grid layout' },
+    { prop: 'stats', type: 'StatItem[]', default: '-', description: 'Each item is `{ name, value, label? }` — `label` falls back to `name` for display', required: true },
+    { prop: 'statusName', type: 'string | null', default: 'null', description: 'Name of the URL query parameter used to determine the selected stat' },
+    { prop: 'customContainerClass', type: 'string', default: "''", description: 'Extra classes on the outer grid' },
+    { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on each stat card' },
+    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Extra classes on each stat value' },
+    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Extra classes on each stat label' },
+];
+
+const statsEvents = [
+    { prop: '@updateSearch', type: 'event(string | null)', default: '-', description: 'Emits the clicked stat name (or null when the same one is re-clicked)' },
+];
+
+const sectionProps = [
+    { prop: 'header', type: 'string', default: '-', description: 'Optional heading text displayed in a styled bar at the top' },
+    { prop: 'variant', type: "'default' | 'outlined' | 'minimal'", default: "'default'", description: 'Visual style of the surrounding card' },
+    { prop: 'overflow', type: 'boolean', default: 'false', description: 'Add overflow-hidden to the outer container' },
+    { prop: 'unstyled', type: 'boolean', default: 'false', description: 'Remove all default styling — useful when you want full control' },
+];
+
+const sectionSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Body content (rendered inside the inner padded div)' },
+    { prop: 'headerButton', type: 'slot', default: '-', description: 'Right-aligned slot in the header bar (only visible when `header` is set)' },
+];
+
+const collapseProps = [
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive — updating the prop opens/closes the section)' },
+    { prop: 'button', type: '[string, string]', default: "['Show more', 'Show less']", description: 'Labels for the built-in trigger button (only used when no #trigger slot is provided)' },
+];
+
+const collapseSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Content shown when expanded' },
+    { prop: 'trigger', type: 'slot', default: '-', description: 'Custom trigger element (otherwise a SecondaryButton with the `button` labels is used)' },
 ];
 
 const paginationProps = [
-    { prop: 'currentPage', type: 'number', default: '1', description: 'Current active page' },
-    { prop: 'totalPages', type: 'number', default: '1', description: 'Total number of pages' },
-    { prop: 'showFirstLast', type: 'boolean', default: 'true', description: 'Show first/last page buttons' },
-    { prop: 'maxVisible', type: 'number', default: '5', description: 'Maximum visible page numbers' },
+    { prop: 'links', type: 'PaginationLink[]', default: '-', description: 'Laravel-style links array: `{ url, label, active }[]`', required: true },
+    { prop: 'linkReturn', type: 'boolean', default: 'false', description: 'When true, render <button> elements and emit `change(url)` instead of using Inertia Link', highlight: true },
+    { prop: 'maxPagesToShow', type: 'number', default: '20', description: 'Maximum visible page links (first/last always shown)' },
+    { prop: 'logs', type: 'boolean', default: 'false', description: 'Convenience flag for paginating server-side logs — sets preserveScroll/preserveState and only=[\'logs\']' },
+    { prop: 'preserveScroll', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
+    { prop: 'preserveState', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
+    { prop: 'only', type: 'string[]', default: '[]', description: 'Forwarded to Inertia Link (partial reload property names)' },
+    { prop: 'showPerPage', type: 'boolean', default: 'false', description: 'Render a per-page selector with options [10, 25, 50, 100, 250]' },
+    { prop: 'defaultPerPage', type: 'number', default: '100', description: 'Initial value for the per-page selector' },
+    { prop: 'customLinkClass', type: 'string', default: "''", description: 'Extra classes on each link' },
+    { prop: 'customActiveLinkClass', type: 'string', default: "''", description: 'Extra classes on the active link' },
+    { prop: 'customListClass', type: 'string', default: "''", description: 'Extra classes on the <ul>' },
+];
+
+const paginationEvents = [
+    { prop: '@change', type: 'event(url: string)', default: '-', description: 'Fires when a page link is clicked (only when linkReturn is true)' },
+];
+
+const dataTileProps = [
+    { prop: 'value', type: 'string | number', default: '-', description: 'The big number / value to display', required: true },
+    { prop: 'label', type: 'string', default: '-', description: 'Label rendered under the value', required: true },
+    { prop: 'icon', type: 'IconProp', default: '-', description: 'FontAwesome icon shown in the background of the value area' },
+    { prop: 'theme', type: 'ComponentTheme', default: "'primary'", description: 'primary | secondary | success | danger | warning' },
+    { prop: 'selected', type: 'boolean', default: 'false', description: 'Adds a ring outline to indicate the tile is currently active' },
+    { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on the outer card' },
+    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Extra classes on the value section' },
+    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Extra classes on the label section' },
 ];
 </script>
 
@@ -304,6 +359,11 @@ const paginationProps = [
                     <h4 class="mb-3 font-semibold text-gray-800">Alert Props</h4>
                     <PropsTable :rows="alertProps" />
                 </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <PropsTable :rows="alertEvents" />
+                </div>
             </div>
         </section>
 
@@ -378,19 +438,19 @@ const paginationProps = [
 
                 <div class="mb-6">
                     <div class="flex items-center justify-center space-x-8 rounded border bg-gray-50 p-8">
-                        <Tooltip content="This tooltip appears on the bottom" position="bottom">
+                        <Tooltip content="This tooltip appears on the bottom" side="bottom">
                             <button class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">Bottom Tooltip</button>
                         </Tooltip>
 
-                        <Tooltip content="This tooltip appears on the top" position="top">
+                        <Tooltip content="This tooltip appears on the top" side="top">
                             <button class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Top Tooltip</button>
                         </Tooltip>
 
-                        <Tooltip content="This tooltip appears on the left" position="left">
+                        <Tooltip content="This tooltip appears on the left" side="left">
                             <button class="rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600">Left Tooltip</button>
                         </Tooltip>
 
-                        <Tooltip content="This tooltip appears on the right" position="right">
+                        <Tooltip content="This tooltip appears on the right" side="right">
                             <button class="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">Right Tooltip</button>
                         </Tooltip>
                     </div>
@@ -408,7 +468,12 @@ const paginationProps = [
         <section id="stats">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Statistics Display</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Dashboard-style statistics cards with values and change indicators.</p>
+                <p class="mb-4 text-gray-600">
+                    Clickable stat cards. Each item is selectable; clicking emits
+                    <code class="rounded bg-gray-100 px-1">updateSearch</code> with the selected name (or null when the same stat is clicked again).
+                    Selection state is read from a URL query parameter named by <code class="rounded bg-gray-100 px-1">statusName</code> (defaults to
+                    <code class="rounded bg-gray-100 px-1">status</code>).
+                </p>
 
                 <div class="mb-6">
                     <Stats :stats="statsData" />
@@ -420,6 +485,11 @@ const paginationProps = [
                     <h4 class="mb-3 font-semibold text-gray-800">Stats Props</h4>
                     <PropsTable :rows="statsProps" />
                 </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <PropsTable :rows="statsEvents" />
+                </div>
             </div>
         </section>
 
@@ -429,15 +499,15 @@ const paginationProps = [
                 <p class="mb-4 text-gray-600">Structured content sections with titles and optional action areas.</p>
 
                 <div class="mb-6 space-y-6">
-                    <Section title="User Profile">
+                    <Section header="User Profile">
                         <p class="text-gray-600">
                             This section contains user profile information and settings. You can edit your personal details, update your avatar, and
                             manage your account preferences.
                         </p>
                     </Section>
 
-                    <Section title="Security Settings">
-                        <template #actions>
+                    <Section header="Security Settings">
+                        <template #headerButton>
                             <button class="rounded bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600">Change Password</button>
                         </template>
                         <p class="text-gray-600">
@@ -447,6 +517,16 @@ const paginationProps = [
                 </div>
 
                 <CodePreview :code="sectionExamples" />
+
+                <div class="mt-6">
+                    <h4 class="mb-3 font-semibold text-gray-800">Section Props</h4>
+                    <PropsTable :rows="sectionProps" />
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <PropsTable :rows="sectionSlots" />
+                </div>
             </div>
         </section>
 
@@ -497,6 +577,16 @@ const paginationProps = [
                         </div>
                     </Collapse>
                 </div>
+
+                <div class="mt-6">
+                    <h4 class="mb-3 font-semibold text-gray-800">Collapse Props</h4>
+                    <PropsTable :rows="collapseProps" />
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <PropsTable :rows="collapseSlots" />
+                </div>
             </div>
         </section>
 
@@ -507,9 +597,15 @@ const paginationProps = [
 
                 <div class="mb-6">
                     <DescriptionList>
-                        <DescriptionListItem v-for="detail in userDetails" :key="detail.term" :term="detail.term" :description="detail.description" />
+                        <DescriptionListItem v-for="detail in userDetails" :key="detail.label" :label="detail.label" :value="detail.value" />
                     </DescriptionList>
                 </div>
+
+                <p class="text-sm text-gray-600">
+                    See the <strong>Description List</strong> section under
+                    <code class="rounded bg-gray-100 px-1">Input Components</code>
+                    for the full prop table (including the editable variant).
+                </p>
             </div>
         </section>
 
@@ -530,6 +626,11 @@ const paginationProps = [
                     <h4 class="mb-3 font-semibold text-gray-800">Pagination Props</h4>
                     <PropsTable :rows="paginationProps" />
                 </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Events</h4>
+                    <PropsTable :rows="paginationEvents" />
+                </div>
             </div>
         </section>
 
@@ -543,10 +644,12 @@ const paginationProps = [
                     <h4 class="mb-4 text-lg font-semibold text-gray-800">Usage</h4>
                     <CodePreview
                         :code="[
+                            'import { faChartLine } from \'@fortawesome/free-solid-svg-icons\';',
+                            '',
                             '<DataTile',
                             '    :value=\'123\'',
                             '    label=\'Example Label\'',
-                            '    icon=\'example-icon\'',
+                            '    :icon=\'faChartLine\'',
                             '    theme=\'success\'',
                             '/>',
                         ]"
@@ -555,18 +658,7 @@ const paginationProps = [
 
                 <div class="mt-6">
                     <h4 class="mb-3 font-semibold text-gray-800">DataTile Props</h4>
-                    <PropsTable
-                        :props="[
-                            { name: 'value', type: 'string | number', required: true, description: 'The value to display.' },
-                            { name: 'label', type: 'string', required: true, description: 'The label for the tile.' },
-                            { name: 'icon', type: 'string', required: true, description: 'The icon to display.' },
-                            { name: 'selected', type: 'boolean', required: false, description: 'Indicates if the tile is selected.' },
-                            { name: 'customStatClass', type: 'string', required: false, description: 'Custom CSS class for the tile.' },
-                            { name: 'customStatValueClass', type: 'string', required: false, description: 'Custom CSS class for the value section.' },
-                            { name: 'customStatLabelClass', type: 'string', required: false, description: 'Custom CSS class for the label section.' },
-                            { name: 'theme', type: 'ComponentTheme', required: false, description: 'The theme for the tile.' },
-                        ]"
-                    />
+                    <PropsTable :rows="dataTileProps" />
                 </div>
             </div>
         </section>

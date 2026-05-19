@@ -1,17 +1,42 @@
 <script setup lang="ts">
+/**
+ * DataTile — themed statistic tile with a background icon.
+ *
+ * Renders a card with a large value, a label below it, and a FontAwesome icon
+ * watermark behind the value. Hover animates a coloured underline. Set
+ * `selected` to show a ring outline — wire it to your own selection state.
+ *
+ * @prop {string|number} value — value rendered as the big number
+ * @prop {string}        label — label rendered under the value
+ * @prop {IconProp}      [icon] — FontAwesome icon shown in the background
+ * @prop {ComponentTheme}[theme='primary'] — primary | secondary | success | danger | warning
+ * @prop {boolean}       [selected=false] — show a ring outline
+ * @prop {string}        [customStatClass=''] — extra classes on the outer card
+ * @prop {string}        [customStatValueClass=''] — extra classes on the value area
+ * @prop {string}        [customStatLabelClass=''] — extra classes on the label area
+ */
+
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { computed } from 'vue';
 import type { ComponentTheme } from '../Types';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface Props {
+    /** Big number / value to display */
     value: string | number;
+    /** Label rendered under the value */
     label: string;
+    /** FontAwesome icon shown in the background of the value area */
     icon?: IconProp;
+    /** Show a ring outline (use for "currently active" tiles) */
     selected?: boolean;
+    /** Extra classes on the outer card */
     customStatClass?: string;
+    /** Extra classes on the value section */
     customStatValueClass?: string;
+    /** Extra classes on the label section */
     customStatLabelClass?: string;
+    /** Colour theme — primary | secondary | success | danger | warning */
     theme?: ComponentTheme;
 }
 

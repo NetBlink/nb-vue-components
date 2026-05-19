@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {
-    H2,
     Table,
     Thead,
     Tbody,
     Th,
     Td,
-    Tr,
-    EnhancedTable,
     PrimaryButton,
-    SecondaryButton,
     DangerButton,
     CodePreview,
     CollapsableSection,
@@ -218,35 +214,57 @@ const composableExample = [
     '});'
 ];
 
-// Props documentation
+// Props documentation — verified against src/components/Tables/types.ts and Table.vue/Th.vue/Td.vue
 const tableProps = [
-    { prop: 'data', type: 'Array', default: '[]', description: 'Array of data objects to display' },
-    { prop: 'columns', type: 'Array', default: '[]', description: 'Column definitions for auto-generated tables' },
-    { prop: 'sortable', type: 'Boolean', default: 'false', description: 'Enable sorting functionality' },
-    { prop: 'selectable', type: 'Boolean', default: 'false', description: 'Enable row selection' },
-    { prop: 'responsive', type: 'Boolean', default: 'true', description: 'Enable responsive design' },
-    { prop: 'striped', type: 'Boolean', default: 'false', description: 'Alternate row colors' },
-    { prop: 'bordered', type: 'Boolean', default: 'false', description: 'Add table borders' },
-    { prop: 'hover', type: 'Boolean', default: 'false', description: 'Enable hover effects' },
-    { prop: 'sticky', type: 'Boolean', default: 'false', description: 'Make header sticky on scroll' },
-    { prop: 'size', type: 'String', default: 'md', description: 'Table size: sm, md, lg' },
-    { prop: 'variant', type: 'String', default: 'default', description: 'Table variant: default, minimal, elevated' },
-    { prop: 'emptyMessage', type: 'String', default: 'No records found', description: 'Message shown when no data' },
-    { prop: 'loading', type: 'Boolean', default: 'false', description: 'Show loading state' }
+    // Appearance
+    { prop: 'variant', type: "'default' | 'minimal' | 'elevated'", default: "'default'", description: 'Visual style preset' },
+    { prop: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Cell text size' },
+    { prop: 'striped', type: 'boolean', default: 'false', description: 'Alternate row colors' },
+    { prop: 'bordered', type: 'boolean', default: 'false', description: 'Outer border + rounded corners' },
+    { prop: 'hover', type: 'boolean', default: 'false', description: 'Row hover background' },
+    { prop: 'sticky', type: 'boolean', default: 'false', description: 'Pin the header while scrolling (uses useStickyTableHeader)' },
+    { prop: 'responsive', type: 'boolean', default: 'true', description: 'Stack cells into a label/value layout on small screens (works with Td `label`)' },
+    { prop: 'separate', type: 'boolean', default: 'false', description: 'Render rows with vertical spacing (border-separate)' },
+    // Data / pagination
+    { prop: 'data', type: 'TableRow[]', default: '-', description: 'Optional — typically you compose rows via the Thead/Tbody slots instead' },
+    { prop: 'columns', type: 'TableColumn[]', default: '-', description: 'Optional — only relevant for auto-generated headers' },
+    { prop: 'pagination', type: 'TablePagination', default: '-', description: 'Laravel-style paginator payload; renders <Pagination> below the table' },
+    { prop: 'showPagination', type: 'boolean', default: 'true', description: 'Show the pagination footer when `pagination` is set' },
+    { prop: 'showPerPage', type: 'boolean', default: 'false', description: 'Show the per-page selector in the pagination footer' },
+    { prop: 'defaultPerPage', type: 'number', default: '25', description: 'Initial per-page value' },
+    { prop: 'loading', type: 'boolean', default: 'false', description: 'Render a loading state in Tbody' },
+    { prop: 'emptyMessage', type: 'string', default: "'No records found'", description: 'Message shown when there are no rows' },
+    { prop: 'loadingMessage', type: 'string', default: "'Loading...'", description: 'Message shown while loading' },
+    // Collapsible
+    { prop: 'collapsible', type: 'boolean', default: 'false', description: 'Render the table inside a collapsable section (uses collapseId for the trigger)' },
+    { prop: 'collapseId', type: 'string', default: '-', description: 'DOM id used to wire the table to its external trigger' },
+    // Legacy (accepted for backward compatibility)
+    { prop: 'seperate / collapsable / collapse_id / links / overflow', type: '-', default: '-', description: 'Legacy aliases of the props above — kept for back-compat. Prefer the modern names.' },
 ];
 
 const thProps = [
-    { prop: 'orderBy', type: 'String', default: 'null', description: 'Column key for sorting' },
-    { prop: 'sortable', type: 'Boolean', default: 'false', description: 'Enable sorting for this column' },
-    { prop: 'align', type: 'String', default: 'left', description: 'Text alignment: left, center, right' },
-    { prop: 'width', type: 'String', default: 'auto', description: 'Column width (CSS value)' }
+    { prop: 'orderBy', type: 'string', default: '-', description: 'Column key emitted to the sort store when this header is clicked' },
+    { prop: 'column', type: 'string', default: '-', description: 'Alias for `orderBy` (used by useTableSort to identify the column)' },
+    { prop: 'sortable', type: 'boolean', default: 'false', description: 'Render sort arrows and make the cell clickable (requires orderBy/column)' },
+    { prop: 'align', type: "'left' | 'center' | 'right'", default: "'left'", description: 'Text alignment' },
+    { prop: 'width', type: 'string', default: '-', description: 'Column width (Tailwind w-* token or any CSS value like "10rem")' },
+    { prop: 'responsive', type: 'boolean', default: 'true', description: 'Mark this header as participating in responsive layout' },
 ];
 
 const tdProps = [
-    { prop: 'label', type: 'String', default: 'null', description: 'Label for responsive display' },
-    { prop: 'align', type: 'String', default: 'left', description: 'Text alignment: left, center, right' },
-    { prop: 'width', type: 'String', default: 'auto', description: 'Cell width (CSS value)' },
-    { prop: 'nowrap', type: 'Boolean', default: 'false', description: 'Prevent text wrapping' }
+    { prop: 'label', type: 'string', default: '-', description: 'On small screens the cell renders as "label: content" — useful for responsive tables' },
+    { prop: 'align', type: "'left' | 'center' | 'right'", default: "'left'", description: 'Text alignment' },
+    { prop: 'width', type: 'string', default: '-', description: 'Cell width (CSS value)' },
+    { prop: 'nowrap', type: 'boolean', default: 'false', description: 'Prevent text wrapping in this cell' },
+    { prop: 'responsive', type: 'boolean', default: 'true', description: 'Participate in responsive layout (paired with the parent Table)' },
+];
+
+const trProps = [
+    { prop: 'selectable', type: 'boolean', default: 'false', description: 'Render a checkbox in the first cell to enable row selection' },
+    { prop: 'selected', type: 'boolean', default: 'false', description: 'Whether the checkbox is checked' },
+    { prop: 'hoverable', type: 'boolean', default: 'false', description: 'Apply hover styling on this row' },
+    { prop: 'clickable', type: 'boolean', default: 'false', description: 'Cursor pointer + click-through styling' },
+    { prop: 'variant', type: "'default' | 'success' | 'warning' | 'danger' | 'info'", default: "'default'", description: 'Row tinting variant' },
 ];
 </script>
 
@@ -458,112 +476,84 @@ const tdProps = [
                     Different table styling variants to match your design system.
                 </p>
 
-                <!-- Default Variant -->
-                <div class="mb-6">
-                    <h4 class="mb-2 font-medium">Default</h4>
-                    <Table variant="default">
-                        <Thead>
-                            <tr>
-                                <Th>Order ID</Th>
-                                <Th>Customer</Th>
-                                <Th>Total</Th>
-                                <Th>Status</Th>
-                            </tr>
-                        </Thead>
-                        <Tbody>
-                            <tr v-for="order in orders.slice(0, 3)" :key="order.id">
-                                <Td>#{{ order.id }}</Td>
-                                <Td>{{ order.customer }}</Td>
-                                <Td>{{ formatCurrency(order.total) }}</Td>
-                                <Td>
-                                    <span :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusBadge(order.status)]">
-                                        {{ order.status }}
-                                    </span>
-                                </Td>
-                            </tr>
-                        </Tbody>
-                    </Table>
-                </div>
-
-                <!-- Minimal Variant -->
-                <div class="mb-6">
-                    <h4 class="mb-2 font-medium">Minimal</h4>
-                    <Table variant="minimal">
-                        <Thead>
-                            <tr>
-                                <Th>Order ID</Th>
-                                <Th>Customer</Th>
-                                <Th>Total</Th>
-                                <Th>Status</Th>
-                            </tr>
-                        </Thead>
-                        <Tbody>
-                            <tr v-for="order in orders.slice(0, 3)" :key="order.id">
-                                <Td>#{{ order.id }}</Td>
-                                <Td>{{ order.customer }}</Td>
-                                <Td>{{ formatCurrency(order.total) }}</Td>
-                                <Td>
-                                    <span :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusBadge(order.status)]">
-                                        {{ order.status }}
-                                    </span>
-                                </Td>
-                            </tr>
-                        </Tbody>
-                    </Table>
-                </div>
-
-                <!-- Elevated Variant -->
-                <div class="mb-6">
-                    <h4 class="mb-2 font-medium">Elevated</h4>
-                    <Table variant="elevated" bordered>
-                        <Thead>
-                            <tr>
-                                <Th>Order ID</Th>
-                                <Th>Customer</Th>
-                                <Th>Total</Th>
-                                <Th>Status</Th>
-                            </tr>
-                        </Thead>
-                        <Tbody>
-                            <tr v-for="order in orders.slice(0, 3)" :key="order.id">
-                                <Td>#{{ order.id }}</Td>
-                                <Td>{{ order.customer }}</Td>
-                                <Td>{{ formatCurrency(order.total) }}</Td>
-                                <Td>
-                                    <span :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusBadge(order.status)]">
-                                        {{ order.status }}
-                                    </span>
-                                </Td>
-                            </tr>
-                        </Tbody>
-                    </Table>
-                </div>
-
-                <!-- Striped and Hover -->
-                <div class="mb-6">
-                    <h4 class="mb-2 font-medium">Striped with Hover</h4>
-                    <Table striped hover>
-                        <Thead>
-                            <tr>
-                                <Th>Order ID</Th>
-                                <Th>Customer</Th>
-                                <Th>Total</Th>
-                                <Th>Status</Th>
-                            </tr>
-                        </Thead>
-                        <Tbody>
-                            <tr v-for="order in orders.slice(0, 3)" :key="order.id">
-                                <Td>#{{ order.id }}</Td>
-                                <Td>{{ order.customer }}</Td>
-                                <Td>{{ formatCurrency(order.total) }}</Td>
-                                <Td>
-                                    <span :class="['px-2 py-1 rounded-full text-xs font-medium', getStatusBadge(order.status)]">
-                                        {{ order.status }}
-                                    </span>
-                                </Td>
-                            </tr>
-                        </Tbody>
-                    </Table>
+                <!-- Variant matrix — one rendered example, the rest demonstrated via the code preview. -->
+                <div class="mb-6 grid gap-6 lg:grid-cols-2">
+                    <div>
+                        <h4 class="mb-2 font-medium">variant="default"</h4>
+                        <Table variant="default">
+                            <Thead>
+                                <tr>
+                                    <Th>Order ID</Th>
+                                    <Th>Customer</Th>
+                                    <Th>Total</Th>
+                                </tr>
+                            </Thead>
+                            <Tbody>
+                                <tr v-for="order in orders.slice(0, 3)" :key="order.id">
+                                    <Td>#{{ order.id }}</Td>
+                                    <Td>{{ order.customer }}</Td>
+                                    <Td>{{ formatCurrency(order.total) }}</Td>
+                                </tr>
+                            </Tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <h4 class="mb-2 font-medium">striped + hover</h4>
+                        <Table striped hover>
+                            <Thead>
+                                <tr>
+                                    <Th>Order ID</Th>
+                                    <Th>Customer</Th>
+                                    <Th>Total</Th>
+                                </tr>
+                            </Thead>
+                            <Tbody>
+                                <tr v-for="order in orders.slice(0, 3)" :key="order.id">
+                                    <Td>#{{ order.id }}</Td>
+                                    <Td>{{ order.customer }}</Td>
+                                    <Td>{{ formatCurrency(order.total) }}</Td>
+                                </tr>
+                            </Tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <h4 class="mb-2 font-medium">variant="minimal"</h4>
+                        <Table variant="minimal">
+                            <Thead>
+                                <tr>
+                                    <Th>Order ID</Th>
+                                    <Th>Customer</Th>
+                                    <Th>Total</Th>
+                                </tr>
+                            </Thead>
+                            <Tbody>
+                                <tr v-for="order in orders.slice(0, 3)" :key="order.id">
+                                    <Td>#{{ order.id }}</Td>
+                                    <Td>{{ order.customer }}</Td>
+                                    <Td>{{ formatCurrency(order.total) }}</Td>
+                                </tr>
+                            </Tbody>
+                        </Table>
+                    </div>
+                    <div>
+                        <h4 class="mb-2 font-medium">variant="elevated" bordered</h4>
+                        <Table variant="elevated" bordered>
+                            <Thead>
+                                <tr>
+                                    <Th>Order ID</Th>
+                                    <Th>Customer</Th>
+                                    <Th>Total</Th>
+                                </tr>
+                            </Thead>
+                            <Tbody>
+                                <tr v-for="order in orders.slice(0, 3)" :key="order.id">
+                                    <Td>#{{ order.id }}</Td>
+                                    <Td>{{ order.customer }}</Td>
+                                    <Td>{{ formatCurrency(order.total) }}</Td>
+                                </tr>
+                            </Tbody>
+                        </Table>
+                    </div>
                 </div>
 
                 <CodePreview :code="tableVariantsExample" />
@@ -649,55 +639,31 @@ const tdProps = [
                     <PropsTable :rows="tableProps" />
                 </CollapsableSection>
 
-                <CollapsableSection header="Th (Table Header) Props" class="mb-6">
+                <CollapsableSection header="Th (Table Header Cell) Props" class="mb-6">
                     <PropsTable :rows="thProps" />
                 </CollapsableSection>
 
-                <CollapsableSection header="Td (Table Cell) Props">
+                <CollapsableSection header="Td (Table Cell) Props" class="mb-6">
                     <PropsTable :rows="tdProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="Tr (Table Row) Props">
+                    <PropsTable :rows="trProps" />
                 </CollapsableSection>
             </div>
         </section>
 
-        <!-- Migration Guide -->
+        <!-- Migration / back-compat notes -->
         <section id="migration">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">
-                Migration Guide
-            </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
-                    All existing table implementations continue to work. Here are the improvements and new features available:
-                </p>
-
-                <div class="space-y-4">
-                    <div>
-                        <h4 class="font-medium text-green-600">✅ Backward Compatible</h4>
-                        <p class="text-sm text-gray-600">All existing table code works without changes</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-blue-600">🆕 New Features</h4>
-                        <ul class="text-sm text-gray-600 list-disc list-inside">
-                            <li>EnhancedTable with auto-column generation</li>
-                            <li>Table composables for advanced functionality</li>
-                            <li>Better TypeScript support</li>
-                            <li>Improved responsive design</li>
-                            <li>Multiple table variants</li>
-                            <li>Row selection capabilities</li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-yellow-600">🔄 Recommended Updates</h4>
-                        <ul class="text-sm text-gray-600 list-disc list-inside">
-                            <li>Use <code>separate</code> instead of <code>seperate</code></li>
-                            <li>Use <code>collapsible</code> instead of <code>collapsable</code></li>
-                            <li>Consider using EnhancedTable for new implementations</li>
-                            <li>Leverage composables for complex table logic</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <CollapsableSection header="Migration & back-compat notes">
+                <p class="mb-4 text-gray-600">All older table code still works; these are the modern equivalents:</p>
+                <ul class="list-inside list-disc space-y-1 text-sm text-gray-600">
+                    <li><code>seperate</code> → <code>separate</code></li>
+                    <li><code>collapsable</code> → <code>collapsible</code></li>
+                    <li><code>collapse_id</code> → <code>collapseId</code></li>
+                    <li><code>links</code> (array) → <code>pagination</code> (Laravel paginator payload)</li>
+                </ul>
+            </CollapsableSection>
         </section>
     </div>
 </template>

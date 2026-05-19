@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { H2, Input, Checkbox, Textarea, Switch, RadioButton, Select, RichSelect, CodePreview, CollapsableSection, PropsTable } from '../index';
-import DescriptionList from '@/components/DescriptionList.vue';
-import DescriptionListItem from '@/components/DescriptionListItem.vue';
+import {
+    Input,
+    Checkbox,
+    Textarea,
+    Switch,
+    RadioButton,
+    Select,
+    RichSelect,
+    CodePreview,
+    CollapsableSection,
+    PropsTable,
+    DescriptionList,
+    DescriptionListItem,
+} from '../index';
 
 // Mock form setup
 const form = useForm({
@@ -95,63 +106,132 @@ const descriptionListAdvancedExamples = [
 
 // Props data for tables
 const inputProps = [
-    { prop: 'form', type: 'object', default: '-', description: 'Inertia form object for automatic binding' },
-    { prop: 'field', type: 'string', default: '-', description: 'Field name in the form object' },
-    { prop: 'type', type: 'string', default: "'text'", description: 'Input type (text, email, password, etc.)' },
-    { prop: 'label', type: 'string', default: 'auto', description: 'Label text (auto-generated from field if not provided)' },
-    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the input' },
-    { prop: 'addon', type: 'string', default: '-', description: 'Text to display as a prefix addon' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for automatic value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'any', default: '-', description: 'Standalone value binding (use instead of form/field)' },
+    { prop: 'type', type: 'InputType', default: "'text'", description: 'text, email, password, number, date, textarea, select, checkbox, switch, etc.' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered below the label', highlight: true },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label', highlight: true },
     { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder text' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
-    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip text shown next to label', highlight: true },
-    { prop: 'sublabel', type: 'string', default: '-', description: 'Sub-label text shown below main label', highlight: true },
-    { prop: 'submitBtn', type: 'string', default: '-', description: 'Submit button text (renders button next to input)', highlight: true },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the input' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label entirely' },
+    { prop: 'autofocus', type: 'boolean', default: 'false', description: 'Focus on mount' },
+    { prop: 'autocomplete', type: 'string | null', default: 'null', description: 'HTML autocomplete attribute (auto-inferred from common field names)' },
+    { prop: 'addon', type: 'string', default: '-', description: 'Prefix addon rendered inside the input (e.g. "@", "$")' },
+    { prop: 'submitBtn', type: 'string', default: '-', description: 'Renders a submit button next to the input with this label', highlight: true },
+    { prop: 'whatsApp', type: 'string', default: '-', description: 'Renders a WhatsApp action button bound to this number' },
+    { prop: 'rows', type: 'number', default: '3', description: 'Rows for type="textarea"' },
+    { prop: 'min', type: 'number | string', default: '-', description: 'min attribute for numeric/date inputs' },
+    { prop: 'max', type: 'number | string', default: '-', description: 'max attribute for numeric/date inputs' },
+    { prop: 'step', type: 'number | string', default: '-', description: 'step attribute for numeric inputs' },
+    { prop: 'noNumberSpinners', type: 'boolean', default: 'false', description: 'Hide native number spinner arrows' },
+    { prop: 'pattern', type: 'string', default: '-', description: 'HTML pattern attribute for validation' },
+    { prop: 'inputmode', type: 'InputMode | null', default: 'null', description: 'HTML inputmode attribute (text, numeric, tel, email, …)' },
+    { prop: 'error', type: 'string', default: '-', description: 'Override error message (otherwise read from form.errors[field])' },
+    { prop: 'hidePasswordToggler', type: 'boolean', default: 'false', description: 'Hide the show/hide eye button for type="password"' },
+    { prop: 'leftDescription', type: 'string | boolean', default: 'false', description: 'Text on the left of checkbox/switch types' },
+    { prop: 'rightDescription', type: 'string | boolean', default: "'Enable'", description: 'Text on the right of checkbox/switch types' },
 ];
 
 const checkboxProps = [
-    { prop: 'form & field', type: 'object & string', default: '-', description: 'For form integration' },
-    { prop: 'v-model', type: 'boolean', default: '-', description: 'For standalone usage' },
-    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed next to checkbox' },
-    { prop: 'leftDescription', type: 'string', default: '-', description: 'Text displayed on left side of checkbox' },
-    { prop: 'rightDescription', type: 'string', default: '-', description: 'Text displayed on right side of checkbox' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'boolean | any[]', default: '-', description: 'Standalone binding; array form supports multi-checkbox groups' },
+    { prop: 'value', type: 'any', default: 'null', description: 'Value contributed to the array when used in multi-checkbox groups' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered below the label' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'leftDescription', type: 'string | boolean', default: 'false', description: 'Text rendered to the left of the checkbox; `true` renders "Disable"' },
+    { prop: 'rightDescription', type: 'string | boolean', default: "'Enable'", description: 'Text rendered to the right of the checkbox; `false` hides it' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the checkbox' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
+    { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
+    { prop: 'id', type: 'string', default: '-', description: 'Input id attribute (auto-generated when omitted)' },
+    { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
 ];
 
 const switchProps = [
-    { prop: 'form & field', type: 'object & string', default: '-', description: 'For form integration' },
-    { prop: 'v-model', type: 'boolean', default: '-', description: 'For standalone usage' },
-    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed above switch' },
-    { prop: 'leftDescription', type: 'string', default: '-', description: 'Text displayed on left side of switch' },
-    { prop: 'rightDescription', type: 'string', default: '-', description: 'Text displayed on right side of switch' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'boolean', default: '-', description: 'Standalone value binding' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed above the switch' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered below the label' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'leftDescription', type: 'string | boolean', default: 'false', description: 'Text rendered to the left of the switch' },
+    { prop: 'rightDescription', type: 'string | boolean', default: "'Enable'", description: 'Text rendered to the right of the switch; `false` hides it' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the switch' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
+    { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
+    { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
 ];
 
 const textareaProps = [
-    { prop: 'rows', type: 'number', default: '3', description: 'Number of visible text lines' },
-    { prop: 'form & field', type: 'object & string', default: '-', description: 'For form integration' },
-    { prop: 'v-model', type: 'string', default: '-', description: 'For standalone usage' },
-    { prop: 'label', type: 'string', default: '-', description: 'Label text' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'string', default: '-', description: 'Standalone value binding' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered below the label' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
     { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder text' },
+    { prop: 'rows', type: 'number', default: '3', description: 'Number of visible rows' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the textarea' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'autofocus', type: 'boolean', default: 'false', description: 'Focus on mount' },
+    { prop: 'autocomplete', type: 'string', default: '-', description: 'HTML autocomplete attribute' },
+    { prop: 'addon', type: 'string', default: '-', description: 'Prefix addon rendered inside the textarea' },
+    { prop: 'submitBtn', type: 'string', default: '-', description: 'Renders a submit button next to the textarea with this label' },
+    { prop: 'whatsApp', type: 'string', default: '-', description: 'Renders a WhatsApp action button bound to this number' },
+    { prop: 'name', type: 'string', default: '-', description: 'Textarea name attribute' },
+    { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
 ];
 
 const radioProps = [
-    { prop: 'form & field', type: 'object & string', default: '-', description: 'For form integration' },
-    { prop: 'value', type: 'string', default: '-', description: 'The value this radio represents' },
-    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed next to radio' },
-    { prop: 'name', type: 'string', default: 'field', description: 'Input name attribute (defaults to field)' },
-    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the radio button' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'string', default: '-', description: 'Standalone value binding (set to the value of the selected radio)' },
+    { prop: 'value', type: 'string', default: '-', description: 'The value this radio represents when selected' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed next to the radio' },
+    { prop: 'name', type: 'string', default: '-', description: 'Name attribute for grouping radios (falls back to field)' },
+    { prop: 'id', type: 'string', default: '-', description: 'Input id (auto-generated from field + value when omitted)' },
+    { prop: 'isChecked', type: 'boolean', default: 'false', description: 'Deprecated — use v-model or form/field instead' },
 ];
 
 const selectProps = [
-    { prop: 'options', type: 'array', default: '[]', description: 'Array of {value, label} objects' },
-    { prop: 'form & field', type: 'object & string', default: '-', description: 'For form integration' },
-    { prop: 'v-model', type: 'string', default: '-', description: 'For standalone usage' },
-    { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder text for empty selection' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'any', default: '-', description: 'Standalone value binding' },
+    { prop: 'options', type: '(SelectOption | string)[]', default: '[]', description: 'Options as `{ value, label, disabled? }` objects or bare strings' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered below the label' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Renders as a disabled first option' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
-    { prop: 'RichSelect', type: '-', default: '-', description: 'Additional features: search, grouping, custom rendering', highlight: true },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'name', type: 'string', default: '-', description: 'Select name attribute' },
+    { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
+];
+
+const richSelectProps = [
+    { prop: '…all Select props', type: '-', default: '-', description: 'RichSelect accepts every prop the simple Select accepts' },
+    { prop: 'multiple', type: 'boolean', default: 'false', description: 'Allow multiple selection', highlight: true },
+    { prop: 'searchable', type: 'boolean', default: 'false', description: 'Show a search box inside the dropdown', highlight: true },
+    { prop: 'clearable', type: 'boolean', default: 'false', description: 'Show a clear (×) button when a value is selected' },
+    { prop: 'grouping', type: 'boolean', default: 'false', description: 'Group options by their `group` field' },
+    { prop: 'apiSearch', type: 'boolean', default: 'false', description: 'Fetch options from an endpoint as the user types', highlight: true },
+    { prop: 'apiUrl', type: 'string', default: '-', description: 'Endpoint to query when apiSearch is enabled' },
+    { prop: 'apiSearchParam', type: 'string', default: "'q'", description: 'Query parameter name for the search term' },
+    { prop: 'apiTransform', type: '(res) => SelectOption[]', default: '-', description: 'Map an API response into the expected option shape' },
+    { prop: 'minSearchLength', type: 'number', default: '2', description: 'Minimum characters before triggering a search' },
+    { prop: 'searchDelay', type: 'number', default: '300', description: 'Debounce in ms before firing the search' },
+    { prop: 'optionValue', type: 'string', default: "'value'", description: 'Property name to read the option value from' },
+    { prop: 'optionLabel', type: 'string', default: "'label'", description: 'Property name to read the option label from' },
+    { prop: 'optionGroup', type: 'string', default: "'group'", description: 'Property name to read the option group from' },
 ];
 
 // Mock data for selects
@@ -168,13 +248,13 @@ const frameworks = [
 ];
 
 const descriptionListProps = [
-    { prop: 'form', type: 'object', default: '-', description: 'Inertia form object for auto-edit integration (DescriptionList)' },
-    { prop: 'stopEditOnSubmit', type: 'boolean', default: 'false', description: 'Stop editing when form submits (DescriptionList)' },
-    { prop: 'label', type: 'string', default: "''", description: 'Label for the item (DescriptionListItem)' },
-    { prop: 'value', type: 'string', default: 'undefined', description: 'Value for the item (alternative to slot)' },
-    { prop: 'editable', type: 'boolean', default: 'false', description: 'Enable inline editing (DescriptionListItem)' },
-    { prop: 'forceEditing', type: 'boolean', default: 'false', description: 'Force editing mode (DescriptionListItem)' },
-    { prop: 'required', type: 'boolean', default: 'false', description: 'Show required asterisk (DescriptionListItem)' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'DescriptionList — Inertia form whose `processing` state can auto-exit edit mode' },
+    { prop: 'stopEditOnSubmit', type: 'boolean', default: 'false', description: 'DescriptionList — when true, stop editing once form.processing flips back to false' },
+    { prop: 'editable', type: 'boolean', default: 'false', description: 'DescriptionListItem — render a pencil button that toggles an "edit" slot' },
+    { prop: 'forceEditing', type: 'boolean', default: 'false', description: 'DescriptionListItem — open in edit mode on mount (only when editable is true)' },
+    { prop: 'label', type: 'string', default: "''", description: 'DescriptionListItem — label text (use #label slot for custom markup)' },
+    { prop: 'value', type: 'string', default: 'undefined', description: 'DescriptionListItem — value text (alternative to default slot)' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'DescriptionListItem — render a red asterisk next to the label' },
 ];
 </script>
 
@@ -325,6 +405,10 @@ const descriptionListProps = [
 
                 <CollapsableSection header="Select Props & Parameters" class="mt-6">
                     <PropsTable :rows="selectProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="RichSelect Props & Parameters" class="mt-4">
+                    <PropsTable :rows="richSelectProps" />
                 </CollapsableSection>
             </div>
         </section>

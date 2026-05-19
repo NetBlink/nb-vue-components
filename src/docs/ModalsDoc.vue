@@ -42,71 +42,87 @@ const handleConfirm = () => {
     showConfirmModal.value = false;
 };
 
-// Code examples
+// Code examples — Modal has a single default slot; lay out header/body/footer
+// inside that slot however you want.
 const basicModalExamples = [
-    '<!-- Basic Modal Usage -->',
     '<Modal :show="showModal" @close="showModal = false">',
-    '  <template #title>Modal Title</template>',
-    '  <template #content>',
-    '    <p>This is the modal content.</p>',
-    '  </template>',
-    '  <template #footer>',
-    '    <SecondaryButton @click="showModal = false">Cancel</SecondaryButton>',
-    '    <PrimaryButton @click="handleAction">Confirm</PrimaryButton>',
-    '  </template>',
+    '  <div class="p-6">',
+    '    <h3 class="text-lg font-semibold">Modal Title</h3>',
+    '    <p class="mt-2 text-gray-600">This is the modal content.</p>',
+    '    <div class="mt-6 flex justify-end gap-3">',
+    '      <SecondaryButton @click="showModal = false">Cancel</SecondaryButton>',
+    '      <PrimaryButton @click="handleAction">Confirm</PrimaryButton>',
+    '    </div>',
+    '  </div>',
     '</Modal>',
 ];
 
 const formModalExamples = [
-    '<!-- Form Modal -->',
     '<Modal :show="showFormModal" @close="showFormModal = false" maxWidth="lg">',
-    '  <template #title>Contact Form</template>',
-    '  <template #content>',
-    '    <form @submit.prevent="handleSubmit" class="space-y-4">',
-    '      <Input :form="form" field="name" label="Name" required />',
-    '      <Input :form="form" field="email" type="email" label="Email" required />',
-    '      <Textarea :form="form" field="message" label="Message" :rows="4" />',
-    '      <Checkbox :form="form" field="subscribe" label="Subscribe to newsletter" />',
-    '    </form>',
-    '  </template>',
-    '  <template #footer>',
-    '    <SecondaryButton @click="showFormModal = false">Cancel</SecondaryButton>',
-    '    <PrimaryButton @click="handleSubmit">Send Message</PrimaryButton>',
-    '  </template>',
+    '  <form @submit.prevent="handleSubmit" class="space-y-4 p-6">',
+    '    <h3 class="text-lg font-semibold">Contact Form</h3>',
+    '    <Input :form="form" field="name" label="Name" required />',
+    '    <Input :form="form" field="email" type="email" label="Email" required />',
+    '    <Input :form="form" field="message" type="textarea" :rows="4" />',
+    '    <Checkbox :form="form" field="subscribe" label="Subscribe to newsletter" />',
+    '    <div class="flex justify-end gap-3 pt-2">',
+    '      <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>',
+    '      <SubmitButton :form="form">Send</SubmitButton>',
+    '    </div>',
+    '  </form>',
     '</Modal>',
 ];
 
 const newModalExamples = [
-    '<!-- NewModal Component -->',
+    '<!-- NewModal: built on reka-ui Dialog, uses v-model:open -->',
+    '<NewModal v-model:open="showNewModal" title="Enhanced Modal">',
+    '  <p>Body content goes in the default slot.</p>',
+    '  <template #footer>',
+    '    <SecondaryButton @click="showNewModal = false">Close</SecondaryButton>',
+    '  </template>',
+    '</NewModal>',
+    '',
+    '<!-- With custom header markup -->',
     '<NewModal v-model:open="showNewModal">',
-    '  <div class="p-6">',
-    '    <h3 class="text-lg font-semibold mb-4">Enhanced Modal</h3>',
-    '    <p>This is the new modal component with improved styling.</p>',
-    '    <div class="mt-6 flex justify-end space-x-3">',
-    '      <SecondaryButton @click="showNewModal = false">Close</SecondaryButton>',
-    '    </div>',
-    '  </div>',
+    '  <template #header>',
+    '    <span class="text-red-600">Heads up</span>',
+    '  </template>',
+    '  <p>Default-slot body…</p>',
     '</NewModal>',
 ];
 
-// Props data for modals
+// Props data for modals — verified against Modal.vue and NewModal.vue
 const modalProps = [
-    { prop: 'show', type: 'boolean', default: 'false', description: 'Controls modal visibility' },
-    { prop: 'maxWidth', type: 'string', default: "'md'", description: 'Maximum width: xs, sm, md, lg, xl, 2xl' },
-    { prop: 'closeable', type: 'boolean', default: 'true', description: 'Whether modal can be closed by clicking overlay or escape key' },
-    { prop: 'title', type: 'string', default: '-', description: 'Modal title (alternative to title slot)' },
-];
-
-const modalSlots = [
-    { prop: 'title', type: 'slot', default: '-', description: 'Modal header/title content' },
-    { prop: 'content', type: 'slot', default: '-', description: 'Main modal body content' },
-    { prop: 'footer', type: 'slot', default: '-', description: 'Modal footer with action buttons' },
+    { prop: 'show', type: 'boolean', default: 'false', description: 'Controls modal visibility (use v-model:show or :show + @close)' },
+    { prop: 'maxWidth', type: 'string', default: "'2xl'", description: 'sm, md, lg, xl, 2xl, 3xl-7xl, or percentage strings: 50%, 60%, 75%, 80%, 90%, 95%' },
+    { prop: 'closeable', type: 'boolean', default: 'true', description: 'Allow closing via backdrop click or Escape key' },
+    { prop: 'alignCenter', type: 'boolean', default: 'false', description: 'Vertically center the modal (default top-aligns)' },
+    { prop: 'hideOverflow', type: 'boolean', default: 'true', description: 'Apply overflow-hidden to the modal container' },
+    { prop: 'showBorder', type: 'boolean', default: 'false', description: 'Add a coloured (pink) border around the modal' },
+    { prop: 'resizable', type: 'boolean', default: 'false', description: 'Render edge/corner handles so the user can resize the modal' },
+    { prop: 'backdropDuration', type: 'number', default: '200', description: 'Backdrop fade duration in ms' },
+    { prop: 'modalDuration', type: 'number', default: '200', description: 'Modal enter/leave duration in ms' },
+    { prop: 'modalCustomClass', type: 'string', default: "''", description: 'Extra classes for the modal panel' },
+    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Extra classes for the backdrop' },
 ];
 
 const modalEvents = [
-    { prop: 'close', type: 'event', default: '-', description: 'Emitted when modal should be closed' },
-    { prop: 'opened', type: 'event', default: '-', description: 'Emitted when modal has fully opened' },
-    { prop: 'closed', type: 'event', default: '-', description: 'Emitted when modal has fully closed' },
+    { prop: '@close', type: 'event', default: '-', description: 'Fired when the user clicks the backdrop or presses Escape (only when closeable is true)' },
+];
+
+const newModalProps = [
+    { prop: 'v-model:open', type: 'boolean', default: 'false', description: 'Two-way binding for open state', highlight: true },
+    { prop: 'title', type: 'string', default: '-', description: 'Title rendered in DialogTitle (overridden by #header slot)' },
+    { prop: 'description', type: 'string', default: '-', description: 'Sub-title rendered in DialogDescription (overridden by #description slot)' },
+    { prop: 'defaultOpen', type: 'boolean', default: 'false', description: 'Open on mount' },
+];
+
+const newModalSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Main body content' },
+    { prop: 'header', type: 'slot', default: '-', description: 'Custom header markup (replaces the `title` prop)' },
+    { prop: 'description', type: 'slot', default: '-', description: 'Custom description markup (replaces the `description` prop)' },
+    { prop: 'footer', type: 'slot', default: '-', description: 'Footer area, right-aligned at the bottom of the modal' },
+    { prop: 'trigger', type: 'slot', default: '-', description: 'Element that opens the modal when clicked (uses Radix DialogTrigger)' },
 ];
 </script>
 
@@ -122,15 +138,15 @@ const modalEvents = [
                 </div>
 
                 <Modal :show="showBasicModal" @close="showBasicModal = false">
-                    <template #title>Welcome to Our App</template>
-                    <template #content>
-                        <p class="mb-4 text-gray-600">This is a basic modal example demonstrating the core functionality of our modal component.</p>
+                    <div class="p-6">
+                        <h3 class="mb-4 text-lg font-semibold text-gray-900">Welcome to Our App</h3>
+                        <p class="mb-2 text-gray-600">This is a basic modal example demonstrating the core functionality of our modal component.</p>
                         <p class="text-gray-600">You can customize the content, styling, and behavior to fit your application's needs.</p>
-                    </template>
-                    <template #footer>
-                        <SecondaryButton @click="showBasicModal = false">Cancel</SecondaryButton>
-                        <PrimaryButton @click="showBasicModal = false" class="ml-3">Got it</PrimaryButton>
-                    </template>
+                        <div class="mt-6 flex justify-end gap-3">
+                            <SecondaryButton @click="showBasicModal = false">Cancel</SecondaryButton>
+                            <PrimaryButton @click="showBasicModal = false">Got it</PrimaryButton>
+                        </div>
+                    </div>
                 </Modal>
 
                 <CodePreview :code="basicModalExamples" />
@@ -151,33 +167,33 @@ const modalEvents = [
                 </div>
 
                 <Modal :show="showFormModal" @close="showFormModal = false" maxWidth="lg">
-                    <template #title>Contact Us</template>
-                    <template #content>
-                        <form @submit.prevent="handleSubmit" class="space-y-4">
-                            <Input :form="modalForm" field="name" label="Your Name" required />
-                            <Input :form="modalForm" field="email" type="email" label="Email Address" required />
-                            <Input
-                                :form="modalForm"
-                                field="message"
-                                type="textarea"
-                                label="Message"
-                                :rows="4"
-                                placeholder="Tell us how we can help..."
-                            />
-                            <Checkbox :form="modalForm" field="subscribe" label="Subscribe to our newsletter for updates" />
-                        </form>
-                    </template>
-                    <template #footer>
-                        <SecondaryButton @click="showFormModal = false">Cancel</SecondaryButton>
-                        <PrimaryButton @click="handleSubmit" class="ml-3">Send Message</PrimaryButton>
-                    </template>
+                    <form @submit.prevent="handleSubmit" class="space-y-4 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Contact Us</h3>
+                        <Input :form="modalForm" field="name" label="Your Name" required />
+                        <Input :form="modalForm" field="email" type="email" label="Email Address" required />
+                        <Input
+                            :form="modalForm"
+                            field="message"
+                            type="textarea"
+                            label="Message"
+                            :rows="4"
+                            placeholder="Tell us how we can help..."
+                        />
+                        <Checkbox :form="modalForm" field="subscribe" label="Subscribe to our newsletter for updates" />
+                        <div class="flex justify-end gap-3 pt-2">
+                            <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>
+                            <PrimaryButton type="submit">Send Message</PrimaryButton>
+                        </div>
+                    </form>
                 </Modal>
 
                 <CodePreview :code="formModalExamples" />
 
-                <CollapsableSection header="Modal Slots" class="mt-6">
-                    <PropsTable :rows="modalSlots" />
-                </CollapsableSection>
+                <p class="mt-6 text-sm text-gray-600">
+                    Note: <code class="rounded bg-gray-100 px-1">Modal</code> exposes only a single default slot — render your own header,
+                    body, and footer inside it. For named header / footer / description slots, use
+                    <code class="rounded bg-gray-100 px-1">NewModal</code> below.
+                </p>
             </div>
         </section>
 
@@ -217,7 +233,13 @@ const modalEvents = [
         <section id="new-modal">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">NewModal Component</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Enhanced modal component with improved styling and modern design patterns.</p>
+                <p class="mb-4 text-gray-600">
+                    Built on reka-ui's headless <code class="rounded bg-gray-100 px-1">Dialog</code> primitives. Use
+                    <code class="rounded bg-gray-100 px-1">v-model:open</code> for state, and the
+                    <code class="rounded bg-gray-100 px-1">header</code> / <code class="rounded bg-gray-100 px-1">footer</code> /
+                    <code class="rounded bg-gray-100 px-1">description</code> / <code class="rounded bg-gray-100 px-1">trigger</code> slots
+                    for layout. Preferred for new code.
+                </p>
 
                 <div class="mb-6">
                     <PrimaryButton @click="showNewModal = true">Open New Modal</PrimaryButton>
@@ -246,6 +268,14 @@ const modalEvents = [
                 </NewModal>
 
                 <CodePreview :code="newModalExamples" />
+
+                <CollapsableSection header="NewModal Props" class="mt-6">
+                    <PropsTable :rows="newModalProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="NewModal Slots" class="mt-4">
+                    <PropsTable :rows="newModalSlots" />
+                </CollapsableSection>
             </div>
         </section>
     </div>

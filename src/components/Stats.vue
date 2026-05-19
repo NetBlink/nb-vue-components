@@ -3,21 +3,28 @@ import { computed } from 'vue';
 import { getInertiaPage } from '../Helpers';
 
 /**
- * Stats component for displaying statistical data with clickable filters
+ * Stats — clickable stat tiles used as quick filters.
  *
- * @component
+ * Each item is a `{ name, value, label? }` object. Clicking a tile emits
+ * `updateSearch` with the tile's name (or `null` when the same tile is
+ * clicked again to clear). Selection state is read from a URL query
+ * parameter named by `statusName` (defaults to `status`).
  *
- * @prop {object} stats - Object containing statistical data
- * @prop {string} statusName - Name of the status parameter for routing
- * @prop {string} customContainerClass - Custom CSS classes for the container
- * @prop {string} customStatClass - Custom CSS classes for each stat item
- * @prop {string} customStatLabelClass - Custom CSS classes for stat labels
- * @prop {string} customStatValueClass - Custom CSS classes for stat values
+ * @prop {StatItem[]}    stats — `{ name, value, label? }[]` — label falls back to `name` for display
+ * @prop {string|null}   [statusName=null] — query-string parameter used to compute the selected tile
+ * @prop {string}        [customContainerClass=''] — extra classes on the outer grid
+ * @prop {string}        [customStatClass=''] — extra classes on each stat card
+ * @prop {string}        [customStatLabelClass=''] — extra classes on each stat label
+ * @prop {string}        [customStatValueClass=''] — extra classes on each stat value
+ * @emits updateSearch — `(name: string | null)` — fires when a tile is clicked
  */
 
 interface StatItem {
+    /** Unique key for the stat — emitted in updateSearch */
     name: string;
+    /** Number displayed in the value area */
     value: number;
+    /** Display label (falls back to `name` if omitted) */
     label?: string;
 }
 

@@ -1,18 +1,23 @@
 <script setup lang="ts">
 /**
- * Responsive Navigation Link component
+ * ResponsiveNavLink — mobile/stacked variant of `NavLink`.
  *
- * @component
+ * Same `href` / `active` API as NavLink, but styled as a full-width row with
+ * a left border for use in mobile menus. No `#icon` slot — only the default
+ * label slot is rendered.
  *
- * @prop {string} href - The URL to navigate to
- * @prop {boolean} active - Whether this link is currently active
+ * @prop {string}  href — destination URL (Inertia visit)
+ * @prop {boolean} [active=false] — apply the active styling
+ * @slot default — link label
  */
 
 import { computed } from 'vue';
 import Link from '../overrides/InertiaLink';
 
 interface Props {
+    /** Destination URL — performs an Inertia visit */
     href: string;
+    /** Apply active styling (the parent decides activeness) */
     active?: boolean;
 }
 

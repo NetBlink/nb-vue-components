@@ -2,16 +2,24 @@
 import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
 /**
- * @typedef {Object} Props
- * @property {boolean} show - Whether the modal is visible or not
- * @property {string} maxWidth - The maximum width of the modal
- * @property {boolean} closeable - Whether the modal can be closed by clicking outside
- * @property {boolean} hideOverflow - Whether to hide the overflow of the body when the modal is open
- * @property {number} backdropDuration - The duration of the backdrop transition
- * @property {number} modalDuration - The duration of the modal transition
- * @property {boolean} alignCenter - Whether to align the modal to the center of the screen
- * @property {boolean} showBorder - Whether to show a border around the modal
- * @property {boolean} [resizable=false] - Whether the modal is resizable
+ * Modal — teleported, backdropped dialog with a single default slot.
+ *
+ * Render your own header, body, and footer inside the default slot. For a
+ * Radix/reka-ui based dialog with named header/footer/description slots,
+ * use `NewModal` instead.
+ *
+ * @prop {boolean} show — visibility (use `:show` + `@close` or `v-model:show`)
+ * @prop {string} [maxWidth='2xl'] — sm | md | lg | xl | 2xl–7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
+ * @prop {boolean} [closeable=true] — allow closing via backdrop click or Escape key
+ * @prop {boolean} [hideOverflow=true] — apply overflow-hidden to the modal container
+ * @prop {boolean} [alignCenter=false] — vertically center the modal (default top-aligns)
+ * @prop {boolean} [showBorder=false] — add the brand-coloured border around the panel
+ * @prop {boolean} [resizable=false] — render edge/corner handles so the user can resize the modal
+ * @prop {number}  [backdropDuration=200] — backdrop fade duration (ms)
+ * @prop {number}  [modalDuration=200] — modal enter/leave duration (ms)
+ * @prop {string}  [modalCustomClass=''] — extra classes for the modal panel
+ * @prop {string}  [backdropCustomClass=''] — extra classes for the backdrop
+ * @emits close — fires when the user clicks the backdrop or presses Escape (only when `closeable` is true)
  */
 const props = defineProps({
     show: {

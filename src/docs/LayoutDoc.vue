@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import {
-    H2,
     Section,
     CollapsableSection,
     Collapse,
@@ -11,18 +10,11 @@ import {
     DescriptionListItem,
     DottedCarousel,
     CodePreview,
-    PrimaryButton,
-    SecondaryButton,
-    InfoButton,
+    PropsTable,
 } from '../index';
 
 // Component state
 const showCollapse = ref(false);
-const collapseItems = ref([
-    { id: 1, title: 'First Item', content: 'Content for the first collapsible item.' },
-    { id: 2, title: 'Second Item', content: 'Content for the second collapsible item.' },
-    { id: 3, title: 'Third Item', content: 'Content for the third collapsible item.' },
-]);
 
 // Carousel items
 const carouselItems = ref([
@@ -76,24 +68,42 @@ const collapsableSectionExamples = [
 ];
 
 const carouselExamples = [
-    '<!-- Basic Carousel -->',
-    '<DottedCarousel>',
+    '<!-- Render whatever you want inside — DottedCarousel handles the snap/scroll/dots -->',
+    '<DottedCarousel :gap="20">',
     '  <div v-for="slide in slides" :key="slide.id" class="min-w-full snap-start">',
-    '    <div class="text-center p-8">',
-    '      <h3 class="text-xl font-medium mb-4">{{ slide.title }}</h3>',
-    '      <p class="text-gray-600">{{ slide.description }}</p>',
-    '    </div>',
+    '    <h3 class="text-xl font-medium mb-4">{{ slide.title }}</h3>',
+    '    <p class="text-gray-600">{{ slide.description }}</p>',
     '  </div>',
     '</DottedCarousel>',
 ];
 
 const descriptionListExamples = [
-    '<!-- Description List -->',
     '<DescriptionList>',
-    '  <DescriptionListItem term="Name" description="John Doe" />',
-    '  <DescriptionListItem term="Email" description="john@example.com" />',
-    '  <DescriptionListItem term="Role" description="Administrator" />',
+    '  <DescriptionListItem label="Name" value="John Doe" />',
+    '  <DescriptionListItem label="Email" value="john@example.com" />',
+    '  <DescriptionListItem label="Role" value="Administrator" />',
     '</DescriptionList>',
+];
+
+// Props data — verified against the actual components
+const carouselProps = [
+    { prop: 'gap', type: 'number', default: '20', description: 'Pixel gap between slides (also used in scroll math)' },
+    { prop: 'padding', type: 'number', default: '0', description: 'Outer padding offset applied to the scroll calculation when navigating via the dots' },
+];
+
+const carouselSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Carousel slides. Each top-level child becomes one slide; mark each as `class="min-w-full snap-start"` so the snap scrolling lines up.' },
+];
+
+const collapsableSectionProps = [
+    { prop: 'header', type: 'string', default: '-', description: 'Heading text shown in the toggle row (use the #trigger slot for custom markup)' },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive — updating the prop opens/closes the section)' },
+    { prop: 'headerColor', type: 'string', default: '-', description: 'Inline background-color applied to the header trigger' },
+];
+
+const collapsableSectionSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Body content rendered when expanded' },
+    { prop: 'trigger', type: 'slot', default: '-', description: 'Custom heading content (used only when no `header` prop is provided)' },
 ];
 </script>
 
@@ -134,6 +144,11 @@ const descriptionListExamples = [
                 </div>
 
                 <CodePreview :code="sectionExamples" />
+
+                <p class="mt-4 text-sm text-gray-600">
+                    See the <strong>Sections</strong> entry under <code class="rounded bg-gray-100 px-1">Utility Components</code> for the full prop
+                    table.
+                </p>
             </div>
         </section>
 
@@ -166,6 +181,16 @@ const descriptionListExamples = [
                 </div>
 
                 <CodePreview :code="collapsableSectionExamples" />
+
+                <div class="mt-6">
+                    <h4 class="mb-3 font-semibold text-gray-800">CollapsableSection Props</h4>
+                    <PropsTable :rows="collapsableSectionProps" />
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <PropsTable :rows="collapsableSectionSlots" />
+                </div>
             </div>
         </section>
 
@@ -192,29 +217,14 @@ const descriptionListExamples = [
 
                 <CodePreview :code="carouselExamples" />
 
-                <div class="mt-6 rounded-lg bg-gray-50 p-4">
-                    <h4 class="mb-2 font-medium">Props</h4>
-                    <ul class="space-y-1 text-sm">
-                        <li>
-                            <code>items</code>
-                            (array) - Array of items to display in the carousel
-                        </li>
-                        <li>
-                            <code>autoPlay</code>
-                            (boolean, optional) - Whether to auto-advance slides
-                        </li>
-                        <li>
-                            <code>interval</code>
-                            (number, optional) - Auto-advance interval in milliseconds
-                        </li>
-                    </ul>
-                    <h4 class="mt-4 mb-2 font-medium">Slots</h4>
-                    <ul class="space-y-1 text-sm">
-                        <li>
-                            <code>default</code>
-                            - Slide content template (receives item as slot prop)
-                        </li>
-                    </ul>
+                <div class="mt-6">
+                    <h4 class="mb-3 font-semibold text-gray-800">DottedCarousel Props</h4>
+                    <PropsTable :rows="carouselProps" />
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
+                    <PropsTable :rows="carouselSlots" />
                 </div>
             </div>
         </section>
@@ -226,16 +236,21 @@ const descriptionListExamples = [
 
                 <div class="mb-6">
                     <DescriptionList>
-                        <DescriptionListItem term="Full Name" description="John Doe" />
-                        <DescriptionListItem term="Email Address" description="john.doe@example.com" />
-                        <DescriptionListItem term="Role" description="Administrator" />
-                        <DescriptionListItem term="Department" description="Engineering" />
-                        <DescriptionListItem term="Location" description="San Francisco, CA" />
-                        <DescriptionListItem term="Member Since" description="March 15, 2023" />
+                        <DescriptionListItem label="Full Name" value="John Doe" />
+                        <DescriptionListItem label="Email Address" value="john.doe@example.com" />
+                        <DescriptionListItem label="Role" value="Administrator" />
+                        <DescriptionListItem label="Department" value="Engineering" />
+                        <DescriptionListItem label="Location" value="San Francisco, CA" />
+                        <DescriptionListItem label="Member Since" value="March 15, 2023" />
                     </DescriptionList>
                 </div>
 
                 <CodePreview :code="descriptionListExamples" />
+
+                <p class="mt-4 text-sm text-gray-600">
+                    See the <strong>Description List</strong> entry under <code class="rounded bg-gray-100 px-1">Input Components</code> for the full
+                    prop table (including the editable variant).
+                </p>
             </div>
         </section>
 

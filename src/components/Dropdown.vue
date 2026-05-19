@@ -1,18 +1,31 @@
 <script setup lang="ts">
-import type { PropType } from 'vue';
+/**
+ * Dropdown — menu popover built on reka-ui's `DropdownMenu` primitives.
+ *
+ * Provide a `#trigger` slot for the toggle element and a `#content` slot for
+ * the menu items (typically `DropdownLink` / `DropdownSeparator`). All
+ * non-listed attrs are forwarded to the underlying `DropdownMenuContent`.
+ *
+ * @prop {Align} [align='start'] — `'start' | 'center' | 'end'` — anchors menu to the trigger
+ * @prop {number} [alignOffset=5] — pixel offset from the alignment point
+ * @prop {boolean} [openOnHover=false] — open the menu on hover instead of click
+ * @prop {number} [hoverDelay=150] — ms to wait before closing on mouse leave (only when openOnHover is true)
+ * @slot trigger — element that opens the menu
+ * @slot content — menu items
+ */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
 import { ref, nextTick } from 'vue';
 
 interface DropdownProps {
-    /** Alignment of the dropdown content relative to trigger */
+    /** Where to anchor the menu relative to the trigger */
     align?: Align;
-    /** Offset from the alignment position */
+    /** Pixel offset from the alignment point */
     alignOffset?: number;
-    /** Whether to open dropdown on hover instead of click */
+    /** Open on hover instead of click */
     openOnHover?: boolean;
-    /** Delay in milliseconds before closing on mouse leave */
+    /** Delay before closing on mouse leave (only when openOnHover is true) */
     hoverDelay?: number;
 }
 

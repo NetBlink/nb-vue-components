@@ -1,15 +1,31 @@
 <script setup lang="ts">
+/**
+ * NewModal — accessible dialog built on reka-ui's headless `Dialog` primitives.
+ *
+ * Preferred for new code. Drives open-state with `v-model:open`, and offers named
+ * header / description / footer / trigger slots in addition to the default slot
+ * for body content. For the older single-default-slot variant see `Modal`.
+ *
+ * Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props
+ * (`aria-*`, `role`, …) and custom classes pass through.
+ *
+ * @slot default — body content
+ * @slot header — overrides the `title` prop
+ * @slot description — overrides the `description` prop
+ * @slot footer — right-aligned footer area
+ * @slot trigger — element that opens the dialog when clicked
+ */
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
 import { onMounted, onUnmounted, watch } from 'vue';
 
 interface NewModalProps {
-    /** Modal title text */
+    /** Title rendered in DialogTitle (overridden by the `header` slot) */
     title?: string;
-    /** Modal description text */
+    /** Sub-title rendered in DialogDescription (overridden by the `description` slot) */
     description?: string;
-    /** Whether the modal is open by default */
+    /** Open the dialog on mount */
     defaultOpen?: boolean;
 }
 
