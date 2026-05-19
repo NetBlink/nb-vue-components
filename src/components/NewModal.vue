@@ -15,8 +15,7 @@
  * @slot footer — right-aligned footer area
  * @slot trigger — element that opens the dialog when clicked
  */
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
 import { onMounted, onUnmounted, watch } from 'vue';
 
@@ -88,7 +87,7 @@ watch(
                     class="focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] cursor-pointer appearance-none items-center justify-center rounded-full transition-all focus:shadow-[0_0_0_2px] focus:outline-none dark:text-gray-200 dark:hover:bg-primary/30 dark:focus:bg-primary/40"
                     aria-label="Close"
                 >
-                    <FontAwesomeIcon :icon="faTimes" />
+                    <NbIcon name="$close" />
                 </DialogClose>
             </DialogContent>
         </DialogPortal>
