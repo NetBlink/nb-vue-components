@@ -1,27 +1,59 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import {
-    Section,
-    CollapsableSection,
-    Collapse,
-    DescriptionList,
-    DescriptionListItem,
-    DottedCarousel,
-    CodePreview,
-    PropsTable,
-} from '../index';
+import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import { Section, CollapsableSection, DottedCarousel, CodePreview, PropsTable } from '../index';
 
-// Component state
-const showCollapse = ref(false);
-
-// Carousel items
+// Carousel slides — varied content so there's something to actually swipe through
 const carouselItems = ref([
-    { id: 1, title: 'Slide 1', description: 'First carousel slide content' },
-    { id: 2, title: 'Slide 2', description: 'Second carousel slide content' },
-    { id: 3, title: 'Slide 3', description: 'Third carousel slide content' },
-    { id: 4, title: 'Slide 4', description: 'Fourth carousel slide content' },
+    {
+        id: 1,
+        title: 'Ship faster',
+        description: 'Pre-built components for inputs, tables, modals and more — wire up a screen in minutes, not hours.',
+        icon: faRocket,
+        gradient: 'from-blue-50 to-indigo-100',
+        accent: 'text-indigo-600',
+    },
+    {
+        id: 2,
+        title: 'Consistent design',
+        description: 'Every component shares the same theming tokens, so primary / accent / success / danger stay in sync across your app.',
+        icon: faPaintBrush,
+        gradient: 'from-pink-50 to-fuchsia-100',
+        accent: 'text-fuchsia-600',
+    },
+    {
+        id: 3,
+        title: 'Built for Inertia',
+        description: 'Form integration, validation errors, and Link wrappers play nicely with @inertiajs/vue3 out of the box.',
+        icon: faGears,
+        gradient: 'from-emerald-50 to-teal-100',
+        accent: 'text-teal-600',
+    },
+    {
+        id: 4,
+        title: 'Data-heavy ready',
+        description: 'Sortable headers, sticky chrome, pagination, selection, and the EnhancedTable wrapper for big lists.',
+        icon: faChartLine,
+        gradient: 'from-amber-50 to-orange-100',
+        accent: 'text-orange-600',
+    },
+    {
+        id: 5,
+        title: 'Accessible by default',
+        description: 'NewModal, Tooltip, and Dropdown use reka-ui primitives — focus management, ARIA, keyboard handling all wired up.',
+        icon: faShieldHalved,
+        gradient: 'from-purple-50 to-violet-100',
+        accent: 'text-violet-600',
+    },
+    {
+        id: 6,
+        title: 'Open and extensible',
+        description: 'Slot-based composition + customClass props on everything mean you can drop into any one component without reaching for !important.',
+        icon: faPeopleGroup,
+        gradient: 'from-cyan-50 to-sky-100',
+        accent: 'text-sky-600',
+    },
 ]);
 
 // Code examples
@@ -75,14 +107,6 @@ const carouselExamples = [
     '    <p class="text-gray-600">{{ slide.description }}</p>',
     '  </div>',
     '</DottedCarousel>',
-];
-
-const descriptionListExamples = [
-    '<DescriptionList>',
-    '  <DescriptionListItem label="Name" value="John Doe" />',
-    '  <DescriptionListItem label="Email" value="john@example.com" />',
-    '  <DescriptionListItem label="Role" value="Administrator" />',
-    '</DescriptionList>',
 ];
 
 // Props data — verified against the actual components
@@ -155,7 +179,14 @@ const collapsableSectionSlots = [
         <section id="collapsable-sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapsable Sections</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Expandable content sections with customizable headers and initial states.</p>
+                <p class="mb-2 text-gray-600">
+                    Styled card with a header bar — click the header to expand or collapse the body. Use for sectioning long forms or settings into
+                    expandable groups.
+                </p>
+                <p class="mb-4 text-sm text-gray-500">
+                    Related: <code class="rounded bg-gray-100 px-1">Collapse</code> (inline disclosure, see <em>Utility Components</em>) and
+                    <code class="rounded bg-gray-100 px-1">NavCollapse</code> (nav menus, see <em>Navigation Components</em>).
+                </p>
 
                 <div class="mb-6 space-y-4">
                     <CollapsableSection header="Feature Documentation">
@@ -199,18 +230,23 @@ const collapsableSectionSlots = [
             <div class="rounded-lg border border-gray-200 bg-white p-6">
                 <p class="mb-4 text-gray-600">Interactive carousel component with dot navigation for displaying multiple slides.</p>
 
+                <p class="mb-3 text-sm text-gray-500">Click the dots below the panel — or swipe / scroll horizontally — to move between slides.</p>
                 <div class="mb-6">
                     <DottedCarousel>
                         <div
                             v-for="item in carouselItems"
                             :key="item.id"
-                            class="min-w-full snap-start rounded-lg bg-gradient-to-br from-blue-50 to-indigo-100 p-8 text-center"
+                            class="min-w-full snap-start rounded-lg bg-gradient-to-br p-10 text-center"
+                            :class="item.gradient"
                         >
-                            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-md">
-                                <span class="text-primary-600 text-2xl font-bold">{{ item.id }}</span>
+                            <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md">
+                                <FontAwesomeIcon :icon="item.icon" :class="['text-3xl', item.accent]" />
                             </div>
-                            <h3 class="mb-4 text-xl font-medium">{{ item.title }}</h3>
-                            <p class="text-gray-600">{{ item.description }}</p>
+                            <div class="mb-2 text-xs font-medium uppercase tracking-widest text-gray-500">
+                                Slide {{ item.id }} / {{ carouselItems.length }}
+                            </div>
+                            <h3 class="mb-3 text-2xl font-semibold text-gray-900">{{ item.title }}</h3>
+                            <p class="mx-auto max-w-md text-gray-600">{{ item.description }}</p>
                         </div>
                     </DottedCarousel>
                 </div>
@@ -229,67 +265,5 @@ const collapsableSectionSlots = [
             </div>
         </section>
 
-        <section id="description-lists">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Description Lists</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Structured display of term-definition pairs for showing detailed information.</p>
-
-                <div class="mb-6">
-                    <DescriptionList>
-                        <DescriptionListItem label="Full Name" value="John Doe" />
-                        <DescriptionListItem label="Email Address" value="john.doe@example.com" />
-                        <DescriptionListItem label="Role" value="Administrator" />
-                        <DescriptionListItem label="Department" value="Engineering" />
-                        <DescriptionListItem label="Location" value="San Francisco, CA" />
-                        <DescriptionListItem label="Member Since" value="March 15, 2023" />
-                    </DescriptionList>
-                </div>
-
-                <CodePreview :code="descriptionListExamples" />
-
-                <p class="mt-4 text-sm text-gray-600">
-                    See the <strong>Description List</strong> entry under <code class="rounded bg-gray-100 px-1">Input Components</code> for the full
-                    prop table (including the editable variant).
-                </p>
-            </div>
-        </section>
-
-        <section id="collapse">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapse Component</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Low-level collapse component for building custom collapsible interfaces.</p>
-
-                <div class="mb-6">
-                    <button
-                        @click="showCollapse = !showCollapse"
-                        class="flex w-full items-center justify-between rounded-lg bg-gray-100 p-4 text-left transition-colors hover:bg-gray-200"
-                    >
-                        <span class="font-medium">Toggle Custom Collapse</span>
-                        <FontAwesomeIcon
-                            :icon="faChevronDown"
-                            class="h-5 w-5 transition-transform duration-200"
-                            :class="{ 'rotate-180': showCollapse }"
-                        />
-                    </button>
-
-                    <Collapse :open="showCollapse">
-                        <div class="rounded-b-lg border border-t-0 bg-white p-4">
-                            <h4 class="mb-2 font-medium">Collapse Content</h4>
-                            <p class="mb-4 text-gray-600">This content is controlled by the Collapse component with smooth animations.</p>
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <div class="rounded bg-gray-50 p-3">
-                                    <h5 class="mb-1 font-medium">Feature 1</h5>
-                                    <p class="text-gray-600">Smooth animations</p>
-                                </div>
-                                <div class="rounded bg-gray-50 p-3">
-                                    <h5 class="mb-1 font-medium">Feature 2</h5>
-                                    <p class="text-gray-600">Custom triggers</p>
-                                </div>
-                            </div>
-                        </div>
-                    </Collapse>
-                </div>
-            </div>
-        </section>
     </div>
 </template>

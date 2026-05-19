@@ -33,7 +33,18 @@ const form = useForm({
     tooltip_field: 'Field with tooltip',
     sublabel_field: 'Field with sublabel',
     search_query: '',
+    // DescriptionList editable demo
+    full_name: 'John Doe',
+    contact_email: 'john@example.com',
+    role: 'admin',
 });
+
+const roleOptions = [
+    { value: 'admin', label: 'Admin' },
+    { value: 'editor', label: 'Editor' },
+    { value: 'viewer', label: 'Viewer' },
+];
+const roleLabel = (val: string) => roleOptions.find((o) => o.value === val)?.label ?? val;
 
 // Code examples
 const inputExamples = [
@@ -77,6 +88,55 @@ const selectExamples = [
     '<RichSelect :form="form" field="framework" label="Framework" :options="frameworks" />',
 ];
 
+const richSelectSearchExample = [
+    '<!-- searchable adds a filter box; works for small or medium option lists -->',
+    '<RichSelect v-model="framework" :options="frameworks" searchable clearable label="Framework" />',
+];
+
+const richSelectMultipleExample = [
+    '<!-- multiple turns the value into an array; selections render as chips -->',
+    '<RichSelect v-model="tags" :options="tagOptions" multiple searchable label="Tags" />',
+];
+
+const richSelectGroupingExample = [
+    '<!-- grouping reads `group` from each option and renders headings -->',
+    'const tools = [',
+    "  { value: 'vite', label: 'Vite', group: 'Bundlers' },",
+    "  { value: 'jest', label: 'Jest', group: 'Test runners' },",
+    '];',
+    '',
+    '<RichSelect v-model="tool" :options="tools" grouping searchable label="Tool" />',
+];
+
+const richSelectCustomKeysExample = [
+    '<!-- Map a record set with non-default key names via optionValue/optionLabel -->',
+    'const users = [{ id: 1, title: \'Ada Lovelace\' }, …];',
+    '',
+    '<RichSelect',
+    '  v-model="userId"',
+    '  :options="users"',
+    '  optionValue="id"',
+    '  optionLabel="title"',
+    '  label="Assignee"',
+    '  clearable',
+    '/>',
+];
+
+const richSelectApiExample = [
+    '<!-- apiSearch fetches options from the given URL as the user types -->',
+    '<RichSelect',
+    '  v-model="user"',
+    '  apiSearch',
+    '  apiUrl="/api/users/search"',
+    '  apiSearchParam="q"',
+    '  :apiTransform="(res) => res.data"',
+    '  :minSearchLength="2"',
+    '  :searchDelay="300"',
+    '  searchable',
+    '  label="Assignee"',
+    '/>',
+];
+
 const descriptionListExamples = [
     '<DescriptionList>',
     '  <DescriptionListItem label="Name">John Doe</DescriptionListItem>',
@@ -86,22 +146,54 @@ const descriptionListExamples = [
 ];
 
 const descriptionListEditableExamples = [
-    '<DescriptionList>',
-    '  <DescriptionListItem label="Name" editable>John Doe</DescriptionListItem>',
-    '  <DescriptionListItem label="Email" editable>john@example.com</DescriptionListItem>',
-    '  <DescriptionListItem label="Role" editable>Admin</DescriptionListItem>',
+    '<!-- Each editable item needs an #edit slot — that\'s what the pencil swaps to. -->',
+    '<DescriptionList :form="form" stopEditOnSubmit>',
+    '  <DescriptionListItem label="Name" editable>',
+    '    {{ form.full_name }}',
+    '    <template #edit>',
+    '      <Input :form="form" field="full_name" noLabel />',
+    '    </template>',
+    '  </DescriptionListItem>',
+    '',
+    '  <DescriptionListItem label="Email" editable>',
+    '    {{ form.contact_email }}',
+    '    <template #edit>',
+    '      <Input :form="form" field="contact_email" type="email" noLabel />',
+    '    </template>',
+    '  </DescriptionListItem>',
+    '',
+    '  <DescriptionListItem label="Role" editable>',
+    '    {{ roleLabel(form.role) }}',
+    '    <template #edit>',
+    '      <Select :form="form" field="role" :options="roleOptions" noLabel />',
+    '    </template>',
+    '  </DescriptionListItem>',
     '</DescriptionList>',
 ];
 
 const descriptionListAdvancedExamples = [
-    '<DescriptionList>',
-    '  <DescriptionListItem label="Required" required editable>Required value</DescriptionListItem>',
-    '  <DescriptionListItem label="With value prop" :value="\'Value from prop\'" />',
-    '  <DescriptionListItem>',
-    '    <template #label>Custom <b>Label</b></template>',
-    '    Custom content with <span class="text-primary">slot</span>',
-    '  </DescriptionListItem>',
-    '</DescriptionList>',
+    '<!-- forceEditing opens in edit mode on mount (only when editable is true). -->',
+    '<DescriptionListItem label="Required" required editable forceEditing>',
+    '  {{ form.full_name }}',
+    '  <template #edit>',
+    '    <Input :form="form" field="full_name" noLabel />',
+    '  </template>',
+    '</DescriptionListItem>',
+    '',
+    '<!-- `value` is a quick shorthand instead of using the default slot. -->',
+    '<DescriptionListItem label="Joined" value="March 15, 2023" />',
+    '',
+    '<!-- #label / #buttons slots for custom heading or trailing controls. -->',
+    '<DescriptionListItem editable>',
+    '  <template #label>Custom <b>Label</b></template>',
+    '  Custom content with <span class="text-primary">slot</span>',
+    '  <template #edit>',
+    '    <Input v-model="custom" noLabel />',
+    '  </template>',
+    '  <template #buttons>',
+    '    <button @click="...">Revert</button>',
+    '  </template>',
+    '</DescriptionListItem>',
 ];
 
 // Props data for tables
@@ -245,6 +337,49 @@ const frameworks = [
     { value: 'vue', label: 'Vue.js' },
     { value: 'react', label: 'React' },
     { value: 'angular', label: 'Angular' },
+    { value: 'svelte', label: 'Svelte' },
+    { value: 'solid', label: 'Solid' },
+    { value: 'qwik', label: 'Qwik' },
+    { value: 'astro', label: 'Astro' },
+    { value: 'nuxt', label: 'Nuxt' },
+];
+
+// Searchable single-select demo
+const searchableFramework = ref<string | undefined>('vue');
+
+// Multiple-select demo
+const selectedTags = ref<string[]>(['design', 'frontend']);
+const tagOptions = [
+    { value: 'design', label: 'Design' },
+    { value: 'frontend', label: 'Frontend' },
+    { value: 'backend', label: 'Backend' },
+    { value: 'devops', label: 'DevOps' },
+    { value: 'data', label: 'Data' },
+    { value: 'mobile', label: 'Mobile' },
+    { value: 'security', label: 'Security' },
+];
+
+// Grouped options demo
+const selectedTool = ref<string | undefined>(undefined);
+const groupedTools = [
+    { value: 'vite', label: 'Vite', group: 'Bundlers' },
+    { value: 'webpack', label: 'Webpack', group: 'Bundlers' },
+    { value: 'rollup', label: 'Rollup', group: 'Bundlers' },
+    { value: 'jest', label: 'Jest', group: 'Test runners' },
+    { value: 'vitest', label: 'Vitest', group: 'Test runners' },
+    { value: 'playwright', label: 'Playwright', group: 'Test runners' },
+    { value: 'eslint', label: 'ESLint', group: 'Linters' },
+    { value: 'prettier', label: 'Prettier', group: 'Linters' },
+];
+
+// Custom option keys demo — note `id`/`title` instead of `value`/`label`
+const selectedUserId = ref<number | undefined>(undefined);
+const userRecords = [
+    { id: 1, title: 'Ada Lovelace' },
+    { id: 2, title: 'Alan Turing' },
+    { id: 3, title: 'Grace Hopper' },
+    { id: 4, title: 'Margaret Hamilton' },
+    { id: 5, title: 'Linus Torvalds' },
 ];
 
 const descriptionListProps = [
@@ -394,16 +529,83 @@ const descriptionListProps = [
         <section id="select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Select Components</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Multiple select components: simple Select for basic dropdowns and RichSelect for advanced features.</p>
+                <p class="mb-4 text-gray-600">
+                    <code class="rounded bg-gray-100 px-1">Select</code> is a thin wrapper around a native
+                    <code class="rounded bg-gray-100 px-1">&lt;select&gt;</code> — use it for short lists. Reach for
+                    <code class="rounded bg-gray-100 px-1">RichSelect</code> when you need search, multiple selection, grouping, API-backed
+                    autocomplete, or custom option shapes.
+                </p>
 
+                <h4 class="mb-2 font-semibold text-gray-800">Simple side-by-side</h4>
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Select :form="form" field="country" label="Country (Simple)" :options="countries" />
                     <RichSelect :form="form" field="framework" label="Framework (Rich)" :options="frameworks" />
                 </div>
-
                 <CodePreview :code="selectExamples" />
 
-                <CollapsableSection header="Select Props & Parameters" class="mt-6">
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — searchable + clearable</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    Add <code class="rounded bg-gray-100 px-1">searchable</code> for an in-dropdown filter, and
+                    <code class="rounded bg-gray-100 px-1">clearable</code> for an × button to reset the value.
+                </p>
+                <div class="mb-3 max-w-md">
+                    <RichSelect v-model="searchableFramework" :options="frameworks" searchable clearable label="Framework" />
+                </div>
+                <p class="mb-4 text-xs text-gray-500">Selected value: <code class="rounded bg-gray-100 px-1">{{ searchableFramework ?? 'null' }}</code></p>
+                <CodePreview :code="richSelectSearchExample" />
+
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — multiple</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    Set <code class="rounded bg-gray-100 px-1">multiple</code> and bind to an array. Selected options render as removable chips.
+                </p>
+                <div class="mb-3 max-w-md">
+                    <RichSelect v-model="selectedTags" :options="tagOptions" multiple searchable label="Tags" />
+                </div>
+                <p class="mb-4 text-xs text-gray-500">Selected: <code class="rounded bg-gray-100 px-1">{{ JSON.stringify(selectedTags) }}</code></p>
+                <CodePreview :code="richSelectMultipleExample" />
+
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — grouping</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    With <code class="rounded bg-gray-100 px-1">grouping</code>, options are bucketed by their
+                    <code class="rounded bg-gray-100 px-1">group</code> field (configurable via
+                    <code class="rounded bg-gray-100 px-1">optionGroup</code>).
+                </p>
+                <div class="mb-3 max-w-md">
+                    <RichSelect v-model="selectedTool" :options="groupedTools" grouping searchable clearable label="Tool" />
+                </div>
+                <CodePreview :code="richSelectGroupingExample" />
+
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — custom option keys</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    Already have records shaped like <code class="rounded bg-gray-100 px-1">{ id, title }</code>? Map them with
+                    <code class="rounded bg-gray-100 px-1">optionValue</code> and <code class="rounded bg-gray-100 px-1">optionLabel</code>
+                    rather than reformatting your data.
+                </p>
+                <div class="mb-3 max-w-md">
+                    <RichSelect
+                        v-model="selectedUserId"
+                        :options="userRecords"
+                        optionValue="id"
+                        optionLabel="title"
+                        label="Assignee"
+                        searchable
+                        clearable
+                    />
+                </div>
+                <p class="mb-4 text-xs text-gray-500">Selected id: <code class="rounded bg-gray-100 px-1">{{ selectedUserId ?? 'null' }}</code></p>
+                <CodePreview :code="richSelectCustomKeysExample" />
+
+                <h4 class="mt-10 mb-2 font-semibold text-gray-800">RichSelect — API search</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    <code class="rounded bg-gray-100 px-1">apiSearch</code> debounces the search box and hits
+                    <code class="rounded bg-gray-100 px-1">apiUrl</code> with the query in
+                    <code class="rounded bg-gray-100 px-1">apiSearchParam</code>. Use
+                    <code class="rounded bg-gray-100 px-1">apiTransform</code> to map the response into the option shape RichSelect expects. (No
+                    live demo here — wire it up to a real endpoint in your app.)
+                </p>
+                <CodePreview :code="richSelectApiExample" />
+
+                <CollapsableSection header="Select Props & Parameters" class="mt-8">
                     <PropsTable :rows="selectProps" />
                 </CollapsableSection>
 
@@ -430,24 +632,53 @@ const descriptionListProps = [
                 <CodePreview :code="descriptionListExamples" class="mt-4" />
 
                 <h4 class="mt-8 mb-2 font-semibold text-gray-800">Editable Example</h4>
-                <DescriptionList>
-                    <DescriptionListItem label="Name" editable>John Doe</DescriptionListItem>
-                    <DescriptionListItem label="Email" editable>john@example.com</DescriptionListItem>
-                    <DescriptionListItem label="Role" editable>Admin</DescriptionListItem>
+                <p class="mb-3 text-sm text-gray-600">
+                    Click the pencil to switch each row into edit mode. The component swaps the default slot for the
+                    <code class="rounded bg-gray-100 px-1">#edit</code> slot — that's where you put the actual input.
+                </p>
+                <DescriptionList :form="form">
+                    <DescriptionListItem label="Name" editable>
+                        {{ form.full_name }}
+                        <template #edit>
+                            <Input :form="form" field="full_name" no-label />
+                        </template>
+                    </DescriptionListItem>
+                    <DescriptionListItem label="Email" editable>
+                        {{ form.contact_email }}
+                        <template #edit>
+                            <Input :form="form" field="contact_email" type="email" no-label />
+                        </template>
+                    </DescriptionListItem>
+                    <DescriptionListItem label="Role" editable>
+                        {{ roleLabel(form.role) }}
+                        <template #edit>
+                            <Select :form="form" field="role" :options="roleOptions" no-label />
+                        </template>
+                    </DescriptionListItem>
                 </DescriptionList>
                 <CodePreview :code="descriptionListEditableExamples" class="mt-4" />
 
                 <h4 class="mt-8 mb-2 font-semibold text-gray-800">Advanced Example</h4>
-                <DescriptionList>
-                    <DescriptionListItem label="Required" required editable>Required value</DescriptionListItem>
-                    <DescriptionListItem label="With value prop" :value="'Value from prop'" />
-                    <DescriptionListItem>
-                        <template #label>
-                            Custom
-                            <b>Label</b>
+                <p class="mb-3 text-sm text-gray-600">
+                    Mix and match: <code class="rounded bg-gray-100 px-1">forceEditing</code> opens in edit mode on mount, the
+                    <code class="rounded bg-gray-100 px-1">value</code> prop is a shortcut when there's no slot content, and the
+                    <code class="rounded bg-gray-100 px-1">#label</code> / <code class="rounded bg-gray-100 px-1">#buttons</code> slots are
+                    available too.
+                </p>
+                <DescriptionList :form="form">
+                    <DescriptionListItem label="Required" required editable forceEditing>
+                        {{ form.full_name }}
+                        <template #edit>
+                            <Input :form="form" field="full_name" no-label />
                         </template>
-                        Custom content with
-                        <span class="text-primary">slot</span>
+                    </DescriptionListItem>
+                    <DescriptionListItem label="Joined" value="March 15, 2023" />
+                    <DescriptionListItem editable>
+                        <template #label>Custom <b>Label</b></template>
+                        Custom content with <span class="text-primary">slot</span>
+                        <template #edit>
+                            <Input v-model="form.full_name" no-label />
+                        </template>
                     </DescriptionListItem>
                 </DescriptionList>
                 <CodePreview :code="descriptionListAdvancedExamples" class="mt-4" />

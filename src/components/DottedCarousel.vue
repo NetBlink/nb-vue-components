@@ -11,11 +11,16 @@
  * @prop {number} [padding=0] — outer padding offset applied to the scroll calculation when navigating via the dots
  * @slot default — carousel slides
  */
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const currentSlide = ref(0);
 const activeDot = ref(null);
 const container = ref(null);
+// Count rendered children directly from the DOM — `$slots.default().length`
+// returns 1 when the slot content is a v-for (it's wrapped in a Fragment vnode),
+// which gives us only one dot regardless of how many slides exist.
+const slideCount = ref(0);
+let childObserver = null;
 
 const props = defineProps({
     /** Outer padding offset applied to the scroll math when clicking a dot */
@@ -24,35 +29,48 @@ const props = defineProps({
     gap: { default: 20 },
 });
 
+const DOT_PITCH = 20;
 const currentDotPosition = ref(0);
 
 watch(currentSlide, (index) => {
     if (activeDot.value) {
-        currentDotPosition.value = `${index * 20}`;
+        currentDotPosition.value = `${index * DOT_PITCH}`;
     }
 });
 
 const slideTo = (event, index) => {
+    if (!container.value?.children[index]) return;
     currentSlide.value = index;
     container.value.scrollTo({
         behavior: 'smooth',
-        left:
-            container.value.scrollLeft +
-            container.value.getBoundingClientRect().left +
-            container.value.children[index].getBoundingClientRect().left -
-            props.padding -
-            props.gap,
+        // offsetLeft is the child's left position within the scroll container,
+        // already in the same coordinate space as scrollLeft.
+        left: container.value.children[index].offsetLeft - props.padding,
     });
 };
 
 const updateCurrentSlide = () => {
+    if (!container.value?.children[0]) return;
     const slideWidth = container.value.children[0].getBoundingClientRect().width;
     currentSlide.value = Math.round(container.value.scrollLeft / (slideWidth + props.gap));
 };
 
+const refreshSlideCount = () => {
+    slideCount.value = container.value?.children.length ?? 0;
+};
+
 onMounted(() => {
+    refreshSlideCount();
     updateCurrentSlide();
     container.value.addEventListener('scroll', updateCurrentSlide);
+    // Slide list can change (v-for items added/removed) — keep dot count in sync
+    childObserver = new MutationObserver(refreshSlideCount);
+    childObserver.observe(container.value, { childList: true });
+});
+
+onBeforeUnmount(() => {
+    childObserver?.disconnect();
+    container.value?.removeEventListener('scroll', updateCurrentSlide);
 });
 </script>
 
@@ -74,10 +92,10 @@ onMounted(() => {
                     ref="activeDot"
                 />
                 <div
-                    v-for="(slide, index) in Array($slots.default().length).fill('')"
+                    v-for="index in slideCount"
                     :key="index"
                     class="h-2 w-2 cursor-pointer rounded-full bg-accent"
-                    @click="slideTo($event, index)"
+                    @click="slideTo($event, index - 1)"
                 />
             </div>
         </div>

@@ -17,10 +17,12 @@ import {
 import { useForm } from '@inertiajs/vue3';
 
 // Modal state management
-const showBasicModal = ref(false);
+const showBasic = ref(false);
 const showFormModal = ref(false);
 const showConfirmModal = ref(false);
-const showNewModal = ref(false);
+
+// Legacy Modal state
+const showLegacyModal = ref(false);
 
 // Form for modal example
 const modalForm = useForm({
@@ -31,7 +33,6 @@ const modalForm = useForm({
 });
 
 const handleSubmit = () => {
-    // Simulate form submission
     console.log('Form submitted:', modalForm.data());
     showFormModal.value = false;
     modalForm.reset();
@@ -42,53 +43,61 @@ const handleConfirm = () => {
     showConfirmModal.value = false;
 };
 
-// Code examples — Modal has a single default slot; lay out header/body/footer
-// inside that slot however you want.
-const basicModalExamples = [
-    '<Modal :show="showModal" @close="showModal = false">',
-    '  <div class="p-6">',
-    '    <h3 class="text-lg font-semibold">Modal Title</h3>',
-    '    <p class="mt-2 text-gray-600">This is the modal content.</p>',
-    '    <div class="mt-6 flex justify-end gap-3">',
-    '      <SecondaryButton @click="showModal = false">Cancel</SecondaryButton>',
-    '      <PrimaryButton @click="handleAction">Confirm</PrimaryButton>',
-    '    </div>',
-    '  </div>',
-    '</Modal>',
-];
-
-const formModalExamples = [
-    '<Modal :show="showFormModal" @close="showFormModal = false" maxWidth="lg">',
-    '  <form @submit.prevent="handleSubmit" class="space-y-4 p-6">',
-    '    <h3 class="text-lg font-semibold">Contact Form</h3>',
-    '    <Input :form="form" field="name" label="Name" required />',
-    '    <Input :form="form" field="email" type="email" label="Email" required />',
-    '    <Input :form="form" field="message" type="textarea" :rows="4" />',
-    '    <Checkbox :form="form" field="subscribe" label="Subscribe to newsletter" />',
-    '    <div class="flex justify-end gap-3 pt-2">',
-    '      <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>',
-    '      <SubmitButton :form="form">Send</SubmitButton>',
-    '    </div>',
-    '  </form>',
-    '</Modal>',
-];
-
-const newModalExamples = [
-    '<!-- NewModal: built on reka-ui Dialog, uses v-model:open -->',
-    '<NewModal v-model:open="showNewModal" title="Enhanced Modal">',
-    '  <p>Body content goes in the default slot.</p>',
+// Code examples — NewModal is the canonical component.
+const basicExamples = [
+    '<NewModal v-model:open="open" title="Welcome">',
+    '  <p>Body content lives in the default slot.</p>',
     '  <template #footer>',
-    '    <SecondaryButton @click="showNewModal = false">Close</SecondaryButton>',
+    '    <SecondaryButton @click="open = false">Cancel</SecondaryButton>',
+    '    <PrimaryButton @click="onConfirm">Got it</PrimaryButton>',
     '  </template>',
     '</NewModal>',
     '',
-    '<!-- With custom header markup -->',
-    '<NewModal v-model:open="showNewModal">',
+    '<!-- Custom header markup overrides the `title` prop -->',
+    '<NewModal v-model:open="open">',
     '  <template #header>',
     '    <span class="text-red-600">Heads up</span>',
     '  </template>',
     '  <p>Default-slot body…</p>',
     '</NewModal>',
+];
+
+const confirmationExamples = [
+    '<NewModal v-model:open="showConfirmModal" title="Confirm deletion">',
+    '  <p class="text-gray-600">Are you sure? This cannot be undone.</p>',
+    '  <template #footer>',
+    '    <SecondaryButton @click="showConfirmModal = false">Cancel</SecondaryButton>',
+    '    <DangerButton @click="handleConfirm">Delete account</DangerButton>',
+    '  </template>',
+    '</NewModal>',
+];
+
+const formExamples = [
+    '<NewModal v-model:open="showFormModal" title="Contact us">',
+    '  <form @submit.prevent="handleSubmit" class="space-y-4">',
+    '    <Input :form="form" field="name" label="Name" required />',
+    '    <Input :form="form" field="email" type="email" required />',
+    '    <Input :form="form" field="message" type="textarea" :rows="4" />',
+    '    <Checkbox :form="form" field="subscribe" label="Subscribe to newsletter" />',
+    '  </form>',
+    '  <template #footer>',
+    '    <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>',
+    '    <SubmitButton :form="form" @click="handleSubmit">Send</SubmitButton>',
+    '  </template>',
+    '</NewModal>',
+];
+
+const legacyModalExample = [
+    '<!-- Deprecated. Single default slot only. Prefer NewModal for new code. -->',
+    '<Modal :show="open" @close="open = false">',
+    '  <div class="p-6">',
+    '    <h3 class="text-lg font-semibold">Title</h3>',
+    '    <p>Body…</p>',
+    '    <div class="mt-6 flex justify-end gap-3">',
+    '      <SecondaryButton @click="open = false">Close</SecondaryButton>',
+    '    </div>',
+    '  </div>',
+    '</Modal>',
 ];
 
 // Props data for modals — verified against Modal.vue and NewModal.vue
@@ -128,153 +137,157 @@ const newModalSlots = [
 
 <template>
     <div class="space-y-12">
-        <section id="basic-modal">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Basic Modal</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Clean, accessible modal dialogs with flexible content and customizable sizing.</p>
-
-                <div class="mb-6">
-                    <PrimaryButton @click="showBasicModal = true">Open Basic Modal</PrimaryButton>
-                </div>
-
-                <Modal :show="showBasicModal" @close="showBasicModal = false">
-                    <div class="p-6">
-                        <h3 class="mb-4 text-lg font-semibold text-gray-900">Welcome to Our App</h3>
-                        <p class="mb-2 text-gray-600">This is a basic modal example demonstrating the core functionality of our modal component.</p>
-                        <p class="text-gray-600">You can customize the content, styling, and behavior to fit your application's needs.</p>
-                        <div class="mt-6 flex justify-end gap-3">
-                            <SecondaryButton @click="showBasicModal = false">Cancel</SecondaryButton>
-                            <PrimaryButton @click="showBasicModal = false">Got it</PrimaryButton>
-                        </div>
-                    </div>
-                </Modal>
-
-                <CodePreview :code="basicModalExamples" />
-
-                <CollapsableSection header="Modal Props" class="mt-6">
-                    <PropsTable :rows="modalProps" />
-                </CollapsableSection>
+        <section>
+            <div class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
+                <strong>NewModal</strong> is the canonical dialog — built on reka-ui's <code class="rounded bg-white px-1">Dialog</code>,
+                drives state with <code class="rounded bg-white px-1">v-model:open</code>, and ships named
+                <code class="rounded bg-white px-1">header</code> / <code class="rounded bg-white px-1">description</code> /
+                <code class="rounded bg-white px-1">footer</code> / <code class="rounded bg-white px-1">trigger</code> slots. Use it for all new
+                code. The older single-slot <code class="rounded bg-white px-1">Modal</code> is deprecated and lives at the bottom of this page.
             </div>
         </section>
 
-        <section id="form-modal">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Form Modal</h3>
+        <section id="basic">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Basic dialog</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Modal dialogs containing forms for user input, with proper validation and submission handling.</p>
+                <p class="mb-4 text-gray-600">
+                    Pass a <code class="rounded bg-gray-100 px-1">title</code> for the header bar (or use the
+                    <code class="rounded bg-gray-100 px-1">#header</code> slot for custom markup). Body goes in the default slot, action buttons
+                    in <code class="rounded bg-gray-100 px-1">#footer</code>.
+                </p>
 
                 <div class="mb-6">
-                    <PrimaryButton @click="showFormModal = true">Open Contact Form</PrimaryButton>
+                    <PrimaryButton @click="showBasic = true">Open basic dialog</PrimaryButton>
                 </div>
 
-                <Modal :show="showFormModal" @close="showFormModal = false" maxWidth="lg">
-                    <form @submit.prevent="handleSubmit" class="space-y-4 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Contact Us</h3>
-                        <Input :form="modalForm" field="name" label="Your Name" required />
-                        <Input :form="modalForm" field="email" type="email" label="Email Address" required />
+                <NewModal v-model:open="showBasic" title="Welcome to Our App">
+                    <p class="text-gray-600">
+                        This is a basic dialog demonstrating <code class="rounded bg-gray-100 px-1">title</code> + default slot +
+                        <code class="rounded bg-gray-100 px-1">#footer</code>.
+                    </p>
+                    <template #footer>
+                        <SecondaryButton @click="showBasic = false">Cancel</SecondaryButton>
+                        <PrimaryButton @click="showBasic = false">Got it</PrimaryButton>
+                    </template>
+                </NewModal>
+
+                <CodePreview :code="basicExamples" />
+            </div>
+        </section>
+
+        <section id="confirmation">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Confirmation dialog</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">Use the <code class="rounded bg-gray-100 px-1">#header</code> slot when you need icon + title together.</p>
+
+                <div class="mb-6">
+                    <DangerButton @click="showConfirmModal = true">Delete account</DangerButton>
+                </div>
+
+                <NewModal v-model:open="showConfirmModal">
+                    <template #header>
+                        <span class="flex items-center gap-2">
+                            <FontAwesomeIcon :icon="faExclamationTriangle" class="h-5 w-5 text-red-600" />
+                            Confirm deletion
+                        </span>
+                    </template>
+                    <p class="text-gray-600">
+                        Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+                    </p>
+                    <template #footer>
+                        <SecondaryButton @click="showConfirmModal = false">Cancel</SecondaryButton>
+                        <DangerButton @click="handleConfirm">Delete account</DangerButton>
+                    </template>
+                </NewModal>
+
+                <CodePreview :code="confirmationExamples" />
+            </div>
+        </section>
+
+        <section id="form">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Form dialog</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6">
+                <p class="mb-4 text-gray-600">Forms render inside the default slot. Keep buttons in the footer so they pin to the bottom.</p>
+
+                <div class="mb-6">
+                    <PrimaryButton @click="showFormModal = true">Open contact form</PrimaryButton>
+                </div>
+
+                <NewModal v-model:open="showFormModal" title="Contact us">
+                    <form @submit.prevent="handleSubmit" class="space-y-4">
+                        <Input :form="modalForm" field="name" label="Your name" required />
+                        <Input :form="modalForm" field="email" type="email" label="Email" required />
                         <Input
                             :form="modalForm"
                             field="message"
                             type="textarea"
                             label="Message"
                             :rows="4"
-                            placeholder="Tell us how we can help..."
+                            placeholder="Tell us how we can help…"
                         />
-                        <Checkbox :form="modalForm" field="subscribe" label="Subscribe to our newsletter for updates" />
-                        <div class="flex justify-end gap-3 pt-2">
-                            <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>
-                            <PrimaryButton type="submit">Send Message</PrimaryButton>
-                        </div>
+                        <Checkbox :form="modalForm" field="subscribe" label="Subscribe to our newsletter" />
                     </form>
-                </Modal>
+                    <template #footer>
+                        <SecondaryButton type="button" @click="showFormModal = false">Cancel</SecondaryButton>
+                        <PrimaryButton @click="handleSubmit">Send</PrimaryButton>
+                    </template>
+                </NewModal>
 
-                <CodePreview :code="formModalExamples" />
-
-                <p class="mt-6 text-sm text-gray-600">
-                    Note: <code class="rounded bg-gray-100 px-1">Modal</code> exposes only a single default slot — render your own header,
-                    body, and footer inside it. For named header / footer / description slots, use
-                    <code class="rounded bg-gray-100 px-1">NewModal</code> below.
-                </p>
+                <CodePreview :code="formExamples" />
             </div>
         </section>
 
-        <section id="confirmation-modal">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Confirmation Modal</h3>
+        <section id="api">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">NewModal API</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Confirmation dialogs for destructive or important actions.</p>
-
-                <div class="mb-6">
-                    <DangerButton @click="showConfirmModal = true">Delete Account</DangerButton>
-                </div>
-
-                <NewModal v-model:open="showConfirmModal">
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center">
-                            <FontAwesomeIcon :icon="faExclamationTriangle" class="mr-3 h-6 w-6 text-red-600" />
-                            <h3 class="text-lg font-semibold text-gray-900">Confirm Deletion</h3>
-                        </div>
-
-                        <p class="mb-6 text-gray-600">
-                            Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
-                        </p>
-
-                        <div class="flex justify-end space-x-3">
-                            <SecondaryButton @click="showConfirmModal = false">Cancel</SecondaryButton>
-                            <DangerButton @click="handleConfirm">Delete Account</DangerButton>
-                        </div>
-                    </div>
-                </NewModal>
-
-                <CollapsableSection header="Modal Events" class="mt-6">
-                    <PropsTable :rows="modalEvents" />
-                </CollapsableSection>
-            </div>
-        </section>
-
-        <section id="new-modal">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">NewModal Component</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">
-                    Built on reka-ui's headless <code class="rounded bg-gray-100 px-1">Dialog</code> primitives. Use
-                    <code class="rounded bg-gray-100 px-1">v-model:open</code> for state, and the
-                    <code class="rounded bg-gray-100 px-1">header</code> / <code class="rounded bg-gray-100 px-1">footer</code> /
-                    <code class="rounded bg-gray-100 px-1">description</code> / <code class="rounded bg-gray-100 px-1">trigger</code> slots
-                    for layout. Preferred for new code.
-                </p>
-
-                <div class="mb-6">
-                    <PrimaryButton @click="showNewModal = true">Open New Modal</PrimaryButton>
-                </div>
-
-                <NewModal v-model:open="showNewModal">
-                    <div class="p-6">
-                        <h3 class="mb-4 text-lg font-semibold text-gray-900">Enhanced Modal Design</h3>
-                        <p class="mb-4 text-gray-600">
-                            This is the NewModal component featuring improved accessibility, better animations, and more flexible styling options.
-                        </p>
-                        <div class="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
-                            <h4 class="mb-2 text-sm font-semibold text-blue-900">Key Features:</h4>
-                            <ul class="space-y-1 text-sm text-blue-800">
-                                <li>• Enhanced accessibility with proper ARIA attributes</li>
-                                <li>• Smooth animations and transitions</li>
-                                <li>• Better mobile responsiveness</li>
-                                <li>• Improved focus management</li>
-                            </ul>
-                        </div>
-                        <div class="flex justify-end space-x-3">
-                            <SecondaryButton @click="showNewModal = false">Close</SecondaryButton>
-                            <PrimaryButton @click="showNewModal = false">Looks Great!</PrimaryButton>
-                        </div>
-                    </div>
-                </NewModal>
-
-                <CodePreview :code="newModalExamples" />
-
-                <CollapsableSection header="NewModal Props" class="mt-6">
+                <CollapsableSection header="Props" :open="true">
                     <PropsTable :rows="newModalProps" />
                 </CollapsableSection>
 
-                <CollapsableSection header="NewModal Slots" class="mt-4">
+                <CollapsableSection header="Slots" class="mt-4">
                     <PropsTable :rows="newModalSlots" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="deprecated">
+            <h3 class="mb-4 flex items-center gap-2 border-b-2 border-amber-200 pb-2 text-xl font-semibold text-amber-700">
+                Deprecated
+                <span class="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-amber-800">
+                    Will not be supported
+                </span>
+            </h3>
+
+            <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6">
+                <p class="mb-4 text-sm text-amber-900">
+                    The original <code class="rounded bg-white px-1">Modal</code> component is documented here for backwards reference only — it
+                    will not be receiving further work. <strong>Migrate to NewModal for all new code.</strong> Modal exposes only a single default
+                    slot (no named header/footer slots) and uses <code class="rounded bg-white px-1">:show + @close</code> instead of
+                    <code class="rounded bg-white px-1">v-model:open</code>.
+                </p>
+
+                <div class="mb-4">
+                    <SecondaryButton @click="showLegacyModal = true">Open legacy Modal</SecondaryButton>
+                </div>
+
+                <Modal :show="showLegacyModal" @close="showLegacyModal = false">
+                    <div class="p-6">
+                        <h3 class="mb-4 text-lg font-semibold text-gray-900">Legacy Modal</h3>
+                        <p class="text-gray-600">All header, body and footer markup must be supplied via the single default slot.</p>
+                        <div class="mt-6 flex justify-end gap-3">
+                            <SecondaryButton @click="showLegacyModal = false">Close</SecondaryButton>
+                        </div>
+                    </div>
+                </Modal>
+
+                <CodePreview :code="legacyModalExample" />
+
+                <CollapsableSection header="Modal Props (deprecated)" class="mt-6">
+                    <PropsTable :rows="modalProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="Modal Events (deprecated)" class="mt-4">
+                    <PropsTable :rows="modalEvents" />
                 </CollapsableSection>
             </div>
         </section>

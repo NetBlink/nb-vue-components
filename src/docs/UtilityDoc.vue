@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronCircleDown, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import {
+    faChevronCircleDown,
+    faChevronDown,
+    faUsers,
+    faChartLine,
+    faTriangleExclamation,
+    faCircleCheck,
+    faGears,
+} from '@fortawesome/free-solid-svg-icons';
 import {
     Alert,
     Spinner,
@@ -10,8 +18,6 @@ import {
     Section,
     Collapse,
     Pagination,
-    DescriptionList,
-    DescriptionListItem,
     CodePreview,
     PropsTable,
     DataTile,
@@ -70,15 +76,6 @@ const statsData = [
     { name: 'Revenue', value: 45678, label: '+8.2%' },
     { name: 'Bounce Rate', value: 32, label: '-2.1%' },
     { name: 'Conversion', value: 4.8, label: '-0.3%' },
-];
-
-const userDetails = [
-    { label: 'Full Name', value: 'John Doe' },
-    { label: 'Email', value: 'john.doe@example.com' },
-    { label: 'Role', value: 'Administrator' },
-    { label: 'Department', value: 'Engineering' },
-    { label: 'Location', value: 'San Francisco, CA' },
-    { label: 'Joined', value: 'March 15, 2023' },
 ];
 
 // Code examples
@@ -531,52 +528,97 @@ const dataTileProps = [
         </section>
 
         <section id="collapsible">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapsible Content</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Collapse</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Expandable content sections with smooth animations.</p>
+                <p class="mb-3 text-gray-600">
+                    Low-level open/close container. By default it renders a <code class="rounded bg-gray-100 px-1">SecondaryButton</code> as the
+                    trigger (labels come from the <code class="rounded bg-gray-100 px-1">button</code> prop); pass a
+                    <code class="rounded bg-gray-100 px-1">#trigger</code> slot to override.
+                </p>
 
-                <div class="mb-6 space-y-4">
-                    <div class="rounded-lg border border-gray-200 bg-white p-4">
-                        <h4 class="mb-3 font-semibold text-gray-800">Frequently Asked Questions</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <h5 class="font-semibold text-gray-900">How do I reset my password?</h5>
-                                <p class="text-gray-600">You can reset your password by clicking the "Forgot Password" link on the login page.</p>
-                            </div>
-                            <div>
-                                <h5 class="font-semibold text-gray-900">Can I change my email address?</h5>
-                                <p class="text-gray-600">Yes, you can update your email address in the account settings section.</p>
-                            </div>
+                <!-- Family comparison: there are three "collapsible" components and they get confused -->
+                <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
+                    <strong>Picking the right one:</strong>
+                    <ul class="mt-2 list-inside list-disc space-y-1">
+                        <li><strong>Collapse</strong> — minimal show/hide for inline disclosure (this section).</li>
+                        <li>
+                            <strong>CollapsableSection</strong> — styled card with a header bar; use for sectioning content into expandable groups.
+                            See <em>Layout Components → Collapsable Sections</em>.
+                        </li>
+                        <li>
+                            <strong>NavCollapse</strong> — expandable group inside a navigation list (renders as an <code class="rounded bg-blue-100 px-1">&lt;li&gt;</code>).
+                            See <em>Navigation Components → Collapsible Navigation</em>.
+                        </li>
+                    </ul>
+                </div>
+
+                <h4 class="mb-3 font-semibold text-gray-800">Default trigger (`button` prop)</h4>
+                <Collapse class="mb-6">
+                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-gray-600">
+                            Default trigger uses a SecondaryButton labelled by the <code class="rounded bg-white px-1">button</code> prop.
+                            <br />
+                            <span class="text-gray-500">Try the labels: pass <code class="rounded bg-white px-1">:button="['Details', 'Hide']"</code>.</span>
+                        </p>
+                    </div>
+                </Collapse>
+
+                <Collapse :button="['View advanced details', 'Hide advanced details']" class="mb-6">
+                    <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <p class="text-gray-600">
+                            Same Collapse, with custom button labels via <code class="rounded bg-white px-1">:button="['…', '…']"</code>.
+                        </p>
+                    </div>
+                </Collapse>
+
+                <h4 class="mb-3 font-semibold text-gray-800">Custom trigger (#trigger slot)</h4>
+                <Collapse :open="collapseOpen" class="mb-6">
+                    <template #trigger>
+                        <button
+                            @click="collapseOpen = !collapseOpen"
+                            class="flex w-full items-center justify-between rounded-lg bg-gray-100 p-3 text-left transition-colors hover:bg-gray-200"
+                        >
+                            <span class="font-semibold">Advanced settings</span>
+                            <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
+                        </button>
+                    </template>
+                    <div class="mt-2 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                        <p class="mb-3 text-sm text-gray-600">
+                            When you supply your own trigger, you also own the open state — toggle <code class="rounded bg-white px-1">collapseOpen</code>
+                            yourself.
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <label class="block">
+                                <span class="font-medium text-gray-700">API timeout</span>
+                                <input type="number" class="mt-1 block w-full rounded border-gray-300" value="30" />
+                            </label>
+                            <label class="block">
+                                <span class="font-medium text-gray-700">Max retries</span>
+                                <input type="number" class="mt-1 block w-full rounded border-gray-300" value="3" />
+                            </label>
                         </div>
                     </div>
+                </Collapse>
 
-                    <Collapse :open="collapseOpen">
-                        <template #trigger>
-                            <button
-                                @click="collapseOpen = !collapseOpen"
-                                class="flex w-full items-center justify-between rounded-lg bg-gray-100 p-4 text-left hover:bg-gray-200"
-                            >
-                                <span class="font-semibold">Advanced Settings</span>
-                                <FontAwesomeIcon :icon="faChevronDown" class="h-4 w-4 transition-transform" :class="{ 'rotate-180': collapseOpen }" />
-                            </button>
-                        </template>
-                        <div class="rounded-b-lg border border-t-0 p-4">
-                            <p class="mb-4 text-gray-600">
-                                These are advanced configuration options that should only be modified by experienced users.
-                            </p>
-                            <div class="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <label class="block font-medium text-gray-700">API Timeout</label>
-                                    <input type="number" class="mt-1 block w-full rounded border-gray-300" value="30" />
-                                </div>
-                                <div>
-                                    <label class="block font-medium text-gray-700">Max Retries</label>
-                                    <input type="number" class="mt-1 block w-full rounded border-gray-300" value="3" />
-                                </div>
-                            </div>
-                        </div>
-                    </Collapse>
-                </div>
+                <CodePreview
+                    :code="[
+                        '&lt;!-- Auto trigger --&gt;',
+                        '&lt;Collapse&gt;…body…&lt;/Collapse&gt;',
+                        '',
+                        '&lt;!-- Auto trigger with custom labels --&gt;',
+                        '&lt;Collapse :button=&quot;[\'View advanced details\', \'Hide advanced details\']&quot;&gt;',
+                        '  …body…',
+                        '&lt;/Collapse&gt;',
+                        '',
+                        '&lt;!-- Custom trigger (you own the open state) --&gt;',
+                        '&lt;Collapse :open=&quot;collapseOpen&quot;&gt;',
+                        '  &lt;template #trigger&gt;',
+                        '    &lt;button @click=&quot;collapseOpen = !collapseOpen&quot;&gt;Advanced settings&lt;/button&gt;',
+                        '  &lt;/template&gt;',
+                        '  …body…',
+                        '&lt;/Collapse&gt;',
+                    ]"
+                />
 
                 <div class="mt-6">
                     <h4 class="mb-3 font-semibold text-gray-800">Collapse Props</h4>
@@ -587,25 +629,6 @@ const dataTileProps = [
                     <h4 class="mb-3 font-semibold text-gray-800">Slots</h4>
                     <PropsTable :rows="collapseSlots" />
                 </div>
-            </div>
-        </section>
-
-        <section id="description-lists">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">Description Lists</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">Structured display of term-definition pairs for showing detailed information.</p>
-
-                <div class="mb-6">
-                    <DescriptionList>
-                        <DescriptionListItem v-for="detail in userDetails" :key="detail.label" :label="detail.label" :value="detail.value" />
-                    </DescriptionList>
-                </div>
-
-                <p class="text-sm text-gray-600">
-                    See the <strong>Description List</strong> section under
-                    <code class="rounded bg-gray-100 px-1">Input Components</code>
-                    for the full prop table (including the editable variant).
-                </p>
             </div>
         </section>
 
@@ -635,26 +658,57 @@ const dataTileProps = [
         </section>
 
         <section id="data-tiles">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">DataTile Component</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800">DataTile</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6">
-                <p class="mb-4 text-gray-600">The DataTile component is used to display statistical data with dynamic theming support.</p>
-                <DataTile :value="123" label="Example Label" :icon="faChevronCircleDown" theme="success" />
+                <p class="mb-2 text-gray-600">
+                    A themed single-statistic tile with a large value, a label, and a FontAwesome watermark icon. Like
+                    <code class="rounded bg-gray-100 px-1">Stats</code> but for one number you've computed yourself — drop several into a grid for
+                    a dashboard layout.
+                </p>
+                <p class="mb-6 text-sm text-gray-500">
+                    The tile fills its container by default; render multiple inside a CSS grid for the dashboard look.
+                </p>
 
-                <div class="mt-4 mb-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800">Usage</h4>
-                    <CodePreview
-                        :code="[
-                            'import { faChartLine } from \'@fortawesome/free-solid-svg-icons\';',
-                            '',
-                            '<DataTile',
-                            '    :value=\'123\'',
-                            '    label=\'Example Label\'',
-                            '    :icon=\'faChartLine\'',
-                            '    theme=\'success\'',
-                            '/>',
-                        ]"
-                    />
+                <h4 class="mb-3 font-semibold text-gray-800">Themed grid</h4>
+                <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
+                    <DataTile :value="1284" label="Active users" :icon="faUsers" theme="primary" />
+                    <DataTile :value="'£45,678'" label="Revenue (MTD)" :icon="faChartLine" theme="success" />
+                    <DataTile :value="32" label="Failed jobs" :icon="faTriangleExclamation" theme="warning" />
+                    <DataTile :value="'4.8 / 5'" label="Customer rating" :icon="faCircleCheck" theme="success" />
                 </div>
+
+                <h4 class="mb-3 font-semibold text-gray-800">Selected state</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    Set <code class="rounded bg-gray-100 px-1">selected</code> when the tile represents a currently-active filter or selection.
+                </p>
+                <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
+                    <DataTile :value="7" label="Pending reviews" :icon="faGears" theme="primary" />
+                    <DataTile :value="3" label="Pending reviews" :icon="faGears" theme="primary" selected />
+                    <DataTile :value="2" label="Pending reviews" :icon="faGears" theme="danger" />
+                </div>
+
+                <h4 class="mb-3 font-semibold text-gray-800">Standalone</h4>
+                <p class="mb-3 text-sm text-gray-600">
+                    A single tile fills the available width — wrap it in a sized container if you don't want it stretching across the page.
+                </p>
+                <div class="mb-6 max-w-xs">
+                    <DataTile :value="123" label="Example label" :icon="faChevronCircleDown" theme="success" />
+                </div>
+
+                <CodePreview
+                    :code="[
+                        'import { faUsers, faChartLine } from \'@fortawesome/free-solid-svg-icons\';',
+                        '',
+                        '&lt;!-- Drop several into a CSS grid for the dashboard look --&gt;',
+                        '&lt;div class=&quot;grid gap-4&quot; style=&quot;grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))&quot;&gt;',
+                        '  &lt;DataTile :value=&quot;1284&quot; label=&quot;Active users&quot; :icon=&quot;faUsers&quot; theme=&quot;primary&quot; /&gt;',
+                        '  &lt;DataTile :value=&quot;\'£45,678\'&quot; label=&quot;Revenue (MTD)&quot; :icon=&quot;faChartLine&quot; theme=&quot;success&quot; /&gt;',
+                        '&lt;/div&gt;',
+                        '',
+                        '&lt;!-- selected adds a ring outline to indicate the active tile --&gt;',
+                        '&lt;DataTile :value=&quot;3&quot; label=&quot;Pending reviews&quot; :icon=&quot;faGears&quot; theme=&quot;primary&quot; selected /&gt;',
+                    ]"
+                />
 
                 <div class="mt-6">
                     <h4 class="mb-3 font-semibold text-gray-800">DataTile Props</h4>
