@@ -5,8 +5,7 @@
 
 import { computed } from 'vue';
 import { TextInput, SubmitButton } from '../../../index';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import NbIcon from '../../../icons/NbIcon.vue';
 import type { InputProps, InertiaForm } from '../types';
 
 interface InputWithActionsProps
@@ -114,7 +113,7 @@ const inputClasses = computed(() => ({
             :href="whatsApp"
             target="_blank"
         >
-            <FontAwesomeIcon icon="fab fa-whatsapp" size="2xl" />
+            <NbIcon name="$whatsapp" size="2xl" />
         </a>
     </div>
 </template>

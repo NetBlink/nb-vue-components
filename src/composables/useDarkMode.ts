@@ -75,7 +75,7 @@ const stopSystemListener = () => {
 };
 
 let watcherStopped = false;
-// Single global watcher — keeps DOM + storage in sync with the ref.
+// Single global watcher - keeps DOM + storage in sync with the ref.
 watch(
     isDark,
     (value) => {
@@ -149,7 +149,7 @@ export function useDarkMode(options: UseDarkModeOptions = {}): UseDarkModeReturn
         try {
             onScopeDispose(stopSystemListener);
         } catch {
-            // outside of a Vue effect scope — caller can use the returned stop function.
+            // outside of a Vue effect scope - caller can use the returned stop function.
         }
         return stopSystemListener;
     };

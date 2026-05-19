@@ -9,8 +9,7 @@
  */
 
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
-import { faChevronCircleDown, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
 import { computed, ref, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
 
@@ -44,7 +43,7 @@ watch(
                         <slot name="icon" />
                     </div>
                     <span class="ml-3 flex-1 text-left whitespace-nowrap">{{ name }}</span>
-                    <FontAwesomeIcon :icon="faChevronCircleDown" class="transition-all" :class="{ 'rotate-180': isOpen }" />
+                    <NbIcon name="$expand" class="transition-all" :class="{ 'rotate-180': isOpen }" />
                 </button>
             </CollapsibleTrigger>
 

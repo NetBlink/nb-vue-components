@@ -2,14 +2,12 @@
 
 @plugin '@tailwindcss/forms';
 
-@config '../tailwind.config.js';
-
 /*
  * Opt-in dark mode.
  *
  * Activates the Tailwind `dark:` variant whenever an ancestor (or the element
  * itself) carries a `.dark` class. Components only need to add `dark:…` utility
- * classes — they stay inert unless the app toggles the class on, so default
+ * classes - they stay inert unless the app toggles the class on, so default
  * styles are unchanged.
  *
  * Toggle it from app code with:
@@ -18,15 +16,153 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Tailwind v4 theme tokens — single source of truth.
+ *
+ * Every variable below becomes both a CSS custom property AND a Tailwind
+ * utility class (e.g. `--color-primary-500` powers `bg-primary-500`,
+ * `text-primary-500`, etc.). Overriding any of these vars at runtime (e.g.
+ * via the docs Theme builder) re-styles every utility instantly.
+ */
 @theme {
-    --animate-fade-in: fadeIn 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-up: slideUp 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-down: slideDown 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-up-fade: slideUpFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-down-fade: slideDownFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-left-fade: slideLeftFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
-    --animate-slide-right-fade: slideRightFade 400ms
-        cubic-bezier(0.16, 1, 0.3, 1);
+    /* Motion */
+    --ease-emphasised: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-quick:  150ms;
+    --duration-base:   400ms;
+
+    /* Animations - all reuse the motion tokens above */
+    --animate-fade-in:           fadeIn          var(--duration-base) var(--ease-emphasised);
+    --animate-slide-up:          slideUp         var(--duration-base) var(--ease-emphasised);
+    --animate-slide-down:        slideDown       var(--duration-base) var(--ease-emphasised);
+    --animate-slide-up-fade:     slideUpFade     var(--duration-base) var(--ease-emphasised);
+    --animate-slide-down-fade:   slideDownFade   var(--duration-base) var(--ease-emphasised);
+    --animate-slide-left-fade:   slideLeftFade   var(--duration-base) var(--ease-emphasised);
+    --animate-slide-right-fade:  slideRightFade  var(--duration-base) var(--ease-emphasised);
+
+    /* Plain colors */
+    --color-dark:  #161b1c;
+    --color-muted: #a0a0a0;
+
+    /* Primary */
+    --color-primary:     #aad3d9;
+    --color-primary-50:  #f4f9fb;
+    --color-primary-100: #e9f2f5;
+    --color-primary-200: #cee5e9;
+    --color-primary-300: #aad3d9;
+    --color-primary-400: #72b6be;
+    --color-primary-500: #509da7;
+    --color-primary-600: #3d808c;
+    --color-primary-700: #326772;
+    --color-primary-800: #2d585f;
+    --color-primary-900: #294a51;
+    --color-primary-950: #1b3036;
+
+    /* Accent */
+    --color-accent:     #e1b8c3;
+    --color-accent-50:  #fbf5f6;
+    --color-accent-100: #f7ecef;
+    --color-accent-200: #f0dbe1;
+    --color-accent-300: #e1b8c3;
+    --color-accent-400: #d399a9;
+    --color-accent-500: #c0738b;
+    --color-accent-600: #a95574;
+    --color-accent-700: #8c445f;
+    --color-accent-800: #763b54;
+    --color-accent-900: #66354b;
+    --color-accent-950: #381926;
+
+    /* Danger */
+    --color-danger:     #f36262;
+    --color-danger-50:  #fef2f2;
+    --color-danger-100: #fde3e3;
+    --color-danger-200: #fdcbcb;
+    --color-danger-300: #faa7a7;
+    --color-danger-400: #f36262;
+    --color-danger-500: #ea4949;
+    --color-danger-600: #d72b2b;
+    --color-danger-700: #b52020;
+    --color-danger-800: #961e1e;
+    --color-danger-900: #7c2020;
+    --color-danger-950: #430c0c;
+
+    /* Warning */
+    --color-warning:     #f3cf62;
+    --color-warning-50:  #fefaec;
+    --color-warning-100: #fbf0ca;
+    --color-warning-200: #f7e190;
+    --color-warning-300: #f3cf62;
+    --color-warning-400: #efb730;
+    --color-warning-500: #e89818;
+    --color-warning-600: #cd7312;
+    --color-warning-700: #aa5213;
+    --color-warning-800: #8b4015;
+    --color-warning-900: #723615;
+    --color-warning-950: #411a07;
+
+    /* Success */
+    --color-success:     #87f362;
+    --color-success-50:  #eefee7;
+    --color-success-100: #d9fccb;
+    --color-success-200: #b5fa9c;
+    --color-success-300: #87f362;
+    --color-success-400: #5fe734;
+    --color-success-500: #3ecd15;
+    --color-success-600: #2ba40c;
+    --color-success-700: #237d0e;
+    --color-success-800: #206311;
+    --color-success-900: #1e5314;
+    --color-success-950: #0a2e05;
+
+    /* Info */
+    --color-info:     #6262f3;
+    --color-info-50:  #eef2ff;
+    --color-info-100: #e0e6ff;
+    --color-info-200: #c6d1ff;
+    --color-info-300: #a4b1fd;
+    --color-info-400: #7f88fa;
+    --color-info-500: #6262f3;
+    --color-info-600: #5044e7;
+    --color-info-700: #4436cc;
+    --color-info-800: #392ea5;
+    --color-info-900: #322d82;
+    --color-info-950: #1e1a4c;
+
+    /* Typography */
+    --font-sans:     'Poppins', ui-sans-serif, system-ui, sans-serif;
+    --font-opensans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --text-xxs:  0.65rem;
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.25rem;
+    --text-2xl:  1.5rem;
+    --text-3xl:  1.875rem;
+    --text-4xl:  2.25rem;
+    --text-5xl:  3rem;
+    --text-6xl:  4rem;
+    --text-7xl:  5rem;
+
+    /* Radius */
+    --radius:    0.25rem;
+    --radius-sm: 0.125rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+
+    /* Shadow */
+    --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+    /* Breakpoints */
+    --breakpoint-xxs:    410px;
+    --breakpoint-xs:     490px;
+    --breakpoint-sm:     640px;
+    --breakpoint-md:     768px;
+    --breakpoint-lg:     1024px;
+    --breakpoint-xl:     1084px;
+    --breakpoint-laptop: 1084px;
+    --breakpoint-2xl:    1084px;
+    --breakpoint-3xl:    1360px;
 }
 
 @layer base {

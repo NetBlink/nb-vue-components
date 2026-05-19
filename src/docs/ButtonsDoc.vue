@@ -82,7 +82,7 @@ const submitButtonExamples = [
 const linkButtonProps = [
     { prop: 'href', type: 'string', default: '-', description: 'URL the link points to (renders as `<a>`, or as Inertia `<Link>` when method or data is set)' },
     { prop: 'theme', type: 'ComponentTheme', default: "'primary'", description: 'primary | secondary | success | danger | warning | info | no-style' },
-    { prop: 'colourClasses', type: 'string[]', default: 'undefined', description: 'Legacy escape hatch — when set, replaces theme styling entirely' },
+    { prop: 'colourClasses', type: 'string[]', default: 'undefined', description: 'Legacy escape hatch - when set, replaces theme styling entirely' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the link (prevents click and removes tab focus)' },
     { prop: 'target', type: 'string', default: "'_self'", description: 'Anchor target attribute (ignored when rendering as Inertia Link)' },
     { prop: 'method', type: 'string', default: '-', description: 'HTTP method for Inertia requests (get, post, put, patch, delete)' },
@@ -97,7 +97,7 @@ const buttonProps = [
 ];
 
 const submitButtonProps = [
-    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form — the spinner auto-shows while `form.processing` is true', highlight: true },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form - the spinner auto-shows while `form.processing` is true', highlight: true },
     { prop: 'loading', type: 'boolean', default: 'false', description: 'Manual loading state; takes effect even without a form', highlight: true },
     { prop: 'theme', type: 'ComponentTheme', default: "'primary'", description: 'primary | secondary | success | danger | warning | info | no-style' },
     { prop: 'type', type: "'button' | 'submit' | 'reset'", default: "'submit'", description: 'HTML button type attribute' },

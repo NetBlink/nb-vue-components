@@ -1,13 +1,9 @@
 <script setup>
 // @ts-nocheck
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPlus, faPencil, faCalendar, faBoxArchive, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { Pagination } from '../index';
 import { Spinner } from '../index';
 import Link from '../overrides/InertiaLink';
-
-library.add(faPlus, faPencil, faCalendar, faBoxArchive, faSpinner);
+import NbIcon from '../icons/NbIcon.vue';
 
 const props = defineProps({
     logs: Object,
@@ -23,7 +19,7 @@ const props = defineProps({
             <li v-for="item in logs.data" :key="item.id">
                 <div class="flex-start w-full md:flex">
                     <div class="-ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full bg-primary text-xs text-white">
-                        <FontAwesomeIcon v-bind:icon="item.icon" />
+                        <NbIcon :name="item.icon" />
                     </div>
                     <div class="mb-3 ml-2 block w-full rounded-lg bg-neutral-50 px-3 py-2 shadow-md shadow-black/5">
                         <div class="mb-1 flex justify-between">

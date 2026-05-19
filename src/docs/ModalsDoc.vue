@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import {
     Modal,
     NewModal,
@@ -43,7 +42,7 @@ const handleConfirm = () => {
     showConfirmModal.value = false;
 };
 
-// Code examples — NewModal is the canonical component.
+// Code examples - NewModal is the canonical component.
 const basicExamples = [
     '<NewModal v-model:open="open" title="Welcome">',
     '  <p>Body content lives in the default slot.</p>',
@@ -100,7 +99,7 @@ const legacyModalExample = [
     '</Modal>',
 ];
 
-// Props data for modals — verified against Modal.vue and NewModal.vue
+// Props data for modals - verified against Modal.vue and NewModal.vue
 const modalProps = [
     { prop: 'show', type: 'boolean', default: 'false', description: 'Controls modal visibility (use v-model:show or :show + @close)' },
     { prop: 'maxWidth', type: 'string', default: "'2xl'", description: 'sm, md, lg, xl, 2xl, 3xl-7xl, or percentage strings: 50%, 60%, 75%, 80%, 90%, 95%' },
@@ -141,7 +140,7 @@ const newModalSlots = [
             <div
                 class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
             >
-                <strong>NewModal</strong> is the canonical dialog — built on reka-ui's
+                <strong>NewModal</strong> is the canonical dialog - built on reka-ui's
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">Dialog</code>, drives state with
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">v-model:open</code>, and ships named
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">header</code> /
@@ -192,7 +191,7 @@ const newModalSlots = [
                 <NewModal v-model:open="showConfirmModal">
                     <template #header>
                         <span class="flex items-center gap-2">
-                            <FontAwesomeIcon :icon="faExclamationTriangle" class="h-5 w-5 text-red-600" />
+                            <NbIcon name="$warning" class="h-5 w-5 text-red-600" />
                             Confirm deletion
                         </span>
                     </template>
@@ -267,7 +266,7 @@ const newModalSlots = [
 
             <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-900/40 dark:bg-amber-950/30">
                 <p class="mb-4 text-sm text-amber-900 dark:text-amber-200">
-                    The original <code class="rounded bg-white px-1 dark:bg-amber-900/40">Modal</code> component is documented here for backwards reference only — it
+                    The original <code class="rounded bg-white px-1 dark:bg-amber-900/40">Modal</code> component is documented here for backwards reference only - it
                     will not be receiving further work. <strong>Migrate to NewModal for all new code.</strong> Modal exposes only a single default
                     slot (no named header/footer slots) and uses <code class="rounded bg-white px-1 dark:bg-amber-900/40">:show + @close</code> instead of
                     <code class="rounded bg-white px-1 dark:bg-amber-900/40">v-model:open</code>.

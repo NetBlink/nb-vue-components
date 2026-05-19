@@ -73,16 +73,16 @@ import H2 from './HelperComponents/H2.vue';
  */
 export interface ComponentsnbOptions {
     /**
-     * Dark-mode bootstrap. Default: `false` — colours are unchanged.
+     * Dark-mode bootstrap. Default: `false` - colours are unchanged.
      *
-     * - `'class'` — initialise the {@link useDarkMode} composable; respects a
+     * - `'class'` - initialise the {@link useDarkMode} composable; respects a
      *   previously-persisted user choice (and falls back to OS preference at
      *   first load), but does not subscribe to OS changes thereafter. Use when
      *   you want to drive dark mode entirely from a UI toggle.
-     * - `'system'` — same as `'class'`, plus subscribes to
+     * - `'system'` - same as `'class'`, plus subscribes to
      *   `prefers-color-scheme` so the OS-level switch flips the app live
      *   until the user makes an explicit choice (which then wins).
-     * - `false` (default) — do not touch dark mode at all.
+     * - `false` (default) - do not touch dark mode at all.
      */
     darkMode?: 'class' | 'system' | false;
     /** Override the element that receives the `.dark` class (default: `document.documentElement`). */
@@ -92,6 +92,8 @@ export interface ComponentsnbOptions {
 }
 
 import { useDarkMode } from './composables/useDarkMode';
+import { createNbIcons } from './icons/createNbIcons';
+import { NB_ICONS_KEY } from './icons/inject';
 
 const Componentsnb = {
     install(App: any, options: ComponentsnbOptions = {}) {
@@ -99,6 +101,16 @@ const Componentsnb = {
         for (const componentKey in components) {
             // @ts-ignore
             App.component(componentKey, components[componentKey]);
+        }
+
+        // Auto-install a default icon registry if the host hasn't already
+        // installed one (via `app.use(createNbIcons({...}))`). This keeps
+        // zero-config consumers working: NbIcon renders the shipped inline
+        // SVGs out of the box.
+        // @ts-ignore - Vue's App type doesn't expose _context publicly.
+        const alreadyHasRegistry = App._context?.provides?.[NB_ICONS_KEY as unknown as string];
+        if (!alreadyHasRegistry) {
+            App.use(createNbIcons());
         }
 
         // Opt-in dark-mode bootstrap. Pure no-op unless the host passes `darkMode`.
@@ -195,3 +207,7 @@ export * from './composables/useTable';
 export * from './composables';
 export * from './components/Tables/types';
 export * from './components/Forms/types';
+
+// Icon provider system - v3.0.0
+export { NbIcon, createNbIcons, useNbIcons, defaultAliases } from './icons';
+export type { AliasName, IconLike, IconSet, NbIconsOptions, RawSvg, SetPrefixed } from './icons';

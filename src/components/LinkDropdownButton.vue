@@ -3,8 +3,7 @@ import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenu
 import { ref } from 'vue';
 import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import NbIcon from '../icons/NbIcon.vue';
 
 interface LinkDropdownButtonProps {
     /** Alignment of the dropdown content relative to trigger */
@@ -33,7 +32,7 @@ const toggleState = ref(false);
             >
                 {{ title }}
                 <span class="mx-1 w-2">
-                    <FontAwesomeIcon :icon="faChevronCircleDown" />
+                    <NbIcon name="$expand" />
                 </span>
             </button>
         </DropdownMenuTrigger>

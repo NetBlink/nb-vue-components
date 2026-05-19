@@ -214,7 +214,7 @@ const composableExample = [
     '});'
 ];
 
-// Props documentation — verified against src/components/Tables/types.ts and Table.vue/Th.vue/Td.vue
+// Props documentation - verified against src/components/Tables/types.ts and Table.vue/Th.vue/Td.vue
 const tableProps = [
     // Appearance
     { prop: 'variant', type: "'default' | 'minimal' | 'elevated'", default: "'default'", description: 'Visual style preset' },
@@ -226,8 +226,8 @@ const tableProps = [
     { prop: 'responsive', type: 'boolean', default: 'true', description: 'Stack cells into a label/value layout on small screens (works with Td `label`)' },
     { prop: 'separate', type: 'boolean', default: 'false', description: 'Render rows with vertical spacing (border-separate)' },
     // Data / pagination
-    { prop: 'data', type: 'TableRow[]', default: '-', description: 'Optional — typically you compose rows via the Thead/Tbody slots instead' },
-    { prop: 'columns', type: 'TableColumn[]', default: '-', description: 'Optional — only relevant for auto-generated headers' },
+    { prop: 'data', type: 'TableRow[]', default: '-', description: 'Optional - typically you compose rows via the Thead/Tbody slots instead' },
+    { prop: 'columns', type: 'TableColumn[]', default: '-', description: 'Optional - only relevant for auto-generated headers' },
     { prop: 'pagination', type: 'TablePagination', default: '-', description: 'Laravel-style paginator payload; renders <Pagination> below the table' },
     { prop: 'showPagination', type: 'boolean', default: 'true', description: 'Show the pagination footer when `pagination` is set' },
     { prop: 'showPerPage', type: 'boolean', default: 'false', description: 'Show the per-page selector in the pagination footer' },
@@ -239,7 +239,7 @@ const tableProps = [
     { prop: 'collapsible', type: 'boolean', default: 'false', description: 'Render the table inside a collapsable section (uses collapseId for the trigger)' },
     { prop: 'collapseId', type: 'string', default: '-', description: 'DOM id used to wire the table to its external trigger' },
     // Legacy (accepted for backward compatibility)
-    { prop: 'seperate / collapsable / collapse_id / links / overflow', type: '-', default: '-', description: 'Legacy aliases of the props above — kept for back-compat. Prefer the modern names.' },
+    { prop: 'seperate / collapsable / collapse_id / links / overflow', type: '-', default: '-', description: 'Legacy aliases of the props above - kept for back-compat. Prefer the modern names.' },
 ];
 
 const thProps = [
@@ -252,7 +252,7 @@ const thProps = [
 ];
 
 const tdProps = [
-    { prop: 'label', type: 'string', default: '-', description: 'On small screens the cell renders as "label: content" — useful for responsive tables' },
+    { prop: 'label', type: 'string', default: '-', description: 'On small screens the cell renders as "label: content" - useful for responsive tables' },
     { prop: 'align', type: "'left' | 'center' | 'right'", default: "'left'", description: 'Text alignment' },
     { prop: 'width', type: 'string', default: '-', description: 'Cell width (CSS value)' },
     { prop: 'nowrap', type: 'boolean', default: 'false', description: 'Prevent text wrapping in this cell' },
@@ -476,7 +476,7 @@ const trProps = [
                     Different table styling variants to match your design system.
                 </p>
 
-                <!-- Variant matrix — one rendered example, the rest demonstrated via the code preview. -->
+                <!-- Variant matrix - one rendered example, the rest demonstrated via the code preview. -->
                 <div class="mb-6 grid gap-6 lg:grid-cols-2">
                     <div>
                         <h4 class="mb-2 font-medium">variant="default"</h4>

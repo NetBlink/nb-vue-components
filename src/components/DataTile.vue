@@ -1,33 +1,33 @@
 <script setup lang="ts">
 /**
- * DataTile — themed statistic tile with a background icon.
+ * DataTile - themed statistic tile with a background icon.
  *
  * Renders a card with a large value, a label below it, and a FontAwesome icon
  * watermark behind the value. Hover animates a coloured underline. Set
- * `selected` to show a ring outline — wire it to your own selection state.
+ * `selected` to show a ring outline - wire it to your own selection state.
  *
- * @prop {string|number} value — value rendered as the big number
- * @prop {string}        label — label rendered under the value
- * @prop {IconProp}      [icon] — FontAwesome icon shown in the background
- * @prop {ComponentTheme}[theme='primary'] — primary | secondary | success | danger | warning
- * @prop {boolean}       [selected=false] — show a ring outline
- * @prop {string}        [customStatClass=''] — extra classes on the outer card
- * @prop {string}        [customStatValueClass=''] — extra classes on the value area
- * @prop {string}        [customStatLabelClass=''] — extra classes on the label area
+ * @prop {string|number} value - value rendered as the big number
+ * @prop {string}        label - label rendered under the value
+ * @prop {IconLike}      [icon] - icon shown in the background; pass an alias, a Vue component, an FA icon object, etc.
+ * @prop {ComponentTheme}[theme='primary'] - primary | secondary | success | danger | warning
+ * @prop {boolean}       [selected=false] - show a ring outline
+ * @prop {string}        [customStatClass=''] - extra classes on the outer card
+ * @prop {string}        [customStatValueClass=''] - extra classes on the value area
+ * @prop {string}        [customStatLabelClass=''] - extra classes on the label area
  */
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NbIcon from '../icons/NbIcon.vue';
+import type { IconLike } from '../icons/types';
 import { computed } from 'vue';
 import type { ComponentTheme } from '../Types';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface Props {
     /** Big number / value to display */
     value: string | number;
     /** Label rendered under the value */
     label: string;
-    /** FontAwesome icon shown in the background of the value area */
-    icon?: IconProp;
+    /** Icon shown in the background of the value area. Accepts any IconLike. */
+    icon?: IconLike;
     /** Show a ring outline (use for "currently active" tiles) */
     selected?: boolean;
     /** Extra classes on the outer card */
@@ -36,7 +36,7 @@ interface Props {
     customStatValueClass?: string;
     /** Extra classes on the label section */
     customStatLabelClass?: string;
-    /** Colour theme — primary | secondary | success | danger | warning */
+    /** Colour theme - primary | secondary | success | danger | warning */
     theme?: ComponentTheme;
 }
 
@@ -96,13 +96,15 @@ const themeClasses = computed(() => {
         <!-- Value Section -->
         <div class="relative overflow-clip px-6 py-4" :class="[customStatValueClass]">
             <div class="absolute inset-0 isolate z-0 size-full">
-                <FontAwesomeIcon
-                    v-if="icon"
-                    :icon="icon"
-                    :class="[themeClasses.hoverText]"
-                    size="3x"
-                    class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 text-gray-400 opacity-50 transition-colors dark:text-gray-600"
-                />
+                <slot name="icon">
+                    <NbIcon
+                        v-if="icon"
+                        :name="icon"
+                        size="3x"
+                        :class="[themeClasses.hoverText]"
+                        class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 text-gray-400 opacity-50 transition-colors dark:text-gray-600"
+                    />
+                </slot>
             </div>
             <div :class="[themeClasses.hoverText]" class="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100">
                 {{ value }}

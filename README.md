@@ -5,7 +5,7 @@
 - **Vue 3** with Composition API
 - **TypeScript** support with full type definitions
 - **TailwindCSS** for styling
-- **FontAwesome** icons for consistency
+- **Provider-neutral icons** - works with FontAwesome, Heroicons, Lucide, MDI, or hand-rolled SVGs via the icon-provider system
 - **Inertia.js** integration
 - **Accessible** components following WCAG guidelines
 - **Tree-shakable** ES modules
@@ -93,70 +93,80 @@ Explore all components with interactive examples, props documentation, and usage
 
 ### 1. TailwindCSS Configuration
 
-Add this package to your Tailwind content and configure the required theme colors:
+Add this package to your Tailwind content and merge the theme tokens it expects. The values below are the package defaults; if you want a different look, change any anchor (shade 500) and regenerate the scale via the **Theme builder** in the docs site (it prints the full snippet ready to paste).
 
 ```js
 // tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}"
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    './node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       colors: {
+        dark:  '#161b1c',
+        muted: '#a0a0a0',
         primary: {
-          DEFAULT: "#3b82f6",
-          50: "#eff6ff",
-          100: "#dbeafe",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
+          DEFAULT: '#aad3d9',
+          50: '#f4f9fb', 100: '#e9f2f5', 200: '#cee5e9', 300: '#aad3d9',
+          400: '#72b6be', 500: '#509da7', 600: '#3d808c', 700: '#326772',
+          800: '#2d585f', 900: '#294a51', 950: '#1b3036',
+        },
+        accent: {
+          DEFAULT: '#e1b8c3',
+          50: '#fbf5f6', 100: '#f7ecef', 200: '#f0dbe1', 300: '#e1b8c3',
+          400: '#d399a9', 500: '#c0738b', 600: '#a95574', 700: '#8c445f',
+          800: '#763b54', 900: '#66354b', 950: '#381926',
         },
         danger: {
-          DEFAULT: "#ef4444",
-          50: "#fef2f2",
-          100: "#fee2e2",
-          500: "#ef4444",
-          600: "#dc2626",
+          DEFAULT: '#f36262',
+          50: '#fef2f2', 100: '#fde3e3', 200: '#fdcbcb', 300: '#faa7a7',
+          400: '#f36262', 500: '#ea4949', 600: '#d72b2b', 700: '#b52020',
+          800: '#961e1e', 900: '#7c2020', 950: '#430c0c',
         },
         warning: {
-          DEFAULT: "#f59e0b",
-          50: "#fffbeb",
-          100: "#fef3c7",
-          500: "#f59e0b",
-          600: "#d97706",
+          DEFAULT: '#f3cf62',
+          50: '#fefaec', 100: '#fbf0ca', 200: '#f7e190', 300: '#f3cf62',
+          400: '#efb730', 500: '#e89818', 600: '#cd7312', 700: '#aa5213',
+          800: '#8b4015', 900: '#723615', 950: '#411a07',
         },
         success: {
-          DEFAULT: "#10b981",
-          50: "#ecfdf5",
-          100: "#d1fae5",
-          500: "#10b981",
-          600: "#059669",
+          DEFAULT: '#87f362',
+          50: '#eefee7', 100: '#d9fccb', 200: '#b5fa9c', 300: '#87f362',
+          400: '#5fe734', 500: '#3ecd15', 600: '#2ba40c', 700: '#237d0e',
+          800: '#206311', 900: '#1e5314', 950: '#0a2e05',
         },
         info: {
-          DEFAULT: "#3b82f6",
-          50: "#eff6ff",
-          100: "#dbeafe",
-          500: "#3b82f6",
-          600: "#2563eb",
+          DEFAULT: '#6262f3',
+          50: '#eef2ff', 100: '#e0e6ff', 200: '#c6d1ff', 300: '#a4b1fd',
+          400: '#7f88fa', 500: '#6262f3', 600: '#5044e7', 700: '#4436cc',
+          800: '#392ea5', 900: '#322d82', 950: '#1e1a4c',
         },
+      },
+      fontFamily: {
+        sans:     ['Poppins', 'system-ui', 'sans-serif'],
+        opensans: ['Open Sans', 'system-ui', 'sans-serif'],
+      },
+      borderRadius: {
+        sm: '0.125rem',
+        DEFAULT: '0.25rem',
+        md: '0.375rem',
+        lg: '0.5rem',
+      },
+      boxShadow: {
+        DEFAULT: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
       },
     },
   },
-  plugins: [],
-}
+  plugins: [require('@tailwindcss/forms')],
+};
 ```
 
-### 2. FontAwesome Icons
+**Customising the look:** open the docs site and click the **Theme** button (bottom-right of every page). Edit any value in the modal, watch the docs update live, then copy the full `tailwind.config.js` snippet into your project. Full token reference is on the **Theme &amp; Tokens** docs page.
 
-Install FontAwesome for Vue:
-
-```bash
-npm install @fortawesome/vue-fontawesome @fortawesome/free-solid-svg-icons
-```
-
-### 3. Vue Application Setup
+### 2. Vue Application Setup
 
 ```js
 // main.js
@@ -170,6 +180,37 @@ const app = createApp(App)
 
 // Mount your app
 app.mount('#app')
+```
+
+### 3. Icon Provider (optional)
+
+The components draw their own affordances (chevrons, close buttons, etc.) using inline SVGs by default - no setup required. To replace them with icons from a specific provider, install the `createNbIcons` plugin:
+
+```ts
+// main.ts
+import { createNbIcons } from '@netblink/vue-components/icons';
+
+// Drop-in v2 parity - keeps FontAwesome visuals everywhere:
+import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';
+app.use(createNbIcons({
+    aliases: faAliasPreset,
+    sets: { fa: faSet },
+    defaultSet: 'fa',
+}));
+
+// Or pick your own provider (Heroicons example):
+import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+app.use(createNbIcons({
+    aliases: { $expand: ChevronDownIcon, $close: XMarkIcon },
+}));
+```
+
+Components with a user-facing icon prop (`DataTile`, `LogsContent`) accept an `IconLike` value - a built-in alias (`'$expand'`), a set-prefixed string (`'fa:home'`), any Vue component, a raw SVG (`{ svg: '<svg>…</svg>' }`), or a FontAwesome icon object. Every such component also exposes a `#icon` slot for full template-side control.
+
+Upgrading from v2.x? Run the codemod, which injects the FA preset and rewrites the few deprecated forms:
+
+```bash
+npx @netblink/vue-components-migrate
 ```
 
 ##  Usage Examples

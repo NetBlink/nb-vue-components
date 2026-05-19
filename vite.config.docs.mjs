@@ -28,9 +28,11 @@ export default ({ mode }) => {
         server: {
             watch: {
                 ignored: [
-                    '!**/node_modules/**',
                     '**/vendor/**',
                     '**/.docker/**',
+                    // The per-icon @iconify-icons/* packages add ~46k files —
+                    // they'd exhaust the default inotify limit otherwise.
+                    '**/node_modules/@iconify-icons/**',
                 ],
             },
             host: '0.0.0.0',

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputWrapper, SubmitButton } from '../../index';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import NbIcon from '../../icons/NbIcon.vue';
 
 interface TextareaProps {
     /** Field name for form binding */
@@ -232,7 +231,7 @@ defineExpose({
                 :href="whatsApp"
                 target="_blank"
             >
-                <FontAwesomeIcon v-bind:icon="faWhatsapp" size="2xl" />
+                <NbIcon name="$whatsapp" size="2xl" />
             </a>
         </div>
     </InputWrapper>

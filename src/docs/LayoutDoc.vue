@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import { NbIcon } from '../icons';
 import { Section, CollapsableSection, DottedCarousel, CodePreview, PropsTable } from '../index';
 
-// Carousel slides — varied content so there's something to actually swipe through
+// Carousel slides - varied content so there's something to actually swipe through
 const carouselItems = ref([
     {
         id: 1,
         title: 'Ship faster',
-        description: 'Pre-built components for inputs, tables, modals and more — wire up a screen in minutes, not hours.',
+        description: 'Pre-built components for inputs, tables, modals and more - wire up a screen in minutes, not hours.',
         icon: faRocket,
         gradient: 'from-blue-50 to-indigo-100',
         accent: 'text-indigo-600',
@@ -41,7 +41,7 @@ const carouselItems = ref([
     {
         id: 5,
         title: 'Accessible by default',
-        description: 'NewModal, Tooltip, and Dropdown use reka-ui primitives — focus management, ARIA, keyboard handling all wired up.',
+        description: 'NewModal, Tooltip, and Dropdown use reka-ui primitives - focus management, ARIA, keyboard handling all wired up.',
         icon: faShieldHalved,
         gradient: 'from-purple-50 to-violet-100',
         accent: 'text-violet-600',
@@ -100,7 +100,7 @@ const collapsableSectionExamples = [
 ];
 
 const carouselExamples = [
-    '<!-- Render whatever you want inside — DottedCarousel handles the snap/scroll/dots -->',
+    '<!-- Render whatever you want inside - DottedCarousel handles the snap/scroll/dots -->',
     '<DottedCarousel :gap="20">',
     '  <div v-for="slide in slides" :key="slide.id" class="min-w-full snap-start">',
     '    <h3 class="text-xl font-medium mb-4">{{ slide.title }}</h3>',
@@ -109,7 +109,7 @@ const carouselExamples = [
     '</DottedCarousel>',
 ];
 
-// Props data — verified against the actual components
+// Props data - verified against the actual components
 const carouselProps = [
     { prop: 'gap', type: 'number', default: '20', description: 'Pixel gap between slides (also used in scroll math)' },
     { prop: 'padding', type: 'number', default: '0', description: 'Outer padding offset applied to the scroll calculation when navigating via the dots' },
@@ -121,7 +121,7 @@ const carouselSlots = [
 
 const collapsableSectionProps = [
     { prop: 'header', type: 'string', default: '-', description: 'Heading text shown in the toggle row (use the #trigger slot for custom markup)' },
-    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive — updating the prop opens/closes the section)' },
+    { prop: 'open', type: 'boolean', default: 'false', description: 'Initial open state (reactive - updating the prop opens/closes the section)' },
     { prop: 'headerColor', type: 'string', default: '-', description: 'Inline background-color applied to the header trigger' },
 ];
 
@@ -180,7 +180,7 @@ const collapsableSectionSlots = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsable Sections</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-2 text-gray-600 dark:text-gray-400">
-                    Styled card with a header bar — click the header to expand or collapse the body. Use for sectioning long forms or settings into
+                    Styled card with a header bar - click the header to expand or collapse the body. Use for sectioning long forms or settings into
                     expandable groups.
                 </p>
                 <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
@@ -230,7 +230,7 @@ const collapsableSectionSlots = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Interactive carousel component with dot navigation for displaying multiple slides.</p>
 
-                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Click the dots below the panel — or swipe / scroll horizontally — to move between slides.</p>
+                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Click the dots below the panel - or swipe / scroll horizontally - to move between slides.</p>
                 <div class="mb-6">
                     <DottedCarousel>
                         <div
@@ -240,7 +240,7 @@ const collapsableSectionSlots = [
                             :class="item.gradient"
                         >
                             <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md">
-                                <FontAwesomeIcon :icon="item.icon" :class="['text-3xl', item.accent]" />
+                                <NbIcon :name="item.icon" :class="['text-3xl', item.accent]" />
                             </div>
                             <!-- Slide chrome forces dark text because the gradient is always light, even in dark mode. -->
                             <div class="mb-2 text-xs font-medium uppercase tracking-widest text-gray-500">
