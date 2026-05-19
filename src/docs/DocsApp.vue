@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick, watch } from 'vue';
 import { NbIcon } from '../icons';
 import { useDarkMode } from '../composables/useDarkMode';
 
@@ -43,9 +43,131 @@ onMounted(() => {
 });
 
 const currentComponent = computed(() => sections[activeSection.value]?.component || SetupDoc);
-const navigateTo = (section: string) => {
+
+// ========== URL hash + anchor sub-navigation ==========================
+//
+// Each doc page exposes its h2/h3 headings as sidebar sub-items under the
+// active section. We do this dynamically from the DOM so individual doc
+// pages don't need to register anything special - just write normal Vue
+// templates with <h2>, <h3>.
+
+interface Heading {
+    id: string;
+    text: string;
+    level: number; // 2 or 3
+}
+
+const headings = ref<Heading[]>([]);
+const activeAnchor = ref<string>('');
+
+function slugify(text: string): string {
+    return text
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w\s-]+/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+async function refreshHeadings(): Promise<void> {
+    await nextTick();
+    const main = document.querySelector('main');
+    if (!main) {
+        headings.value = [];
+        return;
+    }
+
+    const found = main.querySelectorAll('h2, h3');
+    const seen = new Map<string, number>();
+    const list: Heading[] = [];
+
+    found.forEach((el) => {
+        // Skip headings that live inside a modal portal/teleport target etc.
+        if ((el as HTMLElement).closest('[data-skip-anchor]')) return;
+
+        const text = (el.textContent || '').replace(/#\s*$/, '').trim();
+        if (!text) return;
+
+        let id = el.id;
+        if (!id) {
+            const base = slugify(text) || 'section';
+            const n = (seen.get(base) || 0) + 1;
+            seen.set(base, n);
+            id = n === 1 ? base : `${base}-${n}`;
+            el.id = id;
+        }
+
+        // Inject (once) a small `#` permalink so headings double as anchors.
+        if (!el.querySelector('.anchor-link')) {
+            const link = document.createElement('a');
+            link.className = 'anchor-link';
+            link.href = `#${id}`;
+            link.setAttribute('aria-label', `Direct link to ${text}`);
+            link.textContent = '#';
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                scrollToAnchor(id);
+            });
+            el.appendChild(link);
+        }
+
+        list.push({ id, text, level: Number(el.tagName[1]) });
+    });
+
+    headings.value = list;
+
+    // If we just landed with a hash, scroll to it now that ids exist.
+    if (window.location.hash) {
+        const want = window.location.hash.slice(1);
+        if (list.some((h) => h.id === want)) {
+            scrollToAnchor(want, false);
+        }
+    }
+}
+
+function scrollToAnchor(id: string, updateHash = true): void {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (updateHash) {
+        history.replaceState(null, '', `#${id}`);
+        activeAnchor.value = id;
+    }
+}
+
+const navigateTo = async (section: string): Promise<void> => {
     activeSection.value = section;
+    activeAnchor.value = '';
+    // Clear stale anchor list immediately - new page's headings re-populate after render.
+    headings.value = [];
+    await refreshHeadings();
+    // Reset to top of new page.
+    const main = document.querySelector('main');
+    if (main) main.scrollTo({ top: 0, behavior: 'auto' });
 };
+
+// Refresh whenever the active section changes (covers initial mount via watch + immediate).
+watch(activeSection, refreshHeadings, { immediate: false });
+
+onMounted(async () => {
+    await refreshHeadings();
+});
+
+// Scroll-spy: highlight the heading currently in view.
+function onMainScroll(e: Event): void {
+    const main = e.target as HTMLElement;
+    const offset = 80; // px - matches the header padding
+    let current = '';
+    for (const h of headings.value) {
+        const el = document.getElementById(h.id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top - main.getBoundingClientRect().top;
+        if (top - offset <= 0) current = h.id;
+        else break;
+    }
+    activeAnchor.value = current;
+}
 </script>
 
 <template>
@@ -63,6 +185,37 @@ const navigateTo = (section: string) => {
                     >
                         {{ section.title }}
                     </button>
+                    <!-- Sub-anchors: live, on the active section only -->
+                    <transition
+                        enter-active-class="transition-all duration-200 ease-out"
+                        enter-from-class="opacity-0 -translate-y-1 max-h-0"
+                        enter-to-class="opacity-100 translate-y-0 max-h-[1000px]"
+                        leave-active-class="transition-all duration-150 ease-in"
+                        leave-from-class="opacity-100 max-h-[1000px]"
+                        leave-to-class="opacity-0 max-h-0"
+                    >
+                        <ul
+                            v-if="activeSection === key && headings.length"
+                            class="ml-2 mt-1 space-y-px overflow-hidden border-l border-white/10 pl-2"
+                        >
+                            <li v-for="h in headings" :key="h.id">
+                                <a
+                                    :href="`#${h.id}`"
+                                    @click.prevent="scrollToAnchor(h.id)"
+                                    class="block truncate rounded py-1 pr-2 text-xs transition-colors hover:text-white"
+                                    :class="[
+                                        h.level === 3 ? 'pl-5' : 'pl-2',
+                                        activeAnchor === h.id
+                                            ? 'bg-primary-700/60 text-white'
+                                            : 'text-primary-100/70',
+                                    ]"
+                                    :title="h.text"
+                                >
+                                    {{ h.text }}
+                                </a>
+                            </li>
+                        </ul>
+                    </transition>
                 </li>
             </ul>
 
@@ -92,7 +245,10 @@ const navigateTo = (section: string) => {
         </nav>
 
         <!-- Main Content Area -->
-        <main class="ml-64 flex-1 overflow-y-auto bg-gray-50 transition-colors dark:bg-gray-900">
+        <main
+            class="ml-64 flex-1 overflow-y-auto bg-gray-50 transition-colors dark:bg-gray-900"
+            @scroll.passive="onMainScroll"
+        >
             <div class="container mx-auto px-6 py-8">
                 <header class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -139,5 +295,35 @@ nav::-webkit-scrollbar-thumb {
 
 nav::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+</style>
+
+<!--
+  Global (non-scoped) styles for the `#` permalinks the script injects
+  on every h2/h3 inside <main>. Scoped styles wouldn't reach them
+  because they're DOM-inserted after render.
+-->
+<style>
+main h2,
+main h3 {
+    scroll-margin-top: 1.5rem;
+}
+
+main h2 .anchor-link,
+main h3 .anchor-link {
+    display: inline-block;
+    margin-left: 0.4em;
+    color: var(--color-primary-500);
+    text-decoration: none;
+    font-weight: 400;
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+main h2:hover .anchor-link,
+main h3:hover .anchor-link,
+main h2 .anchor-link:focus-visible,
+main h3 .anchor-link:focus-visible {
+    opacity: 1;
 }
 </style>
