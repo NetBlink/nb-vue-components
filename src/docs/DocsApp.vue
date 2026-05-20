@@ -78,7 +78,9 @@ async function refreshHeadings(): Promise<void> {
         return;
     }
 
-    const found = main.querySelectorAll('h2, h3');
+    const found = main.querySelectorAll(
+        'section[id] > h2, section[id] > h3, h2[id], h3[id]'
+    );
     const seen = new Map<string, number>();
     const list: Heading[] = [];
 

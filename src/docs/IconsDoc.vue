@@ -507,7 +507,7 @@ const passwordValue = ref('s3cret');
         </section>
 
         <!-- USAGE -->
-        <section class="space-y-3">
+        <section id="using-nbicon" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Using NbIcon in your templates</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Three forms - pick whichever matches what you have on hand. They mix and match freely in the same project.
@@ -516,7 +516,7 @@ const passwordValue = ref('s3cret');
         </section>
 
         <!-- SETUP TABS - example-led -->
-        <section class="space-y-3">
+        <section id="setup-by-example" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Setup - by example</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Each tab is what you'd literally write in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">main.ts</code> -
@@ -586,7 +586,7 @@ const passwordValue = ref('s3cret');
         </section>
 
         <!-- CLI SWITCH -->
-        <section class="space-y-3">
+        <section id="cli-provider-switch" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">CLI provider switch</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 The migrate package can rewrite the <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> block in your entry file
@@ -596,7 +596,7 @@ const passwordValue = ref('s3cret');
         </section>
 
         <!-- CONCEPTS -->
-        <section class="space-y-3">
+        <section id="how-it-works" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">How it works</h2>
             <dl class="grid gap-4 sm:grid-cols-3">
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
@@ -621,7 +621,7 @@ const passwordValue = ref('s3cret');
         </section>
 
         <!-- LIVE COMPONENT EXAMPLES ========================================== -->
-        <section class="space-y-3">
+        <section id="see-it-in-real-components" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">See it in real components</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Click any provider in the <strong>Live preview</strong> at the top of this page - every icon below is a real
