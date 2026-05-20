@@ -131,7 +131,7 @@ const navCollapseSlots = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Navigation links with active state styling and Inertia.js integration.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="flex space-x-8">
                         <NavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">Dashboard</NavLink>
@@ -141,7 +141,7 @@ const navCollapseSlots = [
                     </nav>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Mobile Navigation</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Mobile Navigation</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <div class="space-y-1">
                         <ResponsiveNavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">
@@ -167,7 +167,7 @@ const navCollapseSlots = [
                     <PropsTable :rows="navLinkSlots" />
                 </CollapsableSection>
 
-                <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Responsive Navigation</h4>
+                <div class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Responsive Navigation</div>
                 <CodePreview :code="responsiveNavExamples" />
             </div>
         </section>
@@ -177,7 +177,7 @@ const navCollapseSlots = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Dropdown menus for user navigation, settings, and contextual actions. Supports click and hover triggers.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</div>
                 <div class="mb-6 flex justify-end rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <Dropdown align="end">
                         <template #trigger>
@@ -228,7 +228,7 @@ const navCollapseSlots = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">User avatars fetched from Gravatar, with configurable size and fallback options.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <div class="flex items-center space-x-4">
                         <GravatarImg email="john@example.com" :size="32" class="rounded-full" />

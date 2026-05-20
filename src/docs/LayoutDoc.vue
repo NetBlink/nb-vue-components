@@ -140,29 +140,29 @@ const collapsableSectionSlots = [
 
                 <div class="mb-6 space-y-4">
                     <Section>
-                        <h4 class="mb-2 text-lg font-medium">Basic Section</h4>
+                        <div class="mb-2 text-lg font-medium">Basic Section</div>
                         <p class="text-gray-600 dark:text-gray-400">This is a basic section component that provides consistent spacing and styling for content areas.</p>
                     </Section>
 
                     <Section class="border border-blue-200 bg-blue-50">
-                        <h4 class="mb-2 text-lg font-medium">Custom Styled Section</h4>
+                        <div class="mb-2 text-lg font-medium">Custom Styled Section</div>
                         <p class="text-gray-600 dark:text-gray-400">
                             This section demonstrates custom styling with background color and border that overrides the defaults.
                         </p>
                     </Section>
 
                     <Section variant="outlined">
-                        <h4 class="mb-2 text-lg font-medium">Outlined Variant</h4>
+                        <div class="mb-2 text-lg font-medium">Outlined Variant</div>
                         <p class="text-gray-600 dark:text-gray-400">A section with a border and no background or shadow.</p>
                     </Section>
 
                     <Section variant="minimal">
-                        <h4 class="mb-2 text-lg font-medium">Minimal Variant</h4>
+                        <div class="mb-2 text-lg font-medium">Minimal Variant</div>
                         <p class="text-gray-600 dark:text-gray-400">A minimal section with rounded corners.</p>
                     </Section>
 
                     <Section unstyled class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 p-8">
-                        <h4 class="mb-2 text-lg font-medium text-white">Fully Custom Section</h4>
+                        <div class="mb-2 text-lg font-medium text-white">Fully Custom Section</div>
                         <p class="text-purple-100">This section uses the unstyled prop for complete custom styling freedom.</p>
                     </Section>
                 </div>
@@ -193,7 +193,7 @@ const collapsableSectionSlots = [
                         <div class="p-4">
                             <p class="mb-4 text-gray-600 dark:text-gray-400">This content can be collapsed and expanded by clicking the header above.</p>
                             <div class="rounded bg-gray-50 dark:bg-gray-900/40 p-4">
-                                <h5 class="mb-2 font-medium">Key Features:</h5>
+                                <div class="mb-2 font-medium">Key Features:</div>
                                 <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                                     <li>• Smooth animations</li>
                                     <li>• Customizable headers</li>
@@ -214,12 +214,12 @@ const collapsableSectionSlots = [
                 <CodePreview :code="collapsableSectionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">CollapsableSection Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">CollapsableSection Props</div>
                     <PropsTable :rows="collapsableSectionProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="collapsableSectionSlots" />
                 </div>
             </div>
@@ -246,7 +246,7 @@ const collapsableSectionSlots = [
                             <div class="mb-2 text-xs font-medium uppercase tracking-widest text-gray-500">
                                 Slide {{ item.id }} / {{ carouselItems.length }}
                             </div>
-                            <h3 class="mb-3 text-2xl font-semibold text-gray-900">{{ item.title }}</h3>
+                            <div class="mb-3 text-2xl font-semibold text-gray-900">{{ item.title }}</div>
                             <p class="mx-auto max-w-md text-gray-700">{{ item.description }}</p>
                         </div>
                     </DottedCarousel>
@@ -255,12 +255,12 @@ const collapsableSectionSlots = [
                 <CodePreview :code="carouselExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DottedCarousel Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DottedCarousel Props</div>
                     <PropsTable :rows="carouselProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="carouselSlots" />
                 </div>
             </div>

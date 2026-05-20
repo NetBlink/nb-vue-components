@@ -99,7 +99,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
 
             <div v-for="name in COLOR_NAMES" :key="name" class="space-y-2">
                 <div class="flex items-baseline justify-between">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">{{ name }}</h3>
+                    <div class="font-semibold text-gray-900 dark:text-gray-100">{{ name }}</div>
                     <code class="text-xs text-gray-500 dark:text-gray-400">DEFAULT: {{ defaults.colors[name][300] }} · base: {{ defaults.colors[name][500] }}</code>
                 </div>
                 <div class="grid grid-cols-3 gap-1 sm:grid-cols-6 lg:grid-cols-11">

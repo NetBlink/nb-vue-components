@@ -278,7 +278,7 @@ const newModalSlots = [
 
                 <Modal :show="showLegacyModal" @close="showLegacyModal = false">
                     <div class="p-6">
-                        <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Legacy Modal</h3>
+                        <div class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Legacy Modal</div>
                         <p class="text-gray-600 dark:text-gray-400">All header, body and footer markup must be supplied via the single default slot.</p>
                         <div class="mt-6 flex justify-end gap-3">
                             <SecondaryButton @click="showLegacyModal = false">Close</SecondaryButton>
