@@ -14,6 +14,7 @@ import {
     PropsTable,
 } from '../index';
 import { useForm } from '@inertiajs/vue3';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Modal state management
 const showBasic = ref(false);
@@ -154,7 +155,7 @@ const newModalSlots = [
 
         <section id="basic">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">title</code> for the header bar (or use the
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot for custom markup). Body goes in the default slot, action buttons
@@ -177,12 +178,12 @@ const newModalSlots = [
                 </NewModal>
 
                 <CodePreview :code="basicExamples" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="confirmation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Confirmation dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot when you need icon + title together.</p>
 
                 <div class="mb-6">
@@ -206,12 +207,12 @@ const newModalSlots = [
                 </NewModal>
 
                 <CodePreview :code="confirmationExamples" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="form">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form dialog</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Forms render inside the default slot. Keep buttons in the footer so they pin to the bottom.</p>
 
                 <div class="mb-6">
@@ -239,12 +240,12 @@ const newModalSlots = [
                 </NewModal>
 
                 <CodePreview :code="formExamples" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="api">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">NewModal API</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <CollapsableSection header="Props" :open="true">
                     <PropsTable :rows="newModalProps" />
                 </CollapsableSection>
@@ -252,7 +253,7 @@ const newModalSlots = [
                 <CollapsableSection header="Slots" class="mt-4">
                     <PropsTable :rows="newModalSlots" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="deprecated">

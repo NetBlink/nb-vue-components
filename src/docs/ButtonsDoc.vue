@@ -12,6 +12,7 @@ import {
     UnderConstruction,
     PropsTable,
 } from '../index';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Code examples for LinkButton themes
 const linkButtonExamples = [
@@ -130,7 +131,7 @@ const underConstructionProps = [
 
         <section id="standard-buttons">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Standard Buttons</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Variants</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
@@ -155,12 +156,12 @@ const underConstructionProps = [
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Props</div>
                     <PropsTable :rows="buttonProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="submitbutton">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SubmitButton</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A themed button that shows a spinner while an Inertia form is processing. Pass <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">:form</code>
                     for automatic state, or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">:loading</code> for manual control.
@@ -179,12 +180,12 @@ const underConstructionProps = [
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">SubmitButton Props</div>
                     <PropsTable :rows="submitButtonProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="linkbutton">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LinkButton with Themes</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Theme Examples</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
@@ -209,12 +210,12 @@ const underConstructionProps = [
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">LinkButton Props & Themes</div>
                     <PropsTable :rows="linkButtonProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="underconstruction">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">UnderConstruction Component</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Placeholder component for sections still in development.
                 </p>
@@ -240,7 +241,7 @@ const underConstructionProps = [
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">UnderConstruction Props</div>
                     <PropsTable :rows="underConstructionProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
     </div>
 </template>

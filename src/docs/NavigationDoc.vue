@@ -17,6 +17,7 @@ import {
     CollapsableSection,
     PropsTable,
 } from '../index';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 const currentRoute = ref('/dashboard');
 
@@ -170,7 +171,7 @@ const dropdownSeparatorNote = [
 
         <section id="nav-links">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Navigation Links</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -210,12 +211,12 @@ const dropdownSeparatorNote = [
 
                 <div class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Responsive Navigation</div>
                 <CodePreview :code="responsiveNavExamples" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="dropdown-navigation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">openOnHover</code>.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</div>
@@ -261,12 +262,12 @@ const dropdownSeparatorNote = [
                 <CollapsableSection header="Dropdown Slots" class="mt-6">
                     <PropsTable :rows="dropdownSlots" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="gravatar">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Gravatar Images</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">User avatars fetched from Gravatar, with configurable size and fallback options.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</div>
@@ -282,12 +283,12 @@ const dropdownSeparatorNote = [
                 <CollapsableSection header="GravatarImg Props" class="mt-6">
                     <PropsTable :rows="gravatarProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="nav-collapse">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsible Navigation</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="space-y-2">
@@ -326,12 +327,12 @@ const dropdownSeparatorNote = [
                 <CollapsableSection header="NavCollapse Slots" class="mt-4">
                     <PropsTable :rows="navCollapseSlots" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="link-dropdown-button">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LinkDropdownButton</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A primary-styled trigger button that opens a floating dropdown menu. Uses Reka UI primitives internally.
                     Items are plain anchor tags (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButtonItem</code>);
@@ -369,12 +370,12 @@ const dropdownSeparatorNote = [
                         <PropsTable :rows="linkDropdownButtonItemProps" />
                     </CollapsableSection>
                 </section>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="dropdown-separator">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DropdownSeparator</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A thin horizontal rule used to divide groups of items inside a
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Dropdown</code> or
@@ -392,7 +393,7 @@ const dropdownSeparatorNote = [
                 </div>
 
                 <CodePreview :code="dropdownSeparatorNote" />
-            </div>
+            </DocDemoCard>
         </section>
     </div>
 </template>
