@@ -5,7 +5,7 @@ import mixPlugin from 'colord/plugins/mix';
 extend([mixPlugin]);
 
 /**
- * Theme-builder state — covers every token in the package's `@theme` block in
+ * Theme-builder state - covers every token in the package's `@theme` block in
  * main.css (Tailwind v4 CSS-first). Live edits inject matching CSS variables
  * onto <html> so the entire docs site (every utility class that compiles to
  * `var(--color-foo-500)`) updates instantly. Output is copyable as either a
@@ -13,7 +13,7 @@ extend([mixPlugin]);
  *
  * Persists to localStorage so reloads keep the user's edits.
  *
- * Docs-app-only composable (lives under src/docs/) — not exported from the
+ * Docs-app-only composable (lives under src/docs/) - not exported from the
  * package itself.
  */
 
@@ -27,7 +27,7 @@ type Shade = typeof COLOR_SHADES[number];
 
 const STORAGE_KEY = 'nb-vue-components:theme-builder';
 
-/** Defaults — mirror @theme in main.css exactly. */
+/** Defaults - mirror @theme in main.css exactly. */
 const COLOR_DEFAULTS: Record<ColorName, Record<Shade, string>> = {
     primary: { 50: '#f4f9fb', 100: '#e9f2f5', 200: '#cee5e9', 300: '#aad3d9', 400: '#72b6be', 500: '#509da7', 600: '#3d808c', 700: '#326772', 800: '#2d585f', 900: '#294a51', 950: '#1b3036' },
     accent:  { 50: '#fbf5f6', 100: '#f7ecef', 200: '#f0dbe1', 300: '#e1b8c3', 400: '#d399a9', 500: '#c0738b', 600: '#a95574', 700: '#8c445f', 800: '#763b54', 900: '#66354b', 950: '#381926' },
@@ -43,7 +43,7 @@ const COLOR_DEFAULT_SHADE: Record<ColorName, Shade> = {
 };
 
 /**
- * Generate an 11-shade scale anchored at `500` from a single hex input —
+ * Generate an 11-shade scale anchored at `500` from a single hex input.
  * mirrors uicolors.app's approach. Lighter shades mix toward white; darker
  * shades mix toward black. The anchor shade always equals the input exactly.
  */
@@ -155,7 +155,7 @@ function persistToStorage(): void {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(toRaw(state)));
     } catch {
-        /* quota / private mode — silently skip */
+        /* quota / private mode - silently skip */
     }
 }
 
@@ -187,7 +187,7 @@ function resetColor(name: ColorName): void {
 // Output formats
 // ============================================================================
 
-/** Tailwind v4 — single `@theme {}` block of CSS custom properties. */
+/** Tailwind v4 - single `@theme {}` block of CSS custom properties. */
 const v4Snippet = computed<string>(() => {
     const lines: string[] = ['/* app.css */', "@import 'tailwindcss';", '', '@theme {'];
 
@@ -237,7 +237,7 @@ const v4Snippet = computed<string>(() => {
     return lines.join('\n');
 });
 
-/** Tailwind v3 — `theme.extend` block in tailwind.config.js. */
+/** Tailwind v3 - `theme.extend` block in tailwind.config.js. */
 const v3Snippet = computed<string>(() => {
     const lines: string[] = [];
     lines.push('// tailwind.config.js');
