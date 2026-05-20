@@ -18,6 +18,7 @@ import Images from './components/Forms/Images.vue';
 import RadioButton from './components/Forms/RadioButton.vue';
 import SubmitButton from './components/Forms/SubmitButton.vue';
 import SelectMultiple from './components/Forms/SelectMultiple.vue';
+import SimpleSelect from './components/Forms/SimpleSelect.vue';
 import Table from './components/Tables/Table.vue';
 import Thead from './components/Tables/Thead.vue';
 import Tbody from './components/Tables/Tbody.vue';
@@ -147,6 +148,7 @@ export {
     RadioButton,
     SubmitButton,
     SelectMultiple,
+    SimpleSelect,
     // TABLES
     Table,
     Thead,
