@@ -165,10 +165,9 @@ const showcaseAliases: AliasName[] = [
 const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     fa: {
         install: [
-            '# 1. The component library',
             'npm install @netblink/vue-components',
             '',
-            '# 2. FontAwesome (one of the four - pick whichever set you like)',
+            '# FontAwesome',
             'npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core \\',
             '            @fortawesome/free-solid-svg-icons',
         ],
@@ -213,7 +212,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     },
     heroicons: {
         install: [
-            '# Heroicons ships official Vue components - no Iconify needed',
+            '# Heroicons',
             'npm install @netblink/vue-components @heroicons/vue',
         ],
         wire: [
@@ -251,8 +250,7 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
     },
     material: {
         install: [
-            '# Material Symbols has no native Vue package - use Iconify.',
-            '# Per-icon imports tree-shake naturally (each file is ~200B):',
+            '# Material Symbols (Iconify)',
             'npm install @netblink/vue-components @iconify/vue @iconify-icons/material-symbols',
         ],
         wire: [
@@ -293,16 +291,11 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
             "}));",
             "",
             "app.mount('#app');",
-            "",
-            "// Alternative: pull the entire set in one line (~2MB gzipped):",
-            "//   import data from '@iconify-json/material-symbols/icons.json';",
-            "//   import { addCollection } from '@iconify/vue';",
-            "//   addCollection(data);",
         ],
     },
     solar: {
         install: [
-            '# Solar - Iconify-only, same per-icon pattern as Material Symbols',
+            '# Solar (Iconify)',
             'npm install @netblink/vue-components @iconify/vue @iconify-icons/solar',
         ],
         wire: [
