@@ -21,6 +21,7 @@ import {
     CodePreview,
     PropsTable,
     DataTile,
+    Logs,
 } from '../index';
 
 // Component state
@@ -274,6 +275,50 @@ const dataTileProps = [
     { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on the outer card' },
     { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Extra classes on the value section' },
     { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Extra classes on the label section' },
+];
+
+// Logs data
+const sampleLogs = {
+    total: 2,
+    data: [
+        {
+            id: 1,
+            icon: 'edit',
+            event_formatted: 'Record updated',
+            reference: '#1001',
+            causer: { id: 0, first_name: 'System' },
+            created_date_full: '20 May 2026 09:00',
+            changes_formatted: { Status: { old: 'Draft', new: 'Active' } },
+            description_details: null,
+        },
+        {
+            id: 2,
+            icon: 'trash',
+            event_formatted: 'Record deleted',
+            reference: null,
+            causer: { id: 42, first_name: 'Alice' },
+            created_date_full: '19 May 2026 17:30',
+            changes_formatted: {},
+            description_details: 'Entry removed via bulk action.',
+        },
+    ],
+    links: null,
+};
+
+const logsExample = [
+    '&lt;Logs :logs="serverLogs" /&gt;',
+    '',
+    '&lt;!-- Custom header --&gt;',
+    '&lt;Logs :logs="serverLogs" header="Audit trail" /&gt;',
+];
+
+const logsProps = [
+    { prop: 'logs', type: 'Object', default: '-', description: 'Laravel-style paginated result: `{ total, data[], links? }`. When undefined, a spinner is shown.', required: true },
+    { prop: 'header', type: 'string', default: "'Logs'", description: 'Heading text shown in the CollapsibleSection header bar' },
+];
+
+const logsContentProps = [
+    { prop: 'logs', type: 'Object', default: '-', description: 'Same paginated shape as Logs: `{ total, data[], links? }`. When undefined, a spinner is shown. Each item should include `id`, `icon`, `event_formatted`, `reference`, `causer`, `created_date_full`, `changes_formatted`, and optionally `description_details`.', required: true },
 ];
 </script>
 
@@ -714,6 +759,44 @@ const dataTileProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DataTile Props</div>
                     <PropsTable :rows="dataTileProps" />
                 </div>
+            </div>
+        </section>
+
+        <section id="logs">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Logs</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    An activity-log timeline rendered inside a collapsible section. Pass a Laravel-style paginated result
+                    and each entry is displayed as a timeline node with an icon, event description, optional causer link,
+                    field-change diff, and timestamp. When the paginated result includes a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">links</code> array,
+                    a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Pagination</code> bar is appended automatically.
+                    Passing <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">undefined</code> shows a loading spinner.
+                </p>
+
+                <div class="mb-6">
+                    <Logs :logs="sampleLogs" />
+                </div>
+
+                <CodePreview :code="logsExample" />
+
+                <div class="mt-6">
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Logs Props</div>
+                    <PropsTable :rows="logsProps" />
+                </div>
+
+                <section id="logs-content" class="mt-8">
+                    <h4 class="mb-3 border-b border-gray-200 pb-2 text-lg font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LogsContent</h4>
+                    <p class="mb-4 text-gray-600 dark:text-gray-400">
+                        The inner timeline renderer used by <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Logs</code>.
+                        Use it directly when you want to embed the timeline without the surrounding
+                        <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">CollapsibleSection</code> wrapper - for example inside your own card or panel.
+                        It accepts the same paginated <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">logs</code> object.
+                    </p>
+                    <div class="mt-4">
+                        <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">LogsContent Props</div>
+                        <PropsTable :rows="logsContentProps" />
+                    </div>
+                </section>
             </div>
         </section>
     </div>
