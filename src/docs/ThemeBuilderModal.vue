@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { NewModal, SecondaryButton } from '../index';
+import { ref } from 'vue';
+import { NewModal, SecondaryButton, CodePreview } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
 const {
@@ -42,18 +42,6 @@ function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): 
     setColorShade(name, shade, (e.target as HTMLInputElement).value);
 }
 
-const copyStatus = ref<'idle' | 'copied' | 'failed'>('idle');
-async function copySnippet(): Promise<void> {
-    try {
-        await navigator.clipboard.writeText(activeSnippet.value);
-        copyStatus.value = 'copied';
-    } catch {
-        copyStatus.value = 'failed';
-    }
-    setTimeout(() => (copyStatus.value = 'idle'), 2000);
-}
-
-const snippetLineCount = computed(() => activeSnippet.value.split('\n').length);
 </script>
 
 <template>
@@ -287,29 +275,11 @@ const snippetLineCount = computed(() => activeSnippet.value.split('\n').length);
             </div>
 
             <!-- OUTPUT PREVIEW ====================================== -->
-            <div class="overflow-hidden rounded-lg border border-gray-700 bg-gray-900 text-gray-100">
-                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-700 bg-gray-800 px-3 py-2">
-                    <div class="flex items-center gap-3">
-                        <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">{{ activeFilename }}</div>
-                        <div class="text-[10px] text-gray-500">{{ snippetLineCount }} lines</div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            type="button"
-                            @click="copySnippet"
-                            class="rounded-md px-3 py-1 text-xs font-medium transition-colors"
-                            :class="copyStatus === 'copied'
-                                ? 'bg-success-600 text-white'
-                                : copyStatus === 'failed'
-                                ? 'bg-danger-600 text-white'
-                                : 'bg-primary-600 text-white hover:bg-primary-700'"
-                        >
-                            {{ copyStatus === 'copied' ? '✓ Copied' : copyStatus === 'failed' ? '✗ Failed' : 'Copy snippet' }}
-                        </button>
-                    </div>
-                </div>
-                <pre class="max-h-72 overflow-auto bg-gray-900 px-3 py-2 font-mono text-[11px] leading-snug"><code>{{ activeSnippet }}</code></pre>
-            </div>
+            <CodePreview
+                :code="activeSnippet.split('\n')"
+                language="css"
+                :filename="activeFilename"
+            />
         </div>
 
         <template #footer>
