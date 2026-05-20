@@ -59,6 +59,6 @@ const copy = async (): Promise<void> => {
                 {{ copyStatus }}
             </button>
         </div>
-        <pre class="overflow-x-auto p-4 text-sm"><code class="language-vue text-gray-800 dark:text-gray-200 font-mono">{{ codeBlock }}</code></pre>
+        <pre class="overflow-x-auto p-4 text-sm"><code :class="`language-${language ?? 'vue'} text-gray-800 dark:text-gray-200 font-mono`">{{ codeBlock }}</code></pre>
     </div>
 </template>
