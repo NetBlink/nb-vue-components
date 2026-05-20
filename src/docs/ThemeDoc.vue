@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CodePreview } from '../index';
+import { CodePreview, PropsTable } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
 const { state, isModalOpen, defaults, shades, tailwindConfigSnippet } = useThemeBuilder();
@@ -66,6 +66,31 @@ const importSnippet = [
 
 const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slice(0, 60));
 const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length);
+
+const motionTokens = [
+    { prop: '--ease-emphasised', type: 'easing',   default: 'cubic-bezier(0.16, 1, 0.3, 1)', description: 'Default easing curve. Used by all named animations.' },
+    { prop: '--duration-quick',  type: 'duration', default: '150ms',                          description: 'Short transitions (hover, focus).' },
+    { prop: '--duration-base',   type: 'duration', default: '400ms',                          description: 'Standard transitions (modals, tooltips, collapse).' },
+];
+
+const motionAnimations = [
+    { prop: '--animate-fade-in',          type: 'animation', default: 'fadeIn duration-base ease-emphasised',         description: 'NewModal overlay' },
+    { prop: '--animate-slide-up',         type: 'animation', default: 'slideUp duration-base ease-emphasised',        description: 'Collapse / NavCollapse close' },
+    { prop: '--animate-slide-down',       type: 'animation', default: 'slideDown duration-base ease-emphasised',      description: 'Collapse / NavCollapse open' },
+    { prop: '--animate-slide-up-fade',    type: 'animation', default: 'slideUpFade duration-base ease-emphasised',    description: 'NewModal content open' },
+    { prop: '--animate-slide-down-fade',  type: 'animation', default: 'slideDownFade duration-base ease-emphasised',  description: 'Dropdown side=top' },
+    { prop: '--animate-slide-left-fade',  type: 'animation', default: 'slideLeftFade duration-base ease-emphasised',  description: 'Dropdown side=right' },
+    { prop: '--animate-slide-right-fade', type: 'animation', default: 'slideRightFade duration-base ease-emphasised', description: 'Dropdown side=left' },
+];
+
+const motionOverrideSnippet = [
+    '/* app.css - override motion tokens */',
+    '@theme {',
+    '    --ease-emphasised: cubic-bezier(0.4, 0, 0.2, 1);',
+    '    --duration-quick: 100ms;',
+    '    --duration-base: 300ms;',
+    '}',
+];
 </script>
 
 <template>
@@ -214,6 +239,22 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
                     <code class="font-mono text-xs text-gray-500 dark:text-gray-400">shadow (DEFAULT): {{ state.shadow }}</code>
                 </div>
             </div>
+        </section>
+
+        <!-- MOTION -->
+        <section id="motion" class="space-y-3">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Motion</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Three motion tokens drive component transitions across modals, tooltips, alerts, and collapse panels.
+                Seven named animations build on those tokens.
+            </p>
+
+            <PropsTable :rows="motionTokens" />
+
+            <PropsTable :rows="motionAnimations" />
+
+            <p class="text-gray-600 dark:text-gray-400">Override any of these in your <code>@theme {}</code> block:</p>
+            <CodePreview language="css" :code="motionOverrideSnippet" />
         </section>
 
         <!-- BREAKPOINTS -->
