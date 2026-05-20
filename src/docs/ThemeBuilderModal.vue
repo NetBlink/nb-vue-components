@@ -284,13 +284,7 @@ function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): 
 
         <template #footer>
             <div class="flex items-center justify-between">
-                <button
-                    type="button"
-                    @click="resetAll"
-                    class="text-sm text-gray-500 underline hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                >
-                    Reset to defaults
-                </button>
+                <SecondaryButton @click="resetAll">Reset to defaults</SecondaryButton>
                 <div class="flex items-center gap-3">
                     <span class="text-xs text-gray-500 dark:text-gray-400">Edits auto-save to your browser</span>
                     <SecondaryButton @click="isModalOpen = false">Close</SecondaryButton>
