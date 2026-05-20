@@ -17,7 +17,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Tailwind v4 theme tokens — single source of truth.
+ * Tailwind v4 theme tokens - single source of truth.
  *
  * Every variable below becomes both a CSS custom property AND a Tailwind
  * utility class (e.g. `--color-primary-500` powers `bg-primary-500`,

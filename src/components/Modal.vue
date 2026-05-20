@@ -9,7 +9,7 @@ import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
  * use `NewModal` instead.
  *
  * @prop {boolean} show - visibility (use `:show` + `@close` or `v-model:show`)
- * @prop {string} [maxWidth='2xl'] - sm | md | lg | xl | 2xl–7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
+ * @prop {string} [maxWidth='2xl'] - sm | md | lg | xl | 2xl-7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
  * @prop {boolean} [closeable=true] - allow closing via backdrop click or Escape key
  * @prop {boolean} [hideOverflow=true] - apply overflow-hidden to the modal container
  * @prop {boolean} [alignCenter=false] - vertically center the modal (default top-aligns)

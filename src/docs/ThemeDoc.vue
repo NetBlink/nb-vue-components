@@ -84,7 +84,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         <section class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wiring it into your project</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Two things — point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code>theme.extend</code>.
+                Two things: point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code>theme.extend</code>.
             </p>
             <CodePreview language="javascript" :code="importSnippet" />
         </section>
@@ -93,7 +93,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         <section class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Colour scales</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Six themed scales plus two plain tokens (<code>dark</code>, <code>muted</code>). Every component variant maps to one of these — the
+                Six themed scales plus two plain tokens (<code>dark</code>, <code>muted</code>). Every component variant maps to one of these - the
                 <code>theme="primary"</code>, <code>type="warning"</code>, etc. props all resolve to a Tailwind class like <code>bg-warning-500</code>.
             </p>
 
@@ -160,7 +160,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
                 <div class="space-y-1">
                     <div v-for="s in fontSizeSamples" :key="s.name" class="flex items-baseline gap-3">
                         <code class="w-12 shrink-0 text-xs text-gray-500 dark:text-gray-400">{{ s.name }}</code>
-                        <span :style="{ fontSize: s.size }" class="text-gray-800 dark:text-gray-100">Aa — sample text</span>
+                        <span :style="{ fontSize: s.size }" class="text-gray-800 dark:text-gray-100">Aa - sample text</span>
                         <code class="ml-auto font-mono text-xs text-gray-500 dark:text-gray-400">{{ s.size }}</code>
                     </div>
                 </div>
@@ -197,7 +197,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Breakpoints (screens)</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 The package overrides Tailwind's defaults and adds a few extras (<code>xxs</code>, <code>xs</code>, <code>laptop</code>, <code>3xl</code>).
-                Note that <code>xl</code>, <code>laptop</code>, and <code>2xl</code> all share the same min-width — the package treats anything
+                Note that <code>xl</code>, <code>laptop</code>, and <code>2xl</code> all share the same min-width. The package treats anything
                 ≥ 1084px as &ldquo;wide&rdquo; until 3xl kicks in.
             </p>
             <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
@@ -229,7 +229,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
             <div class="rounded-lg border border-gray-200 bg-gray-900 p-3 text-gray-100 dark:border-gray-700">
                 <pre class="overflow-x-auto whitespace-pre font-mono text-[11px] leading-snug"><code>{{ previewLines.join('\n') }}<span v-if="previewLines.length < totalLines">
 …
-({{ totalLines - previewLines.length }} more lines — copy via the modal)</span></code></pre>
+({{ totalLines - previewLines.length }} more lines - copy via the modal)</span></code></pre>
             </div>
         </section>
     </div>
