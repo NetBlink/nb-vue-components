@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Td from './Td.vue';
+
 interface TdCollapseHandlerProps {
     collapse_id?: string;
 }

@@ -363,7 +363,6 @@ const tableItemCardProps = [
     { prop: 'extraText', type: 'string', default: '-', description: 'Highlighted note text displayed below the title (labelled "Engineer Note").' },
     { prop: 'amount', type: 'Amount', default: '-', description: 'Monetary value to display. Fields: text? (label prefix), amount (string formatted by moneyFormat helper).' },
     { prop: 'item', type: 'Record<string, any>', default: '-', description: 'Raw row object. Available for use in the default slot.' },
-    { prop: 'key', type: 'number', default: '-', description: 'Vue list key forwarded to the root element.' },
 ];
 
 const tableItemCardSlots = [

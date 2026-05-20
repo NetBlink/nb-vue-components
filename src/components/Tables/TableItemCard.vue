@@ -34,7 +34,6 @@ interface Amount {
     amount: string;
 }
 interface TableItemCardProps {
-    key?: number;
     item?: Record<string, any>;
     itemId?: ItemId;
     extraText?: string;
@@ -48,7 +47,7 @@ const props = defineProps<TableItemCardProps>();
 </script>
 
 <template>
-    <div :key="props.key" class="mt-3 rounded-md border border-gray-300 bg-white px-4 py-3 lg:border lg:border-gray-300">
+    <div class="mt-3 rounded-md border border-gray-300 bg-white px-4 py-3 lg:border lg:border-gray-300">
         <div class="max-xxs:text-xxs mb-2 flex w-full flex-wrap justify-between text-sm text-gray-600 dark:text-gray-400">
             <div v-if="props.itemId || props.timeStamp" class="xs:w-fit mb-2 h-fit w-full">
                 <!-- ID -->
