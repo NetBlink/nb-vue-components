@@ -81,7 +81,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </header>
 
         <!-- HOW TO IMPORT -->
-        <section class="space-y-3">
+        <section id="wiring-it-into-your-project" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wiring it into your project</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Two things: point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code>theme.extend</code>.
@@ -90,7 +90,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- COLOURS -->
-        <section class="space-y-3">
+        <section id="colour-scales" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Colour scales</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Six themed scales plus two plain tokens (<code>dark</code>, <code>muted</code>). Every component variant maps to one of these - the
@@ -140,7 +140,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- TYPOGRAPHY -->
-        <section class="space-y-3">
+        <section id="typography" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Typography</h2>
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
@@ -168,7 +168,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- RADIUS -->
-        <section class="space-y-3">
+        <section id="border-radius" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Border radius</h2>
             <div class="grid gap-3 sm:grid-cols-4">
                 <div v-for="r in radiusSamples" :key="r.key" class="flex flex-col items-center gap-2 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
@@ -180,7 +180,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- SHADOW -->
-        <section class="space-y-3">
+        <section id="box-shadow" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Box shadow</h2>
             <div class="rounded-lg border border-gray-200 bg-gray-50 p-8 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="inline-block rounded-md bg-white px-6 py-4 dark:bg-gray-800" :style="{ boxShadow: state.shadow }">
@@ -193,7 +193,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- BREAKPOINTS -->
-        <section class="space-y-3">
+        <section id="breakpoints" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Breakpoints (screens)</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 The package overrides Tailwind's defaults and adds a few extras (<code>xxs</code>, <code>xs</code>, <code>laptop</code>, <code>3xl</code>).
@@ -221,7 +221,7 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
         </section>
 
         <!-- FULL CONFIG OUTPUT -->
-        <section class="space-y-3">
+        <section id="copy-the-full-config" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Copy the full config</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 This is what the Theme builder produces. It reflects the current state of every token (open the modal to edit).
