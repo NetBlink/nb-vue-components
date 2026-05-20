@@ -283,7 +283,7 @@ const dataTileProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Alerts</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Contextual alert messages with smooth show/hide animations for success, error, warning, and informational feedback.
+                    Alert messages for success, error, warning, and info states. Show/hide is animated.
                 </p>
 
                 <div class="mb-6 space-y-4">
@@ -302,7 +302,7 @@ const dataTileProps = [
                 <!-- Interactive Animation Demo -->
                 <div class="mb-6 rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Interactive Animation Demo</h4>
-                    <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">Click the buttons below to see the smooth show/hide animations:</p>
+                    <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">Click the buttons to toggle each alert:</p>
 
                     <div class="mb-4 flex flex-wrap gap-2">
                         <button
@@ -333,11 +333,11 @@ const dataTileProps = [
 
                     <div class="space-y-3">
                         <Alert v-model="showSuccessAlert" type="success" title="Animated Success" :dismissible="true">
-                            This alert smoothly fades and slides in/out with beautiful animations!
+                            This alert fades and slides in/out.
                         </Alert>
 
                         <Alert v-model="showErrorAlert" type="error" title="Animated Error" :dismissible="true">
-                            Watch the smooth transitions as this alert appears and disappears.
+                            Opacity, scale, and translate animate on enter and leave.
                         </Alert>
 
                         <Alert v-model="showWarningAlert" type="warning" title="Animated Warning" :dismissible="true">

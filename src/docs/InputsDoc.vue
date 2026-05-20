@@ -398,7 +398,7 @@ const descriptionListProps = [
         <section id="input">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic Input</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">The foundational input component supporting various types including text, email, password, and more.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">The base input component. Supports text, email, password, textarea, checkbox, switch, and radio types.</p>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <Input :form="form" field="name" />
@@ -414,7 +414,7 @@ const descriptionListProps = [
                 <CodePreview :code="inputExamples" />
 
                 <h4 class="mt-8 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Features</h4>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Input component supports advanced features like tooltips, sublabels, and integrated submit buttons.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Tooltips, sublabels, and integrated submit buttons are also supported.</p>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Input :form="form" field="tooltip_field" tooltip="This is a helpful tooltip" />
@@ -510,7 +510,7 @@ const descriptionListProps = [
         <section id="radio">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Radio Buttons</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Radio buttons for single-choice selections with proper form integration and label association.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Radio buttons for single-choice selections with form integration and label association.</p>
 
                 <div class="mb-6 space-y-3">
                     <RadioButton :form="form" field="choice" value="option1" label="Option 1" />

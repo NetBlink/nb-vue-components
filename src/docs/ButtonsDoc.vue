@@ -122,7 +122,7 @@ const underConstructionProps = [
         <section id="standard-buttons">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Standard Buttons</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">A collection of styled button components for different actions and contexts.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Styled button components for different actions and contexts.</p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Variants</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
@@ -177,7 +177,7 @@ const underConstructionProps = [
         <section id="linkbutton">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LinkButton with Themes</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">LinkButton component now supports predefined themes for consistent styling across your application.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">LinkButton supports predefined themes for consistent styling.</p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Theme Examples</h4>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
@@ -209,8 +209,7 @@ const underConstructionProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">UnderConstruction Component</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A utility component to display placeholders for sections that are still being developed. Perfect for work-in-progress areas of
-                    your application.
+                    Placeholder component for sections still in development.
                 </p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Usage</h4>

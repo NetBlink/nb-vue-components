@@ -277,7 +277,7 @@ const trProps = [
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    The basic table structure uses Table, Thead, Tbody, Th, and Td components for full control over the table layout.
+                    Table, Thead, Tbody, Th, and Td components for full control over table layout.
                 </p>
 
                 <!-- Basic Table Example -->
@@ -315,7 +315,7 @@ const trProps = [
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Add sorting functionality to table headers. Works with Inertia.js for server-side sorting.
+                    Sortable headers. Works with Inertia.js for server-side sorting.
                 </p>
 
                 <!-- Sortable Table Example -->
@@ -349,7 +349,7 @@ const trProps = [
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Tables automatically adapt to smaller screens. Use the 'label' prop on Td components for better mobile display.
+                    Tables adapt to smaller screens. Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">label</code> prop on Td for mobile display.
                 </p>
 
                 <!-- Responsive Table Example -->
@@ -387,8 +387,7 @@ const trProps = [
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    The EnhancedTable component provides auto-column generation, built-in sorting, selection, and custom cell rendering.
-                    Here's an example using a standard table with enhanced features:
+                    EnhancedTable adds auto-column generation, built-in sorting, row selection, and custom cell rendering.
                 </p>
 
                 <!-- Enhanced Table Example -->
@@ -656,7 +655,7 @@ const trProps = [
         <!-- Migration / back-compat notes -->
         <section id="migration">
             <CollapsableSection header="Migration & back-compat notes">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">All older table code still works; these are the modern equivalents:</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">All older table code still works; these are the current equivalents:</p>
                 <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li><code>seperate</code> → <code>separate</code></li>
                     <li><code>collapsable</code> → <code>collapsible</code></li>

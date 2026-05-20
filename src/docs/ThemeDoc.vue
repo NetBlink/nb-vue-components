@@ -66,8 +66,8 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Theme &amp; tokens</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Every value the package uses for colour, typography, spacing, and motion lives in
-                <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">tailwind.config.js</code>. Copy any token below into your own config to keep
-                the same look, or hit the <strong>Theme</strong> button (bottom-right) to customise everything live and copy the result when you're happy.
+                <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">tailwind.config.js</code>. Copy tokens below into your own config to keep
+                the same look, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.
             </p>
             <div>
                 <button
