@@ -9,6 +9,14 @@ import {
     RadioButton,
     Select,
     RichSelect,
+    SimpleSelect,
+    SearchSelect,
+    SelectMultiple,
+    Select2ajax,
+    DropdownSearchbar,
+    FileDropZoneInput,
+    Images,
+    TextInput,
     CodePreview,
     CollapsableSection,
     PropsTable,
@@ -391,6 +399,233 @@ const descriptionListProps = [
     { prop: 'value', type: 'string', default: 'undefined', description: 'DescriptionListItem - value text (alternative to default slot)' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'DescriptionListItem - render a red asterisk next to the label' },
 ];
+
+// ---- New form components ----
+
+// Shared options for Select-family demos ({ value, label } shape matches SimpleSelect, Select)
+const sampleOptions = [
+    { value: 'a', label: 'Apple' },
+    { value: 'b', label: 'Banana' },
+    { value: 'c', label: 'Cherry' },
+];
+
+// SearchSelect / SelectMultiple use { id, name } via optionValue/optionText
+const sampleList = [
+    { id: 'a', name: 'Apple' },
+    { id: 'b', name: 'Banana' },
+    { id: 'c', name: 'Cherry' },
+];
+
+// Reactive state for new demos
+const simpleSelectValue = ref<string | undefined>(undefined);
+const searchSelectValue = ref<string | undefined>(undefined);
+const selectMultipleForm = useForm({ tags: [] as string[] });
+const dropdownSearchbarValue = ref<string | undefined>(undefined);
+
+// TextInput demo
+const textInputValue = ref('Hello world');
+
+// Code examples
+const textInputExamples = [
+    '<!-- TextInput is a low-level bare <input> element. -->',
+    '<!-- Use the full-featured Input component for label/error/form binding. -->',
+    '<TextInput v-model="value" placeholder="Type here..." />',
+    '<TextInput v-model="value" inputmode="numeric" />',
+    '<TextInput v-model="value" :noNumberSpinners="true" type="number" />',
+];
+
+const fileDropZoneExamples = [
+    '<FileDropZoneInput',
+    '  :form="form"',
+    '  field="avatar"',
+    '  label="Avatar"',
+    '  accept="image/*"',
+    '/>',
+    '',
+    '<!-- Multiple files -->',
+    '<FileDropZoneInput',
+    '  :form="form"',
+    '  field="attachments"',
+    '  label="Attachments"',
+    '  accept=".pdf,.docx"',
+    '  :multiple="true"',
+    '/>',
+];
+
+const imagesExamples = [
+    '<Images',
+    '  :images="[]"',
+    '  itemType="Post"',
+    '  :itemId="1"',
+    '  endPoint="images.store"',
+    '/>',
+];
+
+const simpleSelectExamples = [
+    '<!-- SimpleSelect: native <select> driven by an { value, label } options array. -->',
+    '<SimpleSelect',
+    '  v-model="selected"',
+    '  :options="[{ value: \'a\', label: \'Apple\' }, { value: \'b\', label: \'Banana\' }]"',
+    '  label="Fruit"',
+    '  placeholder="Pick one..."',
+    '/>',
+    '',
+    '<!-- With form binding -->',
+    '<SimpleSelect :form="form" field="fruit" :options="options" label="Fruit" />',
+];
+
+const searchSelectExamples = [
+    '<!-- SearchSelect: filterable single-select powered by vue-search-select. -->',
+    '<SearchSelect',
+    '  id="fruit-search"',
+    '  v-model="selected"',
+    '  :list="[{ id: \'a\', name: \'Apple\' }]"',
+    '  optionValue="id"',
+    '  optionText="name"',
+    '  label="Fruit"',
+    '  placeholder="Search..."',
+    '/>',
+];
+
+const selectMultipleExamples = [
+    '<!-- SelectMultiple: checkbox-based multi-value picker. -->',
+    '<SelectMultiple',
+    '  id="tags"',
+    '  :form="form"',
+    '  field="tags"',
+    '  :list="[{ id: \'a\', name: \'Apple\' }]"',
+    '  optionValue="id"',
+    '  optionText="name"',
+    '  label="Tags"',
+    '/>',
+];
+
+const select2ajaxExamples = [
+    '<!-- Select2ajax: SearchSelect backed by a paginated JSON endpoint. -->',
+    '<Select2ajax',
+    '  id="user"',
+    '  :form="form"',
+    '  field="user_id"',
+    '  url="/api/users/search"',
+    '  optionValue="value"',
+    '  optionText="label"',
+    '  label="User"',
+    '  placeholder="Type to search..."',
+    '/>',
+];
+
+const dropdownSearchbarExamples = [
+    '<!-- DropdownSearchbar: VueSelect-based freeform dropdown with search. -->',
+    '<DropdownSearchbar',
+    '  :options="[\'Apple\', \'Banana\', \'Cherry\']"',
+    '  label="label"',
+    '  placeholder="Search..."',
+    '/>',
+];
+
+// Props tables
+const textInputProps = [
+    { prop: 'v-model', type: 'string', default: "''", description: 'Bound value (emits update:modelValue)' },
+    { prop: 'inputmode', type: 'InputMode', default: '-', description: 'HTML inputmode attribute (text, numeric, tel, email, etc.)' },
+    { prop: 'noNumberSpinners', type: 'boolean', default: 'false', description: 'Hide native number-spinner arrows for type="number"' },
+];
+
+const fileDropZoneInputProps = [
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object; the dropped file is assigned to form[field]', required: true },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object', required: true },
+    { prop: 'accept', type: 'string', default: "'image/*'", description: 'MIME types or file extensions accepted by the dropzone' },
+    { prop: 'multiple', type: 'boolean', default: 'false', description: 'Allow dropping multiple files at once' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text displayed above the drop area' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark the field as required' },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the drop zone' },
+    { prop: 'FileDropCustomClass', type: 'string', default: '-', description: 'Extra CSS classes applied to the drop area container' },
+];
+
+const imagesProps = [
+    { prop: 'images', type: 'Object[]', default: '-', description: 'Array of already-uploaded image objects ({ url, id })', required: true },
+    { prop: 'itemType', type: 'string', default: '-', description: 'Polymorphic resource type sent to the upload endpoint (e.g. "Post")' },
+    { prop: 'itemId', type: 'number', default: '-', description: 'ID of the parent resource sent to the upload endpoint' },
+    { prop: 'canUpload', type: 'boolean', default: 'true', description: 'Show the upload area and delete buttons' },
+    { prop: 'endPoint', type: 'string', default: "'images.store'", description: 'Named route used as the POST target for uploads' },
+];
+
+const simpleSelectProps = [
+    { prop: 'options', type: 'Option[]', default: '-', description: 'Array of { value, label, disabled? } objects', required: true },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for automatic value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'any', default: '-', description: 'Standalone value binding (use instead of form/field)' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Empty first option rendered as a placeholder' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+];
+
+const searchSelectProps = [
+    { prop: 'id', type: 'string', default: '-', description: 'HTML id attribute (required)', required: true },
+    { prop: 'list', type: 'Object[]', default: '-', description: 'Array of option objects to display', required: true },
+    { prop: 'optionValue', type: 'string', default: '-', description: 'Property name to use as the option value', required: true },
+    { prop: 'optionText', type: 'string', default: '-', description: 'Property name to use as the option label', required: true },
+    { prop: 'optionDisabled', type: 'string', default: '-', description: 'Property name that marks an option as disabled when truthy' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value/error binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'any', default: '-', description: 'Standalone value binding' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder shown in the search box' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'noForm', type: 'boolean', default: 'false', description: 'Bypass form binding entirely (use with v-model)' },
+    { prop: 'filterPredicate', type: '(option, term) => boolean', default: 'includes()', description: 'Custom filter function applied to option text' },
+];
+
+const searchSelectEvents = [
+    { prop: '@update:modelValue', type: 'event(value)', default: '-', description: 'Fires when the selected value changes' },
+    { prop: '@searchchange', type: 'event(term: string)', default: '-', description: 'Fires on every keystroke in the search box' },
+];
+
+const selectMultipleProps = [
+    { prop: 'id', type: 'string', default: '-', description: 'HTML id attribute (required)', required: true },
+    { prop: 'list', type: 'Object[]', default: '[]', description: 'Array of option objects to display', required: true },
+    { prop: 'optionValue', type: 'string', default: '-', description: 'Property name to use as the option value', required: true },
+    { prop: 'optionText', type: 'string', default: '-', description: 'Property name to use as the option label', required: true },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object; selected values stored in form[field]', required: true },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object (must be an array)', required: true },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder shown when nothing is selected' },
+    { prop: 'isDisabled', type: 'boolean', default: 'false', description: 'Disable the picker' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+];
+
+const select2ajaxProps = [
+    { prop: 'id', type: 'string', default: '-', description: 'HTML id attribute (required)', required: true },
+    { prop: 'url', type: 'string', default: '-', description: 'Endpoint that returns paginated JSON ({ data, current_page, last_page })', required: true },
+    { prop: 'optionValue', type: 'string', default: "'value'", description: 'Property name to use as the option value' },
+    { prop: 'optionText', type: 'string', default: "'label'", description: 'Property name to use as the option label' },
+    { prop: 'optionDisabled', type: 'string', default: "'disabled'", description: 'Property name that marks an option as disabled' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object for value binding' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object' },
+    { prop: 'v-model', type: 'any', default: '-', description: 'Standalone value binding' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder in the search box' },
+    { prop: 'queryParams', type: 'Object', default: '-', description: 'Extra query parameters appended to every request' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
+    { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
+    { prop: 'noForm', type: 'boolean', default: 'false', description: 'Bypass form binding entirely (use with v-model)' },
+];
+
+const select2ajaxEvents = [
+    { prop: '@update:modelValue', type: 'event(value)', default: '-', description: 'Fires when the selected value changes' },
+    { prop: '@changed', type: 'event(value)', default: '-', description: 'Alias of update:modelValue, also fires on clear' },
+];
+
+const dropdownSearchbarProps = [
+    { prop: 'options', type: 'any[]', default: '-', description: 'Array of option strings or objects to display in the dropdown' },
+    { prop: 'label', type: 'string', default: '-', description: 'Property name to use as the display label when options are objects' },
+    { prop: 'placeholder', type: 'string', default: '-', description: 'Placeholder text shown in the search input' },
+];
 </script>
 
 <template>
@@ -525,6 +760,19 @@ const descriptionListProps = [
                 </CollapsableSection>
             </div>
         </section>
+
+        <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
+            <strong>Picking the right Select:</strong>
+            <ul class="mt-2 list-inside list-disc space-y-1">
+                <li><strong>Select</strong> - the canonical native &lt;select&gt; wrapper. Default choice.</li>
+                <li><strong>SimpleSelect</strong> - native &lt;select&gt; driven by a typed <code>{ value, label }</code> options array; adds tooltip and placeholder support.</li>
+                <li><strong>RichSelect</strong> - styled headless dropdown for non-trivial option markup (search, multiple, grouping, API-backed).</li>
+                <li><strong>SearchSelect</strong> - filterable single-select powered by vue-search-select; maps arbitrary object keys via <code>optionValue</code> / <code>optionText</code>.</li>
+                <li><strong>SelectMultiple</strong> - checkbox-based multi-value picker that stores selections as an array on the Inertia form.</li>
+                <li><strong>Select2ajax</strong> - server-fed options via a paginated JSON endpoint with infinite-scroll and per-keystroke fetch.</li>
+                <li><strong>DropdownSearchbar</strong> - VueSelect-based freeform dropdown with built-in search input; no form binding.</li>
+            </ul>
+        </div>
 
         <section id="select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select Components</h3>
@@ -685,6 +933,210 @@ const descriptionListProps = [
 
                 <CollapsableSection header="DescriptionList & Item Props" class="mt-6">
                     <PropsTable :rows="descriptionListProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="text-input">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">TextInput</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TextInput</code> is a low-level bare
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;input&gt;</code> element with
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">v-model</code> support, an
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">inputmode</code> prop, and an optional
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">noNumberSpinners</code> flag. It carries no
+                    label, error display, or form-object binding. In new code prefer the full-featured
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Input</code> component; use
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TextInput</code> only when you need a
+                    naked input element to compose into a custom wrapper.
+                </p>
+                <div class="mb-6 max-w-sm">
+                    <TextInput v-model="textInputValue" placeholder="Type here..." class="w-full" />
+                </div>
+                <CodePreview :code="textInputExamples" />
+                <CollapsableSection header="TextInput Props" class="mt-6">
+                    <PropsTable :rows="textInputProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="file-drop-zone-input">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">FileDropZoneInput</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    Drag-and-drop file picker backed by
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue3-dropzone</code>. Dropped files are
+                    written directly to <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form[field]</code>
+                    (single file or array when <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">multiple</code>
+                    is set). Renders an <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">InputError</code>
+                    automatically when a rejected file or MIME mismatch occurs.
+                </p>
+                <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
+                    Note: the demo below renders the drop zone UI only. Actual file upload requires a form submit handler
+                    pointed at a real endpoint.
+                </p>
+                <div class="mb-6 max-w-md">
+                    <FileDropZoneInput :form="form" field="avatar" label="Avatar" accept="image/*" />
+                </div>
+                <CodePreview :code="fileDropZoneExamples" />
+                <CollapsableSection header="FileDropZoneInput Props" class="mt-6">
+                    <PropsTable :rows="fileDropZoneInputProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="images">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Images</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    Gallery-style image uploader with drag-and-drop. Displays existing images in a masonry grid and
+                    posts new uploads to a named Inertia route. Each uploaded image can be deleted via a
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">images.delete</code> DELETE request.
+                    Pass <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">canUpload="false"</code> to render
+                    the gallery read-only.
+                </p>
+                <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
+                    Note: the demo renders the upload UI only. Uploads and deletes require a real endpoint configured
+                    via the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">endPoint</code> prop.
+                </p>
+                <div class="mb-6">
+                    <Images :images="[]" itemType="Post" :itemId="1" endPoint="images.store" />
+                </div>
+                <CodePreview :code="imagesExamples" />
+                <CollapsableSection header="Images Props" class="mt-6">
+                    <PropsTable :rows="imagesProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="simple-select">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SimpleSelect</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A native <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> wrapper
+                    that accepts a typed <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{ value, label, disabled? }</code>
+                    options array. Supports both <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">v-model</code>
+                    and Inertia <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form/field</code> binding,
+                    plus a tooltip, placeholder, and error display.
+                </p>
+                <div class="mb-6 max-w-xs">
+                    <SimpleSelect v-model="simpleSelectValue" :options="sampleOptions" label="Fruit" placeholder="Pick one..." />
+                </div>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ simpleSelectValue ?? 'null' }}</code></p>
+                <CodePreview :code="simpleSelectExamples" />
+                <CollapsableSection header="SimpleSelect Props" class="mt-6">
+                    <PropsTable :rows="simpleSelectProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="search-select">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SearchSelect</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    Filterable single-select powered by
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-search-select</code>. Use
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionValue</code> and
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionText</code> to map arbitrary object
+                    shapes. A custom <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">filterPredicate</code>
+                    function can replace the default case-insensitive substring match. Emits
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">@searchchange</code> on every keystroke
+                    so the parent can react (e.g. to fetch a narrowed list from the server).
+                </p>
+                <div class="mb-6 max-w-xs">
+                    <SearchSelect
+                        id="demo-search-select"
+                        v-model="searchSelectValue"
+                        :list="sampleList"
+                        optionValue="id"
+                        optionText="name"
+                        label="Fruit"
+                        placeholder="Search..."
+                        noForm
+                    />
+                </div>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ searchSelectValue ?? 'null' }}</code></p>
+                <CodePreview :code="searchSelectExamples" />
+                <CollapsableSection header="SearchSelect Props" class="mt-6">
+                    <PropsTable :rows="searchSelectProps" />
+                </CollapsableSection>
+                <CollapsableSection header="SearchSelect Events" class="mt-4">
+                    <PropsTable :rows="searchSelectEvents" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="select-multiple">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SelectMultiple</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    Checkbox-based multi-value picker. Selections are stored as an array of string IDs in
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form[field]</code>. Toggling an already-
+                    selected item removes it from the array.
+                </p>
+                <div class="mb-6 max-w-xs">
+                    <SelectMultiple
+                        id="demo-select-multiple"
+                        :form="selectMultipleForm"
+                        field="tags"
+                        :list="sampleList"
+                        optionValue="id"
+                        optionText="name"
+                        label="Fruits"
+                    />
+                </div>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ JSON.stringify(selectMultipleForm.tags) }}</code></p>
+                <CodePreview :code="selectMultipleExamples" />
+                <CollapsableSection header="SelectMultiple Props" class="mt-6">
+                    <PropsTable :rows="selectMultipleProps" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="select2ajax">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select2ajax</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">SearchSelect</code> wrapper that loads
+                    options from a paginated JSON endpoint. On each keystroke it calls
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">url?term=...&amp;page=1</code> and replaces
+                    the list. Scrolling to the bottom of the dropdown increments the page and appends more results.
+                    Extra fixed parameters can be passed via
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">queryParams</code>.
+                </p>
+                <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
+                    Requires a live endpoint. The demo below shows the component markup only - wire up the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">url</code> prop to a real API route in
+                    your application.
+                </p>
+                <CodePreview :code="select2ajaxExamples" />
+                <CollapsableSection header="Select2ajax Props" class="mt-6">
+                    <PropsTable :rows="select2ajaxProps" />
+                </CollapsableSection>
+                <CollapsableSection header="Select2ajax Events" class="mt-4">
+                    <PropsTable :rows="select2ajaxEvents" />
+                </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="dropdown-searchbar">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DropdownSearchbar</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A lightweight wrapper around
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-select</code> that provides a
+                    freeform dropdown with a built-in search input. Accepts an array of strings or objects (use the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">label</code> prop to name the display
+                    property). No form binding or error display - intended for UI filters and search widgets rather than
+                    form submissions.
+                </p>
+                <div class="mb-6 max-w-xs">
+                    <DropdownSearchbar :options="sampleOptions" label="label" placeholder="Search fruits..." />
+                </div>
+                <CodePreview :code="dropdownSearchbarExamples" />
+                <CollapsableSection header="DropdownSearchbar Props" class="mt-6">
+                    <PropsTable :rows="dropdownSearchbarProps" />
                 </CollapsableSection>
             </div>
         </section>
