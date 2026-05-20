@@ -10,6 +10,8 @@ import {
     DropdownLink,
     DropdownSeparator,
     GravatarImg,
+    LinkDropdownButton,
+    LinkDropdownButtonItem,
     PrimaryButton,
     CodePreview,
     CollapsableSection,
@@ -121,6 +123,41 @@ const navCollapseProps = [
 const navCollapseSlots = [
     { prop: 'default', type: 'slot', default: '-', description: 'Child links rendered when expanded (typically NavLink elements)' },
     { prop: 'icon', type: 'slot', default: '-', description: 'Optional icon rendered to the left of the title' },
+];
+
+const linkDropdownButtonExamples = [
+    '<LinkDropdownButton title="Menu">',
+    '  <LinkDropdownButtonItem href="/dashboard" title="Dashboard" />',
+    '  <LinkDropdownButtonItem href="/settings" title="Settings" />',
+    '  <DropdownSeparator />',
+    '  <LinkDropdownButtonItem href="/logout" title="Log out" />',
+    '</LinkDropdownButton>',
+    '',
+    '<!-- Right-aligned -->',
+    '<LinkDropdownButton title="Actions" align="end" :alignOffset="0">',
+    '  <LinkDropdownButtonItem href="/edit" title="Edit" />',
+    '  <LinkDropdownButtonItem href="/delete" title="Delete" />',
+    '</LinkDropdownButton>',
+];
+
+const linkDropdownButtonProps = [
+    { prop: 'title', type: 'string', default: 'undefined', description: 'Label text displayed on the trigger button' },
+    { prop: 'align', type: "'start' | 'center' | 'end'", default: "'start'", description: 'Where the dropdown content anchors relative to the trigger' },
+    { prop: 'alignOffset', type: 'number', default: '5', description: 'Pixel offset from the alignment point' },
+];
+
+const linkDropdownButtonSlots = [
+    { prop: 'default', type: 'slot', default: '-', description: 'Menu items - typically LinkDropdownButtonItem and DropdownSeparator elements' },
+];
+
+const linkDropdownButtonItemProps = [
+    { prop: 'href', type: 'string', default: 'undefined', description: 'URL for the anchor element' },
+    { prop: 'title', type: 'string', default: 'undefined', description: 'Label text rendered inside the item' },
+];
+
+const dropdownSeparatorNote = [
+    '<!-- Inside any Dropdown or LinkDropdownButton -->',
+    '<DropdownSeparator />',
 ];
 </script>
 
@@ -286,6 +323,72 @@ const navCollapseSlots = [
                 <CollapsableSection header="NavCollapse Slots" class="mt-4">
                     <PropsTable :rows="navCollapseSlots" />
                 </CollapsableSection>
+            </div>
+        </section>
+
+        <section id="link-dropdown-button">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LinkDropdownButton</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A primary-styled trigger button that opens a floating dropdown menu. Uses Reka UI primitives internally.
+                    Items are plain anchor tags (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButtonItem</code>);
+                    use <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">DropdownSeparator</code> to divide groups.
+                </p>
+
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Menu</div>
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                    <LinkDropdownButton title="Menu">
+                        <LinkDropdownButtonItem href="#" title="Dashboard" />
+                        <LinkDropdownButtonItem href="#" title="Settings" />
+                        <DropdownSeparator />
+                        <LinkDropdownButtonItem href="#" title="Log out" />
+                    </LinkDropdownButton>
+                </div>
+
+                <CodePreview :code="linkDropdownButtonExamples" />
+
+                <CollapsableSection header="LinkDropdownButton Props" class="mt-6">
+                    <PropsTable :rows="linkDropdownButtonProps" />
+                </CollapsableSection>
+
+                <CollapsableSection header="LinkDropdownButton Slots" class="mt-4">
+                    <PropsTable :rows="linkDropdownButtonSlots" />
+                </CollapsableSection>
+
+                <section id="link-dropdown-button-item" class="mt-8">
+                    <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">LinkDropdownButtonItem</h4>
+                    <p class="mb-4 text-gray-600 dark:text-gray-400">
+                        A single menu row inside a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButton</code>.
+                        Renders as a styled anchor element.
+                    </p>
+
+                    <CollapsableSection header="LinkDropdownButtonItem Props" class="mt-4">
+                        <PropsTable :rows="linkDropdownButtonItemProps" />
+                    </CollapsableSection>
+                </section>
+            </div>
+        </section>
+
+        <section id="dropdown-separator">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DropdownSeparator</h3>
+            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A thin horizontal rule used to divide groups of items inside a
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Dropdown</code> or
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButton</code>.
+                    No props or slots - place it between items.
+                </p>
+
+                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                    <LinkDropdownButton title="With separator">
+                        <LinkDropdownButtonItem href="#" title="Profile" />
+                        <LinkDropdownButtonItem href="#" title="Billing" />
+                        <DropdownSeparator />
+                        <LinkDropdownButtonItem href="#" title="Sign out" />
+                    </LinkDropdownButton>
+                </div>
+
+                <CodePreview :code="dropdownSeparatorNote" />
             </div>
         </section>
     </div>

@@ -119,6 +119,12 @@ const underConstructionProps = [
 
 <template>
     <div class="space-y-12">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+            Every variant below (<code>PrimaryButton</code>, <code>SecondaryButton</code>, <code>SuccessButton</code>,
+            <code>WarningButton</code>, <code>DangerButton</code>, <code>InfoButton</code>) shares the implementation in
+            <code>Button.vue</code>. The named exports are the supported way to consume them; the base is internal.
+        </p>
+
         <section id="standard-buttons">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Standard Buttons</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
