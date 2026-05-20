@@ -31,16 +31,6 @@ const registerGlobal = [
 
 const registerNamed = ["import { Input, PrimaryButton, NewModal } from '@netblink/vue-components';"];
 
-const tailwindConfig = [
-    '// tailwind.config.js',
-    'module.exports = {',
-    '  content: [',
-    "    './resources/**/*.{vue,js,ts}',",
-    "    './node_modules/@netblink/vue-components/**/*.{vue,js,ts}',",
-    '  ],',
-    '};',
-];
-
 const appCss = [
     '/* app.css */',
     "@import 'tailwindcss';",
@@ -197,13 +187,7 @@ const darkApi = [
         <!-- 3. Tailwind -->
         <section id="tailwind">
             <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tailwind</h3>
-            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                Add the library to <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">content</code> so its utility
-                classes survive the Tailwind build:
-            </p>
-            <CodePreview :code="tailwindConfig" />
-
-            <p class="mt-6 mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4):</p>
+            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). Imports Tailwind and the package's component classes via the v4 source-discovery layer.</p>
             <CodePreview :code="appCss" />
         </section>
 
@@ -270,9 +254,7 @@ const darkApi = [
 
             <CollapsableSection header="Tailwind classes aren't applying">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    The library's path isn't in
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">tailwind.config.js</code>
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">content</code>. See step 3.
+                    Confirm your main CSS imports Tailwind v4 and the package source is on the v4 source-discovery path. See step 3.
                 </p>
             </CollapsableSection>
 

@@ -6,7 +6,6 @@ import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 const {
     state,
     isModalOpen,
-    outputFormat,
     shades,
     defaultShadeFor,
     setColorAnchor,
@@ -295,25 +294,6 @@ const snippetLineCount = computed(() => activeSnippet.value.split('\n').length);
                         <div class="text-[10px] text-gray-500">{{ snippetLineCount }} lines</div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <!-- v3 / v4 toggle -->
-                        <div class="inline-flex rounded-md border border-gray-600 bg-gray-900 p-0.5 text-xs">
-                            <button
-                                type="button"
-                                @click="outputFormat = 'v4'"
-                                class="rounded px-2 py-1 transition-colors"
-                                :class="outputFormat === 'v4' ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'"
-                            >
-                                v4 (CSS)
-                            </button>
-                            <button
-                                type="button"
-                                @click="outputFormat = 'v3'"
-                                class="rounded px-2 py-1 transition-colors"
-                                :class="outputFormat === 'v3' ? 'bg-primary-600 text-white' : 'text-gray-300 hover:text-white'"
-                            >
-                                v3 (config)
-                            </button>
-                        </div>
                         <button
                             type="button"
                             @click="copySnippet"
