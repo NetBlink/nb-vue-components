@@ -12,5 +12,12 @@ if (typeof window !== 'undefined' && typeof window.route === 'undefined') {
 }
 
 const app = createApp(DocsApp);
+
+// Inertia exposes `$page` to every component template
+// (`app.config.globalProperties.$page`). Components like Images.vue read
+// `$page.props.errors.*`. The docs site doesn't run Inertia, so stub
+// $page with an empty shape. Falsy lookups stay falsy, no render crash.
+app.config.globalProperties.$page = { props: { errors: {} } };
+
 app.use(buildIconsPlugin());
 app.mount('#app');
