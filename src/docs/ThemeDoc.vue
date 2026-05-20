@@ -39,6 +39,15 @@ const screens = [
     { name: '3xl',    px: '1360px', note: 'package-only' },
 ];
 
+const darkColorsSnippet = [
+    '/* app.css - override brand colours in dark mode */',
+    'html.dark {',
+    '    --color-primary-500: #6ec5cd;',
+    '    --color-primary-600: #4ea7af;',
+    '    /* override any --color-* you want different in dark mode */',
+    '}',
+];
+
 const importSnippet = [
     '// Include the package in your Tailwind content scan:',
     '// tailwind.config.js',
@@ -137,6 +146,21 @@ const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- DARK MODE -->
+        <section id="dark-mode" class="space-y-3">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Dark mode</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                The package ships one colour palette. Dark mode is opt-in via the <code>.dark</code> class
+                (see Setup). Components switch chrome via <code>dark:*</code> Tailwind utilities for backgrounds,
+                borders, and text. The brand colours themselves stay the same in both modes.
+            </p>
+            <p class="text-gray-600 dark:text-gray-400">
+                To use different brand colours under dark mode, override the matching CSS custom properties
+                inside an <code>html.dark</code> block in your own CSS:
+            </p>
+            <CodePreview language="css" :code="darkColorsSnippet" />
         </section>
 
         <!-- TYPOGRAPHY -->
