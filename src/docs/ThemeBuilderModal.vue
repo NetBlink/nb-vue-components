@@ -17,7 +17,7 @@ const {
 } = useThemeBuilder();
 
 const COLOR_NAMES: ColorName[] = ['primary', 'accent', 'danger', 'warning', 'success', 'info'];
-type Tab = 'colors' | 'typography' | 'layout' | 'effects' | 'breakpoints';
+type Tab = 'colors' | 'typography' | 'layout' | 'effects' | 'breakpoints' | 'motion';
 const tab = ref<Tab>('colors');
 
 const tabs: { id: Tab; label: string }[] = [
@@ -26,6 +26,7 @@ const tabs: { id: Tab; label: string }[] = [
     { id: 'layout',      label: 'Layout' },
     { id: 'effects',     label: 'Effects' },
     { id: 'breakpoints', label: 'Breakpoints' },
+    { id: 'motion',      label: 'Motion' },
 ];
 
 const expandedColor = ref<ColorName | null>(null);
@@ -40,6 +41,16 @@ function onAnchorInput(name: ColorName, e: Event): void {
 }
 function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): void {
     setColorShade(name, shade, (e.target as HTMLInputElement).value);
+}
+
+function onMotionEasingInput(e: Event): void {
+    state.motion.easing = (e.target as HTMLInputElement).value;
+}
+function onMotionDurationQuickInput(e: Event): void {
+    state.motion.durationQuick = (e.target as HTMLInputElement).value;
+}
+function onMotionDurationBaseInput(e: Event): void {
+    state.motion.durationBase = (e.target as HTMLInputElement).value;
 }
 
 </script>
@@ -274,6 +285,56 @@ function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): 
                 </div>
             </div>
 
+            <!-- MOTION ============================================= -->
+            <div v-if="tab === 'motion'" class="space-y-4">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Easing curve and durations used by every component animation.
+                </p>
+
+                <label class="flex flex-col gap-1">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Easing (cubic-bezier)</span>
+                    <input
+                        type="text"
+                        :value="state.motion.easing"
+                        @input="onMotionEasingInput"
+                        class="rounded-md border border-gray-300 bg-white px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-900"
+                        placeholder="cubic-bezier(0.16, 1, 0.3, 1)"
+                    />
+                </label>
+
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <label class="flex flex-col gap-1">
+                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Duration - quick</span>
+                        <input
+                            type="text"
+                            :value="state.motion.durationQuick"
+                            @input="onMotionDurationQuickInput"
+                            class="rounded-md border border-gray-300 bg-white px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-900"
+                            placeholder="150ms"
+                        />
+                    </label>
+                    <label class="flex flex-col gap-1">
+                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Duration - base</span>
+                        <input
+                            type="text"
+                            :value="state.motion.durationBase"
+                            @input="onMotionDurationBaseInput"
+                            class="rounded-md border border-gray-300 bg-white px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-900"
+                            placeholder="400ms"
+                        />
+                    </label>
+                </div>
+
+                <!-- Live preview swatch -->
+                <div class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Preview</div>
+                    <div
+                        class="h-3 w-12 rounded-full bg-primary-500"
+                        style="animation: motionPreview var(--duration-base) var(--ease-emphasised) infinite alternate"
+                    />
+                </div>
+            </div>
+
             <!-- OUTPUT PREVIEW ====================================== -->
             <CodePreview
                 :code="activeSnippet.split('\n')"
@@ -293,3 +354,10 @@ function onShadeInput(name: ColorName, shade: typeof shades[number], e: Event): 
         </template>
     </NewModal>
 </template>
+
+<style>
+@keyframes motionPreview {
+    from { transform: translateX(0); }
+    to   { transform: translateX(200px); }
+}
+</style>
