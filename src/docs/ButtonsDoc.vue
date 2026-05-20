@@ -124,7 +124,7 @@ const underConstructionProps = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Styled button components for different actions and contexts.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Variants</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Variants</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <PrimaryButton>Primary</PrimaryButton>
                     <SecondaryButton>Secondary</SecondaryButton>
@@ -134,7 +134,7 @@ const underConstructionProps = [
                     <InfoButton>Info</InfoButton>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <PrimaryButton disabled>Primary Disabled</PrimaryButton>
                     <SecondaryButton disabled>Secondary Disabled</SecondaryButton>
@@ -144,7 +144,7 @@ const underConstructionProps = [
                 <CodePreview :code="buttonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Props</h4>
+                    <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Button Props</div>
                     <PropsTable :rows="buttonProps" />
                 </div>
             </div>
@@ -158,7 +158,7 @@ const underConstructionProps = [
                     for automatic state, or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">:loading</code> for manual control.
                 </p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Idle / Loading</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Idle / Loading</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <SubmitButton>Save Changes</SubmitButton>
                     <SubmitButton loading>Saving…</SubmitButton>
@@ -168,7 +168,7 @@ const underConstructionProps = [
                 <CodePreview :code="submitButtonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">SubmitButton Props</h4>
+                    <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">SubmitButton Props</div>
                     <PropsTable :rows="submitButtonProps" />
                 </div>
             </div>
@@ -179,7 +179,7 @@ const underConstructionProps = [
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">LinkButton supports predefined themes for consistent styling.</p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Theme Examples</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Theme Examples</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <LinkButton href="#" theme="primary">Primary</LinkButton>
                     <LinkButton href="#" theme="secondary">Secondary</LinkButton>
@@ -189,7 +189,7 @@ const underConstructionProps = [
                     <LinkButton href="#" theme="info">Info</LinkButton>
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Disabled States</div>
                 <div class="mb-6 flex flex-wrap items-center gap-3">
                     <LinkButton href="#" theme="primary" disabled>Primary Disabled</LinkButton>
                     <LinkButton href="#" theme="success" disabled>Success Disabled</LinkButton>
@@ -199,7 +199,7 @@ const underConstructionProps = [
                 <CodePreview :code="linkButtonExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">LinkButton Props & Themes</h4>
+                    <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">LinkButton Props & Themes</div>
                     <PropsTable :rows="linkButtonProps" />
                 </div>
             </div>
@@ -212,17 +212,17 @@ const underConstructionProps = [
                     Placeholder component for sections still in development.
                 </p>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Usage</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Usage</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <UnderConstruction />
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Custom Message</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Custom Message</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <UnderConstruction info="Feature coming soon!&#10;Stay tuned for updates." />
                 </div>
 
-                <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Full Height Container</h4>
+                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Full Height Container</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4" style="height: 200px">
                     <UnderConstruction full info="Dashboard analytics&#10;Coming in Q2 2025" />
                 </div>
@@ -230,7 +230,7 @@ const underConstructionProps = [
                 <CodePreview :code="underConstructionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">UnderConstruction Props</h4>
+                    <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">UnderConstruction Props</div>
                     <PropsTable :rows="underConstructionProps" />
                 </div>
             </div>

@@ -429,7 +429,7 @@ const trProps = [
 
                 <!-- Simple Auto-Generated Table Example -->
                 <div class="mb-6">
-                    <h4 class="mb-2 font-medium">Auto-Generated Columns (Simple Data)</h4>
+                    <div class="mb-2 font-medium">Auto-Generated Columns (Simple Data)</div>
                     <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
                         Here's how EnhancedTable can auto-generate columns from simple data:
                     </p>
@@ -478,7 +478,7 @@ const trProps = [
                 <!-- Variant matrix - one rendered example, the rest demonstrated via the code preview. -->
                 <div class="mb-6 grid gap-6 lg:grid-cols-2">
                     <div>
-                        <h4 class="mb-2 font-medium">variant="default"</h4>
+                        <div class="mb-2 font-medium">variant="default"</div>
                         <Table variant="default">
                             <Thead>
                                 <tr>
@@ -497,7 +497,7 @@ const trProps = [
                         </Table>
                     </div>
                     <div>
-                        <h4 class="mb-2 font-medium">striped + hover</h4>
+                        <div class="mb-2 font-medium">striped + hover</div>
                         <Table striped hover>
                             <Thead>
                                 <tr>
@@ -516,7 +516,7 @@ const trProps = [
                         </Table>
                     </div>
                     <div>
-                        <h4 class="mb-2 font-medium">variant="minimal"</h4>
+                        <div class="mb-2 font-medium">variant="minimal"</div>
                         <Table variant="minimal">
                             <Thead>
                                 <tr>
@@ -535,7 +535,7 @@ const trProps = [
                         </Table>
                     </div>
                     <div>
-                        <h4 class="mb-2 font-medium">variant="elevated" bordered</h4>
+                        <div class="mb-2 font-medium">variant="elevated" bordered</div>
                         <Table variant="elevated" bordered>
                             <Thead>
                                 <tr>
@@ -615,7 +615,7 @@ const trProps = [
 
                 <!-- Composable Example -->
                 <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/40 rounded-lg">
-                    <h4 class="mb-2 font-medium">Table Composables Demo:</h4>
+                    <div class="mb-2 font-medium">Table Composables Demo:</div>
                     <div class="text-sm text-gray-600 dark:text-gray-400">
                         <p>Sort State: {{ sortState ? `${sortState.column} ${sortState.direction}` : 'None' }}</p>
                         <p>Available Functions: sort(), getSortDirection(), isSorted()</p>

@@ -494,7 +494,7 @@ const passwordValue = ref('s3cret');
             <div class="flex items-start gap-3">
                 <NbIcon name="$search" size="lg" class="mt-0.5 flex-shrink-0 text-primary-600 dark:text-primary-300" />
                 <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">Browse 200+ icon sets at Iconify</h3>
+                    <div class="font-semibold text-gray-900 dark:text-gray-100">Browse 200+ icon sets at Iconify</div>
                     <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
                         <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>
                         is the universal icon browser. Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
@@ -552,31 +552,31 @@ const passwordValue = ref('s3cret');
                     The tabs above are example sources. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map accepts Vue components, render functions, inline SVG, and CSS class strings - mixed in one project.
                 </p>
 
-                <h4 class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / per-icon-component libraries</h4>
+                <div class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / per-icon-component libraries</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Libraries that ship per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, ...) work the same way as Heroicons: import and pass.
                 </p>
                 <CodePreview language="javascript" :code="lucideSnippet" />
 
-                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</h4>
+                <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a small wrapper component.
                 </p>
                 <CodePreview language="javascript" :code="mdiSnippet" />
 
-                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</h4>
+                <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Have a custom SVG you want to drop in for one alias? Wrap it in <code>{ svg: '…' }</code>. The string is sanitized before rendering.
                 </p>
                 <CodePreview language="javascript" :code="rawSvgSnippet" />
 
-                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</h4>
+                <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Any <code>.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
                 </p>
                 <CodePreview language="javascript" :code="customComponentSnippet" />
 
-                <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</h4>
+                <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font: pass a class string and
                     NbIcon renders <code>&lt;i class="…" /&gt;</code> for you.

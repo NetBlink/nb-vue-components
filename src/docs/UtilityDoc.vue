@@ -301,7 +301,7 @@ const dataTileProps = [
 
                 <!-- Interactive Animation Demo -->
                 <div class="mb-6 rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Interactive Animation Demo</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Interactive Animation Demo</div>
                     <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">Click the buttons to toggle each alert:</p>
 
                     <div class="mb-4 flex flex-wrap gap-2">
@@ -353,12 +353,12 @@ const dataTileProps = [
                 <CodePreview :code="alertExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Alert Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Alert Props</div>
                     <PropsTable :rows="alertProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="alertEvents" />
                 </div>
             </div>
@@ -370,7 +370,7 @@ const dataTileProps = [
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Loading indicators for async operations and data fetching states.</p>
 
                 <div class="mb-6">
-                    <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Spinner Sizes</h4>
+                    <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Spinner Sizes</div>
                     <div class="flex items-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="text-center">
                             <Spinner size="xs" />
@@ -394,7 +394,7 @@ const dataTileProps = [
                         </div>
                     </div>
 
-                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Custom Colors</h4>
+                    <div class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Custom Colors</div>
                     <div class="flex items-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="text-center">
                             <Spinner size="md" color="text-green-600" />
@@ -410,7 +410,7 @@ const dataTileProps = [
                         </div>
                     </div>
 
-                    <h4 class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Text</h4>
+                    <div class="mt-6 mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">With Text</div>
                     <div class="rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                         <div class="flex items-center justify-center space-x-3">
                             <Spinner size="sm" />
@@ -422,7 +422,7 @@ const dataTileProps = [
                 <CodePreview :code="spinnerExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Spinner Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Spinner Props</div>
                     <PropsTable :rows="spinnerProps" />
                 </div>
             </div>
@@ -456,7 +456,7 @@ const dataTileProps = [
                 <CodePreview :code="tooltipExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Tooltip Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Tooltip Props</div>
                     <PropsTable :rows="tooltipProps" />
                 </div>
             </div>
@@ -479,12 +479,12 @@ const dataTileProps = [
                 <CodePreview :code="statsExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Stats Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Stats Props</div>
                     <PropsTable :rows="statsProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="statsEvents" />
                 </div>
             </div>
@@ -516,12 +516,12 @@ const dataTileProps = [
                 <CodePreview :code="sectionExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Section Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Section Props</div>
                     <PropsTable :rows="sectionProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="sectionSlots" />
                 </div>
             </div>
@@ -552,7 +552,7 @@ const dataTileProps = [
                     </ul>
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Default trigger (`button` prop)</h4>
+                <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Default trigger (`button` prop)</div>
                 <Collapse class="mb-6">
                     <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                         <p class="text-gray-600 dark:text-gray-400">
@@ -571,7 +571,7 @@ const dataTileProps = [
                     </div>
                 </Collapse>
 
-                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Custom trigger (#trigger slot)</h4>
+                <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Custom trigger (#trigger slot)</div>
                 <Collapse :open="collapseOpen" class="mb-6">
                     <template #trigger>
                         <button
@@ -621,12 +621,12 @@ const dataTileProps = [
                 />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Collapse Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Collapse Props</div>
                     <PropsTable :rows="collapseProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="collapseSlots" />
                 </div>
             </div>
@@ -646,12 +646,12 @@ const dataTileProps = [
                 <CodePreview :code="paginationExamples" />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Pagination Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Pagination Props</div>
                     <PropsTable :rows="paginationProps" />
                 </div>
 
                 <div class="mt-4">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="paginationEvents" />
                 </div>
             </div>
@@ -669,7 +669,7 @@ const dataTileProps = [
                     The tile fills its container by default; render multiple inside a CSS grid for the dashboard look.
                 </p>
 
-                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Themed grid</h4>
+                <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Themed grid</div>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
                     <DataTile :value="1284" label="Active users" :icon="faUsers" theme="primary" />
                     <DataTile :value="'£45,678'" label="Revenue (MTD)" :icon="faChartLine" theme="success" />
@@ -677,7 +677,7 @@ const dataTileProps = [
                     <DataTile :value="'4.8 / 5'" label="Customer rating" :icon="faCircleCheck" theme="success" />
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Selected state</h4>
+                <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Selected state</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selected</code> when the tile represents a currently-active filter or selection.
                 </p>
@@ -687,7 +687,7 @@ const dataTileProps = [
                     <DataTile :value="2" label="Pending reviews" :icon="faGears" theme="danger" />
                 </div>
 
-                <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Standalone</h4>
+                <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Standalone</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     A single tile fills the available width - wrap it in a sized container if you don't want it stretching across the page.
                 </p>
@@ -711,7 +711,7 @@ const dataTileProps = [
                 />
 
                 <div class="mt-6">
-                    <h4 class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DataTile Props</h4>
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DataTile Props</div>
                     <PropsTable :rows="dataTileProps" />
                 </div>
             </div>
