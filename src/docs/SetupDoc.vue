@@ -246,8 +246,7 @@ const darkApi = [
             </CollapsableSection>
 
             <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                Dark variants are wired up for the high-traffic surfaces (modals, inputs, tables, alerts, dropdowns, sections, stats / data
-                tiles, code blocks). If you hit a component that isn't themed yet, add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">dark:</code> classes on the wrapper.
+                Dark variants ship for modals, inputs, tables, alerts, dropdowns, sections, stats, data tiles, and code blocks. For unstyled components, add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">dark:</code> classes on the wrapper.
             </p>
         </section>
 

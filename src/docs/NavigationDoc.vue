@@ -129,7 +129,7 @@ const navCollapseSlots = [
         <section id="nav-links">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Navigation Links</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Clean navigation links with active state styling and Inertia.js integration.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Navigation links with active state styling and Inertia.js integration.</p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</h4>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -175,7 +175,7 @@ const navCollapseSlots = [
         <section id="dropdown-navigation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Dropdown menus for user navigation, settings, and contextual actions.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Dropdown menus for user navigation, settings, and contextual actions. Supports click and hover triggers.</p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</h4>
                 <div class="mb-6 flex justify-end rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -226,7 +226,7 @@ const navCollapseSlots = [
         <section id="gravatar">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Gravatar Images</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Automatically generated user avatars from Gravatar service with fallback options.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">User avatars fetched from Gravatar, with configurable size and fallback options.</p>
 
                 <h4 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</h4>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -247,7 +247,7 @@ const navCollapseSlots = [
         <section id="nav-collapse">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsible Navigation</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Collapsible navigation sections for organizing menu items into groups.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Collapsible navigation sections for grouping menu items.</p>
 
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="space-y-2">

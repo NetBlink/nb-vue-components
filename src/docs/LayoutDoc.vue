@@ -9,7 +9,7 @@ const carouselItems = ref([
     {
         id: 1,
         title: 'Ship faster',
-        description: 'Pre-built components for inputs, tables, modals and more - wire up a screen in minutes, not hours.',
+        description: 'Components for inputs, tables, modals, and more.',
         icon: faRocket,
         gradient: 'from-blue-50 to-indigo-100',
         accent: 'text-indigo-600',
@@ -17,7 +17,7 @@ const carouselItems = ref([
     {
         id: 2,
         title: 'Consistent design',
-        description: 'Every component shares the same theming tokens, so primary / accent / success / danger stay in sync across your app.',
+        description: 'Every component shares the same theming tokens - primary, accent, success, and danger stay in sync across the app.',
         icon: faPaintBrush,
         gradient: 'from-pink-50 to-fuchsia-100',
         accent: 'text-fuchsia-600',
@@ -25,7 +25,7 @@ const carouselItems = ref([
     {
         id: 3,
         title: 'Built for Inertia',
-        description: 'Form integration, validation errors, and Link wrappers play nicely with @inertiajs/vue3 out of the box.',
+        description: 'Form integration, validation errors, and Link wrappers for @inertiajs/vue3.',
         icon: faGears,
         gradient: 'from-emerald-50 to-teal-100',
         accent: 'text-teal-600',
@@ -41,7 +41,7 @@ const carouselItems = ref([
     {
         id: 5,
         title: 'Accessible by default',
-        description: 'NewModal, Tooltip, and Dropdown use reka-ui primitives - focus management, ARIA, keyboard handling all wired up.',
+        description: 'NewModal, Tooltip, and Dropdown use reka-ui primitives for focus management, ARIA, and keyboard handling.',
         icon: faShieldHalved,
         gradient: 'from-purple-50 to-violet-100',
         accent: 'text-violet-600',
@@ -49,7 +49,7 @@ const carouselItems = ref([
     {
         id: 6,
         title: 'Open and extensible',
-        description: 'Slot-based composition + customClass props on everything mean you can drop into any one component without reaching for !important.',
+        description: 'Slot-based composition and customClass props on every component - no !important overrides needed.',
         icon: faPeopleGroup,
         gradient: 'from-cyan-50 to-sky-100',
         accent: 'text-sky-600',
@@ -153,12 +153,12 @@ const collapsableSectionSlots = [
 
                     <Section variant="outlined">
                         <h4 class="mb-2 text-lg font-medium">Outlined Variant</h4>
-                        <p class="text-gray-600 dark:text-gray-400">A section with just a border and no background or shadow.</p>
+                        <p class="text-gray-600 dark:text-gray-400">A section with a border and no background or shadow.</p>
                     </Section>
 
                     <Section variant="minimal">
                         <h4 class="mb-2 text-lg font-medium">Minimal Variant</h4>
-                        <p class="text-gray-600 dark:text-gray-400">A minimal section with just rounded corners.</p>
+                        <p class="text-gray-600 dark:text-gray-400">A minimal section with rounded corners.</p>
                     </Section>
 
                     <Section unstyled class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 p-8">

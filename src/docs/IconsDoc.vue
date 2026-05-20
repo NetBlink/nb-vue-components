@@ -457,10 +457,7 @@ const passwordValue = ref('s3cret');
         <header class="space-y-3">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Icons</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                The library draws its UI through a single <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code> primitive.
-                Bring whatever icon library you already use - FontAwesome, Heroicons, Material Symbols, Solar, anything on
-                <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a>,
-                or your own SVG components - and map them to a handful of named aliases. <strong>FontAwesome</strong> is the default.
+                All icons render through <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code>. Map your icon source - FontAwesome, Heroicons, Material Symbols, Solar, an <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a> set, or your own SVG components - to named aliases. Default source is FontAwesome.
             </p>
         </header>
 
@@ -469,7 +466,7 @@ const passwordValue = ref('s3cret');
             <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Live preview</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider - every icon below (and the rest of this docs site) re-renders.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider. The icons below and the rest of the docs site re-render.</p>
                 </div>
                 <div class="inline-flex rounded-lg border border-gray-200 bg-white p-1 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                     <button
@@ -508,7 +505,7 @@ const passwordValue = ref('s3cret');
                     <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
                         <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>
                         is the universal icon browser. Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
-                        and pass it straight to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> -
+                        and pass it to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> -
                         provided you've installed the matching <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">@iconify-json/&lt;set&gt;</code> data package
                         and registered it once with <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">addCollection()</code>.
                     </p>
@@ -559,19 +556,18 @@ const passwordValue = ref('s3cret');
             <!-- "Any other source" tab: five patterns -->
             <div v-else class="pt-3 space-y-3">
                 <p class="text-gray-600 dark:text-gray-400">
-                    The four tabs above are just examples. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map
-                    accepts <strong>any</strong> Vue component, render function, inline SVG, or CSS class string. Mix as many as you like in one project.
+                    The tabs above are example sources. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map accepts Vue components, render functions, inline SVG, and CSS class strings - mixed in one project.
                 </p>
 
-                <h4 class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / any per-icon-component library</h4>
+                <h4 class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / per-icon-component libraries</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Anything that ships per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, …) works the same way as Heroicons. Just import and pass.
+                    Libraries that ship per-icon Vue components (Lucide, Phosphor, Tabler, Carbon, ...) work the same way as Heroicons: import and pass.
                 </p>
                 <CodePreview language="javascript" :code="lucideSnippet" />
 
                 <h4 class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a tiny wrapper component. Most apps already have one.
+                    Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a small wrapper component.
                 </p>
                 <CodePreview language="javascript" :code="mdiSnippet" />
 
