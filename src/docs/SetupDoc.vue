@@ -153,23 +153,26 @@ const darkApi = [
 
 <template>
     <div class="space-y-10">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-            Vue 3, Tailwind v4, Inertia. Components consume Inertia's
-            <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">useForm()</code>
-            via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">:form</code> +
-            <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">field</code>. Dark mode is opt-in; default styles are
-            unchanged.
-        </p>
+        <header class="space-y-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Getting Started</h1>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+                Vue 3, Tailwind v4, Inertia. Components consume Inertia's
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">useForm()</code>
+                via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">:form</code> +
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">field</code>. Dark mode is opt-in; default styles are
+                unchanged.
+            </p>
+        </header>
 
         <!-- 1. Install -->
         <section id="install">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Install</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Install</h3>
             <CodePreview :code="installCmd" />
         </section>
 
         <!-- 2. Register -->
         <section id="register">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Register</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Register</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
                 As a plugin (globally registers every component as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">&lt;Input&gt;</code>,
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">&lt;NewModal&gt;</code>, etc.):
@@ -186,14 +189,14 @@ const darkApi = [
 
         <!-- 3. Tailwind -->
         <section id="tailwind">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tailwind</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tailwind</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). Imports Tailwind and the package's component classes via the v4 source-discovery layer.</p>
             <CodePreview :code="appCss" />
         </section>
 
         <!-- 4. Dark mode -->
         <section id="dark-mode">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Dark mode
             </h3>
 
@@ -236,7 +239,7 @@ const darkApi = [
 
         <!-- 5. Form pattern -->
         <section id="form">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form pattern</h3>
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form pattern</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
                 Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">:form</code> and
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">field</code>. The component reads / writes
@@ -248,7 +251,7 @@ const darkApi = [
 
         <!-- 6. Troubleshooting -->
         <section id="troubleshooting">
-            <h3 class="mb-3 border-b border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Troubleshooting
             </h3>
 

@@ -162,7 +162,12 @@ const dropdownSeparatorNote = [
 </script>
 
 <template>
-    <div class="space-y-12">
+    <div class="space-y-10">
+        <header class="space-y-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Navigation Components</h1>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Navigation links, dropdown menus, collapsible nav, and avatar components for building app navigation.</p>
+        </header>
+
         <section id="nav-links">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Navigation Links</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
