@@ -769,13 +769,19 @@ const dropdownSearchbarProps = [
             <strong>Picking the right Select:</strong>
             <ul class="mt-2 list-inside list-disc space-y-1">
                 <li><strong>Select</strong> - the canonical native &lt;select&gt; wrapper. Default choice.</li>
-                <li><strong>SimpleSelect</strong> - native &lt;select&gt; driven by a typed <code>{ value, label }</code> options array; adds tooltip and placeholder support.</li>
                 <li><strong>RichSelect</strong> - styled headless dropdown for non-trivial option markup (search, multiple, grouping, API-backed).</li>
-                <li><strong>SearchSelect</strong> - filterable single-select powered by vue-search-select; maps arbitrary object keys via <code>optionValue</code> / <code>optionText</code>.</li>
-                <li><strong>SelectMultiple</strong> - checkbox-based multi-value picker that stores selections as an array on the Inertia form.</li>
-                <li><strong>Select2ajax</strong> - server-fed options via a paginated JSON endpoint with infinite-scroll and per-keystroke fetch.</li>
-                <li><strong>DropdownSearchbar</strong> - VueSelect-based freeform dropdown with built-in search input; no form binding.</li>
             </ul>
+            <div class="mt-3 rounded border border-amber-200 bg-amber-50/60 px-3 py-2 text-amber-900">
+                <span class="font-semibold">Deprecated</span> - documented for reference only; migrate to Select or RichSelect for all new code. See the
+                <a href="#deprecated" class="underline">Deprecated section</a> below.
+                <ul class="mt-1 list-inside list-disc space-y-0.5 line-through opacity-70">
+                    <li>SimpleSelect</li>
+                    <li>SearchSelect</li>
+                    <li>SelectMultiple</li>
+                    <li>Select2ajax</li>
+                    <li>DropdownSearchbar</li>
+                </ul>
+            </div>
         </div>
 
         <section id="select">
@@ -1010,135 +1016,146 @@ const dropdownSearchbarProps = [
             </DocDemoCard>
         </section>
 
-        <section id="simple-select">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SimpleSelect</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A native <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> wrapper
-                    that accepts a typed <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{ value, label, disabled? }</code>
-                    options array. Supports both <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">v-model</code>
-                    and Inertia <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form/field</code> binding,
-                    plus a tooltip, placeholder, and error display.
-                </p>
-                <div class="mb-6 max-w-xs">
-                    <SimpleSelect v-model="simpleSelectValue" :options="sampleOptions" label="Fruit" placeholder="Pick one..." />
-                </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ simpleSelectValue ?? 'null' }}</code></p>
-                <CodePreview :code="simpleSelectExamples" />
-                <CollapsableSection header="SimpleSelect Props" class="mt-6">
-                    <PropsTable :rows="simpleSelectProps" />
-                </CollapsableSection>
-            </DocDemoCard>
-        </section>
+        <section id="deprecated">
+            <h3 class="mb-4 flex items-center gap-2 border-b-2 border-amber-200 pb-2 text-xl font-semibold text-amber-700 dark:border-amber-700/60 dark:text-amber-400">
+                Deprecated
+                <span
+                    class="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                >
+                    Will not be supported
+                </span>
+            </h3>
 
-        <section id="search-select">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SearchSelect</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Filterable single-select powered by
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-search-select</code>. Use
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionValue</code> and
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">optionText</code> to map arbitrary object
-                    shapes. A custom <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">filterPredicate</code>
-                    function can replace the default case-insensitive substring match. Emits
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">@searchchange</code> on every keystroke
-                    so the parent can react (e.g. to fetch a narrowed list from the server).
+            <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-900/40 dark:bg-amber-950/30">
+                <p class="mb-4 text-sm text-amber-900 dark:text-amber-200">
+                    The select variants below are documented for backwards reference only - they
+                    will not be receiving further work. <strong>Migrate to Select or RichSelect for all new code.</strong>
                 </p>
-                <div class="mb-6 max-w-xs">
-                    <SearchSelect
-                        id="demo-search-select"
-                        v-model="searchSelectValue"
-                        :list="sampleList"
-                        optionValue="id"
-                        optionText="name"
-                        label="Fruit"
-                        placeholder="Search..."
-                        noForm
-                    />
-                </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ searchSelectValue ?? 'null' }}</code></p>
-                <CodePreview :code="searchSelectExamples" />
-                <CollapsableSection header="SearchSelect Props" class="mt-6">
-                    <PropsTable :rows="searchSelectProps" />
-                </CollapsableSection>
-                <CollapsableSection header="SearchSelect Events" class="mt-4">
-                    <PropsTable :rows="searchSelectEvents" />
-                </CollapsableSection>
-            </DocDemoCard>
-        </section>
 
-        <section id="select-multiple">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SelectMultiple</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Checkbox-based multi-value picker. Selections are stored as an array of string IDs in
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form[field]</code>. Toggling an already-
-                    selected item removes it from the array.
-                </p>
-                <div class="mb-6 max-w-xs">
-                    <SelectMultiple
-                        id="demo-select-multiple"
-                        :form="selectMultipleForm"
-                        field="tags"
-                        :list="sampleList"
-                        optionValue="id"
-                        optionText="name"
-                        label="Fruits"
-                    />
+                <!-- SimpleSelect -->
+                <div class="mt-6 first:mt-0 rounded-md border border-amber-200/60 bg-white/60 p-4 dark:border-amber-900/30 dark:bg-amber-950/10">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h4 class="text-lg font-semibold text-amber-900 dark:text-amber-200">SimpleSelect</h4>
+                        <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
+                    </div>
+                    <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
+                        A native <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">&lt;select&gt;</code> wrapper
+                        that accepts a typed <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">{ value, label, disabled? }</code>
+                        options array with tooltip, placeholder, and error display.
+                    </p>
+                    <div class="mt-3 mb-4 max-w-xs">
+                        <SimpleSelect v-model="simpleSelectValue" :options="sampleOptions" label="Fruit" placeholder="Pick one..." />
+                    </div>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">{{ simpleSelectValue ?? 'null' }}</code></p>
+                    <CodePreview :code="simpleSelectExamples" />
+                    <CollapsableSection header="SimpleSelect Props (deprecated)" class="mt-4">
+                        <PropsTable :rows="simpleSelectProps" />
+                    </CollapsableSection>
                 </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{{ JSON.stringify(selectMultipleForm.tags) }}</code></p>
-                <CodePreview :code="selectMultipleExamples" />
-                <CollapsableSection header="SelectMultiple Props" class="mt-6">
-                    <PropsTable :rows="selectMultipleProps" />
-                </CollapsableSection>
-            </DocDemoCard>
-        </section>
 
-        <section id="select2ajax">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select2ajax</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">SearchSelect</code> wrapper that loads
-                    options from a paginated JSON endpoint. On each keystroke it calls
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">url?term=...&amp;page=1</code> and replaces
-                    the list. Scrolling to the bottom of the dropdown increments the page and appends more results.
-                    Extra fixed parameters can be passed via
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">queryParams</code>.
-                </p>
-                <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
-                    Requires a live endpoint. The demo below shows the component markup only - wire up the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">url</code> prop to a real API route in
-                    your application.
-                </p>
-                <CodePreview :code="select2ajaxExamples" />
-                <CollapsableSection header="Select2ajax Props" class="mt-6">
-                    <PropsTable :rows="select2ajaxProps" />
-                </CollapsableSection>
-                <CollapsableSection header="Select2ajax Events" class="mt-4">
-                    <PropsTable :rows="select2ajaxEvents" />
-                </CollapsableSection>
-            </DocDemoCard>
-        </section>
-
-        <section id="dropdown-searchbar">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DropdownSearchbar</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A lightweight wrapper around
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-select</code> that provides a
-                    freeform dropdown with a built-in search input. Accepts an array of strings or objects (use the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">label</code> prop to name the display
-                    property). No form binding or error display - intended for UI filters and search widgets rather than
-                    form submissions.
-                </p>
-                <div class="mb-6 max-w-xs">
-                    <DropdownSearchbar :options="sampleOptions" label="label" placeholder="Search fruits..." />
+                <!-- SearchSelect -->
+                <div class="mt-6 rounded-md border border-amber-200/60 bg-white/60 p-4 dark:border-amber-900/30 dark:bg-amber-950/10">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h4 class="text-lg font-semibold text-amber-900 dark:text-amber-200">SearchSelect</h4>
+                        <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
+                    </div>
+                    <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
+                        Filterable single-select powered by
+                        <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">vue-search-select</code>.
+                        Maps arbitrary object shapes via <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">optionValue</code> /
+                        <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">optionText</code> and emits
+                        <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">@searchchange</code> on every keystroke.
+                    </p>
+                    <div class="mt-3 mb-4 max-w-xs">
+                        <SearchSelect
+                            id="demo-search-select"
+                            v-model="searchSelectValue"
+                            :list="sampleList"
+                            optionValue="id"
+                            optionText="name"
+                            label="Fruit"
+                            placeholder="Search..."
+                            noForm
+                        />
+                    </div>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">{{ searchSelectValue ?? 'null' }}</code></p>
+                    <CodePreview :code="searchSelectExamples" />
+                    <CollapsableSection header="SearchSelect Props (deprecated)" class="mt-4">
+                        <PropsTable :rows="searchSelectProps" />
+                    </CollapsableSection>
+                    <CollapsableSection header="SearchSelect Events (deprecated)" class="mt-4">
+                        <PropsTable :rows="searchSelectEvents" />
+                    </CollapsableSection>
                 </div>
-                <CodePreview :code="dropdownSearchbarExamples" />
-                <CollapsableSection header="DropdownSearchbar Props" class="mt-6">
-                    <PropsTable :rows="dropdownSearchbarProps" />
-                </CollapsableSection>
-            </DocDemoCard>
+
+                <!-- SelectMultiple -->
+                <div class="mt-6 rounded-md border border-amber-200/60 bg-white/60 p-4 dark:border-amber-900/30 dark:bg-amber-950/10">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h4 class="text-lg font-semibold text-amber-900 dark:text-amber-200">SelectMultiple</h4>
+                        <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
+                    </div>
+                    <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
+                        Checkbox-based multi-value picker. Selections are stored as an array of string IDs in
+                        <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">form[field]</code>.
+                    </p>
+                    <div class="mt-3 mb-4 max-w-xs">
+                        <SelectMultiple
+                            id="demo-select-multiple"
+                            :form="selectMultipleForm"
+                            field="tags"
+                            :list="sampleList"
+                            optionValue="id"
+                            optionText="name"
+                            label="Fruits"
+                        />
+                    </div>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">{{ JSON.stringify(selectMultipleForm.tags) }}</code></p>
+                    <CodePreview :code="selectMultipleExamples" />
+                    <CollapsableSection header="SelectMultiple Props (deprecated)" class="mt-4">
+                        <PropsTable :rows="selectMultipleProps" />
+                    </CollapsableSection>
+                </div>
+
+                <!-- Select2ajax -->
+                <div class="mt-6 rounded-md border border-amber-200/60 bg-white/60 p-4 dark:border-amber-900/30 dark:bg-amber-950/10">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h4 class="text-lg font-semibold text-amber-900 dark:text-amber-200">Select2ajax</h4>
+                        <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
+                    </div>
+                    <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
+                        A <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">SearchSelect</code> wrapper that loads
+                        options from a paginated JSON endpoint with infinite-scroll and per-keystroke fetch.
+                        Requires a live endpoint - no live demo.
+                    </p>
+                    <CodePreview :code="select2ajaxExamples" class="mt-3" />
+                    <CollapsableSection header="Select2ajax Props (deprecated)" class="mt-4">
+                        <PropsTable :rows="select2ajaxProps" />
+                    </CollapsableSection>
+                    <CollapsableSection header="Select2ajax Events (deprecated)" class="mt-4">
+                        <PropsTable :rows="select2ajaxEvents" />
+                    </CollapsableSection>
+                </div>
+
+                <!-- DropdownSearchbar -->
+                <div class="mt-6 rounded-md border border-amber-200/60 bg-white/60 p-4 dark:border-amber-900/30 dark:bg-amber-950/10">
+                    <div class="mb-2 flex items-center gap-2">
+                        <h4 class="text-lg font-semibold text-amber-900 dark:text-amber-200">DropdownSearchbar</h4>
+                        <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
+                    </div>
+                    <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
+                        A lightweight wrapper around
+                        <code class="rounded bg-amber-100/60 dark:bg-amber-900/30 px-1">vue-select</code> that provides a
+                        freeform dropdown with built-in search. No form binding or error display - intended for UI filters.
+                    </p>
+                    <div class="mt-3 mb-4 max-w-xs">
+                        <DropdownSearchbar :options="sampleOptions" label="label" placeholder="Search fruits..." />
+                    </div>
+                    <CodePreview :code="dropdownSearchbarExamples" />
+                    <CollapsableSection header="DropdownSearchbar Props (deprecated)" class="mt-4">
+                        <PropsTable :rows="dropdownSearchbarProps" />
+                    </CollapsableSection>
+                </div>
+            </div>
         </section>
     </div>
 </template>
