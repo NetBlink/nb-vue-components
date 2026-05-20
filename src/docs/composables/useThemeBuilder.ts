@@ -72,6 +72,11 @@ interface ThemeState {
     radius: { sm: string; default: string; md: string; lg: string };
     shadow: string;
     screens: { sm: string; md: string; lg: string; xl: string; '2xl': string };
+    motion: {
+        easing: string;
+        durationQuick: string;
+        durationBase: string;
+    };
 }
 
 const DEFAULTS: ThemeState = {
@@ -84,6 +89,11 @@ const DEFAULTS: ThemeState = {
     radius:    { sm: '0.125rem', default: '0.25rem', md: '0.375rem', lg: '0.5rem' },
     shadow:    '0 1px 2px 0 rgb(0 0 0 / 0.05)',
     screens:   { sm: '640px', md: '768px', lg: '1024px', xl: '1084px', '2xl': '1084px' },
+    motion: {
+        easing:        'cubic-bezier(0.16, 1, 0.3, 1)',
+        durationQuick: '150ms',
+        durationBase:  '400ms',
+    },
 };
 
 function loadFromStorage(): ThemeState {
@@ -100,6 +110,7 @@ function loadFromStorage(): ThemeState {
             fontSize: { ...DEFAULTS.fontSize, ...(parsed.fontSize ?? {}) },
             radius: { ...DEFAULTS.radius, ...(parsed.radius ?? {}) },
             screens: { ...DEFAULTS.screens, ...(parsed.screens ?? {}) },
+            motion:  { ...DEFAULTS.motion,  ...(parsed.motion  ?? {}) },
         };
     } catch {
         return structuredClone(DEFAULTS);
@@ -145,6 +156,10 @@ function applyToDocument(): void {
     root.setProperty('--breakpoint-lg',  state.screens.lg);
     root.setProperty('--breakpoint-xl',  state.screens.xl);
     root.setProperty('--breakpoint-2xl', state.screens['2xl']);
+
+    root.setProperty('--ease-emphasised', state.motion.easing);
+    root.setProperty('--duration-quick',  state.motion.durationQuick);
+    root.setProperty('--duration-base',   state.motion.durationBase);
 }
 
 function persistToStorage(): void {
@@ -187,6 +202,12 @@ function resetColor(name: ColorName): void {
 /** Tailwind v4 - single `@theme {}` block of CSS custom properties. */
 const v4Snippet = computed<string>(() => {
     const lines: string[] = ['/* app.css */', "@import 'tailwindcss';", '', '@theme {'];
+
+    lines.push('    /* Motion */');
+    lines.push(`    --ease-emphasised: ${state.motion.easing};`);
+    lines.push(`    --duration-quick:  ${state.motion.durationQuick};`);
+    lines.push(`    --duration-base:   ${state.motion.durationBase};`);
+    lines.push('');
 
     lines.push('    /* Plain colors */');
     lines.push(`    --color-dark:  ${state.dark};`);
