@@ -8,8 +8,7 @@ extend([mixPlugin]);
  * Theme-builder state - covers every token in the package's `@theme` block in
  * main.css (Tailwind v4 CSS-first). Live edits inject matching CSS variables
  * onto <html> so the entire docs site (every utility class that compiles to
- * `var(--color-foo-500)`) updates instantly. Output is copyable as either a
- * v4 `@theme {}` CSS block or a v3 `tailwind.config.js` snippet.
+ * `var(--color-foo-500)`) updates instantly. Output is copyable as a v4 `@theme {}` CSS block.
  *
  * Persists to localStorage so reloads keep the user's edits.
  *
@@ -18,7 +17,6 @@ extend([mixPlugin]);
  */
 
 export type ColorName = 'primary' | 'accent' | 'danger' | 'warning' | 'success' | 'info';
-export type ConfigFormat = 'v4' | 'v3';
 
 export const COLOR_ANCHOR_SHADE = 500;
 
@@ -110,7 +108,6 @@ function loadFromStorage(): ThemeState {
 
 const state = reactive<ThemeState>(loadFromStorage());
 const isModalOpen = ref(false);
-const outputFormat = ref<ConfigFormat>('v4');
 
 /** Apply current state to the live <html> element via CSS variables. */
 function applyToDocument(): void {
@@ -237,70 +234,13 @@ const v4Snippet = computed<string>(() => {
     return lines.join('\n');
 });
 
-/** Tailwind v3 - `theme.extend` block in tailwind.config.js. */
-const v3Snippet = computed<string>(() => {
-    const lines: string[] = [];
-    lines.push('// tailwind.config.js');
-    lines.push("/** @type {import('tailwindcss').Config} */");
-    lines.push('module.exports = {');
-    lines.push('    content: [');
-    lines.push("        './src/**/*.{vue,js,ts,jsx,tsx}',");
-    lines.push("        './node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}',");
-    lines.push('    ],');
-    lines.push('    theme: {');
-    lines.push('        extend: {');
-    lines.push('            colors: {');
-    lines.push(`                dark: '${state.dark}',`);
-    lines.push(`                muted: '${state.muted}',`);
-    (Object.keys(state.colors) as ColorName[]).forEach((name) => {
-        const scale = state.colors[name];
-        lines.push(`                ${name}: {`);
-        lines.push(`                    DEFAULT: '${scale[COLOR_DEFAULT_SHADE[name]]}',`);
-        COLOR_SHADES.forEach((sh) => lines.push(`                    ${sh}: '${scale[sh]}',`));
-        lines.push('                },');
-    });
-    lines.push('            },');
-    lines.push('            fontFamily: {');
-    lines.push(`                sans: ['${state.fontSans}', 'ui-sans-serif', 'system-ui', 'sans-serif'],`);
-    lines.push(`                opensans: ['${state.fontSerif}', 'ui-sans-serif', 'system-ui', 'sans-serif'],`);
-    lines.push('            },');
-    lines.push('            fontSize: {');
-    lines.push(`                base: '${state.fontSize.base}',`);
-    lines.push(`                lg: '${state.fontSize.lg}',`);
-    lines.push(`                xl: '${state.fontSize.xl}',`);
-    lines.push(`                '2xl': '${state.fontSize['2xl']}',`);
-    lines.push('            },');
-    lines.push('            borderRadius: {');
-    lines.push(`                sm: '${state.radius.sm}',`);
-    lines.push(`                DEFAULT: '${state.radius.default}',`);
-    lines.push(`                md: '${state.radius.md}',`);
-    lines.push(`                lg: '${state.radius.lg}',`);
-    lines.push('            },');
-    lines.push('            boxShadow: {');
-    lines.push(`                DEFAULT: '${state.shadow}',`);
-    lines.push('            },');
-    lines.push('            screens: {');
-    lines.push(`                sm: '${state.screens.sm}',`);
-    lines.push(`                md: '${state.screens.md}',`);
-    lines.push(`                lg: '${state.screens.lg}',`);
-    lines.push(`                xl: '${state.screens.xl}',`);
-    lines.push(`                '2xl': '${state.screens['2xl']}',`);
-    lines.push('            },');
-    lines.push('        },');
-    lines.push('    },');
-    lines.push("    plugins: [require('@tailwindcss/forms')],");
-    lines.push('};');
-    return lines.join('\n');
-});
-
-const activeSnippet = computed(() => (outputFormat.value === 'v4' ? v4Snippet.value : v3Snippet.value));
-const activeFilename = computed(() => (outputFormat.value === 'v4' ? 'app.css (Tailwind v4)' : 'tailwind.config.js (Tailwind v3)'));
+const activeSnippet = computed(() => v4Snippet.value);
+const activeFilename = computed(() => 'app.css (Tailwind v4)');
 
 export function useThemeBuilder() {
     return {
         state,
         isModalOpen,
-        outputFormat,
         defaults: DEFAULTS,
         shades: COLOR_SHADES,
         defaultShadeFor: COLOR_DEFAULT_SHADE,
@@ -309,10 +249,7 @@ export function useThemeBuilder() {
         resetAll,
         resetColor,
         v4Snippet,
-        v3Snippet,
         activeSnippet,
         activeFilename,
-        /** @deprecated alias for activeSnippet (kept for back-compat). */
-        tailwindConfigSnippet: activeSnippet,
     };
 }
