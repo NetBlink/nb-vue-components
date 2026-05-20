@@ -23,6 +23,7 @@ import {
     DataTile,
     Logs,
 } from '../index';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Component state
 const showAlert = ref(true);
@@ -330,7 +331,7 @@ const logsContentProps = [
 
         <section id="alerts">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Alerts</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 space-y-4">
                     <!-- Basic Alert Examples -->
@@ -407,12 +408,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="alertEvents" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="spinners">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Loading Spinners</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6">
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Spinner Sizes</div>
@@ -470,12 +471,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Spinner Props</div>
                     <PropsTable :rows="spinnerProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="tooltips">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tooltips</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6">
                     <div class="flex items-center justify-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-8">
@@ -503,12 +504,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Tooltip Props</div>
                     <PropsTable :rows="tooltipProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="stats">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Statistics Display</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Clickable stat cards. Each item is selectable; clicking emits
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">updateSearch</code> with the selected name (or null when the same stat is clicked again).
@@ -531,12 +532,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="statsEvents" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 space-y-6">
                     <Section header="User Profile">
@@ -567,12 +568,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="sectionSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="collapsible">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapse</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-3 text-gray-600 dark:text-gray-400">
                     Low-level open/close container. By default it renders a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">SecondaryButton</code> as the
                     trigger (labels come from the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">button</code> prop); pass a
@@ -672,12 +673,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="collapseSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="pagination">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Pagination</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 flex justify-center">
                     <Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />
@@ -696,12 +697,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
                     <PropsTable :rows="paginationEvents" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="data-tiles">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DataTile</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-2 text-gray-600 dark:text-gray-400">
                     A themed single-statistic tile with a large value, a label, and a FontAwesome watermark icon. Like
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> but for one number you've computed yourself - drop several into a grid for
@@ -756,12 +757,12 @@ const logsContentProps = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">DataTile Props</div>
                     <PropsTable :rows="dataTileProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="logs">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Logs</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     An activity-log timeline rendered inside a collapsible section. Pass a Laravel-style paginated result
                     and each entry is displayed as a timeline node with an icon, event description, optional causer link,
@@ -794,7 +795,7 @@ const logsContentProps = [
                         <PropsTable :rows="logsContentProps" />
                     </div>
                 </section>
-            </div>
+            </DocDemoCard>
         </section>
     </div>
 </template>

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../icons';
 import { Section, CollapsableSection, DottedCarousel, CodePreview, PropsTable } from '../index';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Carousel slides - varied content so there's something to actually swipe through
 const carouselItems = ref([
@@ -140,7 +141,7 @@ const collapsableSectionSlots = [
 
         <section id="sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 space-y-4">
                     <Section>
@@ -177,12 +178,12 @@ const collapsableSectionSlots = [
                     See the <strong>Sections</strong> entry under <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Utility Components</code> for the full prop
                     table.
                 </p>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="collapsable-sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsable Sections</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-2 text-gray-600 dark:text-gray-400">
                     Styled card with a header bar - click the header to expand or collapse the body. Use for sectioning long forms or settings into
                     expandable groups.
@@ -226,12 +227,12 @@ const collapsableSectionSlots = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="collapsableSectionSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="carousel">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dotted Carousel</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">Click the dots below the panel - or swipe / scroll horizontally - to move between slides.</p>
                 <div class="mb-6">
                     <DottedCarousel>
@@ -265,7 +266,7 @@ const collapsableSectionSlots = [
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="carouselSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
     </div>

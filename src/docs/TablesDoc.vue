@@ -20,6 +20,7 @@ import {
 } from '../index';
 import { useTableSort } from '../composables/useTable';
 import { mockUsers, mockOrders, type User, type Order } from '../mockData';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Table sorting composable example
 const { sortState } = useTableSort();
@@ -495,7 +496,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Basic Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <!-- Basic Table Example -->
                 <Table class="mb-6">
@@ -522,7 +523,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </Table>
 
                 <CodePreview :code="basicTableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Sortable Table -->
@@ -530,7 +531,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Sortable Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Sortable headers. Works with Inertia.js for server-side sorting.
                 </p>
@@ -556,7 +557,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </Table>
 
                 <CodePreview :code="sortableTableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Responsive Table -->
@@ -564,7 +565,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Responsive Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Tables adapt to smaller screens. Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">label</code> prop on Td for mobile display.
                 </p>
@@ -594,7 +595,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </Table>
 
                 <CodePreview :code="responsiveTableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Enhanced Table -->
@@ -602,7 +603,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Enhanced Table
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <!-- Enhanced Table Example -->
                 <div class="mb-6">
@@ -676,7 +677,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </div>
 
                 <CodePreview :code="enhancedTableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Table Variants -->
@@ -684,7 +685,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Table Variants
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <!-- Variant matrix - one rendered example, the rest demonstrated via the code preview. -->
                 <div class="mb-6 grid gap-6 lg:grid-cols-2">
@@ -767,7 +768,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </div>
 
                 <CodePreview :code="tableVariantsExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Sticky Header -->
@@ -775,7 +776,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Sticky Header
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <!-- Sticky Header Example -->
                 <div class="max-h-96 overflow-y-auto">
@@ -808,7 +809,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </div>
 
                 <CodePreview :code="stickyTableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Using Composables -->
@@ -816,7 +817,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Using Table Composables
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <!-- Composable Example -->
                 <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/40 rounded-lg">
@@ -829,7 +830,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </div>
 
                 <CodePreview :code="composableExample" />
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Props Documentation -->
@@ -838,7 +839,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Component Props
             </h3>
 
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <CollapsableSection header="Table Props" class="mb-6">
                     <PropsTable :rows="tableProps" />
                 </CollapsableSection>
@@ -854,7 +855,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 <CollapsableSection header="Tr (Table Row) Props">
                     <PropsTable :rows="trProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- EnhancedTable component -->
@@ -862,7 +863,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 EnhancedTable
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     EnhancedTable wraps Table with two rendering modes. Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">columns</code> array to get automatic headers and cells with per-cell slot overrides (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#cell-{key}</code>). Omit columns and compose Thead/Tbody yourself for full manual control. It also wires up <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">useTable</code> internally so sorting and row selection work out of the box.
                 </p>
@@ -900,7 +901,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="enhancedTableComponentSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- TableItemCard -->
@@ -908,7 +909,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 TableItemCard
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     TableItemCard is the mobile-first card alternative to a table row. It displays an ID badge, timestamp, pill tags, a linked title, option lines, and an optional monetary amount. Render a list of these components instead of a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Table</code> when the viewport is too narrow for columnar data.
                 </p>
@@ -937,7 +938,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="tableItemCardSlots" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- TrCollapseHandler -->
@@ -945,7 +946,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 TrCollapseHandler
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;tr&gt;</code> that acts as a Tailwind Elements collapse trigger. Clicking the entire row toggles the paired <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapse</code> whose <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">collapse_id</code> matches. See the combined demo below in the TrCollapse section.
                 </p>
@@ -959,7 +960,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="[{ prop: 'default', type: 'slot', default: '-', description: 'Table cells (Td) to render inside this trigger row.' }]" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- TdCollapseHandler -->
@@ -967,7 +968,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 TdCollapseHandler
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Td</code> that initialises a Tailwind Elements collapse trigger. Use this when only a single cell (e.g. an expand arrow) should toggle the detail row, rather than the whole <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapseHandler</code>. The cell receives <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">cursor-pointer</code> styling automatically.
                 </p>
@@ -981,7 +982,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Slots</div>
                     <PropsTable :rows="[{ prop: 'default', type: 'slot', default: '-', description: 'Content inside the trigger cell, such as a chevron icon or the word Details.' }]" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- TrCollapse + combined demo -->
@@ -989,7 +990,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 TrCollapse
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A hidden <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;tr&gt;</code> that expands when its paired trigger fires. It wraps a full-width cell (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">colspan="999"</code>) containing a Tailwind Elements collapsible panel div. Pair it with <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapseHandler</code> or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TdCollapseHandler</code> by sharing the same <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">collapse_id</code>.
                 </p>
@@ -1046,7 +1047,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">TdCollapseHandler Props</div>
                     <PropsTable :rows="tdCollapseHandlerProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- TrPlaceholder -->
@@ -1054,7 +1055,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 TrPlaceholder
             </h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Renders <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">n</code> animated skeleton rows to fill a table while data is loading. Each row contains a single cell that spans all columns via <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">colspan="999"</code> and shows a pulsing gray bar. Replace it with real rows once loading completes.
                 </p>
@@ -1088,7 +1089,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Props</div>
                     <PropsTable :rows="trPlaceholderProps" />
                 </div>
-            </div>
+            </DocDemoCard>
         </section>
 
         <!-- Migration / back-compat notes -->

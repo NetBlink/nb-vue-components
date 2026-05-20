@@ -23,6 +23,7 @@ import {
     DescriptionList,
     DescriptionListItem,
 } from '../index';
+import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Mock form setup
 const form = useForm({
@@ -637,7 +638,7 @@ const dropdownSearchbarProps = [
 
         <section id="input">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic Input</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">The base input component with label, error, and Inertia form binding built in.</p>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -669,12 +670,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Input Props & Parameters" class="mt-6">
                     <PropsTable :rows="inputProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="checkbox">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Checkbox</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use checkbox:
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="checkbox"&gt;</code>
@@ -694,12 +695,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Checkbox Props & Parameters" class="mt-6">
                     <PropsTable :rows="checkboxProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="switch">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Switch</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use switch:
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="switch"&gt;</code>
@@ -719,12 +720,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Switch Props & Parameters" class="mt-6">
                     <PropsTable :rows="switchProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="textarea">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Textarea</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use textarea:
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;Input type="textarea"&gt;</code>
@@ -743,12 +744,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Textarea Props & Parameters" class="mt-6">
                     <PropsTable :rows="textareaProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="radio">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Radio Buttons</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-6 space-y-3">
                     <RadioButton :form="form" field="choice" value="option1" label="Option 1" />
@@ -761,7 +762,7 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="RadioButton Props & Parameters" class="mt-6">
                     <PropsTable :rows="radioProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900">
@@ -779,7 +780,7 @@ const dropdownSearchbarProps = [
 
         <section id="select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select Components</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Select</code> is a thin wrapper around a native
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> - use it for short lists. Reach for
@@ -863,12 +864,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="RichSelect Props & Parameters" class="mt-4">
                     <PropsTable :rows="richSelectProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="description-list">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Description List</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
 
                 <div class="mb-2 font-semibold text-gray-800 dark:text-gray-200">Basic Example</div>
                 <DescriptionList>
@@ -933,12 +934,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="DescriptionList & Item Props" class="mt-6">
                     <PropsTable :rows="descriptionListProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="text-input">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">TextInput</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TextInput</code> is a low-level bare
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;input&gt;</code> element with
@@ -957,12 +958,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="TextInput Props" class="mt-6">
                     <PropsTable :rows="textInputProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="file-drop-zone-input">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">FileDropZoneInput</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Drag-and-drop file picker backed by
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue3-dropzone</code>. Dropped files are
@@ -982,12 +983,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="FileDropZoneInput Props" class="mt-6">
                     <PropsTable :rows="fileDropZoneInputProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="images">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Images</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Gallery-style image uploader with drag-and-drop. Displays existing images in a masonry grid and
                     posts new uploads to a named Inertia route. Each uploaded image can be deleted via a
@@ -1006,12 +1007,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Images Props" class="mt-6">
                     <PropsTable :rows="imagesProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="simple-select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SimpleSelect</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A native <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;select&gt;</code> wrapper
                     that accepts a typed <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">{ value, label, disabled? }</code>
@@ -1027,12 +1028,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="SimpleSelect Props" class="mt-6">
                     <PropsTable :rows="simpleSelectProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="search-select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SearchSelect</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Filterable single-select powered by
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-search-select</code>. Use
@@ -1063,12 +1064,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="SearchSelect Events" class="mt-4">
                     <PropsTable :rows="searchSelectEvents" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="select-multiple">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SelectMultiple</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Checkbox-based multi-value picker. Selections are stored as an array of string IDs in
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">form[field]</code>. Toggling an already-
@@ -1090,12 +1091,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="SelectMultiple Props" class="mt-6">
                     <PropsTable :rows="selectMultipleProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="select2ajax">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select2ajax</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">SearchSelect</code> wrapper that loads
                     options from a paginated JSON endpoint. On each keystroke it calls
@@ -1116,12 +1117,12 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="Select2ajax Events" class="mt-4">
                     <PropsTable :rows="select2ajaxEvents" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
 
         <section id="dropdown-searchbar">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">DropdownSearchbar</h3>
-            <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+            <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A lightweight wrapper around
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">vue-select</code> that provides a
@@ -1137,7 +1138,7 @@ const dropdownSearchbarProps = [
                 <CollapsableSection header="DropdownSearchbar Props" class="mt-6">
                     <PropsTable :rows="dropdownSearchbarProps" />
                 </CollapsableSection>
-            </div>
+            </DocDemoCard>
         </section>
     </div>
 </template>
