@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { CodePreview, PropsTable } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
-const { state, isModalOpen, defaults, shades, tailwindConfigSnippet } = useThemeBuilder();
+const { state, isModalOpen, defaults, shades, v4Snippet } = useThemeBuilder();
 
 const COLOR_NAMES: ColorName[] = ['primary', 'accent', 'danger', 'warning', 'success', 'info'];
 
@@ -64,8 +64,8 @@ const importSnippet = [
     '};',
 ];
 
-const previewLines = computed(() => tailwindConfigSnippet.value.split('\n').slice(0, 60));
-const totalLines = computed(() => tailwindConfigSnippet.value.split('\n').length);
+const previewLines = computed(() => v4Snippet.value.split('\n').slice(0, 60));
+const totalLines = computed(() => v4Snippet.value.split('\n').length);
 
 const motionTokens = [
     { prop: '--ease-emphasised', type: 'easing',   default: 'cubic-bezier(0.16, 1, 0.3, 1)', description: 'Default easing curve. Used by all named animations.' },
