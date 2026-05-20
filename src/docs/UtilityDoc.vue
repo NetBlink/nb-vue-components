@@ -326,15 +326,11 @@ const logsContentProps = [
     <div class="space-y-10">
         <header class="space-y-3">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Utility Components</h1>
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Alerts, spinners, tooltips, stat cards, logs, and other utility components for building rich interfaces.</p>
         </header>
 
         <section id="alerts">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Alerts</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Alert messages for success, error, warning, and info states. Show/hide is animated.
-                </p>
 
                 <div class="mb-6 space-y-4">
                     <!-- Basic Alert Examples -->
@@ -417,7 +413,6 @@ const logsContentProps = [
         <section id="spinners">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Loading Spinners</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Loading indicators for async operations and data fetching states.</p>
 
                 <div class="mb-6">
                     <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Spinner Sizes</div>
@@ -481,7 +476,6 @@ const logsContentProps = [
         <section id="tooltips">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tooltips</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Contextual help text that appears on hover or focus.</p>
 
                 <div class="mb-6">
                     <div class="flex items-center justify-center space-x-8 rounded border bg-gray-50 dark:bg-gray-900/40 p-8">
@@ -543,7 +537,6 @@ const logsContentProps = [
         <section id="sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Structured content sections with titles and optional action areas.</p>
 
                 <div class="mb-6 space-y-6">
                     <Section header="User Profile">
@@ -685,7 +678,6 @@ const logsContentProps = [
         <section id="pagination">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Pagination</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Navigation controls for paginated content and data tables.</p>
 
                 <div class="mb-6 flex justify-center">
                     <Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />

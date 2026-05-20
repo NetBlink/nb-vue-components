@@ -496,9 +496,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Basic Table
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Table, Thead, Tbody, Th, and Td components for full control over table layout.
-                </p>
 
                 <!-- Basic Table Example -->
                 <Table class="mb-6">
@@ -606,9 +603,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Enhanced Table
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    EnhancedTable adds auto-column generation, built-in sorting, row selection, and custom cell rendering.
-                </p>
 
                 <!-- Enhanced Table Example -->
                 <div class="mb-6">
@@ -691,9 +685,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Table Variants
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Different table styling variants to match your design system.
-                </p>
 
                 <!-- Variant matrix - one rendered example, the rest demonstrated via the code preview. -->
                 <div class="mb-6 grid gap-6 lg:grid-cols-2">
@@ -785,9 +776,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Sticky Header
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Keep table headers visible while scrolling through long tables.
-                </p>
 
                 <!-- Sticky Header Example -->
                 <div class="max-h-96 overflow-y-auto">
@@ -829,9 +817,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 Using Table Composables
             </h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Use table composables for advanced functionality like sorting, selection, and Inertia integration.
-                </p>
 
                 <!-- Composable Example -->
                 <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900/40 rounded-lg">
