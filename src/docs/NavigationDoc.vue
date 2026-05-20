@@ -165,13 +165,12 @@ const dropdownSeparatorNote = [
     <div class="space-y-10">
         <header class="space-y-3">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Navigation Components</h1>
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Navigation links, dropdown menus, collapsible nav, and avatar components for building app navigation.</p>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">Link</code> - clicks perform Inertia visits, not full reloads.</p>
         </header>
 
         <section id="nav-links">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Navigation Links</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Navigation links with active state styling and Inertia.js integration.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</div>
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -217,7 +216,7 @@ const dropdownSeparatorNote = [
         <section id="dropdown-navigation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Dropdown menus for user navigation, settings, and contextual actions. Supports click and hover triggers.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">openOnHover</code>.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</div>
                 <div class="mb-6 flex justify-end rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -289,7 +288,6 @@ const dropdownSeparatorNote = [
         <section id="nav-collapse">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsible Navigation</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Collapsible navigation sections for grouping menu items.</p>
 
                 <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="space-y-2">

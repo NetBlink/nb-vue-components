@@ -141,7 +141,6 @@ const collapsableSectionSlots = [
         <section id="sections">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sections</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Basic layout sections for organizing content with consistent styling.</p>
 
                 <div class="mb-6 space-y-4">
                     <Section>
@@ -233,9 +232,7 @@ const collapsableSectionSlots = [
         <section id="carousel">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dotted Carousel</h3>
             <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Interactive carousel component with dot navigation for displaying multiple slides.</p>
-
-                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Click the dots below the panel - or swipe / scroll horizontally - to move between slides.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Click the dots below the panel - or swipe / scroll horizontally - to move between slides.</p>
                 <div class="mb-6">
                     <DottedCarousel>
                         <div
