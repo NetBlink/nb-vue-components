@@ -135,10 +135,11 @@ const newModalSlots = [
 </script>
 
 <template>
-    <div class="space-y-12">
-        <section>
+    <div class="space-y-10">
+        <header class="space-y-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Modal Components</h1>
             <div
-                class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
+                class="max-w-3xl rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
             >
                 <strong>NewModal</strong> is the canonical dialog - built on reka-ui's
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">Dialog</code>, drives state with
@@ -149,7 +150,7 @@ const newModalSlots = [
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">trigger</code> slots. Use it for all new code. The older single-slot
                 <code class="rounded bg-white px-1 dark:bg-blue-900/50">Modal</code> is deprecated and lives at the bottom of this page.
             </div>
-        </section>
+        </header>
 
         <section id="basic">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic dialog</h3>

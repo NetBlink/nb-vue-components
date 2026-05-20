@@ -484,7 +484,12 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
 </script>
 
 <template>
-    <div class="space-y-12">
+    <div class="space-y-10">
+        <header class="space-y-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Table Components</h1>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Data table components with sorting, responsive layout, sticky headers, and composable helpers.</p>
+        </header>
+
         <!-- Basic Table -->
         <section id="basic-table">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
