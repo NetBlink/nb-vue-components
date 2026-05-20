@@ -3,10 +3,18 @@ import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
-import { ref, reactive } from 'vue';
+import { ref, reactive, getCurrentInstance } from 'vue';
 import { getInertiaRouter } from '../../Helpers';
 
 const router = getInertiaRouter();
+
+// Lift Inertia's $page into setup state so template access doesn't trigger
+// Vue's "property not defined on instance" warn in environments where
+// Inertia hasn't installed its global (e.g. the docs site). Inertia
+// consumers still get the real $page from app.config.globalProperties.
+const $page: { props: { errors: Record<string, any> } } =
+    (getCurrentInstance()?.appContext.config.globalProperties as any)?.$page
+    ?? { props: { errors: {} } };
 
 const props = defineProps({
     images: Object,
@@ -102,7 +110,7 @@ const dragEntered = ref(false);
             <progress v-if="form.progress" :value="form.progress.percentage" max="100">{{ form.progress.percentage }}%</progress>
         </div>
 
-        <InputError v-if="$page?.props?.errors?.image" class="mt-2" :message="$page?.props?.errors?.image" />
+        <InputError v-if="$page.props.errors.image" class="mt-2" :message="$page.props.errors.image" />
         <div class="flex items-center gap-4">
             <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
                 <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Images uploaded.</p>
