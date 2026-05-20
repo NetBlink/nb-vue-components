@@ -587,7 +587,7 @@ const passwordValue = ref('s3cret');
 
         <!-- CLI SWITCH -->
         <section class="space-y-3">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Already wired up? Swap providers with one command</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">CLI provider switch</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 The migrate package can rewrite the <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> block in your entry file
                 and print the matching <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">npm install</code>:
