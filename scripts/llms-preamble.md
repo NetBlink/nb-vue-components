@@ -10,12 +10,11 @@ page with this library" to correct, idiomatic code.
 
 ```bash
 npm install @netblink/vue-components
-
-# peer dependencies
-npm install @inertiajs/vue3 reka-ui
-npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core
-npm install @fortawesome/free-solid-svg-icons
 ```
+
+`vue` is the only required peer. FontAwesome and `@iconify/vue` are optional peers, needed only to
+route icons through those providers. reka-ui and everything else is bundled, so do not tell the
+user to install it.
 
 ## Register
 
@@ -72,7 +71,7 @@ const form = useForm({ name: '', email: '', role: '', notes: '' });
         <Input :form="form" field="name" label="Full name" required />
         <Input :form="form" field="email" type="email" />
 
-        <Select :form="form" field="role" label="Role" :options="{ admin: 'Admin', editor: 'Editor' }" />
+        <Select :form="form" field="role" label="Role" :options="[{ value: 'admin', label: 'Admin' }, { value: 'editor', label: 'Editor' }]" />
         <Textarea :form="form" field="notes" :rows="3" />
         <Checkbox :form="form" field="terms" rightDescription="I agree to the terms" />
 
@@ -91,8 +90,12 @@ const form = useForm({ name: '', email: '', role: '', notes: '' });
 
 ## Icons
 
-Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes, those fight the
-component's own wrapper and leave the glyph at its default size.
+`app.use(Componentsnb)` installs a default icon registry, so icons work with no configuration:
+components draw their chevrons, close buttons and status icons from inline SVGs that ship with the
+package. `$whatsapp` is the one alias with no default.
+
+Use `NbIcon` for your own icons. Size it with the **`size` prop**, never with `h-*`/`w-*` classes,
+those fight the component's own wrapper and leave the glyph at its default size.
 
 ```vue
 <script setup>
