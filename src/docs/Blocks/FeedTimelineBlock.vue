@@ -142,7 +142,7 @@ const logSnippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a
-                right-aligned relative time, and a detail line. Pure markup plus NbIcon — swap the tone map for your own statuses.
+                right-aligned relative time, and a detail line. Pure markup plus NbIcon. Swap the tone map for your own statuses.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <ol class="space-y-4">

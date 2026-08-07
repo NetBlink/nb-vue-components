@@ -39,14 +39,14 @@ const sizes = [
 ];
 
 // ponytail: label lookups are one-liners, no map needed for 4 items
-const businessTypeLabel = computed(() => businessTypes.find((t) => t.value === form.business_type)?.label || '—');
-const sizeLabel = computed(() => sizes.find((s) => s.value === form.size)?.label || '—');
+const businessTypeLabel = computed(() => businessTypes.find((t) => t.value === form.business_type)?.label || '-');
+const sizeLabel = computed(() => sizes.find((s) => s.value === form.size)?.label || '-');
 
 const reviewRows = computed(() => [
-    { label: 'Name', value: form.name || '—' },
-    { label: 'Email', value: form.email || '—' },
-    { label: 'Password', value: form.password ? '•'.repeat(form.password.length) : '—' },
-    { label: 'Company', value: form.company || '—' },
+    { label: 'Name', value: form.name || '-' },
+    { label: 'Email', value: form.email || '-' },
+    { label: 'Password', value: form.password ? '•'.repeat(form.password.length) : '-' },
+    { label: 'Company', value: form.company || '-' },
     { label: 'Business type', value: businessTypeLabel.value },
     { label: 'Company size', value: sizeLabel.value },
 ]);
@@ -100,12 +100,12 @@ const snippet = [
     'const sizes = [{ value: \'1-10\', label: \'1 - 10 employees\' }, { value: \'51+\', label: \'51+ employees\' }];',
     '',
     'const reviewRows = computed(() => [',
-    '    { label: \'Name\', value: form.name || \'—\' },',
-    '    { label: \'Email\', value: form.email || \'—\' },',
-    '    { label: \'Password\', value: form.password ? \'•\'.repeat(form.password.length) : \'—\' },',
-    '    { label: \'Company\', value: form.company || \'—\' },',
-    '    { label: \'Business type\', value: businessTypes.find((t) => t.value === form.business_type)?.label || \'—\' },',
-    '    { label: \'Company size\', value: sizes.find((s) => s.value === form.size)?.label || \'—\' },',
+    '    { label: \'Name\', value: form.name || \'-\' },',
+    '    { label: \'Email\', value: form.email || \'-\' },',
+    '    { label: \'Password\', value: form.password ? \'•\'.repeat(form.password.length) : \'-\' },',
+    '    { label: \'Company\', value: form.company || \'-\' },',
+    '    { label: \'Business type\', value: businessTypes.find((t) => t.value === form.business_type)?.label || \'-\' },',
+    '    { label: \'Company size\', value: sizes.find((s) => s.value === form.size)?.label || \'-\' },',
     ']);',
     '<\/script>',
     '',
@@ -188,8 +188,8 @@ const snippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across
-                Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair — one
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">useForm</code> holds every field, steps switch with
+                Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one
+                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">useForm</code> holds every field, and steps switch with
                 <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">v-if</code> on a step ref.
             </p>
 

@@ -1,388 +1,204 @@
 # NB Vue Components
 
-##  Features
-
-- **Vue 3** with Composition API
-- **TypeScript** support with full type definitions
-- **TailwindCSS** for styling
-- **Provider-neutral icons** - works with FontAwesome, Heroicons, Lucide, MDI, or hand-rolled SVGs via the icon-provider system
-- **Inertia.js** integration
-- **Accessible** components following WCAG guidelines
-- **Tree-shakable** ES modules
-- **Comprehensive documentation** with live examples
+Vue 3 component library for Laravel and Inertia applications. Built with TypeScript, styled with
+Tailwind CSS v4, and using [reka-ui](https://reka-ui.com) primitives for the components where
+accessibility matters (dialogs, dropdowns, switches, tabs, toasts).
 
 ## Installation
 
-Install the latest stable version:
-
 ```bash
 npm install @netblink/vue-components
+
+# peer dependencies
+npm install @inertiajs/vue3 reka-ui
+npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
 ```
 
+## Setup
 
-
-##  Documentation
-
-**[📖 Full Documentation & Live Examples](https://netblink.github.io/nb-vue-components/)**
-
-Explore all components with interactive examples, props documentation, and usage guides.
-The docs site also ships a **Blocks** catalog: 24 ready-made page compositions (dashboard, CRUD
-index, show/edit, settings, product page, chat, auth flows, charts…) built only from these
-components, each with a live demo and a copy-paste snippet.
-
-### For AI assistants
-
-Two generated files describe the whole library in plain markdown, so an LLM can build with it
-without crawling the docs site:
-
-| File | Contents |
-| --- | --- |
-| [`llms.txt`](./llms.txt) | Install, setup, the `:form` + `field` convention, component index, gotchas |
-| [`llms-full.txt`](./llms-full.txt) | The above plus the full API (props, defaults, slots, emits) for every component and every Blocks recipe |
-
-Both are generated from the component sources — regenerate with `npm run docs:llms` after changing
-a component so they can never drift from the code.
-
-##  Component Categories
-
-### Form Controls
-- **Input** - Text input with label, validation, and tooltip support
-- **Textarea** - Multi-line text input
-- **Select** - Dropdown selection
-- **RichSelect** - Enhanced select with search and multi-select
-- **Checkbox** - Boolean input with custom styling
-- **RadioButton** - Single selection from multiple options
-- **Switch** - Toggle control
-- **FileDropZoneInput** - Drag & drop file upload
-- **SearchSelect** - Searchable dropdown
-- **SelectMultiple** - Multiple selection dropdown
-- **DropdownSearchbar** - Search input with dropdown results
-
-### Buttons
-- **Button** - Base button component with theme support
-- **PrimaryButton** - Primary call-to-action button
-- **SecondaryButton** - Secondary action button
-- **DangerButton** - Destructive action button
-- **WarningButton** - Warning action button
-- **InfoButton** - Information button
-- **SuccessButton** - Success action button
-- **LinkButton** - Button styled as a link with theme support
-- **LinkDropdownButton** - Link button with dropdown
-- **SubmitButton** - Form submission button
-
-### Tables
-- **Table** - Responsive table with sorting and pagination
-- **Thead** / **Tbody** - Table header and body
-- **Th** / **Td** - Table header and data cells
-- **TableCollapse** - Expandable table rows
-- **TableItemCard** - Card view for table items
-
-### Navigation
-- **NavLink** - Navigation link component
-- **ResponsiveNavLink** - Mobile-responsive navigation
-- **NavCollapse** - Collapsible navigation sections
-- **Dropdown** - Dropdown menu container
-- **DropdownLink** - Individual dropdown items
-- **DropdownSeparator** - Visual separator for dropdowns
-
-### Layout & UI
-- **Section** - Content section with variant support
-- **Modal** / **NewModal** - Dialog overlays (NewModal is preferred for new code; supports `resizable`)
-- **Alert** - Notification messages with animations
-- **Toaster** / **Toast** - Stackable toast notifications, raised via the `useToast` composable
-- **Tabs** / **Tab** - Tabbed panes driven by `v-model`
-- **Collapse** - Expandable content areas
-- **Tooltip** - Contextual information overlays
-- **Spinner** - Loading indicators with size variants
-- **Stats** - Statistical display component
-- **Pagination** - Page navigation
-- **DescriptionList** - Key-value pair displays
-- **DottedCarousel** - Image carousel with navigation
-- **GravatarImg** - Gravatar image display
-
-### Utility Components
-- **InputWrapper** - Standardized input container with label/error handling
-- **InputLabel** / **InputError** - Form field labels and error messages
-- **UnderConstruction** - Work-in-progress placeholder
-- **PropsTable** - Documentation prop tables
-- **CodePreview** - Code example display
-
-##  Setup & Configuration
-
-### 1. TailwindCSS Configuration
-
-Add this package to your Tailwind content and merge the theme tokens it expects. The values below are the package defaults; if you want a different look, change any anchor (shade 500) and regenerate the scale via the **Theme builder** in the docs site (it prints the full snippet ready to paste).
+### 1. Register the plugin
 
 ```js
-// tailwind.config.js
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './src/**/*.{vue,js,ts,jsx,tsx}',
-    './node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        dark:  '#161b1c',
-        muted: '#a0a0a0',
-        primary: {
-          DEFAULT: '#aad3d9',
-          50: '#f4f9fb', 100: '#e9f2f5', 200: '#cee5e9', 300: '#aad3d9',
-          400: '#72b6be', 500: '#509da7', 600: '#3d808c', 700: '#326772',
-          800: '#2d585f', 900: '#294a51', 950: '#1b3036',
-        },
-        accent: {
-          DEFAULT: '#e1b8c3',
-          50: '#fbf5f6', 100: '#f7ecef', 200: '#f0dbe1', 300: '#e1b8c3',
-          400: '#d399a9', 500: '#c0738b', 600: '#a95574', 700: '#8c445f',
-          800: '#763b54', 900: '#66354b', 950: '#381926',
-        },
-        danger: {
-          DEFAULT: '#f36262',
-          50: '#fef2f2', 100: '#fde3e3', 200: '#fdcbcb', 300: '#faa7a7',
-          400: '#f36262', 500: '#ea4949', 600: '#d72b2b', 700: '#b52020',
-          800: '#961e1e', 900: '#7c2020', 950: '#430c0c',
-        },
-        warning: {
-          DEFAULT: '#f3cf62',
-          50: '#fefaec', 100: '#fbf0ca', 200: '#f7e190', 300: '#f3cf62',
-          400: '#efb730', 500: '#e89818', 600: '#cd7312', 700: '#aa5213',
-          800: '#8b4015', 900: '#723615', 950: '#411a07',
-        },
-        success: {
-          DEFAULT: '#87f362',
-          50: '#eefee7', 100: '#d9fccb', 200: '#b5fa9c', 300: '#87f362',
-          400: '#5fe734', 500: '#3ecd15', 600: '#2ba40c', 700: '#237d0e',
-          800: '#206311', 900: '#1e5314', 950: '#0a2e05',
-        },
-        info: {
-          DEFAULT: '#6262f3',
-          50: '#eef2ff', 100: '#e0e6ff', 200: '#c6d1ff', 300: '#a4b1fd',
-          400: '#7f88fa', 500: '#6262f3', 600: '#5044e7', 700: '#4436cc',
-          800: '#392ea5', 900: '#322d82', 950: '#1e1a4c',
-        },
-      },
-      fontFamily: {
-        sans:     ['Poppins', 'system-ui', 'sans-serif'],
-        opensans: ['Open Sans', 'system-ui', 'sans-serif'],
-      },
-      borderRadius: {
-        sm: '0.125rem',
-        DEFAULT: '0.25rem',
-        md: '0.375rem',
-        lg: '0.5rem',
-      },
-      boxShadow: {
-        DEFAULT: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-      },
+// resources/js/app.js
+import { createApp, h } from 'vue';
+import { createInertiaApp, router, usePage } from '@inertiajs/vue3';
+import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';
+import '@netblink/vue-components/dist/style.css';
+
+createInertiaApp({
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            // darkMode: false (default) | 'class' | 'system'
+            .use(Componentsnb, { darkMode: 'class' })
+            .mount(el);
+
+        // Components that navigate or read page props need these once.
+        setInertiaRouter(router);
+        setInertiaPage(usePage());
     },
-  },
-  plugins: [require('@tailwindcss/forms')],
-};
+});
 ```
 
-**Customising the look:** open the docs site and click the **Theme** button (bottom-right of every page). Edit any value in the modal, watch the docs update live, then copy the full `tailwind.config.js` snippet into your project. Full token reference is on the **Theme &amp; Tokens** docs page.
+### 2. Stylesheet
 
-### 2. Vue Application Setup
+The package ships compiled CSS, so the `dist/style.css` import above is all it needs. There is no
+Tailwind `content` or `@source` scanning to configure. Your own stylesheet stays minimal:
 
-```js
-// main.js
-import { createApp } from 'vue'
-import App from './App.vue'
+```css
+/* resources/css/app.css */
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
 
-// Import TailwindCSS
-import './style.css'
-
-const app = createApp(App)
-
-// Mount your app
-app.mount('#app')
+/* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */
+/* Drop this line to use the default prefers-color-scheme behaviour. */
+@custom-variant dark (&:where(.dark, .dark *));
 ```
 
-### 3. Icon Provider (optional)
+### 3. Theming
 
-The components draw their own affordances (chevrons, close buttons, etc.) using inline SVGs by default - no setup required. To replace them with icons from a specific provider, install the `createNbIcons` plugin:
+Colours are Tailwind v4 `@theme` tokens, so re-branding is a matter of overriding the scale in your
+own CSS. Use the numeric steps rather than the bare alias, since that is what the components
+reference:
+
+```css
+@theme {
+    --color-primary-600: #0f766e; /* buttons, active states, focus rings */
+    --color-primary-700: #115e59;
+}
+```
+
+The docs site has a theme builder that generates a full scale from a single anchor colour and
+prints the snippet ready to paste.
+
+### 4. Icons (optional)
+
+Components draw their own affordances (chevrons, close buttons) with inline SVGs, so nothing is
+required here. To route them through a specific icon provider, install the `createNbIcons` plugin:
 
 ```ts
-// main.ts
 import { createNbIcons } from '@netblink/vue-components/icons';
 
-// Drop-in v2 parity - keeps FontAwesome visuals everywhere:
+// Keeps FontAwesome visuals everywhere, matching v2 behaviour:
 import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';
-app.use(createNbIcons({
-    aliases: faAliasPreset,
-    sets: { fa: faSet },
-    defaultSet: 'fa',
-}));
+app.use(createNbIcons({ aliases: faAliasPreset, sets: { fa: faSet }, defaultSet: 'fa' }));
 
-// Or pick your own provider (Heroicons example):
+// Or bring your own (Heroicons):
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/outline';
-app.use(createNbIcons({
-    aliases: { $expand: ChevronDownIcon, $close: XMarkIcon },
-}));
+app.use(createNbIcons({ aliases: { $expand: ChevronDownIcon, $close: XMarkIcon } }));
 ```
 
-Components with a user-facing icon prop (`DataTile`, `LogsContent`) accept an `IconLike` value - a built-in alias (`'$expand'`), a set-prefixed string (`'fa:home'`), any Vue component, a raw SVG (`{ svg: '<svg>…</svg>' }`), or a FontAwesome icon object. Every such component also exposes a `#icon` slot for full template-side control.
+Components with an icon prop (`DataTile`, `LogsContent`) accept an alias (`'$expand'`), a
+set-prefixed string (`'fa:home'`), a Vue component, a raw SVG (`{ svg: '<svg>...</svg>' }`), or a
+FontAwesome icon object. Each also exposes an `#icon` slot.
 
-Upgrading from v2.x? Run the codemod, which injects the FA preset and rewrites the few deprecated forms:
+Upgrading from v2.x? The codemod injects the FontAwesome preset and rewrites deprecated forms:
 
 ```bash
 npx @netblink/vue-components-migrate
 ```
 
-##  Usage Examples
+## Forms: the `:form` + `field` pattern
 
-### Basic Form
+This is the main thing to know about the library. Every form control binds directly to an Inertia
+`useForm` object. Pass the form and the field name, and the component handles its own value, label,
+and validation error:
 
 ```vue
 <script setup>
-import { 
-  Section, 
-  Input, 
-  Button, 
-  Alert 
-} from '@netblink/vue-components'
-import { ref } from 'vue'
-
-const form = ref({
-  name: '',
-  email: ''
-})
-const showSuccess = ref(false)
-
-const submit = () => {
-  // Handle form submission
-  showSuccess.value = true
-}
+import { useForm } from '@inertiajs/vue3';
+const form = useForm({ name: '', email: '', role: '', notes: '' });
 </script>
 
 <template>
-  <Section>
-    <Alert 
-      v-if="showSuccess"
-      type="success" 
-      title="Success!"
-      message="Form submitted successfully"
-      :dismissible="true"
-    />
-    
-    <form @submit.prevent="submit" class="space-y-4">
-      <Input
-        v-model="form.name"
-        label="Full Name"
-        placeholder="Enter your name"
-        required
-      />
-      
-      <Input
-        v-model="form.email"
-        type="email"
-        label="Email Address"
-        placeholder="Enter your email"
-        tooltip="We'll never share your email"
-        required
-      />
-      
-      <Button type="submit" theme="primary">
-        Submit Form
-      </Button>
+    <form @submit.prevent="form.post(route('users.store'))" class="space-y-4">
+        <Input :form="form" field="name" label="Full name" required />
+        <Input :form="form" field="email" type="email" />
+        <Select :form="form" field="role" label="Role" :options="{ admin: 'Admin', editor: 'Editor' }" />
+        <Textarea :form="form" field="notes" :rows="3" />
+
+        <!-- reads form.processing itself: disables and shows a spinner -->
+        <SubmitButton :form="form">Create user</SubmitButton>
     </form>
-  </Section>
 </template>
 ```
 
-### Data Table
+`v-model` works on every control too, for anything outside Inertia:
 
 ```vue
-<script setup>
-import { 
-  Table, 
-  Thead, 
-  Tbody, 
-  Th, 
-  Td 
-} from '@netblink/vue-components'
-
-const users = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
-]
-</script>
-
-<template>
-  <Table>
-    <Thead>
-      <Th>Name</Th>
-      <Th>Email</Th>
-      <Th>Role</Th>
-    </Thead>
-    <Tbody>
-      <tr v-for="user in users" :key="user.id">
-        <Td>{{ user.name }}</Td>
-        <Td>{{ user.email }}</Td>
-        <Td>{{ user.role }}</Td>
-      </tr>
-    </Tbody>
-  </Table>
-</template>
+<Input v-model="query" type="search" noLabel placeholder="Search..." />
+<Switch v-model="enabled" noLabel rightDescription="Enable notifications" />
 ```
 
-### Navigation with Dropdown
+## Documentation
 
-```vue
-<script setup>
-import { 
-  NavLink, 
-  Dropdown, 
-  DropdownLink 
-} from '@netblink/vue-components'
-</script>
+**[Full documentation and live examples](https://netblink.github.io/nb-vue-components/)**
 
-<template>
-  <nav class="flex items-center space-x-4">
-    <NavLink href="/dashboard">Dashboard</NavLink>
-    <NavLink href="/projects">Projects</NavLink>
-    
-    <Dropdown align="end">
-      <template #trigger>
-        <button class="flex items-center text-gray-700 hover:text-gray-900">
-          Account
-        </button>
-      </template>
-      
-      <template #content>
-        <DropdownLink href="/profile">Profile</DropdownLink>
-        <DropdownLink href="/settings">Settings</DropdownLink>
-        <DropdownLink href="/logout" method="post">Logout</DropdownLink>
-      </template>
-    </Dropdown>
-  </nav>
-</template>
+The docs site covers every component with interactive demos and props tables. It also ships a
+**Blocks** section: 24 complete page patterns (dashboard, CRUD index, show/edit, settings, product
+page, chat, auth flows, charts, and more) built only from these components, each with a live demo
+and a copy-paste snippet.
+
+### Using this library with an LLM
+
+Point your AI assistant at one of these two files and it will have everything it needs. Both are
+generated from the component sources, so they cannot drift from the code.
+
+| File | Use it for |
+| --- | --- |
+| [`llms.txt`](./llms.txt) | Setup, the `:form` + `field` pattern, conventions, gotchas, and an index of every component and block |
+| [`llms-full.txt`](./llms-full.txt) | The same, plus full props, defaults, slots and emits for all 72 components |
+
+The quickest way to use them:
+
+```
+Read llms-full.txt from @netblink/vue-components, then build a settings page with it.
 ```
 
-##  Development
+Nothing needs to be installed or run for this. Both files ship inside the package, so after
+`npm install` they sit at `node_modules/@netblink/vue-components/llms-full.txt` and any assistant
+working in your project can open them directly.
+
+(Contributors to this library regenerate them with `npm run nb:docs:llms` after changing a
+component. That script lives in this repo only.)
+
+## Components
+
+**Forms.** `Input` is the all-in-one control and the usual choice; it renders the label, error and
+tooltip and switches implementation on `type`. `TextInput` is the bare input underneath for custom
+layouts. Also `Textarea`, `Checkbox`, `RadioButton`, `Switch`, `Select`, `SimpleSelect`,
+`RichSelect`, `SearchSelect`, `SelectMultiple`, `Select2ajax`, `FileDropZoneInput`, `Images`,
+`InputLabel`, `InputError`, `SubmitButton`.
+
+**Buttons.** `Button` takes a `theme`; `PrimaryButton`, `SecondaryButton`, `DangerButton`,
+`WarningButton`, `InfoButton` and `SuccessButton` are wrappers over it. `LinkButton` renders an
+anchor or an Inertia link. `SubmitButton` adds the loading state.
+
+**Tables.** `Table` with `Thead`, `Tbody`, `Tr`, `Th`, `Td`. Given `:links` it renders its own
+pagination, and `Th sortable orderBy="col"` handles sorting. `TrCollapse`, `TrCollapseHandler` and
+`TdCollapseHandler` build expandable rows; `TableItemCard` is the mobile card fallback;
+`EnhancedTable` wraps the lot with built-in state.
+
+**Navigation.** `NavLink`, `ResponsiveNavLink`, `NavCollapse`, `Dropdown`, `DropdownLink`,
+`DropdownSeparator`, `LinkDropdownButton`, `LinkDropdownButtonItem`, `Pagination`, `Tabs`, `Tab`.
+
+**Layout and feedback.** `Section`, `Modal` and `NewModal` (prefer `NewModal`, which supports
+`resizable`), `Alert`, `Toaster` and `Toast` with the `useToast` composable, `Collapse`,
+`CollapsableSection`, `Tooltip`, `Spinner`, `Stats`, `DataTile`, `DescriptionList`,
+`DescriptionListItem`, `Logs`, `LogsContent`, `GravatarImg`, `DottedCarousel`, `UnderConstruction`.
+
+## Development
 
 ```bash
-# Clone the repository
 git clone https://github.com/NetBlink/nb-vue-components.git
 cd nb-vue-components
-
-# Install dependencies
 npm install
 
-# Start development server
-npm run docs:dev
-
-# Build documentation
-npm run docs:build
-
-# Build library
-npm run build
-
-# Type checking
-npm run build:types
+npm run docs:dev      # docs site, hot reload
+npm run docs:build    # build docs site
+npm run build         # build library
+npm run build:types   # type declarations
+npm run nb:docs:llms     # regenerate llms.txt and llms-full.txt
 ```
 
-
-Made with ❤️ by [NetBlink](https://github.com/NetBlink)
+Built by [NetBlink](https://github.com/NetBlink).

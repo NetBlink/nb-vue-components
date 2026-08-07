@@ -268,7 +268,7 @@ const kpis = [
     { label: 'Churn', value: '1.8%', delta: '-0.4pp', up: false, color: brand.accent500, data: [9, 8, 8, 7, 7, 6, 5, 5] },
 ];
 
-/** One sparkline config per card — no axes, no grid, no toolbar, just the trend. */
+/** One sparkline config per card, no axes, no grid, no toolbar, just the trend. */
 function sparkOptions(color: string) {
     // called from the template, so it re-runs whenever `themed` changes
     return {
@@ -325,7 +325,7 @@ const themeKey = computed(() => themed.value.mode);
             <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">apexcharts</code>
             with the
             <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">vue3-apexcharts</code>
-            wrapper — install it with
+            wrapper, install it with
             <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">npm i apexcharts vue3-apexcharts</code>,
             then import the component locally in whichever SFC needs it. Apex renders to a detached SVG and cannot resolve Tailwind CSS variables, so the
             <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">primary-*</code> hex values are passed
@@ -338,14 +338,14 @@ const themeKey = computed(() => themed.value.mode);
         <!-- 1. Area / line chart -->
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off — dashboard charts are read,
+                Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off, dashboard charts are read,
                 not operated.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
                     <div class="flex items-baseline justify-between">
                         <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-100">Monthly revenue</h4>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Jan – Aug 2025</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Jan, Aug 2025</span>
                     </div>
                     <VueApexCharts :key="themeKey" type="area" height="300" width="100%" :options="areaOptions" :series="areaSeries" />
                 </div>
@@ -357,7 +357,7 @@ const themeKey = computed(() => themed.value.mode);
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A donut with a bottom legend and a running total in the hollow, produced by
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">plotOptions.pie.donut.labels.total</code> — no overlay markup needed.
+                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">plotOptions.pie.donut.labels.total</code>, no overlay markup needed.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="mx-auto max-w-md rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">

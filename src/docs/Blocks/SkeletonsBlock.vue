@@ -239,7 +239,7 @@ const buttonSnippet = [
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 Button-level loading: the library's <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">SubmitButton</code>
-                already ships this state &mdash; pass <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">:loading</code> (or an
+                already ships this state, pass <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">:loading</code> (or an
                 Inertia <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">:form</code>, whose processing flag it reads itself)
                 and it disables, dims the label and overlays a Spinner. Idle twin on the right.
             </p>

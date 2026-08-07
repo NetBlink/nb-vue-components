@@ -265,8 +265,8 @@ const editSnippet = [
                 </template>
             </NewModal>
 
-            <CodePreview :code="readSnippet" filename="Show.vue — read mode" />
-            <CodePreview :code="editSnippet" filename="Show.vue — edit mode" />
+            <CodePreview :code="readSnippet" filename="Show.vue, read mode" />
+            <CodePreview :code="editSnippet" filename="Show.vue, edit mode" />
         </DocDemoCard>
     </section>
 </template>

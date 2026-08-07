@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * One radio option with its label. Render several sharing the same `name` (or the same
- * `:form` + `field` pair) to form a group — selection is derived by comparing this
+ * `:form` + `field` pair) to form a group, selection is derived by comparing this
  * option's `value` against the bound field, and choosing it writes straight back to the
  * Inertia form. There is no wrapping fieldset or error display; add those yourself.
  */

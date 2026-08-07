@@ -201,7 +201,7 @@ const snippet = [
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Stats</code> tiles doubling as filters, a search row, a
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Table</code> with an actions column and empty state,
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Pagination</code>, and a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NewModal</code> create form. Everything below is live — filter,
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NewModal</code> create form. Everything below is live: filter,
                 search, delete and create rows.
             </p>
 

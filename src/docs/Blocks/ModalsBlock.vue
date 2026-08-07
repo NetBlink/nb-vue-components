@@ -160,8 +160,8 @@ const resizableSnippet = [
         </h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Five ready-made <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">NewModal</code> compositions — create form, export options, upload, danger confirm and a
-                resizable dialog — built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
+                Five ready-made <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">NewModal</code> compositions: create form, export options, upload, danger confirm and a
+                resizable dialog. Built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

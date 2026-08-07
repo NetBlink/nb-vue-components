@@ -225,7 +225,7 @@ const snippet = [
                             </div>
 
                             <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                                A packable three-layer waterproof shell for wet-weather days on the trail — taped seams, pit zips and a
+                                A packable three-layer waterproof shell for wet-weather days on the trail, taped seams, pit zips and a
                                 helmet-compatible hood, in a fit that still works over a jumper in town.
                             </p>
 
@@ -298,7 +298,7 @@ const snippet = [
 
                             <p class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                                 <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                                In stock — ships within 24 hours
+                                In stock, ships within 24 hours
                             </p>
                         </div>
                     </div>

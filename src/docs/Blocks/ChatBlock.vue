@@ -16,7 +16,7 @@ const contact = { name: 'Devon Lane', email: 'devon.lane@example.com' };
 
 const messages = ref<ChatMessage[]>([
     { id: 1, from: 'them', text: 'Hey! Did the staging deploy go through this morning?', time: '09:41' },
-    { id: 2, from: 'me', text: 'It did — took two tries, the migration step timed out first.', time: '09:42' },
+    { id: 2, from: 'me', text: 'It did, took two tries, the migration step timed out first.', time: '09:42' },
     { id: 3, from: 'me', text: 'Bumped the statement timeout to 60s and it went green.', time: '09:42' },
     { id: 4, from: 'them', text: 'Nice. Can you write that down somewhere before we both forget?', time: '09:44' },
 ]);
@@ -26,10 +26,10 @@ const typing = ref(false);
 const pane = ref<HTMLElement | null>(null);
 let nextId = 5;
 
-// ponytail: canned reply on a timer — no socket, no store; docs demo only
+// ponytail: canned reply on a timer, no socket, no store; docs demo only
 const replies = [
     'Got it, thanks!',
-    'Makes sense — I will take a look after standup.',
+    'Makes sense, I will take a look after standup.',
     'Perfect, adding it to the runbook now.',
     'Ha, fair. Let me check the logs and get back to you.',
 ];
