@@ -1,13 +1,14 @@
 <script setup lang="ts">
+/**
+ * Legacy dialog: teleported to `<body>`, with its own backdrop, escape/backdrop-click
+ * closing, body-scroll locking and optional drag-resize handles, driven by `:show` +
+ * `@close`. Everything — header, body and footer — goes in the single default slot.
+ * `NewModal` is preferred for new code; reach for this one only to keep an existing
+ * `:show`-based call site working.
+ */
 import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
 /**
- * Modal - teleported, backdropped dialog with a single default slot.
- *
- * Render your own header, body, and footer inside the default slot. For a
- * Radix/reka-ui based dialog with named header/footer/description slots,
- * use `NewModal` instead.
- *
  * @prop {boolean} show - visibility (use `:show` + `@close` or `v-model:show`)
  * @prop {string} [maxWidth='2xl'] - sm | md | lg | xl | 2xl-7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
  * @prop {boolean} [closeable=true] - allow closing via backdrop click or Escape key

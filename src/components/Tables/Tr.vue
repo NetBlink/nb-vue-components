@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Renders a single row of a table and is the row primitive you fill with `Td` cells.
+ * Supports hover, `clickable` and `selectable` states plus success/warning/danger/info
+ * variants, emitting `click` and `select`. On narrow screens it collapses to a stacked
+ * card so each cell sits on its own line, and returns to a real `table-row` from `sm` up.
+ */
 import { computed } from 'vue';
 import type { TableRowProps } from './types';
 

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to-
+ * browse, an `accept` filter and optional multiple selection. It assigns the chosen
+ * File objects straight onto the Inertia `:form` + `field` you pass and surfaces both
+ * rejection reasons and `form.errors` inline; the enclosing form still does the upload.
+ */
 import { useForm } from '@inertiajs/vue3';
 import { getInertiaRouter } from '../../Helpers';
 

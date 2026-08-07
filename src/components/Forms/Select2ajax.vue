@@ -1,4 +1,11 @@
 <script setup>
+/**
+ * Server-backed version of `SearchSelect`: it wraps that component and fills the option
+ * list by requesting `url` with the current search term, appending further pages as the
+ * user scrolls the dropdown to the bottom. Reach for it when the option set is too large
+ * to ship to the client; use `SearchSelect` for a static list, or `RichSelect` if you want
+ * API search plus multiple selection and grouping in one component.
+ */
 // @ts-nocheck
 import { SearchSelect } from '../../index';
 import { ref, onMounted } from 'vue';

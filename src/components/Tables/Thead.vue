@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * The `<thead>` primitive, holding a row of `Th` cells. In responsive mode it is hidden
+ * below `sm`, since `Tr`/`Td` switch to a stacked card layout with per-cell labels there;
+ * set `sticky` to pin the header cells while the table body scrolls.
+ */
 import { computed } from 'vue';
 import type { TableHeaderProps } from './types';
 

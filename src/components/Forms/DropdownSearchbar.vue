@@ -18,6 +18,13 @@
 }
 </style>
 <script setup>
+/**
+ * Thin wrapper around the third-party `vue-select` component, giving a type-to-search
+ * dropdown over a static `options` array with only light styling applied. It is the
+ * oldest of the select family and carries an external dependency, so prefer the in-house
+ * `SearchSelect` for filterable single-choice fields and `Select2ajax` when the options
+ * have to come from a server.
+ */
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 

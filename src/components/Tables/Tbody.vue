@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * The `<tbody>` primitive, which also owns the table's loading and empty states: it shows
+ * `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the
+ * data is empty. Pass `data` as an array, or as the string name of an Inertia prop, in
+ * which case it reads that prop and wraps the rows in Inertia's `<Deferred>` so deferred
+ * props stream in with the placeholder as fallback.
+ */
 import { computed } from 'vue';
 import { Deferred } from '@inertiajs/vue3';
 import { TrPlaceholder, Td } from '../../index';

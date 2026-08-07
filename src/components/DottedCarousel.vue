@@ -1,16 +1,11 @@
 <script setup>
-// @ts-nocheck
 /**
- * DottedCarousel - horizontal snap-scroll carousel with dot navigation.
- *
- * Each top-level child of the default slot becomes one slide; mark each as
- * `class="min-w-full snap-start"` so the snap scrolling lines up. The dots
- * appear underneath and animate to follow the active slide.
- *
- * @prop {number} [gap=20] - pixel gap between slides (also used in scroll math)
- * @prop {number} [padding=0] - outer padding offset applied to the scroll calculation when navigating via the dots
- * @slot default - carousel slides
+ * Horizontal snap-scroll carousel with dot navigation underneath. Each top-level child of
+ * the default slot becomes a slide, so mark each with `class="min-w-full snap-start"` for
+ * the snapping to line up; the dot count is read from the DOM and kept in sync with a
+ * MutationObserver, and clicking a dot scrolls smoothly to that slide.
  */
+// @ts-nocheck
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 const currentSlide = ref(0);

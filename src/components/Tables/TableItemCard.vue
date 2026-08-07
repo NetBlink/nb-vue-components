@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Mobile-friendly card summarising one record, used as the small-screen fallback for a
+ * table row: it lays out an id, title, coloured pills, option links, a timestamp and a
+ * formatted amount, each of which can link via an explicit `href` or a Ziggy route name
+ * and degrades to plain text when the host app has no `route()` helper.
+ */
 //@ts-nocheck
 import { computed } from 'vue';
 import Link from '../../overrides/InertiaLink';

@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrome, with
+ * optional leading addon, trailing `SubmitButton` and WhatsApp action. Binds via `v-model`
+ * or the Inertia `:form` + `field` pattern and emits `changed` with old and new values.
+ * `<Input type="textarea">` renders this component, so use it directly only when you do
+ * not want to go through `Input`.
+ */
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputWrapper, SubmitButton } from '../../index';
 import NbIcon from '../../icons/NbIcon.vue';

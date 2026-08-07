@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Multi-select rendered as a clickable list of options that toggle in and out of an array
+ * value, rather than as a dropdown. It writes directly into the Inertia `:form` + `field`
+ * array, so a `form` is required. Use `RichSelect` with `multiple` when you want a
+ * searchable dropdown instead of an always-visible list.
+ */
 import NbIcon from '../../icons/NbIcon.vue';
 import { InputLabel, InputError } from '../../index';
 

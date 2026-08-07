@@ -1,4 +1,12 @@
 <script setup>
+/**
+ * Single-choice select with a type-to-filter box, built on `vue-search-select`'s
+ * `ModelListSelect` over a client-side `list` whose value/label keys you name via
+ * `optionValue`/`optionText`; the filter itself is overridable with `filterPredicate`.
+ * Binds via `v-model` or the Inertia `:form` + `field` pattern. Use `Select`/`SimpleSelect`
+ * when a plain dropdown will do, `Select2ajax` when options must be fetched from a server,
+ * and `SelectMultiple` or `RichSelect` when more than one value can be chosen.
+ */
 import { ModelListSelect } from 'vue-search-select';
 import { InputLabel, InputError } from '../../index';
 

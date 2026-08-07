@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * Loading skeleton for a table body: renders `placeholders` full-width rows containing a
+ * pulsing grey bar. `Tbody` inserts it automatically while data is loading or deferred, so
+ * you normally only use it directly when driving the loading state by hand.
+ */
 import { Td } from '../../index';
 
 interface TrPlaceholderProps {

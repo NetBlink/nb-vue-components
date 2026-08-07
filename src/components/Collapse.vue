@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a
+ * `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can
+ * be replaced entirely via the `trigger` slot. Use this for inline "Show more" toggles;
+ * use `CollapsableSection` when you want a full bordered card with a header bar.
+ */
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';

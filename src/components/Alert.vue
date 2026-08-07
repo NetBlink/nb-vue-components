@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Inline `role="alert"` banner in success / error / warning / info variants, with a
+ * matching icon, an optional title and default-slot body. Set `dismissible` to add a
+ * close button; visibility is two-way bound through `v-model` and the show/hide is
+ * animated with a JS height+opacity transition rather than CSS classes.
+ */
 import { ref, computed, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 

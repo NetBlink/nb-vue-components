@@ -1,15 +1,15 @@
 <script setup lang="ts">
+/**
+ * Responsive grid of clickable stat tiles used as quick filters above a table. Clicking a
+ * tile emits `updateSearch` with that tile's `name`, or `null` when the already-selected
+ * tile is clicked again to clear it. Which tile shows as selected is read from the Inertia
+ * page URL's query string (parameter named by `statusName`, default `status`), and falls
+ * back to all-unselected outside an Inertia app.
+ */
 import { computed } from 'vue';
 import { getInertiaPage } from '../Helpers';
 
 /**
- * Stats - clickable stat tiles used as quick filters.
- *
- * Each item is a `{ name, value, label? }` object. Clicking a tile emits
- * `updateSearch` with the tile's name (or `null` when the same tile is
- * clicked again to clear). Selection state is read from a URL query
- * parameter named by `statusName` (defaults to `status`).
- *
  * @prop {StatItem[]}    stats - `{ name, value, label? }[]` - label falls back to `name` for display
  * @prop {string|null}   [statusName=null] - query-string parameter used to compute the selected tile
  * @prop {string}        [customContainerClass=''] - extra classes on the outer grid

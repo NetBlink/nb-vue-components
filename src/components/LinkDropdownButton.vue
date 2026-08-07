@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Primary-styled button that opens a reka-ui dropdown menu of links, rendering the slot
+ * content inside its own `<ul>`. Fill it with `LinkDropdownButtonItem` children, which
+ * supply the matching `<li>`; use `Dropdown` instead when you need an arbitrary trigger
+ * element rather than this fixed button.
+ */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import { ref } from 'vue';
 import type { Align } from '@/Types';

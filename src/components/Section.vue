@@ -1,9 +1,13 @@
 <script setup lang="ts">
+/**
+ * Generic content card: a rounded container with consistent `px-6 py-4` padding and an
+ * optional header strip driven by the `header` prop plus a `headerButton` slot. Pick a
+ * `variant` for the border/shadow treatment, or set `unstyled` to keep only the layout
+ * and supply your own classes, which are merged onto the container.
+ */
 import { computed, useAttrs } from 'vue';
 
 /**
- * Section component with optional header and customizable styling
- *
  * @component
  *
  * @prop {string} header - Optional header text to display at the top

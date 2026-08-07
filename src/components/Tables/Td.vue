@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * A single body cell inside a `Tr`, handling alignment, width and no-wrap. When the table
+ * is responsive it becomes a stacked block on small screens, and a `label` prop prints
+ * that label before the value in that mobile layout only — the plain cell still renders
+ * from `sm` up.
+ */
 import { computed } from 'vue';
 import type { TableCellProps } from './types';
 

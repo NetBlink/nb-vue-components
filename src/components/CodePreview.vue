@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Read-only code block with a header bar showing a filename and a copy-to-clipboard
+ * button. Takes `code` as an array of lines (joined with newlines), so snippets can be
+ * written as string arrays in docs pages; it does not highlight syntax, only sets a
+ * `language-*` class on the `<code>` element.
+ */
 import { computed, ref } from 'vue';
 
 interface CodePreviewProps {

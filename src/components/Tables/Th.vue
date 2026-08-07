@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Header cell for a `Thead` row. Set `sortable` together with `column` (or the legacy
+ * `orderBy`) to make it clickable: it shows asc/desc arrows reflecting the current order
+ * and delegates the actual sorting to the `useTableSort` composable, which drives an
+ * Inertia visit rather than sorting in place.
+ */
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useTableSort } from '../../composables/useTable';
 import type { TableHeaderCellProps } from './types';

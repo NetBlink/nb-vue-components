@@ -1,4 +1,12 @@
 <script setup lang="ts">
+/**
+ * Scroll container and `<table>` shell for the table primitives: compose `Thead`, `Th`,
+ * `Tbody`, `Tr` and `Td` inside its default slot, and it applies the striped / bordered /
+ * hover / sticky-header / size / variant styling plus a responsive wrapper. It renders its
+ * own `Pagination` from a Laravel paginator passed as `pagination` (or legacy `links`) and
+ * shows a "Found: n" count when `total` is given. Use `EnhancedTable` instead when you
+ * would rather declare `columns` and `data` and have the rows generated for you.
+ */
 import { computed } from 'vue';
 import { Pagination } from '../../index';
 import type { TableProps } from './types';

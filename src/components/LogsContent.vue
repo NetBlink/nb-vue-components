@@ -1,4 +1,11 @@
 <script setup>
+/**
+ * Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry
+ * icon, the formatted event, old → new value diffs and the causer's name. It shows a
+ * `Spinner` while `logs` is undefined and appends its own `Pagination` from `logs.links`;
+ * the causer is linked via `causerRoute` through the host app's Ziggy `route()` helper and
+ * degrades to plain text when that route or helper is missing.
+ */
 // @ts-nocheck
 import { Pagination } from '../index';
 import { Spinner } from '../index';
