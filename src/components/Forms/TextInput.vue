@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed
- * `focus()` method — no label, no error display and no form integration. Use it when
+ * `focus()` method, no label, no error display and no form integration. Use it when
  * composing a custom field layout by hand; for ordinary form fields reach for `Input`,
  * which wraps this kind of control with label, error and `:form` + `field` binding.
  */

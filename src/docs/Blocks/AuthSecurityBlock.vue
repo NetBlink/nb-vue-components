@@ -255,7 +255,7 @@ const passkeySnippet = [
                         <Input v-else v-model="recoveryCode" field="recovery_code" label="Recovery code" placeholder="xxxxxxxx-xxxxxxxx" />
 
                         <Alert v-if="status === 'success'" type="success" title="Verified">
-                            Code accepted &mdash; redirecting to your dashboard.
+                            Code accepted, redirecting to your dashboard.
                         </Alert>
                         <Alert v-else-if="status === 'error'" type="error" title="Invalid code">
                             That code is not valid or has expired. Try again.
@@ -329,8 +329,7 @@ const passkeySnippet = [
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A passkey sign-in card that really feature-detects WebAuthn on mount via
-                <code class="rounded bg-gray-100 px-1 text-xs break-all dark:bg-gray-900/60">PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()</code>
-                &mdash; what you see below reflects <em>this</em> browser. The button fakes success; it never calls
+                <code class="rounded bg-gray-100 px-1 text-xs break-all dark:bg-gray-900/60">PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()</code>, what you see below reflects <em>this</em> browser. The button fakes success; it never calls
                 <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">navigator.credentials.get()</code>.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
@@ -350,7 +349,7 @@ const passkeySnippet = [
 
                     <template v-else-if="passkeySupport === 'yes'">
                         <div v-if="passkeyDone" class="mb-3">
-                            <Alert type="success" title="Signed in">Passkey accepted &mdash; welcome back.</Alert>
+                            <Alert type="success" title="Signed in">Passkey accepted, welcome back.</Alert>
                         </div>
 
                         <PrimaryButton type="button" class="w-full justify-center gap-2" @click="fakePasskeySignIn">
@@ -361,8 +360,7 @@ const passkeySnippet = [
                     </template>
 
                     <p v-else class="text-center text-xs text-amber-600 dark:text-amber-400">
-                        This device does not support passkeys &mdash;
-                        <a href="#" class="underline hover:no-underline" @click.prevent>sign in with your password</a>
+                        This device does not support passkeys, <a href="#" class="underline hover:no-underline" @click.prevent>sign in with your password</a>
                     </p>
                 </div>
             </div>

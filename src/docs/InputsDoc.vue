@@ -573,7 +573,7 @@ const dropdownSearchbarProps = [
                     <Input :form="form" field="with_addon" addon="@" />
                 </div>
 
-                <CodePreview :code="inputExamples" filename="Input.vue — basics" />
+                <CodePreview :code="inputExamples" filename="Input.vue, basics" />
 
                 <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Features</h4>
 
@@ -586,7 +586,7 @@ const dropdownSearchbarProps = [
                     <Input :form="form" field="search_query" submitBtn="Search" placeholder="Enter search terms..." />
                 </div>
 
-                <CodePreview :code="advancedInputExamples" filename="Input.vue — tooltip, sublabel, submit button" />
+                <CodePreview :code="advancedInputExamples" filename="Input.vue, tooltip, sublabel, submit button" />
 
                 <CollapsableSection header="Input Props & Parameters" class="mt-6">
                     <PropsTable :rows="inputProps" />
@@ -735,7 +735,7 @@ const dropdownSearchbarProps = [
                     <RichSelect v-model="searchableFramework" :options="frameworks" searchable clearable label="Framework" />
                 </div>
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ searchableFramework ?? 'null' }}</code></p>
-                <CodePreview :code="richSelectSearchExample" filename="RichSelect — searchable" />
+                <CodePreview :code="richSelectSearchExample" filename="RichSelect, searchable" />
 
                 <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - multiple</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
@@ -745,7 +745,7 @@ const dropdownSearchbarProps = [
                     <RichSelect v-model="selectedTags" :options="tagOptions" multiple searchable label="Tags" />
                 </div>
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ JSON.stringify(selectedTags) }}</code></p>
-                <CodePreview :code="richSelectMultipleExample" filename="RichSelect — multiple" />
+                <CodePreview :code="richSelectMultipleExample" filename="RichSelect, multiple" />
 
                 <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - grouping</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
@@ -756,7 +756,7 @@ const dropdownSearchbarProps = [
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="selectedTool" :options="groupedTools" grouping searchable clearable label="Tool" />
                 </div>
-                <CodePreview :code="richSelectGroupingExample" filename="RichSelect — grouping" />
+                <CodePreview :code="richSelectGroupingExample" filename="RichSelect, grouping" />
 
                 <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - custom option keys</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
@@ -776,7 +776,7 @@ const dropdownSearchbarProps = [
                     />
                 </div>
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ selectedUserId ?? 'null' }}</code></p>
-                <CodePreview :code="richSelectCustomKeysExample" filename="RichSelect — custom option keys" />
+                <CodePreview :code="richSelectCustomKeysExample" filename="RichSelect, custom option keys" />
 
                 <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - API search</h4>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
@@ -786,7 +786,7 @@ const dropdownSearchbarProps = [
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiTransform</code> to map the response into the option shape RichSelect expects. (No
                     live demo here - wire it up to a real endpoint in your app.)
                 </p>
-                <CodePreview :code="richSelectApiExample" filename="RichSelect — API search" />
+                <CodePreview :code="richSelectApiExample" filename="RichSelect, API search" />
 
                 <CollapsableSection header="Select Props & Parameters" class="mt-8">
                     <PropsTable :rows="selectProps" />

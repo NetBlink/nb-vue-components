@@ -2,7 +2,7 @@
 /**
  * One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a plain
  * `<a href>` with the menu's hover/focus styling, so it does a full page load rather than
- * an Inertia visit — use `DropdownLink` when you want client-side navigation.
+ * an Inertia visit, use `DropdownLink` when you want client-side navigation.
  */
 interface LinkDropdownButtonItemProps {
     /** The URL to navigate to */

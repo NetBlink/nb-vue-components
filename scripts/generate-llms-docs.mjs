@@ -3,7 +3,7 @@
  * Generates the AI-facing documentation (llms.txt + llms-full.txt) by parsing
  * the component sources, so the reference can never drift from the code.
  *
- * Run: npm run docs:llms
+ * Run: npm run nb:docs:llms (library maintainers only)
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, basename } from 'node:path';
@@ -49,7 +49,7 @@ function extractDescription(src) {
 }
 
 /**
- * `interface XProps { /** doc *\/ name?: type; }` — the modern style used by
+ * `interface XProps { /** doc *\/ name?: type; }`, the modern style used by
  * 46 of the components.
  */
 function parseInterfaceProps(src) {
@@ -72,7 +72,7 @@ function parseInterfaceProps(src) {
     return props;
 }
 
-/** `defineProps({ name: { type: X, default: Y } })` — the 10 older components. */
+/** `defineProps({ name: { type: X, default: Y } })`, the 10 older components. */
 function parseObjectProps(src) {
     const block = src.match(/defineProps\(\{([\s\S]*?)\n\}\)/);
     if (!block) return [];
@@ -193,7 +193,7 @@ const blocks = existsSync(BLOCKS)
               const intro = (src.match(/<p class="mb-4 text-gray-600[^"]*">\s*([\s\S]*?)<\/p>/) || [])[1] || '';
               const clean = intro
                   .replace(/<[^>]+>/g, '')
-                  .replace(/&mdash;/g, '—')
+                  .replace(/-/g, '-')
                   .replace(/&amp;/g, '&')
                   .replace(/\s+/g, ' ')
                   .trim();
@@ -224,7 +224,7 @@ function renderComponent(c) {
                 c.props.map((p) => [
                     `\`${p.name}\``,
                     `\`${esc(p.type)}\``,
-                    p.default !== undefined ? `\`${esc(p.default)}\`` : p.required ? '**required**' : '—',
+                    p.default !== undefined ? `\`${esc(p.default)}\`` : p.required ? '**required**' : '-',
                     esc(p.description),
                 ]),
                 ['Prop', 'Type', 'Default', 'Description']
@@ -232,7 +232,7 @@ function renderComponent(c) {
             ''
         );
     }
-    if (c.slots.length) out.push(`**Slots:** ${c.slots.map((s) => `\`${s.name}\`${s.description ? ` — ${s.description}` : ''}`).join(', ')}`, '');
+    if (c.slots.length) out.push(`**Slots:** ${c.slots.map((s) => `\`${s.name}\`${s.description ? `, ${s.description}` : ''}`).join(', ')}`, '');
     if (c.emits.length) out.push(`**Emits:** ${c.emits.map((e) => `\`${e}\``).join(', ')}`, '');
     return out.join('\n');
 }
@@ -247,14 +247,14 @@ const shortDoc = [
     '',
     'Full API for every component (props, defaults, slots, emits) is in `llms-full.txt`.',
     '',
-    publicComponents.map((c) => `- **${c.name}**${c.description ? ` — ${c.description.split('. ')[0]}.` : ''}`).join('\n'),
+    publicComponents.map((c) => `- **${c.name}**${c.description ? `, ${c.description.split('. ')[0]}.` : ''}`).join('\n'),
     '',
     '## Ready-made page compositions',
     '',
-    'The docs site ships runnable "blocks" — whole page patterns built only from these components.',
+    'The docs site ships runnable "blocks", whole page patterns built only from these components.',
     'Source: `src/docs/Blocks/*.vue`. Each contains a live demo plus the copy-paste snippet.',
     '',
-    blocks.map((b) => `- **${b.title}** (\`${b.file}\`) — ${b.summary || 'composition'}`).join('\n'),
+    blocks.map((b) => `- **${b.title}** (\`${b.file}\`), ${b.summary || 'composition'}`).join('\n'),
     '',
 ].join('\n');
 
@@ -266,7 +266,7 @@ const fullDoc = [
     '',
     '# Component API reference',
     '',
-    `Generated from source (${publicComponents.length} exported components). Do not edit by hand — run \`npm run docs:llms\`.`,
+    `Generated from source (${publicComponents.length} exported components). Do not edit by hand, run \`npm run docs:llms\`.`,
     '',
     publicComponents.map(renderComponent).join('\n'),
     '',

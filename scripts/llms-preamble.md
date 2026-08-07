@@ -41,7 +41,7 @@ createInertiaApp({
 });
 ```
 
-The package ships compiled CSS, so importing `dist/style.css` above is all that is needed — there
+The package ships compiled CSS, so importing `dist/style.css` above is all that is needed, there
 is no Tailwind `@source` scanning to configure. Your own stylesheet:
 
 ```css
@@ -57,7 +57,7 @@ is no Tailwind `@source` scanning to configure. Your own stylesheet:
 ## The single most important convention: `:form` + `field`
 
 Every form control integrates directly with Inertia's `useForm`. Pass the form object and the
-field name — the component then owns its own value binding, label, and validation error display.
+field name, the component then owns its own value binding, label, and validation error display.
 **Prefer this over `v-model`.** It is the idiomatic usage across all consuming apps.
 
 ```vue
@@ -91,7 +91,7 @@ const form = useForm({ name: '', email: '', role: '', notes: '' });
 
 ## Icons
 
-Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes — those fight the
+Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes, those fight the
 component's own wrapper and leave the glyph at its default size.
 
 ```vue
@@ -124,7 +124,7 @@ renders an anchor (or an Inertia `Link` when given `method`/`data`) with the sam
 
 `Table` renders its own horizontal-scroll wrapper and, given `:links`, its own pagination.
 `Th` with `sortable` + `orderBy` handles sort links. On `Td`, the `label` prop supplies the
-stacked mobile presentation — omit it and the table will not degrade on small screens.
+stacked mobile presentation, omit it and the table will not degrade on small screens.
 
 ```vue
 <Table :links="users.meta.links" :total="users.meta.total" hover bordered>
@@ -205,7 +205,7 @@ around these components, pair every colour utility with a `dark:` variant:
 ## Theming
 
 Colours come from Tailwind v4 `@theme` tokens. Override the scale in your own CSS to re-brand
-every component at once — use the numeric steps, not the bare alias:
+every component at once, use the numeric steps, not the bare alias:
 
 ```css
 @theme {
@@ -220,7 +220,7 @@ every component at once — use the numeric steps, not the bare alias:
   Inertia `Link`, which sets its own handler after spreading attrs. Put your handler on a wrapping
   element instead.
 - **`Dropdown` portals its content to `<body>`.** Classes bound on `<Dropdown>` land on the floating
-  panel, not the trigger — wrap the trigger in a `<div>` if you need to style or hide it.
+  panel, not the trigger, wrap the trigger in a `<div>` if you need to style or hide it.
 - **`Td label` is required for mobile.** Without it a cell has no stacked small-screen rendering.
 - **Size `NbIcon` with `size`, not `h-*`/`w-*`.**
 - **Non-GET `LinkButton`/`DropdownLink` need `as="button"`** (`method="post"` on an anchor warns).
@@ -228,5 +228,5 @@ every component at once — use the numeric steps, not the bare alias:
   ignored. Drive expansion with `:open`.
 - **`NewModal` accepts both `v-model:open` and `v-model`.** `v-model:open` is the documented and
   most common form. Note that it currently works through attribute fallthrough onto the underlying
-  `DialogRoot` rather than a declared named model — prefer it for consistency with existing apps,
+  `DialogRoot` rather than a declared named model, prefer it for consistency with existing apps,
   but do not add `inheritAttrs: false` to the component without declaring the model explicitly.

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 /**
- * NewModal - accessible dialog built on reka-ui's headless `Dialog` primitives.
- *
- * Preferred for new code. Drives open-state with `v-model:open`, and offers named
- * header / description / footer / trigger slots in addition to the default slot
+ * Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one
+ * to use for new code. Open state is driven with `v-model:open`, and named
+ * header, description, footer and trigger slots sit alongside the default slot
  * for body content. For the older single-default-slot variant see `Modal`.
  *
  * Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props
- * (`aria-*`, `role`, …) and custom classes pass through.
+ * (`aria-*`, `role`) and custom classes reach the dialog panel itself.
  *
  * @slot default - body content
  * @slot header - overrides the `title` prop
@@ -17,7 +16,13 @@
  */
 import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
-import { onMounted, onUnmounted, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+
+// `$attrs` is bound explicitly onto DialogContent below. Without this the same
+// attrs would ALSO land on the root DialogRoot, which is how `v-model:open`
+// used to work at all: the `open` attr fell through to DialogRoot by accident.
+// Both bindings are declared models now, so the fallthrough is no longer load-bearing.
+defineOptions({ inheritAttrs: false });
 
 interface NewModalProps {
     /** Title rendered in DialogTitle (overridden by the `header` slot) */
@@ -37,10 +42,29 @@ const props = withDefaults(defineProps<NewModalProps>(), {
     resizable: false,
 });
 
-const open = defineModel({
-    type: Boolean,
-    default: false,
+/*
+ * Two supported bindings: `v-model:open` (documented, used across the docs and
+ * the apps) and plain `v-model` (older call sites). Whichever the caller binds
+ * wins; if both are bound they stay in sync. Unbound, the dialog keeps its own
+ * state so a `trigger` slot still works with no model at all.
+ */
+const openModel = defineModel<boolean | undefined>('open', { default: undefined });
+const legacyModel = defineModel<boolean | undefined>({ default: undefined });
+const uncontrolled = ref(false);
+
+const open = computed<boolean>({
+    get() {
+        if (openModel.value !== undefined) return openModel.value;
+        if (legacyModel.value !== undefined) return legacyModel.value;
+        return uncontrolled.value;
+    },
+    set(value) {
+        if (openModel.value !== undefined) openModel.value = value;
+        if (legacyModel.value !== undefined) legacyModel.value = value;
+        uncontrolled.value = value;
+    },
 });
+
 const updateOpen = (value: boolean) => {
     open.value = value;
 };

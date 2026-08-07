@@ -41,7 +41,7 @@ createInertiaApp({
 });
 ```
 
-The package ships compiled CSS, so importing `dist/style.css` above is all that is needed — there
+The package ships compiled CSS, so importing `dist/style.css` above is all that is needed, there
 is no Tailwind `@source` scanning to configure. Your own stylesheet:
 
 ```css
@@ -57,7 +57,7 @@ is no Tailwind `@source` scanning to configure. Your own stylesheet:
 ## The single most important convention: `:form` + `field`
 
 Every form control integrates directly with Inertia's `useForm`. Pass the form object and the
-field name — the component then owns its own value binding, label, and validation error display.
+field name, the component then owns its own value binding, label, and validation error display.
 **Prefer this over `v-model`.** It is the idiomatic usage across all consuming apps.
 
 ```vue
@@ -91,7 +91,7 @@ const form = useForm({ name: '', email: '', role: '', notes: '' });
 
 ## Icons
 
-Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes — those fight the
+Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes, those fight the
 component's own wrapper and leave the glyph at its default size.
 
 ```vue
@@ -124,7 +124,7 @@ renders an anchor (or an Inertia `Link` when given `method`/`data`) with the sam
 
 `Table` renders its own horizontal-scroll wrapper and, given `:links`, its own pagination.
 `Th` with `sortable` + `orderBy` handles sort links. On `Td`, the `label` prop supplies the
-stacked mobile presentation — omit it and the table will not degrade on small screens.
+stacked mobile presentation, omit it and the table will not degrade on small screens.
 
 ```vue
 <Table :links="users.meta.links" :total="users.meta.total" hover bordered>
@@ -205,7 +205,7 @@ around these components, pair every colour utility with a `dark:` variant:
 ## Theming
 
 Colours come from Tailwind v4 `@theme` tokens. Override the scale in your own CSS to re-brand
-every component at once — use the numeric steps, not the bare alias:
+every component at once, use the numeric steps, not the bare alias:
 
 ```css
 @theme {
@@ -220,7 +220,7 @@ every component at once — use the numeric steps, not the bare alias:
   Inertia `Link`, which sets its own handler after spreading attrs. Put your handler on a wrapping
   element instead.
 - **`Dropdown` portals its content to `<body>`.** Classes bound on `<Dropdown>` land on the floating
-  panel, not the trigger — wrap the trigger in a `<div>` if you need to style or hide it.
+  panel, not the trigger, wrap the trigger in a `<div>` if you need to style or hide it.
 - **`Td label` is required for mobile.** Without it a cell has no stacked small-screen rendering.
 - **Size `NbIcon` with `size`, not `h-*`/`w-*`.**
 - **Non-GET `LinkButton`/`DropdownLink` need `as="button"`** (`method="post"` on an anchor warns).
@@ -228,112 +228,112 @@ every component at once — use the numeric steps, not the bare alias:
   ignored. Drive expansion with `:open`.
 - **`NewModal` accepts both `v-model:open` and `v-model`.** `v-model:open` is the documented and
   most common form. Note that it currently works through attribute fallthrough onto the underlying
-  `DialogRoot` rather than a declared named model — prefer it for consistency with existing apps,
+  `DialogRoot` rather than a declared named model, prefer it for consistency with existing apps,
   but do not add `inheritAttrs: false` to the component without declaring the model explicitly.
 
 ## Component index
 
 Full API for every component (props, defaults, slots, emits) is in `llms-full.txt`.
 
-- **Alert** — Inline `role="alert"` banner in success / error / warning / info variants, with a matching icon, an optional title and default-slot body.
-- **Button** — Base Button component with theme support.
-- **Checkbox** — Single checkbox with label, sublabel, tooltip and error message, plus optional descriptive text on either side of the box.
-- **CodePreview** — Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
-- **CollapsableSection** — Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.
-- **Collapse** — Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot.
-- **DangerButton** — Danger Button component.
-- **DataTile** — themed statistic tile with a background icon.
-- **DescriptionList** — Wrapper `<dl>` for a stack of `DescriptionListItem` rows.
-- **DescriptionListItem** — One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair.
-- **DottedCarousel** — Horizontal snap-scroll carousel with dot navigation underneath.
-- **Dropdown** — menu popover built on reka-ui's `DropdownMenu` primitives.
-- **DropdownLink** — A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui `DropdownMenuItem` so keyboard navigation and menu semantics come for free.
-- **DropdownSearchbar** — Thin wrapper around the third-party `vue-select` component, giving a type-to-search dropdown over a static `options` array with only light styling applied.
-- **DropdownSeparator** — Dropdown separator component A visual separator for dropdown menu items..
-- **EnhancedTable** — Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants.
-- **FileDropZoneInput** — Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection.
-- **GravatarImg** — `<img>` pointing at the Gravatar for an email.
-- **Images** — Self-contained image gallery and uploader for a given record: it shows the existing `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`, using its own Inertia form.
-- **InfoButton** — Info Button component.
-- **Input** — The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions.
-- **InputError** — Input Error component for displaying validation error messages.
-- **InputLabel** — Styled `<label>` for form fields: takes its text from the `value` prop or the default slot and can append a grey sublabel, a red required asterisk and a help icon with a `Tooltip`.
-- **InputWrapper** — Wrapper component for form inputs with label and error handling.
-- **InputWrapper** — InputWrapper component A reusable wrapper that standardizes label, tooltip, sublabel, and error handling across all form input components..
-- **LinkButton** — Link Button component that can render as either a Link or anchor tag.
-- **LinkDropdownButton** — Primary-styled button that opens a reka-ui dropdown menu of links, rendering the slot content inside its own `<ul>`.
-- **LinkDropdownButtonItem** — One entry in a `LinkDropdownButton` menu.
-- **Logs** — activity timeline wrapped in a collapsible section..
-- **LogsContent** — Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry icon, the formatted event, old → new value diffs and the causer's name.
-- **Modal** — teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`.
-- **NavCollapse** — Navigation Collapse component with expandable/collapsible content.
-- **NavLink** — sidebar / header navigation link wrapping an Inertia `<Link>`.
-- **NewModal** — accessible dialog built on reka-ui's headless `Dialog` primitives.
-- **Pagination** — Pagination component for navigating through pages of data.
-- **PrimaryButton** — Primary Button component.
-- **PropsTable** — Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state.
-- **RadioButton** — One radio option with its label.
-- **ResponsiveNavLink** — mobile/stacked variant of `NavLink`.
-- **RichSelect** — Feature-rich Select component with API search, multiple selection, and grouping.
-- **SearchSelect** — Single-choice select with a type-to-filter box, built on `vue-search-select`'s `ModelListSelect` over a client-side `list` whose value/label keys you name via `optionValue`/`optionText`; the filter itself is overridable with `filterPredicate`.
-- **SecondaryButton** — Secondary Button component.
-- **Section** — a rounded container with consistent `px-6 py-4` padding and an optional header strip driven by the `header` prop plus a `headerButton` slot.
-- **Select** — Simple Select component Works with both array options and slot options, API-compatible with Input component.
-- **Select2ajax** — Server-backed version of `SearchSelect`: it wraps that component and fills the option list by requesting `url` with the current search term, appending further pages as the user scrolls the dropdown to the bottom.
-- **SelectMultiple** — Multi-select rendered as a clickable list of options that toggle in and out of an array value, rather than as a dropdown.
-- **SimpleSelect** — Simple Select component that works with options array.
-- **Spinner** — a CSS-only spinning ring in five preset sizes, with `role="status"` and a visually hidden "Loading..." label for screen readers.
-- **Stats** — Responsive grid of clickable stat tiles used as quick filters above a table.
-- **SubmitButton** — Submit Button component with loading state and theme support.
-- **SuccessButton** — Success Button component.
-- **Switch** — Switch component.
-- **Tab** — a single panel inside `<Tabs>`.
-- **Table** — Scroll container and `<table>` shell for the table primitives: compose `Thead`, `Th`, `Tbody`, `Tr` and `Td` inside its default slot, and it applies the striped / bordered / hover / sticky-header / size / variant styling plus a responsive wrapper.
-- **TableItemCard** — Mobile-friendly card summarising one record, used as the small-screen fallback for a table row: it lays out an id, title, coloured pills, option links, a timestamp and a formatted amount, each of which can link via an explicit `href` or a Ziggy route name and degrades to plain text when the host app has no `route()` helper..
-- **Tabs** — tabbed panel switcher built on reka-ui's `Tabs` primitives.
-- **Tbody** — The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the data is empty.
-- **Td** — A single body cell inside a `Tr`, handling alignment, width and no-wrap.
-- **TdCollapseHandler** — A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, rendered with a pointer cursor and the `aria-expanded`/`aria-controls` wiring.
-- **Textarea** — Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrome, with optional leading addon, trailing `SubmitButton` and WhatsApp action.
-- **TextInput** — Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed `focus()` method — no label, no error display and no form integration.
-- **Th** — Header cell for a `Thead` row.
-- **Thead** — The `<thead>` primitive, holding a row of `Th` cells.
-- **Toast** — a single queued notification, rendered by `<Toaster>`.
-- **Toaster** — the viewport that renders the notification queue.
-- **Tooltip** — Tooltip component using Reka UI.
-- **Tr** — Renders a single row of a table and is the row primitive you fill with `Td` cells.
-- **TrCollapse** — a full-width `colspan` cell whose content is revealed when a matching `TrCollapseHandler` or `TdCollapseHandler` with the same `collapse_id` is clicked.
-- **TrCollapseHandler** — Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the whole row acting as the trigger and carrying the `aria-expanded`/`aria-controls` wiring.
-- **TrPlaceholder** — renders `placeholders` full-width rows containing a pulsing grey bar.
-- **UnderConstruction** — Under Construction component A utility component to display a placeholder for sections that are still being developed.
-- **WarningButton** — Warning Button component.
+- **Alert**, Inline `role="alert"` banner in success / error / warning / info variants, with a matching icon, an optional title and default-slot body.
+- **Button**, Base Button component with theme support.
+- **Checkbox**, Single checkbox with label, sublabel, tooltip and error message, plus optional descriptive text on either side of the box.
+- **CodePreview**, Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
+- **CollapsableSection**, Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.
+- **Collapse**, Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot.
+- **DangerButton**, Danger Button component.
+- **DataTile**, themed statistic tile with a background icon.
+- **DescriptionList**, Wrapper `<dl>` for a stack of `DescriptionListItem` rows.
+- **DescriptionListItem**, One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair.
+- **DottedCarousel**, Horizontal snap-scroll carousel with dot navigation underneath.
+- **Dropdown**, menu popover built on reka-ui's `DropdownMenu` primitives.
+- **DropdownLink**, A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui `DropdownMenuItem` so keyboard navigation and menu semantics come for free.
+- **DropdownSearchbar**, Thin wrapper around the third-party `vue-select` component, giving a type-to-search dropdown over a static `options` array with only light styling applied.
+- **DropdownSeparator**, Dropdown separator component A visual separator for dropdown menu items..
+- **EnhancedTable**, Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants.
+- **FileDropZoneInput**, Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection.
+- **GravatarImg**, `<img>` pointing at the Gravatar for an email.
+- **Images**, Self-contained image gallery and uploader for a given record: it shows the existing `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`, using its own Inertia form.
+- **InfoButton**, Info Button component.
+- **Input**, The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions.
+- **InputError**, Input Error component for displaying validation error messages.
+- **InputLabel**, Styled `<label>` for form fields: takes its text from the `value` prop or the default slot and can append a grey sublabel, a red required asterisk and a help icon with a `Tooltip`.
+- **InputWrapper**, Wrapper component for form inputs with label and error handling.
+- **InputWrapper**, InputWrapper component A reusable wrapper that standardizes label, tooltip, sublabel, and error handling across all form input components..
+- **LinkButton**, Link Button component that can render as either a Link or anchor tag.
+- **LinkDropdownButton**, Primary-styled button that opens a reka-ui dropdown menu of links, rendering the slot content inside its own `<ul>`.
+- **LinkDropdownButtonItem**, One entry in a `LinkDropdownButton` menu.
+- **Logs**, activity timeline wrapped in a collapsible section..
+- **LogsContent**, Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry icon, the formatted event, old → new value diffs and the causer's name.
+- **Modal**, teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`.
+- **NavCollapse**, Navigation Collapse component with expandable/collapsible content.
+- **NavLink**, sidebar / header navigation link wrapping an Inertia `<Link>`.
+- **NewModal**, Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code.
+- **Pagination**, Pagination component for navigating through pages of data.
+- **PrimaryButton**, Primary Button component.
+- **PropsTable**, Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state.
+- **RadioButton**, One radio option with its label.
+- **ResponsiveNavLink**, mobile/stacked variant of `NavLink`.
+- **RichSelect**, Feature-rich Select component with API search, multiple selection, and grouping.
+- **SearchSelect**, Single-choice select with a type-to-filter box, built on `vue-search-select`'s `ModelListSelect` over a client-side `list` whose value/label keys you name via `optionValue`/`optionText`; the filter itself is overridable with `filterPredicate`.
+- **SecondaryButton**, Secondary Button component.
+- **Section**, a rounded container with consistent `px-6 py-4` padding and an optional header strip driven by the `header` prop plus a `headerButton` slot.
+- **Select**, Simple Select component Works with both array options and slot options, API-compatible with Input component.
+- **Select2ajax**, Server-backed version of `SearchSelect`: it wraps that component and fills the option list by requesting `url` with the current search term, appending further pages as the user scrolls the dropdown to the bottom.
+- **SelectMultiple**, Multi-select rendered as a clickable list of options that toggle in and out of an array value, rather than as a dropdown.
+- **SimpleSelect**, Simple Select component that works with options array.
+- **Spinner**, a CSS-only spinning ring in five preset sizes, with `role="status"` and a visually hidden "Loading..." label for screen readers.
+- **Stats**, Responsive grid of clickable stat tiles used as quick filters above a table.
+- **SubmitButton**, Submit Button component with loading state and theme support.
+- **SuccessButton**, Success Button component.
+- **Switch**, Switch component.
+- **Tab**, a single panel inside `<Tabs>`.
+- **Table**, Scroll container and `<table>` shell for the table primitives: compose `Thead`, `Th`, `Tbody`, `Tr` and `Td` inside its default slot, and it applies the striped / bordered / hover / sticky-header / size / variant styling plus a responsive wrapper.
+- **TableItemCard**, Mobile-friendly card summarising one record, used as the small-screen fallback for a table row: it lays out an id, title, coloured pills, option links, a timestamp and a formatted amount, each of which can link via an explicit `href` or a Ziggy route name and degrades to plain text when the host app has no `route()` helper..
+- **Tabs**, tabbed panel switcher built on reka-ui's `Tabs` primitives.
+- **Tbody**, The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the data is empty.
+- **Td**, A single body cell inside a `Tr`, handling alignment, width and no-wrap.
+- **TdCollapseHandler**, A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, rendered with a pointer cursor and the `aria-expanded`/`aria-controls` wiring.
+- **Textarea**, Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrome, with optional leading addon, trailing `SubmitButton` and WhatsApp action.
+- **TextInput**, Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed `focus()` method, no label, no error display and no form integration.
+- **Th**, Header cell for a `Thead` row.
+- **Thead**, The `<thead>` primitive, holding a row of `Th` cells.
+- **Toast**, a single queued notification, rendered by `<Toaster>`.
+- **Toaster**, the viewport that renders the notification queue.
+- **Tooltip**, Tooltip component using Reka UI.
+- **Tr**, Renders a single row of a table and is the row primitive you fill with `Td` cells.
+- **TrCollapse**, a full-width `colspan` cell whose content is revealed when a matching `TrCollapseHandler` or `TdCollapseHandler` with the same `collapse_id` is clicked.
+- **TrCollapseHandler**, Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the whole row acting as the trigger and carrying the `aria-expanded`/`aria-controls` wiring.
+- **TrPlaceholder**, renders `placeholders` full-width rows containing a pulsing grey bar.
+- **UnderConstruction**, Under Construction component A utility component to display a placeholder for sections that are still being developed.
+- **WarningButton**, Warning Button component.
 
 ## Ready-made page compositions
 
-The docs site ships runnable "blocks" — whole page patterns built only from these components.
+The docs site ships runnable "blocks", whole page patterns built only from these components.
 Source: `src/docs/Blocks/*.vue`. Each contains a live demo plus the copy-paste snippet.
 
-- **2FA, OAuth & Passkeys** (`AuthSecurityBlock.vue`) — A two-factor challenge card: six auto-advancing single-character boxes that accept a pasted 6-digit code, a Verify button that stays disabled until the code is complete, and a toggle that swaps the boxes for a single recovery-code Input. Try 123456 for success, anything else to see the error.
-- **AI Assistant** (`AiAssistantBlock.vue`) — A chat panel composed from TextInput, PrimaryButton and SecondaryButton: replies stream in word by word with a blinking cursor, an inline tool-call step expands to its raw result, and Stop aborts the stream while Regenerate replays the last answer.
-- **App Navbar** (`NavbarBlock.vue`) — A horizontal application header driven by a single navItems array: items with children render a Dropdown of DropdownLinks, the rest render a NavLink. The right side pairs GravatarImg with a user menu, and the hamburger re-renders the same array as NavCollapse + ResponsiveNavLink.
-- **Auth Pages** (`AuthPagesBlock.vue`) — A registration card composed from Input and Checkbox, with a terms-of-service agreement and a link back to the login page.
-- **Cards & Lists** (`CardsGridBlock.vue`) — A responsive team member grid built from GravatarImg avatars, an online status pill, and a kebab-triggered Dropdown for row actions.
-- **Charts & Data Viz** (`ChartsBlock.vue`) — Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off — dashboard charts are read, not operated.
-- **Chat Interface** (`ChatBlock.vue`) — A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an animated typing indicator, and a composer with a PrimaryButton send. Sending scrolls the pane and triggers a canned reply.
-- **CRUD Index Page** (`IndexPageBlock.vue`) — The canonical list screen: header action, Stats tiles doubling as filters, a search row, a Table with an actions column and empty state, Pagination, and a NewModal create form. Everything below is live — filter, search, delete and create rows.
-- **Feeds & Timelines** (`FeedTimelineBlock.vue`) — A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a right-aligned relative time, and a detail line. Pure markup plus NbIcon — swap the tone map for your own statuses.
-- **Form Layouts** (`FormsBlock.vue`) — A centered login card composed from Input, Checkbox, and SecondaryButton, with a forgot-password link and a submit button disabled while the form is processing.
-- **Marketing Sections** (`MarketingBlock.vue`) — A gradient hero band with an eyebrow pill, headline, supporting copy, and a CTA cluster, composed from PrimaryButton and SecondaryButton.
-- **Mega Menu** (`MegaMenuBlock.vue`) — A horizontal navbar whose items open wide multi-column panels: two columns of icon-tile links with one-line descriptions plus a highlighted featured card. Built by hand rather than with Dropdown, because Dropdown portals its panel to the body and caps it at menu width — a mega panel needs to stay anchored to the bar and span its full width. Clicking outside the bar or on any link closes it.
-- **Modal Recipes** (`ModalsBlock.vue`) — Five ready-made NewModal compositions — create form, export options, upload, danger confirm and a resizable dialog — built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
-- **Multi-Step Form** (`WizardBlock.vue`) — A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair — one useForm holds every field, steps switch with v-if on a step ref.
-- **No projects yet** (`EmptyStatesBlock.vue`) — A basic empty state: centered gray icon, title, short description, and a single call-to-action button.
-- **Orderable Fields** (`OrderableBlock.vue`) — A drag-to-reorder list built on native HTML5 drag events — no library. Each row carries a grip handle and up/down Buttons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
-- **Orders this week** (`DashboardBlock.vue`) — A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity feed panel. The chart is pure CSS — a flex row of rounded bars with pixel heights, no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
-- **Page Shell** (`PageShellBlock.vue`) — The page skeleton every consumer app rebuilds by hand: a header bar (growing breadcrumb + right-aligned action buttons), a bordered content container, and a stack of Section components.
-- **Product Page** (`ProductPageBlock.vue`) — An e-commerce product detail page: gallery with thumbnails, variant and size pickers, a quantity stepper, PrimaryButton / SecondaryButton actions that raise a real toast through Toaster, and a Tabs section holding the description, a Table of specifications and the review list.
-- **Settings Page** (`SettingsPageBlock.vue`) — A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic — each with its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that only enables its confirm button once you type DELETE.
-- **Show & Edit Page** (`ShowEditBlock.vue`) — A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a two-column description list where every field carries a help line; edit mode turns the same fields into Input, Select and Textarea with the same help lines as hints. Cancelling with unsaved changes asks for confirmation in a NewModal.
-- **Sidebar Navigation** (`SidebarBlock.vue`) — A vertical app sidebar built from NavLink (with #icon slots) and NavCollapse groups. A single ref drives the open prop of every group, so only one group stays expanded at a time.
-- **Skeletons & Loading** (`SkeletonsBlock.vue`) — Skeleton primitives: an animated text-line stack, an avatar with two supporting lines, and an image card. All use animate-pulse on gray-200 / dark:gray-700 shapes.
-- **Tabbed Detail Page** (`TabbedDetailBlock.vue`) — A record-detail page: title row with a status pill and a destructive action, then a Section holding Tabs/Tab panes - an inline-edit DescriptionList bound to useForm() whose Save button only appears while the form is dirty, plus a Logs timeline.
+- **2FA, OAuth & Passkeys** (`AuthSecurityBlock.vue`), A two-factor challenge card: six auto-advancing single-character boxes that accept a pasted 6-digit code, a Verify button that stays disabled until the code is complete, and a toggle that swaps the boxes for a single recovery-code Input. Try 123456 for success, anything else to see the error.
+- **AI Assistant** (`AiAssistantBlock.vue`), A chat panel composed from TextInput, PrimaryButton and SecondaryButton: replies stream in word by word with a blinking cursor, an inline tool-call step expands to its raw result, and Stop aborts the stream while Regenerate replays the last answer.
+- **App Navbar** (`NavbarBlock.vue`), A horizontal application header driven by a single navItems array: items with children render a Dropdown of DropdownLinks, the rest render a NavLink. The right side pairs GravatarImg with a user menu, and the hamburger re-renders the same array as NavCollapse + ResponsiveNavLink.
+- **Auth Pages** (`AuthPagesBlock.vue`), A registration card composed from Input and Checkbox, with a terms-of-service agreement and a link back to the login page.
+- **Cards & Lists** (`CardsGridBlock.vue`), A responsive team member grid built from GravatarImg avatars, an online status pill, and a kebab-triggered Dropdown for row actions.
+- **Charts & Data Viz** (`ChartsBlock.vue`), Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off, dashboard charts are read, not operated.
+- **Chat Interface** (`ChatBlock.vue`), A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an animated typing indicator, and a composer with a PrimaryButton send. Sending scrolls the pane and triggers a canned reply.
+- **CRUD Index Page** (`IndexPageBlock.vue`), The canonical list screen: header action, Stats tiles doubling as filters, a search row, a Table with an actions column and empty state, Pagination, and a NewModal create form. Everything below is live: filter, search, delete and create rows.
+- **Feeds & Timelines** (`FeedTimelineBlock.vue`), A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a right-aligned relative time, and a detail line. Pure markup plus NbIcon. Swap the tone map for your own statuses.
+- **Form Layouts** (`FormsBlock.vue`), A centered login card composed from Input, Checkbox, and SecondaryButton, with a forgot-password link and a submit button disabled while the form is processing.
+- **Marketing Sections** (`MarketingBlock.vue`), A gradient hero band with an eyebrow pill, headline, supporting copy, and a CTA cluster, composed from PrimaryButton and SecondaryButton.
+- **Mega Menu** (`MegaMenuBlock.vue`), A horizontal navbar whose items open wide multi-column panels: two columns of icon-tile links with one-line descriptions plus a highlighted featured card. Built by hand rather than with Dropdown, because Dropdown portals its panel to the body and caps it at menu width, a mega panel needs to stay anchored to the bar and span its full width. Clicking outside the bar or on any link closes it.
+- **Modal Recipes** (`ModalsBlock.vue`), Five ready-made NewModal compositions: create form, export options, upload, danger confirm and a resizable dialog. Built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
+- **Multi-Step Form** (`WizardBlock.vue`), A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one useForm holds every field, and steps switch with v-if on a step ref.
+- **No projects yet** (`EmptyStatesBlock.vue`), A basic empty state: centered gray icon, title, short description, and a single call-to-action button.
+- **Orderable Fields** (`OrderableBlock.vue`), A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down Buttons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
+- **Orders this week** (`DashboardBlock.vue`), A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity feed panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
+- **Page Shell** (`PageShellBlock.vue`), The page skeleton every consumer app rebuilds by hand: a header bar (growing breadcrumb + right-aligned action buttons), a bordered content container, and a stack of Section components.
+- **Product Page** (`ProductPageBlock.vue`), An e-commerce product detail page: gallery with thumbnails, variant and size pickers, a quantity stepper, PrimaryButton / SecondaryButton actions that raise a real toast through Toaster, and a Tabs section holding the description, a Table of specifications and the review list.
+- **Settings Page** (`SettingsPageBlock.vue`), A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic, each with its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that only enables its confirm button once you type DELETE.
+- **Show & Edit Page** (`ShowEditBlock.vue`), A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a two-column description list where every field carries a help line; edit mode turns the same fields into Input, Select and Textarea with the same help lines as hints. Cancelling with unsaved changes asks for confirmation in a NewModal.
+- **Sidebar Navigation** (`SidebarBlock.vue`), A vertical app sidebar built from NavLink (with #icon slots) and NavCollapse groups. A single ref drives the open prop of every group, so only one group stays expanded at a time.
+- **Skeletons & Loading** (`SkeletonsBlock.vue`), Skeleton primitives: an animated text-line stack, an avatar with two supporting lines, and an image card. All use animate-pulse on gray-200 / dark:gray-700 shapes.
+- **Tabbed Detail Page** (`TabbedDetailBlock.vue`), A record-detail page: title row with a status pill and a destructive action, then a Section holding Tabs/Tab panes - an inline-edit DescriptionList bound to useForm() whose Save button only appears while the form is dirty, plus a Logs timeline.

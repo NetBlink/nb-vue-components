@@ -41,7 +41,7 @@ createInertiaApp({
 });
 ```
 
-The package ships compiled CSS, so importing `dist/style.css` above is all that is needed — there
+The package ships compiled CSS, so importing `dist/style.css` above is all that is needed, there
 is no Tailwind `@source` scanning to configure. Your own stylesheet:
 
 ```css
@@ -57,7 +57,7 @@ is no Tailwind `@source` scanning to configure. Your own stylesheet:
 ## The single most important convention: `:form` + `field`
 
 Every form control integrates directly with Inertia's `useForm`. Pass the form object and the
-field name — the component then owns its own value binding, label, and validation error display.
+field name, the component then owns its own value binding, label, and validation error display.
 **Prefer this over `v-model`.** It is the idiomatic usage across all consuming apps.
 
 ```vue
@@ -91,7 +91,7 @@ const form = useForm({ name: '', email: '', role: '', notes: '' });
 
 ## Icons
 
-Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes — those fight the
+Use `NbIcon`. Size it with the **`size` prop**, never with `h-*`/`w-*` classes, those fight the
 component's own wrapper and leave the glyph at its default size.
 
 ```vue
@@ -124,7 +124,7 @@ renders an anchor (or an Inertia `Link` when given `method`/`data`) with the sam
 
 `Table` renders its own horizontal-scroll wrapper and, given `:links`, its own pagination.
 `Th` with `sortable` + `orderBy` handles sort links. On `Td`, the `label` prop supplies the
-stacked mobile presentation — omit it and the table will not degrade on small screens.
+stacked mobile presentation, omit it and the table will not degrade on small screens.
 
 ```vue
 <Table :links="users.meta.links" :total="users.meta.total" hover bordered>
@@ -205,7 +205,7 @@ around these components, pair every colour utility with a `dark:` variant:
 ## Theming
 
 Colours come from Tailwind v4 `@theme` tokens. Override the scale in your own CSS to re-brand
-every component at once — use the numeric steps, not the bare alias:
+every component at once, use the numeric steps, not the bare alias:
 
 ```css
 @theme {
@@ -220,7 +220,7 @@ every component at once — use the numeric steps, not the bare alias:
   Inertia `Link`, which sets its own handler after spreading attrs. Put your handler on a wrapping
   element instead.
 - **`Dropdown` portals its content to `<body>`.** Classes bound on `<Dropdown>` land on the floating
-  panel, not the trigger — wrap the trigger in a `<div>` if you need to style or hide it.
+  panel, not the trigger, wrap the trigger in a `<div>` if you need to style or hide it.
 - **`Td label` is required for mobile.** Without it a cell has no stacked small-screen rendering.
 - **Size `NbIcon` with `size`, not `h-*`/`w-*`.**
 - **Non-GET `LinkButton`/`DropdownLink` need `as="button"`** (`method="post"` on an anchor warns).
@@ -228,14 +228,14 @@ every component at once — use the numeric steps, not the bare alias:
   ignored. Drive expansion with `:open`.
 - **`NewModal` accepts both `v-model:open` and `v-model`.** `v-model:open` is the documented and
   most common form. Note that it currently works through attribute fallthrough onto the underlying
-  `DialogRoot` rather than a declared named model — prefer it for consistency with existing apps,
+  `DialogRoot` rather than a declared named model, prefer it for consistency with existing apps,
   but do not add `inheritAttrs: false` to the component without declaring the model explicitly.
 
 ---
 
 # Component API reference
 
-Generated from source (72 exported components). Do not edit by hand — run `npm run docs:llms`.
+Generated from source (72 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -299,8 +299,8 @@ Read-only code block with a header bar showing a filename and a copy-to-clipboar
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `code` | `string[]` | **required** | Array of code lines to display |
-| `language` | `string` | — | Optional language label shown in the header (e.g. "css", "vue") |
-| `filename` | `string` | — | Optional filename shown in the header instead of "Code Example" |
+| `language` | `string` | - | Optional language label shown in the header (e.g. "css", "vue") |
+| `filename` | `string` | - | Optional filename shown in the header instead of "Code Example" |
 
 ### CollapsableSection
 
@@ -346,7 +346,7 @@ themed statistic tile with a background icon. Renders a card with a large value,
 | --- | --- | --- | --- |
 | `value` | `string \| number` | **required** | Big number / value to display |
 | `label` | `string` | **required** | Label rendered under the value |
-| `icon` | `IconLike` | — | Icon shown in the background of the value area. Accepts any IconLike. |
+| `icon` | `IconLike` | - | Icon shown in the background of the value area. Accepts any IconLike. |
 | `selected` | `boolean` | `false` | Show a ring outline (use for "currently active" tiles) |
 | `customStatClass` | `string` | `''` | Extra classes on the outer card |
 | `customStatValueClass` | `string` | `''` | Extra classes on the value section |
@@ -396,7 +396,7 @@ menu popover built on reka-ui's `DropdownMenu` primitives. Provide a `#trigger` 
 | `openOnHover` | `boolean` | `false` | Open on hover instead of click |
 | `hoverDelay` | `number` | `150` | Delay before closing on mouse leave (only when openOnHover is true) |
 
-**Slots:** `content` — menu items, `trigger` — element that opens the menu
+**Slots:** `content`, menu items, `trigger`, element that opens the menu
 
 ### DropdownLink
 
@@ -458,7 +458,7 @@ Info Button component
 
 ### Input
 
-The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions. Binds either through `v-model` or the Inertia `:form` + `field` pattern, pulling validation errors straight off `form.errors`. `TextInput` is the bare unstyled-chrome `<input>` underneath — use it only when you are building your own field layout.
+The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions. Binds either through `v-model` or the Inertia `:form` + `field` pattern, pulling validation errors straight off `form.errors`. `TextInput` is the bare unstyled-chrome `<input>` underneath, use it only when you are building your own field layout.
 
 **v-model:** `v-model`
 
@@ -470,7 +470,7 @@ Input Error component for displaying validation error messages
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `message` | `string` | — | The error message to display |
+| `message` | `string` | - | The error message to display |
 
 ### InputLabel
 
@@ -508,13 +508,13 @@ Link Button component that can render as either a Link or anchor tag
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `href` | `string` | — | The URL to navigate to |
+| `href` | `string` | - | The URL to navigate to |
 | `colourClasses` | `string[]` | `undefined` | Array of CSS classes for styling (legacy, deprecated) |
 | `theme` | `ComponentTheme` | `'primary'` | Predefined theme (primary, secondary, success, danger, warning, info) |
 | `target` | `string` | `'_self'` | Link target attribute (default: '_self') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `method` | `string` | — | HTTP method for Inertia requests |
-| `data` | `Record<string, any>` | — | Data to send with Inertia requests |
+| `method` | `string` | - | HTTP method for Inertia requests |
+| `data` | `Record<string, any>` | - | Data to send with Inertia requests |
 
 **Slots:** `default`
 
@@ -532,12 +532,12 @@ Primary-styled button that opens a reka-ui dropdown menu of links, rendering the
 
 ### LinkDropdownButtonItem
 
-One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a plain `<a href>` with the menu's hover/focus styling, so it does a full page load rather than an Inertia visit — use `DropdownLink` when you want client-side navigation.
+One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a plain `<a href>` with the menu's hover/focus styling, so it does a full page load rather than an Inertia visit, use `DropdownLink` when you want client-side navigation.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `href` | `string` | — | The URL to navigate to |
-| `title` | `string` | — | The title/text to display |
+| `href` | `string` | - | The URL to navigate to |
+| `title` | `string` | - | The title/text to display |
 
 ### Logs
 
@@ -549,7 +549,7 @@ Renders a paginated Laravel activity-log payload as a vertical timeline, with a 
 
 ### Modal
 
-teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`. Everything — header, body and footer — goes in the single default slot. `NewModal` is preferred for new code; reach for this one only to keep an existing `:show`-based call site working.
+teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`. Everything (header, body and footer) goes in the single default slot. `NewModal` is preferred for new code; reach for this one only to keep an existing `:show`-based call site working.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -587,15 +587,15 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `href` | `string` | **required** | Destination URL - performs an Inertia visit |
-| `active` | `boolean` | — | Apply active styling (the parent decides activeness) |
+| `active` | `boolean` | - | Apply active styling (the parent decides activeness) |
 
-**Slots:** `default` — link label, `icon` — optional icon rendered to the left of the label
+**Slots:** `default`, link label, `icon`, optional icon rendered to the left of the label
 
 ### NewModal
 
-accessible dialog built on reka-ui's headless `Dialog` primitives. Preferred for new code. Drives open-state with `v-model:open`, and offers named header / description / footer / trigger slots in addition to the default slot for body content. For the older single-default-slot variant see `Modal`. Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props (`aria-*`, `role`, …) and custom classes pass through.
+Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code. Open state is driven with `v-model:open`, and named header, description, footer and trigger slots sit alongside the default slot for body content. For the older single-default-slot variant see `Modal`. Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props (`aria-*`, `role`) and custom classes reach the dialog panel itself.
 
-**v-model:** `v-model`
+**v-model:** `v-model:open`, `v-model`
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -604,7 +604,7 @@ accessible dialog built on reka-ui's headless `Dialog` primitives. Preferred for
 | `defaultOpen` | `boolean` | `false` | Open the dialog on mount |
 | `resizable` | `boolean` | `false` | Let the user drag-resize the dialog from its bottom-right corner |
 
-**Slots:** `default` — body content, `description` — overrides the `description` prop, `footer` — right-aligned footer area, `header` — overrides the `title` prop, `trigger` — element that opens the dialog when clicked
+**Slots:** `default`, body content, `description`, overrides the `description` prop, `footer`, right-aligned footer area, `header`, overrides the `title` prop, `trigger`, element that opens the dialog when clicked
 
 ### Pagination
 
@@ -648,7 +648,7 @@ Documentation-only table that renders an array of `{ prop, type, default, descri
 
 ### RadioButton
 
-One radio option with its label. Render several sharing the same `name` (or the same `:form` + `field` pair) to form a group — selection is derived by comparing this option's `value` against the bound field, and choosing it writes straight back to the Inertia form. There is no wrapping fieldset or error display; add those yourself.
+One radio option with its label. Render several sharing the same `name` (or the same `:form` + `field` pair) to form a group, selection is derived by comparing this option's `value` against the bound field, and choosing it writes straight back to the Inertia form. There is no wrapping fieldset or error display; add those yourself.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -667,9 +667,9 @@ mobile/stacked variant of `NavLink`. Same `href` / `active` API as NavLink, but 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `href` | `string` | **required** | Destination URL - performs an Inertia visit |
-| `active` | `boolean` | — | Apply active styling (the parent decides activeness) |
+| `active` | `boolean` | - | Apply active styling (the parent decides activeness) |
 
-**Slots:** `default` — link label
+**Slots:** `default`, link label
 
 ### RichSelect
 
@@ -708,12 +708,12 @@ Single-choice select with a type-to-filter box, built on `vue-search-select`'s `
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `String` | **required** |  |
-| `label` | `String` | — |  |
+| `label` | `String` | - |  |
 | `list` | `Array` | **required** |  |
 | `optionValue` | `String` | **required** |  |
 | `optionText` | `String` | **required** |  |
-| `optionDisabled` | `String` | — |  |
-| `placeholder` | `String` | — |  |
+| `optionDisabled` | `String` | - |  |
+| `placeholder` | `String` | - |  |
 | `modelValue` | `Boolean` | `false` |  |
 | `disabled` | `Boolean` | `false` |  |
 | `noForm` | `Boolean` | `false` |  |
@@ -740,7 +740,7 @@ a rounded container with consistent `px-6 py-4` padding and an optional header s
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `header` | `string` | — | Optional header text to display at the top |
+| `header` | `string` | - | Optional header text to display at the top |
 | `overflow` | `boolean` | `false` | Whether to hide overflow content (default: false) |
 | `variant` | `'default' \| 'outlined' \| 'minimal'` | `'default'` | Section variant for different default styles |
 | `unstyled` | `boolean` | `false` | Remove all default styling to allow full customization |
@@ -755,20 +755,20 @@ Simple Select component Works with both array options and slot options, API-comp
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `field` | `string` | — | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
-| `label` | `string` | — | Label text displayed above select |
+| `field` | `string` | - | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
+| `label` | `string` | - | Label text displayed above select |
 | `options` | `(SelectOption \| string)[]` | `() => []` | Array of options - can be objects {value, label, disabled?} or simple strings |
 | `placeholder` | `string` | `''` | Placeholder text |
 | `required` | `boolean` | `false` | Whether the field is required |
 | `disabled` | `boolean` | `false` | Whether the select is disabled |
 | `noLabel` | `boolean` | `false` | Whether to hide the label |
-| `tooltip` | `string` | — | Tooltip text shown next to label |
-| `modelValue` | `any` | — | Direct value binding |
-| `name` | `string` | — | Name attribute for the select |
-| `sublabel` | `string` | — | Sub-label text |
+| `tooltip` | `string` | - | Tooltip text shown next to label |
+| `modelValue` | `any` | - | Direct value binding |
+| `name` | `string` | - | Name attribute for the select |
+| `sublabel` | `string` | - | Sub-label text |
 | `customClass` | `string` | `''` | Custom CSS classes for the select |
 | `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
-| `error` | `string` | — | Custom error message |
+| `error` | `string` | - | Custom error message |
 
 **Slots:** `default`
 
@@ -779,16 +779,16 @@ Server-backed version of `SearchSelect`: it wraps that component and fills the o
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `String` | **required** |  |
-| `label` | `String` | — |  |
+| `label` | `String` | - |  |
 | `optionValue` | `String` | `'value'` |  |
 | `optionText` | `String` | `'label'` |  |
 | `optionDisabled` | `String` | `'disabled'` |  |
-| `placeholder` | `String` | — |  |
+| `placeholder` | `String` | - |  |
 | `modelValue` | `Boolean` | `false` |  |
 | `disabled` | `Boolean` | `false` |  |
 | `noForm` | `Boolean` | `false` |  |
 | `url` | `String` | **required** |  |
-| `queryParams` | `Object` | — |  |
+| `queryParams` | `Object` | - |  |
 
 **Emits:** `update:modelValue`, `changed`
 
@@ -799,11 +799,11 @@ Multi-select rendered as a clickable list of options that toggle in and out of a
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `String` | **required** |  |
-| `label` | `String` | — |  |
+| `label` | `String` | - |  |
 | `list` | `Array` | `() => []` |  |
 | `optionValue` | `String` | **required** |  |
 | `optionText` | `String` | **required** |  |
-| `placeholder` | `String` | — |  |
+| `placeholder` | `String` | - |  |
 | `noLabel` | `Boolean` | `false` |  |
 | `isDisabled` | `Boolean` | `false` |  |
 
@@ -857,7 +857,7 @@ Submit Button component with loading state and theme support
 | `theme` | `ComponentTheme` | `Theme.PRIMARY` | The button theme (default: 'primary') |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'submit'` | The button type (default: 'submit') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `form` | `any` | — | The form object (for processing state) |
+| `form` | `any` | - | The form object (for processing state) |
 | `loading` | `boolean` | `false` | Manual loading state |
 | `customButtonClass` | `string` | `''` | Custom CSS classes to apply |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
@@ -885,20 +885,20 @@ Switch component
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `field` | `string` | — | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
-| `label` | `string` | — | Label text displayed above switch |
+| `field` | `string` | - | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
+| `label` | `string` | - | Label text displayed above switch |
 | `required` | `boolean` | `false` | Whether the field is required |
 | `disabled` | `boolean` | `false` | Whether the switch is disabled |
 | `noLabel` | `boolean` | `false` | Whether to hide the label |
-| `tooltip` | `string` | — | Tooltip text shown next to label |
-| `modelValue` | `boolean` | — | Direct value binding |
-| `name` | `string` | — | Name attribute for the input |
-| `sublabel` | `string` | — | Sub-label text |
+| `tooltip` | `string` | - | Tooltip text shown next to label |
+| `modelValue` | `boolean` | - | Direct value binding |
+| `name` | `string` | - | Name attribute for the input |
+| `sublabel` | `string` | - | Sub-label text |
 | `leftDescription` | `string \| boolean` | `false` | Text shown to the left of the switch |
 | `rightDescription` | `string \| boolean` | `'Enable'` | Text shown to the right of the switch |
 | `customClass` | `string` | `''` | Custom CSS classes for the switch |
 | `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
-| `error` | `string` | — | Custom error message |
+| `error` | `string` | - | Custom error message |
 
 **Slots:** `default`
 
@@ -910,7 +910,7 @@ a single panel inside `<Tabs>`. `value` must match the `value` of the correspond
 | --- | --- | --- | --- |
 | `value` | `string` | **required** | key linking this panel to its trigger |
 
-**Slots:** `default` — panel content
+**Slots:** `default`, panel content
 
 ### Table
 
@@ -924,14 +924,14 @@ Mobile-friendly card summarising one record, used as the small-screen fallback f
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `item` | `Record<string, any>` | — |  |
-| `itemId` | `ItemId` | — |  |
-| `extraText` | `string` | — |  |
-| `title` | `Title` | — |  |
-| `pills` | `Pill[]` | — |  |
-| `options` | `Option[]` | — |  |
-| `timeStamp` | `string` | — |  |
-| `amount` | `Amount` | — |  |
+| `item` | `Record<string, any>` | - |  |
+| `itemId` | `ItemId` | - |  |
+| `extraText` | `string` | - |  |
+| `title` | `Title` | - |  |
+| `pills` | `Pill[]` | - |  |
+| `options` | `Option[]` | - |  |
+| `timeStamp` | `string` | - |  |
+| `amount` | `Amount` | - |  |
 
 **Slots:** `default`
 
@@ -947,7 +947,7 @@ tabbed panel switcher built on reka-ui's `Tabs` primitives. Declare the tab stri
 | `variant` | `'underline' \| 'pills'` | `'underline'` | visual treatment of the tab strip |
 | `fitted` | `boolean` | `false` | stretch triggers to fill the strip width |
 
-**Slots:** `default` — the `<Tab>` panels, `trigger` — custom trigger content; receives `{ tab, active }`
+**Slots:** `default`, the `<Tab>` panels, `trigger`, custom trigger content; receives `{ tab, active }`
 
 ### Tbody
 
@@ -956,7 +956,7 @@ The `<tbody>` primitive, which also owns the table's loading and empty states: i
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `loading` | `boolean` | `false` | New props |
-| `data` | `TableRow[] \| string` | — |  |
+| `data` | `TableRow[] \| string` | - |  |
 | `emptyMessage` | `string` | `'No records found'` | Allow both array of data or string key |
 | `loadingRows` | `number` | `3` |  |
 | `responsive` | `boolean` | `true` |  |
@@ -970,7 +970,7 @@ The `<tbody>` primitive, which also owns the table's loading and empty states: i
 
 ### Td
 
-A single body cell inside a `Tr`, handling alignment, width and no-wrap. When the table is responsive it becomes a stacked block on small screens, and a `label` prop prints that label before the value in that mobile layout only — the plain cell still renders from `sm` up.
+A single body cell inside a `Tr`, handling alignment, width and no-wrap. When the table is responsive it becomes a stacked block on small screens, and a `label` prop prints that label before the value in that mobile layout only, the plain cell still renders from `sm` up.
 
 **Slots:** `default`
 
@@ -980,7 +980,7 @@ A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, r
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `collapse_id` | `string` | — |  |
+| `collapse_id` | `string` | - |  |
 
 **Slots:** `default`
 
@@ -992,37 +992,37 @@ Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrom
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `field` | `string` | — | Field name for form binding |
-| `label` | `string` | — | Label text for the textarea |
+| `field` | `string` | - | Field name for form binding |
+| `label` | `string` | - | Label text for the textarea |
 | `required` | `boolean` | `false` | Whether the field is required |
 | `disabled` | `boolean` | `false` | Whether the textarea is disabled |
-| `addon` | `string` | — | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Addon text or content |
-| `placeholder` | `string` | — | Placeholder text |
+| `addon` | `string` | - | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Addon text or content |
+| `placeholder` | `string` | - | Placeholder text |
 | `noLabel` | `boolean` | `false` | Whether to hide the label |
 | `autofocus` | `boolean` | `false` | Whether to autofocus the textarea |
-| `modelValue` | `string` | — | The textarea value |
+| `modelValue` | `string` | - | The textarea value |
 | `rows` | `number` | `3` | Number of rows |
-| `name` | `string` | — | Name attribute |
-| `sublabel` | `string` | — | Sub-label text |
-| `submitBtn` | `string` | — | Submit button text |
-| `whatsApp` | `string` | — | WhatsApp link |
-| `autocomplete` | `string` | — | Autocomplete attribute |
-| `tooltip` | `string` | — | Tooltip text |
+| `name` | `string` | - | Name attribute |
+| `sublabel` | `string` | - | Sub-label text |
+| `submitBtn` | `string` | - | Submit button text |
+| `whatsApp` | `string` | - | WhatsApp link |
+| `autocomplete` | `string` | - | Autocomplete attribute |
+| `tooltip` | `string` | - | Tooltip text |
 | `customClass` | `string` | `''` | Custom CSS classes for the textarea |
 | `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
 | `buttonCustomClass` | `string` | `''` | Custom CSS classes for the button |
-| `error` | `string` | — | Custom error message |
+| `error` | `string` | - | Custom error message |
 
 **Slots:** `submit`
 
 ### TextInput
 
-Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed `focus()` method — no label, no error display and no form integration. Use it when composing a custom field layout by hand; for ordinary form fields reach for `Input`, which wraps this kind of control with label, error and `:form` + `field` binding.
+Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed `focus()` method, no label, no error display and no form integration. Use it when composing a custom field layout by hand; for ordinary form fields reach for `Input`, which wraps this kind of control with label, error and `:form` + `field` binding.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `modelValue` | `string` | — | The input value |
-| `inputmode` | `InputMode` | — |  |
+| `modelValue` | `string` | - | The input value |
+| `inputmode` | `InputMode` | - |  |
 | `noNumberSpinners` | `boolean` | `false` |  |
 
 ### Th
@@ -1089,7 +1089,7 @@ a full-width `colspan` cell whose content is revealed when a matching `TrCollaps
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `collapse_id` | `string` | — |  |
+| `collapse_id` | `string` | - |  |
 
 **Slots:** `default`
 
@@ -1099,7 +1099,7 @@ Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the wh
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `collapse_id` | `string` | — |  |
+| `collapse_id` | `string` | - |  |
 
 **Slots:** `default`
 
@@ -1109,7 +1109,7 @@ renders `placeholders` full-width rows containing a pulsing grey bar. `Tbody` in
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `placeholders` | `number` | — |  |
+| `placeholders` | `number` | - |  |
 
 ### UnderConstruction
 
@@ -1183,7 +1183,7 @@ Uses: `GravatarImg`, `Dropdown`, `NbIcon`, `DropdownLink`, `DropdownSeparator`, 
 
 ### Charts & Data Viz
 
-Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off — dashboard charts are read, not operated.
+Two series on a smooth-curve area chart with a gradient fill that fades to transparent. The toolbar and zoom are off, dashboard charts are read, not operated.
 
 Source: `src/docs/Blocks/ChartsBlock.vue`
 
@@ -1199,7 +1199,7 @@ Uses: `GravatarImg`, `NbIcon`, `PrimaryButton`, `CodePreview`
 
 ### CRUD Index Page
 
-The canonical list screen: header action, Stats tiles doubling as filters, a search row, a Table with an actions column and empty state, Pagination, and a NewModal create form. Everything below is live — filter, search, delete and create rows.
+The canonical list screen: header action, Stats tiles doubling as filters, a search row, a Table with an actions column and empty state, Pagination, and a NewModal create form. Everything below is live: filter, search, delete and create rows.
 
 Source: `src/docs/Blocks/IndexPageBlock.vue`
 
@@ -1207,7 +1207,7 @@ Uses: `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`,
 
 ### Feeds & Timelines
 
-A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a right-aligned relative time, and a detail line. Pure markup plus NbIcon — swap the tone map for your own statuses.
+A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a right-aligned relative time, and a detail line. Pure markup plus NbIcon. Swap the tone map for your own statuses.
 
 Source: `src/docs/Blocks/FeedTimelineBlock.vue`
 
@@ -1231,7 +1231,7 @@ Uses: `PrimaryButton`, `SecondaryButton`, `NbIcon`, `CodePreview`
 
 ### Mega Menu
 
-A horizontal navbar whose items open wide multi-column panels: two columns of icon-tile links with one-line descriptions plus a highlighted featured card. Built by hand rather than with Dropdown, because Dropdown portals its panel to the body and caps it at menu width — a mega panel needs to stay anchored to the bar and span its full width. Clicking outside the bar or on any link closes it.
+A horizontal navbar whose items open wide multi-column panels: two columns of icon-tile links with one-line descriptions plus a highlighted featured card. Built by hand rather than with Dropdown, because Dropdown portals its panel to the body and caps it at menu width, a mega panel needs to stay anchored to the bar and span its full width. Clicking outside the bar or on any link closes it.
 
 Source: `src/docs/Blocks/MegaMenuBlock.vue`
 
@@ -1239,7 +1239,7 @@ Uses: `NbIcon`, `NavLink`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
 
 ### Modal Recipes
 
-Five ready-made NewModal compositions — create form, export options, upload, danger confirm and a resizable dialog — built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
+Five ready-made NewModal compositions: create form, export options, upload, danger confirm and a resizable dialog. Built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
 
 Source: `src/docs/Blocks/ModalsBlock.vue`
 
@@ -1247,7 +1247,7 @@ Uses: `PrimaryButton`, `NbIcon`, `NewModal`, `Input`, `SecondaryButton`, `RadioB
 
 ### Multi-Step Form
 
-A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair — one useForm holds every field, steps switch with v-if on a step ref.
+A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one useForm holds every field, and steps switch with v-if on a step ref.
 
 Source: `src/docs/Blocks/WizardBlock.vue`
 
@@ -1263,7 +1263,7 @@ Uses: `NbIcon`, `PrimaryButton`, `SecondaryButton`, `LinkButton`, `CodePreview`
 
 ### Orderable Fields
 
-A drag-to-reorder list built on native HTML5 drag events — no library. Each row carries a grip handle and up/down Buttons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
+A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down Buttons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
 
 Source: `src/docs/Blocks/OrderableBlock.vue`
 
@@ -1271,7 +1271,7 @@ Uses: `NbIcon`, `Button`, `Input`, `CodePreview`
 
 ### Orders this week
 
-A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity feed panel. The chart is pure CSS — a flex row of rounded bars with pixel heights, no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
+A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity feed panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
 
 Source: `src/docs/Blocks/DashboardBlock.vue`
 
@@ -1295,7 +1295,7 @@ Uses: `NbIcon`, `PrimaryButton`, `SecondaryButton`, `Tabs`, `Tab`, `Table`, `The
 
 ### Settings Page
 
-A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic — each with its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that only enables its confirm button once you type DELETE.
+A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic, each with its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that only enables its confirm button once you type DELETE.
 
 Source: `src/docs/Blocks/SettingsPageBlock.vue`
 

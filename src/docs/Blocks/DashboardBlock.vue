@@ -110,7 +110,7 @@ const snippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity
-                feed panel. The chart is pure CSS &mdash; a flex row of rounded bars with pixel heights, no chart library is bundled with this
+                feed panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this
                 package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
             </p>
 
@@ -155,7 +155,7 @@ const snippet = [
                     <div class="rounded-lg border border-gray-200 bg-white p-5 lg:col-span-2 dark:border-gray-700 dark:bg-gray-800">
                         <div class="flex flex-wrap items-center justify-between gap-1">
                             <h4 class="text-base font-semibold text-gray-800 dark:text-gray-100">Orders this week</h4>
-                            <span class="text-xs text-gray-500 dark:text-gray-400">CSS only &mdash; no chart library</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">CSS only, no chart library</span>
                         </div>
 
                         <div v-if="loading" class="flex h-48 items-center justify-center">

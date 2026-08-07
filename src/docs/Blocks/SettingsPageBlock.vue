@@ -13,7 +13,7 @@ const sections = [
 
 const activeSection = ref('profile');
 
-// Each card owns its own form — a save here never touches the other cards.
+// Each card owns its own form, a save here never touches the other cards.
 const profileForm = useForm({ name: 'Ada Lovelace', email: 'ada@example.com', bio: '' });
 const passwordForm = useForm({ current_password: '', password: '', password_confirmation: '' });
 const notifyForm = useForm({
@@ -131,7 +131,7 @@ const snippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic — each with
+                A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic, each with
                 its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that
                 only enables its confirm button once you type <code class="rounded bg-gray-100 px-1 font-mono text-xs dark:bg-gray-900/60">DELETE</code>.
             </p>
@@ -214,11 +214,11 @@ const snippet = [
                             </form>
                         </Section>
 
-                        <!-- ponytail: ring instead of border-red-* — Section already sets a gray border, and two
+                        <!-- ponytail: ring instead of border-red-*, Section already sets a gray border, and two
                              border-color utilities collide unpredictably in the generated CSS. -->
                         <Section v-if="activeSection === 'danger'" header="Danger Zone" class="ring-2 ring-red-400 dark:ring-red-700">
                             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                                Deleting your account removes every project, invoice and file it owns. This cannot be undone — export anything
+                                Deleting your account removes every project, invoice and file it owns. This cannot be undone, export anything
                                 you want to keep first.
                             </p>
                             <DangerButton type="button" @click="openDelete">Delete account</DangerButton>

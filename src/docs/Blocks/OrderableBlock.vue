@@ -167,7 +167,7 @@ const formSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A drag-to-reorder list built on native HTML5 drag events — no library. Each row carries a grip handle and up/down Buttons so the
+                A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down Buttons so the
                 order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
@@ -211,7 +211,7 @@ const formSnippet = [
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 The same mechanics applied to a configurable checkout form: dragging a row moves the real Input component with it, so what you
-                reorder is the form itself. The array of field keys is the only thing you persist — the markup stays a plain v-for.
+                reorder is the form itself. The array of field keys is the only thing you persist, the markup stays a plain v-for.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="mx-auto w-full max-w-lg space-y-3">

@@ -77,7 +77,7 @@ function onMotionDurationBaseInput(e: Event): void {
             <!-- COLORS ============================================== -->
             <div v-if="tab === 'colors'" class="space-y-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Pick a base for each colour. The 50&ndash;950 scale is derived automatically (lighter shades mix toward white,
+                    Pick a base for each colour. The 50-950 scale is derived automatically (lighter shades mix toward white,
                     darker toward black). Expand a row to override individual shades.
                 </p>
 
@@ -271,7 +271,7 @@ function onMotionDurationBaseInput(e: Event): void {
             <!-- BREAKPOINTS ========================================= -->
             <div v-if="tab === 'breakpoints'" class="space-y-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Min-widths for each breakpoint. The package also defines <code>xxs</code>, <code>xs</code>, <code>laptop</code>, and <code>3xl</code> &mdash; left alone here.
+                    Min-widths for each breakpoint. The package also defines <code>xxs</code>, <code>xs</code>, <code>laptop</code>, and <code>3xl</code>, left alone here.
                 </p>
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                     <label v-for="(_, key) in state.screens" :key="key" class="flex flex-col gap-1.5">

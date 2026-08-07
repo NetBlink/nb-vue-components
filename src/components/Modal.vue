@@ -2,7 +2,7 @@
 /**
  * Legacy dialog: teleported to `<body>`, with its own backdrop, escape/backdrop-click
  * closing, body-scroll locking and optional drag-resize handles, driven by `:show` +
- * `@close`. Everything — header, body and footer — goes in the single default slot.
+ * `@close`. Everything (header, body and footer) goes in the single default slot.
  * `NewModal` is preferred for new code; reach for this one only to keep an existing
  * `:show`-based call site working.
  */

@@ -1,5 +1,8 @@
 # Source files (only dist should be included in npm package)
 src/
+
+# Maintainer tooling (llms.txt itself is published, its generator is not)
+scripts/
 docs-dist/
 
 # Development and build tools

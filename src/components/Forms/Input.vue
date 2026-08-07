@@ -6,7 +6,7 @@
  * field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions.
  * Binds either through `v-model` or the Inertia `:form` + `field` pattern, pulling
  * validation errors straight off `form.errors`. `TextInput` is the bare unstyled-chrome
- * `<input>` underneath — use it only when you are building your own field layout.
+ * `<input>` underneath, use it only when you are building your own field layout.
  */
 import { computed, defineModel, type ModelRef } from 'vue';
 import { Textarea, Switch, Checkbox } from '../../index';
