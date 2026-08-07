@@ -54,14 +54,9 @@ jobs:
                       echo "package.json is at $LOCAL, which is unpublished. Releasing that version."
                       git tag -a "v$LOCAL" -m "Release version $LOCAL"
                   fi
+                  # The tag pushed here is the release marker. No release/v* branch
+                  # is created: it only ever duplicated the tag.
                   git push origin main --follow-tags
-
-                  # Extract the new version (e.g., 1.2.3)
-                  VERSION=$(npm pkg get version | tr -d '"')
-
-                  # Create a branch for the new version
-                  git checkout -b release/v$VERSION
-                  git push origin release/v$VERSION
 
             - name: Publish to npm
               run: npm publish --access=public --provenance
