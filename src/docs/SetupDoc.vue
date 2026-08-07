@@ -1,6 +1,77 @@
 <script setup lang="ts">
 import { CodePreview, CollapsableSection, PropsTable } from '../index';
 import { useDarkMode } from '../composables/useDarkMode';
+import DocConfig from './HelperComponents/DocConfig.vue';
+
+/*
+ * The whole install in three files. Each step is broken down further below;
+ * this is here so you can get running without reading the rest of the page.
+ */
+const configBlocks = [
+    {
+        filename: 'Terminal',
+        language: 'bash',
+        code: [
+            'npm install @netblink/vue-components',
+            '',
+            '# peer deps',
+            'npm install @inertiajs/vue3 reka-ui',
+            'npm install @fortawesome/vue-fontawesome @fortawesome/fontawesome-svg-core',
+            'npm install @fortawesome/free-solid-svg-icons',
+        ],
+    },
+    {
+        filename: 'resources/js/app.js',
+        language: 'js',
+        code: [
+            "import { createApp, h } from 'vue';",
+            "import { createInertiaApp, router, usePage } from '@inertiajs/vue3';",
+            "import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';",
+            "import '@netblink/vue-components/dist/style.css';",
+            '',
+            'createInertiaApp({',
+            '    setup({ el, App, props, plugin }) {',
+            '        createApp({ render: () => h(App, props) })',
+            '            .use(plugin)',
+            "            // darkMode: false (default) | 'class' | 'system'",
+            "            .use(Componentsnb, { darkMode: 'class' })",
+            '            .mount(el);',
+            '',
+            '        // Components that navigate or read page props need these once.',
+            '        setInertiaRouter(router);',
+            '        setInertiaPage(usePage());',
+            '    },',
+            '});',
+        ],
+    },
+    {
+        filename: 'resources/css/app.css',
+        language: 'css',
+        code: [
+            "@import 'tailwindcss';",
+            "@plugin '@tailwindcss/forms';",
+            '',
+            '/* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */',
+            '/* Drop this line to use the default `prefers-color-scheme` behaviour. */',
+            '@custom-variant dark (&:where(.dark, .dark *));',
+        ],
+    },
+    {
+        filename: 'resources/js/Layouts/AppLayout.vue',
+        code: [
+            '<script setup>',
+            "import { Toaster } from '@netblink/vue-components';",
+            '<\/script>',
+            '',
+            '<template>',
+            '    <slot />',
+            '',
+            '    <!-- Optional, but you want it: lets any file call toast.success(…) -->',
+            '    <Toaster position="bottom-right" />',
+            '</template>',
+        ],
+    },
+];
 
 const { isDark, toggle } = useDarkMode();
 
@@ -154,15 +225,18 @@ const darkApi = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Getting Started</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Vue 3, Tailwind v4, Inertia. Components consume Inertia's
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">useForm()</code>
-                via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">:form</code> +
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">field</code>. Dark mode is opt-in; default styles are
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useForm()</code>
+                via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> +
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code>. Dark mode is opt-in; default styles are
                 unchanged.
             </p>
         </header>
+
+        <DocConfig :blocks="configBlocks" title="Everything at once">
+            The whole install, in four files. Paste these and you have a working app; the sections below break each step down and cover the options.
+        </DocConfig>
 
         <!-- 1. Install -->
         <section id="install">
@@ -174,8 +248,8 @@ const darkApi = [
         <section id="register">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Register</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                As a plugin (globally registers every component as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">&lt;Input&gt;</code>,
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">&lt;NewModal&gt;</code>, etc.):
+                As a plugin (globally registers every component as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Input&gt;</code>,
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;NewModal&gt;</code>, etc.):
             </p>
             <CodePreview :code="registerGlobal" />
 
@@ -205,13 +279,7 @@ const darkApi = [
                 class="mb-6 flex items-center justify-between rounded border border-gray-200 bg-gray-50 px-4 py-3 text-sm dark:border-gray-700 dark:bg-gray-900/40"
             >
                 <span class="font-mono text-gray-700 dark:text-gray-300">isDark = {{ isDark }}</span>
-                <button
-                    type="button"
-                    @click="toggle"
-                    class="rounded border border-gray-300 bg-white px-3 py-1 font-mono text-gray-800 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
-                >
-                    toggle()
-                </button>
+                <SecondaryButton class="font-mono" @click="toggle">toggle()</SecondaryButton>
             </div>
 
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Bootstrap at install:</p>
@@ -233,7 +301,7 @@ const darkApi = [
             </CollapsableSection>
 
             <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                Dark variants ship for modals, inputs, tables, alerts, dropdowns, sections, stats, data tiles, and code blocks. For unstyled components, add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">dark:</code> classes on the wrapper.
+                Dark variants ship for modals, inputs, tables, alerts, dropdowns, sections, stats, data tiles, and code blocks. For unstyled components, add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark:</code> classes on the wrapper.
             </p>
         </section>
 
@@ -241,10 +309,10 @@ const darkApi = [
         <section id="form">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form pattern</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">:form</code> and
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">field</code>. The component reads / writes
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">form[field]</code> and renders the validation error
-                from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">form.errors[field]</code>.
+                Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> and
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code>. The component reads / writes
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form[field]</code> and renders the validation error
+                from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form.errors[field]</code>.
             </p>
             <CodePreview :code="formExample" />
         </section>
@@ -264,26 +332,26 @@ const darkApi = [
             <CollapsableSection header="dark: classes don't activate" class="mt-3">
                 <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li>
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">@custom-variant dark</code> missing from main
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@custom-variant dark</code> missing from main
                         CSS (step 3).
                     </li>
                     <li>
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">html</code> never gets the
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">.dark</code> class. Verify
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">toggle()</code> mutates it.
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">html</code> never gets the
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.dark</code> class. Verify
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">toggle()</code> mutates it.
                     </li>
                     <li>
                         Mounted in a shadow root? Pass a custom
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">target</code> to
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">useDarkMode()</code>.
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">target</code> to
+                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useDarkMode()</code>.
                     </li>
                 </ul>
             </CollapsableSection>
 
             <CollapsableSection header="Form errors don't show on inputs" class="mt-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Pass the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">useForm()</code> object, not a plain
-                    ref. Errors come from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">form.errors[field]</code>,
+                    Pass the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useForm()</code> object, not a plain
+                    ref. Errors come from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form.errors[field]</code>,
                     which Inertia populates on a 422 response.
                 </p>
             </CollapsableSection>

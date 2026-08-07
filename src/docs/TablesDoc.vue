@@ -17,9 +17,80 @@ import {
     TrCollapseHandler,
     TdCollapseHandler,
     TrPlaceholder,
+    Pagination,
 } from '../index';
 import { useTableSort } from '../composables/useTable';
 import { mockUsers, mockOrders, type User, type Order } from '../mockData';
+
+// Pagination sits with tables because that is what it is nearly always paired with.
+const currentPage = ref(1);
+// Mock pagination data
+const createPaginationLinks = (current: number, total: number) => {
+    const links = [];
+
+    // Previous link
+    links.push({
+        url: current > 1 ? `?page=${current - 1}` : null,
+        label: 'Previous',
+        active: false,
+    });
+
+    // Page number links
+    for (let i = 1; i <= total; i++) {
+        links.push({
+            url: `?page=${i}`,
+            label: i.toString(),
+            active: i === current,
+        });
+    }
+
+    // Next link
+    links.push({
+        url: current < total ? `?page=${current + 1}` : null,
+        label: 'Next',
+        active: false,
+    });
+
+    return links;
+};
+
+const paginationLinks = computed(() => createPaginationLinks(currentPage.value, 15));
+
+const handlePageChange = (url: string) => {
+    const urlObj = new URL(url, window.location.origin);
+    const page = parseInt(urlObj.searchParams.get('page') || '1');
+    currentPage.value = page;
+};
+
+const paginationExamples = [
+    '<!-- Inertia-style pagination using Laravel\'s links payload -->',
+    '<Pagination :links="paginationLinks" />',
+    '',
+    '<!-- Disable navigation, emit a `change` event instead (use this when you handle URLs yourself) -->',
+    '<Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />',
+    '',
+    '<!-- Show a per-page selector alongside the page links -->',
+    '<Pagination :links="paginationLinks" :showPerPage="true" :defaultPerPage="25" />',
+];
+
+const paginationProps = [
+    { prop: 'links', type: 'PaginationLink[]', default: '-', description: 'Laravel-style links array: `{ url, label, active }[]`', required: true },
+    { prop: 'linkReturn', type: 'boolean', default: 'false', description: 'When true, render <button> elements and emit `change(url)` instead of using Inertia Link', highlight: true },
+    { prop: 'maxPagesToShow', type: 'number', default: '20', description: 'Maximum visible page links (first/last always shown)' },
+    { prop: 'logs', type: 'boolean', default: 'false', description: 'Convenience flag for paginating server-side logs - sets preserveScroll/preserveState and only=[\'logs\']' },
+    { prop: 'preserveScroll', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
+    { prop: 'preserveState', type: 'boolean', default: 'false', description: 'Forwarded to Inertia Link' },
+    { prop: 'only', type: 'string[]', default: '[]', description: 'Forwarded to Inertia Link (partial reload property names)' },
+    { prop: 'showPerPage', type: 'boolean', default: 'false', description: 'Render a per-page selector with options [10, 25, 50, 100, 250]' },
+    { prop: 'defaultPerPage', type: 'number', default: '100', description: 'Initial value for the per-page selector' },
+    { prop: 'customLinkClass', type: 'string', default: "''", description: 'Extra classes on each link' },
+    { prop: 'customActiveLinkClass', type: 'string', default: "''", description: 'Extra classes on the active link' },
+    { prop: 'customListClass', type: 'string', default: "''", description: 'Extra classes on the <ul>' },
+];
+
+const paginationEvents = [
+    { prop: '@change', type: 'event(url: string)', default: '-', description: 'Fires when a page link is clicked (only when linkReturn is true)' },
+];
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Table sorting composable example
@@ -190,7 +261,9 @@ const tableVariantsExample = [
 ];
 
 const stickyTableExample = [
-    '<Table sticky>',
+    '<!-- `sticky` turns the Table into its own bounded scroll container and pins',
+    '     the header cells with native position: sticky. No outer wrapper needed. -->',
+    '<Table sticky stickyMaxHeight="24rem">',
     '  <Thead>',
     '    <tr>',
     '      <Th>Name</Th>',
@@ -229,7 +302,8 @@ const tableProps = [
     { prop: 'striped', type: 'boolean', default: 'false', description: 'Alternate row colors' },
     { prop: 'bordered', type: 'boolean', default: 'false', description: 'Outer border + rounded corners' },
     { prop: 'hover', type: 'boolean', default: 'false', description: 'Row hover background' },
-    { prop: 'sticky', type: 'boolean', default: 'false', description: 'Pin the header while scrolling (uses useStickyTableHeader)' },
+    { prop: 'sticky', type: 'boolean', default: 'false', description: 'Pin the header while scrolling. Makes the table its own vertical scroll container and pins the header cells with native position: sticky.' },
+    { prop: 'stickyMaxHeight', type: 'string', default: "'28rem'", description: 'Height of the scroll area when `sticky` is on. Any CSS length.' },
     { prop: 'responsive', type: 'boolean', default: 'true', description: 'Stack cells into a label/value layout on small screens (works with Td `label`)' },
     { prop: 'separate', type: 'boolean', default: 'false', description: 'Render rows with vertical spacing (border-separate)' },
     // Data / pagination
@@ -486,7 +560,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Table Components</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">Data table components with sorting, responsive layout, sticky headers, and composable helpers.</p>
         </header>
 
@@ -777,9 +850,10 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
 
-                <!-- Sticky Header Example -->
-                <div class="max-h-96 overflow-y-auto">
-                    <Table sticky>
+                <!-- Sticky Header Example. No outer scroll wrapper: `sticky` makes the
+                     Table its own bounded scroll container (see `stickyMaxHeight`). -->
+                <div>
+                    <Table sticky stickyMaxHeight="24rem">
                         <Thead>
                             <tr>
                                 <Th>ID</Th>
@@ -812,6 +886,30 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
         </section>
 
         <!-- Using Composables -->
+        <section id="pagination">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Pagination</h3>
+            <DocDemoCard>
+
+                <div class="mb-6 flex justify-center">
+                    <Pagination :links="paginationLinks" :linkReturn="true" @change="handlePageChange" />
+                </div>
+
+                <div class="mb-6 text-center text-sm text-gray-600 dark:text-gray-400">Current page: {{ currentPage }} of 15</div>
+
+                <CodePreview :code="paginationExamples" />
+
+                <div class="mt-6">
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Pagination Props</div>
+                    <PropsTable :rows="paginationProps" />
+                </div>
+
+                <div class="mt-4">
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Events</div>
+                    <PropsTable :rows="paginationEvents" />
+                </div>
+            </DocDemoCard>
+        </section>
+
         <section id="composables">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">
                 Using Table Composables
@@ -1092,14 +1190,15 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
         </section>
 
         <!-- Migration / back-compat notes -->
+
         <section id="migration">
             <CollapsableSection header="Migration & back-compat notes">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">All older table code still works; these are the current equivalents:</p>
                 <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li><code>seperate</code> → <code>separate</code></li>
-                    <li><code>collapsable</code> → <code>collapsible</code></li>
-                    <li><code>collapse_id</code> → <code>collapseId</code></li>
-                    <li><code>links</code> (array) → <code>pagination</code> (Laravel paginator payload)</li>
+                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">seperate</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">separate</code></li>
+                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapsable</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapsible</code></li>
+                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapse_id</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapseId</code></li>
+                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">links</code> (array) → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">pagination</code> (Laravel paginator payload)</li>
                 </ul>
             </CollapsableSection>
         </section>

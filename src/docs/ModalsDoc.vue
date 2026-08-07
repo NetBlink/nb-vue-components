@@ -124,6 +124,7 @@ const newModalProps = [
     { prop: 'title', type: 'string', default: '-', description: 'Title rendered in DialogTitle (overridden by #header slot)' },
     { prop: 'description', type: 'string', default: '-', description: 'Sub-title rendered in DialogDescription (overridden by #description slot)' },
     { prop: 'defaultOpen', type: 'boolean', default: 'false', description: 'Open on mount' },
+    { prop: 'resizable', type: 'boolean', default: 'false', description: 'Drag-resize the dialog from its bottom-right corner (native CSS resize; caps at 95vw / 90vh)' },
 ];
 
 const newModalSlots = [
@@ -138,7 +139,6 @@ const newModalSlots = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Modal Components</h1>
             <div
                 class="max-w-3xl rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
             >

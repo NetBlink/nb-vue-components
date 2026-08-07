@@ -97,7 +97,6 @@ const motionOverrideSnippet = [
     <div class="space-y-10">
         <!-- HEADER -->
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Theme &amp; tokens</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Every value the package uses for colour, typography, spacing, and motion lives in
                 <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">tailwind.config.js</code>. Copy tokens below into your own config to keep
@@ -118,7 +117,7 @@ const motionOverrideSnippet = [
         <section id="wiring-it-into-your-project" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wiring it into your project</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Two things: point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code>theme.extend</code>.
+                Two things: point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme.extend</code>.
             </p>
             <CodePreview language="javascript" :code="importSnippet" />
         </section>
@@ -127,8 +126,8 @@ const motionOverrideSnippet = [
         <section id="colour-scales" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Colour scales</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Six themed scales plus two plain tokens (<code>dark</code>, <code>muted</code>). Every component variant maps to one of these - the
-                <code>theme="primary"</code>, <code>type="warning"</code>, etc. props all resolve to a Tailwind class like <code>bg-warning-500</code>.
+                Six themed scales plus two plain tokens (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">muted</code>). Every component variant maps to one of these - the
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme="primary"</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">type="warning"</code>, etc. props all resolve to a Tailwind class like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">bg-warning-500</code>.
             </p>
 
             <div v-for="name in COLOR_NAMES" :key="name" class="space-y-2">
@@ -177,13 +176,13 @@ const motionOverrideSnippet = [
         <section id="dark-mode" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Dark mode</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                The package ships one colour palette. Dark mode is opt-in via the <code>.dark</code> class
-                (see Setup). Components switch chrome via <code>dark:*</code> Tailwind utilities for backgrounds,
+                The package ships one colour palette. Dark mode is opt-in via the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.dark</code> class
+                (see Setup). Components switch chrome via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark:*</code> Tailwind utilities for backgrounds,
                 borders, and text. The brand colours themselves stay the same in both modes.
             </p>
             <p class="text-gray-600 dark:text-gray-400">
                 To use different brand colours under dark mode, override the matching CSS custom properties
-                inside an <code>html.dark</code> block in your own CSS:
+                inside an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">html.dark</code> block in your own CSS:
             </p>
             <CodePreview language="css" :code="darkColorsSnippet" />
         </section>
@@ -253,7 +252,7 @@ const motionOverrideSnippet = [
 
             <PropsTable :rows="motionAnimations" />
 
-            <p class="text-gray-600 dark:text-gray-400">Override any of these in your <code>@theme {}</code> block:</p>
+            <p class="text-gray-600 dark:text-gray-400">Override any of these in your <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@theme {}</code> block:</p>
             <CodePreview language="css" :code="motionOverrideSnippet" />
         </section>
 
@@ -261,8 +260,8 @@ const motionOverrideSnippet = [
         <section id="breakpoints" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Breakpoints (screens)</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                The package overrides Tailwind's defaults and adds a few extras (<code>xxs</code>, <code>xs</code>, <code>laptop</code>, <code>3xl</code>).
-                Note that <code>xl</code>, <code>laptop</code>, and <code>2xl</code> all share the same min-width. The package treats anything
+                The package overrides Tailwind's defaults and adds a few extras (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xxs</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xs</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">laptop</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">3xl</code>).
+                Note that <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xl</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">laptop</code>, and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">2xl</code> all share the same min-width. The package treats anything
                 ≥ 1084px as &ldquo;wide&rdquo; until 3xl kicks in.
             </p>
             <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">

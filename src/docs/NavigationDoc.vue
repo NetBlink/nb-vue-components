@@ -111,10 +111,6 @@ const dropdownSlots = [
     { prop: 'content', type: 'slot', default: '-', description: 'Menu items - typically a list of DropdownLink / DropdownSeparator' },
 ];
 
-const gravatarProps = [
-    { prop: 'email', type: 'string', default: '-', description: 'Email - md5-hashed and used to look up the Gravatar', required: true },
-    { prop: 'size', type: 'number', default: '100', description: 'Image size in pixels (the requested s= parameter on the Gravatar URL)' },
-];
 
 const navCollapseProps = [
     { prop: 'name', type: 'string', default: '-', description: 'Title shown in the toggle row', required: true },
@@ -165,8 +161,7 @@ const dropdownSeparatorNote = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Navigation Components</h1>
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <code class="rounded bg-gray-100 px-1 dark:bg-gray-900 dark:text-gray-200">Link</code> - clicks perform Inertia visits, not full reloads.</p>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Link</code> - clicks perform Inertia visits, not full reloads.</p>
         </header>
 
         <section id="nav-links">
@@ -174,7 +169,7 @@ const dropdownSeparatorNote = [
             <DocDemoCard>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop Navigation</div>
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="flex space-x-8">
                         <NavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">Dashboard</NavLink>
                         <NavLink href="/projects" :active="currentRoute === '/projects'" @click="currentRoute = '/projects'">Projects</NavLink>
@@ -184,7 +179,7 @@ const dropdownSeparatorNote = [
                 </div>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Mobile Navigation</div>
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <div class="space-y-1">
                         <ResponsiveNavLink href="/dashboard" :active="currentRoute === '/dashboard'" @click="currentRoute = '/dashboard'">
                             Dashboard
@@ -217,10 +212,10 @@ const dropdownSeparatorNote = [
         <section id="dropdown-navigation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
             <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">openOnHover</code>.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">openOnHover</code>.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</div>
-                <div class="mb-6 flex justify-end rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 flex justify-end rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <Dropdown align="end">
                         <template #trigger>
                             <button
@@ -265,32 +260,11 @@ const dropdownSeparatorNote = [
             </DocDemoCard>
         </section>
 
-        <section id="gravatar">
-            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Gravatar Images</h3>
-            <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">User avatars fetched from Gravatar, with configurable size and fallback options.</p>
-
-                <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Different Sizes</div>
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
-                    <div class="flex items-center space-x-4">
-                        <GravatarImg email="john@example.com" :size="32" class="rounded-full" />
-                        <GravatarImg email="jane@example.com" :size="48" class="rounded-full" />
-                        <GravatarImg email="bob@example.com" :size="64" class="rounded-full" />
-                        <GravatarImg email="alice@example.com" :size="80" class="rounded-full" />
-                    </div>
-                </div>
-
-                <CollapsableSection header="GravatarImg Props" class="mt-6">
-                    <PropsTable :rows="gravatarProps" />
-                </CollapsableSection>
-            </DocDemoCard>
-        </section>
-
         <section id="nav-collapse">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapsible Navigation</h3>
             <DocDemoCard>
 
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <nav class="space-y-2">
                         <NavCollapse name="Dashboard" :open="true">
                             <div class="space-y-1 pl-4">
@@ -335,12 +309,12 @@ const dropdownSeparatorNote = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A primary-styled trigger button that opens a floating dropdown menu. Uses Reka UI primitives internally.
-                    Items are plain anchor tags (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButtonItem</code>);
-                    use <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">DropdownSeparator</code> to divide groups.
+                    Items are plain anchor tags (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButtonItem</code>);
+                    use <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DropdownSeparator</code> to divide groups.
                 </p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Menu</div>
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <LinkDropdownButton title="Menu">
                         <LinkDropdownButtonItem href="#" title="Dashboard" />
                         <LinkDropdownButtonItem href="#" title="Settings" />
@@ -362,7 +336,7 @@ const dropdownSeparatorNote = [
                 <section id="link-dropdown-button-item" class="mt-8">
                     <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">LinkDropdownButtonItem</h4>
                     <p class="mb-4 text-gray-600 dark:text-gray-400">
-                        A single menu row inside a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButton</code>.
+                        A single menu row inside a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButton</code>.
                         Renders as a styled anchor element.
                     </p>
 
@@ -378,12 +352,12 @@ const dropdownSeparatorNote = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A thin horizontal rule used to divide groups of items inside a
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Dropdown</code> or
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">LinkDropdownButton</code>.
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Dropdown</code> or
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButton</code>.
                     No props or slots - place it between items.
                 </p>
 
-                <div class="mb-6 rounded border bg-gray-50 dark:bg-gray-900/40 p-4">
+                <div class="mb-6 rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
                     <LinkDropdownButton title="With separator">
                         <LinkDropdownButtonItem href="#" title="Profile" />
                         <LinkDropdownButtonItem href="#" title="Billing" />

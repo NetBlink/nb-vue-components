@@ -13,7 +13,33 @@ import TablesDoc from './TablesDoc.vue';
 import ModalsDoc from './ModalsDoc.vue';
 import NavigationDoc from './NavigationDoc.vue';
 import LayoutDoc from './LayoutDoc.vue';
-import UtilityDoc from './UtilityDoc.vue';
+import NotificationsDoc from './NotificationsDoc.vue';
+import DataDisplayDoc from './DataDisplayDoc.vue';
+import PageShellBlock from './Blocks/PageShellBlock.vue';
+import NavbarBlock from './Blocks/NavbarBlock.vue';
+import SidebarBlock from './Blocks/SidebarBlock.vue';
+import TabbedDetailBlock from './Blocks/TabbedDetailBlock.vue';
+import IndexPageBlock from './Blocks/IndexPageBlock.vue';
+import FormsBlock from './Blocks/FormsBlock.vue';
+import ModalsBlock from './Blocks/ModalsBlock.vue';
+import MegaMenuBlock from './Blocks/MegaMenuBlock.vue';
+import DashboardBlock from './Blocks/DashboardBlock.vue';
+import WizardBlock from './Blocks/WizardBlock.vue';
+import SettingsPageBlock from './Blocks/SettingsPageBlock.vue';
+import FeedTimelineBlock from './Blocks/FeedTimelineBlock.vue';
+import AuthPagesBlock from './Blocks/AuthPagesBlock.vue';
+import EmptyStatesBlock from './Blocks/EmptyStatesBlock.vue';
+import CardsGridBlock from './Blocks/CardsGridBlock.vue';
+import MarketingBlock from './Blocks/MarketingBlock.vue';
+import AuthSecurityBlock from './Blocks/AuthSecurityBlock.vue';
+import OrderableBlock from './Blocks/OrderableBlock.vue';
+import ProductPageBlock from './Blocks/ProductPageBlock.vue';
+import ShowEditBlock from './Blocks/ShowEditBlock.vue';
+import ChartsBlock from './Blocks/ChartsBlock.vue';
+import SkeletonsBlock from './Blocks/SkeletonsBlock.vue';
+import ChatBlock from './Blocks/ChatBlock.vue';
+import AiAssistantBlock from './Blocks/AiAssistantBlock.vue';
+import FeedbackDoc from './FeedbackDoc.vue';
 import ThemeBuilderModal from './ThemeBuilderModal.vue';
 import { useThemeBuilder } from './composables/useThemeBuilder';
 
@@ -22,18 +48,130 @@ const { isModalOpen: isThemeBuilderOpen } = useThemeBuilder();
 // Current active section
 const activeSection = ref<string>('setup');
 
-// Available documentation sections - Setup ships first so newcomers can install before exploring.
-const sections: Record<string, { component: any; title: string }> = {
+// Mobile drawer state - the sidebar is off-canvas below md.
+const sidebarOpen = ref(false);
+
+type SectionMap = Record<string, { component: any; title: string }>;
+
+// Foundations always show - install it, theme it, then pick a mode below.
+const foundationSections: SectionMap = {
     setup: { component: SetupDoc, title: 'Getting Started' },
-    icons: { component: IconsDoc, title: 'Icons' },
     theme: { component: ThemeDoc, title: 'Theme & Tokens' },
-    inputs: { component: InputsDoc, title: 'Input Components' },
-    buttons: { component: ButtonsDoc, title: 'Button Components' },
-    tables: { component: TablesDoc, title: 'Table Components' },
-    modals: { component: ModalsDoc, title: 'Modal Components' },
-    navigation: { component: NavigationDoc, title: 'Navigation Components' },
-    layout: { component: LayoutDoc, title: 'Layout Components' },
-    utilities: { component: UtilityDoc, title: 'Utility Components' },
+    icons: { component: IconsDoc, title: 'Icons' },
+};
+
+// Sidebar entries render in labelled groups so the growing lists stay scannable.
+interface NavGroup {
+    label: string;
+    sections: SectionMap;
+}
+
+const componentGroups: NavGroup[] = [
+    {
+        label: 'Forms & Actions',
+        sections: {
+            forms: { component: InputsDoc, title: 'Forms' },
+            buttons: { component: ButtonsDoc, title: 'Buttons' },
+        },
+    },
+    {
+        label: 'Structure',
+        sections: {
+            navigation: { component: NavigationDoc, title: 'Navigation' },
+            layout: { component: LayoutDoc, title: 'Layout' },
+        },
+    },
+    {
+        label: 'Data',
+        sections: {
+            tables: { component: TablesDoc, title: 'Tables' },
+            dataDisplay: { component: DataDisplayDoc, title: 'Data Display' },
+        },
+    },
+    {
+        label: 'Feedback',
+        sections: {
+            feedback: { component: FeedbackDoc, title: 'Feedback' },
+            notifications: { component: NotificationsDoc, title: 'Toasts & Snackbars' },
+            modals: { component: ModalsDoc, title: 'Modals' },
+        },
+    },
+];
+
+// Prebuilt, copy-pasteable compositions of those components - one page each.
+const blockGroups: NavGroup[] = [
+    {
+        label: 'Shells & Navigation',
+        sections: {
+            blockPageShell: { component: PageShellBlock, title: 'Page Shell' },
+            blockNavbar: { component: NavbarBlock, title: 'App Navbar' },
+            blockMegaMenu: { component: MegaMenuBlock, title: 'Mega Menu' },
+            blockSidebar: { component: SidebarBlock, title: 'Sidebar Navigation' },
+        },
+    },
+    {
+        label: 'Pages',
+        sections: {
+            blockDashboard: { component: DashboardBlock, title: 'Dashboard Overview' },
+            blockIndexPage: { component: IndexPageBlock, title: 'CRUD Index Page' },
+            blockShowEdit: { component: ShowEditBlock, title: 'Show & Edit Page' },
+            blockTabbedDetail: { component: TabbedDetailBlock, title: 'Tabbed Detail Page' },
+            blockProductPage: { component: ProductPageBlock, title: 'Product Page' },
+            blockSettingsPage: { component: SettingsPageBlock, title: 'Settings Page' },
+        },
+    },
+    {
+        label: 'Forms & Auth',
+        sections: {
+            blockForms: { component: FormsBlock, title: 'Form Layouts' },
+            blockWizard: { component: WizardBlock, title: 'Multi-Step Form' },
+            blockOrderable: { component: OrderableBlock, title: 'Orderable Fields' },
+            blockAuthPages: { component: AuthPagesBlock, title: 'Auth Pages' },
+            blockAuthSecurity: { component: AuthSecurityBlock, title: '2FA, OAuth & Passkeys' },
+            blockModals: { component: ModalsBlock, title: 'Modal Recipes' },
+        },
+    },
+    {
+        label: 'Content & Display',
+        sections: {
+            blockCards: { component: CardsGridBlock, title: 'Cards & Lists' },
+            blockChat: { component: ChatBlock, title: 'Chat Interface' },
+            blockAiAssistant: { component: AiAssistantBlock, title: 'AI Assistant' },
+            blockFeedTimeline: { component: FeedTimelineBlock, title: 'Feeds & Timelines' },
+            blockCharts: { component: ChartsBlock, title: 'Charts & Data Viz' },
+            blockSkeletons: { component: SkeletonsBlock, title: 'Skeletons & Loading' },
+            blockEmptyStates: { component: EmptyStatesBlock, title: 'Empty & Error States' },
+            blockMarketing: { component: MarketingBlock, title: 'Marketing Sections' },
+        },
+    },
+];
+
+// Components/Blocks switch under the foundations separator. Foundations stay
+// reachable in both modes; only the grouped list below the switch swaps.
+const mode = ref<'components' | 'blocks'>('components');
+const modeGroups = computed<NavGroup[]>(() => (mode.value === 'components' ? componentGroups : blockGroups));
+
+const flatten = (groups: NavGroup[]): SectionMap => groups.reduce((all, g) => ({ ...all, ...g.sections }), {});
+const sections: SectionMap = { ...foundationSections, ...flatten(componentGroups), ...flatten(blockGroups) };
+
+// "Blocks · Pages" eyebrow over the page title so deep pages stay oriented.
+const activeContext = computed(() => {
+    if (activeSection.value in foundationSections) return 'Foundations';
+    for (const g of modeGroups.value) {
+        if (activeSection.value in g.sections) return `${mode.value === 'components' ? 'Components' : 'Blocks'} · ${g.label}`;
+    }
+    return '';
+});
+
+const setMode = (next: 'components' | 'blocks'): void => {
+    if (mode.value === next) return;
+    mode.value = next;
+    // Land on the first page of the newly chosen mode unless we're on a
+    // foundation page, which exists in both.
+    if (!(activeSection.value in foundationSections)) {
+        const groups = next === 'components' ? componentGroups : blockGroups;
+        navigateTo(Object.keys(groups[0].sections)[0]);
+    }
 };
 
 // Dark-mode plumbing - drives the toggle and persists user choice.
@@ -122,7 +260,15 @@ async function refreshHeadings(): Promise<void> {
         list.push({ id, text, level: Number(el.tagName[1]) });
     });
 
-    headings.value = list;
+    // A lone heading that just repeats the page title (single-block pages)
+    // adds nothing as a sub-anchor - and stacked under the h1 it reads as a
+    // stutter, so visually hide it too (sr-only keeps the document outline).
+    if (list.length === 1 && list[0].text === sections[activeSection.value]?.title) {
+        document.getElementById(list[0].id)?.classList.add('sr-only');
+        headings.value = [];
+    } else {
+        headings.value = list;
+    }
 
     // If we just landed with a hash, scroll to it now that ids exist.
     if (window.location.hash) {
@@ -145,6 +291,7 @@ function scrollToAnchor(id: string, updateHash = true): void {
 
 const navigateTo = async (section: string): Promise<void> => {
     activeSection.value = section;
+    sidebarOpen.value = false;
     activeAnchor.value = '';
     // Clear stale anchor list immediately - new page's headings re-populate after render.
     headings.value = [];
@@ -179,12 +326,27 @@ function onMainScroll(e: Event): void {
 
 <template>
     <div class="flex h-screen w-full">
+        <!-- Mobile top bar: the sidebar is off-canvas below md -->
+        <div class="bg-primary-900 fixed inset-x-0 top-0 z-40 flex h-12 items-center gap-3 px-4 text-white md:hidden">
+            <button aria-label="Open navigation" class="rounded p-1 hover:bg-white/10" @click="sidebarOpen = !sidebarOpen">
+                <span class="block h-0.5 w-5 bg-white"></span>
+                <span class="mt-1 block h-0.5 w-5 bg-white"></span>
+                <span class="mt-1 block h-0.5 w-5 bg-white"></span>
+            </button>
+            <span class="text-sm font-bold">NB Components</span>
+        </div>
+        <!-- Backdrop while the mobile drawer is open -->
+        <div v-if="sidebarOpen" class="fixed inset-0 z-40 bg-black/40 md:hidden" @click="sidebarOpen = false"></div>
+
         <!-- Sidebar Navigation -->
-        <nav class="bg-primary-900 fixed top-0 left-0 z-10 flex h-full w-64 flex-col overflow-hidden text-white">
+        <nav
+            class="bg-primary-900 fixed top-0 left-0 z-50 flex h-full w-64 flex-col overflow-hidden text-white transition-transform duration-200 md:z-10 md:translate-x-0"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        >
             <ul class="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
                 <li class="text-primary-100 mb-4 text-lg font-bold">NB Components</li>
 
-                <li v-for="(section, key) in sections" :key="key">
+                <li v-for="(section, key) in foundationSections" :key="key">
                     <button
                         @click="navigateTo(String(key))"
                         class="hover:bg-primary-800 block w-full rounded-md p-2 text-left transition-colors"
@@ -192,7 +354,6 @@ function onMainScroll(e: Event): void {
                     >
                         {{ section.title }}
                     </button>
-                    <!-- Sub-anchors: live, on the active section only -->
                     <transition name="anchor-list">
                         <ul
                             v-if="activeSection === key && headings.length"
@@ -217,6 +378,71 @@ function onMainScroll(e: Event): void {
                         </ul>
                     </transition>
                 </li>
+
+                <!-- Components / Blocks switch: separator under the foundations,
+                     then a segmented toggle deciding which list renders below. -->
+                <li class="my-2 border-t border-white/10 pt-3" aria-hidden="true"></li>
+                <li>
+                    <div class="flex rounded-md bg-white/5 p-1 text-sm" role="tablist" aria-label="Documentation mode">
+                        <button
+                            role="tab"
+                            :aria-selected="mode === 'components'"
+                            @click="setMode('components')"
+                            class="flex-1 rounded px-2 py-1.5 transition-colors"
+                            :class="mode === 'components' ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
+                        >
+                            Components
+                        </button>
+                        <button
+                            role="tab"
+                            :aria-selected="mode === 'blocks'"
+                            @click="setMode('blocks')"
+                            class="flex-1 rounded px-2 py-1.5 transition-colors"
+                            :class="mode === 'blocks' ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
+                        >
+                            Blocks
+                        </button>
+                    </div>
+                </li>
+
+                <template v-for="group in modeGroups" :key="group.label">
+                    <li class="text-primary-100/50 mt-3 mb-0.5 px-2 text-[11px] font-semibold tracking-wider uppercase select-none">
+                        {{ group.label }}
+                    </li>
+                    <li v-for="(section, key) in group.sections" :key="key">
+                        <button
+                            @click="navigateTo(String(key))"
+                            class="hover:bg-primary-800 block w-full rounded-md p-2 text-left transition-colors"
+                            :class="{ 'bg-primary-700': activeSection === key }"
+                        >
+                            {{ section.title }}
+                        </button>
+                    <!-- Sub-anchors: live, on the active section only -->
+                    <transition name="anchor-list">
+                        <ul
+                            v-if="activeSection === key && headings.length"
+                            class="ml-2 mt-1 space-y-px overflow-hidden border-l border-white/10 pl-2"
+                        >
+                            <li v-for="h in headings" :key="h.id">
+                                <a
+                                    :href="`#${h.id}`"
+                                    @click.prevent="scrollToAnchor(h.id)"
+                                    class="block truncate rounded py-1 pr-2 text-xs transition-colors hover:text-white"
+                                    :class="[
+                                        h.level === 3 ? 'pl-5' : 'pl-2',
+                                        activeAnchor === h.id
+                                            ? 'bg-primary-700/60 text-white'
+                                            : 'text-primary-100/70',
+                                    ]"
+                                    :title="h.text"
+                                >
+                                    {{ h.text }}
+                                </a>
+                            </li>
+                        </ul>
+                    </transition>
+                    </li>
+                </template>
             </ul>
 
             <!-- Dark-mode toggle: stays put while the list above scrolls -->
@@ -246,17 +472,20 @@ function onMainScroll(e: Event): void {
 
         <!-- Main Content Area -->
         <main
-            class="ml-64 flex-1 overflow-y-auto bg-gray-50 transition-colors dark:bg-gray-900"
+            class="mt-12 ml-0 flex-1 overflow-y-auto bg-gray-50 transition-colors md:mt-0 md:ml-64 dark:bg-gray-900"
             @scroll.passive="onMainScroll"
         >
             <div class="container mx-auto px-6 py-8">
+                <!-- The title comes from the section registry so it can never drift
+                     from the menu entry. Each page supplies its own description
+                     underneath rather than repeating the heading. -->
                 <header class="mb-8">
+                    <p v-if="activeContext" class="text-primary-600 dark:text-primary-400 mb-1 text-xs font-semibold tracking-wider uppercase">
+                        {{ activeContext }}
+                    </p>
                     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
                         {{ sections[activeSection]?.title || 'Documentation' }}
                     </h1>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        Comprehensive component library documentation and examples
-                    </p>
                 </header>
 
                 <component :is="currentComponent" />
