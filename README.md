@@ -26,6 +26,22 @@ npm install @netblink/vue-components
 **[📖 Full Documentation & Live Examples](https://netblink.github.io/nb-vue-components/)**
 
 Explore all components with interactive examples, props documentation, and usage guides.
+The docs site also ships a **Blocks** catalog: 24 ready-made page compositions (dashboard, CRUD
+index, show/edit, settings, product page, chat, auth flows, charts…) built only from these
+components, each with a live demo and a copy-paste snippet.
+
+### For AI assistants
+
+Two generated files describe the whole library in plain markdown, so an LLM can build with it
+without crawling the docs site:
+
+| File | Contents |
+| --- | --- |
+| [`llms.txt`](./llms.txt) | Install, setup, the `:form` + `field` convention, component index, gotchas |
+| [`llms-full.txt`](./llms-full.txt) | The above plus the full API (props, defaults, slots, emits) for every component and every Blocks recipe |
+
+Both are generated from the component sources — regenerate with `npm run docs:llms` after changing
+a component so they can never drift from the code.
 
 ##  Component Categories
 
@@ -71,8 +87,10 @@ Explore all components with interactive examples, props documentation, and usage
 
 ### Layout & UI
 - **Section** - Content section with variant support
-- **Modal** / **NewModal** - Dialog overlays
+- **Modal** / **NewModal** - Dialog overlays (NewModal is preferred for new code; supports `resizable`)
 - **Alert** - Notification messages with animations
+- **Toaster** / **Toast** - Stackable toast notifications, raised via the `useToast` composable
+- **Tabs** / **Tab** - Tabbed panes driven by `v-model`
 - **Collapse** - Expandable content areas
 - **Tooltip** - Contextual information overlays
 - **Spinner** - Loading indicators with size variants
