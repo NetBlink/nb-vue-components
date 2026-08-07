@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair. When
+ * `editable` is set it shows a pencil button that swaps the value for the `edit` slot, and
+ * it registers itself with the parent list so the whole list can be put into or taken out
+ * of edit mode together.
+ */
 import { inject, onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 

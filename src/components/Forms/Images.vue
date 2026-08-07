@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Self-contained image gallery and uploader for a given record: it shows the existing
+ * `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked
+ * files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`,
+ * using its own Inertia form. Unlike `FileDropZoneInput`, which only stages files on a
+ * form you own, this component performs the upload itself.
+ */
 import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * Documentation-only table that renders an array of `{ prop, type, default, description }`
+ * rows into a four-column prop reference, with an optional `highlight` flag to tint a row
+ * and a "No props defined" empty state. Used by the docs pages, not intended for app UI.
+ */
 interface PropRow {
     prop: string;
     type: string;

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose
+ * whole header row is the trigger, with a chevron that rotates when open. Reach for this
+ * when the disclosure *is* the container; use `Collapse` instead when you only want a
+ * "Show more" button toggling some content inside an existing layout.
+ */
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * Wrapper `<dl>` for a stack of `DescriptionListItem` rows. Child items register
+ * themselves through provide/inject so the list can start, stop or toggle editing on all
+ * of them at once via its exposed methods; pass an Inertia `form` plus `stopEditOnSubmit`
+ * to have every row leave edit mode automatically once submission finishes.
+ */
 import { provide, ref, watch } from 'vue';
 
 interface DescriptionListItem {

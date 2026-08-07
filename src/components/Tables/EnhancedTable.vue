@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive
+ * them from the first row) plus `data`, and it renders the whole header and body for you
+ * on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click`
+ * events via the `useTable` composable, which it provides to descendants. Prefer plain
+ * `Table` with hand-written `Tr`/`Td` rows when the cells need bespoke markup.
+ */
 import { computed, provide } from 'vue';
 import { Table, Thead, Tbody, Th, Td } from '../../index';
 import { useTable } from '../../composables/useTable';

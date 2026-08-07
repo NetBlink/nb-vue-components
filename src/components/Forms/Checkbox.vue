@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Single checkbox with label, sublabel, tooltip and error message, plus optional
+ * descriptive text on either side of the box. Its model is a boolean on its own, or an
+ * array of values when `value` is set so several checkboxes can share one field; it binds
+ * through `v-model` or the Inertia `:form` + `field` pattern. `<Input type="checkbox">`
+ * renders this, so use it directly only when bypassing `Input`.
+ */
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputLabel, InputError, Tooltip } from '../../index';
 

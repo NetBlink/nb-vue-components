@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * Indeterminate loading indicator: a CSS-only spinning ring in five preset sizes, with
+ * `role="status"` and a visually hidden "Loading..." label for screen readers. Defaults to
+ * the primary brand colour; pass `color` to override with your own text-colour classes.
+ */
 import { computed } from 'vue';
 
 interface Props {

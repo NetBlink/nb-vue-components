@@ -1,4 +1,9 @@
 <script setup lang="ts">
+/**
+ * A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui
+ * `DropdownMenuItem` so keyboard navigation and menu semantics come for free. Extra
+ * attributes fall through to the `Link`, so `method`, `as` and the like work as usual.
+ */
 import Link from '../overrides/InertiaLink';
 import { DropdownMenuItem } from 'reka-ui';
 

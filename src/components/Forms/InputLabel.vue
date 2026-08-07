@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Styled `<label>` for form fields: takes its text from the `value` prop or the default
+ * slot and can append a grey sublabel, a red required asterisk and a help icon with a
+ * `Tooltip`. Mostly used internally by `InputWrapper`; reach for it directly only when
+ * hand-building a field rather than using `Input`.
+ */
 import NbIcon from '../../icons/NbIcon.vue';
 import { Tooltip } from '../../index';
 
