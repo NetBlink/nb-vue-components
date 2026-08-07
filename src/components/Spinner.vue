@@ -36,7 +36,8 @@ const colorClasses = computed(() => {
     if (props.color) {
         return props.color;
     }
-    return 'text-primary';
+    // primary-600: the bare `primary` alias (300) is near-invisible on white.
+    return 'text-primary-600 dark:text-primary-300';
 });
 </script>
 

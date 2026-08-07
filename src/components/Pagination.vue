@@ -115,7 +115,7 @@ const perPageChanged = (e) => {
                     <template v-if="linkReturn">
                         <button
                             v-if="link.url === null"
-                            class="focusable pointer-events-none relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400"
+                            class="focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600"
                             :class="{
                                 [customLinkClass]: customLinkClass,
                             }"
@@ -124,9 +124,9 @@ const perPageChanged = (e) => {
                         />
                         <button
                             v-else
-                            class="focusable relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                            class="focusable relative block cursor-pointer rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                             :class="{
-                                'text-primary font-bold': link.active,
+                                'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100': link.active,
                                 [customLinkClass]: customLinkClass,
                                 [customActiveLinkClass]: link.active && customActiveLinkClass,
                             }"
@@ -137,7 +137,7 @@ const perPageChanged = (e) => {
                     <template v-else>
                         <Link
                             v-if="link.url === null"
-                            class="focusable pointer-events-none relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400"
+                            class="focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600"
                             :class="{
                                 [customLinkClass]: customLinkClass,
                             }"
@@ -146,9 +146,9 @@ const perPageChanged = (e) => {
                         />
                         <Link
                             v-else
-                            class="focusable relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                            class="focusable relative block cursor-pointer rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                             :class="{
-                                'text-primary font-bold': link.active,
+                                'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100': link.active,
                                 [customLinkClass]: customLinkClass,
                                 [customActiveLinkClass]: link.active && customActiveLinkClass,
                             }"

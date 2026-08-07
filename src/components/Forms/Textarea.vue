@@ -226,7 +226,7 @@ defineExpose({
 
             <a
                 v-if="whatsApp"
-                class="bg-primary hover:bg-primary-700 focus:bg-primary-600 active:bg-primary-700 z-2 inline-block rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg"
+                class="bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 z-2 inline-flex items-center justify-center rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg"
                 :class="buttonCustomClass"
                 :href="whatsApp"
                 target="_blank"

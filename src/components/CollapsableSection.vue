@@ -49,7 +49,8 @@ onMounted(() => {
         </CollapsibleTrigger>
 
         <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
-            <div class="p-6">
+            <!-- Matches the trigger's px-6 py-4 so header and body share one inset. -->
+            <div class="px-6 py-4">
                 <slot />
             </div>
         </CollapsibleContent>

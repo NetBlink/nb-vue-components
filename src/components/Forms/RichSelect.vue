@@ -461,7 +461,7 @@ onUnmounted(cleanup);
                                 v-model="searchQuery"
                                 @input="handleSearch(searchQuery)"
                                 placeholder="Search options..."
-                                class="focus:border-primary-500 focus:ring-primary-500 w-full rounded border border-gray-300 py-2 pr-3 pl-10 text-sm focus:ring-2 focus:ring-offset-0 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500"
+                                class="focusable focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 m-0 block w-full rounded-md border-gray-300 py-2 pr-3 pl-10 text-sm shadow dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500"
                             />
                         </div>
                     </div>

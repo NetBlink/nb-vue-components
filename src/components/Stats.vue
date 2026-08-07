@@ -63,7 +63,9 @@ const onClick = (status: string) => {
 const ifSelected = (status: string): boolean => {
     const params: Record<string, string> = {};
 
-    if (page.url.includes('?')) {
+    // No Inertia page (non-Inertia host, e.g. the docs site) means no query string
+    // to read selection from - render every tile unselected rather than blowing up.
+    if (page?.url?.includes('?')) {
         const searchParams = new URLSearchParams(page.url.split('?')[1]);
         searchParams.forEach((value, key) => {
             params[key] = value;

@@ -27,11 +27,22 @@ const props = withDefaults(defineProps<UnderConstructionProps>(), {
 </script>
 
 <template>
-    <div class="bg-stripes p-ui flex w-full items-center justify-center" :class="{ grow: full }">
-        <div class="py-ui px-ui gap-ui-half flex flex-col items-center rounded bg-white text-center dark:bg-gray-800">
-            <NbIcon name="$construction" size="2xl" class="text-primary" />
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Under Construction</h1>
-            <p class="whitespace-pre-line text-gray-600 dark:text-gray-300">{{ info }}</p>
+    <!-- Spacing is plain Tailwind; the old .p-ui/.px-ui/.gap-ui-half helpers just
+         restated theme values, and the local .grow shadowed Tailwind's own. -->
+    <!--
+        `full` needs both: `grow` fills a flex parent, `h-full` fills a plain
+        block parent that has a height. On its own `grow` silently does nothing
+        outside a flex container, which makes `<UnderConstruction full />` look
+        broken in the most obvious markup someone would write. Neither has any
+        effect when the parent height is undefined, so this stays safe to add.
+    -->
+    <div class="bg-stripes flex w-full items-center justify-center rounded-lg p-8" :class="{ 'h-full grow': full }">
+        <div
+            class="flex max-w-md flex-col items-center gap-3 rounded-lg border border-gray-200 bg-white px-8 py-10 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800"
+        >
+            <NbIcon name="$construction" size="2xl" class="text-primary-500 dark:text-primary-400" />
+            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Under Construction</h2>
+            <p class="text-sm whitespace-pre-line text-gray-600 dark:text-gray-300">{{ info }}</p>
         </div>
     </div>
 </template>
@@ -45,28 +56,5 @@ const props = withDefaults(defineProps<UnderConstructionProps>(), {
 /* Striped background pattern - dark theme (darker greys so the card pops) */
 :global(.dark) .bg-stripes {
     background-image: repeating-linear-gradient(45deg, #1f2937, #1f2937 10px, #111827 10px, #111827 20px);
-}
-
-/* Custom spacing classes (adjust these based on your design system) */
-.p-ui {
-    padding: 1rem;
-}
-
-.py-ui {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-.px-ui {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.gap-ui-half {
-    gap: 0.5rem;
-}
-
-.grow {
-    flex-grow: 1;
 }
 </style>

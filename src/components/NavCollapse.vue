@@ -42,7 +42,8 @@ watch(
                     <div v-if="$slots.icon" class="flex size-4 items-center justify-center">
                         <slot name="icon" />
                     </div>
-                    <span class="ml-3 flex-1 text-left whitespace-nowrap">{{ name }}</span>
+                    <!-- ml-3 only when an icon actually renders, otherwise the label sits on a phantom indent -->
+                    <span class="flex-1 text-left whitespace-nowrap" :class="{ 'ml-3': $slots.icon }">{{ name }}</span>
                     <NbIcon name="$expand" class="transition-all" :class="{ 'rotate-180': isOpen }" />
                 </button>
             </CollapsibleTrigger>

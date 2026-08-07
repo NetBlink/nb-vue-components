@@ -59,6 +59,10 @@ import Tr from './components/Tables/Tr.vue';
 import EnhancedTable from './components/Tables/EnhancedTable.vue';
 import Collapse from './components/Collapse.vue';
 import Tooltip from './components/Tooltip.vue';
+import Tabs from './components/Tabs.vue';
+import Tab from './components/Tab.vue';
+import Toast from './components/Toast.vue';
+import Toaster from './components/Toaster.vue';
 import Button from './components/Button.vue';
 import WarningButton from './components/WarningButton.vue';
 import InfoButton from './components/InfoButton.vue';
@@ -96,12 +100,34 @@ import { useDarkMode } from './composables/useDarkMode';
 import { createNbIcons } from './icons/createNbIcons';
 import { NB_ICONS_KEY } from './icons/inject';
 
+/**
+ * Everything `app.use(Componentsnb)` registers globally. Mirrors the named
+ * exports below; the two lists are the price of wanting both global
+ * registration and tree-shakable named imports.
+ */
+const components = {
+    // FORMS
+    Checkbox, Input, InputError, InputLabel, TextInput, Textarea, Switch, Select, RichSelect,
+    DropdownSearchbar, SearchSelect, Select2ajax, FileDropZoneInput, Images, RadioButton,
+    SubmitButton, SelectMultiple, SimpleSelect,
+    // TABLES
+    Table, Thead, Tbody, Th, Td, TrCollapse, TrCollapseHandler, TdCollapseHandler, TrPlaceholder,
+    TableItemCard, Tr, EnhancedTable,
+    // COMPONENTS
+    Alert, CollapsableSection, CollapsibleSection: CollapsableSection, Dropdown, DropdownLink,
+    DropdownSeparator, GravatarImg, LinkButton, LinkDropdownButton, LinkDropdownButtonItem, Logs,
+    LogsContent, Modal, NewModal, NavLink, Pagination, PrimaryButton, DangerButton, WarningButton,
+    InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
+    NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
+    Toast, Toaster, Button, DataTile,
+    // Helper components
+    CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
+};
+
 const Componentsnb = {
     install(App: any, options: ComponentsnbOptions = {}) {
-        // @ts-ignore
-        for (const componentKey in components) {
-            // @ts-ignore
-            App.component(componentKey, components[componentKey]);
+        for (const [name, component] of Object.entries(components)) {
+            App.component(name, component);
         }
 
         // Auto-install a default icon registry if the host hasn't already
@@ -195,6 +221,10 @@ export {
     DottedCarousel,
     Collapse,
     Tooltip,
+    Tabs,
+    Tab,
+    Toast,
+    Toaster,
     Button,
     DataTile,
     // Helper components

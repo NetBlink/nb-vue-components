@@ -63,15 +63,15 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
 <template>
     <div class="flex w-full flex-col">
         <div
-            class="border-primary-200 bg-primary-50 text-primary-200 hover:border-primary-600 hover:text-primary w-full rounded-lg border-2 border-dashed transition duration-100 ease-in-out"
+            class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-lg border-2 border-dashed text-gray-700 transition duration-100 ease-in-out"
             :class="{
-                'border-primary-400 bg-primary-100': isDragActive,
-                'bg-primary-100 border-red-600': props.form.errors[field] ?? errors,
+                'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': isDragActive,
+                'bg-primary-100 border-red-600 dark:bg-red-950/40': props.form.errors[field] ?? errors,
                 [FileDropCustomClass]: !!FileDropCustomClass,
             }"
         >
-            <div class="p-4' flex h-20 w-full cursor-copy flex-col items-center justify-center font-medium" v-bind="getRootProps()">
-                <p v-if="label" class="text-black select-none">{{ label }}</p>
+            <div class="flex h-20 w-full cursor-copy flex-col items-center justify-center p-4 font-medium" v-bind="getRootProps()">
+                <p v-if="label" class="text-gray-900 select-none dark:text-gray-100">{{ label }}</p>
                 <input v-bind="getInputProps()" :name="field" />
                 <span v-if="isDragActive" class="select-none">Drop the {{ ucwords(field) }} here ...</span>
                 <span v-else-if="form[field]">{{ form[field]?.path ?? 'File prepared' }}</span>

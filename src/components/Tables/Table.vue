@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { Pagination } from '../../index';
-import { useStickyTableHeader } from '../../composables/useTable';
 import type { TableProps } from './types';
 
 const props = withDefaults(defineProps<TableProps>(), {
     sticky: false,
+    stickyMaxHeight: '28rem',
     responsive: true,
     striped: false,
     bordered: false,
@@ -29,15 +29,6 @@ const backwardCompatProps = computed(() => ({
     sticky: props.sticky
 }));
 
-const stickyOffset = 60; 
-const {
-    tableRef,
-    headerRef,
-    stickyRef,
-    isSticky,
-    updateStickyState
-} = useStickyTableHeader(computed(() => backwardCompatProps.value.sticky), stickyOffset);
-
 const tableClasses = computed(() => [
     'min-w-full divide-y divide-gray-200 dark:divide-gray-700',
     {
@@ -55,17 +46,30 @@ const tableClasses = computed(() => [
         '[&>*>tr]:border-l-primary-500 mb-14 [&>*>tr]:border-l-4': backwardCompatProps.value.collapsible,
 
         'shadow-sm rounded-lg overflow-hidden': props.variant === 'elevated',
-        'border-0': props.variant === 'minimal'
+        'border-0': props.variant === 'minimal',
+
+        /*
+         * Native `position: sticky` on the header cells. Applied to `th` rather
+         * than `thead` because with border-collapse the thead box is not painted
+         * and the header would scroll under transparent cells.
+         */
+        '[&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:z-10': backwardCompatProps.value.sticky
     }
 ]);
 
 const containerClasses = computed(() => [
     'w-full overflow-x-auto',
     {
+        // Sticky needs a scroll container with a bounded height to stick against.
+        'overflow-y-auto': backwardCompatProps.value.sticky,
         'rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800': props.variant === 'elevated',
         'border border-gray-200 dark:border-gray-700 rounded-lg dark:border-gray-700': props.bordered && props.variant !== 'elevated'
     }
 ]);
+
+const containerStyles = computed(() =>
+    backwardCompatProps.value.sticky ? { maxHeight: props.stickyMaxHeight } : undefined
+);
 
 const wrapperClasses = computed(() => [
     'w-full',
@@ -73,12 +77,6 @@ const wrapperClasses = computed(() => [
         '!visible hidden': backwardCompatProps.value.collapsible,
     }
 ]);
-
-onMounted(() => {
-    if (backwardCompatProps.value.sticky) {
-        updateStickyState();
-    }
-});
 
 const paginationData = computed(() => {
     if (props.pagination) {
@@ -118,21 +116,8 @@ const showPaginationComponent = computed(() => {
             Found: {{ props.total }}
         </div>
         
-        <div :class="containerClasses" ref="tableRef">
-            <table 
-                :class="tableClasses"
-                ref="headerRef"
-            >
-                <div
-                    v-if="backwardCompatProps.sticky"
-                    ref="stickyRef"
-                    class="fixed isolate z-40 hidden w-full overflow-hidden rounded-t-xl bg-neutral-100 shadow"
-                    :class="{
-                        'max-sm:hidden': props.responsive,
-                    }"
-                >
-                </div>
-                
+        <div :class="containerClasses" :style="containerStyles">
+            <table :class="tableClasses">
                 <slot />
             </table>
         </div>

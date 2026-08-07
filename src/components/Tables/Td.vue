@@ -33,10 +33,18 @@ const tdStyles = computed(() => ({
         :class="tdClasses"
         :style="tdStyles"
     >
-        <div v-if="props.label && props.responsive" class="sm:hidden">
-            <span class="font-medium text-gray-500 dark:text-gray-400">{{ props.label }}:</span>
-            <span class="ml-2"><slot /></span>
-        </div>
+        <!-- `label` only changes the MOBILE presentation; the plain slot must
+             still render on sm+ or desktop cells go blank the moment a label
+             is passed. -->
+        <template v-if="props.label && props.responsive">
+            <div class="sm:hidden">
+                <span class="font-medium text-gray-500 dark:text-gray-400">{{ props.label }}:</span>
+                <span class="ml-2"><slot /></span>
+            </div>
+            <div class="hidden sm:block">
+                <slot />
+            </div>
+        </template>
         <div v-else>
             <slot />
         </div>

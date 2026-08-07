@@ -23,23 +23,24 @@ const baseStyles =
 
 // Theme variants matching Button component exactly
 const themeVariants: Record<ComponentTheme, string> = {
+    // Matches Button's primary variant - see the contrast note there.
     [Theme.PRIMARY]:
-        'bg-primary hover:bg-primary-700 focus:bg-primary-700 focus:ring-primary-500 active:bg-primary-700 border-transparent text-white disabled:brightness-125 disabled:grayscale-[30%]',
+        'bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 focus:ring-primary-500 active:bg-primary-800 border-transparent text-white',
 
     [Theme.SECONDARY]:
-        'border-gray-300 bg-white text-gray-700 shadow hover:bg-gray-50 focus:ring-accent-500 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:disabled:opacity-60',
+        'border-gray-300 bg-white text-gray-700 shadow hover:bg-gray-50 focus:ring-primary-500 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:disabled:opacity-60',
 
     [Theme.DANGER]:
-        'bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-red-500 active:bg-red-700 border-transparent text-white disabled:brightness-125 disabled:grayscale-[30%]',
+        'bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-red-500 active:bg-red-700 border-transparent text-white',
 
     [Theme.WARNING]:
-        'bg-yellow-500 hover:bg-yellow-400 focus:bg-yellow-600 focus:ring-yellow-500 active:bg-yellow-600 border-transparent text-white disabled:brightness-125 disabled:grayscale-[30%]',
+        'bg-yellow-500 hover:bg-yellow-400 focus:bg-yellow-600 focus:ring-yellow-500 active:bg-yellow-600 border-transparent text-white',
 
     [Theme.INFO]:
-        'bg-primary-500 hover:bg-primary-400 focus:bg-primary-600 focus:ring-primary-500 active:bg-primary-600 border-transparent text-white disabled:brightness-125 disabled:grayscale-[30%]',
+        'bg-primary-500 hover:bg-primary-400 focus:bg-primary-600 focus:ring-primary-500 active:bg-primary-600 border-transparent text-white',
 
     [Theme.SUCCESS]:
-        'bg-green-600 hover:bg-green-500 focus:bg-green-700 focus:ring-green-500 active:bg-green-700 border-transparent text-white disabled:brightness-125 disabled:grayscale-[30%]',
+        'bg-green-600 hover:bg-green-500 focus:bg-green-700 focus:ring-green-500 active:bg-green-700 border-transparent text-white',
 
     [Theme.NO_STYLE]: '',
 };
@@ -61,10 +62,15 @@ const props = withDefaults(defineProps<Props>(), {
     disabled: false,
 });
 
+// Anchors never match the `disabled:` CSS variant (there is no :disabled state
+// on <a>), so the muted look must be applied as plain classes.
+// pointer-events-none also neutralises the theme's hover/active styles.
+const disabledClasses = 'pointer-events-none cursor-not-allowed opacity-50 saturate-50';
+
 const getClasses = (): string[] => {
     // Legacy support: use colourClasses if provided
     if (props.colourClasses && props.colourClasses.length > 0) {
-        return [...props.colourClasses];
+        return props.disabled ? [...props.colourClasses, disabledClasses] : [...props.colourClasses];
     }
 
     // New approach: use theme-based styling
@@ -77,6 +83,10 @@ const getClasses = (): string[] => {
 
     // Apply theme variant
     classes.push(themeVariants[props.theme]);
+
+    if (props.disabled) {
+        classes.push(disabledClasses);
+    }
 
     return classes;
 };

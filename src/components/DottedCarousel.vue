@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
         <div class="mt-4 flex flex-col items-center justify-center">
             <div class="relative flex w-fit flex-row justify-center gap-3">
                 <div
-                    class="absolute h-2 w-2 rounded-full bg-primary transition-all duration-300"
+                    class="bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300"
                     :style="{ left: `${currentDotPosition}px` }"
                     ref="activeDot"
                 />

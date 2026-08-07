@@ -36,7 +36,8 @@ const classes = computed(() =>
         <div v-if="$slots.icon" class="flex size-4 items-center justify-center">
             <slot name="icon" />
         </div>
-        <span class="ml-3 flex-1 whitespace-nowrap">
+        <!-- ml-3 only when an icon actually renders, otherwise the label sits on a phantom indent -->
+        <span class="flex-1 whitespace-nowrap" :class="{ 'ml-3': $slots.icon }">
             <slot />
         </span>
     </Link>

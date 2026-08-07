@@ -27,13 +27,11 @@ const toggleState = ref(false);
     <DropdownMenuRoot v-model:open="toggleState">
         <DropdownMenuTrigger aria-label="Dropdown" asChild>
             <button
-                class="focusable bg-primary hover:bg-primary-700 flex cursor-pointer items-center rounded px-2 text-sm whitespace-nowrap text-white motion-reduce:transition-none"
+                class="focusable bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 focus:ring-primary-500 active:bg-primary-800 inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-transparent px-4 py-2 text-xs font-semibold tracking-widest whitespace-nowrap text-white uppercase transition duration-150 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-hidden motion-reduce:transition-none"
                 type="button"
             >
                 {{ title }}
-                <span class="mx-1 w-2">
-                    <NbIcon name="$expand" />
-                </span>
+                <NbIcon name="$expand" class="size-3 transition-transform" :class="{ 'rotate-180': toggleState }" />
             </button>
         </DropdownMenuTrigger>
 
@@ -42,13 +40,9 @@ const toggleState = ref(false);
                 :alignOffset="alignOffset"
                 v-bind="$attrs"
                 :align="align"
-                class="ring-opacity-5 data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 rounded bg-white shadow ring-1 ring-gray-400 will-change-[opacity,transform]"
+                class="data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 min-w-max overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700"
             >
-                <ul
-                    class="absolute z-1000 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg data-te-dropdown-show:block dark:bg-neutral-700"
-                    :aria-labelledby="title"
-                    data-te-dropdown-menu-ref
-                >
+                <ul class="m-0 list-none p-0 text-left text-sm" :aria-labelledby="title">
                     <slot />
                 </ul>
             </DropdownMenuContent>
