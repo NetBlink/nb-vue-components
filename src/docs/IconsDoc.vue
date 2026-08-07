@@ -14,6 +14,8 @@ import {
     InputLabel,
     PrimaryButton,
     SecondaryButton,
+    Tabs,
+    Tab,
 } from '../index';
 import { useNbIcons, NbIcon } from '../icons';
 import type { AliasName, IconLike } from '../icons/types';
@@ -40,6 +42,64 @@ import {
     EyeIcon, EyeSlashIcon, QuestionMarkCircleIcon, PencilIcon,
     PencilSquareIcon, WrenchScrewdriverIcon, SunIcon, MoonIcon,
 } from '@heroicons/vue/24/outline';
+import DocConfig from './HelperComponents/DocConfig.vue';
+
+const configBlocks = [
+    {
+        filename: 'resources/js/app.js',
+        language: 'js',
+        code: [
+            "import { createApp } from 'vue';",
+            "import NbVueComponents from '@netblink/vue-components';",
+            "import { createNbIcons } from '@netblink/vue-components/icons';",
+            "import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';",
+            'import {',
+            '    faChevronDown, faTimes, faCheckCircle, faTimesCircle,',
+            '    faExclamationTriangle, faInfoCircle, faSearch,',
+            '    faEye, faEyeSlash, faPencil,',
+            "} from '@fortawesome/free-solid-svg-icons';",
+            '',
+            'const app = createApp(App);',
+            'app.use(NbVueComponents);',
+            '',
+            '// Map every alias the components use to an icon from your library.',
+            '// Order does not matter - an explicit createNbIcons() always wins',
+            '// over the default registry NbVueComponents installs for you.',
+            'app.use(createNbIcons({',
+            '    aliases: {',
+            '        $expand:  faChevronDown,',
+            '        $close:   faTimes,',
+            '        $success: faCheckCircle,',
+            '        $error:   faTimesCircle,',
+            '        $warning: faExclamationTriangle,',
+            '        $info:    faInfoCircle,',
+            '        $search:  faSearch,',
+            '        $eye:     faEye,',
+            "        '$eye-off': faEyeSlash,",
+            '        $edit:    faPencil,',
+            '    },',
+            '    sets: { fa: { component: FontAwesomeIcon } },',
+            "    defaultSet: 'fa',",
+            '}));',
+            '',
+            "app.mount('#app');",
+        ],
+    },
+    {
+        filename: 'AnyPage.vue',
+        code: [
+            '<!-- Built-in alias - follows whichever provider you registered above -->',
+            '<NbIcon name="$expand" />',
+            '<NbIcon name="$close" class="text-red-500" size="lg" />',
+            '',
+            '<!-- Any Iconify set (browse at icon-sets.iconify.design) -->',
+            '<NbIcon name="solar:rocket-bold" size="xl" />',
+            '',
+            '<!-- Or any Vue icon component you already import -->',
+            '<NbIcon :name="ChevronDownIcon" />',
+        ],
+    },
+];
 
 // Material Symbols + Solar use Iconify. The icon data is pre-registered with
 // `addCollection(...)` once in `docs/main.js` - these strings then resolve to
@@ -340,8 +400,10 @@ const setupSnippets: Record<SetKey, { install: string[]; wire: string[] }> = {
 };
 
 const setupTab = ref<string>('fa');
-const activeWire = computed(() => setupSnippets[setupTab.value as SetKey].wire);
-const activeInstall = computed(() => setupSnippets[setupTab.value as SetKey].install);
+
+// Tab strips take an array; the docs keep these as keyed maps for lookup.
+const providerTabs = computed(() => Object.entries(setMeta).map(([value, meta]) => ({ value, label: meta.label })));
+const setupTabs = computed(() => Object.entries(setupTabMeta).map(([value, meta]) => ({ value, label: meta.label })));
 
 const usageSnippet = [
     '<!-- Built-in alias - changes with the active provider -->',
@@ -448,11 +510,12 @@ const passwordValue = ref('s3cret');
     <div class="space-y-10">
         <!-- HEADER -->
         <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Icons</h1>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 All icons render through <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code>. Map your icon source - FontAwesome, Heroicons, Material Symbols, Solar, an <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a> set, or your own SVG components - to named aliases. Default source is FontAwesome.
             </p>
         </header>
+
+        <DocConfig :blocks="configBlocks" />
 
         <!-- LIVE PREVIEW -->
         <section class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800/60">
@@ -461,20 +524,13 @@ const passwordValue = ref('s3cret');
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Live preview</h2>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Pick a provider. The icons below and the rest of the docs site re-render.</p>
                 </div>
-                <div class="inline-flex rounded-lg border border-gray-200 bg-white p-1 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                    <button
-                        v-for="(meta, key) in setMeta"
-                        :key="key"
-                        type="button"
-                        @click="switchTo(key)"
-                        class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
-                        :class="activeSet === key
-                            ? 'bg-primary-600 text-white shadow-sm'
-                            : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'"
-                    >
-                        {{ meta.label }}
-                    </button>
-                </div>
+                <Tabs
+                    :tabs="providerTabs"
+                    variant="pills"
+                    :model-value="activeSet"
+                    aria-label="Icon provider"
+                    @update:model-value="switchTo"
+                />
             </div>
 
             <div class="grid grid-cols-3 gap-px bg-gray-200 sm:grid-cols-5 dark:bg-gray-700">
@@ -523,31 +579,19 @@ const passwordValue = ref('s3cret');
                 real package imports, an inline alias map you can adapt. Mix providers freely in one project.
             </p>
 
-            <div class="flex flex-wrap gap-1 border-b border-gray-200 dark:border-gray-700">
-                <button
-                    v-for="(meta, key) in setupTabMeta"
-                    :key="key"
-                    type="button"
-                    @click="setupTab = key"
-                    class="-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors"
-                    :class="setupTab === key
-                        ? 'border-primary-600 text-primary-600 dark:border-primary-300 dark:text-primary-300'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
-                >
-                    {{ meta.label }}
-                </button>
-            </div>
+            <Tabs v-model="setupTab" :tabs="setupTabs" aria-label="Setup by provider">
+                <!-- Four provider tabs: simple install + wire pair -->
+                <Tab v-for="(meta, key) in setMeta" :key="key" :value="key">
+                    <p class="mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">1. Install</p>
+                    <CodePreview language="bash" :code="setupSnippets[key].install" />
+                    <p class="mt-4 mb-2 text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                        2. Wire it up in your entry file
+                    </p>
+                    <CodePreview language="javascript" :code="setupSnippets[key].wire" />
+                </Tab>
 
-            <!-- Four provider tabs: simple install + wire pair -->
-            <div v-if="setupTab !== 'other'" class="pt-3">
-                <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">1. Install</p>
-                <CodePreview language="bash" :code="activeInstall" />
-                <p class="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">2. Wire it up in your entry file</p>
-                <CodePreview language="javascript" :code="activeWire" />
-            </div>
-
-            <!-- "Any other source" tab: five patterns -->
-            <div v-else class="pt-3 space-y-3">
+                <!-- "Any other source" tab: five patterns -->
+                <Tab value="other" class="space-y-3">
                 <p class="text-gray-600 dark:text-gray-400">
                     The tabs above are example sources. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map accepts Vue components, render functions, inline SVG, and CSS class strings - mixed in one project.
                 </p>
@@ -560,29 +604,30 @@ const passwordValue = ref('s3cret');
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Libraries that ship raw SVG paths (like <code>@mdi/js</code>) need a small wrapper component.
+                    Libraries that ship raw SVG paths (like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@mdi/js</code>) need a small wrapper component.
                 </p>
                 <CodePreview language="javascript" :code="mdiSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Have a custom SVG you want to drop in for one alias? Wrap it in <code>{ svg: '…' }</code>. The string is sanitized before rendering.
+                    Have a custom SVG you want to drop in for one alias? Wrap it in <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{ svg: '…' }</code>. The string is sanitized before rendering.
                 </p>
                 <CodePreview language="javascript" :code="rawSvgSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Any <code>.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
+                    Any <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
                 </p>
                 <CodePreview language="javascript" :code="customComponentSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font: pass a class string and
-                    NbIcon renders <code>&lt;i class="…" /&gt;</code> for you.
+                    NbIcon renders <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;i class="…" /&gt;</code> for you.
                 </p>
                 <CodePreview language="javascript" :code="cssClassSnippet" />
-            </div>
+                </Tab>
+            </Tabs>
         </section>
 
         <!-- CLI SWITCH -->
@@ -602,19 +647,19 @@ const passwordValue = ref('s3cret');
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Aliases</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Semantic names like <code>$expand</code>, <code>$close</code>, <code>$success</code>. The library references these internally; you map each one to a concrete icon from any source.
+                        Semantic names like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$success</code>. The library references these internally; you map each one to a concrete icon from any source.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Sets</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Registered renderers - FA, an Iconify component, etc. Reference any icon from a set by its full name: <code>"solar:home-bold"</code>.
+                        Registered renderers - FA, an Iconify component, etc. Reference any icon from a set by its full name: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">"solar:home-bold"</code>.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Slots</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Every icon-bearing component has an <code>#icon</code> slot - drop in your own Vue component and skip the resolver entirely.
+                        Every icon-bearing component has an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#icon</code> slot - drop in your own Vue component and skip the resolver entirely.
                     </dd>
                 </div>
             </dl>
@@ -625,14 +670,14 @@ const passwordValue = ref('s3cret');
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">See it in real components</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Click any provider in the <strong>Live preview</strong> at the top of this page - every icon below is a real
-                <code>@netblink/vue-components</code> component using the same aliases as your app, so they all re-render with the chosen set.
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@netblink/vue-components</code> component using the same aliases as your app, so they all re-render with the chosen set.
             </p>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Alert variants -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Alert · <code>$success</code> <code>$error</code> <code>$warning</code> <code>$info</code> <code>$close</code>
+                        Alert · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$success</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$error</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$warning</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$info</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>
                     </div>
                     <Alert type="success">Order placed - confirmation sent to your inbox.</Alert>
                     <Alert type="error">Something went wrong. Please try again.</Alert>
@@ -652,7 +697,7 @@ const passwordValue = ref('s3cret');
                 <!-- Collapse / chevron -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Collapse · <code>$expand</code>
+                        Collapse · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>
                     </div>
                     <Collapse name="Settings" :open="collapseExpanded">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -661,7 +706,7 @@ const passwordValue = ref('s3cret');
                     </Collapse>
 
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 pt-2">
-                        CollapsableSection · <code>$expand</code>
+                        CollapsableSection · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>
                     </div>
                     <CollapsableSection title="Advanced options">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -673,10 +718,10 @@ const passwordValue = ref('s3cret');
                 <!-- DataTile with user-supplied icon -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        DataTile · user-supplied <code>:icon</code> (always FA here)
+                        DataTile · user-supplied <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:icon</code> (always FA here)
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400">
-                        Components that take an <code>icon</code> prop accept any <code>IconLike</code> - the prop value wins over aliases,
+                        Components that take an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">icon</code> prop accept any <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">IconLike</code> - the prop value wins over aliases,
                         so the rocket below stays FA regardless of the switcher.
                     </p>
                     <div class="grid grid-cols-2 gap-3">
@@ -688,12 +733,12 @@ const passwordValue = ref('s3cret');
                 <!-- Modal trigger / NewModal close button -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        NewModal · <code>$close</code>
+                        NewModal · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>
                     </div>
                     <PrimaryButton @click="modalOpen = true">Open modal</PrimaryButton>
                     <NewModal v-model="modalOpen" title="Switch the icon set">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            The close (×) button in the header uses the <code>$close</code> alias. Pick another provider while this modal is open
+                            The close (×) button in the header uses the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code> alias. Pick another provider while this modal is open
                             and watch the glyph swap.
                         </p>
                         <template #footer>
@@ -705,7 +750,7 @@ const passwordValue = ref('s3cret');
                 <!-- InputLabel tooltip indicator -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        InputLabel · <code>$help</code>
+                        InputLabel · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$help</code>
                     </div>
                     <Input
                         v-model="passwordValue"
@@ -718,7 +763,7 @@ const passwordValue = ref('s3cret');
                 <!-- UnderConstruction -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        UnderConstruction · <code>$construction</code>
+                        UnderConstruction · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$construction</code>
                     </div>
                     <UnderConstruction info="Demo block - picks up $construction from the active provider." />
                 </div>
@@ -726,7 +771,7 @@ const passwordValue = ref('s3cret');
                 <!-- DescriptionList edit icons -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60 lg:col-span-2">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        DescriptionList · <code>$edit</code> <code>$edit-alt</code>
+                        DescriptionList · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$edit</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$edit-alt</code>
                     </div>
                     <DescriptionList>
                         <DescriptionListItem label="Display name" editable @edit="() => {}">
