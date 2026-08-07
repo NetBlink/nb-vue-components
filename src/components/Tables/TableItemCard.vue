@@ -1,7 +1,8 @@
 <script setup lang="ts">
 //@ts-nocheck
+import { computed } from 'vue';
 import Link from '../../overrides/InertiaLink';
-import { moneyFormat } from '../../Helpers';
+import { moneyFormat, getRoute } from '../../Helpers';
 
 interface ItemId {
     id: string;
@@ -44,22 +45,45 @@ interface TableItemCardProps {
     amount?: Amount;
 }
 const props = defineProps<TableItemCardProps>();
+
+// Resolved once in setup; null when the host app exposes no route() helper.
+const route = getRoute();
+
+/**
+ * Build an href from an explicit `href` or a route name, returning null when it
+ * can't be resolved so the caller renders plain text instead of throwing.
+ */
+// `prefix` defaults to true when omitted.
+const idLabel = computed(() => {
+    if (!props.itemId) return '';
+    const prefix = props.itemId.prefix || props.itemId.prefix === undefined ? '#' : '';
+    return `${prefix}${props.itemId.id}`;
+});
+
+const hrefFor = (entry?: { href?: string | null; routeName?: string | null; routeData?: unknown }, fallbackData?: unknown) => {
+    if (!entry) return null;
+    if (entry.href) return entry.href;
+    if (!route || !entry.routeName) return null;
+    try {
+        return route(entry.routeName, entry.routeData ?? fallbackData);
+    } catch {
+        return null;
+    }
+};
 </script>
 
 <template>
-    <div class="mt-3 rounded-md border border-gray-300 bg-white px-4 py-3 lg:border lg:border-gray-300">
-        <div class="max-xxs:text-xxs mb-2 flex w-full flex-wrap justify-between text-sm text-gray-600 dark:text-gray-400">
+    <div
+        class="mt-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:shadow-black/40"
+    >
+        <div class="max-xxs:text-xxs mb-2 flex w-full flex-wrap items-start justify-between gap-2 text-sm text-gray-500 dark:text-gray-400">
             <div v-if="props.itemId || props.timeStamp" class="xs:w-fit mb-2 h-fit w-full">
                 <!-- ID -->
+                <!-- Built as one expression: splitting the '#' onto its own template
+                     line made Vue emit whitespace, rendering "# 1001". -->
                 <template v-if="props.itemId">
-                    <span v-if="!props.itemId.routeName">
-                        <template v-if="props.itemId.prefix || props.itemId.prefix == undefined">#</template>
-                        {{ props.itemId.id }}
-                    </span>
-                    <Link v-else :href="route(props.itemId.routeName, props.itemId.routeData ? props.itemId.routeData : props.itemId.id)">
-                        <template v-if="props.itemId.prefix || props.itemId.prefix == undefined">#</template>
-                        {{ props.itemId.id }}
-                    </Link>
+                    <Link v-if="hrefFor(props.itemId, props.itemId.id)" :href="hrefFor(props.itemId, props.itemId.id)">{{ idLabel }}</Link>
+                    <span v-else>{{ idLabel }}</span>
                 </template>
                 <!-- Timestamp -->
                 <span v-if="props.timeStamp" class="ml-1">
@@ -68,11 +92,11 @@ const props = defineProps<TableItemCardProps>();
                 </span>
             </div>
             <!-- Pills -->
-            <div class="flex w-fit flex-wrap">
+            <div class="flex w-fit flex-wrap gap-1">
                 <template v-for="(pill, index) in pills" :key="index">
                     <span
                         v-if="pill.text"
-                        class="bg-primary rounded-md border p-1 px-2 whitespace-nowrap text-white"
+                        class="bg-primary-600 rounded-md px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white"
                         :style="{
                             backgroundColor: pill.color ? pill.color : null,
                         }"
@@ -84,38 +108,39 @@ const props = defineProps<TableItemCardProps>();
         </div>
         <!-- Title -->
         <template v-if="props.title">
-            <p v-if="!props.title.routeName && !props.title.href" class="font-semibold">
-                {{ props.title.text }}
-            </p>
-            <Link v-else :href="props.title.href ? props.title.href : route(props.title.routeName, props.title.routeData)" class="font-semibold">
+            <Link v-if="hrefFor(props.title)" :href="hrefFor(props.title)" class="font-semibold">
                 {{ props.title.text }}
             </Link>
+            <p v-else class="font-semibold">
+                {{ props.title.text }}
+            </p>
         </template>
         <!-- Engineer Note -->
         <div class="mb-1">
-            <p class="text-primary w-full font-semibold whitespace-normal" v-if="props.extraText">
+            <p class="text-primary-700 dark:text-primary-300 w-full text-sm font-semibold whitespace-normal" v-if="props.extraText">
                 Engineer Note:
-                <span class="w-full break-words">{{ props.extraText }}</span>
+                <span class="w-full font-normal break-words">{{ props.extraText }}</span>
             </p>
         </div>
-        <!-- Options -->
-        <div class="mb-1 flex flex-col">
+        <!-- Options. No colour falls through to the card's own text colour so it
+             stays readable in dark mode - it used to be hardcoded to #000. -->
+        <div class="mb-1 flex flex-col gap-0.5 text-sm text-gray-700 dark:text-gray-300">
             <template v-for="(option, index) in options" :key="index">
-                <span v-if="!option.routeName && !option.href" :style="{ color: option.color ? option.color : '#000' }">
-                    {{ option.text }}
-                </span>
                 <Link
-                    v-else
-                    :href="option.href ? option.href : route(option.routeName, option.routeData)"
-                    :style="{ color: option.color ? option.color : '#000' }"
-                    :key="'link-' + index"
+                    v-if="hrefFor(option)"
+                    :href="hrefFor(option)"
+                    :style="{ color: option.color || undefined }"
+                    class="hover:underline"
                 >
                     {{ option.text }}
                 </Link>
+                <span v-else :style="{ color: option.color || undefined }">
+                    {{ option.text }}
+                </span>
             </template>
         </div>
         <!-- Text in money format -->
-        <div v-if="props.amount?.amount">
+        <div v-if="props.amount?.amount" class="text-sm font-semibold text-gray-900 dark:text-gray-100">
             <span>{{ props.amount.text + moneyFormat(props.amount.amount) }}</span>
         </div>
         <div>

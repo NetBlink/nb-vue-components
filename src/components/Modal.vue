@@ -181,7 +181,9 @@ const onResizeMouseMove = (e) => {
 
 <template>
     <teleport to="body">
-        <transition leave-active-class="duration-200">
+        <!-- transition-opacity gives Vue a real property to time the container's removal
+             against, so it stays mounted until the inner leave animations finish. -->
+        <transition leave-active-class="transition-opacity duration-200">
             <div
                 v-show="show"
                 class="modal fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0"
@@ -189,24 +191,31 @@ const onResizeMouseMove = (e) => {
                 scroll-region
             >
                 <transition
-                    :enter-active-class="`backdrop-transition enter ease-out duration-[${backdropDuration}ms]`"
+                    enter-active-class="backdrop-transition enter ease-out"
                     enter-from-class="opacity-0"
                     enter-to-class="opacity-100"
-                    :leave-active-class="`backdrop-transition leave ease-in duration-[${backdropDuration}ms]`"
+                    leave-active-class="backdrop-transition leave ease-in"
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                    <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
+                    <!-- Duration comes from an inline style, not `duration-[${n}ms]`: Tailwind only
+                         generates classes it can find statically, so an interpolated one never exists. -->
+                    <div
+                        v-show="show"
+                        class="fixed inset-0 transform transition-all"
+                        :style="{ transitionDuration: `${backdropDuration}ms` }"
+                        @click="close"
+                    >
                         <div class="backdrop absolute inset-0 bg-gray-500 opacity-75 dark:bg-black dark:opacity-70"
                             :class="{[backdropCustomClass]: !!backdropCustomClass}" />
                     </div>
                 </transition>
 
                 <transition
-                    :enter-active-class="`modal-transition enter ease-out duration-[${modalDuration}ms]`"
+                    enter-active-class="modal-transition enter ease-out"
                     enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     enter-to-class="opacity-100 translate-y-0 sm:scale-100"
-                    :leave-active-class="`modal-transition leave ease-in duration-[${modalDuration}ms]`"
+                    leave-active-class="modal-transition leave ease-in"
                     leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
@@ -216,11 +225,13 @@ const onResizeMouseMove = (e) => {
                         class="mb-6 transform rounded-lg bg-white text-gray-900 dark:text-gray-100 shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-gray-100"
                         :class="{
                             [maxWidthClass]: !!maxWidthClass,
-                            'border-pink rounded-md border-2 border-solid': showBorder, 
+                            // `border-pink` had no matching token, so this rendered the default grey.
+                            'border-primary-500 rounded-md border-2 border-solid': showBorder,
                             [modalCustomClass]: !!modalCustomClass}"
                         :style="{
                             userSelect: resizing ? 'none' : 'auto',
                             transition: resizing ? 'none' : '',
+                            transitionDuration: resizing ? '' : `${modalDuration}ms`,
                             width: resizedWidth || '',
                             height: resizedHeight || '',
                             maxWidth: resizedWidth || '',

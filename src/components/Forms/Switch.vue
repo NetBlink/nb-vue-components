@@ -192,16 +192,16 @@ defineExpose({
 
             <SwitchRoot
                 :id="field"
-                v-model:checked="value"
+                v-model="value"
                 :name="name || field"
                 :required="required"
                 :disabled="disabled"
                 :aria-label="computedLabel || undefined"
-                class="focus-visible:ring-primary data-[state=checked]:bg-primary relative mx-2 ml-0 inline-flex h-6 w-12 flex-none cursor-pointer items-center rounded-xl bg-gray-300 shadow transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+                class="focus-visible:ring-primary-500 data-[state=checked]:bg-primary-600 dark:data-[state=checked]:bg-primary-500 relative mx-2 ml-0 inline-flex h-6 w-12 flex-none cursor-pointer items-center rounded-xl bg-gray-300 shadow-inner transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 dark:bg-gray-600 dark:focus-visible:ring-offset-gray-900"
                 :class="customClass"
             >
                 <SwitchThumb
-                    class="pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]"
+                    class="pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]"
                 />
             </SwitchRoot>
 

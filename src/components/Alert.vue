@@ -80,53 +80,67 @@ const handleDismiss = () => {
     emit('dismiss');
 };
 
-// Transition hooks for smooth height animation
+/*
+ * Height/opacity transition hooks.
+ *
+ * The ordering matters: the start state must be *committed* by the browser
+ * before the end state is written, otherwise both land in one style recalc and
+ * there is nothing to interpolate - the alert snaps instead of animating.
+ * Reading `offsetHeight` forces that commit (`flush` below).
+ *
+ * Easing and durations mirror the --ease-emphasised / --duration-* theme
+ * tokens so alerts move like the rest of the system.
+ */
+const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+const ENTER_MS = 400;
+const LEAVE_MS = 200;
+const HIDDEN = { height: '0px', opacity: '0', transform: 'translateY(-8px)' };
+
+const flush = (el: HTMLElement) => el.offsetHeight;
+
+const applyTransition = (el: HTMLElement, ms: number) => {
+    el.style.transition = `height ${ms}ms ${EASE}, opacity ${ms}ms ${EASE}, transform ${ms}ms ${EASE}`;
+};
+
 const onBeforeEnter = (el: Element) => {
-    const element = el as HTMLElement;
-    element.style.height = '0';
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(-8px) scale(0.95)';
+    Object.assign((el as HTMLElement).style, HIDDEN);
 };
 
 const onEnter = (el: Element, done: () => void) => {
     const element = el as HTMLElement;
     const height = element.scrollHeight;
 
-    element.style.transition = 'all 400ms ease-out';
+    flush(element);
+    applyTransition(element, ENTER_MS);
 
-    // Use requestAnimationFrame to ensure the styles are applied
-    requestAnimationFrame(() => {
-        element.style.height = `${height}px`;
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0) scale(1)';
-    });
+    element.style.height = `${height}px`;
+    element.style.opacity = '1';
+    element.style.transform = 'translateY(0)';
 
-    setTimeout(done, 400);
+    setTimeout(done, ENTER_MS);
 };
 
 const onAfterEnter = (el: Element) => {
     const element = el as HTMLElement;
+    // Drop the transition first so switching to `auto` is not itself animated.
+    element.style.transition = '';
     element.style.height = 'auto';
 };
 
 const onBeforeLeave = (el: Element) => {
     const element = el as HTMLElement;
-    const height = element.scrollHeight;
-    element.style.height = `${height}px`;
+    element.style.height = `${element.scrollHeight}px`;
 };
 
 const onLeave = (el: Element, done: () => void) => {
     const element = el as HTMLElement;
 
-    element.style.transition = 'all 350ms ease-in';
+    flush(element);
+    applyTransition(element, LEAVE_MS);
 
-    requestAnimationFrame(() => {
-        element.style.height = '0';
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(-8px) scale(0.95)';
-    });
+    Object.assign(element.style, HIDDEN);
 
-    setTimeout(done, 350);
+    setTimeout(done, LEAVE_MS);
 };
 
 const onAfterLeave = (el: Element) => {

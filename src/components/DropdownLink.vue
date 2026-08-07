@@ -15,7 +15,7 @@ const props = defineProps<DropdownLinkProps>();
         <Link
             v-bind="$attrs"
             :href="href"
-            class="focusable flex w-full items-center gap-2 rounded px-8 py-6 text-left text-base leading-5 text-gray-700 dark:text-gray-200 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden dark:text-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+            class="focusable flex w-full cursor-pointer items-center gap-2 rounded px-3 py-1.5 text-left text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-hidden dark:text-gray-200 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
         >
             <slot />
         </Link>

@@ -26,12 +26,15 @@ interface NewModalProps {
     description?: string;
     /** Open the dialog on mount */
     defaultOpen?: boolean;
+    /** Let the user drag-resize the dialog from its bottom-right corner */
+    resizable?: boolean;
 }
 
 const props = withDefaults(defineProps<NewModalProps>(), {
     title: undefined,
     description: undefined,
     defaultOpen: false,
+    resizable: false,
 });
 
 const open = defineModel({
@@ -63,9 +66,19 @@ watch(
             <slot name="trigger" />
         </DialogTrigger>
         <DialogPortal>
-            <DialogOverlay class="bg-dark/50 data-[state=open]:animate-fade-in fixed inset-0 z-30 dark:bg-black/70" />
+            <DialogOverlay
+                class="bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-30 dark:bg-black/70"
+            />
+            <!-- Resizable swaps the fixed 600px cap for a 95vw one (CSS resize can
+                 never exceed max-width) and adds native `resize: both` plus floor
+                 sizes so the dialog can't be collapsed into nothing. -->
             <DialogContent
-                class="data-[state=open]:animate-slide-up-fade fixed top-[50%] left-[50%] z-[100] max-h-[85vh] w-[90vw] max-w-[600px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded bg-white p-5 text-gray-900 dark:text-gray-100 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
+                class="data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed top-[50%] left-[50%] z-[100] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
+                :class="
+                    props.resizable
+                        ? 'resize overflow-auto max-h-[90vh] max-w-[95vw] min-h-40 min-w-80 w-[min(600px,90vw)]'
+                        : 'overflow-y-auto max-h-[85vh] w-[90vw] max-w-[600px]'
+                "
                 v-bind="$attrs"
             >
                 <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold dark:text-gray-100">
@@ -83,11 +96,13 @@ watch(
                     <slot name="footer" />
                 </div>
 
+                <!-- Same rounded-square affordance as Alert's dismiss button, so the
+                     two close controls read as one pattern rather than circle vs square. -->
                 <DialogClose
-                    class="focusable text-dark hover:bg-primary/50 focus:bg-primary/60 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] cursor-pointer appearance-none items-center justify-center rounded-full transition-all focus:shadow-[0_0_0_2px] focus:outline-none dark:text-gray-200 dark:hover:bg-primary/30 dark:focus:bg-primary/40"
+                    class="focusable focus:ring-primary-500 absolute top-3 right-3 inline-flex cursor-pointer appearance-none items-center justify-center rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
                     aria-label="Close"
                 >
-                    <NbIcon name="$close" />
+                    <NbIcon name="$close" class="h-5 w-5" />
                 </DialogClose>
             </DialogContent>
         </DialogPortal>

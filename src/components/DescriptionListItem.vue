@@ -88,7 +88,7 @@ defineExpose({
                         {{ value }}
                     </div>
                     <span class="ml-4 shrink-0">
-                        <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-lg font-bold" v-if="editable">
+                        <button type="button" @click="toggleEditing" class="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-lg font-bold" v-if="editable">
                             <NbIcon name="$edit" />
                         </button>
                         <slot name="buttons" />
@@ -99,7 +99,7 @@ defineExpose({
                         <slot name="edit" />
                     </div>
                     <span class="ml-4 shrink-0">
-                        <button type="button" @click="toggleEditing" class="text-primary hover:text-primary-400 text-xl font-bold">
+                        <button type="button" @click="toggleEditing" class="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-xl font-bold">
                             <NbIcon name="$edit-alt" />
                         </button>
                     </span>

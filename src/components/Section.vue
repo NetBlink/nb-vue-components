@@ -83,7 +83,9 @@ const nonClassAttrs = computed(() => {
                 </div>
             </div>
         </div>
-        <div class="p-6">
+        <!-- Same px-6 py-4 inset as the header strip above, so a Section with and
+             without a header keeps one consistent content box. -->
+        <div class="px-6 py-4">
             <slot />
         </div>
     </div>

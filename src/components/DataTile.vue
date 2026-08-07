@@ -48,36 +48,55 @@ const props = withDefaults(defineProps<Props>(), {
     theme: 'primary',
 });
 
+/*
+ * The card itself stays neutral (same shell as `Stats`) so a row of tiles reads
+ * as one set. The theme is an accent only - icon tint, hover text, the hover
+ * underline and the selected ring - rather than a full coloured border + fill.
+ *
+ * `secondary` has no colour scale in the theme, so it resolves to grey.
+ */
 const themeClasses = computed(() => {
     switch (props.theme) {
         case 'secondary':
             return {
-                base: 'border-secondary-200 bg-secondary-50 ring-secondary-500',
-                hoverText: 'group-hover:text-secondary-600',
-                gradient: 'from-secondary-500 to-secondary-600',
+                icon: 'text-gray-400 dark:text-gray-500',
+                hoverText: 'group-hover:text-gray-900 dark:group-hover:text-gray-100',
+                ring: 'ring-gray-400',
+                gradient: 'from-gray-400 to-gray-500',
             };
         case 'danger':
             return {
-                base: 'border-danger-200 bg-danger-50 ring-danger-500',
-                hoverText: 'group-hover:text-danger-600',
+                icon: 'text-danger-400/70 dark:text-danger-500/60',
+                hoverText: 'group-hover:text-danger-600 dark:group-hover:text-danger-300',
+                ring: 'ring-danger-500',
                 gradient: 'from-danger-500 to-danger-600',
             };
         case 'success':
             return {
-                base: 'border-success-200 bg-success-50 ring-success-500',
-                hoverText: 'group-hover:text-success-600',
+                icon: 'text-success-500/60 dark:text-success-500/50',
+                hoverText: 'group-hover:text-success-700 dark:group-hover:text-success-300',
+                ring: 'ring-success-500',
                 gradient: 'from-success-500 to-success-600',
             };
         case 'warning':
             return {
-                base: 'border-warning-200 bg-warning-50 ring-warning-500',
-                hoverText: 'group-hover:text-warning-600',
+                icon: 'text-warning-400/70 dark:text-warning-500/60',
+                hoverText: 'group-hover:text-warning-600 dark:group-hover:text-warning-300',
+                ring: 'ring-warning-500',
                 gradient: 'from-warning-500 to-warning-600',
+            };
+        case 'info':
+            return {
+                icon: 'text-info-400/60 dark:text-info-400/50',
+                hoverText: 'group-hover:text-info-600 dark:group-hover:text-info-300',
+                ring: 'ring-info-500',
+                gradient: 'from-info-500 to-info-600',
             };
         default:
             return {
-                base: 'border-primary-200 bg-primary-50 ring-primary-500',
-                hoverText: 'group-hover:text-primary-600',
+                icon: 'text-primary-400/70 dark:text-primary-500/60',
+                hoverText: 'group-hover:text-primary-600 dark:group-hover:text-primary-300',
+                ring: 'ring-primary-500',
                 gradient: 'from-primary-500 to-primary-600',
             };
     }
@@ -86,9 +105,9 @@ const themeClasses = computed(() => {
 
 <template>
     <div
-        class="group relative cursor-pointer overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:bg-gray-800 dark:hover:shadow-black/40"
+        class="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40"
         :class="{
-            [themeClasses.base]: true,
+            [themeClasses.ring]: selected,
             'ring-2': selected,
             [customStatClass]: customStatClass,
         }"
@@ -101,18 +120,18 @@ const themeClasses = computed(() => {
                         v-if="icon"
                         :name="icon"
                         size="3x"
-                        :class="[themeClasses.hoverText]"
-                        class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 text-gray-400 opacity-50 transition-colors dark:text-gray-600"
+                        :class="[themeClasses.icon]"
+                        class="absolute top-1/2 right-2 h-4/5 -translate-y-1/2 transition-colors"
                     />
                 </slot>
             </div>
-            <div :class="[themeClasses.hoverText]" class="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100">
+            <div :class="[themeClasses.hoverText]" class="relative text-2xl font-bold text-gray-900 transition-colors dark:text-gray-100">
                 {{ value }}
             </div>
         </div>
 
-        <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40" :class="[customStatLabelClass]">
-            <div :class="[themeClasses.hoverText]" class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors dark:text-gray-400">
+        <div class="border-t border-gray-100 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40" :class="[customStatLabelClass]">
+            <div class="text-sm font-medium text-gray-600 transition-colors group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100">
                 {{ label }}
             </div>
         </div>

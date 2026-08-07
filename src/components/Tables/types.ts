@@ -50,6 +50,8 @@ export interface TableProps {
     hover?: boolean;
     responsive?: boolean;
     sticky?: boolean;
+    /** Max height of the scroll area when `sticky` is on. Any CSS length. */
+    stickyMaxHeight?: string;
     separate?: boolean;
     
     // Legacy props for backward compatibility

@@ -80,7 +80,7 @@ const handleOpenChange = (open: boolean) => {
                 :alignOffset="alignOffset"
                 v-bind="$attrs"
                 :align="align"
-                class="ring-opacity-5 data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 cursor-pointer rounded bg-white text-gray-900 dark:text-gray-100 shadow ring-1 ring-gray-400 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700"
+                class="data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700"
                 @mouseenter="handleMouseEnter"
                 @mouseleave="handleMouseLeave"
             >

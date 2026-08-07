@@ -1,5 +1,31 @@
 import { Page } from '@inertiajs/core';
 import { Router } from '@inertiajs/core';
+import { getCurrentInstance } from 'vue';
+
+type RouteFn = (name: string, params?: unknown) => string;
+
+/**
+ * Resolve the host app's Ziggy-style `route()` helper.
+ *
+ * Templates that call a bare `route(...)` resolve it through `_ctx.route`, i.e.
+ * the app's `globalProperties`. Apps that only expose `window.route` (or none at
+ * all) therefore blow up mid-render with "_ctx.route is not a function". This
+ * looks in both places and returns null when neither exists, so components can
+ * degrade to plain text instead of throwing.
+ *
+ * Must be called during `setup()` - it reads the current component instance.
+ *
+ * @returns the route helper, or null when the app provides none
+ */
+function getRoute(): RouteFn | null {
+    const fromApp = getCurrentInstance()?.appContext.config.globalProperties?.route;
+    if (typeof fromApp === 'function') return fromApp as RouteFn;
+
+    const fromWindow = typeof window !== 'undefined' ? (window as unknown as { route?: unknown }).route : undefined;
+    if (typeof fromWindow === 'function') return fromWindow as RouteFn;
+
+    return null;
+}
 
 /**
  * Format a number with locale-specific formatting
@@ -52,12 +78,15 @@ function setInertiaRouter(router: Router): void {
 }
 
 /**
- * Get the Inertia router instance
+ * Get the Inertia router instance.
  *
- * @returns The Inertia router instance
- * @throws Error if router is not set
+ * Reports the missing wiring but returns `null` rather than throwing: components
+ * that only *optionally* need Inertia (and non-Inertia hosts such as the docs
+ * site) must still render. Callers are expected to null-check.
+ *
+ * @returns The Inertia router instance, or null when `setInertiaRouter` was never called
  */
-function getInertiaRouter(): Router {
+function getInertiaRouter(): Router | null {
     if (inertiaRouter === null) {
         console.error(
             'Inertia router is not set. Please set it first:' +
@@ -67,7 +96,6 @@ function getInertiaRouter(): Router {
                 '\n// createInertiaApp(...);' +
                 '\nsetInertiaRouter(router);\n\n'
         );
-        throw new Error('Inertia router not initialized');
     }
     return inertiaRouter;
 }
@@ -85,12 +113,13 @@ function setInertiaPage(page: Page): void {
 }
 
 /**
- * Get the Inertia page instance
+ * Get the Inertia page instance.
  *
- * @returns The Inertia page instance
- * @throws Error if page is not set
+ * Same contract as `getInertiaRouter`: warns, returns `null`, does not throw.
+ *
+ * @returns The Inertia page instance, or null when `setInertiaPage` was never called
  */
-function getInertiaPage(): Page {
+function getInertiaPage(): Page | null {
     if (inertiaPage === null) {
         console.error(
             'Inertia page is not set. Please set it first:' +
@@ -100,12 +129,12 @@ function getInertiaPage(): Page {
                 '\n// createInertiaApp(...);' +
                 '\nsetInertiaPage(usePage());\n\n'
         );
-        throw new Error('Inertia page not initialized');
     }
     return inertiaPage;
 }
 
 export {
+    getRoute,
     numberFormat,
     moneyFormat,
     hasPermission,

@@ -52,18 +52,16 @@ const Link = defineComponent({
     },
     setup(props, { slots, attrs }) {
         return () => {
-            let router;
-            try {
-                router = getInertiaRouter();
-            } catch (error) {
-                // In docs environment, create a mock router that prevents navigation
-                console.log('InertiaLink: Router not available, preventing navigation');
+            // getInertiaRouter() returns null (rather than throwing) when the host
+            // app never wired Inertia up - e.g. the docs site.
+            let router = getInertiaRouter();
+            if (!router) {
                 router = {
                     visit: (href: string, options: any) => {
                         console.log('InertiaLink: Navigation prevented (docs environment):', href);
                         // Do nothing - prevent navigation
-                    }
-                };
+                    },
+                } as any;
             }
             
             const as = props.as.toLowerCase();

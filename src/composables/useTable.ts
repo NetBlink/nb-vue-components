@@ -51,11 +51,11 @@ export function useTableSort(
         try {
             // @ts-ignore - window.route is available in Laravel applications
             const route = window.route;
-            if (route) {
+            if (route && router) {
                 const params = { ...route().params };
                 params.order_by = column;
                 params.order_dir = newDirection;
-                
+
                 router.get(route(route().current()), params, {
                     preserveState,
                     preserveScroll: true
@@ -249,9 +249,9 @@ export function useInertiaTable(
     const page = getInertiaPage();
     
     const data = computed((): InertiaTableData | null => {
-        const props = page.props as any;
-        const tableData = props[resource];
-        
+        const props = page?.props as any;
+        const tableData = props?.[resource];
+
         if (!tableData) return null;
         
         // Handle both paginated and non-paginated data

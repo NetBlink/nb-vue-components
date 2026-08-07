@@ -39,6 +39,29 @@
     --animate-slide-left-fade:   slideLeftFade   var(--duration-base) var(--ease-emphasised);
     --animate-slide-right-fade:  slideRightFade  var(--duration-base) var(--ease-emphasised);
 
+    /*
+     * Exit animations. Deliberately on --duration-quick: leaving should feel
+     * immediate but still be animated, never a hard cut.
+     */
+    --animate-fade-out:          fadeOut         var(--duration-quick) ease-in;
+    /*
+     * `forwards` matters wherever the element outlives its exit animation: with
+     * the default fill it snaps back to full opacity for the last few frames
+     * before it is removed, which reads as a flash just as the thing is
+     * supposed to be leaving.
+     */
+    --animate-slide-down-fade-out: slideDownFadeOut var(--duration-quick) ease-in forwards;
+
+    /*
+     * Toast entries. The slideXFade set above travels 4px, which reads as a
+     * settle, not an arrival - a toast has to look like it came from off-screen.
+     */
+    --animate-toast-in-right:  toastInRight  var(--duration-base) var(--ease-emphasised);
+    --animate-toast-in-left:   toastInLeft   var(--duration-base) var(--ease-emphasised);
+    --animate-toast-in-top:    toastInTop    var(--duration-base) var(--ease-emphasised);
+    --animate-toast-in-bottom: toastInBottom var(--duration-base) var(--ease-emphasised);
+    --animate-toast-scale-in:  toastScaleIn  var(--duration-base) var(--ease-emphasised);
+
     /* Plain colors */
     --color-dark:  #161b1c;
     --color-muted: #a0a0a0;
@@ -214,9 +237,18 @@
 }
 
 @layer utilities {
+    /*
+     * Accent colour for native check/radio controls.
+     *
+     * Uses the 600 step, not the bare --color-primary alias: that alias resolves
+     * to the 300 step (#aad3d9), which is far too light for a filled control.
+     * This rule sits in the same layer as the generated utilities and later in
+     * source, so it wins over any `text-primary-*` class a component sets - it
+     * has to carry the readable value itself.
+     */
     [type='checkbox'],
     [type='radio'] {
-        color: var(--color-primary);
+        color: var(--color-primary-600);
     }
 
     html {
@@ -346,6 +378,99 @@
     to {
         opacity: 1;
     }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@keyframes slideDownFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(4px) scale(0.98);
+    }
+}
+
+/*
+ * Toast entries. The extra rem clears the viewport's own padding, so the toast
+ * starts fully off-screen rather than peeking at the edge.
+ */
+@keyframes toastInRight {
+    from {
+        opacity: 0;
+        transform: translateX(calc(100% + 1.5rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes toastInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(calc(-100% - 1.5rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes toastInTop {
+    from {
+        opacity: 0;
+        transform: translateY(calc(-100% - 1.5rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes toastInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(calc(100% + 1.5rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes toastScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*
+ * Swipe-to-dismiss feedback for toasts. reka-ui handles the gesture and sets
+ * the offset vars; without these rules the toast dismisses but never follows
+ * your finger, which feels broken on touch.
+ *
+ * Both axes are read at once with a 0 fallback - only the active one is ever
+ * set, so a single rule covers all four swipe directions.
+ */
+[data-swipe-direction][data-swipe='move'] {
+    transform: translate(var(--reka-toast-swipe-move-x, 0), var(--reka-toast-swipe-move-y, 0));
+}
+[data-swipe-direction][data-swipe='cancel'] {
+    transform: translate(0, 0);
+    transition: transform var(--duration-quick) var(--ease-emphasised);
+}
+[data-swipe-direction][data-swipe='end'] {
+    /* Stay where the finger left it; the closed-state animation fades it out. */
+    transform: translate(var(--reka-toast-swipe-end-x, 0), var(--reka-toast-swipe-end-y, 0));
 }
 
 .collapse-icon-enter-active,

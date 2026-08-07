@@ -36,9 +36,9 @@ const handleSort = () => {
 };
 
 const getArrowColor = (direction: 'asc' | 'desc') => {
-    return sortDirection.value === direction && isCurrentlySorted.value 
-        ? 'text-blue-600' 
-        : 'text-gray-400';
+    return sortDirection.value === direction && isCurrentlySorted.value
+        ? 'text-primary-600 dark:text-primary-300'
+        : 'text-gray-400 dark:text-gray-600';
 };
 
 const thClasses = computed(() => [

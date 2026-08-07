@@ -87,10 +87,10 @@ const dragEntered = ref(false);
     <form @submit.prevent="submit" class="w-full" v-if="canUpload">
         <div class="flex w-full">
             <div
-                class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary w-full rounded-l-lg border-2 border-r-0 border-dashed transition duration-100 ease-in-out"
-                :class="{ 'border-primary-400 bg-primary-100': dragEntered }"
+                class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-l-lg border-2 border-r-0 border-dashed text-gray-700 transition duration-100 ease-in-out"
+                :class="{ 'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': dragEntered }"
             >
-                <div class="p-4' flex h-20 w-full cursor-copy items-center justify-center font-medium" v-bind="getRootProps()">
+                <div class="flex h-20 w-full cursor-copy items-center justify-center p-4 font-medium" v-bind="getRootProps()">
                     <input v-bind="getInputProps()" />
                     <span v-if="isDragActive">Drop the files here ...</span>
                     <span v-else>Drag 'n' drop images here</span>

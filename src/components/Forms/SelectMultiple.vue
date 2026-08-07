@@ -109,7 +109,10 @@ const getSelectedItems = () => {
                         :key="item[optionValue]"
                         class="flex w-full min-w-full cursor-pointer items-center justify-start border-t border-gray-50 px-4 py-3 text-sm leading-4 font-normal hover:bg-[rgba(0,0,0,.03)]"
                     >
-                        <div class="mr-2 -ml-2 h-4 w-4 rounded border" :class="isSelected(item) ? 'bg-primary' : 'bg-white'"></div>
+                        <div
+                            class="mr-2 -ml-2 h-4 w-4 rounded border"
+                            :class="isSelected(item) ? 'bg-primary-600 border-primary-600' : 'bg-white dark:bg-gray-800'"
+                        ></div>
                         {{ item[optionText] }}
                     </li>
                 </ul>
