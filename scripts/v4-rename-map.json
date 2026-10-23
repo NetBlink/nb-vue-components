@@ -367,5 +367,13 @@
             "prop": "backdropDuration, modalDuration",
             "note": "Unchanged."
         }
+    ],
+    "propRenames": [
+        {
+            "component": "Tbody",
+            "prop": "noRecordsMessage",
+            "replacement": "emptyMessage",
+            "note": "In 3.x `emptyMessage` always had a default, so `noRecordsMessage` was never shown. 4.0 honours it while deprecated, which can change the text on tables that set it."
+        }
     ]
 }

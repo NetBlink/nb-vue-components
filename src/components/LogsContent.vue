@@ -7,7 +7,8 @@
  * degrades to plain text when that route or helper is missing.
  *
  * @part root - the wrapper (or the spinner row while loading)
- * @part empty - the "No Data" line
+ * @slot empty - replaces the empty message
+ * @part empty - the line shown when there are no entries
  * @part list - the timeline `<ol>`
  * @part marker - the round icon on the timeline
  * @part card - each entry's card
@@ -31,12 +32,15 @@ export interface LogsContentProps {
     logs?: Record<string, any>;
     /** Route name used to link a log entry's causer. Set to null to never link. */
     causerRoute?: string | null;
+    /** Shown when there are no entries. Default `'No Data'` */
+    emptyMessage?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['LogsContent']>;
 }
 
 const props = withDefaults(defineProps<LogsContentProps>(), {
     causerRoute: 'users.show',
+    emptyMessage: 'No Data',
 });
 
 const { cls, attrs } = useUi('LogsContent', props);
@@ -60,7 +64,9 @@ const causerHref = (causer) => {
         <Spinner />
     </div>
     <div v-else v-bind="attrs()" :class="cls('root', 'mt-1')" id="logs">
-        <p v-if="!logs.total" :class="cls('empty', 'text-center text-gray-500 dark:text-gray-400')">No Data</p>
+        <p v-if="!logs.total" :class="cls('empty', 'text-center text-sm text-gray-500 dark:text-gray-400')">
+            <slot name="empty">{{ emptyMessage }}</slot>
+        </p>
         <ol v-else :class="cls('list', 'ml-3 border-l-2 border-primary-300 dark:border-primary-800')">
             <li v-for="item in logs.data" :key="item.id">
                 <div class="flex-start w-full md:flex">

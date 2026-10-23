@@ -5,6 +5,7 @@
  * and a "No props defined" empty state. Used by the docs pages, not intended for app UI.
  *
  * @part root - the scroll wrapper
+ * @part empty - the cell shown when there are no rows
  */
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
@@ -21,12 +22,15 @@ interface PropRow {
 
 export interface PropsTableProps {
     rows?: PropRow[];
+    /** Shown when there are no rows. Default `'No props defined'` */
+    emptyMessage?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['PropsTable']>;
 }
 
 const props = withDefaults(defineProps<PropsTableProps>(), {
     rows: () => [],
+    emptyMessage: 'No props defined',
 });
 
 const { cls, attrs } = useUi('PropsTable', props);
@@ -45,7 +49,7 @@ const { cls, attrs } = useUi('PropsTable', props);
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:divide-gray-700 dark:bg-gray-800">
                 <tr v-if="props.rows.length === 0">
-                    <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No props defined</td>
+                    <td colspan="4" :class="cls('empty', 'px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400')">{{ emptyMessage }}</td>
                 </tr>
                 <tr
                     v-for="(row, index) in props.rows"

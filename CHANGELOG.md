@@ -20,7 +20,12 @@
 - Exported props and emits types for every component (`ButtonProps`, `InputProps`, `NewModalProps`, `NewModalEmits`, ...) and the styling types (`NbStyleOptions`, `UiProp`, `NbParts`, `MotionLevel`, ...).
 - Docs: a Customizing page, generated Parts and Motion tables on every component page, and a motion switcher next to the dark-mode toggle. `llms-full.txt` lists parts and motion per component.
 
+### Changed
+- Empty states share one API and look: `Tbody` (and `EnhancedTable`), `RichSelect`, `LogsContent` and `PropsTable` take an `emptyMessage` prop and an `#empty` slot, style through the `empty` part, and render centred `text-sm` grey text. The defaults keep their 3.x wording.
+
 ### Fixed
+- The `Tbody` empty row ("No records found") was meant to be centred and grey, but `Td`'s own `text-left` and `text-gray-900` won the clash, so it rendered left-aligned in dark text with desktop padding of `py-4`. It is now centred grey text with `py-8` at every size. This is the one deliberate change to the zero-config look; restore the old look with `:ui="{ empty: 'text-left text-gray-900 sm:py-4' }"`.
+- `Tbody` `noRecordsMessage` was never shown because `emptyMessage` always had a default. It is honoured now, and deprecated in favour of `emptyMessage`.
 - `FileDropZoneInput` `multiple` and `accept`, and `DottedCarousel` `padding`/`gap`, had no runtime type, so a bare `multiple` attribute was read as an empty string. Every component now declares typed props.
 - `Images` no longer throws when `images` is omitted (it defaults to an empty list).
 
@@ -36,6 +41,7 @@ These still work, warn once each in development, and are removed in 5.0. `script
 - Pagination `customListClass`, `customLinkClass`, `customActiveLinkClass`: `:ui` `list`, `link` (and `disabledLink`), `activeLink`.
 - Stats `customContainerClass`, `customStatClass`, `customStatValueClass`, `customStatLabelClass`: `class`, `:ui` `stat`, `value`, `label`.
 - DataTile `customStatClass`, `customStatValueClass`, `customStatLabelClass`: `class`, `:ui` `value`, `label`.
+- Tbody `noRecordsMessage`: use `emptyMessage`.
 - `Modal` remains deprecated in favour of `NewModal`, and is still usable in 4.x.
 
 ## [3.2.1] - 2026-10-23

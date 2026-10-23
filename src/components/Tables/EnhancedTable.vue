@@ -7,6 +7,7 @@
  * `Table` with hand-written `Tr`/`Td` rows when the cells need bespoke markup.
  *
  * @part root - the outer wrapper, rendered by `Table`
+ * @slot empty - replaces the empty message
  * @part row - each generated `<tr>`
  */
 import { computed, provide } from 'vue';
@@ -136,6 +137,9 @@ const displayData = computed(() => {
                 :loading="table.isLoading?.value"
                 :empty-message="props.emptyMessage"
             >
+                <template v-if="$slots.empty" #empty>
+                    <slot name="empty" />
+                </template>
                 <tr
                     v-for="(row, index) in displayData"
                     :key="row.id || index"

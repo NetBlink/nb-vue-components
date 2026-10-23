@@ -1,12 +1,14 @@
 <script setup lang="ts">
 /**
  * The `<tbody>` primitive, which also owns the table's loading and empty states: it shows
- * `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the
+ * `TrPlaceholder` skeleton rows while loading and a centred empty-state row (`emptyMessage`,
+ * or the `#empty` slot) when the
  * data is empty. Pass `data` as an array, or as the string name of an Inertia prop, in
  * which case it reads that prop and wraps the rows in Inertia's `<Deferred>` so deferred
  * props stream in with the placeholder as fallback.
  *
  * @part root - the `<tbody>`
+ * @slot empty - replaces the empty message
  * @part empty - the `Td` showing the empty message
  * @motion fancy - rows glide to their new place when rows are added, removed or re-sorted, new rows fade in (override with `root.move`)
  * @motion all - below fancy, rows change in place; the loading skeleton pulses at every level
@@ -27,6 +29,7 @@ export interface TbodyProps {
     // New props
     loading?: boolean;
     data?: TableRow[] | string; // Allow both array of data or string key
+    /** Shown when `data` is empty. Default `'No records found'` */
     emptyMessage?: string;
     loadingRows?: number;
     responsive?: boolean;
@@ -35,6 +38,7 @@ export interface TbodyProps {
     hidePlaceholder?: boolean;
     hideNoRecordsMessage?: boolean;
     recordsFromPagination?: boolean;
+    /** Deprecated, use `emptyMessage` */
     noRecordsMessage?: string;
     ignoreDefer?: boolean;
 
@@ -46,17 +50,20 @@ export interface TbodyProps {
 
 const props = withDefaults(defineProps<TbodyProps>(), {
     loading: false,
-    emptyMessage: 'No records found',
+    emptyMessage: undefined,
     loadingRows: 3,
     responsive: true,
     hidePlaceholder: false,
     hideNoRecordsMessage: false,
     recordsFromPagination: false,
-    noRecordsMessage: 'No records found',
+    noRecordsMessage: undefined,
     ignoreDefer: false
 });
 
-const { cls, attrs, level, anim } = useUi('Tbody', props);
+const { cls, attrs, level, anim } = useUi('Tbody', props, { renamed: { noRecordsMessage: 'emptyMessage' } });
+
+// 3.x always defaulted emptyMessage, so a noRecordsMessage was never shown; it is honoured now.
+const emptyText = computed(() => props.emptyMessage ?? props.noRecordsMessage ?? 'No records found');
 
 // Rows reflow at `fancy`; a `move` override in the motion config (part `root`) sets the transition instead.
 const tbody = ref<HTMLElement | null>(null);
@@ -102,8 +109,8 @@ const records = computed(() => tableData.value);
         
         <template v-else-if="showEmptyMessage">
             <tr>
-                <Td colspan="999" :class="cls('empty', 'dark:text-gray-400 py-8')">
-                    {{ props.emptyMessage || props.noRecordsMessage }}
+                <Td colspan="999" align="center" :class="cls('empty', 'py-8 sm:py-8 text-gray-500 dark:text-gray-400')">
+                    <slot name="empty">{{ emptyText }}</slot>
                 </Td>
             </tr>
         </template>
@@ -121,8 +128,8 @@ const records = computed(() => tableData.value);
             
             <template v-if="showEmptyMessage">
                 <tr>
-                    <Td colspan="999" :class="cls('empty', 'dark:text-gray-400 py-8')">
-                        {{ props.emptyMessage || props.noRecordsMessage }}
+                    <Td colspan="999" align="center" :class="cls('empty', 'py-8 sm:py-8 text-gray-500 dark:text-gray-400')">
+                        <slot name="empty">{{ emptyText }}</slot>
                     </Td>
                 </tr>
             </template>

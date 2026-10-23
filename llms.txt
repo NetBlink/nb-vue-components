@@ -325,7 +325,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Table**, Scroll container and `<table>` shell for the table primitives: compose `Thead`, `Th`, `Tbody`, `Tr` and `Td` inside its default slot, and it applies the striped / bordered / hover / sticky-header / size / variant styling plus a responsive wrapper.
 - **TableItemCard**, Mobile-friendly card summarising one record, used as the small-screen fallback for a table row: it lays out an id, title, coloured pills, option links, a timestamp and a formatted amount, each of which can link via an explicit `href` or a Ziggy route name and degrades to plain text when the host app has no `route()` helper..
 - **Tabs**, tabbed panel switcher built on reka-ui's `Tabs` primitives.
-- **Tbody**, The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the data is empty.
+- **Tbody**, The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred empty-state row (`emptyMessage`, or the `#empty` slot) when the data is empty.
 - **Td**, A single body cell inside a `Tr`, handling alignment, width and no-wrap.
 - **TdCollapseHandler**, A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, rendered with a pointer cursor and the `aria-expanded`/`aria-controls` wiring.
 - **Textarea**, Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrome, with optional leading addon, trailing `SubmitButton` and WhatsApp action.

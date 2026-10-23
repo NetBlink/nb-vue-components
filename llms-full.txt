@@ -655,7 +655,7 @@ Dropdown separator component A visual separator for dropdown menu items.
 
 Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants. Prefer plain `Table` with hand-written `Tr`/`Td` rows when the cells need bespoke markup.
 
-**Slots:** `default`
+**Slots:** `default`, `empty`, replaces the empty message
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -987,14 +987,17 @@ Renders a paginated Laravel activity-log payload as a vertical timeline, with a 
 | --- | --- | --- | --- |
 | `logs` | `Record<string, any>` | - | Laravel-style paginated result `{ total, data[], links? }` |
 | `causerRoute` | `string \| null` | `'users.show'` | Route name used to link a log entry's causer. Set to null to never link. |
+| `emptyMessage` | `string` | `'No Data'` | Shown when there are no entries. Default `'No Data'` |
 | `ui` | `UiProp<NbParts['LogsContent']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `empty`, replaces the empty message
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
 | Part | Element |
 | --- | --- |
 | `root` | the wrapper (or the spinner row while loading) |
-| `empty` | the "No Data" line |
+| `empty` | the line shown when there are no entries |
 | `list` | the timeline `<ol>` |
 | `marker` | the round icon on the timeline |
 | `card` | each entry's card |
@@ -1190,6 +1193,7 @@ Documentation-only table that renders an array of `{ prop, type, default, descri
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `rows` | `PropRow[]` | `() => []` |  |
+| `emptyMessage` | `string` | `'No props defined'` | Shown when there are no rows. Default `'No props defined'` |
 | `ui` | `UiProp<NbParts['PropsTable']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
@@ -1197,6 +1201,7 @@ Documentation-only table that renders an array of `{ prop, type, default, descri
 | Part | Element |
 | --- | --- |
 | `root` | the scroll wrapper |
+| `empty` | the cell shown when there are no rows |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
@@ -1274,9 +1279,12 @@ Feature-rich Select component with API search, multiple selection, and grouping
 | `optionValue` | `string` | `'value'` | Property name for option value |
 | `optionLabel` | `string` | `'label'` | Property name for option label |
 | `optionGroup` | `string` | `'group'` | Property name for option group |
+| `emptyMessage` | `string` | `'No options found'` | Shown when no option matches. Default `'No options found'` |
 | `customClass` | `string` | `''` | Deprecated, use `:ui="{ trigger: '...' }"` |
 | `ui` | `UiProp<NbParts['RichSelect']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Slots:** `empty`, replaces the empty message
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -1299,7 +1307,7 @@ Feature-rich Select component with API search, multiple selection, and grouping
 | `groupLabel` | a group heading |
 | `item` | an option |
 | `check` | the tick on a selected option |
-| `empty` | the "No options found" row |
+| `empty` | the row shown when no option matches |
 | `error` | the `InputError` |
 
 **Motion:** `off`: the panel opens and closes instantly; `simple`: the panel fades; `smooth`: the panel fades and scales in and out, the chevron turns; `fancy`: the panel pops on a spring and options glide into place while filtering.
@@ -1766,24 +1774,24 @@ tabbed panel switcher built on reka-ui's `Tabs` primitives. Declare the tab stri
 
 ### Tbody
 
-The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred "No records found" row when the data is empty. Pass `data` as an array, or as the string name of an Inertia prop, in which case it reads that prop and wraps the rows in Inertia's `<Deferred>` so deferred props stream in with the placeholder as fallback.
+The `<tbody>` primitive, which also owns the table's loading and empty states: it shows `TrPlaceholder` skeleton rows while loading and a centred empty-state row (`emptyMessage`, or the `#empty` slot) when the data is empty. Pass `data` as an array, or as the string name of an Inertia prop, in which case it reads that prop and wraps the rows in Inertia's `<Deferred>` so deferred props stream in with the placeholder as fallback.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `loading` | `boolean` | `false` | New props |
 | `data` | `TableRow[] \| string` | - |  |
-| `emptyMessage` | `string` | `'No records found'` | Allow both array of data or string key |
+| `emptyMessage` | `string` | `undefined` | Shown when `data` is empty. Default `'No records found'` |
 | `loadingRows` | `number` | `3` |  |
 | `responsive` | `boolean` | `true` |  |
 | `hidePlaceholder` | `boolean` | `false` | Legacy props for backward compatibility |
 | `hideNoRecordsMessage` | `boolean` | `false` |  |
 | `recordsFromPagination` | `boolean` | `false` |  |
-| `noRecordsMessage` | `string` | `'No records found'` |  |
+| `noRecordsMessage` | `string` | `undefined` | Deprecated, use `emptyMessage` |
 | `ignoreDefer` | `boolean` | `false` |  |
 | `ui` | `UiProp<NbParts['Tbody']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
-**Slots:** `default`
+**Slots:** `default`, `empty`, replaces the empty message
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 

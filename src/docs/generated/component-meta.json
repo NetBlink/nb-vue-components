@@ -850,7 +850,7 @@
             },
             {
                 "name": "empty",
-                "description": "the \"No Data\" line"
+                "description": "the line shown when there are no entries"
             },
             {
                 "name": "list",
@@ -1096,6 +1096,10 @@
             {
                 "name": "root",
                 "description": "the scroll wrapper"
+            },
+            {
+                "name": "empty",
+                "description": "the cell shown when there are no rows"
             }
         ],
         "classPart": "root",
@@ -1216,7 +1220,7 @@
             },
             {
                 "name": "empty",
-                "description": "the \"No options found\" row"
+                "description": "the row shown when no option matches"
             },
             {
                 "name": "error",

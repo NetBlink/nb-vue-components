@@ -94,6 +94,20 @@ const paginationEvents = [
 ];
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
+const emptyStateExamples = [
+    '<!-- Default message -->',
+    '<Tbody :data="[]" />',
+    '',
+    '<!-- Your own text -->',
+    '<Tbody :data="rows" empty-message="No orders yet" />',
+    '',
+    '<!-- Your own markup -->',
+    '<Tbody :data="rows">',
+    '    <template #empty>No orders yet. <a href="/orders/create" class="underline">Create one</a></template>',
+    '    <Tr v-for="row in rows" :key="row.id">...</Tr>',
+    '</Tbody>',
+];
+
 // Table sorting composable example
 const { sortState } = useTableSort();
 
@@ -1207,6 +1221,28 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                     <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">links</code> (array) → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">pagination</code> (Laravel paginator payload)</li>
                 </ul>
             </CollapsableSection>
+        </section>
+
+        <section id="empty-state">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Empty state</h3>
+            <DocDemoCard>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    When <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">data</code> is empty, Tbody shows a centred message. Change the text with
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">empty-message</code>, or replace it with the
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#empty</code> slot. RichSelect, LogsContent and EnhancedTable take the same prop and slot.
+                </p>
+                <Table>
+                    <Thead>
+                        <tr>
+                            <Th>Order</Th>
+                            <Th>Customer</Th>
+                            <Th>Total</Th>
+                        </tr>
+                    </Thead>
+                    <Tbody :data="[]" empty-message="No orders yet" />
+                </Table>
+                <CodePreview :code="emptyStateExamples" />
+            </DocDemoCard>
         </section>
 
         <DocComponentMeta :names="['Table', 'Thead', 'Tbody', 'Th', 'Td', 'Tr', 'TrPlaceholder', 'TrCollapse', 'TrCollapseHandler', 'TdCollapseHandler', 'EnhancedTable', 'TableItemCard', 'Pagination']" />

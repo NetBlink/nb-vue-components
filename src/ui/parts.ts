@@ -101,7 +101,7 @@ export interface NbParts {
     UnderConstruction: 'root' | 'card' | 'icon' | 'title' | 'message';
     Spinner: 'root';
     CodePreview: 'root' | 'header' | 'filename' | 'copy' | 'pre';
-    PropsTable: 'root';
+    PropsTable: 'root' | 'empty';
     H2: 'root' | 'title';
 }
 

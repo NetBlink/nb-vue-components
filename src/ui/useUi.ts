@@ -15,12 +15,15 @@ const isDev = () => typeof process !== 'undefined' && process.env.NODE_ENV !== '
 
 const warned = new Set<string>();
 
-function warnDeprecated(component: string, prop: string, part: string, classPart: string) {
+function warnOnce(component: string, prop: string, target: string) {
     const key = `${component}.${prop}`;
     if (warned.has(key) || !isDev() || typeof console === 'undefined') return;
     warned.add(key);
-    const target = part === classPart ? '`class`' : `\`:ui="{ ${part}: '...' }"\``;
     console.warn(`[nb-vue-components] ${component}: \`${prop}\` is deprecated and will be removed in 5.0. Use ${target} instead.`);
+}
+
+function warnDeprecated(component: string, prop: string, part: string, classPart: string) {
+    warnOnce(component, prop, part === classPart ? '`class`' : `\`:ui="{ ${part}: '...' }"\``);
 }
 
 export interface UseUiOptions<P extends string> {
@@ -28,6 +31,8 @@ export interface UseUiOptions<P extends string> {
     aliases?: Record<string, P>;
     /** The part that receives the instance `class`. Default `'root'`. */
     classPart?: P;
+    /** Deprecated non-class props and the prop that replaces each one. */
+    renamed?: Record<string, string>;
 }
 
 type UiProps<P extends string> = { ui?: UiProp<P>; motion?: MotionLevel } & Record<string, any>;
@@ -64,6 +69,9 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
     for (const [prop, part] of Object.entries(aliases)) {
         const value = props[prop];
         if (value !== undefined && value !== '' && !(Array.isArray(value) && !value.length)) warnDeprecated(name, prop, part as string, classPart as string);
+    }
+    for (const [prop, replacement] of Object.entries(options.renamed ?? {})) {
+        if (props[prop] !== undefined) warnOnce(name, prop, `\`${replacement}\``);
     }
 
     const level = computed<MotionLevel>(() => {

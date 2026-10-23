@@ -45,7 +45,8 @@
  * @part groupLabel - a group heading
  * @part item - an option
  * @part check - the tick on a selected option
- * @part empty - the "No options found" row
+ * @slot empty - replaces the empty message
+ * @part empty - the row shown when no option matches
  * @part error - the `InputError`
  * @motion off - the panel opens and closes instantly
  * @motion simple - the panel fades
@@ -121,6 +122,8 @@ export interface RichSelectProps {
     optionLabel?: string;
     /** Property name for option group */
     optionGroup?: string;
+    /** Shown when no option matches. Default `'No options found'` */
+    emptyMessage?: string;
     /** Deprecated, use `:ui="{ trigger: '...' }"` */
     customClass?: string;
     /** Classes per part, merged over the defaults */
@@ -163,6 +166,7 @@ const props = withDefaults(defineProps<RichSelectProps>(), {
     optionLabel: 'label',
     optionGroup: 'group',
     customClass: '',
+    emptyMessage: 'No options found',
 });
 
 const emit = defineEmits<RichSelectEmits>();
@@ -600,7 +604,9 @@ onUnmounted(cleanup);
                         </template>
 
                         <!-- No options message -->
-                        <div v-if="!filteredOptions.length" :class="cls('empty', 'px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400')">No options found</div>
+                        <div v-if="!filteredOptions.length" :class="cls('empty', 'px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400')">
+                            <slot name="empty">{{ emptyMessage }}</slot>
+                        </div>
                     </div>
                 </div>
             </transition>
