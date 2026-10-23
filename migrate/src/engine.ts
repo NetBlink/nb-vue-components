@@ -7,11 +7,12 @@ import { FileStore } from './files.js';
 import { Report, REPORT_FILE } from './report.js';
 import { Chooser, type Decision } from './choices.js';
 import { isGitClean } from './git.js';
+import { LIBRARY } from './sfc.js';
 import { detectVersion, pickSteps, resolveTarget } from './version.js';
 import { STEPS, LATEST } from './steps/index.js';
 import type { StepContext } from './steps/types.js';
 
-export const LIBRARY = '@netblink/vue-components';
+export { LIBRARY };
 
 export interface UpgradeOptions {
     root: string;
