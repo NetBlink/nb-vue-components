@@ -4,9 +4,18 @@
  * the default slot becomes a slide, so mark each with `class="min-w-full snap-start"` for
  * the snapping to line up; the dot count is read from the DOM and kept in sync with a
  * MutationObserver, and clicking a dot scrolls smoothly to that slide.
+ *
+ * @part root - the wrapper
+ * @part track - the snap-scrolling slide row
+ * @part dots - the dot row
+ * @part indicator - the active dot that slides between positions
+ * @part dot - each dot
  */
 // @ts-nocheck
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const currentSlide = ref(0);
 const activeDot = ref(null);
@@ -22,7 +31,16 @@ const props = defineProps({
     padding: { default: 0 },
     /** Pixel gap between slides */
     gap: { default: 20 },
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: /** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts['DottedCarousel']>>} */ (Object),
+        default: undefined,
+    },
+    /** Motion level for this instance */
+    motion: { type: String, default: undefined },
 });
+
+const { cls, attrs } = useUi('DottedCarousel', props);
 
 const DOT_PITCH = 20;
 const currentDotPosition = ref(0);
@@ -70,9 +88,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="relative">
+    <div v-bind="attrs()" :class="cls('root', 'relative')">
         <div
-            class="flex snap-x snap-mandatory overflow-x-auto [&::-webkit-scrollbar]:hidden"
+            :class="cls('track', 'flex snap-x snap-mandatory overflow-x-auto [&::-webkit-scrollbar]:hidden')"
             :style="{ gap: `${gap}px` }"
             ref="container"
             @scroll="onContainerScroll"
@@ -80,16 +98,16 @@ onBeforeUnmount(() => {
             <slot />
         </div>
         <div class="mt-4 flex flex-col items-center justify-center">
-            <div class="relative flex w-fit flex-row justify-center gap-3">
+            <div :class="cls('dots', 'relative flex w-fit flex-row justify-center gap-3')">
                 <div
-                    class="bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300"
+                    :class="cls('indicator', 'bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300')"
                     :style="{ left: `${currentDotPosition}px` }"
                     ref="activeDot"
                 />
                 <div
                     v-for="index in slideCount"
                     :key="index"
-                    class="h-2 w-2 cursor-pointer rounded-full bg-accent"
+                    :class="cls('dot', 'h-2 w-2 cursor-pointer rounded-full bg-accent')"
                     @click="slideTo($event, index - 1)"
                 />
             </div>

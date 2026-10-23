@@ -4,8 +4,17 @@
  * optional header strip driven by the `header` prop plus a `headerButton` slot. Pick a
  * `variant` for the border/shadow treatment, or set `unstyled` to keep only the layout
  * and supply your own classes, which are merged onto the container.
+ *
+ * @part root - the container
+ * @part header - the header strip
+ * @part title - the header text
+ * @part body - the padded content wrapper
  */
-import { computed, useAttrs } from 'vue';
+import { computed } from 'vue';
+import type { NbParts, SectionVariants, UiProp } from '../ui/parts';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 /**
  * @component
@@ -16,72 +25,45 @@ import { computed, useAttrs } from 'vue';
  * @prop {boolean} unstyled - Remove all default styling to allow full customization
  */
 
-interface Props {
+export interface SectionProps {
     header?: string;
     overflow?: boolean;
-    variant?: 'default' | 'outlined' | 'minimal';
+    /** Border and shadow treatment. Add your own through the `variants` config. */
+    variant?: keyof SectionVariants;
     unstyled?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Section']>;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<SectionProps>(), {
     overflow: false,
     variant: 'default',
     unstyled: false,
 });
 
-const attrs = useAttrs();
+const { cls, attrs, variant } = useUi('Section', props);
 
-// Base classes
+const VARIANTS: Record<string, string> = {
+    outlined: 'rounded-lg border border-gray-300 dark:border-gray-700',
+    minimal: 'rounded-lg',
+    default: 'rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow dark:border-gray-700 dark:bg-gray-800',
+};
+
+// Base classes. An unknown variant falls back to `default`, as before.
 const baseClasses = computed(() => {
     if (props.unstyled) {
         return '';
     }
-
-    const base = 'rounded-lg';
-
-    switch (props.variant) {
-        case 'outlined':
-            return `${base} border border-gray-300 dark:border-gray-700`;
-        case 'minimal':
-            return base;
-        case 'default':
-        default:
-            return `${base} border border-gray-200 dark:border-gray-700 bg-white shadow dark:border-gray-700 dark:bg-gray-800`;
-    }
+    return variant('variant', VARIANTS, props.variant).root ?? VARIANTS.default;
 });
 
-const containerClasses = computed(() => {
-    const classes = [];
-
-    // Add base classes if not unstyled
-    if (!props.unstyled) {
-        classes.push(baseClasses.value);
-    }
-
-    // Add overflow class if needed
-    if (props.overflow) {
-        classes.push('overflow-hidden');
-    }
-
-    // Add custom class if provided (this will override defaults due to CSS specificity)
-    if (attrs.class && typeof attrs.class === 'string') {
-        classes.push(attrs.class);
-    }
-
-    return classes.filter(Boolean).join(' ');
-});
-
-// Get non-class attributes to pass through
-const nonClassAttrs = computed(() => {
-    const { class: _, ...rest } = attrs;
-    return rest;
-});
+const containerClasses = computed(() => [baseClasses.value, props.overflow ? 'overflow-hidden' : '']);
 </script>
 <template>
-    <div :class="containerClasses" v-bind="nonClassAttrs">
-        <div v-if="header" class="border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40">
+    <div v-bind="attrs()" :class="cls('root', containerClasses)">
+        <div v-if="header" :class="cls('header', 'border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900/40')">
             <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ header }}</h3>
+                <h3 :class="cls('title', 'text-lg font-semibold text-gray-900 dark:text-gray-100')">{{ header }}</h3>
                 <div v-if="$slots.headerButton">
                     <slot name="headerButton" />
                 </div>
@@ -89,7 +71,7 @@ const nonClassAttrs = computed(() => {
         </div>
         <!-- Same px-6 py-4 inset as the header strip above, so a Section with and
              without a header keeps one consistent content box. -->
-        <div class="px-6 py-4">
+        <div :class="cls('body', 'px-6 py-4')">
             <slot />
         </div>
     </div>

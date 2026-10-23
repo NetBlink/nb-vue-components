@@ -8,19 +8,29 @@
  * @prop {boolean} linkReturn - Whether to return links instead of navigating
  * @prop {number} maxPagesToShow - Maximum number of page links to display
  * @prop {boolean} logs - Whether this is used for logs pagination
- * @prop {string} customLinkClass - Custom CSS classes for pagination links
- * @prop {string} customActiveLinkClass - Custom CSS classes for active link
- * @prop {string} customListClass - Custom CSS classes for the pagination list
+ * @prop {string} customLinkClass - Deprecated, use `:ui="{ link: '...' }"`
+ * @prop {string} customActiveLinkClass - Deprecated, use `:ui="{ activeLink: '...' }"`
+ * @prop {string} customListClass - Deprecated, use `:ui="{ list: '...' }"`
  * @prop {boolean} preserveScroll - Whether to preserve scroll position
  * @prop {boolean} preserveState - Whether to preserve component state
  * @prop {Array} only - Array of properties to preserve during navigation
  * @prop {boolean} showPerPage - Whether to show per-page selector
  * @prop {number} defaultPerPage - Default number of items per page
+ * @part root - the wrapper
+ * @part list - the `<ul>` of page links
+ * @part link - each page link
+ * @part activeLink - extra classes for the current page, on top of `link`
+ * @part disabledLink - a link without a URL (previous/next at the ends)
  */
 
 import Link from '../overrides/InertiaLink';
 import { computed, ref } from 'vue';
 import { Input } from '../index';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 interface PaginationLink {
     url: string | null;
@@ -28,7 +38,7 @@ interface PaginationLink {
     active: boolean;
 }
 
-interface Props {
+export interface PaginationProps {
     links: PaginationLink[];
     linkReturn?: boolean;
     maxPagesToShow?: number;
@@ -41,13 +51,17 @@ interface Props {
     only?: string[];
     showPerPage?: boolean;
     defaultPerPage?: number;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Pagination']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const emit = defineEmits<{
     change: [url: string];
 }>();
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<PaginationProps>(), {
     linkReturn: false,
     maxPagesToShow: 20,
     logs: false,
@@ -60,6 +74,16 @@ const props = withDefaults(defineProps<Props>(), {
     showPerPage: false,
     defaultPerPage: 100,
 });
+
+const { cls, attrs } = useUi('Pagination', props, {
+    aliases: { customListClass: 'list', customLinkClass: 'link', customActiveLinkClass: 'activeLink' },
+});
+
+const LINK = 'focusable relative block cursor-pointer rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white';
+const ACTIVE = 'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100';
+// 3.x applied customLinkClass to the disabled links too, so the deprecated prop still does.
+const disabledClass = () => cls('disabledLink', 'focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600', props.customLinkClass);
+const linkClass = (active: boolean) => (active ? cls('activeLink', cls('link', LINK, ACTIVE)) : cls('link', LINK));
 
 const perPage = ref(props.defaultPerPage);
 const perPageOptions = [10, 25, 50, 100, 250];
@@ -100,7 +124,7 @@ const perPageChanged = (e) => {
 };
 </script>
 <template>
-    <div class="pagination flex justify-between">
+    <div v-bind="attrs()" :class="cls('root', 'pagination flex justify-between')">
         <div>
             <Input type="select" v-model="perPage" class="per-page-input w-20" @changed="perPageChanged" v-if="showPerPage">
                 <option v-for="option in perPageOptions" :key="option" :value="option" :selected="option == perPage">
@@ -110,26 +134,18 @@ const perPageChanged = (e) => {
         </div>
 
         <nav aria-label="Page navigation" v-if="filteredLinks.length > 3">
-            <ul class="list-style-none flex" :class="{ [customListClass]: customListClass }">
+            <ul :class="cls('list', 'list-style-none flex')">
                 <li v-for="(link, k) in filteredLinks" :key="k">
                     <template v-if="linkReturn">
                         <button
                             v-if="link.url === null"
-                            class="focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600"
-                            :class="{
-                                [customLinkClass]: customLinkClass,
-                            }"
+                            :class="disabledClass()"
                             v-html="link.label"
                             @click="handleChange('')"
                         />
                         <button
                             v-else
-                            class="focusable relative block cursor-pointer rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
-                            :class="{
-                                'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100': link.active,
-                                [customLinkClass]: customLinkClass,
-                                [customActiveLinkClass]: link.active && customActiveLinkClass,
-                            }"
+                            :class="linkClass(link.active)"
                             v-html="link.label"
                             @click="handleChange(link.url)"
                         />
@@ -137,21 +153,13 @@ const perPageChanged = (e) => {
                     <template v-else>
                         <Link
                             v-if="link.url === null"
-                            class="focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600"
-                            :class="{
-                                [customLinkClass]: customLinkClass,
-                            }"
+                            :class="disabledClass()"
                             v-html="link.label"
                             :href="''"
                         />
                         <Link
                             v-else
-                            class="focusable relative block cursor-pointer rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
-                            :class="{
-                                'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100': link.active,
-                                [customLinkClass]: customLinkClass,
-                                [customActiveLinkClass]: link.active && customActiveLinkClass,
-                            }"
+                            :class="linkClass(link.active)"
                             :href="link.url"
                             v-html="link.label"
                             :preserveScroll="preserveScroll || logs"

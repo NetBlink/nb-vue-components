@@ -4,18 +4,34 @@
  * whole header row is the trigger, with a chevron that rotates when open. Reach for this
  * when the disclosure *is* the container; use `Collapse` instead when you only want a
  * "Show more" button toggling some content inside an existing layout.
+ *
+ * @part root - the bordered card
+ * @part trigger - the header row that toggles the section
+ * @part header - the heading text
+ * @part icon - the chevron wrapper
+ * @part content - the collapsing panel
+ * @part body - the padded wrapper around the slot
  */
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
-interface CollapsableSectionProps {
+defineOptions({ inheritAttrs: false });
+
+export interface CollapsableSectionProps {
     /** Header text for the collapsible section */
     header?: string;
     /** Whether the section is initially open */
     open?: boolean;
     /** Background color for the header */
     headerColor?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['CollapsableSection']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<CollapsableSectionProps>(), {
@@ -23,6 +39,8 @@ const props = withDefaults(defineProps<CollapsableSectionProps>(), {
     open: false,
     headerColor: undefined,
 });
+
+const { cls, attrs } = useUi('CollapsableSection', props);
 
 const isOpen = ref(props.open);
 
@@ -39,24 +57,30 @@ onMounted(() => {
     <CollapsibleRoot
         :defaultOpen="open"
         v-model:open="isOpen"
-        class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow dark:border-gray-700 dark:bg-gray-800"
+        v-bind="attrs()"
+        :class="cls('root', 'rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow dark:border-gray-700 dark:bg-gray-800')"
     >
         <CollapsibleTrigger
-            class="focusable focus:ring-primary-500 relative flex w-full cursor-pointer items-center justify-between rounded-lg border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 px-6 py-4 text-left transition-colors duration-150 hover:bg-gray-100/50 focus:ring-2 focus:ring-offset-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900/40 dark:hover:bg-gray-900/60 dark:focus:ring-offset-gray-900"
+            :class="
+                cls(
+                    'trigger',
+                    'focusable focus:ring-primary-500 relative flex w-full cursor-pointer items-center justify-between rounded-lg border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 px-6 py-4 text-left transition-colors duration-150 hover:bg-gray-100/50 focus:ring-2 focus:ring-offset-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900/40 dark:hover:bg-gray-900/60 dark:focus:ring-offset-gray-900'
+                )
+            "
             :style="{ backgroundColor: headerColor }"
         >
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <h3 :class="cls('header', 'text-lg font-semibold text-gray-900 dark:text-gray-100')">
                 <span v-if="header">{{ header }}</span>
                 <slot v-else name="trigger" />
             </h3>
-            <div class="text-primary-600 transition-transform duration-300 ease-in-out dark:text-primary-300" :class="{ 'rotate-180': isOpen }">
+            <div :class="cls('icon', 'text-primary-600 transition-transform duration-300 ease-in-out dark:text-primary-300', { 'rotate-180': isOpen })">
                 <NbIcon name="$expand" class="h-5 w-5" />
             </div>
         </CollapsibleTrigger>
 
-        <CollapsibleContent class="data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden">
+        <CollapsibleContent :class="cls('content', 'data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden')">
             <!-- Matches the trigger's px-6 py-4 so header and body share one inset. -->
-            <div class="px-6 py-4">
+            <div :class="cls('body', 'px-6 py-4')">
                 <slot />
             </div>
         </CollapsibleContent>

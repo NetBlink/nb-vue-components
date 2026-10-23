@@ -9,20 +9,29 @@
  *
  * @prop {string} email - email address used to compute the avatar hash
  * @prop {number} [size=100] - requested image size in pixels (Gravatar `s=` parameter)
+ * @part root - the `<img>`
  */
 import { computed } from 'vue';
 import { md5 } from 'js-md5';
+import type { NbParts, UiProp } from '../ui/parts';
+import { useUi } from '../ui/useUi';
 
-interface GravatarImgProps {
+defineOptions({ inheritAttrs: false });
+
+export interface GravatarImgProps {
     /** Email - md5-hashed (after trim + lowercase) for the Gravatar lookup */
     email: string;
     /** Pixel size requested from Gravatar (the `s=` query parameter) */
     size?: number;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['GravatarImg']>;
 }
 
 const props = withDefaults(defineProps<GravatarImgProps>(), {
     size: 100,
 });
+
+const { cls, attrs } = useUi('GravatarImg', props);
 
 const hash = computed(() => {
     return md5(props.email.trim().toLowerCase());
@@ -37,5 +46,5 @@ const alt = computed(() => {
 });
 </script>
 <template>
-    <img :src="src" :alt="alt" />
+    <img v-bind="attrs()" :class="cls('root')" :src="src" :alt="alt" />
 </template>

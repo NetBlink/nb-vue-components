@@ -5,9 +5,17 @@
  * user scrolls the dropdown to the bottom. Reach for it when the option set is too large
  * to ship to the client; use `SearchSelect` for a static list, or `RichSelect` if you want
  * API search plus multiple selection and grouping in one component.
+ *
+ * @part root - the wrapper `<div>` (rendered by `SearchSelect`)
+ * @part label - the `InputLabel`
+ * @part input - the search select control
+ * @part error - the `InputError`
  */
 // @ts-nocheck
 import { SearchSelect } from '../../index';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 import { ref, onMounted } from 'vue';
 
 const props = defineProps({

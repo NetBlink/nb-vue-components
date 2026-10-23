@@ -8,15 +8,27 @@
  */
 import { computed } from 'vue';
 import { getInertiaPage } from '../Helpers';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 /**
  * @prop {StatItem[]}    stats - `{ name, value, label? }[]` - label falls back to `name` for display
  * @prop {string|null}   [statusName=null] - query-string parameter used to compute the selected tile
- * @prop {string}        [customContainerClass=''] - extra classes on the outer grid
- * @prop {string}        [customStatClass=''] - extra classes on each stat card
- * @prop {string}        [customStatLabelClass=''] - extra classes on each stat label
- * @prop {string}        [customStatValueClass=''] - extra classes on each stat value
+ * @prop {string}        [customContainerClass=''] - deprecated, use `class`
+ * @prop {string}        [customStatClass=''] - deprecated, use `:ui="{ stat: '...' }"`
+ * @prop {string}        [customStatLabelClass=''] - deprecated, use `:ui="{ label: '...' }"`
+ * @prop {string}        [customStatValueClass=''] - deprecated, use `:ui="{ value: '...' }"`
  * @emits updateSearch - `(name: string | null)` - fires when a tile is clicked
+ * @part root - the grid
+ * @part stat - each tile
+ * @part value - the value section
+ * @part valueText - the number
+ * @part label - the label section
+ * @part labelText - the label text
+ * @part underline - the hover underline
  */
 
 interface StatItem {
@@ -28,25 +40,33 @@ interface StatItem {
     label?: string;
 }
 
-interface Props {
+export interface StatsProps {
     stats: StatItem[];
     statusName?: string | null;
     customContainerClass?: string;
     customStatClass?: string;
     customStatLabelClass?: string;
     customStatValueClass?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Stats']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const emit = defineEmits<{
     updateSearch: [status: string | null];
 }>();
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<StatsProps>(), {
     statusName: null,
     customContainerClass: '',
     customStatClass: '',
     customStatLabelClass: '',
     customStatValueClass: '',
+});
+
+const { cls, attrs } = useUi('Stats', props, {
+    aliases: { customContainerClass: 'root', customStatClass: 'stat', customStatLabelClass: 'label', customStatValueClass: 'value' },
 });
 
 // Access route parameters through the helper pattern
@@ -80,34 +100,34 @@ const ifSelected = (status: string): boolean => {
 </script>
 
 <template>
-    <div class="grid gap-4" :class="[customContainerClass]" style="grid-template-columns: repeat(auto-fit, minmax(164px, 1fr))">
+    <div v-bind="attrs()" :class="cls('root', 'grid gap-4')" style="grid-template-columns: repeat(auto-fit, minmax(164px, 1fr))">
         <div
             v-for="s in stats"
             :key="s.value"
-            class="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40"
-            :class="{
-                'border-primary-200 bg-primary-50 ring-primary-500 ring-2 dark:border-primary-700 dark:bg-primary-900/30': ifSelected(s.name),
-                [customStatClass]: customStatClass,
-            }"
+            :class="
+                cls('stat', 'group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40', {
+                    'border-primary-200 bg-primary-50 ring-primary-500 ring-2 dark:border-primary-700 dark:bg-primary-900/30': ifSelected(s.name),
+                })
+            "
             @click="onClick(s.name)"
         >
             <!-- Value Section -->
-            <div class="px-6 py-4" :class="[customStatValueClass]">
-                <div class="group-hover:text-primary-600 text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100 dark:group-hover:text-primary-300">
+            <div :class="cls('value', 'px-6 py-4')">
+                <div :class="cls('valueText', 'group-hover:text-primary-600 text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100 dark:group-hover:text-primary-300')">
                     {{ s.value }}
                 </div>
             </div>
 
             <!-- Label Section -->
-            <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40" :class="[customStatLabelClass]">
-                <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100">
+            <div :class="cls('label', 'border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40')">
+                <div :class="cls('labelText', 'text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100')">
                     {{ s.label ?? s.name }}
                 </div>
             </div>
 
             <!-- Hover Effect Indicator -->
             <div
-                class="from-primary-500 to-primary-600 absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-gradient-to-r transition-transform duration-200 group-hover:scale-x-100"
+                :class="cls('underline', 'from-primary-500 to-primary-600 absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-gradient-to-r transition-transform duration-200 group-hover:scale-x-100')"
             ></div>
         </div>
     </div>

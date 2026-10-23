@@ -4,8 +4,15 @@
  * themselves through provide/inject so the list can start, stop or toggle editing on all
  * of them at once via its exposed methods; pass an Inertia `form` plus `stopEditOnSubmit`
  * to have every row leave edit mode automatically once submission finishes.
+ *
+ * @part root - the wrapper with the top border
+ * @part list - the `<dl>`
  */
 import { provide, ref, watch } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 interface DescriptionListItem {
     startEditing?: () => void;
@@ -13,7 +20,7 @@ interface DescriptionListItem {
     toggleEditing?: () => void;
 }
 
-interface DescriptionListProps {
+export interface DescriptionListProps {
     /** Form object with processing state */
     form?: {
         processing?: boolean;
@@ -21,12 +28,16 @@ interface DescriptionListProps {
     };
     /** Whether to automatically stop editing when form submission completes */
     stopEditOnSubmit?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['DescriptionList']>;
 }
 
 const props = withDefaults(defineProps<DescriptionListProps>(), {
     form: undefined,
     stopEditOnSubmit: false,
 });
+
+const { cls, attrs } = useUi('DescriptionList', props);
 
 const wasProcessing = ref(false);
 watch(
@@ -84,8 +95,8 @@ defineExpose({
 </script>
 
 <template>
-    <div class="border-t border-gray-100 dark:border-gray-700">
-        <dl class="divide-y divide-gray-100 dark:divide-gray-700">
+    <div v-bind="attrs()" :class="cls('root', 'border-t border-gray-100 dark:border-gray-700')">
+        <dl :class="cls('list', 'divide-y divide-gray-100 dark:divide-gray-700')">
             <slot />
         </dl>
     </div>

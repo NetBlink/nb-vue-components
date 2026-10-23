@@ -248,10 +248,12 @@ Inline `role="alert"` banner in success / error / warning / info variants, with 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'success' \| 'error' \| 'warning' \| 'info'` | `'info'` | The type/variant of the alert |
+| `type` | `keyof AlertTypes` | `'info'` | The type/variant of the alert. Add your own through the `variants` config. |
 | `title` | `string` | `undefined` | Alert title (optional) |
 | `dismissible` | `boolean` | `false` | Whether the alert can be dismissed |
 | `modelValue` | `boolean` | `true` | Whether the alert is initially visible |
+| `ui` | `UiProp<NbParts['Alert']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -310,6 +312,7 @@ Read-only code block with a header bar showing a filename and a copy-to-clipboar
 | `code` | `string[]` | **required** | Array of code lines to display |
 | `language` | `string` | - | Optional language label shown in the header (e.g. "css", "vue") |
 | `filename` | `string` | - | Optional filename shown in the header instead of "Code Example" |
+| `ui` | `UiProp<NbParts['CodePreview']>` | - | Classes per part, merged over the defaults |
 
 ### CollapsableSection
 
@@ -320,6 +323,8 @@ Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box who
 | `header` | `string` | `undefined` | Header text for the collapsible section |
 | `open` | `boolean` | `false` | Whether the section is initially open |
 | `headerColor` | `string` | `undefined` | Background color for the header |
+| `ui` | `UiProp<NbParts['CollapsableSection']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -331,6 +336,8 @@ Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `Second
 | --- | --- | --- | --- |
 | `open` | `boolean` | `false` | Whether the collapse is initially open |
 | `button` | `[string, string]` | `() => ['Show more', 'Show less'] as [string, string]` | Button text for open and closed states [show, hide] |
+| `ui` | `UiProp<NbParts['Collapse']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, `trigger`
 
@@ -359,10 +366,12 @@ themed statistic tile with a background icon. Renders a card with a large value,
 | `label` | `string` | **required** | Label rendered under the value |
 | `icon` | `IconLike` | - | Icon shown in the background of the value area. Accepts any IconLike. |
 | `selected` | `boolean` | `false` | Show a ring outline (use for "currently active" tiles) |
-| `customStatClass` | `string` | `''` | Extra classes on the outer card |
-| `customStatValueClass` | `string` | `''` | Extra classes on the value section |
-| `customStatLabelClass` | `string` | `''` | Extra classes on the label section |
-| `theme` | `ComponentTheme` | `'primary'` | Colour theme - primary \| secondary \| success \| danger \| warning |
+| `customStatClass` | `string` | `''` | Deprecated, use `class` |
+| `customStatValueClass` | `string` | `''` | Deprecated, use `:ui="{ value: '...' }"` |
+| `customStatLabelClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
+| `theme` | `keyof DataTileThemes` | `'primary'` | Colour theme - primary \| secondary \| success \| danger \| warning \| info. Add your own through the `variants` config. |
+| `ui` | `UiProp<NbParts['DataTile']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `icon`
 
@@ -373,6 +382,7 @@ Wrapper `<dl>` for a stack of `DescriptionListItem` rows. Child items register t
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `stopEditOnSubmit` | `boolean` | `false` | Form object with processing state */ form?: { processing?: boolean; [key: string]: any; }; /** Whether to automatically stop editing when form submission completes |
+| `ui` | `UiProp<NbParts['DescriptionList']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -387,12 +397,17 @@ One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair
 | `value` | `string` | `undefined` | Value text for the item |
 | `forceEditing` | `boolean` | `false` | Whether to force editing mode on mount |
 | `required` | `boolean` | `false` | Whether the field is required (shows asterisk) |
+| `ui` | `UiProp<NbParts['DescriptionListItem']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `buttons`, `default`, `edit`, `label`
 
 ### DottedCarousel
 
 Horizontal snap-scroll carousel with dot navigation underneath. Each top-level child of the default slot becomes a slide, so mark each with `class="min-w-full snap-start"` for the snapping to line up; the dot count is read from the DOM and kept in sync with a MutationObserver, and clicking a dot scrolls smoothly to that slide.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `padding` | `/** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts'DottedCarousel'>>} */ (Object)` | `0 }` | Outer padding offset applied to the scroll math when clicking a dot |
 
 **Slots:** `default`
 
@@ -460,6 +475,7 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 | --- | --- | --- | --- |
 | `email` | `string` | **required** | Email - md5-hashed (after trim + lowercase) for the Gravatar lookup |
 | `size` | `number` | `100` | Pixel size requested from Gravatar (the `s=` query parameter) |
+| `ui` | `UiProp<NbParts['GravatarImg']>` | - | Classes per part, merged over the defaults |
 
 ### Images
 
@@ -587,9 +603,17 @@ One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a p
 
 activity timeline wrapped in a collapsible section.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `header` | `Boolean` | `'Logs' }` | heading text in the section header bar |
+
 ### LogsContent
 
 Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry icon, the formatted event, old → new value diffs and the causer's name. It shows a `Spinner` while `logs` is undefined and appends its own `Pagination` from `logs.links`; the causer is linked via `causerRoute` through the host app's Ziggy `route()` helper and degrades to plain text when that route or helper is missing.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `causerRoute` | `String` | `'users.show' }` | Route name used to link a log entry's causer. Set to null to never link. |
 
 ### Modal
 
@@ -623,6 +647,8 @@ Navigation Collapse component with expandable/collapsible content
 | --- | --- | --- | --- |
 | `open` | `boolean` | `false` | Whether the collapse is initially open |
 | `name` | `string` | **required** | Name/title for the collapse section |
+| `ui` | `UiProp<NbParts['NavCollapse']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, `icon`
 
@@ -634,6 +660,8 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 | --- | --- | --- | --- |
 | `href` | `string` | **required** | Destination URL - performs an Inertia visit |
 | `active` | `boolean` | - | Apply active styling (the parent decides activeness) |
+| `ui` | `UiProp<NbParts['NavLink']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, link label, `icon`, optional icon rendered to the left of the label
 
@@ -674,14 +702,16 @@ Pagination component for navigating through pages of data
 | `linkReturn` | `boolean` | `false` | Whether to return links instead of navigating |
 | `maxPagesToShow` | `number` | `20` | Maximum number of page links to display |
 | `logs` | `boolean` | `false` | Whether this is used for logs pagination |
-| `customLinkClass` | `string` | `''` | Custom CSS classes for pagination links |
-| `customActiveLinkClass` | `string` | `''` | Custom CSS classes for active link |
-| `customListClass` | `string` | `''` | Custom CSS classes for the pagination list |
+| `customLinkClass` | `string` | `''` | Deprecated, use `:ui="{ link: '...' }"` |
+| `customActiveLinkClass` | `string` | `''` | Deprecated, use `:ui="{ activeLink: '...' }"` |
+| `customListClass` | `string` | `''` | Deprecated, use `:ui="{ list: '...' }"` |
 | `preserveScroll` | `boolean` | `false` | Whether to preserve scroll position |
 | `preserveState` | `boolean` | `false` | Whether to preserve component state |
 | `only` | `string[]` | `() => []` | Array of properties to preserve during navigation |
 | `showPerPage` | `boolean` | `false` | Whether to show per-page selector |
 | `defaultPerPage` | `number` | `100` | Default number of items per page |
+| `ui` | `UiProp<NbParts['Pagination']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 ### PrimaryButton
 
@@ -705,6 +735,7 @@ Documentation-only table that renders an array of `{ prop, type, default, descri
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `rows` | `PropRow[]` | `() => []` |  |
+| `ui` | `UiProp<NbParts['PropsTable']>` | - | Classes per part, merged over the defaults |
 
 ### RadioButton
 
@@ -729,6 +760,8 @@ mobile/stacked variant of `NavLink`. Same `href` / `active` API as NavLink, but 
 | --- | --- | --- | --- |
 | `href` | `string` | **required** | Destination URL - performs an Inertia visit |
 | `active` | `boolean` | - | Apply active styling (the parent decides activeness) |
+| `ui` | `UiProp<NbParts['ResponsiveNavLink']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, link label
 
@@ -810,8 +843,9 @@ a rounded container with consistent `px-6 py-4` padding and an optional header s
 | --- | --- | --- | --- |
 | `header` | `string` | - | Optional header text to display at the top |
 | `overflow` | `boolean` | `false` | Whether to hide overflow content (default: false) |
-| `variant` | `'default' \| 'outlined' \| 'minimal'` | `'default'` | Section variant for different default styles |
+| `variant` | `keyof SectionVariants` | `'default'` | Border and shadow treatment. Add your own through the `variants` config. |
 | `unstyled` | `boolean` | `false` | Remove all default styling to allow full customization |
+| `ui` | `UiProp<NbParts['Section']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`, `headerButton`
 
@@ -904,8 +938,9 @@ a CSS-only spinning ring in five preset sizes, with `role="status"` and a visual
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Spinner size |
-| `color` | `string` | `undefined` | Custom color classes |
+| `size` | `keyof SpinnerSizes` | `'md'` | Spinner size. Add your own through the `variants` config. |
+| `color` | `string` | `undefined` | Custom color classes, replacing the default colour |
+| `ui` | `UiProp<NbParts['Spinner']>` | - | Classes per part, merged over the defaults |
 
 ### Stats
 
@@ -915,10 +950,12 @@ Responsive grid of clickable stat tiles used as quick filters above a table. Cli
 | --- | --- | --- | --- |
 | `stats` | `StatItem[]` | **required** | `{ name, value, label? }[]` - label falls back to `name` for display |
 | `statusName` | `string \| null` | `null` | query-string parameter used to compute the selected tile |
-| `customContainerClass` | `string` | `''` | extra classes on the outer grid |
-| `customStatClass` | `string` | `''` | extra classes on each stat card |
-| `customStatLabelClass` | `string` | `''` | extra classes on each stat label |
-| `customStatValueClass` | `string` | `''` | extra classes on each stat value |
+| `customContainerClass` | `string` | `''` | deprecated, use `class` |
+| `customStatClass` | `string` | `''` | deprecated, use `:ui="{ stat: '...' }"` |
+| `customStatLabelClass` | `string` | `''` | deprecated, use `:ui="{ label: '...' }"` |
+| `customStatValueClass` | `string` | `''` | deprecated, use `:ui="{ value: '...' }"` |
+| `ui` | `UiProp<NbParts['Stats']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 ### SubmitButton
 
@@ -987,6 +1024,8 @@ a single panel inside `<Tabs>`. `value` must match the `value` of the correspond
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | **required** | key linking this panel to its trigger |
+| `ui` | `UiProp<NbParts['Tab']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, panel content
 
@@ -1023,8 +1062,10 @@ tabbed panel switcher built on reka-ui's `Tabs` primitives. Declare the tab stri
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `tabs` | `TabItem[]` | **required** | `{ value, label, icon?, disabled?, badge? }[]` |
-| `variant` | `'underline' \| 'pills'` | `'underline'` | visual treatment of the tab strip |
+| `variant` | `keyof TabsVariants` | `'underline'` | Visual treatment. Add your own through the `variants` config. |
 | `fitted` | `boolean` | `false` | stretch triggers to fill the strip width |
+| `ui` | `UiProp<NbParts['Tabs']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, the `<Tab>` panels, `trigger`, custom trigger content; receives `{ tab, active }`
 
@@ -1217,6 +1258,7 @@ Under Construction component A utility component to display a placeholder for se
 | --- | --- | --- | --- |
 | `full` | `boolean` | `false` | Whether to take full height (grows to fill container) |
 | `info` | `string` | `'Section under construction.\nPlease come back later.'` | Custom message to display (supports line breaks with \n) |
+| `ui` | `UiProp<NbParts['UnderConstruction']>` | - | Classes per part, merged over the defaults |
 
 ### WarningButton
 

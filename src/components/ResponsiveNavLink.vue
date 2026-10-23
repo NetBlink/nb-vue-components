@@ -9,19 +9,31 @@
  * @prop {string}  href - destination URL (Inertia visit)
  * @prop {boolean} [active=false] - apply the active styling
  * @slot default - link label
+ * @part root - the `Link`
  */
 
 import { computed } from 'vue';
 import Link from '../overrides/InertiaLink';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
-interface Props {
+defineOptions({ inheritAttrs: false });
+
+export interface ResponsiveNavLinkProps {
     /** Destination URL - performs an Inertia visit */
     href: string;
     /** Apply active styling (the parent decides activeness) */
     active?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['ResponsiveNavLink']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-const props = defineProps<Props>();
+const props = defineProps<ResponsiveNavLinkProps>();
+
+const { cls, attrs } = useUi('ResponsiveNavLink', props);
 
 const classes = computed(() =>
     props.active
@@ -31,7 +43,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
+    <Link v-bind="attrs()" :href="href" :class="cls('root', classes)">
         <slot />
     </Link>
 </template>

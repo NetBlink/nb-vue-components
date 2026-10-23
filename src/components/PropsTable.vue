@@ -3,7 +3,14 @@
  * Documentation-only table that renders an array of `{ prop, type, default, description }`
  * rows into a four-column prop reference, with an optional `highlight` flag to tint a row
  * and a "No props defined" empty state. Used by the docs pages, not intended for app UI.
+ *
+ * @part root - the scroll wrapper
  */
+import type { NbParts, UiProp } from '../ui/parts';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
+
 interface PropRow {
     prop: string;
     type: string;
@@ -12,17 +19,21 @@ interface PropRow {
     highlight?: boolean;
 }
 
-interface Props {
+export interface PropsTableProps {
     rows?: PropRow[];
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['PropsTable']>;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<PropsTableProps>(), {
     rows: () => [],
 });
+
+const { cls, attrs } = useUi('PropsTable', props);
 </script>
 
 <template>
-    <div class="overflow-x-auto">
+    <div v-bind="attrs()" :class="cls('root', 'overflow-x-auto')">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-900/50">
                 <tr>
