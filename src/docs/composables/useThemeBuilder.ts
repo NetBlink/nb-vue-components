@@ -201,7 +201,7 @@ function resetColor(name: ColorName): void {
 
 /** Tailwind v4 - single `@theme {}` block of CSS custom properties. */
 const v4Snippet = computed<string>(() => {
-    const lines: string[] = ['/* app.css */', "@import 'tailwindcss';", '', '@theme {'];
+    const lines: string[] = ['/* app.css */', "@import 'tailwindcss';", "@import '@netblink/vue-components/theme.css';", '', '@theme {'];
 
     lines.push('    /* Motion */');
     lines.push(`    --ease-emphasised: ${state.motion.easing};`);

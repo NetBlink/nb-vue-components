@@ -239,13 +239,13 @@ const descriptionListProps = [
 </script>
 
 <template>
-    <div class="space-y-12">
-        <div>
+    <div class="space-y-10">
+        <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Presentational components for data you already have - summary figures, key/value detail, activity trails and avatars. Nothing here
                 collects input; for that see Forms.
             </p>
-        </div>
+        </header>
 
         <section id="stats">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Statistics Display</h3>
@@ -287,7 +287,7 @@ const descriptionListProps = [
                     The tile fills its container by default; render multiple inside a CSS grid for the dashboard look.
                 </p>
 
-                <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Themed grid</h4>
+                <div class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Themed grid</div>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
                     <DataTile :value="1284" label="Active users" :icon="faUsers" theme="primary" />
                     <DataTile :value="'£45,678'" label="Revenue (MTD)" :icon="faChartLine" theme="success" />
@@ -295,7 +295,7 @@ const descriptionListProps = [
                     <DataTile :value="'4.8 / 5'" label="Customer rating" :icon="faCircleCheck" theme="success" />
                 </div>
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Selected state</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Selected state</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selected</code> when the tile represents a currently-active filter or selection.
                 </p>
@@ -305,7 +305,7 @@ const descriptionListProps = [
                     <DataTile :value="2" label="Pending reviews" :icon="faGears" theme="danger" />
                 </div>
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Standalone</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Standalone</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     A single tile fills the available width - wrap it in a sized container if you don't want it stretching across the page.
                 </p>
@@ -343,7 +343,7 @@ const descriptionListProps = [
                     value for an input when the pencil is clicked.
                 </p>
 
-                <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Example</h4>
+                <div class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Example</div>
                 <DescriptionList>
                     <DescriptionListItem label="Name">John Doe</DescriptionListItem>
                     <DescriptionListItem label="Email">john@example.com</DescriptionListItem>
@@ -351,7 +351,7 @@ const descriptionListProps = [
                 </DescriptionList>
                 <CodePreview :code="descriptionListExamples" filename="DescriptionList basic" class="mt-4" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Editable Example</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Editable Example</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Click the pencil to switch each row into edit mode. The component swaps the default slot for the
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#edit</code> slot - that's where you put the actual input.
@@ -378,7 +378,7 @@ const descriptionListProps = [
                 </DescriptionList>
                 <CodePreview :code="descriptionListEditableExamples" filename="DescriptionList editable" class="mt-4" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Example</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Example</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Mix and match: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">forceEditing</code> opens in edit mode on mount, the
                     <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">value</code> prop is a shortcut when there's no slot content, and the

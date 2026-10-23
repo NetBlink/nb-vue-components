@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../icons';
-import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab } from '../index';
+import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab, H2 } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
 // Collapse lives here beside CollapsableSection - same idea, one styled and one bare.
@@ -69,6 +69,18 @@ const carouselItems = ref([
         accent: 'text-sky-600',
     },
 ]);
+
+// --- H2 -----------------------------------------------------------------
+const h2Examples = [
+    "import { H2 } from '@netblink/vue-components';",
+    '',
+    '<!-- Renders <h2 id="billing-details">Billing Details</h2> -->',
+    '<H2 title="Billing Details" />',
+];
+
+const h2Props = [
+    { prop: 'title', type: 'string', default: '-', description: 'Heading text. Also used for the id: lowercased, with whitespace replaced by hyphens.', required: true },
+];
 
 // Code examples
 const sectionExamples = [
@@ -252,6 +264,28 @@ const tabProps = [
             </DocDemoCard>
         </section>
 
+        <section id="h2-heading">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">H2</h3>
+            <DocDemoCard>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    A page-level section heading: a bold <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;h2&gt;</code> with a primary underline and
+                    an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">id</code> derived from the title, so it can be linked with
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#billing-details</code>. The text color is fixed to gray-900 with no dark variant.
+                </p>
+
+                <div data-skip-anchor class="mb-6 rounded-lg bg-white px-4 py-1">
+                    <H2 title="Billing Details" />
+                </div>
+
+                <CodePreview :code="h2Examples" />
+
+                <div class="mt-6">
+                    <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">H2 Props</div>
+                    <PropsTable :rows="h2Props" />
+                </div>
+            </DocDemoCard>
+        </section>
+
         <section id="tabs">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tabs</h3>
             <DocDemoCard>
@@ -332,7 +366,7 @@ const tabProps = [
                             <div class="rounded bg-gray-50 dark:bg-gray-900/40 p-4">
                                 <div class="mb-2 font-medium">Key Features:</div>
                                 <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                                    <li>• Smooth animations</li>
+                                    <li>• Body slides open and closed, chevron flips</li>
                                     <li>• Customizable headers</li>
                                     <li>• Initial state control</li>
                                     <li>• Nested content support</li>

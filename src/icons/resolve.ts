@@ -23,6 +23,15 @@ function isComponent(x: unknown): x is Component {
     return false;
 }
 
+// Once per message: NbIcon resolves on every render, so an unmapped alias like
+// `$whatsapp` would otherwise flood the console.
+const warned = new Set<string>();
+function warnOnce(message: string, ...rest: unknown[]) {
+    if (warned.has(message) || typeof console === 'undefined') return;
+    warned.add(message);
+    console.warn(message, ...rest);
+}
+
 /**
  * Normalize an IconLike into a RenderDescriptor that NbIcon knows how to render.
  *
@@ -43,7 +52,7 @@ export function resolve(icon: IconLike | undefined | null, reg: NbIconsRegistry)
             const aliased = reg.aliases[icon as keyof typeof reg.aliases];
             if (aliased === undefined) {
                 if (reg.strict) throw new Error(`[nb-vue-components] unknown icon alias: ${icon}`);
-                if (typeof console !== 'undefined') console.warn(`[nb-vue-components] unknown icon alias: ${icon}`);
+                warnOnce(`[nb-vue-components] unknown icon alias: ${icon}`);
                 return { kind: 'empty' };
             }
             return resolve(aliased, reg);
@@ -55,7 +64,7 @@ export function resolve(icon: IconLike | undefined | null, reg: NbIconsRegistry)
             const set = reg.sets[prefix];
             if (!set) {
                 if (reg.strict) throw new Error(`[nb-vue-components] unknown icon set: "${prefix}"`);
-                if (typeof console !== 'undefined') console.warn(`[nb-vue-components] unknown icon set: "${prefix}"`);
+                warnOnce(`[nb-vue-components] unknown icon set: "${prefix}"`);
                 return { kind: 'empty' };
             }
             const name = set.resolve ? set.resolve(rest) : rest;
@@ -81,6 +90,6 @@ export function resolve(icon: IconLike | undefined | null, reg: NbIconsRegistry)
     if (faSet) return { kind: 'component', component: faSet.component, props: { icon } };
 
     if (reg.strict) throw new Error('[nb-vue-components] unresolvable icon value');
-    if (typeof console !== 'undefined') console.warn('[nb-vue-components] unresolvable icon value', icon);
+    warnOnce('[nb-vue-components] unresolvable icon value', icon);
     return { kind: 'empty' };
 }

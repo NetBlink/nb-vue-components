@@ -20,7 +20,7 @@ you route icons through those providers. Everything else the components use is b
 import { createApp, h } from 'vue';
 import { createInertiaApp, router, usePage } from '@inertiajs/vue3';
 import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';
-import '@netblink/vue-components/dist/style.css';
+import '@netblink/vue-components/style.css';
 
 createInertiaApp({
     setup({ el, App, props, plugin }) {
@@ -40,11 +40,14 @@ itself, so components that navigate or read page props use the instances you han
 
 `darkMode` accepts `false` (default), `'class'`, or `'system'`.
 
-The package ships compiled CSS, so there is no Tailwind `content` or `@source` scanning to set up:
+`style.css` holds the components' own scoped styles. `theme.css` holds the Tailwind side: the colour,
+motion and breakpoint tokens, keyframes and custom utilities, plus an `@source` for the built
+components (Tailwind v4 skips `node_modules`, so without it no component class is generated):
 
 ```css
 /* resources/css/app.css */
 @import 'tailwindcss';
+@import '@netblink/vue-components/theme.css';
 @plugin '@tailwindcss/forms';
 
 /* only needed for class-based dark mode */

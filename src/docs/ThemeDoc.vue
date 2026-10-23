@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { CodePreview, PropsTable } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
-const { state, isModalOpen, defaults, shades, v4Snippet } = useThemeBuilder();
+const { state, isModalOpen, defaults, shades, defaultShadeFor, v4Snippet } = useThemeBuilder();
 
 const COLOR_NAMES: ColorName[] = ['primary', 'accent', 'danger', 'warning', 'success', 'info'];
 
@@ -49,19 +49,14 @@ const darkColorsSnippet = [
 ];
 
 const importSnippet = [
-    '// Include the package in your Tailwind content scan:',
-    '// tailwind.config.js',
-    'module.exports = {',
-    '    content: [',
-    "        './src/**/*.{vue,js,ts,jsx,tsx}',",
-    "        './node_modules/@netblink/vue-components/**/*.{vue,js,ts,jsx,tsx}',",
-    '    ],',
-    '    theme: {',
-    '        extend: {',
-    '            // Copy the tokens below (or use the Theme button to customise live)',
-    '        },',
-    '    },',
-    '};',
+    '/* resources/css/app.css */',
+    "@import 'tailwindcss';",
+    "@import '@netblink/vue-components/theme.css';",
+    '',
+    '/* Overrides go after the import - only the tokens you want to change */',
+    '@theme {',
+    '    --color-primary-600: #0f766e;',
+    '}',
 ];
 
 const previewLines = computed(() => v4Snippet.value.split('\n').slice(0, 60));
@@ -74,13 +69,17 @@ const motionTokens = [
 ];
 
 const motionAnimations = [
-    { prop: '--animate-fade-in',          type: 'animation', default: 'fadeIn duration-base ease-emphasised',         description: 'NewModal overlay' },
+    { prop: '--animate-fade-in',          type: 'animation', default: 'fadeIn duration-base ease-emphasised',         description: 'NewModal overlay open' },
+    { prop: '--animate-fade-out',         type: 'animation', default: 'fadeOut duration-quick ease-in',               description: 'NewModal overlay close' },
     { prop: '--animate-slide-up',         type: 'animation', default: 'slideUp duration-base ease-emphasised',        description: 'Collapse / NavCollapse close' },
     { prop: '--animate-slide-down',       type: 'animation', default: 'slideDown duration-base ease-emphasised',      description: 'Collapse / NavCollapse open' },
-    { prop: '--animate-slide-up-fade',    type: 'animation', default: 'slideUpFade duration-base ease-emphasised',    description: 'NewModal content open' },
-    { prop: '--animate-slide-down-fade',  type: 'animation', default: 'slideDownFade duration-base ease-emphasised',  description: 'Dropdown side=top' },
-    { prop: '--animate-slide-left-fade',  type: 'animation', default: 'slideLeftFade duration-base ease-emphasised',  description: 'Dropdown side=right' },
-    { prop: '--animate-slide-right-fade', type: 'animation', default: 'slideRightFade duration-base ease-emphasised', description: 'Dropdown side=left' },
+    { prop: '--animate-slide-up-fade',    type: 'animation', default: 'slideUpFade duration-base ease-emphasised',    description: 'NewModal content open, Dropdown / Tooltip side=bottom' },
+    { prop: '--animate-slide-down-fade-out', type: 'animation', default: 'slideDownFadeOut duration-quick ease-in', description: 'NewModal content close, Toast close' },
+    { prop: '--animate-slide-down-fade',  type: 'animation', default: 'slideDownFade duration-base ease-emphasised',  description: 'Dropdown / Tooltip side=top' },
+    { prop: '--animate-slide-left-fade',  type: 'animation', default: 'slideLeftFade duration-base ease-emphasised',  description: 'Dropdown / Tooltip side=right' },
+    { prop: '--animate-slide-right-fade', type: 'animation', default: 'slideRightFade duration-base ease-emphasised', description: 'Dropdown / Tooltip side=left' },
+    { prop: '--animate-toast-in-{right,left,top,bottom}', type: 'animation', default: 'toastIn* duration-base ease-emphasised', description: 'Toast enter, by Toaster position' },
+    { prop: '--animate-toast-scale-in',   type: 'animation', default: 'toastScaleIn duration-base ease-emphasised',   description: 'Toast enter with animation="scale"' },
 ];
 
 const motionOverrideSnippet = [
@@ -99,8 +98,8 @@ const motionOverrideSnippet = [
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Every value the package uses for colour, typography, spacing, and motion lives in
-                <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">tailwind.config.js</code>. Copy tokens below into your own config to keep
-                the same look, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.
+                <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">@netblink/vue-components/theme.css</code>. Import it to get the defaults, override any token
+                in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">@theme</code> block, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.
             </p>
             <div>
                 <button
@@ -117,9 +116,9 @@ const motionOverrideSnippet = [
         <section id="wiring-it-into-your-project" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wiring it into your project</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Two things: point Tailwind at the package's templates so JIT picks up the utility classes the components use, and merge the tokens you want into your <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme.extend</code>.
+                One import after Tailwind. It defines every token on this page, the keyframes and custom utilities, and an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@source</code> for the built components (Tailwind v4 skips node_modules by default). Override tokens in an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@theme</code> block after it.
             </p>
-            <CodePreview language="javascript" :code="importSnippet" />
+            <CodePreview language="css" :code="importSnippet" />
         </section>
 
         <!-- COLOURS -->
@@ -133,7 +132,7 @@ const motionOverrideSnippet = [
             <div v-for="name in COLOR_NAMES" :key="name" class="space-y-2">
                 <div class="flex items-baseline justify-between">
                     <div class="font-semibold text-gray-900 dark:text-gray-100">{{ name }}</div>
-                    <code class="text-xs text-gray-500 dark:text-gray-400">DEFAULT: {{ defaults.colors[name][300] }} · base: {{ defaults.colors[name][500] }}</code>
+                    <code class="text-xs text-gray-500 dark:text-gray-400">--color-{{ name }}: {{ defaults.colors[name][defaultShadeFor[name]] }} · base: {{ defaults.colors[name][500] }}</code>
                 </div>
                 <div class="grid grid-cols-3 gap-1 sm:grid-cols-6 lg:grid-cols-11">
                     <div
@@ -235,7 +234,7 @@ const motionOverrideSnippet = [
                     Card with the default shadow
                 </div>
                 <div class="mt-3">
-                    <code class="font-mono text-xs text-gray-500 dark:text-gray-400">shadow (DEFAULT): {{ state.shadow }}</code>
+                    <code class="font-mono text-xs text-gray-500 dark:text-gray-400">--shadow: {{ state.shadow }}</code>
                 </div>
             </div>
         </section>
@@ -244,8 +243,8 @@ const motionOverrideSnippet = [
         <section id="motion" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Motion</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Three motion tokens drive component transitions across modals, tooltips, alerts, and collapse panels.
-                Seven named animations build on those tokens.
+                Three motion tokens drive component transitions across modals, dropdowns, tooltips, toasts and collapse panels.
+                The named animations below build on those tokens.
             </p>
 
             <PropsTable :rows="motionTokens" />

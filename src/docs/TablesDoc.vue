@@ -316,6 +316,9 @@ const tableProps = [
     { prop: 'loading', type: 'boolean', default: 'false', description: 'Render a loading state in Tbody' },
     { prop: 'emptyMessage', type: 'string', default: "'No records found'", description: 'Message shown when there are no rows' },
     { prop: 'loadingMessage', type: 'string', default: "'Loading...'", description: 'Message shown while loading' },
+    { prop: 'total', type: 'number', default: '-', description: 'Show a "Found: n" count above the table. Also used as the total for legacy `links` pagination.' },
+    { prop: 'sortable', type: 'boolean', default: 'false', description: 'Accepted for API compatibility but has no effect on Table. Enable sorting per column with Th `sortable`.' },
+    { prop: 'selectable', type: 'boolean', default: 'false', description: 'Accepted for API compatibility but has no effect on Table. Enable selection per row with Tr `selectable`.' },
     // Collapsible
     { prop: 'collapsible', type: 'boolean', default: 'false', description: 'Render the table inside a collapsable section (uses collapseId for the trigger)' },
     { prop: 'collapseId', type: 'string', default: '-', description: 'DOM id used to wire the table to its external trigger' },
@@ -327,6 +330,8 @@ const thProps = [
     { prop: 'orderBy', type: 'string', default: '-', description: 'Column key emitted to the sort store when this header is clicked' },
     { prop: 'column', type: 'string', default: '-', description: 'Alias for `orderBy` (used by useTableSort to identify the column)' },
     { prop: 'sortable', type: 'boolean', default: 'false', description: 'Render sort arrows and make the cell clickable (requires orderBy/column)' },
+    { prop: 'sorted', type: 'boolean', default: '-', description: 'Accepted for API compatibility but ignored. The sorted state is read from useTableSort.' },
+    { prop: 'sortDirection', type: "'asc' | 'desc'", default: '-', description: 'Accepted for API compatibility but ignored. The arrow direction is read from useTableSort.' },
     { prop: 'align', type: "'left' | 'center' | 'right'", default: "'left'", description: 'Text alignment' },
     { prop: 'width', type: 'string', default: '-', description: 'Column width (Tailwind w-* token or any CSS value like "10rem")' },
     { prop: 'responsive', type: 'boolean', default: 'true', description: 'Mark this header as participating in responsive layout' },
@@ -962,7 +967,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    EnhancedTable wraps Table with two rendering modes. Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">columns</code> array to get automatic headers and cells with per-cell slot overrides (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#cell-{key}</code>). Omit columns and compose Thead/Tbody yourself for full manual control. It also wires up <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">useTable</code> internally so sorting and row selection work out of the box.
+                    EnhancedTable wraps Table with two rendering modes. Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">columns</code> array to get automatic headers and cells with per-cell slot overrides (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#cell-{key}</code>). Omit columns and compose Thead/Tbody yourself for full manual control. It also wires up <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">useTable</code> internally so setting <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">sortable</code> or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selectable</code> is enough to get clickable sort headers and click-to-select rows.
                 </p>
 
                 <div class="mb-6">

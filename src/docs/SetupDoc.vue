@@ -27,7 +27,7 @@ const configBlocks = [
             "import { createApp, h } from 'vue';",
             "import { createInertiaApp, router, usePage } from '@inertiajs/vue3';",
             "import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';",
-            "import '@netblink/vue-components/dist/style.css';",
+            "import '@netblink/vue-components/style.css';",
             '',
             'createInertiaApp({',
             '    setup({ el, App, props, plugin }) {',
@@ -49,6 +49,7 @@ const configBlocks = [
         language: 'css',
         code: [
             "@import 'tailwindcss';",
+            "@import '@netblink/vue-components/theme.css';",
             "@plugin '@tailwindcss/forms';",
             '',
             '/* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */',
@@ -88,7 +89,7 @@ const registerGlobal = [
     "import { createApp, h } from 'vue';",
     "import { createInertiaApp } from '@inertiajs/vue3';",
     "import Componentsnb from '@netblink/vue-components';",
-    "import '@netblink/vue-components/dist/style.css';",
+    "import '@netblink/vue-components/style.css';",
     '',
     'createInertiaApp({',
     '  setup({ el, App, props, plugin }) {',
@@ -105,6 +106,8 @@ const registerNamed = ["import { Input, PrimaryButton, NewModal } from '@netblin
 const appCss = [
     '/* app.css */',
     "@import 'tailwindcss';",
+    '/* Package tokens, keyframes and utilities, and an @source for the built components */',
+    "@import '@netblink/vue-components/theme.css';",
     "@plugin '@tailwindcss/forms';",
     '',
     '/* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */',
@@ -264,7 +267,7 @@ const darkApi = [
         <!-- 3. Tailwind -->
         <section id="tailwind">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tailwind</h3>
-            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). Imports Tailwind and the package's component classes via the v4 source-discovery layer.</p>
+            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme.css</code> brings the package's tokens, keyframes and utilities, and registers the built components with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@source</code> (Tailwind v4 skips node_modules by default).</p>
             <CodePreview :code="appCss" />
         </section>
 
@@ -325,7 +328,7 @@ const darkApi = [
 
             <CollapsableSection header="Tailwind classes aren't applying">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Confirm your main CSS imports Tailwind v4 and the package source is on the v4 source-discovery path. See step 3.
+                    Confirm your main CSS imports <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@netblink/vue-components/theme.css</code> after Tailwind. Without it, Tailwind never scans the package and the brand colours, animations and breakpoints don't exist. See step 3.
                 </p>
             </CollapsableSection>
 

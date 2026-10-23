@@ -23,7 +23,7 @@ user to install it.
 import { createApp, h } from 'vue';
 import { createInertiaApp, router, usePage } from '@inertiajs/vue3';
 import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';
-import '@netblink/vue-components/dist/style.css';
+import '@netblink/vue-components/style.css';
 
 createInertiaApp({
     setup({ el, App, props, plugin }) {
@@ -40,12 +40,14 @@ createInertiaApp({
 });
 ```
 
-The package ships compiled CSS, so importing `dist/style.css` above is all that is needed, there
-is no Tailwind `@source` scanning to configure. Your own stylesheet:
+`style.css` above holds the components' scoped styles. The Tailwind side (tokens, keyframes,
+utilities and an `@source` for the built components, which Tailwind v4 would otherwise skip in
+`node_modules`) comes from `theme.css`. Your own stylesheet:
 
 ```css
 /* resources/css/app.css */
 @import 'tailwindcss';
+@import '@netblink/vue-components/theme.css';
 @plugin '@tailwindcss/forms';
 
 /* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */

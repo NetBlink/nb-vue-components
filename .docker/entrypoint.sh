@@ -3,6 +3,3 @@
 cd /var/www
 
 tail -f /dev/null
-```
-
-```sh

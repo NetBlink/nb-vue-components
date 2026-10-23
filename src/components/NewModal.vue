@@ -3,7 +3,8 @@
  * Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one
  * to use for new code. Open state is driven with `v-model:open`, and named
  * header, description, footer and trigger slots sit alongside the default slot
- * for body content. For the older single-default-slot variant see `Modal`.
+ * for body content. Covers every `Modal` prop too (`:show` + `@close`, `maxWidth`,
+ * `closeable`, ...), so a legacy `<Modal>` swaps over by renaming the tag.
  *
  * Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props
  * (`aria-*`, `role`) and custom classes reach the dialog panel itself.
@@ -13,10 +14,11 @@
  * @slot description - overrides the `description` prop
  * @slot footer - right-aligned footer area
  * @slot trigger - element that opens the dialog when clicked
+ * @emits close - fires when the user dismisses the dialog (Escape, backdrop click or the close button)
  */
 import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 
 // `$attrs` is bound explicitly onto DialogContent below. Without this the same
 // attrs would ALSO land on the root DialogRoot, which is how `v-model:open`
@@ -33,6 +35,26 @@ interface NewModalProps {
     defaultOpen?: boolean;
     /** Let the user drag-resize the dialog from its bottom-right corner */
     resizable?: boolean;
+    /** One-way open state, for `:show` + `@close` call sites carried over from `Modal` */
+    show?: boolean;
+    /** sm | md | lg | xl | 2xl-7xl | 50% | 60% | 75% | 80% | 90% | 95%, or any CSS length. Default 600px */
+    maxWidth?: string;
+    /** Allow closing via Escape, backdrop click and the close button */
+    closeable?: boolean;
+    /** Keep content inside the panel (scrolls when tall). Set false so non-portaled popups can spill out */
+    hideOverflow?: boolean;
+    /** Top-align the dialog instead of centring it, so growing content doesn't make it jump */
+    alignTop?: boolean;
+    /** Add the brand-coloured border around the panel */
+    showBorder?: boolean;
+    /** Built-in panel padding. Set false when the slot brings its own (e.g. a `p-6` wrapper from `Modal`) */
+    padded?: boolean;
+    /** Backdrop animation duration (ms), defaults to the theme motion tokens */
+    backdropDuration?: number;
+    /** Panel animation duration (ms), defaults to the theme motion tokens */
+    modalDuration?: number;
+    /** Extra classes for the backdrop (panel classes go on `class`) */
+    backdropCustomClass?: string;
 }
 
 const props = withDefaults(defineProps<NewModalProps>(), {
@@ -40,13 +62,27 @@ const props = withDefaults(defineProps<NewModalProps>(), {
     description: undefined,
     defaultOpen: false,
     resizable: false,
+    show: undefined,
+    maxWidth: undefined,
+    closeable: true,
+    hideOverflow: true,
+    alignTop: false,
+    showBorder: false,
+    padded: true,
+    backdropDuration: undefined,
+    modalDuration: undefined,
+    backdropCustomClass: '',
 });
 
+const emit = defineEmits<{ close: [] }>();
+const slots = useSlots();
+
 /*
- * Two supported bindings: `v-model:open` (documented, used across the docs and
- * the apps) and plain `v-model` (older call sites). Whichever the caller binds
- * wins; if both are bound they stay in sync. Unbound, the dialog keeps its own
- * state so a `trigger` slot still works with no model at all.
+ * Three supported bindings: `v-model:open` (documented, used across the docs and
+ * the apps), plain `v-model` (older call sites) and one-way `:show` + `@close`
+ * (Modal's API). Whichever the caller binds wins; if both models are bound they
+ * stay in sync. Unbound, the dialog keeps its own state so a `trigger` slot still
+ * works with no model at all.
  */
 const openModel = defineModel<boolean | undefined>('open', { default: undefined });
 const legacyModel = defineModel<boolean | undefined>({ default: undefined });
@@ -56,6 +92,7 @@ const open = computed<boolean>({
     get() {
         if (openModel.value !== undefined) return openModel.value;
         if (legacyModel.value !== undefined) return legacyModel.value;
+        if (props.show !== undefined) return props.show;
         return uncontrolled.value;
     },
     set(value) {
@@ -65,8 +102,11 @@ const open = computed<boolean>({
     },
 });
 
-const updateOpen = (value: boolean) => {
+// Only reka calls this, i.e. only user-driven changes, so `close` never fires
+// for a parent setting the model to false.
+const onOpenChange = (value: boolean) => {
     open.value = value;
+    if (!value) emit('close');
 };
 onMounted(() => {
     if (props.defaultOpen) {
@@ -82,37 +122,85 @@ watch(
         open.value = newValue;
     }
 );
+
+const preventUnlessCloseable = (event: Event) => {
+    if (!props.closeable) event.preventDefault();
+};
+
+// Literal rem values instead of Tailwind classes: `--container-*` vars only exist
+// in the consumer's CSS when something there uses them.
+const widths: Record<string, string> = {
+    sm: '24rem',
+    md: '28rem',
+    lg: '32rem',
+    xl: '36rem',
+    '2xl': '42rem',
+    '3xl': '48rem',
+    '4xl': '56rem',
+    '5xl': '64rem',
+    '6xl': '72rem',
+    '7xl': '80rem',
+};
+
+const contentStyle = computed(() => {
+    const style: Record<string, string> = {};
+    if (props.maxWidth) {
+        const width = widths[props.maxWidth] ?? props.maxWidth;
+        // Resizable already caps at 95vw, so the size becomes its starting width instead.
+        if (props.resizable) style.width = `min(${width}, 90vw)`;
+        else style.maxWidth = width;
+    }
+    if (props.modalDuration !== undefined) style.animationDuration = `${props.modalDuration}ms`;
+    return style;
+});
+
+// Functions, not computed: slots are not reactive, so a cached check could go stale.
+const hasTitle = () => !!props.title || !!slots.header;
+const hasDescription = () => !!props.description || !!slots.description;
 </script>
 
 <template>
-    <DialogRoot :defaultOpen="defaultOpen" v-model:open="open" @update:open="updateOpen">
+    <DialogRoot :defaultOpen="defaultOpen" :open="open" @update:open="onOpenChange">
         <DialogTrigger v-if="$slots.trigger" asChild>
             <slot name="trigger" />
         </DialogTrigger>
         <DialogPortal>
+            <!-- Overlay and panel share z-50 with Dropdown/Tooltip content: those portal in
+                 later, so they stack above an open dialog instead of behind it. -->
             <DialogOverlay
-                class="bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-30 dark:bg-black/70"
+                class="bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-50 dark:bg-black/70"
+                :class="backdropCustomClass"
+                :style="backdropDuration !== undefined ? { animationDuration: `${backdropDuration}ms` } : undefined"
             />
             <!-- Resizable swaps the fixed 600px cap for a 95vw one (CSS resize can
                  never exceed max-width) and adds native `resize: both` plus floor
-                 sizes so the dialog can't be collapsed into nothing. -->
+                 sizes so the dialog can't be collapsed into nothing. CSS resize also
+                 needs overflow, so it wins over hideOverflow=false. -->
+            <!-- Without a description, aria-describedby would point at a missing id. -->
             <DialogContent
-                class="data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed top-[50%] left-[50%] z-[100] translate-x-[-50%] translate-y-[-50%] rounded bg-white p-5 text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
-                :class="
+                class="data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed left-[50%] z-50 translate-x-[-50%] rounded bg-white text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
+                :class="[
                     props.resizable
                         ? 'resize overflow-auto max-h-[90vh] max-w-[95vw] min-h-40 min-w-80 w-[min(600px,90vw)]'
-                        : 'overflow-y-auto max-h-[85vh] w-[90vw] max-w-[600px]'
-                "
-                v-bind="$attrs"
+                        : ['w-[90vw] max-w-[600px]', props.hideOverflow ? 'overflow-y-auto max-h-[85vh]' : 'overflow-visible'],
+                    props.alignTop ? 'top-[5vh]' : 'top-[50%] translate-y-[-50%]',
+                    { 'p-5': props.padded, 'border-primary-500 border-2 border-solid': props.showBorder },
+                ]"
+                :style="contentStyle"
+                v-bind="{ ...(hasDescription() ? {} : { 'aria-describedby': undefined }), ...$attrs }"
+                @escape-key-down="preventUnlessCloseable"
+                @interact-outside="preventUnlessCloseable"
             >
-                <DialogTitle v-if="title || $slots.header" class="m-0 text-lg font-semibold dark:text-gray-100">
+                <DialogTitle v-if="hasTitle()" class="m-0 text-lg font-semibold dark:text-gray-100">
                     <slot name="header">{{ title }}</slot>
                 </DialogTitle>
-                <DialogDescription v-if="description || $slots.description" class="mt-2 text-sm leading-normal dark:text-gray-300">
+                <!-- ponytail: generic accessible name when there's no title; pass `title` for a real one -->
+                <DialogTitle v-else class="sr-only">Dialog</DialogTitle>
+                <DialogDescription v-if="hasDescription()" class="mt-2 text-sm leading-normal dark:text-gray-300">
                     <slot name="description">{{ description }}</slot>
                 </DialogDescription>
 
-                <div v-if="title || $slots.header || description || $slots.description" class="mb-3"></div>
+                <div v-if="hasTitle() || hasDescription()" class="mb-3"></div>
 
                 <slot />
 
@@ -123,6 +211,7 @@ watch(
                 <!-- Same rounded-square affordance as Alert's dismiss button, so the
                      two close controls read as one pattern rather than circle vs square. -->
                 <DialogClose
+                    v-if="closeable"
                     class="focusable focus:ring-primary-500 absolute top-3 right-3 inline-flex cursor-pointer appearance-none items-center justify-center rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
                     aria-label="Close"
                 >

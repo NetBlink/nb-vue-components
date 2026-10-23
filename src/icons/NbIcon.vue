@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, useSlots, type VNode } from 'vue';
+import { computed, h, normalizeClass, useAttrs, useSlots, type VNode } from 'vue';
 import DOMPurify from 'isomorphic-dompurify';
 import { useNbIcons } from './inject';
 import { resolve } from './resolve';
@@ -18,10 +18,17 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const slots = useSlots();
+const attrs = useAttrs();
 const registry = useNbIcons();
 
-const sizeClass = computed<string | undefined>(() => {
+// A caller sizing the icon with classes (`class="h-4 w-4"`) must beat the default
+// `md`: Tailwind emits `.h-5` after `.h-3`/`.h-4`/`.size-*`, so both together render 20px.
+const classSetsSize = () => /(^|\s)(size|h|w)-/.test(normalizeClass(attrs.class));
+
+// Plain function, not computed: attrs and slots are not reactive, so a cached value could go stale.
+const sizeClass = (): string | undefined => {
     if (typeof props.size === 'number') return undefined;
+    if (props.size === 'md' && classSetsSize()) return undefined;
     if (typeof props.size === 'string' && !['sm', 'md', 'lg', 'xl', '2xl', '3x'].includes(props.size)) return undefined;
     switch (props.size) {
         case 'sm':  return 'h-4 w-4';
@@ -32,7 +39,7 @@ const sizeClass = computed<string | undefined>(() => {
         case 'md':
         default:    return 'h-5 w-5';
     }
-});
+};
 
 const sizeStyle = computed<Record<string, string> | undefined>(() => {
     if (typeof props.size === 'number') {
@@ -55,8 +62,8 @@ const descriptor = computed(() => resolve(props.name, registry));
 // inline with surrounding text the same way regardless of provider.
 const wrapperClasses = 'inline-flex shrink-0 items-center justify-center align-[-0.125em]';
 
-const rendered = computed<VNode | null>(() => {
-    const cls = sizeClass.value;
+const rendered = (): VNode | null => {
+    const cls = sizeClass();
     const style = sizeStyle.value;
 
     if (slots.default) {
@@ -82,9 +89,9 @@ const rendered = computed<VNode | null>(() => {
         default:
             return null;
     }
-});
+};
 </script>
 
 <template>
-    <component :is="rendered" />
+    <component :is="rendered()" />
 </template>

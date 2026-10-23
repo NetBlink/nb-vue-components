@@ -23,7 +23,7 @@ user to install it.
 import { createApp, h } from 'vue';
 import { createInertiaApp, router, usePage } from '@inertiajs/vue3';
 import Componentsnb, { setInertiaRouter, setInertiaPage } from '@netblink/vue-components';
-import '@netblink/vue-components/dist/style.css';
+import '@netblink/vue-components/style.css';
 
 createInertiaApp({
     setup({ el, App, props, plugin }) {
@@ -40,12 +40,14 @@ createInertiaApp({
 });
 ```
 
-The package ships compiled CSS, so importing `dist/style.css` above is all that is needed, there
-is no Tailwind `@source` scanning to configure. Your own stylesheet:
+`style.css` above holds the components' scoped styles. The Tailwind side (tokens, keyframes,
+utilities and an `@source` for the built components, which Tailwind v4 would otherwise skip in
+`node_modules`) comes from `theme.css`. Your own stylesheet:
 
 ```css
 /* resources/css/app.css */
 @import 'tailwindcss';
+@import '@netblink/vue-components/theme.css';
 @plugin '@tailwindcss/forms';
 
 /* Opt-in: activates `dark:` utilities when `.dark` is on <html>. */
@@ -343,7 +345,7 @@ Danger Button component
 
 ### DataTile
 
-themed statistic tile with a background icon. Renders a card with a large value, a label below it, and a FontAwesome icon watermark behind the value. Hover animates a coloured underline. Set `selected` to show a ring outline - wire it to your own selection state.
+themed statistic tile with a background icon. Renders a card with a large value, a label below it, and an icon (any `IconLike`) watermark behind the value. Hover animates a coloured underline. Set `selected` to show a ring outline - wire it to your own selection state.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -552,11 +554,11 @@ Renders a paginated Laravel activity-log payload as a vertical timeline, with a 
 
 ### Modal
 
-teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`. Everything (header, body and footer) goes in the single default slot. `NewModal` is preferred for new code; reach for this one only to keep an existing `:show`-based call site working.
+teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`. Everything (header, body and footer) goes in the single default slot. Deprecated: use `NewModal`. It accepts the same props and `:show` + `@close`, so renaming the tag is enough, except: `modalCustomClass` becomes `class`, `alignCenter` is NewModal's default (add `align-top` where it was absent to keep the old position), and add `:padded="false"` when the slot already brings its own padding.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `show` | `Boolean` | `false` | visibility (use `:show` + `@close` or `v-model:show`) |
+| `show` | `Boolean` | `false` | visibility, paired with `@close` (there is no `update:show`, so `v-model:show` can't close it) |
 | `maxWidth` | `String` | `'2xl'` | sm \| md \| lg \| xl \| 2xl-7xl \| '50%' \| '60%' \| '75%' \| '80%' \| '90%' \| '95%' |
 | `closeable` | `Boolean` | `true` | allow closing via backdrop click or Escape key |
 | `hideOverflow` | `Boolean` | `true` | apply overflow-hidden to the modal container |
@@ -596,7 +598,7 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 
 ### NewModal
 
-Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code. Open state is driven with `v-model:open`, and named header, description, footer and trigger slots sit alongside the default slot for body content. For the older single-default-slot variant see `Modal`. Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props (`aria-*`, `role`) and custom classes reach the dialog panel itself.
+Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code. Open state is driven with `v-model:open`, and named header, description, footer and trigger slots sit alongside the default slot for body content. Covers every `Modal` prop too (`:show` + `@close`, `maxWidth`, `closeable`, ...), so a legacy `<Modal>` swaps over by renaming the tag. Forwards `$attrs` onto the underlying `DialogContent`, so accessibility props (`aria-*`, `role`) and custom classes reach the dialog panel itself.
 
 **v-model:** `v-model:open`, `v-model`
 
@@ -606,6 +608,16 @@ Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one t
 | `description` | `string` | `undefined` | Sub-title rendered in DialogDescription (overridden by the `description` slot) |
 | `defaultOpen` | `boolean` | `false` | Open the dialog on mount |
 | `resizable` | `boolean` | `false` | Let the user drag-resize the dialog from its bottom-right corner |
+| `show` | `boolean` | `undefined` | One-way open state, for `:show` + `@close` call sites carried over from `Modal` |
+| `maxWidth` | `string` | `undefined` | sm \| md \| lg \| xl \| 2xl-7xl \| 50% \| 60% \| 75% \| 80% \| 90% \| 95%, or any CSS length. Default 600px |
+| `closeable` | `boolean` | `true` | Allow closing via Escape, backdrop click and the close button |
+| `hideOverflow` | `boolean` | `true` | Keep content inside the panel (scrolls when tall). Set false so non-portaled popups can spill out |
+| `alignTop` | `boolean` | `false` | Top-align the dialog instead of centring it, so growing content doesn't make it jump |
+| `showBorder` | `boolean` | `false` | Add the brand-coloured border around the panel |
+| `padded` | `boolean` | `true` | Built-in panel padding. Set false when the slot brings its own (e.g. a `p-6` wrapper from `Modal`) |
+| `backdropDuration` | `number` | `undefined` | Backdrop animation duration (ms), defaults to the theme motion tokens |
+| `modalDuration` | `number` | `undefined` | Panel animation duration (ms), defaults to the theme motion tokens |
+| `backdropCustomClass` | `string` | `''` | Extra classes for the backdrop (panel classes go on `class`) |
 
 **Slots:** `default`, body content, `description`, overrides the `description` prop, `footer`, right-aligned footer area, `header`, overrides the `title` prop, `trigger`, element that opens the dialog when clicked
 

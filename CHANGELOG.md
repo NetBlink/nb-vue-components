@@ -1,9 +1,49 @@
 # Changelog - Vue Component Library
 
+## [3.2.0] - 2026-10-23
+
+### Added
+- `@netblink/vue-components/theme.css`: the Tailwind side of the package (colour, motion and breakpoint tokens, keyframes, custom utilities, toast swipe and collapse-icon rules) plus an `@source` for the built components. Import it after `tailwindcss`. Previously this only lived in the unpublished `src/main.css`, and Tailwind v4 never scans `node_modules`, so consumers had to copy it by hand.
+- `@netblink/vue-components/style.css` export for the components' scoped CSS. The documented `dist/style.css` path never existed and was blocked by `exports`.
+- `NewModal` covers every `Modal` prop: `:show` + `@close`, `maxWidth`, `closeable`, `hideOverflow`, `showBorder`, `backdropDuration`, `modalDuration`, `backdropCustomClass`, plus `alignTop` and `padded`. A `<Modal>` swaps over by renaming the tag (see "Migrating from Modal" in the docs).
+- Lucide preset (`lucideAliasPreset`, `lucideSet`) in `@netblink/vue-components/icons/lucide`, Iconify-backed like Heroicons. The subpath was an empty placeholder before.
+
+### Fixed
+- `NewModal` stacked above portaled Dropdown, LinkDropdownButton and Tooltip content (`z-[100]` vs `z-50`), so those opened behind it. The backdrop (`z-30`) also sat under typical sticky headers.
+- `NewModal` without a title or description no longer triggers reka-ui's accessibility warnings.
+- `NbIcon` default `md` size overrode smaller size classes (`class="h-4 w-4"`, `size-3`), so those icons rendered at 20px.
+- `Tooltip` animations used v3 `tailwindcss-animate` classes that don't exist in v4. They now use the theme's motion tokens like `Dropdown`.
+- `bg-dotted` utility had an invalid `background-position`.
+- Installing `createNbIcons()` after `app.use(Componentsnb)` no longer triggers Vue's "already provides" warning.
+- Unknown icon aliases (e.g. an unmapped `$whatsapp`) warn once instead of on every render.
+
+### Deprecated
+- `Modal`. It keeps working; use `NewModal` for new code.
+
+## [3.1.1] - 2026-08-07
+
+### Changed
+- README and llms preamble fact-checked: stale install and codemod claims removed.
+
+## [3.1.0] - 2026-08-07
+
+### Added
+- `Tabs`/`Tab`, `Toaster`/`Toast` and `Collapse` components.
+- Blocks catalog in the docs: 24 prebuilt compositions.
+- JSDoc descriptions on every component, and generated `llms.txt` / `llms-full.txt`.
+- `NewModal` `resizable` prop.
+
+### Fixed
+- `NewModal` `v-model:open` and `v-model` are declared models (they only worked through attribute fallthrough before).
+- `Td` label, disabled buttons, null-safe `$page` access in `Images`.
+
+### Changed
+- Docs cleanup: Tailwind v3 removed from Setup and Theme Builder, Motion and dark-mode sections, Theme Builder Motion tab, previously undocumented components documented.
+
 ## [3.0.0] - 2026-05-19
 
 ### Breaking
-- FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. The shipped codemod (`npx @netblink/vue-components-migrate`) automates the first option for existing FA-using projects.
+- FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. A codemod (`@netblink/vue-components-migrate`) to automate the first option exists but is not published to npm yet.
 - `DataTile.icon` prop changed type from `IconProp` (FA) to `IconLike`. Existing `:icon="faXyz"` calls continue to work as long as the FA preset is registered.
 - The internal hardcoded `<FontAwesomeIcon icon="fab fa-whatsapp" …>` form in `InputWithActions` was replaced with `<NbIcon name="$whatsapp" …>`. Consumers who use `InputWithActions` or `Textarea`'s WhatsApp affordance must register a `$whatsapp` alias.
 
@@ -12,8 +52,8 @@
 - `createNbIcons({ aliases, sets, defaultSet, strict })` Vue plugin for configuring providers.
 - `useNbIcons()` composable.
 - `faAliasPreset` + `faSet` drop-in preset preserving v2.x visuals.
-- 13 built-in alias names (`$expand`, `$close`, `$success`, `$error`, `$warning`, `$info`, `$search`, `$eye`, `$eye-off`, `$help`, `$edit`, `$edit-alt`, `$construction`) shipping default inline SVGs.
-- `#icon` slot escape hatch on `DataTile` and other Bucket-2 components.
+- 15 built-in alias names (`$expand`, `$close`, `$success`, `$error`, `$warning`, `$info`, `$search`, `$eye`, `$eye-off`, `$help`, `$edit`, `$edit-alt`, `$construction`, `$sun`, `$moon`) shipping default inline SVGs, plus `$whatsapp` with no default.
+- `#icon` slot escape hatch on `DataTile`.
 
 ### Removed
 - Direct `@fortawesome/*` imports from every internal component (the FA packages are now optional peer dependencies, only required when consumers opt into the FA preset).

@@ -2,7 +2,7 @@
 /**
  * DataTile - themed statistic tile with a background icon.
  *
- * Renders a card with a large value, a label below it, and a FontAwesome icon
+ * Renders a card with a large value, a label below it, and an icon (any `IconLike`)
  * watermark behind the value. Hover animates a coloured underline. Set
  * `selected` to show a ring outline - wire it to your own selection state.
  *

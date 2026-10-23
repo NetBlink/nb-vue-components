@@ -20,7 +20,7 @@ const basicSnippet = [
     '        Get started by creating your first project.',
     '    </p>',
     '    <PrimaryButton @click="createProject">',
-    '        <NbIcon name="$plus" class="mr-1.5 h-4 w-4" />',
+    '        <NbIcon class="mr-1.5 h-4 w-4"><svg class="h-full w-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg></NbIcon>',
     '        New Project',
     '    </PrimaryButton>',
     '</div>',
@@ -86,7 +86,7 @@ const notFoundSnippet = [
                         Get started by creating your first project.
                     </p>
                     <PrimaryButton>
-                        <NbIcon name="$plus" class="mr-1.5 h-4 w-4" />
+                        <NbIcon class="mr-1.5 h-4 w-4"><svg class="h-full w-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg></NbIcon>
                         New Project
                     </PrimaryButton>
                 </div>

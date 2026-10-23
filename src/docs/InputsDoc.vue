@@ -17,6 +17,9 @@ import {
     FileDropZoneInput,
     Images,
     TextInput,
+    InputLabel,
+    InputError,
+    InputWrapper,
     CodePreview,
     CollapsableSection,
     PropsTable,
@@ -165,6 +168,12 @@ const inputProps = [
     { prop: 'hidePasswordToggler', type: 'boolean', default: 'false', description: 'Hide the show/hide eye button for type="password"' },
     { prop: 'leftDescription', type: 'string | boolean', default: 'false', description: 'Text on the left of checkbox/switch types' },
     { prop: 'rightDescription', type: 'string | boolean', default: "'Enable'", description: 'Text on the right of checkbox/switch types' },
+    { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
+    { prop: 'inputCustomClass', type: 'string', default: "''", description: 'Extra classes for the input element (also forwarded as customClass to textarea/switch/checkbox types)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Extra classes for the submit/WhatsApp action buttons' },
+    { prop: 'checkboxCustomClass', type: 'string', default: "''", description: 'Accepted but not currently used - use inputCustomClass for type="checkbox"' },
+    { prop: 'switchDescription', type: 'string', default: '-', description: 'Accepted but not currently used - use leftDescription/rightDescription' },
 ];
 
 const checkboxProps = [
@@ -183,6 +192,9 @@ const checkboxProps = [
     { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
     { prop: 'id', type: 'string', default: '-', description: 'Input id attribute (auto-generated when omitted)' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the checkbox input' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'checked', type: 'boolean | any[]', default: 'false', description: 'Legacy - kept for backward compatibility. Prefer v-model or form/field' },
 ];
 
 const switchProps = [
@@ -199,6 +211,8 @@ const switchProps = [
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
     { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the switch track' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
 ];
 
 const textareaProps = [
@@ -220,6 +234,9 @@ const textareaProps = [
     { prop: 'whatsApp', type: 'string', default: '-', description: 'Renders a WhatsApp action button bound to this number' },
     { prop: 'name', type: 'string', default: '-', description: 'Textarea name attribute' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the textarea element' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Extra classes for the submit/WhatsApp action buttons' },
 ];
 
 const radioProps = [
@@ -247,6 +264,8 @@ const selectProps = [
     { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
     { prop: 'name', type: 'string', default: '-', description: 'Select name attribute' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the select element' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
 ];
 
 const richSelectProps = [
@@ -348,6 +367,10 @@ const dropdownSearchbarValue = ref<string | undefined>(undefined);
 // TextInput demo
 const textInputValue = ref('Hello world');
 
+// Field parts demo
+const nicknameValue = ref('');
+const cityValue = ref('');
+
 // Code examples
 const textInputExamples = [
     '<!-- TextInput is a low-level bare <input> element. -->',
@@ -446,7 +469,44 @@ const dropdownSearchbarExamples = [
     '/>',
 ];
 
+const fieldPartsExamples = [
+    '<!-- InputWrapper: label + slot + error, the same chrome Input uses -->',
+    '<InputWrapper field="nickname" sublabel="Shown publicly" required :form="form">',
+    '  <TextInput v-model="nickname" id="nickname" class="w-full" />',
+    '</InputWrapper>',
+    '',
+    '<!-- Or compose the parts yourself -->',
+    '<InputLabel for="city" value="City" tooltip="Where you live" />',
+    '<TextInput v-model="city" id="city" class="w-full" />',
+    '<InputError :message="form.errors.city" class="mt-2" />',
+];
+
 // Props tables
+const inputLabelProps = [
+    { prop: 'value', type: 'string', default: '-', description: 'Label text (falls back to the default slot)' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller grey text after the label' },
+    { prop: 'required', type: 'boolean', default: '-', description: 'Append a red asterisk' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Show a help icon with this tooltip text' },
+    { prop: 'customClass', type: 'string', default: '-', description: 'Extra classes for the <label>' },
+];
+
+const inputErrorProps = [
+    { prop: 'message', type: 'string', default: '-', description: 'Error text; nothing is shown when empty' },
+];
+
+const inputWrapperProps = [
+    { prop: 'field', type: 'string', default: '-', description: 'Field name; used for the label fallback, the label `for` and the form error lookup' },
+    { prop: 'label', type: 'string', default: '-', description: 'Label text; falls back to humanised field name when omitted' },
+    { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller helper text rendered next to the label' },
+    { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+    { prop: 'required', type: 'boolean', default: 'false', description: 'Append a red asterisk to the label' },
+    { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Form object; the error is read from form.errors[field]' },
+    { prop: 'error', type: 'string', default: '-', description: 'Error message (overrides the form error)' },
+    { prop: 'htmlFor', type: 'string', default: '-', description: 'Label `for` attribute (defaults to field)' },
+];
+
 const textInputProps = [
     { prop: 'v-model', type: 'string', default: "''", description: 'Bound value (emits update:modelValue)' },
     { prop: 'inputmode', type: 'InputMode', default: '-', description: 'HTML inputmode attribute (text, numeric, tel, email, etc.)' },
@@ -483,6 +543,7 @@ const simpleSelectProps = [
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
     { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
     { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the select element' },
 ];
 
 const searchSelectProps = [
@@ -575,7 +636,7 @@ const dropdownSearchbarProps = [
 
                 <CodePreview :code="inputExamples" filename="Input.vue, basics" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Features</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Features</div>
 
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Input :form="form" field="tooltip_field" tooltip="This is a helpful tooltip" />
@@ -719,14 +780,14 @@ const dropdownSearchbarProps = [
                     autocomplete, or custom option shapes.
                 </p>
 
-                <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Simple side-by-side</h4>
+                <div class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Simple side-by-side</div>
                 <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Select :form="form" field="country" label="Country (Simple)" :options="countries" />
                     <RichSelect :form="form" field="framework" label="Framework (Rich)" :options="frameworks" />
                 </div>
                 <CodePreview :code="selectExamples" filename="Select vs RichSelect" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - searchable + clearable</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - searchable + clearable</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">searchable</code> for an in-dropdown filter, and
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">clearable</code> for an × button to reset the value.
@@ -737,7 +798,7 @@ const dropdownSearchbarProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ searchableFramework ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectSearchExample" filename="RichSelect, searchable" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - multiple</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - multiple</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Set <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">multiple</code> and bind to an array. Selected options render as removable chips.
                 </p>
@@ -747,7 +808,7 @@ const dropdownSearchbarProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ JSON.stringify(selectedTags) }}</code></p>
                 <CodePreview :code="richSelectMultipleExample" filename="RichSelect, multiple" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - grouping</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - grouping</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     With <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">grouping</code>, options are bucketed by their
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">group</code> field (configurable via
@@ -758,7 +819,7 @@ const dropdownSearchbarProps = [
                 </div>
                 <CodePreview :code="richSelectGroupingExample" filename="RichSelect, grouping" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - custom option keys</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - custom option keys</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Already have records shaped like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{ id, title }</code>? Map them with
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">optionValue</code> and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">optionLabel</code>
@@ -778,7 +839,7 @@ const dropdownSearchbarProps = [
                 <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ selectedUserId ?? 'null' }}</code></p>
                 <CodePreview :code="richSelectCustomKeysExample" filename="RichSelect, custom option keys" />
 
-                <h4 class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - API search</h4>
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - API search</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiSearch</code> debounces the search box and hits
                     <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiUrl</code> with the query in
@@ -818,6 +879,40 @@ const dropdownSearchbarProps = [
                 <CodePreview :code="textInputExamples" />
                 <CollapsableSection header="TextInput Props" class="mt-6">
                     <PropsTable :rows="textInputProps" />
+                </CollapsableSection>
+            </DocDemoCard>
+        </section>
+
+        <section id="field-parts">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">InputLabel, InputError &amp; InputWrapper</h3>
+            <DocDemoCard>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    The label and error pieces that <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Input</code> renders around its control.
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputLabel</code> is the styled
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;label&gt;</code> (sublabel, asterisk, tooltip),
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputError</code> is the red message line, and
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputWrapper</code> puts both around whatever you place in its slot.
+                    Use them when building a custom field that should look like the others.
+                </p>
+                <div class="mb-6 grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
+                    <InputWrapper field="nickname" sublabel="Shown publicly" required error="This nickname is taken.">
+                        <TextInput v-model="nicknameValue" id="nickname" class="w-full" />
+                    </InputWrapper>
+                    <div>
+                        <InputLabel for="city" value="City" tooltip="Where you live" />
+                        <TextInput v-model="cityValue" id="city" class="w-full" />
+                        <InputError message="City is required." class="mt-2" />
+                    </div>
+                </div>
+                <CodePreview :code="fieldPartsExamples" />
+                <CollapsableSection header="InputLabel Props" class="mt-6">
+                    <PropsTable :rows="inputLabelProps" />
+                </CollapsableSection>
+                <CollapsableSection header="InputError Props" class="mt-4">
+                    <PropsTable :rows="inputErrorProps" />
+                </CollapsableSection>
+                <CollapsableSection header="InputWrapper Props" class="mt-4">
+                    <PropsTable :rows="inputWrapperProps" />
                 </CollapsableSection>
             </DocDemoCard>
         </section>

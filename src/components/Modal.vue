@@ -3,13 +3,18 @@
  * Legacy dialog: teleported to `<body>`, with its own backdrop, escape/backdrop-click
  * closing, body-scroll locking and optional drag-resize handles, driven by `:show` +
  * `@close`. Everything (header, body and footer) goes in the single default slot.
- * `NewModal` is preferred for new code; reach for this one only to keep an existing
- * `:show`-based call site working.
+ *
+ * Deprecated: use `NewModal`. It accepts the same props and `:show` + `@close`, so
+ * renaming the tag is enough, except: `modalCustomClass` becomes `class`, `alignCenter`
+ * is NewModal's default (add `align-top` where it was absent to keep the old position),
+ * and add `:padded="false"` when the slot already brings its own padding.
+ *
+ * @deprecated
  */
 import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 
 /**
- * @prop {boolean} show - visibility (use `:show` + `@close` or `v-model:show`)
+ * @prop {boolean} show - visibility, paired with `@close` (there is no `update:show`, so `v-model:show` can't close it)
  * @prop {string} [maxWidth='2xl'] - sm | md | lg | xl | 2xl-7xl | '50%' | '60%' | '75%' | '80%' | '90%' | '95%'
  * @prop {boolean} [closeable=true] - allow closing via backdrop click or Escape key
  * @prop {boolean} [hideOverflow=true] - apply overflow-hidden to the modal container

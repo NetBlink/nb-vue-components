@@ -66,17 +66,12 @@ const defaultContentClasses = [
     'dark:border-gray-700',
     'dark:text-gray-100',
     'dark:shadow-black/40',
-    // Animations
-    'animate-in',
-    'fade-in-0',
-    'zoom-in-95',
-    'data-[state=closed]:animate-out',
-    'data-[state=closed]:fade-out-0',
-    'data-[state=closed]:zoom-out-95',
-    'data-[side=bottom]:slide-in-from-top-2',
-    'data-[side=left]:slide-in-from-right-2',
-    'data-[side=right]:slide-in-from-left-2',
-    'data-[side=top]:slide-in-from-bottom-2',
+    // Animations - same theme tokens as Dropdown (the old `animate-in`/`slide-in-from-*`
+    // classes came from the v3 tailwindcss-animate plugin, which v4 doesn't have)
+    'data-[side=top]:animate-slide-down-fade',
+    'data-[side=right]:animate-slide-left-fade',
+    'data-[side=bottom]:animate-slide-up-fade',
+    'data-[side=left]:animate-slide-right-fade',
 ].join(' ');
 
 // Arrow classes - match the bubble background/border so the arrow blends in

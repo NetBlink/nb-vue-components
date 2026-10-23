@@ -100,7 +100,7 @@ const submitButtonProps = [
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Every variant below (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">PrimaryButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">SecondaryButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">SuccessButton</code>,
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">WarningButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DangerButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InfoButton</code>) shares the implementation in
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Button.vue</code>. The named exports are the supported way to consume them; the base is internal.
+                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Button.vue</code>. That shared base is also exported as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Button</code> (with a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme</code> prop), so you can build custom variants on top of it.
             </p>
         </header>
 

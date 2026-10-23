@@ -102,12 +102,12 @@ const legacyModalExample = [
 
 // Props data for modals - verified against Modal.vue and NewModal.vue
 const modalProps = [
-    { prop: 'show', type: 'boolean', default: 'false', description: 'Controls modal visibility (use v-model:show or :show + @close)' },
+    { prop: 'show', type: 'boolean', default: 'false', description: 'Controls modal visibility, paired with @close (there is no update:show, so v-model:show cannot close it)' },
     { prop: 'maxWidth', type: 'string', default: "'2xl'", description: 'sm, md, lg, xl, 2xl, 3xl-7xl, or percentage strings: 50%, 60%, 75%, 80%, 90%, 95%' },
     { prop: 'closeable', type: 'boolean', default: 'true', description: 'Allow closing via backdrop click or Escape key' },
     { prop: 'alignCenter', type: 'boolean', default: 'false', description: 'Vertically center the modal (default top-aligns)' },
     { prop: 'hideOverflow', type: 'boolean', default: 'true', description: 'Apply overflow-hidden to the modal container' },
-    { prop: 'showBorder', type: 'boolean', default: 'false', description: 'Add a coloured (pink) border around the modal' },
+    { prop: 'showBorder', type: 'boolean', default: 'false', description: 'Add the brand-coloured border around the modal' },
     { prop: 'resizable', type: 'boolean', default: 'false', description: 'Render edge/corner handles so the user can resize the modal' },
     { prop: 'backdropDuration', type: 'number', default: '200', description: 'Backdrop fade duration in ms' },
     { prop: 'modalDuration', type: 'number', default: '200', description: 'Modal enter/leave duration in ms' },
@@ -125,6 +125,41 @@ const newModalProps = [
     { prop: 'description', type: 'string', default: '-', description: 'Sub-title rendered in DialogDescription (overridden by #description slot)' },
     { prop: 'defaultOpen', type: 'boolean', default: 'false', description: 'Open on mount' },
     { prop: 'resizable', type: 'boolean', default: 'false', description: 'Drag-resize the dialog from its bottom-right corner (native CSS resize; caps at 95vw / 90vh)' },
+    { prop: 'show', type: 'boolean', default: '-', description: 'One-way open state for :show + @close call sites carried over from Modal' },
+    { prop: 'maxWidth', type: 'string', default: '600px', description: 'sm, md, lg, xl, 2xl-7xl, 50%, 60%, 75%, 80%, 90%, 95%, or any CSS length. With resizable it sets the starting width' },
+    { prop: 'closeable', type: 'boolean', default: 'true', description: 'Allow closing via Escape, backdrop click and the close button (false also hides the button)' },
+    { prop: 'hideOverflow', type: 'boolean', default: 'true', description: 'Keep content inside the panel (scrolls past 85vh). false lets non-portaled popups spill out' },
+    { prop: 'alignTop', type: 'boolean', default: 'false', description: 'Top-align instead of centring, so growing content does not make the dialog jump' },
+    { prop: 'showBorder', type: 'boolean', default: 'false', description: 'Add the brand-coloured border around the panel' },
+    { prop: 'padded', type: 'boolean', default: 'true', description: 'Built-in panel padding. false when the slot brings its own' },
+    { prop: 'backdropDuration', type: 'number', default: '-', description: 'Backdrop animation duration in ms (defaults to the theme motion tokens)' },
+    { prop: 'modalDuration', type: 'number', default: '-', description: 'Panel animation duration in ms (defaults to the theme motion tokens)' },
+    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Extra classes for the backdrop. Panel classes go on class' },
+];
+
+const newModalEvents = [
+    { prop: '@close', type: 'event', default: '-', description: 'Fired when the user dismisses the dialog (Escape, backdrop click or the close button), never when the parent closes it' },
+];
+
+const migrationExample = [
+    '<!-- Before -->',
+    '<Modal :show="open" @close="open = false" max-width="lg" modal-custom-class="text-sm">',
+    '  <div class="p-6">…</div>',
+    '</Modal>',
+    '',
+    '<!-- After: same props, rename the tag -->',
+    '<NewModal :show="open" @close="open = false" max-width="lg" class="text-sm" align-top :padded="false">',
+    '  <div class="p-6">…</div>',
+    '</NewModal>',
+];
+
+const migrationRows = [
+    { prop: ':show + @close', type: 'same', default: '-', description: 'Works as-is. v-model:open is the idiomatic form for new code' },
+    { prop: 'maxWidth, closeable, hideOverflow, showBorder, resizable', type: 'same', default: '-', description: 'Same names and values' },
+    { prop: 'backdropDuration, modalDuration, backdropCustomClass', type: 'same', default: '-', description: 'Same names and values' },
+    { prop: 'modalCustomClass', type: 'renamed', default: '-', description: 'Use class, it lands on the panel' },
+    { prop: 'alignCenter', type: 'removed', default: '-', description: 'Centred is the default. Where alignCenter was absent, add align-top to keep the old position' },
+    { prop: 'own padding in the slot', type: 'new prop', default: '-', description: 'Add :padded="false" so it is not padded twice' },
 ];
 
 const newModalSlots = [
@@ -253,6 +288,21 @@ const newModalSlots = [
                 <CollapsableSection header="Slots" class="mt-4">
                     <PropsTable :rows="newModalSlots" />
                 </CollapsableSection>
+
+                <CollapsableSection header="Events" class="mt-4">
+                    <PropsTable :rows="newModalEvents" />
+                </CollapsableSection>
+            </DocDemoCard>
+        </section>
+
+        <section id="migration">
+            <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Migrating from Modal</h3>
+            <DocDemoCard>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    NewModal takes every Modal prop, so most call sites only need the tag renamed. The differences:
+                </p>
+                <PropsTable :rows="migrationRows" />
+                <CodePreview :code="migrationExample" class="mt-4" />
             </DocDemoCard>
         </section>
 
@@ -262,14 +312,14 @@ const newModalSlots = [
                 <span
                     class="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
                 >
-                    Will not be supported
+                    Still works, no new features
                 </span>
             </h3>
 
             <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-900/40 dark:bg-amber-950/30">
                 <p class="mb-4 text-sm text-amber-900 dark:text-amber-200">
                     The original <code class="rounded bg-white px-1 dark:bg-amber-900/40">Modal</code> component is documented here for backwards reference only - it
-                    will not be receiving further work. <strong>Migrate to NewModal for all new code.</strong> Modal exposes only a single default
+                    will not be receiving further work. <strong>Migrate to NewModal for all new code</strong> (see <a href="#migration" class="underline">Migrating from Modal</a>). Modal exposes only a single default
                     slot (no named header/footer slots) and uses <code class="rounded bg-white px-1 dark:bg-amber-900/40">:show + @close</code> instead of
                     <code class="rounded bg-white px-1 dark:bg-amber-900/40">v-model:open</code>.
                 </p>

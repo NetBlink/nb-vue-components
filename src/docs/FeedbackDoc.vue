@@ -147,14 +147,14 @@ const underConstructionProps = [
 </script>
 
 <template>
-    <div class="space-y-12">
-        <div>
+    <div class="space-y-10">
+        <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Components that report state back to the user - inline messages, loading indicators, on-demand hints and placeholders for work that
                 isn't built yet. For transient corner notifications see
                 <span class="font-medium text-gray-700 dark:text-gray-300">Toasts &amp; Snackbars</span>.
             </p>
-        </div>
+        </header>
 
         <section id="alerts">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Alerts</h3>
