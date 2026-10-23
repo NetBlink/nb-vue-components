@@ -13,6 +13,10 @@
  * @part root - the fixed full-screen container
  * @part overlay - the backdrop
  * @part content - the panel; `class` lands here
+ * @motion off - opens and closes instantly
+ * @motion simple - backdrop and panel only fade
+ * @motion smooth - backdrop fades, the panel fades and scales in (the 3.x behaviour)
+ * @motion fancy - same as smooth
  */
 import { computed, onMounted, onUnmounted, watch, ref, type PropType } from 'vue';
 import type { NbParts, UiProp } from '../ui/parts';
@@ -96,6 +100,10 @@ const { cls, attrs, level } = useUi('Modal', props, {
     classPart: 'content',
     aliases: { modalCustomClass: 'content', backdropCustomClass: 'overlay' },
 });
+
+// `simple` keeps the fade and drops the movement; `off` turns the transitions off.
+const panelHidden = computed(() => (level.value === 'simple' ? 'opacity-0' : 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'));
+const panelShown = computed(() => (level.value === 'simple' ? 'opacity-100' : 'opacity-100 translate-y-0 sm:scale-100'));
 
 const emit = defineEmits(['close']);
 const modalContent = ref(null);
@@ -212,7 +220,7 @@ const onResizeMouseMove = (e) => {
     <teleport to="body">
         <!-- transition-opacity gives Vue a real property to time the container's removal
              against, so it stays mounted until the inner leave animations finish. -->
-        <transition leave-active-class="transition-opacity duration-200">
+        <transition leave-active-class="transition-opacity duration-200" :css="level !== 'off'">
             <div
                 v-show="show"
                 v-bind="attrs()"
@@ -220,6 +228,7 @@ const onResizeMouseMove = (e) => {
                 scroll-region
             >
                 <transition
+                    :css="level !== 'off'"
                     enter-active-class="backdrop-transition enter ease-out"
                     enter-from-class="opacity-0"
                     enter-to-class="opacity-100"
@@ -240,12 +249,13 @@ const onResizeMouseMove = (e) => {
                 </transition>
 
                 <transition
+                    :css="level !== 'off'"
                     enter-active-class="modal-transition enter ease-out"
-                    enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+                    :enter-from-class="panelHidden"
+                    :enter-to-class="panelShown"
                     leave-active-class="modal-transition leave ease-in"
-                    leave-from-class="opacity-100 translate-y-0 sm:scale-100"
-                    leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    :leave-from-class="panelShown"
+                    :leave-to-class="panelHidden"
                 >
                     <div
                         ref="modalContent"

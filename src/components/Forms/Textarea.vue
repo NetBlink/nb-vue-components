@@ -194,6 +194,7 @@ defineExpose({
 <template>
     <InputWrapper
         v-bind="attrs()"
+        :motion="motion"
         :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="computedLabel"

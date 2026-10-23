@@ -11,12 +11,17 @@
  * @part title - the title
  * @part body - the slot wrapper
  * @part dismiss - the dismiss button
+ * @motion off - appears and disappears instantly
+ * @motion simple - height and opacity, quickly, no movement
+ * @motion smooth - height and opacity with a small upward drift
+ * @motion fancy - the same on a longer spring
  */
 import { ref, computed, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 import type { AlertTypes, NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
+import { motionTiming } from '../ui/flip';
 
 defineOptions({ inheritAttrs: false });
 
@@ -133,33 +138,39 @@ const handleDismiss = () => {
  * Easing and durations mirror the --ease-emphasised / --duration-* theme
  * tokens so alerts move like the rest of the system.
  */
-const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
-const ENTER_MS = 400;
-const LEAVE_MS = 200;
-const HIDDEN = { height: '0px', opacity: '0', transform: 'translateY(-8px)' };
+/*
+ * The motion level picks the timing (motionTiming mirrors the theme tokens:
+ * 400ms in / 200ms out at `smooth`). `simple` drops the drift, `off` skips the
+ * transition altogether.
+ */
+const hidden = () => ({ height: '0px', opacity: '0', transform: level.value === 'simple' ? 'none' : 'translateY(-8px)' });
 
 const flush = (el: HTMLElement) => el.offsetHeight;
 
-const applyTransition = (el: HTMLElement, ms: number) => {
-    el.style.transition = `height ${ms}ms ${EASE}, opacity ${ms}ms ${EASE}, transform ${ms}ms ${EASE}`;
+const applyTransition = (el: HTMLElement, kind: 'enter' | 'leave') => {
+    const { duration, easing } = motionTiming(level.value, kind);
+    el.style.transition = `height ${duration}ms ${easing}, opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`;
+    return duration;
 };
 
 const onBeforeEnter = (el: Element) => {
-    Object.assign((el as HTMLElement).style, HIDDEN);
+    if (level.value === 'off') return;
+    Object.assign((el as HTMLElement).style, hidden());
 };
 
 const onEnter = (el: Element, done: () => void) => {
+    if (level.value === 'off') return done();
     const element = el as HTMLElement;
     const height = element.scrollHeight;
 
     flush(element);
-    applyTransition(element, ENTER_MS);
+    const ms = applyTransition(element, 'enter');
 
     element.style.height = `${height}px`;
     element.style.opacity = '1';
     element.style.transform = 'translateY(0)';
 
-    setTimeout(done, ENTER_MS);
+    setTimeout(done, ms);
 };
 
 const onAfterEnter = (el: Element) => {
@@ -175,14 +186,15 @@ const onBeforeLeave = (el: Element) => {
 };
 
 const onLeave = (el: Element, done: () => void) => {
+    if (level.value === 'off') return done();
     const element = el as HTMLElement;
 
     flush(element);
-    applyTransition(element, LEAVE_MS);
+    const ms = applyTransition(element, 'leave');
 
-    Object.assign(element.style, HIDDEN);
+    Object.assign(element.style, hidden());
 
-    setTimeout(done, LEAVE_MS);
+    setTimeout(done, ms);
 };
 
 const onAfterLeave = (el: Element) => {

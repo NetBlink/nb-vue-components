@@ -12,11 +12,16 @@
  * @part description - the left and right description text
  * @part input - the checkbox `<input>`
  * @part error - the `InputError`
+ * @motion off - the box ticks and the error appears instantly
+ * @motion simple - the box ticks instantly
+ * @motion smooth - the box colour fades, the error grows in and out
+ * @motion fancy - the tick pops on a spring
  */
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputLabel, InputError } from '../../index';
 import type { NbParts, UiProp } from '../../ui/parts';
-import type { MotionLevel } from '../../ui/motion';
+import { levelAtLeast, type MotionLevel } from '../../ui/motion';
+import { heightTransition } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -99,7 +104,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     error: undefined,
 });
 
-const { cls, attrs } = useUi('Checkbox', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
+const { cls, attrs, level } = useUi('Checkbox', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
 
 // Helper function for label text
 function ucwords(text: string) {
@@ -233,7 +238,8 @@ defineExpose({
                 :class="
                     cls(
                         'input',
-                        'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 rounded border-gray-300 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50'
+                        'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 rounded border-gray-300 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50',
+                        { 'transition-colors duration-150': levelAtLeast(level, 'smooth'), 'checked:animate-check-pop': level === 'fancy' }
                     )
                 "
             />
@@ -244,6 +250,8 @@ defineExpose({
             </span>
         </label>
 
-        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        <Transition v-bind="heightTransition(level)">
+            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        </Transition>
     </div>
 </template>

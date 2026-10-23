@@ -14,12 +14,16 @@
  * @prop {number} collisionPadding - Padding from viewport edges in pixels (default: 8)
  * @part content - the tooltip bubble; `class` and other attrs land here
  * @part arrow - the arrow
+ * @motion off - opens and closes instantly
+ * @motion simple - quick fade in and out
+ * @motion smooth - fades in with a small slide away from the trigger, fades out
+ * @motion fancy - pops out of the trigger on a spring, zooms out on close
  */
 
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -53,7 +57,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
     collisionPadding: 8,
 });
 
-const { cls, attrs } = useUi('Tooltip', props, { classPart: 'content', aliases: { contentClass: 'content', arrowClass: 'arrow' } });
+const { cls, attrs, anim } = useUi('Tooltip', props, { classPart: 'content', aliases: { contentClass: 'content', arrowClass: 'arrow' } });
 
 // Ensure side is one of the valid values
 const tooltipSide = computed((): TooltipSide => {
@@ -81,13 +85,27 @@ const defaultContentClasses = [
     'dark:border-gray-700',
     'dark:text-gray-100',
     'dark:shadow-black/40',
-    // Animations - same theme tokens as Dropdown (the old `animate-in`/`slide-in-from-*`
-    // classes came from the v3 tailwindcss-animate plugin, which v4 doesn't have)
-    'data-[side=top]:animate-slide-down-fade',
-    'data-[side=right]:animate-slide-left-fade',
-    'data-[side=bottom]:animate-slide-up-fade',
-    'data-[side=left]:animate-slide-right-fade',
 ].join(' ');
+
+const open = ref(false);
+
+// Same theme tokens as Dropdown (the old `animate-in`/`slide-in-from-*` classes came from
+// the v3 tailwindcss-animate plugin, which v4 doesn't have).
+const MOTION: NbMotionTable<'content'> = {
+    simple: { content: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' } },
+    smooth: {
+        content: {
+            enter: 'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade',
+            leave: 'animate-fade-out',
+        },
+    },
+    fancy: {
+        content: {
+            enter: 'animate-pop-in origin-(--reka-tooltip-content-transform-origin)',
+            leave: 'animate-zoom-out origin-(--reka-tooltip-content-transform-origin)',
+        },
+    },
+};
 
 // Arrow classes - match the bubble background/border so the arrow blends in
 const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:stroke-gray-700';
@@ -95,7 +113,7 @@ const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:
 
 <template>
     <TooltipProvider :delay-duration="delayDuration">
-        <TooltipRoot :disabled="disabled">
+        <TooltipRoot v-model:open="open" :disabled="disabled">
             <TooltipTrigger as-child>
                 <slot />
             </TooltipTrigger>
@@ -105,7 +123,7 @@ const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:
                     :side="tooltipSide"
                     :sideOffset="sideOffset"
                     :collisionPadding="collisionPadding"
-                    :class="cls('content', defaultContentClasses)"
+                    :class="cls('content', defaultContentClasses, anim('content', open ? 'enter' : 'leave', MOTION))"
                 >
                     {{ content }}
                     <TooltipArrow :class="cls('arrow', defaultArrowClasses)" />

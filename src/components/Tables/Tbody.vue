@@ -8,8 +8,10 @@
  *
  * @part root - the `<tbody>`
  * @part empty - the `Td` showing the empty message
+ * @motion fancy - rows glide to their new place when rows are added, removed or re-sorted, new rows fade in
+ * @motion all - below fancy, rows change in place; the loading skeleton pulses at every level
  */
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Deferred } from '@inertiajs/vue3';
 import { TrPlaceholder, Td } from '../../index';
 import { useInertiaTable } from '../../composables/useTable';
@@ -17,6 +19,7 @@ import type { TableBodyProps, TableRow } from './types';
 import type { NbParts, UiProp } from '../../ui/parts';
 import type { MotionLevel } from '../../ui/motion';
 import { useUi } from '../../ui/useUi';
+import { useFlip } from '../../ui/flip';
 
 defineOptions({ inheritAttrs: false });
 
@@ -53,7 +56,10 @@ const props = withDefaults(defineProps<TbodyProps>(), {
     ignoreDefer: false
 });
 
-const { cls, attrs } = useUi('Tbody', props);
+const { cls, attrs, level } = useUi('Tbody', props);
+
+const tbody = ref<HTMLElement | null>(null);
+useFlip(() => tbody.value, () => level.value === 'fancy', () => level.value);
 
 const inertiaTable = typeof props.data === 'string' ? useInertiaTable(props.data) : null;
 
@@ -90,7 +96,7 @@ const records = computed(() => tableData.value);
 </script>
 
 <template>
-    <tbody v-if="!shouldUseDefer" v-bind="attrs()" :class="cls('root')">
+    <tbody v-if="!shouldUseDefer" ref="tbody" v-bind="attrs()" :class="cls('root')">
         <TrPlaceholder v-if="showPlaceholder" :placeholders="loadingRows" />
         
         <template v-else-if="showEmptyMessage">
@@ -106,7 +112,7 @@ const records = computed(() => tableData.value);
         </template>
     </tbody>
     
-    <tbody v-else v-bind="attrs()" :class="cls('root')">
+    <tbody v-else ref="tbody" v-bind="attrs()" :class="cls('root')">
         <Deferred :data="typeof props.data === 'string' ? props.data : ''">
             <template #fallback>
                 <TrPlaceholder v-if="!props.hidePlaceholder" :placeholders="loadingRows" />

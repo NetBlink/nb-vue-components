@@ -8,10 +8,14 @@
  * @prop {string} value - key linking this panel to its trigger
  * @slot default - panel content
  * @part root - the panel
+ * @motion off - panels swap instantly
+ * @motion simple - panels swap instantly
+ * @motion smooth - the new panel fades in
+ * @motion fancy - the new panel fades in with a small rise
  */
 import { TabsContent } from 'reka-ui';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -26,14 +30,19 @@ export interface TabProps {
 
 const props = defineProps<TabProps>();
 
-const { cls, attrs } = useUi('Tab', props);
+const { cls, attrs, anim } = useUi('Tab', props);
+
+const MOTION: NbMotionTable<'root'> = {
+    smooth: { root: { enter: 'animate-fade-in' } },
+    fancy: { root: { enter: 'animate-slide-up-fade' } },
+};
 </script>
 
 <template>
     <TabsContent
         v-bind="attrs()"
         :value="value"
-        :class="cls('root', 'focus-visible:ring-primary-500 mt-4 focus-visible:ring-2 focus-visible:outline-hidden')"
+        :class="cls('root', 'focus-visible:ring-primary-500 mt-4 focus-visible:ring-2 focus-visible:outline-hidden', anim('root', 'enter', MOTION))"
     >
         <slot />
     </TabsContent>

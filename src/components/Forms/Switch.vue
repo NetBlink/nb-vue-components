@@ -26,13 +26,18 @@
  * @part input - the switch track
  * @part thumb - the sliding knob
  * @part error - the `InputError`
+ * @motion off - the switch flips and the error appears instantly
+ * @motion simple - the thumb slides, the error appears instantly
+ * @motion smooth - the thumb slides, the error grows in and out
+ * @motion fancy - the thumb slides on a spring
  */
 
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { SwitchRoot, SwitchThumb } from 'reka-ui';
 import { InputLabel, InputError } from '../../index';
 import type { NbParts, UiProp } from '../../ui/parts';
-import type { MotionLevel } from '../../ui/motion';
+import { levelAtLeast, type MotionLevel } from '../../ui/motion';
+import { heightTransition } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -96,7 +101,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 
 const emit = defineEmits<SwitchEmits>();
 
-const { cls, attrs } = useUi('Switch', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
+const { cls, attrs, level } = useUi('Switch', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
 
 // Utility function to convert field names to proper case
 function ucwords(text: string): string {
@@ -226,7 +231,8 @@ defineExpose({
                     :class="
                         cls(
                             'thumb',
-                            'pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]'
+                            'pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform will-change-transform data-[state=checked]:translate-x-[1.625rem]',
+                            level === 'fancy' ? 'duration-300 ease-(--ease-spring)' : 'duration-150'
                         )
                     "
                 />
@@ -238,6 +244,8 @@ defineExpose({
             </span>
         </label>
 
-        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        <Transition v-bind="heightTransition(level)">
+            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        </Transition>
     </div>
 </template>

@@ -554,6 +554,7 @@ InputWrapper component A reusable wrapper that standardizes label, tooltip, subl
 | `error` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Custom error message (overrides form error) |
 | `htmlFor` | `string` | `undefined` | HTML for attribute (defaults to field) |
 | `ui` | `UiProp<NbParts['InputWrapper']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 

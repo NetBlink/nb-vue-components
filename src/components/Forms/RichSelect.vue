@@ -47,6 +47,10 @@
  * @part check - the tick on a selected option
  * @part empty - the "No options found" row
  * @part error - the `InputError`
+ * @motion off - the panel opens and closes instantly
+ * @motion simple - the panel fades
+ * @motion smooth - the panel fades and scales in and out, the chevron turns
+ * @motion fancy - the panel pops on a spring and options glide into place while filtering
  */
 
 import { computed, ref, watch, nextTick, onMounted } from 'vue';
@@ -54,6 +58,7 @@ import { InputWrapper, Spinner } from '../../index';
 import NbIcon from '../../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import type { MotionLevel } from '../../ui/motion';
+import { useFlip } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -162,7 +167,7 @@ const props = withDefaults(defineProps<RichSelectProps>(), {
 
 const emit = defineEmits<RichSelectEmits>();
 
-const { cls, attrs } = useUi('RichSelect', props, { aliases: { customClass: 'trigger' } });
+const { cls, attrs, level } = useUi('RichSelect', props, { aliases: { customClass: 'trigger' } });
 
 // Local state
 const isOpen = ref(false);
@@ -173,6 +178,38 @@ const localOptions = ref<SelectOption[]>([...props.options]);
 const dropdownRef = ref<HTMLElement>();
 const searchInputRef = ref<HTMLInputElement>();
 const listRef = ref<HTMLElement>();
+
+// Options reflow while filtering (fancy only).
+useFlip(() => listRef.value, () => level.value === 'fancy' && isOpen.value, () => level.value);
+
+const PANEL: Record<MotionLevel, Record<string, string>> = {
+    off: {},
+    simple: {
+        enterActiveClass: 'transition-opacity duration-150 ease-out',
+        enterFromClass: 'opacity-0',
+        enterToClass: 'opacity-100',
+        leaveActiveClass: 'transition-opacity duration-150 ease-in',
+        leaveFromClass: 'opacity-100',
+        leaveToClass: 'opacity-0',
+    },
+    smooth: {
+        enterActiveClass: 'transition duration-200 ease-out',
+        enterFromClass: 'opacity-0 scale-95',
+        enterToClass: 'opacity-100 scale-100',
+        leaveActiveClass: 'transition duration-150 ease-in',
+        leaveFromClass: 'opacity-100 scale-100',
+        leaveToClass: 'opacity-0 scale-95',
+    },
+    fancy: {
+        enterActiveClass: 'transition duration-300 ease-(--ease-spring)',
+        enterFromClass: 'opacity-0 scale-90',
+        enterToClass: 'opacity-100 scale-100',
+        leaveActiveClass: 'transition duration-150 ease-in',
+        leaveFromClass: 'opacity-100 scale-100',
+        leaveToClass: 'opacity-0 scale-95',
+    },
+};
+const panelTransition = computed(() => ({ css: level.value !== 'off', ...PANEL[level.value] }));
 
 // Computed value that works with both form/field and v-model patterns
 const value = computed({
@@ -405,6 +442,7 @@ onUnmounted(cleanup);
 <template>
     <InputWrapper
         v-bind="attrs()"
+        :motion="motion"
         :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="labelText"
@@ -474,14 +512,7 @@ onUnmounted(cleanup);
             </button>
 
             <!-- Dropdown -->
-            <transition
-                enter-active-class="transition duration-200 ease-out"
-                enter-from-class="opacity-0 scale-95"
-                enter-to-class="opacity-100 scale-100"
-                leave-active-class="transition duration-150 ease-in"
-                leave-from-class="opacity-100 scale-100"
-                leave-to-class="opacity-0 scale-95"
-            >
+            <transition v-bind="panelTransition">
                 <div
                     v-show="isOpen"
                     :class="

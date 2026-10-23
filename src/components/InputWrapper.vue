@@ -20,12 +20,18 @@
  * @part root - the wrapper `<div>`
  * @part label - the `InputLabel`
  * @part error - the `InputError`
+ * @motion off - the error appears instantly
+ * @motion simple - the error appears instantly
+ * @motion smooth - the error grows in and out
+ * @motion fancy - the error grows in on a spring
  */
 
 import { computed } from 'vue';
 import { InputLabel, InputError } from '../index';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
+import { heightTransition } from '../ui/flip';
+import type { MotionLevel } from '../ui/motion';
 
 defineOptions({ inheritAttrs: false });
 
@@ -55,6 +61,8 @@ export interface InputWrapperProps {
     htmlFor?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['InputWrapper']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<InputWrapperProps>(), {
@@ -70,7 +78,7 @@ const props = withDefaults(defineProps<InputWrapperProps>(), {
     htmlFor: undefined,
 });
 
-const { cls, attrs } = useUi('InputWrapper', props, { aliases: { labelCustomClass: 'label' } });
+const { cls, attrs, level } = useUi('InputWrapper', props, { aliases: { labelCustomClass: 'label' } });
 
 // Helper function to convert field names to readable labels
 function ucwords(text: string): string {
@@ -123,6 +131,8 @@ const forAttribute = computed(() => {
         <slot />
 
         <!-- Error message -->
-        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        <Transition v-bind="heightTransition(level)">
+            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+        </Transition>
     </div>
 </template>

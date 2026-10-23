@@ -11,13 +11,17 @@
  * @part icon - the chevron in the button
  * @part content - the collapsing panel
  * @part body - the spacing wrapper around the slot
+ * @motion off - opens and closes instantly
+ * @motion simple - the content's height animates quickly
+ * @motion smooth - the content's height animates in and out, the chevron turns
+ * @motion fancy - the height opens on a spring
  */
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
 import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 import { SecondaryButton } from './index.js';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -38,7 +42,15 @@ const props = withDefaults(defineProps<CollapseProps>(), {
     button: () => ['Show more', 'Show less'] as [string, string],
 });
 
-const { cls, attrs } = useUi('Collapse', props, { classPart: 'trigger' });
+const { cls, attrs, anim } = useUi('Collapse', props, { classPart: 'trigger' });
+
+// Height in and out: quick for `simple`, a spring for `fancy`.
+const MOTION: NbMotionTable<'content'> = {
+    simple: { content: { enter: 'animate-slide-down-quick', leave: 'animate-slide-up-quick' } },
+    smooth: { content: { enter: 'animate-slide-down', leave: 'animate-slide-up' } },
+    fancy: { content: { enter: 'animate-slide-down-spring', leave: 'animate-slide-up-spring' } },
+};
+
 const isOpen = ref(props.open);
 watch(
     () => props.open,
@@ -62,7 +74,7 @@ onMounted(() => {
             </slot>
         </CollapsibleTrigger>
 
-        <CollapsibleContent :class="cls('content', 'data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden')">
+        <CollapsibleContent :class="cls('content', anim('content', isOpen ? 'enter' : 'leave', MOTION), 'overflow-hidden')">
             <div :class="cls('body', 'mt-2')">
                 <slot />
             </div>

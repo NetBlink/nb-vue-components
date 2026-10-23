@@ -24,6 +24,10 @@
  * @prop {boolean} [disableEvents=false] - stop listening for `nb:toast` window events
  * @part root - the viewport the toasts stack in
  * @part toast - each `Toast`
+ * @motion off - toasts appear and leave instantly, the stack doesn't animate
+ * @motion simple - toasts fade in and out quickly; the stack jumps rather than glides
+ * @motion smooth - toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave
+ * @motion fancy - springier, longer entries and a zoomed exit; the stack glides on a spring
  */
 
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
@@ -32,7 +36,7 @@ import Toast from './Toast.vue';
 import { TOAST_EVENT, toast } from '../composables/useToast';
 import type { ToastAnimation, ToastInput, ToastOrder, ToastPosition } from '../composables/useToast';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -68,7 +72,7 @@ const props = withDefaults(defineProps<ToasterProps>(), {
     label: 'Notifications ({hotkey})',
 });
 
-const { cls, attrs } = useUi('Toaster', props);
+const { cls, attrs, anim, level } = useUi('Toaster', props);
 
 // Top-level binding so the template unwraps the ref for us.
 const items = toast.items;
@@ -88,12 +92,22 @@ const VIEWPORT_POSITION: Record<ToastPosition, string> = {
 
 // Slide in from whichever edge the viewport hugs.
 const SLIDE_IN: Record<ToastPosition, string> = {
-    'top-left': 'data-[state=open]:animate-toast-in-left',
-    'top-center': 'data-[state=open]:animate-toast-in-top',
-    'top-right': 'data-[state=open]:animate-toast-in-right',
-    'bottom-left': 'data-[state=open]:animate-toast-in-left',
-    'bottom-center': 'data-[state=open]:animate-toast-in-bottom',
-    'bottom-right': 'data-[state=open]:animate-toast-in-right',
+    'top-left': 'animate-toast-in-left',
+    'top-center': 'animate-toast-in-top',
+    'top-right': 'animate-toast-in-right',
+    'bottom-left': 'animate-toast-in-left',
+    'bottom-center': 'animate-toast-in-bottom',
+    'bottom-right': 'animate-toast-in-right',
+};
+
+// The same entries on a spring, for `fancy`.
+const SPRING_IN: Record<ToastPosition, string> = {
+    'top-left': 'animate-toast-spring-left',
+    'top-center': 'animate-toast-spring-top',
+    'top-right': 'animate-toast-spring-right',
+    'bottom-left': 'animate-toast-spring-left',
+    'bottom-center': 'animate-toast-spring-bottom',
+    'bottom-right': 'animate-toast-spring-right',
 };
 
 const SWIPE_DIRECTION: Record<ToastPosition, 'left' | 'right' | 'up' | 'down'> = {
@@ -105,18 +119,33 @@ const SWIPE_DIRECTION: Record<ToastPosition, 'left' | 'right' | 'up' | 'down'> =
     'bottom-right': 'right',
 };
 
-const enterClass = computed(() => {
-    if (props.animation === 'fade') return 'data-[state=open]:animate-fade-in';
-    if (props.animation === 'scale') return 'data-[state=open]:animate-toast-scale-in';
-    return SLIDE_IN[props.position];
-});
-
 /*
  * One exit for every position and animation: a quick fade with a hair of drift.
  * Leaving should get out of the way, so it isn't worth four directional
  * variants nobody will consciously see.
+ *
+ * Classes are chosen from each toast's open state, so a plain `animate-*`
+ * override in the motion config works. A config override applies to every
+ * position.
  */
-const exitClass = 'data-[state=closed]:animate-slide-down-fade-out';
+const motion = computed<NbMotionTable<'toast'>>(() => ({
+    simple: { toast: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' } },
+    smooth: {
+        toast: {
+            enter: props.animation === 'fade' ? 'animate-fade-in' : props.animation === 'scale' ? 'animate-toast-scale-in' : SLIDE_IN[props.position],
+            leave: 'animate-slide-down-fade-out',
+        },
+    },
+    fancy: {
+        toast: {
+            enter: props.animation === 'fade' ? 'animate-fade-in' : props.animation === 'scale' ? 'animate-zoom-in' : SPRING_IN[props.position],
+            leave: 'animate-zoom-out',
+        },
+    },
+}));
+
+// At `off` a closed toast has nothing to fade it, so hide it until the queue drops it.
+const toastMotion = (open: boolean) => (level.value === 'off' ? (open ? '' : 'invisible') : anim('toast', open ? 'enter' : 'leave', motion.value));
 
 const stackClass = computed(() => {
     // The queue is chronological, so plain `flex-col` puts the newest last -
@@ -177,7 +206,9 @@ const collapsed = computed(() => props.stack && !expanded.value);
  * the same matrix instead of fighting over it, which also leaves `transform`
  * free for the swipe-to-dismiss rules.
  */
-const MOVE_MS = 400; // matches the enter animation, so push and arrival read as one movement
+// Matches the enter animation, so push and arrival read as one movement.
+const moveMs = () => (level.value === 'fancy' ? 600 : 400);
+const moveEase = () => (level.value === 'fancy' ? 'var(--ease-spring)' : 'var(--ease-emphasised)');
 const previousEdges = new Map<string, number>();
 
 const anchoredTop = computed(() => props.position.startsWith('top'));
@@ -242,6 +273,12 @@ const layout = () => {
     // between. Interleaving reads and writes would force one layout per toast.
     const landed = elements.map(edgeOf);
 
+    // Below `smooth` the stack just lands where it belongs.
+    if (!levelAtLeast(level.value, 'smooth')) {
+        for (const el of elements) el.style.transition = '';
+        return;
+    }
+
     // Invert: put anything that has moved back where it was last seen. A toast
     // with no remembered position is new and has its own enter animation.
     elements.forEach((el, i) => {
@@ -253,14 +290,14 @@ const layout = () => {
     void elements[0].offsetHeight; // commit the offsets before animating out of them
 
     for (const el of elements) {
-        el.style.transition = `translate ${MOVE_MS}ms var(--ease-emphasised), scale ${MOVE_MS}ms var(--ease-emphasised)`;
+        el.style.transition = `translate ${moveMs()}ms ${moveEase()}, scale ${moveMs()}ms ${moveEase()}`;
         el.style.translate = `0 ${resting.get(el)}px`;
 
         // Drop the inline transition afterwards, otherwise it would also smooth
         // out swipe-to-dismiss and make the drag feel laggy.
         setTimeout(() => {
             el.style.transition = '';
-        }, MOVE_MS + 50);
+        }, moveMs() + 50);
     }
 };
 
@@ -318,7 +355,7 @@ onBeforeUnmount(() => {
                 :key="item.id"
                 :item="item"
                 :data-toast-id="item.id"
-                :class="cls('toast', [enterClass, exitClass])"
+                :class="cls('toast', toastMotion(item.open))"
                 @close="toast.dismiss(item.id)"
             />
         </ToastViewport>

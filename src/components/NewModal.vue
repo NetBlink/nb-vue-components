@@ -22,12 +22,17 @@
  * @part spacer - the gap under the title and description
  * @part footer - the footer row
  * @part close - the close button
+ * @motion off - opens and closes instantly
+ * @motion simple - backdrop and panel fade quickly
+ * @motion smooth - backdrop fades, the panel slides up in and drops out; the panel animates its height when its content grows or shrinks
+ * @motion fancy - the panel grows out of the element that opened it and shrinks back into it on close
  */
 import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
-import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, useSlots, watch, type ComponentPublicInstance } from 'vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
+import { animateResizes } from '../ui/flip';
 import { useUi } from '../ui/useUi';
 
 // `$attrs` is bound explicitly onto DialogContent below. Without this the same
@@ -89,7 +94,7 @@ const props = withDefaults(defineProps<NewModalProps>(), {
 });
 
 const emit = defineEmits<{ close: []; 'update:show': [value: boolean] }>();
-const { cls, attrs, motionAttrs } = useUi('NewModal', props, { classPart: 'content', aliases: { backdropCustomClass: 'overlay' } });
+const { cls, attrs, motionAttrs, anim, level } = useUi('NewModal', props, { classPart: 'content', aliases: { backdropCustomClass: 'overlay' } });
 const slots = useSlots();
 
 /*
@@ -171,6 +176,81 @@ const contentStyle = computed(() => {
     return style;
 });
 
+const MOTION: NbMotionTable<'overlay' | 'content'> = {
+    simple: {
+        overlay: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' },
+        content: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' },
+    },
+    smooth: {
+        overlay: { enter: 'animate-fade-in', leave: 'animate-fade-out' },
+        content: { enter: 'animate-slide-up-fade', leave: 'animate-slide-down-fade-out' },
+    },
+    fancy: {
+        overlay: { enter: 'animate-fade-in', leave: 'animate-fade-out' },
+        content: { enter: 'animate-grow-from-origin', leave: 'animate-shrink-to-origin' },
+    },
+};
+const motionFor = (part: 'overlay' | 'content') => anim(part, open.value ? 'enter' : 'leave', MOTION);
+
+/*
+ * `fancy`: grow out of whatever opened the dialog. reka moves focus into the
+ * dialog after it mounts, so the opener is still `document.activeElement` when
+ * `open` flips; a pointer press is the fallback for browsers that don't focus
+ * buttons on click. The offset is measured from where the panel will sit, the
+ * viewport centre (or its top area when `alignTop`).
+ */
+const origin = ref<Record<string, string>>({});
+let opener: Element | null = null;
+let lastPointer: { x: number; y: number } | null = null;
+const rememberPointer = (e: PointerEvent) => {
+    lastPointer = { x: e.clientX, y: e.clientY };
+};
+
+const measureOrigin = () => {
+    if (typeof window === 'undefined' || level.value !== 'fancy') return;
+    const rect = opener && opener !== document.body ? opener.getBoundingClientRect() : null;
+    const point = rect ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 } : lastPointer;
+    if (!point) {
+        origin.value = {};
+        return;
+    }
+    const centreY = props.alignTop ? window.innerHeight * 0.05 + 160 : window.innerHeight / 2;
+    origin.value = {
+        '--nb-origin-x': `${Math.round(point.x - window.innerWidth / 2)}px`,
+        '--nb-origin-y': `${Math.round(point.y - centreY)}px`,
+        '--nb-origin-scale': rect ? String(Math.min(1, Math.max(0.05, rect.width / 600))) : '0.2',
+    };
+};
+
+watch(
+    open,
+    (value) => {
+        if (value && typeof document !== 'undefined') opener = document.activeElement;
+        measureOrigin();
+    },
+    { flush: 'sync' }
+);
+
+// `smooth` and up: animate the panel's height when its content changes size while open.
+const contentRef = ref<ComponentPublicInstance | null>(null);
+let stopResizes: (() => void) | null = null;
+watch(
+    () => [open.value, contentRef.value] as const,
+    async () => {
+        stopResizes?.();
+        stopResizes = null;
+        await nextTick();
+        const el = contentRef.value?.$el as HTMLElement | undefined;
+        if (open.value && el instanceof HTMLElement && !props.resizable) stopResizes = animateResizes(el, () => level.value);
+    }
+);
+
+onMounted(() => window.addEventListener('pointerdown', rememberPointer, { capture: true, passive: true }));
+onUnmounted(() => {
+    window.removeEventListener('pointerdown', rememberPointer, { capture: true });
+    stopResizes?.();
+});
+
 // Functions, not computed: slots are not reactive, so a cached check could go stale.
 const hasTitle = () => !!props.title || !!slots.header;
 const hasDescription = () => !!props.description || !!slots.description;
@@ -186,7 +266,7 @@ const hasDescription = () => !!props.description || !!slots.description;
                  later, so they stack above an open dialog instead of behind it. -->
             <DialogOverlay
                 v-bind="motionAttrs()"
-                :class="cls('overlay', 'bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-50 dark:bg-black/70')"
+                :class="cls('overlay', 'bg-dark/50', motionFor('overlay'), 'fixed inset-0 z-50 dark:bg-black/70')"
                 :style="backdropDuration !== undefined ? { animationDuration: `${backdropDuration}ms` } : undefined"
             />
             <!-- Resizable swaps the fixed 600px cap for a 95vw one (CSS resize can
@@ -196,7 +276,7 @@ const hasDescription = () => !!props.description || !!slots.description;
             <!-- Without a description, aria-describedby would point at a missing id. -->
             <DialogContent
                 :class="
-                    cls('content', 'data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed left-[50%] z-50 translate-x-[-50%] rounded bg-white text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40', [
+                    cls('content', motionFor('content'), 'fixed left-[50%] z-50 translate-x-[-50%] rounded bg-white text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40', [
                         props.resizable
                             ? 'resize overflow-auto max-h-[90vh] max-w-[95vw] min-h-40 min-w-80 w-[min(600px,90vw)]'
                             : ['w-[90vw] max-w-[600px]', props.hideOverflow ? 'overflow-y-auto max-h-[85vh]' : 'overflow-visible'],
@@ -204,7 +284,8 @@ const hasDescription = () => !!props.description || !!slots.description;
                         { 'p-5': props.padded, 'border-primary-500 border-2 border-solid': props.showBorder },
                     ])
                 "
-                :style="contentStyle"
+                ref="contentRef"
+                :style="[origin, contentStyle]"
                 v-bind="{ ...(hasDescription() ? {} : { 'aria-describedby': undefined }), ...attrs() }"
                 @escape-key-down="preventUnlessCloseable"
                 @interact-outside="preventUnlessCloseable"

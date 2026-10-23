@@ -6,6 +6,8 @@
 import { InputLabel, InputError } from '../../../index';
 import type { InputProps } from '../types';
 import type { NbClassValue } from '../../../ui/merge';
+import type { MotionLevel } from '../../../ui/motion';
+import { heightTransition } from '../../../ui/flip';
 
 interface InputWrapperProps extends Pick<InputProps, 
     'field' | 'label' | 'noLabel' | 'sublabel' | 'tooltip' | 'required'
@@ -17,11 +19,14 @@ interface InputWrapperProps extends Pick<InputProps,
     rootClass?: NbClassValue;
     labelClass?: NbClassValue;
     errorClass?: NbClassValue;
+    /** Resolved motion level of the owning `Input` */
+    level?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<InputWrapperProps>(), {
     noLabel: false,
     required: false,
+    level: 'smooth',
 });
 </script>
 
@@ -39,10 +44,12 @@ const props = withDefaults(defineProps<InputWrapperProps>(), {
 
         <slot />
 
-        <InputError 
-            v-if="hasFormErrors" 
-            :message="formError" 
-            :class="errorClass" 
-        />
+        <Transition v-bind="heightTransition(level)">
+            <InputError 
+                v-if="hasFormErrors" 
+                :message="formError" 
+                :class="errorClass" 
+            />
+        </Transition>
     </div>
 </template>

@@ -13,6 +13,10 @@
  * @part chevron - the chevron
  * @part content - the collapsing panel
  * @part list - the `<ul>` around the links
+ * @motion off - opens and closes instantly
+ * @motion simple - the content's height animates quickly
+ * @motion smooth - the content's height animates in and out, the chevron turns
+ * @motion fancy - the height opens on a spring
  */
 
 import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui';
@@ -20,7 +24,7 @@ import NbIcon from '../icons/NbIcon.vue';
 import { computed, ref, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -38,7 +42,15 @@ const props = withDefaults(defineProps<NavCollapseProps>(), {
     open: false,
 });
 
-const { cls, attrs } = useUi('NavCollapse', props);
+const { cls, attrs, anim } = useUi('NavCollapse', props);
+
+// Height in and out: quick for `simple`, a spring for `fancy`.
+const MOTION: NbMotionTable<'content'> = {
+    simple: { content: { enter: 'animate-slide-down-quick', leave: 'animate-slide-up-quick' } },
+    smooth: { content: { enter: 'animate-slide-down', leave: 'animate-slide-up' } },
+    fancy: { content: { enter: 'animate-slide-down-spring', leave: 'animate-slide-up-spring' } },
+};
+
 
 const isOpen = ref(props.open);
 
@@ -71,7 +83,7 @@ watch(
                 </button>
             </CollapsibleTrigger>
 
-            <CollapsibleContent :class="cls('content', 'data-[state=open]:animate-slide-down data-[state=closed]:animate-slide-up overflow-hidden')">
+            <CollapsibleContent :class="cls('content', anim('content', isOpen ? 'enter' : 'leave', MOTION), 'overflow-hidden')">
                 <ul :class="cls('list', 'm-0 list-none space-y-1 px-4 py-1 pl-7')">
                     <slot />
                 </ul>

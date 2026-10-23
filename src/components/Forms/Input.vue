@@ -16,6 +16,10 @@
  * @part button - the submit and WhatsApp buttons
  * @part toggle - the password show/hide button
  * @part error - the `InputError`
+ * @motion off - the error appears instantly
+ * @motion simple - the error appears instantly
+ * @motion smooth - the error grows in and out
+ * @motion fancy - the error grows in on a spring
  */
 import { computed, defineModel, type ModelRef } from 'vue';
 import { Textarea, Switch, Checkbox } from '../../index';
@@ -53,7 +57,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 const emit = defineEmits<InputEmits>();
 
-const { cls, attrs } = useUi('Input', props, {
+const { cls, attrs, level } = useUi('Input', props, {
     aliases: { inputCustomClass: 'input', labelCustomClass: 'label', buttonCustomClass: 'button' },
 });
 
@@ -125,6 +129,7 @@ defineExpose({
         :autocomplete="computedAutocomplete"
         :tooltip="tooltip"
         :ui="childUi()"
+        :motion="motion"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -150,6 +155,7 @@ defineExpose({
         :left-description="leftDescription"
         :right-description="rightDescription"
         :ui="childUi()"
+        :motion="motion"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -178,6 +184,7 @@ defineExpose({
         :left-description="leftDescription"
         :right-description="rightDescription"
         :ui="childUi()"
+        :motion="motion"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -204,6 +211,7 @@ defineExpose({
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
         :error-class="cls('error', 'mt-2')"
+        :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -234,6 +242,7 @@ defineExpose({
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
         :error-class="cls('error', 'mt-2')"
+        :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -271,6 +280,7 @@ defineExpose({
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
         :error-class="cls('error', 'mt-2')"
+        :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -318,6 +328,7 @@ defineExpose({
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
         :error-class="cls('error', 'mt-2')"
+        :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"

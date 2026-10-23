@@ -9,6 +9,10 @@
  * @part icon - the chevron in the button
  * @part content - the menu panel; `class` and other attrs land here
  * @part list - the `<ul>` around the items
+ * @motion off - opens and closes instantly
+ * @motion simple - quick fade in and out
+ * @motion smooth - fades in with a small slide away from the trigger, fades out
+ * @motion fancy - pops out of the trigger on a spring, zooms out on close
  */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import { ref } from 'vue';
@@ -16,7 +20,7 @@ import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
 import NbIcon from '../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import type { MotionLevel, NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -40,9 +44,27 @@ const props = withDefaults(defineProps<LinkDropdownButtonProps>(), {
     title: undefined,
 });
 
-const { cls, attrs } = useUi('LinkDropdownButton', props, { classPart: 'content' });
+const { cls, attrs, anim } = useUi('LinkDropdownButton', props, { classPart: 'content' });
 
 const toggleState = ref(false);
+
+// Enter/leave classes are picked from the open state, so a plain `animate-*` override works.
+const MOTION: NbMotionTable<'content'> = {
+    simple: { content: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' } },
+    smooth: {
+        content: {
+            enter: 'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade',
+            leave: 'animate-fade-out',
+        },
+    },
+    fancy: {
+        content: {
+            enter: 'animate-pop-in origin-(--reka-dropdown-menu-content-transform-origin)',
+            leave: 'animate-zoom-out origin-(--reka-dropdown-menu-content-transform-origin)',
+        },
+    },
+};
+const contentMotion = () => anim('content', toggleState.value ? 'enter' : 'leave', MOTION);
 </script>
 
 <template>
@@ -70,7 +92,8 @@ const toggleState = ref(false);
                 :class="
                     cls(
                         'content',
-                        'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 min-w-max overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700'
+                        contentMotion(),
+                        'z-50 mt-2 min-w-max overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700'
                     )
                 "
             >

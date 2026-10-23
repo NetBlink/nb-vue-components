@@ -10,6 +10,9 @@
  * @part dots - the dot row
  * @part indicator - the active dot that slides between positions
  * @part dot - each dot
+ * @motion off - the active dot jumps
+ * @motion smooth - the active dot slides to the current slide
+ * @motion fancy - the active dot slides on a spring
  */
 // @ts-nocheck
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
@@ -40,7 +43,7 @@ const props = defineProps({
     motion: { type: String, default: undefined },
 });
 
-const { cls, attrs } = useUi('DottedCarousel', props);
+const { cls, attrs, level } = useUi('DottedCarousel', props);
 
 const DOT_PITCH = 20;
 const currentDotPosition = ref(0);
@@ -100,7 +103,7 @@ onBeforeUnmount(() => {
         <div class="mt-4 flex flex-col items-center justify-center">
             <div :class="cls('dots', 'relative flex w-fit flex-row justify-center gap-3')">
                 <div
-                    :class="cls('indicator', 'bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300')"
+                    :class="cls('indicator', 'bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300', { 'ease-(--ease-spring)': level === 'fancy' })"
                     :style="{ left: `${currentDotPosition}px` }"
                     ref="activeDot"
                 />
