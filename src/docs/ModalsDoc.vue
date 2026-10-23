@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { NbIcon } from '../icons';
 import {
@@ -349,5 +350,7 @@ const newModalSlots = [
                 </CollapsableSection>
             </div>
         </section>
+
+        <DocComponentMeta :names="['NewModal', 'Modal']" />
     </div>
 </template>

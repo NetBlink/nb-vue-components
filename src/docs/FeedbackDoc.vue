@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 /**
  * Feedback - components that tell the user what just happened, what is
  * happening, or what isn't there yet.
@@ -370,5 +371,7 @@ const underConstructionProps = [
                 </div>
             </DocDemoCard>
         </section>
+
+        <DocComponentMeta :names="['Alert', 'Spinner', 'Tooltip', 'UnderConstruction']" />
     </div>
 </template>

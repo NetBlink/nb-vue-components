@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { NbIcon } from '../icons';
 import { faChevronDown, faUser, faCog, faCreditCard, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -369,5 +370,7 @@ const dropdownSeparatorNote = [
                 <CodePreview :code="dropdownSeparatorNote" />
             </DocDemoCard>
         </section>
+
+        <DocComponentMeta :names="['NavLink', 'ResponsiveNavLink', 'NavCollapse', 'Dropdown', 'DropdownLink', 'DropdownSeparator', 'LinkDropdownButton', 'LinkDropdownButtonItem']" />
     </div>
 </template>

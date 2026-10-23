@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { computed, ref } from 'vue';
 import { CodePreview, CollapsableSection, PrimaryButton, SecondaryButton, PropsTable, Select, Input, Switch, Toaster, toast } from '../index';
 import type { ToastAnimation, ToastOrder, ToastPosition } from '../index';
@@ -400,5 +401,7 @@ const toasterProps = [
                 </CollapsableSection>
             </DocDemoCard>
         </section>
+
+        <DocComponentMeta :names="['Toaster', 'Toast']" />
     </div>
 </template>

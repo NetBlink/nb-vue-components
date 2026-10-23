@@ -219,28 +219,56 @@ every component at once, use the numeric steps, not the bare alias:
 }
 ```
 
+## Styling components (4.0)
+
+Every component takes `class` for its root part and `:ui` for named parts. Each component's
+**Parts** table below lists the part names and which part receives `class`. Classes you pass are
+merged with tailwind-merge, so a clashing default is removed: no `!` needed.
+
+```vue
+<Input field="email" class="mb-8" :ui="{ label: 'text-xs uppercase', input: 'bg-gray-50' }" />
+```
+
+House styles and extra variant values go in the plugin options instead of wrapper components:
+
+```js
+app.use(Componentsnb, {
+    ui: { Input: { input: 'border-gray-300 shadow-sm' }, SubmitButton: { root: 'rounded-full' } },
+    variants: { Button: { theme: { brand: 'bg-violet-600 text-white hover:bg-violet-700' } } },
+    motion: { level: 'smooth' }, // 'off' | 'simple' | 'smooth' | 'fancy'
+    twMerge: { extend: { theme: { text: ['tiny'] } } }, // your own @theme tokens
+});
+```
+
+Precedence, lowest first: library default, app `ui` config, instance `class`/`:ui`. `ui.Button`
+also styles the Button inside PrimaryButton and SubmitButton. The 3.x override props
+(`customClass`, `inputCustomClass`, `labelCustomClass`, ...) still work but are deprecated; write
+`class` / `:ui` in new code. To change behaviour, wrap with `inheritAttrs: false`, extend the
+exported props type (`InputProps`, `ButtonProps`, ...) and pass `$attrs`, props and slots through.
+
+Motion: `useMotion()` returns `{ level, setLevel, reset }` for an end-user setting; a component
+takes a `motion` prop for one instance. Each component's **Motion** line says what it does per level.
+
 ## Gotchas that cost real debugging time
 
 - **`NavLink`, `ResponsiveNavLink` and `DropdownLink` swallow fallthrough `@click`.** They wrap the
   Inertia `Link`, which sets its own handler after spreading attrs. Put your handler on a wrapping
   element instead.
 - **`Dropdown` portals its content to `<body>`.** Classes bound on `<Dropdown>` land on the floating
-  panel, not the trigger, wrap the trigger in a `<div>` if you need to style or hide it.
+  panel, not the trigger; style the trigger with `:ui="{ trigger: '...' }"`.
 - **`Td label` is required for mobile.** Without it a cell has no stacked small-screen rendering.
 - **Size `NbIcon` with `size`, not `h-*`/`w-*`.**
 - **Non-GET `LinkButton`/`DropdownLink` need `as="button"`** (`method="post"` on an anchor warns).
 - **`NavCollapse` takes `name` and `open` only.** Older app code passes `parent`/`active`; those are
   ignored. Drive expansion with `:open`.
-- **`NewModal` accepts both `v-model:open` and `v-model`.** `v-model:open` is the documented and
-  most common form. Note that it currently works through attribute fallthrough onto the underlying
-  `DialogRoot` rather than a declared named model, prefer it for consistency with existing apps,
-  but do not add `inheritAttrs: false` to the component without declaring the model explicitly.
+- **`NewModal` accepts `v-model:open`, `v-model` and `:show` + `@close`.** `v-model:open` is the
+  documented and most common form. All three are declared, and `class` styles the dialog panel.
 
 ---
 
 # Component API reference
 
-Generated from source (72 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (73 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -257,6 +285,19 @@ Inline `role="alert"` banner in success / error / warning / info variants, with 
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the alert box |
+| `icon` | the type icon |
+| `content` | the column holding title and body |
+| `title` | the title |
+| `body` | the slot wrapper |
+| `dismiss` | the dismiss button |
+
+**Motion:** `off`: appears and disappears instantly; `simple`: height and opacity, quickly, no movement; `smooth`: height and opacity with a small upward drift; `fancy`: the same on a longer spring.
+
 ### Button
 
 Base Button component with theme support
@@ -272,6 +313,14 @@ Base Button component with theme support
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>` element |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Checkbox
 
@@ -303,6 +352,19 @@ Single checkbox with label, sublabel, tooltip and error message, plus optional d
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper |
+| `label` | the `InputLabel` above the checkbox |
+| `field` | the clickable row holding the box and its descriptions |
+| `description` | the left and right description text |
+| `input` | the checkbox `<input>` |
+| `error` | the `InputError` |
+
+**Motion:** `off`: the box ticks and the error appears instantly; `simple`: the box ticks instantly; `smooth`: the box colour fades, the error grows in and out; `fancy`: the tick pops on a spring.
+
 ### CodePreview
 
 Read-only code block with a header bar showing a filename and a copy-to-clipboard button. Takes `code` as an array of lines (joined with newlines), so snippets can be written as string arrays in docs pages; it does not highlight syntax, only sets a `language-*` class on the `<code>` element.
@@ -313,6 +375,18 @@ Read-only code block with a header bar showing a filename and a copy-to-clipboar
 | `language` | `string` | - | Optional language label shown in the header (e.g. "css", "vue") |
 | `filename` | `string` | - | Optional filename shown in the header instead of "Code Example" |
 | `ui` | `UiProp<NbParts['CodePreview']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the block |
+| `header` | the header bar |
+| `filename` | the filename text |
+| `copy` | the copy button |
+| `pre` | the `<pre>` holding the code |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### CollapsableSection
 
@@ -328,6 +402,19 @@ Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box who
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the bordered card |
+| `trigger` | the header row that toggles the section |
+| `header` | the heading text |
+| `icon` | the chevron wrapper |
+| `content` | the collapsing panel |
+| `body` | the padded wrapper around the slot |
+
+**Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
+
 ### Collapse
 
 Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot. Use this for inline "Show more" toggles; use `CollapsableSection` when you want a full bordered card with a header bar.
@@ -340,6 +427,19 @@ Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `Second
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, `trigger`
+
+**Parts** (`:ui` keys; `class` goes to `trigger`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the collapsible wrapper |
+| `trigger` | the `SecondaryButton`; `class` and other attrs land here, as in 3.x |
+| `label` | the button text |
+| `icon` | the chevron in the button |
+| `content` | the collapsing panel |
+| `body` | the spacing wrapper around the slot |
+
+**Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
 
 ### DangerButton
 
@@ -355,6 +455,14 @@ Danger Button component
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### DataTile
 
@@ -375,6 +483,20 @@ themed statistic tile with a background icon. Renders a card with a large value,
 
 **Slots:** `icon`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the card |
+| `value` | the value section |
+| `icon` | the background icon |
+| `valueText` | the big number |
+| `label` | the label section |
+| `labelText` | the label text |
+| `underline` | the hover underline |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### DescriptionList
 
 Wrapper `<dl>` for a stack of `DescriptionListItem` rows. Child items register themselves through provide/inject so the list can start, stop or toggle editing on all of them at once via its exposed methods; pass an Inertia `form` plus `stopEditOnSubmit` to have every row leave edit mode automatically once submission finishes.
@@ -385,6 +507,15 @@ Wrapper `<dl>` for a stack of `DescriptionListItem` rows. Child items register t
 | `ui` | `UiProp<NbParts['DescriptionList']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper with the top border |
+| `list` | the `<dl>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### DescriptionListItem
 
@@ -401,6 +532,21 @@ One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair
 
 **Slots:** `buttons`, `default`, `edit`, `label`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the row |
+| `term` | the `<dt>` label |
+| `required` | the red asterisk |
+| `details` | the `<dd>` |
+| `row` | the flex row inside it |
+| `value` | the value or edit slot area |
+| `actions` | the buttons area |
+| `edit` | the edit toggle button |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### DottedCarousel
 
 Horizontal snap-scroll carousel with dot navigation underneath. Each top-level child of the default slot becomes a slide, so mark each with `class="min-w-full snap-start"` for the snapping to line up; the dot count is read from the DOM and kept in sync with a MutationObserver, and clicking a dot scrolls smoothly to that slide.
@@ -410,6 +556,18 @@ Horizontal snap-scroll carousel with dot navigation underneath. Each top-level c
 | `padding` | `/** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts'DottedCarousel'>>} */ (Object)` | `0 }` | Outer padding offset applied to the scroll math when clicking a dot |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `track` | the snap-scrolling slide row |
+| `dots` | the dot row |
+| `indicator` | the active dot that slides between positions |
+| `dot` | each dot |
+
+**Motion:** `off`: the active dot jumps; `smooth`: the active dot slides to the current slide; `fancy`: the active dot slides on a spring.
 
 ### Dropdown
 
@@ -426,6 +584,15 @@ menu popover built on reka-ui's `DropdownMenu` primitives. Provide a `#trigger` 
 
 **Slots:** `content`, menu items, `trigger`, element that opens the menu
 
+**Parts** (`:ui` keys; `class` goes to `content`):
+
+| Part | Element |
+| --- | --- |
+| `trigger` | the trigger `<button>` around the `#trigger` slot |
+| `content` | the menu panel; `class` and other attrs land here |
+
+**Motion:** `off`: opens and closes instantly; `simple`: quick fade in and out; `smooth`: fades in with a small slide away from the trigger, fades out; `fancy`: pops out of the trigger on a spring, zooms out on close.
+
 ### DropdownLink
 
 A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui `DropdownMenuItem` so keyboard navigation and menu semantics come for free. Extra attributes fall through to the `Link`, so `method`, `as` and the like work as usual.
@@ -437,13 +604,30 @@ A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a r
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `link`):
+
+| Part | Element |
+| --- | --- |
+| `item` | the menu item wrapper |
+| `link` | the `Link`; `class` and other attrs land here |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### DropdownSearchbar
 
 Thin wrapper around the third-party `vue-select` component, giving a type-to-search dropdown over a static `options` array with only light styling applied. It is the oldest of the select family and carries an external dependency, so prefer the in-house `SearchSelect` for filterable single-choice fields and `Select2ajax` when the options have to come from a server.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'DropdownSearchbar'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
+| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `vue-select` control |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### DropdownSeparator
 
@@ -453,11 +637,28 @@ Dropdown separator component A visual separator for dropdown menu items.
 | --- | --- | --- | --- |
 | `ui` | `UiProp<NbParts['DropdownSeparator']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the separator line |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### EnhancedTable
 
 Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants. Prefer plain `Table` with hand-written `Tr`/`Td` rows when the cells need bespoke markup.
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the outer wrapper, rendered by `Table` |
+| `row` | each generated `<tr>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### FileDropZoneInput
 
@@ -466,6 +667,18 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `accept` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'FileDropZoneInput'>>} */ (Object)` | `'image/*' }` |  |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` |
+| `zone` | the dashed drop area |
+| `content` | the clickable area inside it |
+| `label` | the label text |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### GravatarImg
 
@@ -477,6 +690,32 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 | `size` | `number` | `100` | Pixel size requested from Gravatar (the `s=` query parameter) |
 | `ui` | `UiProp<NbParts['GravatarImg']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<img>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### H2
+
+a bold `<h2>` with a brand-coloured underline and an id slugged from the title, so it can be linked to.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | **required** |  |
+| `ui` | `UiProp<NbParts['H2']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the spacing wrapper |
+| `title` | the `<h2>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Images
 
 Self-contained image gallery and uploader for a given record: it shows the existing `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`, using its own Inertia form. Unlike `FileDropZoneInput`, which only stages files on a form you own, this component performs the upload itself.
@@ -484,6 +723,23 @@ Self-contained image gallery and uploader for a given record: it shows the exist
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `canUpload` | `Boolean` | `true` |  |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the upload `<form>` |
+| `zone` | the dashed drop area |
+| `content` | the clickable area inside it |
+| `previews` | the row of picked images |
+| `preview` | one picked image |
+| `remove` | the red remove badge on a preview |
+| `button` | the Upload button |
+| `status` | the "Images uploaded." message |
+| `error` | the `InputError` |
+| `gallery` | the existing images below the form |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### InfoButton
 
@@ -500,6 +756,14 @@ Info Button component
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Input
 
 The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions. Binds either through `v-model` or the Inertia `:form` + `field` pattern, pulling validation errors straight off `form.errors`. `TextInput` is the bare unstyled-chrome `<input>` underneath, use it only when you are building your own field layout.
@@ -507,6 +771,21 @@ The all-in-one form control and the default choice for any field: it renders the
 **v-model:** `v-model`
 
 **Slots:** `default`, `leftDescription`, `rightDescription`, `submit`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper (for textarea, switch and checkbox, that component's root) |
+| `label` | the `InputLabel` |
+| `group` | the row holding the input with its addon, buttons or password toggle |
+| `input` | the control itself |
+| `addon` | the leading addon text |
+| `button` | the submit and WhatsApp buttons |
+| `toggle` | the password show/hide button |
+| `error` | the `InputError` |
+
+**Motion:** `off`: the error appears instantly; `simple`: the error appears instantly; `smooth`: the error grows in and out; `fancy`: the error grows in on a spring.
 
 ### InputError
 
@@ -516,6 +795,15 @@ Input Error component for displaying validation error messages
 | --- | --- | --- | --- |
 | `message` | `string \| null` | - | The error message to display |
 | `ui` | `UiProp<NbParts['InputError']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper, hidden while there is no message |
+| `message` | the red `<p>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### InputLabel
 
@@ -532,11 +820,24 @@ Styled `<label>` for form fields: takes its text from the `value` prop or the de
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<label>` |
+| `icon` | the help icon inside the tooltip trigger |
+| `sublabel` | grey text after the label |
+| `required` | the red asterisk |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### InputWrapper
 
 Wrapper component for form inputs with label and error handling
 
 **Slots:** `default`
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### InputWrapper
 
@@ -558,6 +859,16 @@ InputWrapper component A reusable wrapper that standardizes label, tooltip, subl
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` |
+| `label` | the `InputLabel` |
+| `error` | the `InputError` |
+
+**Motion:** `off`: the error appears instantly; `simple`: the error appears instantly; `smooth`: the error grows in and out; `fancy`: the error grows in on a spring.
+
 ### LinkButton
 
 Link Button component that can render as either a Link or anchor tag
@@ -576,6 +887,14 @@ Link Button component that can render as either a Link or anchor tag
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<a>`, or the Inertia `Link` when `method` or `data` is set |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### LinkDropdownButton
 
 Primary-styled button that opens a reka-ui dropdown menu of links, rendering the slot content inside its own `<ul>`. Fill it with `LinkDropdownButtonItem` children, which supply the matching `<li>`; use `Dropdown` instead when you need an arbitrary trigger element rather than this fixed button.
@@ -590,6 +909,17 @@ Primary-styled button that opens a reka-ui dropdown menu of links, rendering the
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `content`):
+
+| Part | Element |
+| --- | --- |
+| `trigger` | the primary-styled `<button>` |
+| `icon` | the chevron in the button |
+| `content` | the menu panel; `class` and other attrs land here |
+| `list` | the `<ul>` around the items |
+
+**Motion:** `off`: opens and closes instantly; `simple`: quick fade in and out; `smooth`: fades in with a small slide away from the trigger, fades out; `fancy`: pops out of the trigger on a spring, zooms out on close.
+
 ### LinkDropdownButtonItem
 
 One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a plain `<a href>` with the menu's hover/focus styling, so it does a full page load rather than an Inertia visit, use `DropdownLink` when you want client-side navigation.
@@ -600,6 +930,15 @@ One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a p
 | `title` | `string` | - | The title/text to display |
 | `ui` | `UiProp<NbParts['LinkDropdownButtonItem']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<li>` |
+| `link` | the `<a>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Logs
 
 activity timeline wrapped in a collapsible section.
@@ -608,6 +947,14 @@ activity timeline wrapped in a collapsible section.
 | --- | --- | --- | --- |
 | `header` | `Boolean` | `'Logs' }` | heading text in the section header bar |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `CollapsableSection` card |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### LogsContent
 
 Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry icon, the formatted event, old → new value diffs and the causer's name. It shows a `Spinner` while `logs` is undefined and appends its own `Pagination` from `logs.links`; the causer is linked via `causerRoute` through the host app's Ziggy `route()` helper and degrades to plain text when that route or helper is missing.
@@ -615,6 +962,21 @@ Renders a paginated Laravel activity-log payload as a vertical timeline, with a 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `causerRoute` | `String` | `'users.show' }` | Route name used to link a log entry's causer. Set to null to never link. |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper (or the spinner row while loading) |
+| `empty` | the "No Data" line |
+| `list` | the timeline `<ol>` |
+| `marker` | the round icon on the timeline |
+| `card` | each entry's card |
+| `meta` | the event and date row |
+| `change` | each "field: old -> new" line |
+| `details` | the description details |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Modal
 
@@ -633,12 +995,22 @@ teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, bo
 | `modalCustomClass` | `String` | `''` | deprecated, use `class` |
 | `backdropCustomClass` | `String` | `''` | deprecated, use `:ui="{ overlay: '...' }"` |
 | `resizable` | `Boolean` | `false` | render edge/corner handles so the user can resize the modal |
-| `ui` | `Object as PropType<UiProp<NbParts'Modal'>>` | `undefined` | Classes per part, merged over the defaults |
+| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
 | `motion` | `String as PropType<MotionLevel>` | `undefined` | Motion level for this instance |
 
 **Slots:** `default`
 
 **Emits:** `close`
+
+**Parts** (`:ui` keys; `class` goes to `content`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the fixed full-screen container |
+| `overlay` | the backdrop |
+| `content` | the panel; `class` lands here |
+
+**Motion:** `off`: opens and closes instantly; `simple`: backdrop and panel only fade; `smooth`: backdrop fades, the panel fades and scales in (the 3.x behaviour); `fancy`: same as smooth.
 
 ### NavCollapse
 
@@ -653,6 +1025,20 @@ Navigation Collapse component with expandable/collapsible content
 
 **Slots:** `default`, `icon`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<li>` |
+| `trigger` | the toggle `<button>` |
+| `icon` | the icon slot wrapper |
+| `label` | the name |
+| `chevron` | the chevron |
+| `content` | the collapsing panel |
+| `list` | the `<ul>` around the links |
+
+**Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
+
 ### NavLink
 
 sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decides activeness (typically via `route().current(...)`); this component only applies the active styling. Renders an optional left icon via the `#icon` slot.
@@ -665,6 +1051,16 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, link label, `icon`, optional icon rendered to the left of the label
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `Link` |
+| `icon` | the icon slot wrapper |
+| `label` | the label `<span>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### NewModal
 
@@ -693,6 +1089,20 @@ Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one t
 
 **Slots:** `default`, body content, `description`, overrides the `description` prop, `footer`, right-aligned footer area, `header`, overrides the `title` prop, `trigger`, element that opens the dialog when clicked
 
+**Parts** (`:ui` keys; `class` goes to `content`):
+
+| Part | Element |
+| --- | --- |
+| `overlay` | the backdrop |
+| `content` | the dialog panel; `class` lands here |
+| `title` | the `DialogTitle` |
+| `description` | the `DialogDescription` |
+| `spacer` | the gap under the title and description |
+| `footer` | the footer row |
+| `close` | the close button |
+
+**Motion:** `off`: opens and closes instantly; `simple`: backdrop and panel fade quickly; `smooth`: backdrop fades, the panel slides up in and drops out; the panel animates its height when its content grows or shrinks; `fancy`: the panel grows out of the element that opened it and shrinks back into it on close.
+
 ### Pagination
 
 Pagination component for navigating through pages of data
@@ -714,6 +1124,18 @@ Pagination component for navigating through pages of data
 | `ui` | `UiProp<NbParts['Pagination']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `list` | the `<ul>` of page links |
+| `link` | each page link |
+| `activeLink` | extra classes for the current page, on top of `link` |
+| `disabledLink` | a link without a URL (previous/next at the ends) |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### PrimaryButton
 
 Primary Button component
@@ -729,6 +1151,14 @@ Primary Button component
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### PropsTable
 
 Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state. Used by the docs pages, not intended for app UI.
@@ -737,6 +1167,14 @@ Documentation-only table that renders an array of `{ prop, type, default, descri
 | --- | --- | --- | --- |
 | `rows` | `PropRow[]` | `() => []` |  |
 | `ui` | `UiProp<NbParts['PropsTable']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the scroll wrapper |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### RadioButton
 
@@ -753,6 +1191,16 @@ One radio option with its label. Render several sharing the same `name` (or the 
 | `field` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
 | `ui` | `UiProp<NbParts['RadioButton']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the row wrapper |
+| `input` | the radio `<input>` |
+| `label` | the `<label>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### ResponsiveNavLink
 
 mobile/stacked variant of `NavLink`. Same `href` / `active` API as NavLink, but styled as a full-width row with a left border for use in mobile menus. No `#icon` slot - only the default label slot is rendered.
@@ -765,6 +1213,14 @@ mobile/stacked variant of `NavLink`. Same `href` / `active` API as NavLink, but 
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, link label
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `Link` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### RichSelect
 
@@ -798,6 +1254,32 @@ Feature-rich Select component with API search, multiple selection, and grouping
 | `ui` | `UiProp<NbParts['RichSelect']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper (an `InputWrapper`) |
+| `label` | the `InputLabel` |
+| `trigger` | the button showing the current value |
+| `tag` | a selected value chip (multiple) |
+| `tagButton` | the remove button inside a chip |
+| `value` | the selected text or placeholder |
+| `clear` | the clear button |
+| `icon` | the chevron |
+| `content` | the dropdown panel |
+| `search` | the row around the search box |
+| `searchIcon` | the magnifier icon |
+| `searchInput` | the search `<input>` |
+| `loading` | the loading row |
+| `list` | the scrolling option list |
+| `groupLabel` | a group heading |
+| `item` | an option |
+| `check` | the tick on a selected option |
+| `empty` | the "No options found" row |
+| `error` | the `InputError` |
+
+**Motion:** `off`: the panel opens and closes instantly; `simple`: the panel fades; `smooth`: the panel fades and scales in and out, the chevron turns; `fancy`: the panel pops on a spring and options glide into place while filtering.
+
 ### SearchSelect
 
 Single-choice select with a type-to-filter box, built on `vue-search-select`'s `ModelListSelect` over a client-side `list` whose value/label keys you name via `optionValue`/`optionText`; the filter itself is overridable with `filterPredicate`. Binds via `v-model` or the Inertia `:form` + `field` pattern. Use `Select`/`SimpleSelect` when a plain dropdown will do, `Select2ajax` when options must be fetched from a server, and `SelectMultiple` or `RichSelect` when more than one value can be chosen.
@@ -821,6 +1303,17 @@ Single-choice select with a type-to-filter box, built on `vue-search-select`'s `
 | `required` | `boolean` | `false` |  |
 | `ui` | `UiProp<NbParts['SearchSelect']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` |
+| `label` | the `InputLabel` |
+| `input` | the search select control |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### SecondaryButton
 
 Secondary Button component
@@ -836,6 +1329,14 @@ Secondary Button component
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Section
 
 a rounded container with consistent `px-6 py-4` padding and an optional header strip driven by the `header` prop plus a `headerButton` slot. Pick a `variant` for the border/shadow treatment, or set `unstyled` to keep only the layout and supply your own classes, which are merged onto the container.
@@ -849,6 +1350,17 @@ a rounded container with consistent `px-6 py-4` padding and an optional header s
 | `ui` | `UiProp<NbParts['Section']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`, `headerButton`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the container |
+| `header` | the header strip |
+| `title` | the header text |
+| `body` | the padded content wrapper |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Select
 
@@ -876,6 +1388,18 @@ Simple Select component Works with both array options and slot options, API-comp
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper (an `InputWrapper`) |
+| `label` | the `InputLabel` |
+| `input` | the native `<select>` |
+| `placeholder` | the disabled placeholder `<option>` |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Select2ajax
 
 Server-backed version of `SearchSelect`: it wraps that component and fills the option list by requesting `url` with the current search term, appending further pages as the user scrolls the dropdown to the bottom. Reach for it when the option set is too large to ship to the client; use `SearchSelect` for a static list, or `RichSelect` if you want API search plus multiple selection and grouping in one component.
@@ -893,9 +1417,20 @@ Server-backed version of `SearchSelect`: it wraps that component and fills the o
 | `noForm` | `Boolean` | `false` |  |
 | `url` | `String` | **required** |  |
 | `queryParams` | `Object` | - |  |
-| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'Select2ajax'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
+| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
 
 **Emits:** `update:modelValue`, `changed`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` (rendered by `SearchSelect`) |
+| `label` | the `InputLabel` |
+| `input` | the search select control |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### SelectMultiple
 
@@ -911,9 +1446,25 @@ Multi-select rendered as a clickable list of options that toggle in and out of a
 | `placeholder` | `String` | - |  |
 | `noLabel` | `Boolean` | `false` |  |
 | `isDisabled` | `Boolean` | `false` |  |
-| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'SelectMultiple'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
+| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
 
 **Emits:** `update:modelValue`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` |
+| `label` | the `InputLabel` |
+| `trigger` | the toggle button |
+| `icon` | the chevron |
+| `content` | the dropdown panel |
+| `list` | the option list |
+| `item` | an option row |
+| `check` | the square checkbox on each option |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### SimpleSelect
 
@@ -933,6 +1484,18 @@ Simple Select component that works with options array
 | `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
 | `ui` | `UiProp<NbParts['SimpleSelect']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper `<div>` |
+| `header` | the row holding the label and tooltip |
+| `label` | the `InputLabel` |
+| `input` | the native `<select>` |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Spinner
 
 a CSS-only spinning ring in five preset sizes, with `role="status"` and a visually hidden "Loading..." label for screen readers. Defaults to the primary brand colour; pass `color` to override with your own text-colour classes.
@@ -942,6 +1505,14 @@ a CSS-only spinning ring in five preset sizes, with `role="status"` and a visual
 | `size` | `keyof SpinnerSizes` | `'md'` | Spinner size. Add your own through the `variants` config. |
 | `color` | `string` | `undefined` | Custom color classes, replacing the default colour |
 | `ui` | `UiProp<NbParts['Spinner']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the spinning ring |
+
+**Motion:** all levels: keeps spinning at every level, including `off`: it is a status indicator.
 
 ### Stats
 
@@ -957,6 +1528,20 @@ Responsive grid of clickable stat tiles used as quick filters above a table. Cli
 | `customStatValueClass` | `string` | `''` | deprecated, use `:ui="{ value: '...' }"` |
 | `ui` | `UiProp<NbParts['Stats']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the grid |
+| `stat` | each tile |
+| `value` | the value section |
+| `valueText` | the number |
+| `label` | the label section |
+| `labelText` | the label text |
+| `underline` | the hover underline |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### SubmitButton
 
@@ -976,6 +1561,17 @@ Submit Button component with loading state and theme support
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+| `content` | wrapper around the label, dimmed while loading |
+| `loader` | the overlay that centres the spinner |
+| `spinner` | the `Spinner` shown while loading |
+
+**Motion:** `off`: the spinner swaps in instantly (it keeps spinning at every level); `simple`: the spinner fades in; `smooth`: the label dims and the spinner fades and scales in; `fancy`: the spinner pops in on a spring.
+
 ### SuccessButton
 
 Success Button component
@@ -990,6 +1586,14 @@ Success Button component
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Switch
 
@@ -1018,6 +1622,20 @@ Switch component
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper |
+| `label` | the `InputLabel` above the switch |
+| `field` | the clickable row holding the switch and its descriptions |
+| `description` | the left and right description text |
+| `input` | the switch track |
+| `thumb` | the sliding knob |
+| `error` | the `InputError` |
+
+**Motion:** `off`: the switch flips and the error appears instantly; `simple`: the thumb slides, the error appears instantly; `smooth`: the thumb slides, the error grows in and out; `fancy`: the thumb slides on a spring.
+
 ### Tab
 
 a single panel inside `<Tabs>`. `value` must match the `value` of the corresponding entry in the parent's `tabs` array. Content is only rendered while the tab is active.
@@ -1030,11 +1648,31 @@ a single panel inside `<Tabs>`. `value` must match the `value` of the correspond
 
 **Slots:** `default`, panel content
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the panel |
+
+**Motion:** `off`: panels swap instantly; `simple`: panels swap instantly; `smooth`: the new panel fades in; `fancy`: the new panel fades in with a small rise.
+
 ### Table
 
 Scroll container and `<table>` shell for the table primitives: compose `Thead`, `Th`, `Tbody`, `Tr` and `Td` inside its default slot, and it applies the striped / bordered / hover / sticky-header / size / variant styling plus a responsive wrapper. It renders its own `Pagination` from a Laravel paginator passed as `pagination` (or legacy `links`) and shows a "Found: n" count when `total` is given. Use `EnhancedTable` instead when you would rather declare `columns` and `data` and have the rows generated for you.
 
 **Slots:** `default`, `pagination`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the outer wrapper |
+| `count` | the "Found: n" line |
+| `container` | the scroll container around the table |
+| `table` | the `<table>` |
+| `pagination` | the row holding the pagination |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### TableItemCard
 
@@ -1054,6 +1692,22 @@ Mobile-friendly card summarising one record, used as the small-screen fallback f
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the card |
+| `header` | the top row with id, timestamp and pills |
+| `meta` | the id and timestamp |
+| `pill` | one coloured pill |
+| `title` | the title |
+| `note` | the "Engineer Note" line |
+| `options` | the list of option links |
+| `option` | one option link |
+| `amount` | the money amount |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Tabs
 
 tabbed panel switcher built on reka-ui's `Tabs` primitives. Declare the tab strip with `tabs`, then render one `<Tab>` per panel in the default slot. Keyboard navigation, roving focus and ARIA wiring come from reka-ui. ```vue <Tabs :tabs="[{ value: 'fa', label: 'FontAwesome' }, { value: 'hero', label: 'Heroicons' }]"> <Tab value="fa">…</Tab> <Tab value="hero">…</Tab> </Tabs> ```
@@ -1069,6 +1723,19 @@ tabbed panel switcher built on reka-ui's `Tabs` primitives. Declare the tab stri
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, the `<Tab>` panels, `trigger`, custom trigger content; receives `{ tab, active }`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the tabs wrapper |
+| `list` | the tab strip |
+| `trigger` | each tab button |
+| `icon` | the icon in a tab |
+| `badge` | the count badge in a tab |
+| `indicator` | the sliding active marker (smooth and fancy motion only) |
+
+**Motion:** `off`: the active tab switches instantly; `simple`: colour change only, the marker jumps; `smooth`: the underline (or pill) slides to the new tab; `fancy`: the marker slides on a spring.
 
 ### Tbody
 
@@ -1091,11 +1758,29 @@ The `<tbody>` primitive, which also owns the table's loading and empty states: i
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<tbody>` |
+| `empty` | the `Td` showing the empty message |
+
+**Motion:** `fancy`: rows glide to their new place when rows are added, removed or re-sorted, new rows fade in; all levels: below fancy, rows change in place; the loading skeleton pulses at every level.
+
 ### Td
 
 A single body cell inside a `Tr`, handling alignment, width and no-wrap. When the table is responsive it becomes a stacked block on small screens, and a `label` prop prints that label before the value in that mobile layout only, the plain cell still renders from `sm` up.
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<td>` |
+| `label` | the label printed before the value on small screens |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### TdCollapseHandler
 
@@ -1107,6 +1792,14 @@ A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, r
 | `ui` | `UiProp<NbParts['TdCollapseHandler']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<td>`, rendered by `Td` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Textarea
 
@@ -1141,6 +1834,20 @@ Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrom
 
 **Slots:** `submit`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the field wrapper (an `InputWrapper`) |
+| `label` | the `InputLabel` |
+| `group` | the row holding the textarea with its addon and buttons |
+| `addon` | the leading addon text |
+| `input` | the `<textarea>` |
+| `button` | the submit and WhatsApp buttons |
+| `error` | the `InputError` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### TextInput
 
 Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed `focus()` method, no label, no error display and no form integration. Use it when composing a custom field layout by hand; for ordinary form fields reach for `Input`, which wraps this kind of control with label, error and `:form` + `field` binding.
@@ -1152,17 +1859,44 @@ Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed 
 | `noNumberSpinners` | `boolean` | `false` |  |
 | `ui` | `UiProp<NbParts['TextInput']>` | - | Classes per part, merged over the defaults |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<input>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Th
 
 Header cell for a `Thead` row. Set `sortable` together with `column` (or the legacy `orderBy`) to make it clickable: it shows asc/desc arrows reflecting the current order and delegates the actual sorting to the `useTableSort` composable, which drives an Inertia visit rather than sorting in place.
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<th>` |
+| `content` | the row holding the label and the sort arrows |
+| `sort` | the sort arrows wrapper |
+| `icon` | each sort arrow |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### Thead
 
 The `<thead>` primitive, holding a row of `Th` cells. In responsive mode it is hidden below `sm`, since `Tr`/`Td` switch to a stacked card layout with per-cell labels there; set `sticky` to pin the header cells while the table body scrolls.
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<thead>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Toast
 
@@ -1175,6 +1909,20 @@ a single queued notification, rendered by `<Toaster>`. You very rarely mount thi
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the toast card or snackbar bar |
+| `icon` | the status icon or spinner |
+| `body` | the text column (a button when the toast is clickable) |
+| `title` | the title line |
+| `description` | the description line |
+| `action` | the action button |
+| `close` | the dismiss button |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Toaster
 
@@ -1195,6 +1943,15 @@ the viewport that renders the notification queue. Mount exactly one, in your roo
 | `ui` | `UiProp<NbParts['Toaster']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the viewport the toasts stack in |
+| `toast` | each `Toast` |
+
+**Motion:** `off`: toasts appear and leave instantly, the stack doesn't animate; `simple`: toasts fade in and out quickly; the stack jumps rather than glides; `smooth`: toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave; `fancy`: springier, longer entries and a zoomed exit; the stack glides on a spring.
+
 ### Tooltip
 
 Tooltip component using Reka UI
@@ -1214,11 +1971,28 @@ Tooltip component using Reka UI
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `content`):
+
+| Part | Element |
+| --- | --- |
+| `content` | the tooltip bubble; `class` and other attrs land here |
+| `arrow` | the arrow |
+
+**Motion:** `off`: opens and closes instantly; `simple`: quick fade in and out; `smooth`: fades in with a small slide away from the trigger, fades out; `fancy`: pops out of the trigger on a spring, zooms out on close.
+
 ### Tr
 
 Renders a single row of a table and is the row primitive you fill with `Td` cells. Supports hover, `clickable` and `selectable` states plus success/warning/danger/info variants, emitting `click` and `select`. On narrow screens it collapses to a stacked card so each cell sits on its own line, and returns to a real `table-row` from `sm` up.
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<tr>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### TrCollapse
 
@@ -1231,6 +2005,15 @@ a full-width `colspan` cell whose content is revealed when a matching `TrCollaps
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<tr>` |
+| `content` | the collapsing container inside the cell |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### TrCollapseHandler
 
 Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the whole row acting as the trigger and carrying the `aria-expanded`/`aria-controls` wiring. Use `TdCollapseHandler` instead when only one cell of the row should toggle it.
@@ -1242,6 +2025,14 @@ Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the wh
 
 **Slots:** `default`
 
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<tr>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
 ### TrPlaceholder
 
 renders `placeholders` full-width rows containing a pulsing grey bar. `Tbody` inserts it automatically while data is loading or deferred, so you normally only use it directly when driving the loading state by hand.
@@ -1250,6 +2041,15 @@ renders `placeholders` full-width rows containing a pulsing grey bar. `Tbody` in
 | --- | --- | --- | --- |
 | `placeholders` | `number` | - |  |
 | `ui` | `UiProp<NbParts['TrPlaceholder']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `row`):
+
+| Part | Element |
+| --- | --- |
+| `row` | each skeleton `<tr>` |
+| `bar` | the pulsing bar |
+
+**Motion:** all levels: the bar keeps pulsing at every level: it is a status indicator.
 
 ### UnderConstruction
 
@@ -1260,6 +2060,18 @@ Under Construction component A utility component to display a placeholder for se
 | `full` | `boolean` | `false` | Whether to take full height (grows to fill container) |
 | `info` | `string` | `'Section under construction.\nPlease come back later.'` | Custom message to display (supports line breaks with \n) |
 | `ui` | `UiProp<NbParts['UnderConstruction']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the striped background |
+| `card` | the white card |
+| `icon` | the construction icon |
+| `title` | the heading |
+| `message` | the message text |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### WarningButton
 
@@ -1275,6 +2087,14 @@ Warning Button component
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 
 ---

@@ -1,0 +1,371 @@
+{
+    "from": "3.x",
+    "to": "4.0.0",
+    "about": "Every deprecated 3.x override prop and the 4.0 part it maps to. Input for the 3-to-4 upgrade step. The deprecated props still work in 4.x (each warns once in development) and are removed in 5.0.",
+    "replacementSyntax": {
+        "class": "Move the value to the `class` attribute. If the element already has a `class`, combine them.",
+        "ui.<part>": "Move the value to `:ui=\"{ <part>: '...' }\"`. Merge with an existing `:ui` object if there is one."
+    },
+    "semantics": {
+        "merge": "3.x appended these classes next to the defaults, so a clashing default could still win and apps used `!` to force it. 4.0 merges them: a clashing default is removed and non-clashing defaults stay. Leading or trailing `!` (important) markers added only to beat a default can be dropped.",
+        "replace": "3.x replaced the defaults with these classes.",
+        "none": "The prop never had an effect."
+    },
+    "renames": [
+        {
+            "component": "Button",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "PrimaryButton",
+            "prop": "customButtonClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "SecondaryButton",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "DangerButton",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "WarningButton",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "InfoButton",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "SuccessButton",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "SubmitButton",
+            "prop": "customButtonClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "LinkButton",
+            "prop": "colourClasses",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "replace",
+            "note": "Replaced the theme and base classes entirely in 3.x and still does while deprecated. A `class` or `ui.root` merges instead, so the faithful rewrite is `theme=\"no-style\"` plus `:class=\"[...]\"` (the array value can be joined into one string)."
+        },
+        {
+            "component": "Input",
+            "prop": "inputCustomClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "Input",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "Input",
+            "prop": "buttonCustomClass",
+            "part": "button",
+            "replacement": "ui.button",
+            "semantics": "merge"
+        },
+        {
+            "component": "Input",
+            "prop": "checkboxCustomClass",
+            "part": null,
+            "replacement": null,
+            "semantics": "none",
+            "note": "Never had an effect in 3.x (Input did not pass it on). Remove it; to style the checkbox use `:ui=\"{ input: '...' }\"` with `type=\"checkbox\"`."
+        },
+        {
+            "component": "Textarea",
+            "prop": "customClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "Textarea",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "Textarea",
+            "prop": "buttonCustomClass",
+            "part": "button",
+            "replacement": "ui.button",
+            "semantics": "merge"
+        },
+        {
+            "component": "Switch",
+            "prop": "customClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "Switch",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "Checkbox",
+            "prop": "customClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "Checkbox",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "Select",
+            "prop": "customClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "Select",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "SimpleSelect",
+            "prop": "customClass",
+            "part": "input",
+            "replacement": "ui.input",
+            "semantics": "merge"
+        },
+        {
+            "component": "RichSelect",
+            "prop": "customClass",
+            "part": "trigger",
+            "replacement": "ui.trigger",
+            "semantics": "merge"
+        },
+        {
+            "component": "InputLabel",
+            "prop": "customClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "InputWrapper",
+            "prop": "labelCustomClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "FileDropZoneInput",
+            "prop": "FileDropCustomClass",
+            "part": "zone",
+            "replacement": "ui.zone",
+            "semantics": "merge"
+        },
+        {
+            "component": "NewModal",
+            "prop": "backdropCustomClass",
+            "part": "overlay",
+            "replacement": "ui.overlay",
+            "semantics": "merge",
+            "note": "`backdropDuration` and `modalDuration` are kept."
+        },
+        {
+            "component": "Modal",
+            "prop": "modalCustomClass",
+            "part": "content",
+            "replacement": "class",
+            "semantics": "merge",
+            "note": "`class` on Modal now styles the panel (in 3.x it was dropped, since Modal renders a teleport). Modal itself is deprecated: rename the tag to NewModal."
+        },
+        {
+            "component": "Modal",
+            "prop": "backdropCustomClass",
+            "part": "overlay",
+            "replacement": "ui.overlay",
+            "semantics": "merge"
+        },
+        {
+            "component": "Tooltip",
+            "prop": "contentClass",
+            "part": "content",
+            "replacement": "class",
+            "semantics": "merge",
+            "note": "`class` on Tooltip now styles the bubble. In 3.x a `class` on Tooltip was silently dropped, so check existing `class` attributes on Tooltip after upgrading."
+        },
+        {
+            "component": "Tooltip",
+            "prop": "arrowClass",
+            "part": "arrow",
+            "replacement": "ui.arrow",
+            "semantics": "merge"
+        },
+        {
+            "component": "Pagination",
+            "prop": "customListClass",
+            "part": "list",
+            "replacement": "ui.list",
+            "semantics": "merge"
+        },
+        {
+            "component": "Pagination",
+            "prop": "customLinkClass",
+            "part": "link",
+            "replacement": "ui.link",
+            "semantics": "merge",
+            "note": "In 3.x it also applied to the disabled previous/next links. The deprecated prop keeps doing that; with `ui`, set both `link` and `disabledLink` to get the same result."
+        },
+        {
+            "component": "Pagination",
+            "prop": "customActiveLinkClass",
+            "part": "activeLink",
+            "replacement": "ui.activeLink",
+            "semantics": "merge",
+            "note": "`activeLink` layers on top of `link` for the current page, as before."
+        },
+        {
+            "component": "Stats",
+            "prop": "customContainerClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "Stats",
+            "prop": "customStatClass",
+            "part": "stat",
+            "replacement": "ui.stat",
+            "semantics": "merge"
+        },
+        {
+            "component": "Stats",
+            "prop": "customStatValueClass",
+            "part": "value",
+            "replacement": "ui.value",
+            "semantics": "merge"
+        },
+        {
+            "component": "Stats",
+            "prop": "customStatLabelClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        },
+        {
+            "component": "DataTile",
+            "prop": "customStatClass",
+            "part": "root",
+            "replacement": "class",
+            "semantics": "merge"
+        },
+        {
+            "component": "DataTile",
+            "prop": "customStatValueClass",
+            "part": "value",
+            "replacement": "ui.value",
+            "semantics": "merge"
+        },
+        {
+            "component": "DataTile",
+            "prop": "customStatLabelClass",
+            "part": "label",
+            "replacement": "ui.label",
+            "semantics": "merge"
+        }
+    ],
+    "classTargetChanges": [
+        {
+            "component": "DropdownLink",
+            "change": "`class` and attrs now land only on the link. 3.x also put them on the menu item wrapper."
+        },
+        {
+            "component": "Collapse",
+            "change": "`class` and attrs now land only on the trigger button. 3.x also put them on the collapsible wrapper; use `:ui=\"{ root: '...' }\"` for the wrapper."
+        },
+        {
+            "component": "Tooltip",
+            "change": "`class` now styles the tooltip bubble. 3.x dropped it."
+        },
+        {
+            "component": "Modal",
+            "change": "`class` now styles the panel. 3.x dropped it."
+        },
+        {
+            "component": "Images",
+            "change": "`class` now lands on the upload form. 3.x dropped it (the component has two root elements)."
+        }
+    ],
+    "kept": [
+        {
+            "component": "Button",
+            "prop": "theme=\"no-style\"",
+            "note": "Still strips the base styles."
+        },
+        {
+            "component": "LinkButton",
+            "prop": "theme=\"no-style\"",
+            "note": "Still strips the base styles."
+        },
+        {
+            "component": "Section",
+            "prop": "unstyled",
+            "note": "Still drops the default container styling."
+        },
+        {
+            "component": "Spinner",
+            "prop": "color",
+            "note": "Not an override alias: it replaces the default colour classes, as before."
+        },
+        {
+            "component": "NewModal",
+            "prop": "backdropDuration, modalDuration",
+            "note": "Unchanged."
+        },
+        {
+            "component": "Modal",
+            "prop": "backdropDuration, modalDuration",
+            "note": "Unchanged."
+        }
+    ]
+}

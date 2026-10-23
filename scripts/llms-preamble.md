@@ -219,19 +219,47 @@ every component at once, use the numeric steps, not the bare alias:
 }
 ```
 
+## Styling components (4.0)
+
+Every component takes `class` for its root part and `:ui` for named parts. Each component's
+**Parts** table below lists the part names and which part receives `class`. Classes you pass are
+merged with tailwind-merge, so a clashing default is removed: no `!` needed.
+
+```vue
+<Input field="email" class="mb-8" :ui="{ label: 'text-xs uppercase', input: 'bg-gray-50' }" />
+```
+
+House styles and extra variant values go in the plugin options instead of wrapper components:
+
+```js
+app.use(Componentsnb, {
+    ui: { Input: { input: 'border-gray-300 shadow-sm' }, SubmitButton: { root: 'rounded-full' } },
+    variants: { Button: { theme: { brand: 'bg-violet-600 text-white hover:bg-violet-700' } } },
+    motion: { level: 'smooth' }, // 'off' | 'simple' | 'smooth' | 'fancy'
+    twMerge: { extend: { theme: { text: ['tiny'] } } }, // your own @theme tokens
+});
+```
+
+Precedence, lowest first: library default, app `ui` config, instance `class`/`:ui`. `ui.Button`
+also styles the Button inside PrimaryButton and SubmitButton. The 3.x override props
+(`customClass`, `inputCustomClass`, `labelCustomClass`, ...) still work but are deprecated; write
+`class` / `:ui` in new code. To change behaviour, wrap with `inheritAttrs: false`, extend the
+exported props type (`InputProps`, `ButtonProps`, ...) and pass `$attrs`, props and slots through.
+
+Motion: `useMotion()` returns `{ level, setLevel, reset }` for an end-user setting; a component
+takes a `motion` prop for one instance. Each component's **Motion** line says what it does per level.
+
 ## Gotchas that cost real debugging time
 
 - **`NavLink`, `ResponsiveNavLink` and `DropdownLink` swallow fallthrough `@click`.** They wrap the
   Inertia `Link`, which sets its own handler after spreading attrs. Put your handler on a wrapping
   element instead.
 - **`Dropdown` portals its content to `<body>`.** Classes bound on `<Dropdown>` land on the floating
-  panel, not the trigger, wrap the trigger in a `<div>` if you need to style or hide it.
+  panel, not the trigger; style the trigger with `:ui="{ trigger: '...' }"`.
 - **`Td label` is required for mobile.** Without it a cell has no stacked small-screen rendering.
 - **Size `NbIcon` with `size`, not `h-*`/`w-*`.**
 - **Non-GET `LinkButton`/`DropdownLink` need `as="button"`** (`method="post"` on an anchor warns).
 - **`NavCollapse` takes `name` and `open` only.** Older app code passes `parent`/`active`; those are
   ignored. Drive expansion with `:open`.
-- **`NewModal` accepts both `v-model:open` and `v-model`.** `v-model:open` is the documented and
-  most common form. Note that it currently works through attribute fallthrough onto the underlying
-  `DialogRoot` rather than a declared named model, prefer it for consistency with existing apps,
-  but do not add `inheritAttrs: false` to the component without declaring the model explicitly.
+- **`NewModal` accepts `v-model:open`, `v-model` and `:show` + `@close`.** `v-model:open` is the
+  documented and most common form. All three are declared, and `class` styles the dialog panel.

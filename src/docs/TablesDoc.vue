@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref, computed } from 'vue';
 import {
     Table,
@@ -1207,5 +1208,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
                 </ul>
             </CollapsableSection>
         </section>
+
+        <DocComponentMeta :names="['Table', 'Thead', 'Tbody', 'Th', 'Td', 'Tr', 'TrPlaceholder', 'TrCollapse', 'TrCollapseHandler', 'TdCollapseHandler', 'EnhancedTable', 'TableItemCard', 'Pagination']" />
     </div>
 </template>

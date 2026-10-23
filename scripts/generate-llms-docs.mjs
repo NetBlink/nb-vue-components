@@ -6,11 +6,13 @@
  * Run: npm run nb:docs:llms (library maintainers only)
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
-import { join, relative, basename } from 'node:path';
+import { join, relative, basename, dirname } from 'node:path';
+import { mkdirSync } from 'node:fs';
 
 const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
 const COMPONENTS = join(ROOT, 'src/components');
 const BLOCKS = join(ROOT, 'src/docs/Blocks');
+const META_OUT = join(ROOT, 'src/docs/generated/component-meta.json');
 
 // ---------------------------------------------------------------- utilities
 
@@ -81,7 +83,8 @@ function parseObjectProps(src) {
     let m;
     while ((m = re.exec(block[1]))) {
         const [, doc, name, body] = m;
-        const type = (body.match(/type:\s*([^,\n]+)/) || [])[1] || 'unknown';
+        // `ui: { type: /** @type {PropType<UiProp<...>>} */ (Object) }` - report the shape, not the cast.
+        const type = name === 'ui' ? 'UiProp' : (body.match(/type:\s*([^,\n]+)/) || [])[1] || 'unknown';
         const def = (body.match(/default:\s*([^,\n]+)/) || [])[1];
         const required = /required:\s*true/.test(body);
         props.push({
@@ -141,6 +144,31 @@ function parseEmits(src) {
     return [...out];
 }
 
+/** `@part name - description` lines: the parts `:ui` accepts. */
+function parseParts(src) {
+    return [...src.matchAll(/@part\s+(\w+)\s*-\s*(.*)/g)].map((m) => ({ name: m[1], description: m[2].trim() }));
+}
+
+/** `@motion level - description` lines (`all` describes every level). */
+function parseMotion(src) {
+    return [...src.matchAll(/@motion\s+(off|simple|smooth|fancy|all)\s*-\s*(.*)/g)].map((m) => ({ level: m[1], description: m[2].trim() }));
+}
+
+/** The registry in src/ui/parts.ts, component name to part names. */
+function parsePartsRegistry() {
+    const src = readFileSync(join(ROOT, 'src/ui/parts.ts'), 'utf8');
+    const body = src.slice(src.indexOf('export interface NbParts {'), src.indexOf('export type NbComponentName'));
+    const out = {};
+    for (const m of body.matchAll(/(\w+):\s*((?:\s*\|?\s*'\w+')+);/g)) out[m[1]] = [...m[2].matchAll(/'(\w+)'/g)].map((p) => p[1]);
+    return out;
+}
+
+/** The part that receives `class`: the `classPart` passed to useUi, else root. */
+function parseClassPart(src) {
+    const m = src.match(/useUi\(\s*'\w+'[^)]*classPart:\s*'(\w+)'/);
+    return m ? m[1] : 'root';
+}
+
 function parseModel(src) {
     const out = [];
     for (const m of src.matchAll(/defineModel(?:<[^>]*>)?\(\s*(?:'([^']+)')?/g)) out.push(m[1] || 'modelValue');
@@ -173,9 +201,50 @@ const components = files
             slots: parseSlots(src),
             emits: parseEmits(src),
             models: parseModel(src),
+            uiName: (src.match(/useUi\(\s*'(\w+)'/) || [])[1],
+            parts: parseParts(src),
+            classPart: parseClassPart(src),
+            motion: parseMotion(src),
         };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+
+// The H2 helper lives outside src/components but is exported like the rest.
+{
+    const file = join(ROOT, 'src/HelperComponents/H2.vue');
+    const src = readFileSync(file, 'utf8');
+    components.push({
+        name: 'H2',
+        path: relative(ROOT, file),
+        description: extractDescription(src),
+        props: parseInterfaceProps(src),
+        slots: parseSlots(src),
+        emits: parseEmits(src),
+        models: parseModel(src),
+        uiName: 'H2',
+        parts: parseParts(src),
+        classPart: parseClassPart(src),
+        motion: parseMotion(src),
+    });
+    components.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// Parts tags must match the typed registry, so the docs can't drift from `:ui`.
+const registry = parsePartsRegistry();
+const drift = [];
+for (const c of components) {
+    if (!c.uiName) continue;
+    const declared = (registry[c.uiName] || []).slice().sort().join(',');
+    const tagged = c.parts.map((p) => p.name).sort().join(',');
+    if (declared !== tagged) drift.push(`${c.name}: @part tags [${tagged}] vs NbParts [${declared}]`);
+}
+if (drift.length) {
+    console.error('Parts drift between @part tags and src/ui/parts.ts:\n  ' + drift.join('\n  '));
+    process.exit(1);
+}
+
+/** What every component without its own @motion tags does. */
+const DEFAULT_MOTION = [{ level: 'all', description: 'only hover and focus colour transitions, which `off` makes instant' }];
 
 // Exported names, so we only document the public surface.
 const indexSrc = readFileSync(join(ROOT, 'src/index.ts'), 'utf8');
@@ -234,6 +303,19 @@ function renderComponent(c) {
     }
     if (c.slots.length) out.push(`**Slots:** ${c.slots.map((s) => `\`${s.name}\`${s.description ? `, ${s.description}` : ''}`).join(', ')}`, '');
     if (c.emits.length) out.push(`**Emits:** ${c.emits.map((e) => `\`${e}\``).join(', ')}`, '');
+    if (c.parts.length) {
+        out.push(
+            `**Parts** (\`:ui\` keys; \`class\` goes to \`${c.classPart}\`):`,
+            '',
+            table(
+                c.parts.map((p) => [`\`${p.name}\``, esc(p.description)]),
+                ['Part', 'Element']
+            ),
+            ''
+        );
+    }
+    const motion = c.motion.length ? c.motion : DEFAULT_MOTION;
+    out.push(`**Motion:** ${motion.map((m) => `${m.level === 'all' ? 'all levels' : `\`${m.level}\``}: ${m.description}`).join('; ')}.`, '');
     return out.join('\n');
 }
 
@@ -281,6 +363,13 @@ const fullDoc = [
         .map((b) => [`### ${b.title}`, '', b.summary, '', `Source: \`src/docs/Blocks/${b.file}\``, '', `Uses: ${b.used.map((u) => `\`${u}\``).join(', ')}`, ''].join('\n'))
         .join('\n'),
 ].join('\n');
+
+// Parts and motion for the docs pages, generated rather than hand-written.
+const meta = Object.fromEntries(
+    publicComponents.map((c) => [c.name, { parts: c.parts, classPart: c.classPart, motion: c.motion.length ? c.motion : DEFAULT_MOTION }])
+);
+mkdirSync(dirname(META_OUT), { recursive: true });
+writeFileSync(META_OUT, JSON.stringify(meta, null, 4) + '\n');
 
 writeFileSync(join(ROOT, 'llms.txt'), shortDoc);
 writeFileSync(join(ROOT, 'llms-full.txt'), fullDoc);

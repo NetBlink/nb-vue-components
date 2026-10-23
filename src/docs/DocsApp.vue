@@ -2,9 +2,11 @@
 import { ref, computed, onMounted, nextTick, watch } from 'vue';
 import { NbIcon } from '../icons';
 import { useDarkMode } from '../composables/useDarkMode';
+import { useMotion, MOTION_LEVELS } from '../ui/motion';
 
 // Import documentation components
 import SetupDoc from './SetupDoc.vue';
+import CustomizingDoc from './CustomizingDoc.vue';
 import IconsDoc from './IconsDoc.vue';
 import ThemeDoc from './ThemeDoc.vue';
 import InputsDoc from './InputsDoc.vue';
@@ -57,6 +59,7 @@ type SectionMap = Record<string, { component: any; title: string }>;
 const foundationSections: SectionMap = {
     setup: { component: SetupDoc, title: 'Getting Started' },
     theme: { component: ThemeDoc, title: 'Theme & Tokens' },
+    customizing: { component: CustomizingDoc, title: 'Customizing' },
     icons: { component: IconsDoc, title: 'Icons' },
 };
 
@@ -176,6 +179,9 @@ const setMode = (next: 'components' | 'blocks'): void => {
 
 // Dark-mode plumbing - drives the toggle and persists user choice.
 const { isDark, toggle, initialize } = useDarkMode();
+
+// Motion-level switcher: the end user's pick, persisted like the dark-mode choice.
+const { level: motionLevel, setLevel: setMotionLevel } = useMotion();
 onMounted(() => {
     initialize();
 });
@@ -467,6 +473,24 @@ function onMainScroll(e: Event): void {
                         />
                     </span>
                 </button>
+
+                <!-- Motion level: same control the Customizing page describes (useMotion) -->
+                <div class="mt-3">
+                    <p class="text-primary-100/70 mb-1 px-1 text-[11px] font-semibold tracking-wider uppercase">Motion</p>
+                    <div class="flex rounded-md bg-white/5 p-1 text-xs" role="radiogroup" aria-label="Motion level">
+                        <button
+                            v-for="option in MOTION_LEVELS"
+                            :key="option"
+                            role="radio"
+                            :aria-checked="motionLevel === option"
+                            @click="setMotionLevel(option)"
+                            class="flex-1 rounded px-1.5 py-1 capitalize transition-colors"
+                            :class="motionLevel === option ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
+                        >
+                            {{ option }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </nav>
 

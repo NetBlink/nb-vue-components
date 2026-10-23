@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../icons';
@@ -541,5 +542,7 @@ const tabProps = [
             </DocDemoCard>
         </section>
 
+
+        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable']" />
     </div>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import {
@@ -1107,5 +1108,7 @@ const dropdownSearchbarProps = [
                 </div>
             </div>
         </section>
+
+        <DocComponentMeta :names="['Input', 'TextInput', 'Textarea', 'Checkbox', 'Switch', 'RadioButton', 'Select', 'SimpleSelect', 'RichSelect', 'SearchSelect', 'Select2ajax', 'SelectMultiple', 'DropdownSearchbar', 'InputLabel', 'InputError', 'InputWrapper', 'FileDropZoneInput', 'Images']" />
     </div>
 </template>

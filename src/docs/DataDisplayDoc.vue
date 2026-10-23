@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 /**
  * Data Display - components whose job is to present data you already have.
  *
@@ -467,5 +468,7 @@ const descriptionListProps = [
                 </CollapsableSection>
             </DocDemoCard>
         </section>
+
+        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg']" />
     </div>
 </template>

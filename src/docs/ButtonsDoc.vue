@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import {
     PrimaryButton,
     SecondaryButton,
@@ -188,5 +189,7 @@ const submitButtonProps = [
             </DocDemoCard>
         </section>
 
+
+        <DocComponentMeta :names="['Button', 'PrimaryButton', 'SecondaryButton', 'DangerButton', 'WarningButton', 'InfoButton', 'SuccessButton', 'SubmitButton', 'LinkButton']" />
     </div>
 </template>
