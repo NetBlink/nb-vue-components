@@ -1,0 +1,45 @@
+{
+    "name": "@netblink/vue-components-migrate",
+    "version": "1.0.0",
+    "description": "Upgrade an app using @netblink/vue-components from any version to the latest.",
+    "type": "module",
+    "bin": {
+        "nb-vue-components-migrate": "./dist/cli.js"
+    },
+    "main": "./dist/cli.js",
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "engines": {
+        "node": ">=20"
+    },
+    "scripts": {
+        "build": "tsc && chmod +x dist/cli.js",
+        "start": "node dist/cli.js",
+        "dev": "tsc --watch",
+        "fixtures": "npm run build && node scripts/run-fixtures.mjs"
+    },
+    "dependencies": {
+        "@babel/parser": "^7.24.0",
+        "@babel/traverse": "^7.24.0",
+        "@babel/types": "^7.24.0",
+        "@vue/compiler-dom": "^3.5.0",
+        "@vue/compiler-sfc": "^3.5.0",
+        "commander": "^12.0.0",
+        "diff": "^7.0.0",
+        "fast-glob": "^3.3.2",
+        "magic-string": "^0.30.7",
+        "picocolors": "^1.0.0",
+        "prompts": "^2.4.2",
+        "semver": "^7.6.0"
+    },
+    "devDependencies": {
+        "@types/babel__traverse": "^7.20.5",
+        "@types/diff": "^7.0.0",
+        "@types/node": "^20.0.0",
+        "@types/prompts": "^2.4.9",
+        "@types/semver": "^7.5.8",
+        "typescript": "^5.5.2"
+    }
+}
