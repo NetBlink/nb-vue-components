@@ -4,15 +4,23 @@
  * is responsive it becomes a stacked block on small screens, and a `label` prop prints
  * that label before the value in that mobile layout only, the plain cell still renders
  * from `sm` up.
+ *
+ * @part root - the `<td>`
+ * @part label - the label printed before the value on small screens
  */
 import { computed } from 'vue';
 import type { TableCellProps } from './types';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(defineProps<TableCellProps>(), {
     align: 'left',
     responsive: true,
     nowrap: false
 });
+
+const { cls, attrs } = useUi('Td', props);
 
 const tdClasses = computed(() => [
     'px-6 py-4 text-sm text-gray-900 dark:text-gray-100',
@@ -36,7 +44,8 @@ const tdStyles = computed(() => ({
 </script>
 <template>
     <td 
-        :class="tdClasses"
+        v-bind="attrs()"
+        :class="cls('root', tdClasses)"
         :style="tdStyles"
     >
         <!-- `label` only changes the MOBILE presentation; the plain slot must
@@ -44,7 +53,7 @@ const tdStyles = computed(() => ({
              is passed. -->
         <template v-if="props.label && props.responsive">
             <div class="sm:hidden">
-                <span class="font-medium text-gray-500 dark:text-gray-400">{{ props.label }}:</span>
+                <span :class="cls('label', 'font-medium text-gray-500 dark:text-gray-400')">{{ props.label }}:</span>
                 <span class="ml-2"><slot /></span>
             </div>
             <div class="hidden sm:block">

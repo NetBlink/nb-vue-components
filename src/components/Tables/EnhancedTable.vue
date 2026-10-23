@@ -5,18 +5,27 @@
  * on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click`
  * events via the `useTable` composable, which it provides to descendants. Prefer plain
  * `Table` with hand-written `Tr`/`Td` rows when the cells need bespoke markup.
+ *
+ * @part root - the outer wrapper, rendered by `Table`
+ * @part row - each generated `<tr>`
  */
 import { computed, provide } from 'vue';
 import { Table, Thead, Tbody, Th, Td } from '../../index';
 import { useTable } from '../../composables/useTable';
 import type { TableProps, TableRow, TableColumn } from './types';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
 
-interface EnhancedTableProps extends TableProps {
+defineOptions({ inheritAttrs: false });
+
+export interface EnhancedTableProps extends Omit<TableProps, 'ui'> {
     columns?: TableColumn[];
     autoGenerateColumns?: boolean;
     selectable?: boolean;
     sortable?: boolean;
     resource?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['EnhancedTable']>;
 }
 
 const props = withDefaults(defineProps<EnhancedTableProps>(), {
@@ -30,6 +39,14 @@ const props = withDefaults(defineProps<EnhancedTableProps>(), {
     selectable: false,
     sortable: false,
     showPagination: true
+});
+
+const { cls, attrs } = useUi('EnhancedTable', props);
+
+// Everything but `ui` goes to Table; its own `ui` only lists EnhancedTable's parts.
+const tableProps = computed(() => {
+    const { ui: _ui, ...rest } = props;
+    return rest;
 });
 
 const emit = defineEmits<{
@@ -95,7 +112,7 @@ const displayData = computed(() => {
 </script>
 
 <template>
-    <Table v-bind="props">
+    <Table v-bind="{ ...tableProps, ...attrs() }" :class="cls('root')">
         <template v-if="computedColumns.length > 0">
             <Thead>
                 <tr>
@@ -120,13 +137,12 @@ const displayData = computed(() => {
                 <tr
                     v-for="(row, index) in displayData"
                     :key="row.id || index"
-                    :class="[
-                        'border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-50',
-                        {
+                    :class="
+                        cls('row', 'border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-50', {
                             'cursor-pointer': props.selectable,
-                            'bg-blue-50': table.isSelected?.(row)
-                        }
-                    ]"
+                            'bg-blue-50': table.isSelected?.(row),
+                        })
+                    "
                     @click="handleRowClick(row, index)"
                 >
                     <Td

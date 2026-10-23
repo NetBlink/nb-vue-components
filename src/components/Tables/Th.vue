@@ -4,12 +4,20 @@
  * `orderBy`) to make it clickable: it shows asc/desc arrows reflecting the current order
  * and delegates the actual sorting to the `useTableSort` composable, which drives an
  * Inertia visit rather than sorting in place.
+ *
+ * @part root - the `<th>`
+ * @part content - the row holding the label and the sort arrows
+ * @part sort - the sort arrows wrapper
+ * @part icon - each sort arrow
  */
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useTableSort } from '../../composables/useTable';
 import type { TableHeaderCellProps } from './types';
+import { useUi } from '../../ui/useUi';
 
-interface ThProps extends TableHeaderCellProps {
+defineOptions({ inheritAttrs: false });
+
+export interface ThProps extends TableHeaderCellProps {
     orderBy?: string;
     column?: string; 
 }
@@ -19,6 +27,8 @@ const props = withDefaults(defineProps<ThProps>(), {
     align: 'left',
     responsive: true
 });
+
+const { cls, attrs } = useUi('Th', props);
 
 const columnKey = computed(() => props.column || props.orderBy);
 
@@ -65,28 +75,27 @@ const thStyles = computed(() => ({
 </script>
 <template>
     <th 
+        v-bind="attrs()"
         scope="col" 
-        :class="thClasses"
+        :class="cls('root', thClasses)"
         :style="thStyles"
         @click="handleSort"
     >
-        <div class="flex items-center justify-between">
+        <div :class="cls('content', 'flex items-center justify-between')">
             <slot />
             <span 
                 v-if="isSortable" 
-                class="sort-arrows ml-2 flex flex-col items-center"
+                :class="cls('sort', 'sort-arrows ml-2 flex flex-col items-center')"
             >
                 <svg 
-                    class="h-3 w-3 -mb-1"
-                    :class="getArrowColor('asc')"
+                    :class="cls('icon', 'h-3 w-3 -mb-1', getArrowColor('asc'))"
                     fill="currentColor"
                     viewBox="0 0 12 12"
                 >
                     <path d="M6 3L2 7h8L6 3z"/>
                 </svg>
                 <svg 
-                    class="h-3 w-3"
-                    :class="getArrowColor('desc')"
+                    :class="cls('icon', 'h-3 w-3', getArrowColor('desc'))"
                     fill="currentColor"
                     viewBox="0 0 12 12"
                 >

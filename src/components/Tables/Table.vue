@@ -6,10 +6,19 @@
  * own `Pagination` from a Laravel paginator passed as `pagination` (or legacy `links`) and
  * shows a "Found: n" count when `total` is given. Use `EnhancedTable` instead when you
  * would rather declare `columns` and `data` and have the rows generated for you.
+ *
+ * @part root - the outer wrapper
+ * @part count - the "Found: n" line
+ * @part container - the scroll container around the table
+ * @part table - the `<table>`
+ * @part pagination - the row holding the pagination
  */
 import { computed } from 'vue';
 import { Pagination } from '../../index';
 import type { TableProps } from './types';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(defineProps<TableProps>(), {
     sticky: false,
@@ -29,6 +38,8 @@ const props = withDefaults(defineProps<TableProps>(), {
     emptyMessage: 'No records found',
     loadingMessage: 'Loading...'
 });
+
+const { cls, attrs } = useUi('Table', props);
 
 const backwardCompatProps = computed(() => ({
     collapsible: props.collapsible || (props as any).collapsable,
@@ -113,24 +124,25 @@ const showPaginationComponent = computed(() => {
 </script>
 <template>
     <div 
-        :class="wrapperClasses"
+        v-bind="attrs()"
+        :class="cls('root', wrapperClasses)"
         :id="backwardCompatProps.collapseId"
         data-te-collapse-item
     >
         <div 
             v-if="props.total != null" 
-            class="px-4 pt-4 text-sm text-gray-600 dark:text-gray-400"
+            :class="cls('count', 'px-4 pt-4 text-sm text-gray-600 dark:text-gray-400')"
         >
             Found: {{ props.total }}
         </div>
         
-        <div :class="containerClasses" :style="containerStyles">
-            <table :class="tableClasses">
+        <div :class="cls('container', containerClasses)" :style="containerStyles">
+            <table :class="cls('table', tableClasses)">
                 <slot />
             </table>
         </div>
         
-        <div v-if="showPaginationComponent" class="mt-6">
+        <div v-if="showPaginationComponent" :class="cls('pagination', 'mt-6')">
             <slot v-if="$slots.pagination" name="pagination" />
             <Pagination
                 v-else

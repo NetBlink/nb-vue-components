@@ -1,4 +1,6 @@
 // Table-related TypeScript interfaces and types
+import type { NbParts, TrVariants, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
 export interface TableColumn {
     key: string;
     label: string;
@@ -76,12 +78,18 @@ export interface TableProps {
     // Styling
     size?: 'sm' | 'md' | 'lg';
     variant?: 'default' | 'minimal' | 'elevated';
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Table']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 export interface TableHeaderProps {
     sticky?: boolean;
     responsive?: boolean;
     variant?: 'default' | 'minimal' | 'elevated';
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Thead']>;
 }
 
 export interface TableHeaderCellProps {
@@ -91,6 +99,8 @@ export interface TableHeaderCellProps {
     align?: 'left' | 'center' | 'right';
     width?: string;
     responsive?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Th']>;
 }
 
 export interface TableBodyProps {
@@ -107,6 +117,8 @@ export interface TableCellProps {
     label?: string; // For responsive tables
     width?: string;
     nowrap?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Td']>;
 }
 
 export interface TableRowProps {
@@ -114,7 +126,10 @@ export interface TableRowProps {
     selected?: boolean;
     hoverable?: boolean;
     clickable?: boolean;
-    variant?: 'default' | 'success' | 'warning' | 'danger' | 'info';
+    /** Row colour. Add your own through the `variants` config. */
+    variant?: keyof TrVariants;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Tr']>;
 }
 
 // Inertia-specific types

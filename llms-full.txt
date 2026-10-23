@@ -996,6 +996,7 @@ Mobile-friendly card summarising one record, used as the small-screen fallback f
 | `options` | `Option[]` | - |  |
 | `timeStamp` | `string` | - |  |
 | `amount` | `Amount` | - |  |
+| `ui` | `UiProp<NbParts['TableItemCard']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -1029,6 +1030,8 @@ The `<tbody>` primitive, which also owns the table's loading and empty states: i
 | `recordsFromPagination` | `boolean` | `false` |  |
 | `noRecordsMessage` | `string` | `'No records found'` |  |
 | `ignoreDefer` | `boolean` | `false` |  |
+| `ui` | `UiProp<NbParts['Tbody']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -1045,6 +1048,7 @@ A `Td` that acts as the toggle for the `TrCollapse` sharing its `collapse_id`, r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `collapse_id` | `string` | - |  |
+| `ui` | `UiProp<NbParts['TdCollapseHandler']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -1157,6 +1161,7 @@ a full-width `colspan` cell whose content is revealed when a matching `TrCollaps
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `collapse_id` | `string` | - |  |
+| `ui` | `UiProp<NbParts['TrCollapse']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -1167,6 +1172,7 @@ Summary row that toggles the `TrCollapse` sharing its `collapse_id`, with the wh
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `collapse_id` | `string` | - |  |
+| `ui` | `UiProp<NbParts['TrCollapseHandler']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -1177,6 +1183,7 @@ renders `placeholders` full-width rows containing a pulsing grey bar. `Tbody` in
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `placeholders` | `number` | - |  |
+| `ui` | `UiProp<NbParts['TrPlaceholder']>` | - | Classes per part, merged over the defaults |
 
 ### UnderConstruction
 

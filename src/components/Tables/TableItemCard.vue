@@ -4,9 +4,23 @@
  * table row: it lays out an id, title, coloured pills, option links, a timestamp and a
  * formatted amount, each of which can link via an explicit `href` or a Ziggy route name
  * and degrades to plain text when the host app has no `route()` helper.
+ *
+ * @part root - the card
+ * @part header - the top row with id, timestamp and pills
+ * @part meta - the id and timestamp
+ * @part pill - one coloured pill
+ * @part title - the title
+ * @part note - the "Engineer Note" line
+ * @part options - the list of option links
+ * @part option - one option link
+ * @part amount - the money amount
  */
 //@ts-nocheck
 import { computed } from 'vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 import Link from '../../overrides/InertiaLink';
 import { moneyFormat, getRoute } from '../../Helpers';
 
@@ -40,7 +54,7 @@ interface Amount {
     text?: string;
     amount: string;
 }
-interface TableItemCardProps {
+export interface TableItemCardProps {
     item?: Record<string, any>;
     itemId?: ItemId;
     extraText?: string;
@@ -49,8 +63,12 @@ interface TableItemCardProps {
     options?: Option[];
     timeStamp?: string;
     amount?: Amount;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['TableItemCard']>;
 }
 const props = defineProps<TableItemCardProps>();
+
+const { cls, attrs } = useUi('TableItemCard', props);
 
 // Resolved once in setup; null when the host app exposes no route() helper.
 const route = getRoute();
@@ -80,10 +98,16 @@ const hrefFor = (entry?: { href?: string | null; routeName?: string | null; rout
 
 <template>
     <div
-        class="mt-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:shadow-black/40"
+        v-bind="attrs()"
+        :class="
+            cls(
+                'root',
+                'mt-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:shadow-black/40'
+            )
+        "
     >
-        <div class="max-xxs:text-xxs mb-2 flex w-full flex-wrap items-start justify-between gap-2 text-sm text-gray-500 dark:text-gray-400">
-            <div v-if="props.itemId || props.timeStamp" class="xs:w-fit mb-2 h-fit w-full">
+        <div :class="cls('header', 'max-xxs:text-xxs mb-2 flex w-full flex-wrap items-start justify-between gap-2 text-sm text-gray-500 dark:text-gray-400')">
+            <div v-if="props.itemId || props.timeStamp" :class="cls('meta', 'xs:w-fit mb-2 h-fit w-full')">
                 <!-- ID -->
                 <!-- Built as one expression: splitting the '#' onto its own template
                      line made Vue emit whitespace, rendering "# 1001". -->
@@ -102,7 +126,7 @@ const hrefFor = (entry?: { href?: string | null; routeName?: string | null; rout
                 <template v-for="(pill, index) in pills" :key="index">
                     <span
                         v-if="pill.text"
-                        class="bg-primary-600 rounded-md px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white"
+                        :class="cls('pill', 'bg-primary-600 rounded-md px-2 py-0.5 text-xs font-medium whitespace-nowrap text-white')"
                         :style="{
                             backgroundColor: pill.color ? pill.color : null,
                         }"
@@ -114,39 +138,39 @@ const hrefFor = (entry?: { href?: string | null; routeName?: string | null; rout
         </div>
         <!-- Title -->
         <template v-if="props.title">
-            <Link v-if="hrefFor(props.title)" :href="hrefFor(props.title)" class="font-semibold">
+            <Link v-if="hrefFor(props.title)" :href="hrefFor(props.title)" :class="cls('title', 'font-semibold')">
                 {{ props.title.text }}
             </Link>
-            <p v-else class="font-semibold">
+            <p v-else :class="cls('title', 'font-semibold')">
                 {{ props.title.text }}
             </p>
         </template>
         <!-- Engineer Note -->
         <div class="mb-1">
-            <p class="text-primary-700 dark:text-primary-300 w-full text-sm font-semibold whitespace-normal" v-if="props.extraText">
+            <p :class="cls('note', 'text-primary-700 dark:text-primary-300 w-full text-sm font-semibold whitespace-normal')" v-if="props.extraText">
                 Engineer Note:
                 <span class="w-full font-normal break-words">{{ props.extraText }}</span>
             </p>
         </div>
         <!-- Options. No colour falls through to the card's own text colour so it
              stays readable in dark mode - it used to be hardcoded to #000. -->
-        <div class="mb-1 flex flex-col gap-0.5 text-sm text-gray-700 dark:text-gray-300">
+        <div :class="cls('options', 'mb-1 flex flex-col gap-0.5 text-sm text-gray-700 dark:text-gray-300')">
             <template v-for="(option, index) in options" :key="index">
                 <Link
                     v-if="hrefFor(option)"
                     :href="hrefFor(option)"
                     :style="{ color: option.color || undefined }"
-                    class="hover:underline"
+                    :class="cls('option', 'hover:underline')"
                 >
                     {{ option.text }}
                 </Link>
-                <span v-else :style="{ color: option.color || undefined }">
+                <span v-else :class="cls('option')" :style="{ color: option.color || undefined }">
                     {{ option.text }}
                 </span>
             </template>
         </div>
         <!-- Text in money format -->
-        <div v-if="props.amount?.amount" class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+        <div v-if="props.amount?.amount" :class="cls('amount', 'text-sm font-semibold text-gray-900 dark:text-gray-100')">
             <span>{{ props.amount.text + moneyFormat(props.amount.amount) }}</span>
         </div>
         <div>
