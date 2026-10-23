@@ -1,0 +1,2130 @@
+{
+    "Alert": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the alert box"
+            },
+            {
+                "name": "icon",
+                "description": "the type icon"
+            },
+            {
+                "name": "content",
+                "description": "the column holding title and body"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "body",
+                "description": "the slot wrapper"
+            },
+            {
+                "name": "dismiss",
+                "description": "the dismiss button"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "appears and disappears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "height and opacity, quickly, no movement"
+            },
+            {
+                "level": "smooth",
+                "description": "height and opacity with a small upward drift"
+            },
+            {
+                "level": "fancy",
+                "description": "the same on a longer spring"
+            }
+        ]
+    },
+    "Button": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>` element"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Checkbox": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel` above the checkbox"
+            },
+            {
+                "name": "field",
+                "description": "the clickable row holding the box and its descriptions"
+            },
+            {
+                "name": "description",
+                "description": "the left and right description text"
+            },
+            {
+                "name": "input",
+                "description": "the checkbox `<input>`"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the box ticks and the error appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the box ticks instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the box colour fades, the error grows in and out"
+            },
+            {
+                "level": "fancy",
+                "description": "the tick pops on a spring"
+            }
+        ]
+    },
+    "CodePreview": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the block"
+            },
+            {
+                "name": "header",
+                "description": "the header bar"
+            },
+            {
+                "name": "filename",
+                "description": "the filename text"
+            },
+            {
+                "name": "copy",
+                "description": "the copy button"
+            },
+            {
+                "name": "pre",
+                "description": "the `<pre>` holding the code"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "CollapsableSection": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the bordered card"
+            },
+            {
+                "name": "trigger",
+                "description": "the header row that toggles the section"
+            },
+            {
+                "name": "header",
+                "description": "the heading text"
+            },
+            {
+                "name": "icon",
+                "description": "the chevron wrapper"
+            },
+            {
+                "name": "content",
+                "description": "the collapsing panel"
+            },
+            {
+                "name": "body",
+                "description": "the padded wrapper around the slot"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the content's height animates quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "the content's height animates in and out, the chevron turns"
+            },
+            {
+                "level": "fancy",
+                "description": "the height opens on a spring"
+            }
+        ]
+    },
+    "Collapse": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the collapsible wrapper"
+            },
+            {
+                "name": "trigger",
+                "description": "the `SecondaryButton`; `class` and other attrs land here, as in 3.x"
+            },
+            {
+                "name": "label",
+                "description": "the button text"
+            },
+            {
+                "name": "icon",
+                "description": "the chevron in the button"
+            },
+            {
+                "name": "content",
+                "description": "the collapsing panel"
+            },
+            {
+                "name": "body",
+                "description": "the spacing wrapper around the slot"
+            }
+        ],
+        "classPart": "trigger",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the content's height animates quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "the content's height animates in and out, the chevron turns"
+            },
+            {
+                "level": "fancy",
+                "description": "the height opens on a spring"
+            }
+        ]
+    },
+    "DangerButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DataTile": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the card"
+            },
+            {
+                "name": "value",
+                "description": "the value section"
+            },
+            {
+                "name": "icon",
+                "description": "the background icon"
+            },
+            {
+                "name": "valueText",
+                "description": "the big number"
+            },
+            {
+                "name": "label",
+                "description": "the label section"
+            },
+            {
+                "name": "labelText",
+                "description": "the label text"
+            },
+            {
+                "name": "underline",
+                "description": "the hover underline"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DescriptionList": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper with the top border"
+            },
+            {
+                "name": "list",
+                "description": "the `<dl>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DescriptionListItem": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the row"
+            },
+            {
+                "name": "term",
+                "description": "the `<dt>` label"
+            },
+            {
+                "name": "required",
+                "description": "the red asterisk"
+            },
+            {
+                "name": "details",
+                "description": "the `<dd>`"
+            },
+            {
+                "name": "row",
+                "description": "the flex row inside it"
+            },
+            {
+                "name": "value",
+                "description": "the value or edit slot area"
+            },
+            {
+                "name": "actions",
+                "description": "the buttons area"
+            },
+            {
+                "name": "edit",
+                "description": "the edit toggle button"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DottedCarousel": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "track",
+                "description": "the snap-scrolling slide row"
+            },
+            {
+                "name": "dots",
+                "description": "the dot row"
+            },
+            {
+                "name": "indicator",
+                "description": "the active dot that slides between positions"
+            },
+            {
+                "name": "dot",
+                "description": "each dot"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the active dot jumps"
+            },
+            {
+                "level": "smooth",
+                "description": "the active dot slides to the current slide"
+            },
+            {
+                "level": "fancy",
+                "description": "the active dot slides on a spring"
+            }
+        ]
+    },
+    "Dropdown": {
+        "parts": [
+            {
+                "name": "trigger",
+                "description": "the trigger `<button>` around the `#trigger` slot"
+            },
+            {
+                "name": "content",
+                "description": "the menu panel; `class` and other attrs land here"
+            }
+        ],
+        "classPart": "content",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "quick fade in and out"
+            },
+            {
+                "level": "smooth",
+                "description": "fades in with a small slide away from the trigger, fades out"
+            },
+            {
+                "level": "fancy",
+                "description": "pops out of the trigger on a spring, zooms out on close"
+            }
+        ]
+    },
+    "DropdownLink": {
+        "parts": [
+            {
+                "name": "item",
+                "description": "the menu item wrapper"
+            },
+            {
+                "name": "link",
+                "description": "the `Link`; `class` and other attrs land here"
+            }
+        ],
+        "classPart": "link",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DropdownSearchbar": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `vue-select` control"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "DropdownSeparator": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the separator line"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "EnhancedTable": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the outer wrapper, rendered by `Table`"
+            },
+            {
+                "name": "row",
+                "description": "each generated `<tr>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "FileDropZoneInput": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>`"
+            },
+            {
+                "name": "zone",
+                "description": "the dashed drop area"
+            },
+            {
+                "name": "content",
+                "description": "the clickable area inside it"
+            },
+            {
+                "name": "label",
+                "description": "the label text"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "GravatarImg": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<img>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "H2": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the spacing wrapper"
+            },
+            {
+                "name": "title",
+                "description": "the `<h2>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Images": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the upload `<form>`"
+            },
+            {
+                "name": "zone",
+                "description": "the dashed drop area"
+            },
+            {
+                "name": "content",
+                "description": "the clickable area inside it"
+            },
+            {
+                "name": "previews",
+                "description": "the row of picked images"
+            },
+            {
+                "name": "preview",
+                "description": "one picked image"
+            },
+            {
+                "name": "remove",
+                "description": "the red remove badge on a preview"
+            },
+            {
+                "name": "button",
+                "description": "the Upload button"
+            },
+            {
+                "name": "status",
+                "description": "the \"Images uploaded.\" message"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            },
+            {
+                "name": "gallery",
+                "description": "the existing images below the form"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "InfoButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Input": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper (for textarea, switch and checkbox, that component's root)"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "group",
+                "description": "the row holding the input with its addon, buttons or password toggle"
+            },
+            {
+                "name": "input",
+                "description": "the control itself"
+            },
+            {
+                "name": "addon",
+                "description": "the leading addon text"
+            },
+            {
+                "name": "button",
+                "description": "the submit and WhatsApp buttons"
+            },
+            {
+                "name": "toggle",
+                "description": "the password show/hide button"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the error appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the error appears instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the error grows in and out"
+            },
+            {
+                "level": "fancy",
+                "description": "the error grows in on a spring"
+            }
+        ]
+    },
+    "InputError": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper, hidden while there is no message"
+            },
+            {
+                "name": "message",
+                "description": "the red `<p>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "InputLabel": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<label>`"
+            },
+            {
+                "name": "icon",
+                "description": "the help icon inside the tooltip trigger"
+            },
+            {
+                "name": "sublabel",
+                "description": "grey text after the label"
+            },
+            {
+                "name": "required",
+                "description": "the red asterisk"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "InputWrapper": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>`"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the error appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the error appears instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the error grows in and out"
+            },
+            {
+                "level": "fancy",
+                "description": "the error grows in on a spring"
+            }
+        ]
+    },
+    "LinkButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<a>`, or the Inertia `Link` when `method` or `data` is set"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "LinkDropdownButton": {
+        "parts": [
+            {
+                "name": "trigger",
+                "description": "the primary-styled `<button>`"
+            },
+            {
+                "name": "icon",
+                "description": "the chevron in the button"
+            },
+            {
+                "name": "content",
+                "description": "the menu panel; `class` and other attrs land here"
+            },
+            {
+                "name": "list",
+                "description": "the `<ul>` around the items"
+            }
+        ],
+        "classPart": "content",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "quick fade in and out"
+            },
+            {
+                "level": "smooth",
+                "description": "fades in with a small slide away from the trigger, fades out"
+            },
+            {
+                "level": "fancy",
+                "description": "pops out of the trigger on a spring, zooms out on close"
+            }
+        ]
+    },
+    "LinkDropdownButtonItem": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<li>`"
+            },
+            {
+                "name": "link",
+                "description": "the `<a>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Logs": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `CollapsableSection` card"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "LogsContent": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper (or the spinner row while loading)"
+            },
+            {
+                "name": "empty",
+                "description": "the \"No Data\" line"
+            },
+            {
+                "name": "list",
+                "description": "the timeline `<ol>`"
+            },
+            {
+                "name": "marker",
+                "description": "the round icon on the timeline"
+            },
+            {
+                "name": "card",
+                "description": "each entry's card"
+            },
+            {
+                "name": "meta",
+                "description": "the event and date row"
+            },
+            {
+                "name": "change",
+                "description": "each \"field: old -> new\" line"
+            },
+            {
+                "name": "details",
+                "description": "the description details"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Modal": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the fixed full-screen container"
+            },
+            {
+                "name": "overlay",
+                "description": "the backdrop"
+            },
+            {
+                "name": "content",
+                "description": "the panel; `class` lands here"
+            }
+        ],
+        "classPart": "content",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "backdrop and panel only fade"
+            },
+            {
+                "level": "smooth",
+                "description": "backdrop fades, the panel fades and scales in (the 3.x behaviour)"
+            },
+            {
+                "level": "fancy",
+                "description": "same as smooth"
+            }
+        ]
+    },
+    "NavCollapse": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<li>`"
+            },
+            {
+                "name": "trigger",
+                "description": "the toggle `<button>`"
+            },
+            {
+                "name": "icon",
+                "description": "the icon slot wrapper"
+            },
+            {
+                "name": "label",
+                "description": "the name"
+            },
+            {
+                "name": "chevron",
+                "description": "the chevron"
+            },
+            {
+                "name": "content",
+                "description": "the collapsing panel"
+            },
+            {
+                "name": "list",
+                "description": "the `<ul>` around the links"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the content's height animates quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "the content's height animates in and out, the chevron turns"
+            },
+            {
+                "level": "fancy",
+                "description": "the height opens on a spring"
+            }
+        ]
+    },
+    "NavLink": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `Link`"
+            },
+            {
+                "name": "icon",
+                "description": "the icon slot wrapper"
+            },
+            {
+                "name": "label",
+                "description": "the label `<span>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "NewModal": {
+        "parts": [
+            {
+                "name": "overlay",
+                "description": "the backdrop"
+            },
+            {
+                "name": "content",
+                "description": "the dialog panel; `class` lands here"
+            },
+            {
+                "name": "title",
+                "description": "the `DialogTitle`"
+            },
+            {
+                "name": "description",
+                "description": "the `DialogDescription`"
+            },
+            {
+                "name": "spacer",
+                "description": "the gap under the title and description"
+            },
+            {
+                "name": "footer",
+                "description": "the footer row"
+            },
+            {
+                "name": "close",
+                "description": "the close button"
+            }
+        ],
+        "classPart": "content",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "backdrop and panel fade quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "backdrop fades, the panel slides up in and drops out; the panel animates its height when its content grows or shrinks"
+            },
+            {
+                "level": "fancy",
+                "description": "the panel grows out of the element that opened it and shrinks back into it on close"
+            }
+        ]
+    },
+    "Pagination": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "list",
+                "description": "the `<ul>` of page links"
+            },
+            {
+                "name": "link",
+                "description": "each page link"
+            },
+            {
+                "name": "activeLink",
+                "description": "extra classes for the current page, on top of `link`"
+            },
+            {
+                "name": "disabledLink",
+                "description": "a link without a URL (previous/next at the ends)"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "PrimaryButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "PropsTable": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the scroll wrapper"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "RadioButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the row wrapper"
+            },
+            {
+                "name": "input",
+                "description": "the radio `<input>`"
+            },
+            {
+                "name": "label",
+                "description": "the `<label>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "ResponsiveNavLink": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `Link`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "RichSelect": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper (an `InputWrapper`)"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "trigger",
+                "description": "the button showing the current value"
+            },
+            {
+                "name": "tag",
+                "description": "a selected value chip (multiple)"
+            },
+            {
+                "name": "tagButton",
+                "description": "the remove button inside a chip"
+            },
+            {
+                "name": "value",
+                "description": "the selected text or placeholder"
+            },
+            {
+                "name": "clear",
+                "description": "the clear button"
+            },
+            {
+                "name": "icon",
+                "description": "the chevron"
+            },
+            {
+                "name": "content",
+                "description": "the dropdown panel"
+            },
+            {
+                "name": "search",
+                "description": "the row around the search box"
+            },
+            {
+                "name": "searchIcon",
+                "description": "the magnifier icon"
+            },
+            {
+                "name": "searchInput",
+                "description": "the search `<input>`"
+            },
+            {
+                "name": "loading",
+                "description": "the loading row"
+            },
+            {
+                "name": "list",
+                "description": "the scrolling option list"
+            },
+            {
+                "name": "groupLabel",
+                "description": "a group heading"
+            },
+            {
+                "name": "item",
+                "description": "an option"
+            },
+            {
+                "name": "check",
+                "description": "the tick on a selected option"
+            },
+            {
+                "name": "empty",
+                "description": "the \"No options found\" row"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the panel opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the panel fades"
+            },
+            {
+                "level": "smooth",
+                "description": "the panel fades and scales in and out, the chevron turns"
+            },
+            {
+                "level": "fancy",
+                "description": "the panel pops on a spring and options glide into place while filtering"
+            }
+        ]
+    },
+    "SearchSelect": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>`"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "input",
+                "description": "the search select control"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "SecondaryButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Section": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the container"
+            },
+            {
+                "name": "header",
+                "description": "the header strip"
+            },
+            {
+                "name": "title",
+                "description": "the header text"
+            },
+            {
+                "name": "body",
+                "description": "the padded content wrapper"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Select": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper (an `InputWrapper`)"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "input",
+                "description": "the native `<select>`"
+            },
+            {
+                "name": "placeholder",
+                "description": "the disabled placeholder `<option>`"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Select2ajax": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>` (rendered by `SearchSelect`)"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "input",
+                "description": "the search select control"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "SelectMultiple": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>`"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "trigger",
+                "description": "the toggle button"
+            },
+            {
+                "name": "icon",
+                "description": "the chevron"
+            },
+            {
+                "name": "content",
+                "description": "the dropdown panel"
+            },
+            {
+                "name": "list",
+                "description": "the option list"
+            },
+            {
+                "name": "item",
+                "description": "an option row"
+            },
+            {
+                "name": "check",
+                "description": "the square checkbox on each option"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "SimpleSelect": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper `<div>`"
+            },
+            {
+                "name": "header",
+                "description": "the row holding the label and tooltip"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "input",
+                "description": "the native `<select>`"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Spinner": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the spinning ring"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "keeps spinning at every level, including `off`: it is a status indicator"
+            }
+        ]
+    },
+    "Stats": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the grid"
+            },
+            {
+                "name": "stat",
+                "description": "each tile"
+            },
+            {
+                "name": "value",
+                "description": "the value section"
+            },
+            {
+                "name": "valueText",
+                "description": "the number"
+            },
+            {
+                "name": "label",
+                "description": "the label section"
+            },
+            {
+                "name": "labelText",
+                "description": "the label text"
+            },
+            {
+                "name": "underline",
+                "description": "the hover underline"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "SubmitButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            },
+            {
+                "name": "content",
+                "description": "wrapper around the label, dimmed while loading"
+            },
+            {
+                "name": "loader",
+                "description": "the overlay that centres the spinner"
+            },
+            {
+                "name": "spinner",
+                "description": "the `Spinner` shown while loading"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the spinner swaps in instantly (it keeps spinning at every level)"
+            },
+            {
+                "level": "simple",
+                "description": "the spinner fades in"
+            },
+            {
+                "level": "smooth",
+                "description": "the label dims and the spinner fades and scales in"
+            },
+            {
+                "level": "fancy",
+                "description": "the spinner pops in on a spring"
+            }
+        ]
+    },
+    "SuccessButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Switch": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel` above the switch"
+            },
+            {
+                "name": "field",
+                "description": "the clickable row holding the switch and its descriptions"
+            },
+            {
+                "name": "description",
+                "description": "the left and right description text"
+            },
+            {
+                "name": "input",
+                "description": "the switch track"
+            },
+            {
+                "name": "thumb",
+                "description": "the sliding knob"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the switch flips and the error appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the thumb slides, the error appears instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the thumb slides, the error grows in and out"
+            },
+            {
+                "level": "fancy",
+                "description": "the thumb slides on a spring"
+            }
+        ]
+    },
+    "Tab": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the panel"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "panels swap instantly"
+            },
+            {
+                "level": "simple",
+                "description": "panels swap instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the new panel fades in"
+            },
+            {
+                "level": "fancy",
+                "description": "the new panel fades in with a small rise"
+            }
+        ]
+    },
+    "Table": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the outer wrapper"
+            },
+            {
+                "name": "count",
+                "description": "the \"Found: n\" line"
+            },
+            {
+                "name": "container",
+                "description": "the scroll container around the table"
+            },
+            {
+                "name": "table",
+                "description": "the `<table>`"
+            },
+            {
+                "name": "pagination",
+                "description": "the row holding the pagination"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TableItemCard": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the card"
+            },
+            {
+                "name": "header",
+                "description": "the top row with id, timestamp and pills"
+            },
+            {
+                "name": "meta",
+                "description": "the id and timestamp"
+            },
+            {
+                "name": "pill",
+                "description": "one coloured pill"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "note",
+                "description": "the \"Engineer Note\" line"
+            },
+            {
+                "name": "options",
+                "description": "the list of option links"
+            },
+            {
+                "name": "option",
+                "description": "one option link"
+            },
+            {
+                "name": "amount",
+                "description": "the money amount"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Tabs": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the tabs wrapper"
+            },
+            {
+                "name": "list",
+                "description": "the tab strip"
+            },
+            {
+                "name": "trigger",
+                "description": "each tab button"
+            },
+            {
+                "name": "icon",
+                "description": "the icon in a tab"
+            },
+            {
+                "name": "badge",
+                "description": "the count badge in a tab"
+            },
+            {
+                "name": "indicator",
+                "description": "the sliding active marker (smooth and fancy motion only)"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the active tab switches instantly"
+            },
+            {
+                "level": "simple",
+                "description": "colour change only, the marker jumps"
+            },
+            {
+                "level": "smooth",
+                "description": "the underline (or pill) slides to the new tab"
+            },
+            {
+                "level": "fancy",
+                "description": "the marker slides on a spring"
+            }
+        ]
+    },
+    "Tbody": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<tbody>`"
+            },
+            {
+                "name": "empty",
+                "description": "the `Td` showing the empty message"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "fancy",
+                "description": "rows glide to their new place when rows are added, removed or re-sorted, new rows fade in"
+            },
+            {
+                "level": "all",
+                "description": "below fancy, rows change in place; the loading skeleton pulses at every level"
+            }
+        ]
+    },
+    "Td": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<td>`"
+            },
+            {
+                "name": "label",
+                "description": "the label printed before the value on small screens"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TdCollapseHandler": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<td>`, rendered by `Td`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Textarea": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the field wrapper (an `InputWrapper`)"
+            },
+            {
+                "name": "label",
+                "description": "the `InputLabel`"
+            },
+            {
+                "name": "group",
+                "description": "the row holding the textarea with its addon and buttons"
+            },
+            {
+                "name": "addon",
+                "description": "the leading addon text"
+            },
+            {
+                "name": "input",
+                "description": "the `<textarea>`"
+            },
+            {
+                "name": "button",
+                "description": "the submit and WhatsApp buttons"
+            },
+            {
+                "name": "error",
+                "description": "the `InputError`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TextInput": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<input>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Th": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<th>`"
+            },
+            {
+                "name": "content",
+                "description": "the row holding the label and the sort arrows"
+            },
+            {
+                "name": "sort",
+                "description": "the sort arrows wrapper"
+            },
+            {
+                "name": "icon",
+                "description": "each sort arrow"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Thead": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<thead>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Toast": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the toast card or snackbar bar"
+            },
+            {
+                "name": "icon",
+                "description": "the status icon or spinner"
+            },
+            {
+                "name": "body",
+                "description": "the text column (a button when the toast is clickable)"
+            },
+            {
+                "name": "title",
+                "description": "the title line"
+            },
+            {
+                "name": "description",
+                "description": "the description line"
+            },
+            {
+                "name": "action",
+                "description": "the action button"
+            },
+            {
+                "name": "close",
+                "description": "the dismiss button"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Toaster": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the viewport the toasts stack in"
+            },
+            {
+                "name": "toast",
+                "description": "each `Toast`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "toasts appear and leave instantly, the stack doesn't animate"
+            },
+            {
+                "level": "simple",
+                "description": "toasts fade in and out quickly; the stack jumps rather than glides"
+            },
+            {
+                "level": "smooth",
+                "description": "toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave"
+            },
+            {
+                "level": "fancy",
+                "description": "springier, longer entries and a zoomed exit; the stack glides on a spring"
+            }
+        ]
+    },
+    "Tooltip": {
+        "parts": [
+            {
+                "name": "content",
+                "description": "the tooltip bubble; `class` and other attrs land here"
+            },
+            {
+                "name": "arrow",
+                "description": "the arrow"
+            }
+        ],
+        "classPart": "content",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "quick fade in and out"
+            },
+            {
+                "level": "smooth",
+                "description": "fades in with a small slide away from the trigger, fades out"
+            },
+            {
+                "level": "fancy",
+                "description": "pops out of the trigger on a spring, zooms out on close"
+            }
+        ]
+    },
+    "Tr": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<tr>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TrCollapse": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<tr>`"
+            },
+            {
+                "name": "content",
+                "description": "the collapsing container inside the cell"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TrCollapseHandler": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<tr>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "TrPlaceholder": {
+        "parts": [
+            {
+                "name": "row",
+                "description": "each skeleton `<tr>`"
+            },
+            {
+                "name": "bar",
+                "description": "the pulsing bar"
+            }
+        ],
+        "classPart": "row",
+        "motion": [
+            {
+                "level": "all",
+                "description": "the bar keeps pulsing at every level: it is a status indicator"
+            }
+        ]
+    },
+    "UnderConstruction": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the striped background"
+            },
+            {
+                "name": "card",
+                "description": "the white card"
+            },
+            {
+                "name": "icon",
+                "description": "the construction icon"
+            },
+            {
+                "name": "title",
+                "description": "the heading"
+            },
+            {
+                "name": "message",
+                "description": "the message text"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "WarningButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    }
+}
