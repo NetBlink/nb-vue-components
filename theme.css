@@ -24,6 +24,9 @@
     --ease-emphasised: cubic-bezier(0.16, 1, 0.3, 1);
     --duration-quick:  150ms;
     --duration-base:   400ms;
+    --duration-slow:   600ms;
+    /* Overshoots a little before settling; used by the `fancy` motion level. */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* Animations - all reuse the motion tokens above */
     --animate-fade-in:           fadeIn          var(--duration-base) var(--ease-emphasised);
@@ -56,6 +59,25 @@
     --animate-toast-in-top:    toastInTop    var(--duration-base) var(--ease-emphasised);
     --animate-toast-in-bottom: toastInBottom var(--duration-base) var(--ease-emphasised);
     --animate-toast-scale-in:  toastScaleIn  var(--duration-base) var(--ease-emphasised);
+
+    /* `simple` motion level: the same moves, quick and without travel. */
+    --animate-fade-in-quick:    fadeIn    var(--duration-quick) ease-out;
+    --animate-slide-down-quick: slideDown var(--duration-quick) ease-out;
+    --animate-slide-up-quick:   slideUp   var(--duration-quick) ease-in;
+
+    /* `fancy` motion level: longer and springier. */
+    --animate-slide-down-spring:  slideDown       var(--duration-slow) var(--ease-spring);
+    --animate-slide-up-spring:    slideUp         var(--duration-base) var(--ease-emphasised);
+    --animate-pop-in:             popIn           var(--duration-base) var(--ease-spring);
+    --animate-zoom-in:            zoomIn          var(--duration-base) var(--ease-spring);
+    --animate-zoom-out:           zoomOut         var(--duration-quick) ease-in forwards;
+    --animate-grow-from-origin:   growFromOrigin  var(--duration-slow) var(--ease-spring);
+    --animate-shrink-to-origin:   shrinkToOrigin  var(--duration-base) var(--ease-emphasised) forwards;
+    --animate-toast-spring-right:  toastInRight  var(--duration-slow) var(--ease-spring);
+    --animate-toast-spring-left:   toastInLeft   var(--duration-slow) var(--ease-spring);
+    --animate-toast-spring-top:    toastInTop    var(--duration-slow) var(--ease-spring);
+    --animate-toast-spring-bottom: toastInBottom var(--duration-slow) var(--ease-spring);
+    --animate-check-pop:          checkPop        var(--duration-base) var(--ease-spring);
 
     /* Plain colors */
     --color-dark:  #161b1c;
@@ -421,6 +443,83 @@
         opacity: 1;
         transform: scale(1);
     }
+}
+
+/* `fancy` level keyframes. */
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+/*
+ * NewModal at `fancy` grows out of the element that opened it. The component
+ * sets the offset from the dialog's centre to the opener's centre, and the
+ * starting scale, as custom properties right before it opens.
+ */
+@keyframes growFromOrigin {
+    from {
+        opacity: 0;
+        transform: translate(var(--nb-origin-x, 0px), var(--nb-origin-y, 0px)) scale(var(--nb-origin-scale, 0.2));
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+@keyframes shrinkToOrigin {
+    from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(var(--nb-origin-x, 0px), var(--nb-origin-y, 0px)) scale(var(--nb-origin-scale, 0.2));
+    }
+}
+@keyframes checkPop {
+    0% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/*
+ * Motion level `off` (see useMotion). Components put the attribute on their
+ * own root, and on portalled content, so hover and focus colour changes become
+ * instant too. Spinner and the table skeleton are animations, not transitions,
+ * so status indicators keep moving.
+ */
+[data-nb-motion='off'],
+[data-nb-motion='off'] * {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
 }
 
 /*

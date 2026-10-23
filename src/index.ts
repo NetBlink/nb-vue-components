@@ -76,7 +76,7 @@ import H2 from './HelperComponents/H2.vue';
 /**
  * Plugin install options for `app.use(Componentsnb, { … })`.
  */
-export interface ComponentsnbOptions {
+export interface ComponentsnbOptions extends NbStyleOptions {
     /**
      * Dark-mode bootstrap. Default: `false` - colours are unchanged.
      *
@@ -97,6 +97,8 @@ export interface ComponentsnbOptions {
 }
 
 import { useDarkMode } from './composables/useDarkMode';
+import { createNbConfig, NB_CONFIG_KEY, type NbStyleOptions } from './ui/config';
+import { configureMotion } from './ui/motion';
 import { createNbIcons } from './icons/createNbIcons';
 import { NB_ICONS_KEY } from './icons/inject';
 
@@ -139,6 +141,11 @@ const Componentsnb = {
         if (!alreadyHasRegistry) {
             App.use(createNbIcons());
         }
+
+        // Styling and motion config. Always provided, so components share one
+        // merger instead of each falling back to the default.
+        App.provide(NB_CONFIG_KEY, createNbConfig(options));
+        configureMotion(options.motion);
 
         // Opt-in dark-mode bootstrap. Pure no-op unless the host passes `darkMode`.
         if (options.darkMode) {
@@ -243,3 +250,6 @@ export * from './components/Forms/types';
 // Icon provider system - v3.0.0
 export { NbIcon, createNbIcons, useNbIcons, defaultAliases } from './icons';
 export type { AliasName, IconLike, IconSet, NbIconsOptions, RawSvg, SetPrefixed } from './icons';
+
+// Styling, variants and motion - v4.0.0
+export * from './ui';

@@ -27,6 +27,7 @@ export default ({ mode }) => {
                 external: [
                     'vue',
                     'isomorphic-dompurify',
+                    'tailwind-merge',
                     '@fortawesome/fontawesome-svg-core',
                     '@fortawesome/vue-fontawesome',
                     '@fortawesome/free-solid-svg-icons',
