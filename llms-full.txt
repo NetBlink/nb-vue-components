@@ -608,7 +608,7 @@ Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one t
 | `description` | `string` | `undefined` | Sub-title rendered in DialogDescription (overridden by the `description` slot) |
 | `defaultOpen` | `boolean` | `false` | Open the dialog on mount |
 | `resizable` | `boolean` | `false` | Let the user drag-resize the dialog from its bottom-right corner |
-| `show` | `boolean` | `undefined` | One-way open state, for `:show` + `@close` call sites carried over from `Modal` |
+| `show` | `boolean` | `undefined` | Open state for `:show` + `@close` call sites carried over from `Modal`; `v-model:show` works too |
 | `maxWidth` | `string` | `undefined` | sm \| md \| lg \| xl \| 2xl-7xl \| 50% \| 60% \| 75% \| 80% \| 90% \| 95%, or any CSS length. Default 600px |
 | `closeable` | `boolean` | `true` | Allow closing via Escape, backdrop click and the close button |
 | `hideOverflow` | `boolean` | `true` | Keep content inside the panel (scrolls when tall). Set false so non-portaled popups can spill out |

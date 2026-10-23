@@ -35,7 +35,7 @@ interface NewModalProps {
     defaultOpen?: boolean;
     /** Let the user drag-resize the dialog from its bottom-right corner */
     resizable?: boolean;
-    /** One-way open state, for `:show` + `@close` call sites carried over from `Modal` */
+    /** Open state for `:show` + `@close` call sites carried over from `Modal`; `v-model:show` works too */
     show?: boolean;
     /** sm | md | lg | xl | 2xl-7xl | 50% | 60% | 75% | 80% | 90% | 95%, or any CSS length. Default 600px */
     maxWidth?: string;
@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<NewModalProps>(), {
     backdropCustomClass: '',
 });
 
-const emit = defineEmits<{ close: [] }>();
+const emit = defineEmits<{ close: []; 'update:show': [value: boolean] }>();
 const slots = useSlots();
 
 /*
@@ -106,6 +106,8 @@ const open = computed<boolean>({
 // for a parent setting the model to false.
 const onOpenChange = (value: boolean) => {
     open.value = value;
+    // update:show makes `v-model:show` work too; without it the dialog could open but never close.
+    emit('update:show', value);
     if (!value) emit('close');
 };
 onMounted(() => {

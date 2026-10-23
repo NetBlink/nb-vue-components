@@ -125,7 +125,7 @@ const newModalProps = [
     { prop: 'description', type: 'string', default: '-', description: 'Sub-title rendered in DialogDescription (overridden by #description slot)' },
     { prop: 'defaultOpen', type: 'boolean', default: 'false', description: 'Open on mount' },
     { prop: 'resizable', type: 'boolean', default: 'false', description: 'Drag-resize the dialog from its bottom-right corner (native CSS resize; caps at 95vw / 90vh)' },
-    { prop: 'show', type: 'boolean', default: '-', description: 'One-way open state for :show + @close call sites carried over from Modal' },
+    { prop: 'show', type: 'boolean', default: '-', description: 'Open state for :show + @close call sites carried over from Modal (v-model:show works too)' },
     { prop: 'maxWidth', type: 'string', default: '600px', description: 'sm, md, lg, xl, 2xl-7xl, 50%, 60%, 75%, 80%, 90%, 95%, or any CSS length. With resizable it sets the starting width' },
     { prop: 'closeable', type: 'boolean', default: 'true', description: 'Allow closing via Escape, backdrop click and the close button (false also hides the button)' },
     { prop: 'hideOverflow', type: 'boolean', default: 'true', description: 'Keep content inside the panel (scrolls past 85vh). false lets non-portaled popups spill out' },
