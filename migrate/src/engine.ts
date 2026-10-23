@@ -8,6 +8,7 @@ import { Report, REPORT_FILE } from './report.js';
 import { Chooser, type Decision } from './choices.js';
 import { isGitClean } from './git.js';
 import { LIBRARY } from './sfc.js';
+import { locateEntry } from './entry.js';
 import { detectVersion, pickSteps, resolveTarget } from './version.js';
 import { STEPS, LATEST } from './steps/index.js';
 import type { StepContext } from './steps/types.js';
@@ -92,7 +93,8 @@ export async function runUpgrade(opts: UpgradeOptions): Promise<number> {
     const files = new FileStore(opts.root);
     const report = new Report();
     const chooser = new Chooser({ interactive, preset });
-    const ctx: StepContext = { root: opts.root, installed, target, entry: null, files, report, choose: chooser.choose };
+    const entry = await locateEntry(files, opts.entry);
+    const ctx: StepContext = { root: opts.root, installed, target, entry, files, report, choose: chooser.choose };
 
     try {
         for (const step of steps) {
