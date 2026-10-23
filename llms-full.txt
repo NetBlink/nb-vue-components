@@ -406,6 +406,8 @@ menu popover built on reka-ui's `DropdownMenu` primitives. Provide a `#trigger` 
 | `alignOffset` | `number` | `5` | Pixel offset from the alignment point |
 | `openOnHover` | `boolean` | `false` | Open on hover instead of click |
 | `hoverDelay` | `number` | `150` | Delay before closing on mouse leave (only when openOnHover is true) |
+| `ui` | `UiProp<NbParts['Dropdown']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `content`, menu items, `trigger`, element that opens the menu
 
@@ -416,6 +418,7 @@ A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `href` | `string` | **required** | The URL to navigate to |
+| `ui` | `UiProp<NbParts['DropdownLink']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -430,6 +433,10 @@ Thin wrapper around the third-party `vue-select` component, giving a type-to-sea
 ### DropdownSeparator
 
 Dropdown separator component A visual separator for dropdown menu items.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `ui` | `UiProp<NbParts['DropdownSeparator']>` | - | Classes per part, merged over the defaults |
 
 ### EnhancedTable
 
@@ -561,6 +568,8 @@ Primary-styled button that opens a reka-ui dropdown menu of links, rendering the
 | `align` | `Align` | `AlignValue.START` | Alignment of the dropdown content relative to trigger |
 | `alignOffset` | `number` | `5` | Offset from the alignment position |
 | `title` | `string` | `undefined` | Title text displayed on the button |
+| `ui` | `UiProp<NbParts['LinkDropdownButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -572,6 +581,7 @@ One entry in a `LinkDropdownButton` menu. It renders its own `<li>` wrapping a p
 | --- | --- | --- | --- |
 | `href` | `string` | - | The URL to navigate to |
 | `title` | `string` | - | The title/text to display |
+| `ui` | `UiProp<NbParts['LinkDropdownButtonItem']>` | - | Classes per part, merged over the defaults |
 
 ### Logs
 
@@ -595,9 +605,11 @@ teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, bo
 | `modalDuration` | `Number` | `200` | modal enter/leave duration (ms) |
 | `alignCenter` | `Boolean` | `false` | vertically center the modal (default top-aligns) |
 | `showBorder` | `Boolean` | `false` | add the brand-coloured border around the panel |
-| `modalCustomClass` | `String` | `''` | extra classes for the modal panel |
-| `backdropCustomClass` | `String` | `''` | extra classes for the backdrop |
+| `modalCustomClass` | `String` | `''` | deprecated, use `class` |
+| `backdropCustomClass` | `String` | `''` | deprecated, use `:ui="{ overlay: '...' }"` |
 | `resizable` | `Boolean` | `false` | render edge/corner handles so the user can resize the modal |
+| `ui` | `Object as PropType<UiProp<NbParts'Modal'>>` | `undefined` | Classes per part, merged over the defaults |
+| `motion` | `String as PropType<MotionLevel>` | `undefined` | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -646,7 +658,9 @@ Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one t
 | `padded` | `boolean` | `true` | Built-in panel padding. Set false when the slot brings its own (e.g. a `p-6` wrapper from `Modal`) |
 | `backdropDuration` | `number` | `undefined` | Backdrop animation duration (ms), defaults to the theme motion tokens |
 | `modalDuration` | `number` | `undefined` | Panel animation duration (ms), defaults to the theme motion tokens |
-| `backdropCustomClass` | `string` | `''` | Extra classes for the backdrop (panel classes go on `class`) |
+| `backdropCustomClass` | `string` | `''` | Deprecated, use `:ui="{ overlay: '...' }"` |
+| `ui` | `UiProp<NbParts['NewModal']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`, body content, `description`, overrides the `description` prop, `footer`, right-aligned footer area, `header`, overrides the `title` prop, `trigger`, element that opens the dialog when clicked
 
@@ -1112,6 +1126,12 @@ The `<thead>` primitive, holding a row of `Th` cells. In responsive mode it is h
 
 a single queued notification, rendered by `<Toaster>`. You very rarely mount this yourself; raise notifications with the `toast` helper and let the Toaster render them. It is exported so a host app can build a bespoke viewport if the shipped one doesn't fit. The `snackbar` variant is the same component in a different suit: one inverted bar sized to its content, Material-style, rather than a stacked card.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `item` | `ToastItem` | **required** | queue entry to render |
+| `ui` | `UiProp<NbParts['Toast']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
 **Slots:** `default`
 
 ### Toaster
@@ -1130,6 +1150,8 @@ the viewport that renders the notification queue. Mount exactly one, in your roo
 | `disableSwipe` | `boolean` | `false` | turn off swipe-to-dismiss |
 | `disableEvents` | `boolean` | `false` | stop listening for `nb:toast` window events |
 | `label` | `string` | `'Notifications ({hotkey})'` | Screen-reader label for the viewport landmark. |
+| `ui` | `UiProp<NbParts['Toaster']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 ### Tooltip
 
@@ -1141,10 +1163,12 @@ Tooltip component using Reka UI
 | `side` | `TooltipSide` | `'top'` | The side where the tooltip appears (default: 'top') |
 | `delayDuration` | `number` | `100` | Delay before tooltip shows in milliseconds (default: 700) |
 | `disabled` | `boolean` | `false` | Whether the tooltip is disabled |
-| `contentClass` | `string` | `''` | Custom classes for tooltip content |
-| `arrowClass` | `string` | `''` | Custom classes for tooltip arrow |
+| `contentClass` | `string` | `''` | Deprecated, use `class` |
+| `arrowClass` | `string` | `''` | Deprecated, use `:ui="{ arrow: '...' }"` |
 | `sideOffset` | `number` | `4` | Distance from trigger in pixels (default: 4) |
 | `collisionPadding` | `number` | `8` | Padding from viewport edges in pixels (default: 8) |
+| `ui` | `UiProp<NbParts['Tooltip']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 

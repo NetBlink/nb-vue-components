@@ -8,29 +8,42 @@
  * @prop {'top' | 'bottom' | 'left' | 'right'} side - The side where the tooltip appears (default: 'top')
  * @prop {number} delayDuration - Delay before tooltip shows in milliseconds (default: 700)
  * @prop {boolean} disabled - Whether the tooltip is disabled
- * @prop {string} contentClass - Custom classes for tooltip content
- * @prop {string} arrowClass - Custom classes for tooltip arrow
+ * @prop {string} contentClass - Deprecated, use `class`
+ * @prop {string} arrowClass - Deprecated, use `:ui="{ arrow: '...' }"`
  * @prop {number} sideOffset - Distance from trigger in pixels (default: 4)
  * @prop {number} collisionPadding - Padding from viewport edges in pixels (default: 8)
+ * @part content - the tooltip bubble; `class` and other attrs land here
+ * @part arrow - the arrow
  */
 
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui';
 import { computed } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 type TooltipSide = 'top' | 'bottom' | 'left' | 'right';
 
-interface Props {
+export interface TooltipProps {
     content: string;
     side?: TooltipSide;
     delayDuration?: number;
     disabled?: boolean;
+    /** Deprecated, use `class` */
     contentClass?: string;
+    /** Deprecated, use `:ui="{ arrow: '...' }"` */
     arrowClass?: string;
     sideOffset?: number;
     collisionPadding?: number;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Tooltip']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TooltipProps>(), {
     side: 'top',
     delayDuration: 100,
     disabled: false,
@@ -39,6 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
     sideOffset: 4,
     collisionPadding: 8,
 });
+
+const { cls, attrs } = useUi('Tooltip', props, { classPart: 'content', aliases: { contentClass: 'content', arrowClass: 'arrow' } });
 
 // Ensure side is one of the valid values
 const tooltipSide = computed((): TooltipSide => {
@@ -86,13 +101,14 @@ const defaultArrowClasses = 'fill-white stroke-gray-200 dark:fill-gray-800 dark:
             </TooltipTrigger>
             <TooltipPortal>
                 <TooltipContent
+                    v-bind="attrs()"
                     :side="tooltipSide"
                     :sideOffset="sideOffset"
                     :collisionPadding="collisionPadding"
-                    :class="[defaultContentClasses, contentClass]"
+                    :class="cls('content', defaultContentClasses)"
                 >
                     {{ content }}
-                    <TooltipArrow :class="[defaultArrowClasses, arrowClass]" />
+                    <TooltipArrow :class="cls('arrow', defaultArrowClasses)" />
                 </TooltipContent>
             </TooltipPortal>
         </TooltipRoot>

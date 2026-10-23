@@ -12,13 +12,20 @@
  * @prop {number} [hoverDelay=150] - ms to wait before closing on mouse leave (only when openOnHover is true)
  * @slot trigger - element that opens the menu
  * @slot content - menu items
+ * @part trigger - the trigger `<button>` around the `#trigger` slot
+ * @part content - the menu panel; `class` and other attrs land here
  */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
 import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
 import { ref, nextTick } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
-interface DropdownProps {
+defineOptions({ inheritAttrs: false });
+
+export interface DropdownProps {
     /** Where to anchor the menu relative to the trigger */
     align?: Align;
     /** Pixel offset from the alignment point */
@@ -27,6 +34,10 @@ interface DropdownProps {
     openOnHover?: boolean;
     /** Delay before closing on mouse leave (only when openOnHover is true) */
     hoverDelay?: number;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Dropdown']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<DropdownProps>(), {
@@ -35,6 +46,8 @@ const props = withDefaults(defineProps<DropdownProps>(), {
     openOnHover: false,
     hoverDelay: 150,
 });
+
+const { cls, attrs } = useUi('Dropdown', props, { classPart: 'content' });
 
 const toggleState = ref(false);
 let hoverTimeout: number | null = null;
@@ -73,14 +86,19 @@ const handleOpenChange = (open: boolean) => {
 
 <template>
     <DropdownMenuRoot v-model:open="toggleState" @update:open="handleOpenChange">
-        <DropdownMenuTrigger aria-label="Dropdown"><slot name="trigger" /></DropdownMenuTrigger>
+        <DropdownMenuTrigger aria-label="Dropdown" :class="cls('trigger')"><slot name="trigger" /></DropdownMenuTrigger>
 
         <DropdownMenuPortal>
             <DropdownMenuContent
                 :alignOffset="alignOffset"
-                v-bind="$attrs"
+                v-bind="attrs()"
                 :align="align"
-                class="data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700"
+                :class="
+                    cls(
+                        'content',
+                        'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade z-50 mt-2 min-w-[10rem] overflow-hidden rounded-md bg-white p-1 text-gray-900 shadow-lg ring-1 ring-gray-200 will-change-[opacity,transform] dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40 dark:ring-gray-700'
+                    )
+                "
                 @mouseenter="handleMouseEnter"
                 @mouseleave="handleMouseLeave"
             >

@@ -22,6 +22,8 @@
  * @prop {boolean} [stack=false] - collapse the queue into a pile; pointing at it expands
  * @prop {boolean} [disableSwipe=false] - turn off swipe-to-dismiss
  * @prop {boolean} [disableEvents=false] - stop listening for `nb:toast` window events
+ * @part root - the viewport the toasts stack in
+ * @part toast - each `Toast`
  */
 
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
@@ -29,8 +31,13 @@ import { ToastProvider, ToastViewport } from 'reka-ui';
 import Toast from './Toast.vue';
 import { TOAST_EVENT, toast } from '../composables/useToast';
 import type { ToastAnimation, ToastInput, ToastOrder, ToastPosition } from '../composables/useToast';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
-interface Props {
+defineOptions({ inheritAttrs: false });
+
+export interface ToasterProps {
     position?: ToastPosition;
     order?: ToastOrder;
     animation?: ToastAnimation;
@@ -42,9 +49,13 @@ interface Props {
     disableEvents?: boolean;
     /** Screen-reader label for the viewport landmark. */
     label?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Toaster']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ToasterProps>(), {
     position: 'bottom-right',
     order: 'newest-first',
     animation: 'slide',
@@ -56,6 +67,8 @@ const props = withDefaults(defineProps<Props>(), {
     disableEvents: false,
     label: 'Notifications ({hotkey})',
 });
+
+const { cls, attrs } = useUi('Toaster', props);
 
 // Top-level binding so the template unwraps the ref for us.
 const items = toast.items;
@@ -292,7 +305,8 @@ onBeforeUnmount(() => {
              toast. pointerleave is boundary-computed over the same chain and does
              fire. focusin/out keeps the pile open for keyboard users. -->
         <ToastViewport
-            :class="['pointer-events-none fixed z-100 flex w-full gap-3 p-4', VIEWPORT_POSITION[position], stackClass]"
+            v-bind="attrs()"
+            :class="cls('root', ['pointer-events-none fixed z-100 flex w-full gap-3 p-4', VIEWPORT_POSITION[position], stackClass])"
             :style="{ maxWidth: width }"
             @pointerover="expanded = true"
             @pointerleave="expanded = false"
@@ -304,7 +318,7 @@ onBeforeUnmount(() => {
                 :key="item.id"
                 :item="item"
                 :data-toast-id="item.id"
-                :class="[enterClass, exitClass]"
+                :class="cls('toast', [enterClass, exitClass])"
                 @close="toast.dismiss(item.id)"
             />
         </ToastViewport>

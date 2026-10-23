@@ -10,8 +10,16 @@
  * and add `:padded="false"` when the slot already brings its own padding.
  *
  * @deprecated
+ * @part root - the fixed full-screen container
+ * @part overlay - the backdrop
+ * @part content - the panel; `class` lands here
  */
-import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
+import { computed, onMounted, onUnmounted, watch, ref, type PropType } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 /**
  * @prop {boolean} show - visibility, paired with `@close` (there is no `update:show`, so `v-model:show` can't close it)
@@ -23,8 +31,8 @@ import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
  * @prop {boolean} [resizable=false] - render edge/corner handles so the user can resize the modal
  * @prop {number}  [backdropDuration=200] - backdrop fade duration (ms)
  * @prop {number}  [modalDuration=200] - modal enter/leave duration (ms)
- * @prop {string}  [modalCustomClass=''] - extra classes for the modal panel
- * @prop {string}  [backdropCustomClass=''] - extra classes for the backdrop
+ * @prop {string}  [modalCustomClass=''] - deprecated, use `class`
+ * @prop {string}  [backdropCustomClass=''] - deprecated, use `:ui="{ overlay: '...' }"`
  * @emits close - fires when the user clicks the backdrop or presses Escape (only when `closeable` is true)
  */
 const props = defineProps({
@@ -72,6 +80,21 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: Object as PropType<UiProp<NbParts['Modal']>>,
+        default: undefined,
+    },
+    /** Motion level for this instance */
+    motion: {
+        type: String as PropType<MotionLevel>,
+        default: undefined,
+    },
+});
+
+const { cls, attrs, level } = useUi('Modal', props, {
+    classPart: 'content',
+    aliases: { modalCustomClass: 'content', backdropCustomClass: 'overlay' },
 });
 
 const emit = defineEmits(['close']);
@@ -192,8 +215,8 @@ const onResizeMouseMove = (e) => {
         <transition leave-active-class="transition-opacity duration-200">
             <div
                 v-show="show"
-                class="modal fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0"
-                :class="{ flex: alignCenter, 'mb-16 items-center justify-center': alignCenter }"
+                v-bind="attrs()"
+                :class="cls('root', 'modal fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0', { flex: alignCenter, 'mb-16 items-center justify-center': alignCenter })"
                 scroll-region
             >
                 <transition
@@ -212,8 +235,7 @@ const onResizeMouseMove = (e) => {
                         :style="{ transitionDuration: `${backdropDuration}ms` }"
                         @click="close"
                     >
-                        <div class="backdrop absolute inset-0 bg-gray-500 opacity-75 dark:bg-black dark:opacity-70"
-                            :class="{[backdropCustomClass]: !!backdropCustomClass}" />
+                        <div :class="cls('overlay', 'backdrop absolute inset-0 bg-gray-500 opacity-75 dark:bg-black dark:opacity-70')" />
                     </div>
                 </transition>
 
@@ -228,12 +250,13 @@ const onResizeMouseMove = (e) => {
                     <div
                         ref="modalContent"
                         v-show="show"
-                        class="mb-6 transform rounded-lg bg-white text-gray-900 dark:text-gray-100 shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-gray-100"
-                        :class="{
-                            [maxWidthClass]: !!maxWidthClass,
-                            // `border-pink` had no matching token, so this rendered the default grey.
-                            'border-primary-500 rounded-md border-2 border-solid': showBorder,
-                            [modalCustomClass]: !!modalCustomClass}"
+                        :class="
+                            cls('content', 'mb-6 transform rounded-lg bg-white text-gray-900 dark:text-gray-100 shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 dark:text-gray-100', {
+                                [maxWidthClass]: !!maxWidthClass,
+                                // `border-pink` had no matching token, so this rendered the default grey.
+                                'border-primary-500 rounded-md border-2 border-solid': showBorder,
+                            })
+                        "
                         :style="{
                             userSelect: resizing ? 'none' : 'auto',
                             transition: resizing ? 'none' : '',

@@ -15,10 +15,20 @@
  * @slot footer - right-aligned footer area
  * @slot trigger - element that opens the dialog when clicked
  * @emits close - fires when the user dismisses the dialog (Escape, backdrop click or the close button)
+ * @part overlay - the backdrop
+ * @part content - the dialog panel; `class` lands here
+ * @part title - the `DialogTitle`
+ * @part description - the `DialogDescription`
+ * @part spacer - the gap under the title and description
+ * @part footer - the footer row
+ * @part close - the close button
  */
 import NbIcon from '../icons/NbIcon.vue';
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui';
 import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
 // `$attrs` is bound explicitly onto DialogContent below. Without this the same
 // attrs would ALSO land on the root DialogRoot, which is how `v-model:open`
@@ -26,7 +36,7 @@ import { computed, onMounted, onUnmounted, ref, useSlots, watch } from 'vue';
 // Both bindings are declared models now, so the fallthrough is no longer load-bearing.
 defineOptions({ inheritAttrs: false });
 
-interface NewModalProps {
+export interface NewModalProps {
     /** Title rendered in DialogTitle (overridden by the `header` slot) */
     title?: string;
     /** Sub-title rendered in DialogDescription (overridden by the `description` slot) */
@@ -53,8 +63,12 @@ interface NewModalProps {
     backdropDuration?: number;
     /** Panel animation duration (ms), defaults to the theme motion tokens */
     modalDuration?: number;
-    /** Extra classes for the backdrop (panel classes go on `class`) */
+    /** Deprecated, use `:ui="{ overlay: '...' }"` */
     backdropCustomClass?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['NewModal']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<NewModalProps>(), {
@@ -75,6 +89,7 @@ const props = withDefaults(defineProps<NewModalProps>(), {
 });
 
 const emit = defineEmits<{ close: []; 'update:show': [value: boolean] }>();
+const { cls, attrs, motionAttrs } = useUi('NewModal', props, { classPart: 'content', aliases: { backdropCustomClass: 'overlay' } });
 const slots = useSlots();
 
 /*
@@ -170,8 +185,8 @@ const hasDescription = () => !!props.description || !!slots.description;
             <!-- Overlay and panel share z-50 with Dropdown/Tooltip content: those portal in
                  later, so they stack above an open dialog instead of behind it. -->
             <DialogOverlay
-                class="bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-50 dark:bg-black/70"
-                :class="backdropCustomClass"
+                v-bind="motionAttrs()"
+                :class="cls('overlay', 'bg-dark/50 data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out fixed inset-0 z-50 dark:bg-black/70')"
                 :style="backdropDuration !== undefined ? { animationDuration: `${backdropDuration}ms` } : undefined"
             />
             <!-- Resizable swaps the fixed 600px cap for a 95vw one (CSS resize can
@@ -180,33 +195,34 @@ const hasDescription = () => !!props.description || !!slots.description;
                  needs overflow, so it wins over hideOverflow=false. -->
             <!-- Without a description, aria-describedby would point at a missing id. -->
             <DialogContent
-                class="data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed left-[50%] z-50 translate-x-[-50%] rounded bg-white text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40"
-                :class="[
-                    props.resizable
-                        ? 'resize overflow-auto max-h-[90vh] max-w-[95vw] min-h-40 min-w-80 w-[min(600px,90vw)]'
-                        : ['w-[90vw] max-w-[600px]', props.hideOverflow ? 'overflow-y-auto max-h-[85vh]' : 'overflow-visible'],
-                    props.alignTop ? 'top-[5vh]' : 'top-[50%] translate-y-[-50%]',
-                    { 'p-5': props.padded, 'border-primary-500 border-2 border-solid': props.showBorder },
-                ]"
+                :class="
+                    cls('content', 'data-[state=open]:animate-slide-up-fade data-[state=closed]:animate-slide-down-fade-out fixed left-[50%] z-50 translate-x-[-50%] rounded bg-white text-gray-900 shadow-lg/20 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:shadow-black/40', [
+                        props.resizable
+                            ? 'resize overflow-auto max-h-[90vh] max-w-[95vw] min-h-40 min-w-80 w-[min(600px,90vw)]'
+                            : ['w-[90vw] max-w-[600px]', props.hideOverflow ? 'overflow-y-auto max-h-[85vh]' : 'overflow-visible'],
+                        props.alignTop ? 'top-[5vh]' : 'top-[50%] translate-y-[-50%]',
+                        { 'p-5': props.padded, 'border-primary-500 border-2 border-solid': props.showBorder },
+                    ])
+                "
                 :style="contentStyle"
-                v-bind="{ ...(hasDescription() ? {} : { 'aria-describedby': undefined }), ...$attrs }"
+                v-bind="{ ...(hasDescription() ? {} : { 'aria-describedby': undefined }), ...attrs() }"
                 @escape-key-down="preventUnlessCloseable"
                 @interact-outside="preventUnlessCloseable"
             >
-                <DialogTitle v-if="hasTitle()" class="m-0 text-lg font-semibold dark:text-gray-100">
+                <DialogTitle v-if="hasTitle()" :class="cls('title', 'm-0 text-lg font-semibold dark:text-gray-100')">
                     <slot name="header">{{ title }}</slot>
                 </DialogTitle>
                 <!-- ponytail: generic accessible name when there's no title; pass `title` for a real one -->
                 <DialogTitle v-else class="sr-only">Dialog</DialogTitle>
-                <DialogDescription v-if="hasDescription()" class="mt-2 text-sm leading-normal dark:text-gray-300">
+                <DialogDescription v-if="hasDescription()" :class="cls('description', 'mt-2 text-sm leading-normal dark:text-gray-300')">
                     <slot name="description">{{ description }}</slot>
                 </DialogDescription>
 
-                <div v-if="hasTitle() || hasDescription()" class="mb-3"></div>
+                <div v-if="hasTitle() || hasDescription()" :class="cls('spacer', 'mb-3')"></div>
 
                 <slot />
 
-                <div v-if="$slots.footer" class="mt-5 flex justify-end gap-1.5">
+                <div v-if="$slots.footer" :class="cls('footer', 'mt-5 flex justify-end gap-1.5')">
                     <slot name="footer" />
                 </div>
 
@@ -214,7 +230,12 @@ const hasDescription = () => !!props.description || !!slots.description;
                      two close controls read as one pattern rather than circle vs square. -->
                 <DialogClose
                     v-if="closeable"
-                    class="focusable focus:ring-primary-500 absolute top-3 right-3 inline-flex cursor-pointer appearance-none items-center justify-center rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200"
+                    :class="
+                        cls(
+                            'close',
+                            'focusable focus:ring-primary-500 absolute top-3 right-3 inline-flex cursor-pointer appearance-none items-center justify-center rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-700 focus:ring-2 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200'
+                        )
+                    "
                     aria-label="Close"
                 >
                     <NbIcon name="$close" class="h-5 w-5" />

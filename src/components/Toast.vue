@@ -11,6 +11,13 @@
  *
  * @prop {ToastItem} item - queue entry to render
  * @emits close - reka-ui asked to close (timer elapsed, swipe, Escape, close button)
+ * @part root - the toast card or snackbar bar
+ * @part icon - the status icon or spinner
+ * @part body - the text column (a button when the toast is clickable)
+ * @part title - the title line
+ * @part description - the description line
+ * @part action - the action button
+ * @part close - the dismiss button
  */
 
 import { computed } from 'vue';
@@ -19,9 +26,28 @@ import NbIcon from '../icons/NbIcon.vue';
 import Spinner from './Spinner.vue';
 import type { IconLike } from '../icons/types';
 import type { ToastItem, ToastType } from '../composables/useToast';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 
-const props = defineProps<{ item: ToastItem }>();
-const emit = defineEmits<{ close: [] }>();
+defineOptions({ inheritAttrs: false });
+
+export interface ToastProps {
+    item: ToastItem;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Toast']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
+}
+
+export interface ToastEmits {
+    close: [];
+}
+
+const props = defineProps<ToastProps>();
+const emit = defineEmits<ToastEmits>();
+
+const { cls, attrs, variant } = useUi('Toast', props);
 
 const isSnackbar = computed(() => props.item.variant === 'snackbar');
 const type = computed<ToastType>(() => props.item.type ?? 'info');
@@ -83,7 +109,8 @@ const SNACKBAR_ICON_COLOURS: Record<ToastType, string> = {
     progress: 'text-primary-300',
 };
 
-const iconClasses = computed(() => (isSnackbar.value ? SNACKBAR_ICON_COLOURS[type.value] : ICON_COLOURS[type.value]));
+// A `variants.Toast.type` entry recolours the icon on both the card and the snackbar.
+const iconClasses = computed(() => variant('type', isSnackbar.value ? SNACKBAR_ICON_COLOURS : ICON_COLOURS, type.value, 'icon').icon ?? '');
 
 const actionClasses = computed(() =>
     isSnackbar.value
@@ -129,28 +156,28 @@ const onBodyClick = () => {
         :duration="item.duration"
         :type="sensitivity"
         force-mount
-        :class="rootClasses"
+        v-bind="attrs()"
+        :class="cls('root', rootClasses)"
         @update:open="(open: boolean) => !open && emit('close')"
     >
-        <Spinner v-if="showSpinner" size="xs" :color="iconClasses" class="shrink-0" :class="isSnackbar ? '' : 'mt-0.5'" />
-        <NbIcon v-else-if="icon" :name="icon" class="mt-0.5 size-5 shrink-0" :class="[iconClasses, isSnackbar && 'mt-0']" />
+        <Spinner v-if="showSpinner" size="xs" :color="iconClasses" :class="cls('icon', 'shrink-0', isSnackbar ? '' : 'mt-0.5')" />
+        <NbIcon v-else-if="icon" :name="icon" :class="cls('icon', 'mt-0.5 size-5 shrink-0', [iconClasses, isSnackbar && 'mt-0'])" />
 
         <component
             :is="item.onClick ? 'button' : 'div'"
             :type="item.onClick ? 'button' : undefined"
-            class="min-w-0 flex-1"
-            :class="item.onClick ? 'focus-visible:ring-primary-500 cursor-pointer rounded-md text-left focus-visible:ring-2 focus-visible:outline-hidden' : ''"
+            :class="cls('body', 'min-w-0 flex-1', item.onClick ? 'focus-visible:ring-primary-500 cursor-pointer rounded-md text-left focus-visible:ring-2 focus-visible:outline-hidden' : '')"
             @click="onBodyClick"
         >
             <ToastTitle
                 v-if="item.title"
-                :class="isSnackbar ? 'text-sm' : 'text-sm font-semibold text-gray-900 dark:text-gray-100'"
+                :class="cls('title', isSnackbar ? 'text-sm' : 'text-sm font-semibold text-gray-900 dark:text-gray-100')"
             >
                 {{ item.title }}
             </ToastTitle>
             <ToastDescription
                 v-if="item.description"
-                :class="isSnackbar ? 'mt-0.5 text-xs text-gray-300' : 'mt-1 text-sm text-gray-600 dark:text-gray-400'"
+                :class="cls('description', isSnackbar ? 'mt-0.5 text-xs text-gray-300' : 'mt-1 text-sm text-gray-600 dark:text-gray-400')"
             >
                 {{ item.description }}
             </ToastDescription>
@@ -160,13 +187,13 @@ const onBodyClick = () => {
         <ToastAction
             v-if="item.action"
             :alt-text="item.action.altText ?? item.action.label"
-            :class="actionClasses"
+            :class="cls('action', actionClasses)"
             @click="onAction"
         >
             {{ item.action.label }}
         </ToastAction>
 
-        <ToastClose v-if="dismissible" :class="closeClasses" aria-label="Dismiss notification">
+        <ToastClose v-if="dismissible" :class="cls('close', closeClasses)" aria-label="Dismiss notification">
             <NbIcon name="$close" class="size-4" />
         </ToastClose>
     </ToastRoot>
