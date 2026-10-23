@@ -5,16 +5,18 @@
 
 import { computed } from 'vue';
 import { TextInput } from '../../../index';
-import type { InputProps } from '../types';
+import { normalizeClass } from 'vue';
+import type { InputProps, InputPartResolver } from '../types';
 
 interface BaseInputProps extends Pick<InputProps, 
     'field' | 'name' | 'required' | 'disabled' | 'placeholder' | 
-    'autofocus' | 'pattern' | 'min' | 'max' | 'step' | 'autocomplete' | 'inputCustomClass' | 'noNumberSpinners'
+    'autofocus' | 'pattern' | 'min' | 'max' | 'step' | 'autocomplete' | 'noNumberSpinners'
 > {
     type?: string;
     modelValue?: any;
     computedName?: string;
     computedAutocomplete?: string;
+    cls?: InputPartResolver;
 }
 
 const props = withDefaults(defineProps<BaseInputProps>(), {
@@ -22,8 +24,8 @@ const props = withDefaults(defineProps<BaseInputProps>(), {
     required: false,
     disabled: false,
     autofocus: false,
-    inputCustomClass: '',
     noNumberSpinners: false,
+    cls: (_part: string, ...defaults: unknown[]) => normalizeClass(defaults),
 });
 
 const emit = defineEmits<{
@@ -40,7 +42,7 @@ const model = computed({
     <TextInput
         :id="field"
         :type="type"
-        :class="{ [inputCustomClass]: !!inputCustomClass }"
+        :class="cls('input')"
         v-model="model"
         :required="required"
         :disabled="disabled"

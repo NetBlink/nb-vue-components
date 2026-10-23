@@ -5,12 +5,25 @@
  * or the Inertia `:form` + `field` pattern and emits `changed` with old and new values.
  * `<Input type="textarea">` renders this component, so use it directly only when you do
  * not want to go through `Input`.
+ *
+ * @part root - the field wrapper (an `InputWrapper`)
+ * @part label - the `InputLabel`
+ * @part group - the row holding the textarea with its addon and buttons
+ * @part addon - the leading addon text
+ * @part input - the `<textarea>`
+ * @part button - the submit and WhatsApp buttons
+ * @part error - the `InputError`
  */
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputWrapper, SubmitButton } from '../../index';
 import NbIcon from '../../icons/NbIcon.vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
+import { useUi } from '../../ui/useUi';
 
-interface TextareaProps {
+defineOptions({ inheritAttrs: false });
+
+export interface TextareaProps {
     /** Field name for form binding */
     field?: string;
     /** Label text for the textarea */
@@ -48,17 +61,21 @@ interface TextareaProps {
     autocomplete?: string;
     /** Tooltip text */
     tooltip?: string;
-    /** Custom CSS classes for the textarea */
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     customClass?: string;
-    /** Custom CSS classes for the label */
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
-    /** Custom CSS classes for the button */
+    /** Deprecated, use `:ui="{ button: '...' }"` */
     buttonCustomClass?: string;
     /** Custom error message */
     error?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Textarea']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-interface TextareaEmits {
+export interface TextareaEmits {
     /** Emitted when the textarea value changes */
     (e: 'update:modelValue', value: string): void;
     /** Emitted when value changes with old and new values */
@@ -77,6 +94,10 @@ const props = withDefaults(defineProps<TextareaProps>(), {
 });
 
 const emit = defineEmits<TextareaEmits>();
+
+const { cls, attrs } = useUi('Textarea', props, {
+    aliases: { customClass: 'input', labelCustomClass: 'label', buttonCustomClass: 'button' },
+});
 
 /**
  * Converts underscored text to title case
@@ -172,34 +193,44 @@ defineExpose({
 
 <template>
     <InputWrapper
+        v-bind="attrs()"
+        :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="computedLabel"
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
         :noLabel="noLabel"
-        :labelCustomClass="labelCustomClass"
         :form="form"
         :error="errorMessage"
         :htmlFor="field"
     >
-        <div class="relative flex w-full max-w-full items-stretch">
+        <div :class="cls('group', 'relative flex w-full max-w-full items-stretch')">
             <span
                 v-if="addon"
-                class="border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-900/40 dark:text-gray-400"
-                :class="{ shadow: !disabled }"
+                :class="
+                    cls(
+                        'addon',
+                        'border-gray flex items-center rounded rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-2 text-center whitespace-nowrap text-gray-500 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-900/40 dark:text-gray-400',
+                        { shadow: !disabled }
+                    )
+                "
             >
                 {{ addon }}
             </span>
 
             <textarea
                 :id="field"
-                class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500"
-                :class="{
-                    'rounded-l-none shadow-none': addon,
-                    'rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
-                    [customClass]: !!customClass,
-                }"
+                :class="
+                    cls(
+                        'input',
+                        'focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500',
+                        {
+                            'rounded-l-none shadow-none': addon,
+                            'rounded-r-none': !!submitBtn || whatsApp || $slots?.submit,
+                        }
+                    )
+                "
                 :rows="rows"
                 v-model="value"
                 :required="required"
@@ -214,8 +245,7 @@ defineExpose({
                 <SubmitButton
                     v-if="submitBtn"
                     :form="form"
-                    class="z-2 inline-block rounded-l-none"
-                    :class="buttonCustomClass"
+                    :class="cls('button', 'z-2 rounded-l-none')"
                     :id="`submit-button-${field}`"
                 >
                     {{ submitBtn }}
@@ -223,8 +253,7 @@ defineExpose({
                 <SubmitButton
                     v-if="$slots?.submit"
                     :form="form"
-                    class="z-2 inline-block rounded-l-none"
-                    :class="buttonCustomClass"
+                    :class="cls('button', 'z-2 rounded-l-none')"
                     id="button-textarea"
                 >
                     <slot name="submit" />
@@ -233,8 +262,12 @@ defineExpose({
 
             <a
                 v-if="whatsApp"
-                class="bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 z-2 inline-flex items-center justify-center rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg"
-                :class="buttonCustomClass"
+                :class="
+                    cls(
+                        'button',
+                        'bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 z-2 inline-flex items-center justify-center rounded-r px-2 py-2 text-xs leading-normal font-medium text-white uppercase shadow transition duration-150 ease-in-out hover:shadow-lg focus:z-3 focus:shadow-lg focus:ring-0 focus:outline-hidden active:shadow-lg'
+                    )
+                "
                 :href="whatsApp"
                 target="_blank"
             >

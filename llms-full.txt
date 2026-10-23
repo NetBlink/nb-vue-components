@@ -261,11 +261,13 @@ Base Button component with theme support
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `theme` | `ComponentTheme` | `'primary'` | The button theme (default: 'primary') |
+| `theme` | `keyof ButtonThemes` | `'primary'` | Colour theme. Add your own through the `variants` config. |
 | `type` | `ButtonType` | `'button'` | The button type (default: 'button') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `ButtonSize` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['Button']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -279,7 +281,7 @@ Single checkbox with label, sublabel, tooltip and error message, plus optional d
 | --- | --- | --- | --- |
 | `checked` | `boolean \| any[]` | `false` | The checked state - can be boolean for single checkbox or array for multiple |
 | `value` | `any` | `null` | The value of the checkbox when used in arrays |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
 | `id` | `string` | `''` | ID attribute for the checkbox |
 | `field` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
 | `label` | `string` | `undefined` | Label text displayed next to checkbox |
@@ -292,8 +294,10 @@ Single checkbox with label, sublabel, tooltip and error message, plus optional d
 | `sublabel` | `string` | `undefined` | Sub-label text |
 | `leftDescription` | `string \| boolean` | `false` | Text shown to the left of the checkbox |
 | `rightDescription` | `string \| boolean` | `'Enable'` | Text shown to the right of the checkbox |
-| `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
+| `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
 | `error` | `string` | `undefined` | Custom error message |
+| `ui` | `UiProp<NbParts['Checkbox']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -338,8 +342,10 @@ Danger Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'submit'` | The button type (default: 'submit') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['DangerButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -417,6 +423,10 @@ A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a r
 
 Thin wrapper around the third-party `vue-select` component, giving a type-to-search dropdown over a static `options` array with only light styling applied. It is the oldest of the select family and carries an external dependency, so prefer the in-house `SearchSelect` for filterable single-choice fields and `Select2ajax` when the options have to come from a server.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'DropdownSearchbar'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
+
 ### DropdownSeparator
 
 Dropdown separator component A visual separator for dropdown menu items.
@@ -430,6 +440,10 @@ Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to
 ### FileDropZoneInput
 
 Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection. It assigns the chosen File objects straight onto the Inertia `:form` + `field` you pass and surfaces both rejection reasons and `form.errors` inline; the enclosing form still does the upload.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `accept` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'FileDropZoneInput'>>} */ (Object)` | `'image/*' }` |  |
 
 ### GravatarImg
 
@@ -456,8 +470,10 @@ Info Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The button type (default: 'button') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['InfoButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -475,11 +491,21 @@ Input Error component for displaying validation error messages
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `message` | `string` | - | The error message to display |
+| `message` | `string \| null` | - | The error message to display |
+| `ui` | `UiProp<NbParts['InputError']>` | - | Classes per part, merged over the defaults |
 
 ### InputLabel
 
 Styled `<label>` for form fields: takes its text from the `value` prop or the default slot and can append a grey sublabel, a red required asterisk and a help icon with a `Tooltip`. Mostly used internally by `InputWrapper`; reach for it directly only when hand-building a field rather than using `Input`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - |  |
+| `sublabel` | `string` | - |  |
+| `required` | `string \| boolean` | - | String first: as in 3.x, a bare `required` attribute stays an empty string. |
+| `customClass` | `string` | - | Deprecated, use `class` |
+| `tooltip` | `string` | - |  |
+| `ui` | `UiProp<NbParts['InputLabel']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -501,9 +527,10 @@ InputWrapper component A reusable wrapper that standardizes label, tooltip, subl
 | `tooltip` | `string` | `undefined` | Tooltip text shown next to label |
 | `required` | `boolean` | `false` | Whether the field is required |
 | `noLabel` | `boolean` | `false` | Whether to hide the label |
-| `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
+| `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
 | `error` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Custom error message (overrides form error) |
 | `htmlFor` | `string` | `undefined` | HTML for attribute (defaults to field) |
+| `ui` | `UiProp<NbParts['InputWrapper']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -514,12 +541,14 @@ Link Button component that can render as either a Link or anchor tag
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `href` | `string` | - | The URL to navigate to |
-| `colourClasses` | `string[]` | `undefined` | Array of CSS classes for styling (legacy, deprecated) |
-| `theme` | `ComponentTheme` | `'primary'` | Predefined theme (primary, secondary, success, danger, warning, info) |
+| `colourClasses` | `string[]` | `undefined` | Deprecated: replaces all default classes. Use `class` |
+| `theme` | `keyof ButtonThemes` | `'primary'` | Colour theme. Add your own through the `variants` config. |
 | `target` | `string` | `'_self'` | Link target attribute (default: '_self') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
 | `method` | `string` | - | HTTP method for Inertia requests |
 | `data` | `Record<string, any>` | - | Data to send with Inertia requests |
+| `ui` | `UiProp<NbParts['LinkButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -648,8 +677,10 @@ Primary Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'submit'` | The button type (default: 'submit') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customButtonClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customButtonClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['PrimaryButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -674,6 +705,7 @@ One radio option with its label. Render several sharing the same `name` (or the 
 | `modelValue` | `string` | `undefined` | The current selected value (used with v-model) |
 | `label` | `string` | `undefined` | Label text for the radio button |
 | `field` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
+| `ui` | `UiProp<NbParts['RadioButton']>` | - | Classes per part, merged over the defaults |
 
 ### ResponsiveNavLink
 
@@ -714,7 +746,9 @@ Feature-rich Select component with API search, multiple selection, and grouping
 | `optionValue` | `string` | `'value'` | Property name for option value |
 | `optionLabel` | `string` | `'label'` | Property name for option label |
 | `optionGroup` | `string` | `'group'` | Property name for option group |
-| `customClass` | `string` | `''` | Custom CSS classes |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ trigger: '...' }"` |
+| `ui` | `UiProp<NbParts['RichSelect']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 ### SearchSelect
 
@@ -722,19 +756,22 @@ Single-choice select with a type-to-filter box, built on `vue-search-select`'s `
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `id` | `String` | **required** |  |
-| `label` | `String` | - |  |
-| `list` | `Array` | **required** |  |
-| `optionValue` | `String` | **required** |  |
-| `optionText` | `String` | **required** |  |
-| `optionDisabled` | `String` | - |  |
-| `placeholder` | `String` | - |  |
-| `modelValue` | `Boolean` | `false` |  |
-| `disabled` | `Boolean` | `false` |  |
-| `noForm` | `Boolean` | `false` |  |
-| `filterPredicate` | `Function` | `(option` |  |
-
-**Emits:** `update:modelValue`, `searchchange`
+| `id` | `string` | **required** |  |
+| `label` | `string` | - |  |
+| `list` | `any[]` | **required** |  |
+| `optionValue` | `string` | **required** |  |
+| `optionText` | `string` | **required** |  |
+| `optionDisabled` | `string` | - |  |
+| `placeholder` | `string` | - |  |
+| `field` | `string` | - |  |
+| `form` | `Record<string, any>` | - |  |
+| `modelValue` | `any` | - |  |
+| `noLabel` | `boolean` | `false` |  |
+| `disabled` | `boolean` | `false` |  |
+| `noForm` | `boolean` | `false` |  |
+| `filterPredicate` | `(option: string, term: string) => boolean` | `(option: string, term: string) => {` |  |
+| `required` | `boolean` | `false` |  |
+| `ui` | `UiProp<NbParts['SearchSelect']>` | - | Classes per part, merged over the defaults |
 
 ### SecondaryButton
 
@@ -744,8 +781,10 @@ Secondary Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The button type (default: 'button') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['SecondaryButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -781,9 +820,10 @@ Simple Select component Works with both array options and slot options, API-comp
 | `modelValue` | `any` | - | Direct value binding |
 | `name` | `string` | - | Name attribute for the select |
 | `sublabel` | `string` | - | Sub-label text |
-| `customClass` | `string` | `''` | Custom CSS classes for the select |
-| `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
+| `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
 | `error` | `string` | - | Custom error message |
+| `ui` | `UiProp<NbParts['Select']>` | - | Classes per part, merged over the defaults |
 
 **Slots:** `default`
 
@@ -804,6 +844,7 @@ Server-backed version of `SearchSelect`: it wraps that component and fills the o
 | `noForm` | `Boolean` | `false` |  |
 | `url` | `String` | **required** |  |
 | `queryParams` | `Object` | - |  |
+| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'Select2ajax'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
 
 **Emits:** `update:modelValue`, `changed`
 
@@ -821,6 +862,7 @@ Multi-select rendered as a clickable list of options that toggle in and out of a
 | `placeholder` | `String` | - |  |
 | `noLabel` | `Boolean` | `false` |  |
 | `isDisabled` | `Boolean` | `false` |  |
+| `ui` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'SelectMultiple'>>} */ (Object)` | `undefined` | Classes per part, merged over the defaults |
 
 **Emits:** `update:modelValue`
 
@@ -839,7 +881,8 @@ Simple Select component that works with options array
 | `noLabel` | `boolean` | `false` | Whether to hide the label |
 | `tooltip` | `string` | `undefined` | Tooltip text shown next to label |
 | `modelValue` | `any` | `undefined` | Direct value binding (alternative to form/field) |
-| `customClass` | `string` | `''` | Custom CSS classes |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
+| `ui` | `UiProp<NbParts['SimpleSelect']>` | - | Classes per part, merged over the defaults |
 
 ### Spinner
 
@@ -869,13 +912,15 @@ Submit Button component with loading state and theme support
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `theme` | `ComponentTheme` | `Theme.PRIMARY` | The button theme (default: 'primary') |
+| `theme` | `keyof ButtonThemes` | `Theme.PRIMARY` | The button theme (default: 'primary') |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'submit'` | The button type (default: 'submit') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
 | `form` | `any` | - | The form object (for processing state) |
 | `loading` | `boolean` | `false` | Manual loading state |
-| `customButtonClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customButtonClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['SubmitButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -887,8 +932,10 @@ Success Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The button type (default: 'button') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['SuccessButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -911,9 +958,11 @@ Switch component
 | `sublabel` | `string` | - | Sub-label text |
 | `leftDescription` | `string \| boolean` | `false` | Text shown to the left of the switch |
 | `rightDescription` | `string \| boolean` | `'Enable'` | Text shown to the right of the switch |
-| `customClass` | `string` | `''` | Custom CSS classes for the switch |
-| `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
+| `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
 | `error` | `string` | - | Custom error message |
+| `ui` | `UiProp<NbParts['Switch']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -1023,10 +1072,12 @@ Multi-line text field wrapped in the standard label/sublabel/tooltip/error chrom
 | `whatsApp` | `string` | - | WhatsApp link |
 | `autocomplete` | `string` | - | Autocomplete attribute |
 | `tooltip` | `string` | - | Tooltip text |
-| `customClass` | `string` | `''` | Custom CSS classes for the textarea |
-| `labelCustomClass` | `string` | `''` | Custom CSS classes for the label |
-| `buttonCustomClass` | `string` | `''` | Custom CSS classes for the button |
+| `customClass` | `string` | `''` | Deprecated, use `:ui="{ input: '...' }"` |
+| `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
+| `buttonCustomClass` | `string` | `''` | Deprecated, use `:ui="{ button: '...' }"` |
 | `error` | `string` | - | Custom error message |
+| `ui` | `UiProp<NbParts['Textarea']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `submit`
 
@@ -1039,6 +1090,7 @@ Bare styled `<input>` with `v-model` support, autofocus-on-mount and an exposed 
 | `modelValue` | `string` | - | The input value |
 | `inputmode` | `InputMode` | - |  |
 | `noNumberSpinners` | `boolean` | `false` |  |
+| `ui` | `UiProp<NbParts['TextInput']>` | - | Classes per part, merged over the defaults |
 
 ### Th
 
@@ -1143,8 +1195,10 @@ Warning Button component
 | --- | --- | --- | --- |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The button type (default: 'button') |
 | `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size (default: 'md') |
+| `customClass` | `string` | `''` | Deprecated, use `class` |
+| `size` | `keyof ButtonSizes` | `'md'` | Button size (default: 'md') |
+| `ui` | `UiProp<NbParts['WarningButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 

@@ -16,16 +16,28 @@
  * @prop {string} sublabel - Sub-label text
  * @prop {string} leftDescription - Text shown to the left of the switch
  * @prop {string} rightDescription - Text shown to the right of the switch
- * @prop {string} customClass - Custom CSS classes for the switch
- * @prop {string} labelCustomClass - Custom CSS classes for the label
+ * @prop {string} customClass - Deprecated, use `:ui="{ input: '...' }"`
+ * @prop {string} labelCustomClass - Deprecated, use `:ui="{ label: '...' }"`
  * @prop {string} error - Custom error message
+ * @part root - the field wrapper
+ * @part label - the `InputLabel` above the switch
+ * @part field - the clickable row holding the switch and its descriptions
+ * @part description - the left and right description text
+ * @part input - the switch track
+ * @part thumb - the sliding knob
+ * @part error - the `InputError`
  */
 
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { SwitchRoot, SwitchThumb } from 'reka-ui';
 import { InputLabel, InputError } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
+import { useUi } from '../../ui/useUi';
 
-interface SwitchProps {
+defineOptions({ inheritAttrs: false });
+
+export interface SwitchProps {
     /** Form object containing field values and errors */
     form?: {
         [key: string]: any;
@@ -53,15 +65,19 @@ interface SwitchProps {
     leftDescription?: string | boolean;
     /** Text shown to the right of the switch */
     rightDescription?: string | boolean;
-    /** Custom CSS classes for the switch */
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     customClass?: string;
-    /** Custom CSS classes for the label */
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
     /** Custom error message */
     error?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Switch']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-interface SwitchEmits {
+export interface SwitchEmits {
     /** Emitted when the switch value changes */
     (e: 'update:modelValue', value: boolean): void;
     /** Emitted when value changes with old and new values */
@@ -79,6 +95,8 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 });
 
 const emit = defineEmits<SwitchEmits>();
+
+const { cls, attrs } = useUi('Switch', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
 
 // Utility function to convert field names to proper case
 function ucwords(text: string): string {
@@ -173,10 +191,10 @@ defineExpose({
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <div v-bind="attrs()" :class="cls('root', noLabel ? 'mb-2' : 'mb-4')">
         <InputLabel
             v-if="!noLabel"
-            :customClass="labelCustomClass"
+            :class="cls('label')"
             :for="field"
             :value="computedLabel"
             :sublabel="sublabel"
@@ -184,9 +202,9 @@ defineExpose({
             :tooltip="tooltip"
         />
 
-        <label class="flex items-center">
+        <label :class="cls('field', 'flex items-center')">
             <slot v-if="$slots?.leftDescription" name="leftDescription" />
-            <span v-else-if="leftDescription" class="mr-1">
+            <span v-else-if="leftDescription" :class="cls('description', 'mr-1')">
                 {{ leftDescription === true ? 'Disable' : leftDescription }}
             </span>
 
@@ -197,20 +215,29 @@ defineExpose({
                 :required="required"
                 :disabled="disabled"
                 :aria-label="computedLabel || undefined"
-                class="focus-visible:ring-primary-500 data-[state=checked]:bg-primary-600 dark:data-[state=checked]:bg-primary-500 relative mx-2 ml-0 inline-flex h-6 w-12 flex-none cursor-pointer items-center rounded-xl bg-gray-300 shadow-inner transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 dark:bg-gray-600 dark:focus-visible:ring-offset-gray-900"
-                :class="customClass"
+                :class="
+                    cls(
+                        'input',
+                        'focus-visible:ring-primary-500 data-[state=checked]:bg-primary-600 dark:data-[state=checked]:bg-primary-500 relative mx-2 ml-0 inline-flex h-6 w-12 flex-none cursor-pointer items-center rounded-xl bg-gray-300 shadow-inner transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 dark:bg-gray-600 dark:focus-visible:ring-offset-gray-900'
+                    )
+                "
             >
                 <SwitchThumb
-                    class="pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]"
+                    :class="
+                        cls(
+                            'thumb',
+                            'pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform duration-150 will-change-transform data-[state=checked]:translate-x-[1.625rem]'
+                        )
+                    "
                 />
             </SwitchRoot>
 
             <slot v-if="$slots?.rightDescription" name="rightDescription" />
-            <span v-else-if="rightDescription" class="ml-1">
+            <span v-else-if="rightDescription" :class="cls('description', 'ml-1')">
                 {{ rightDescription === true ? 'Enable' : rightDescription }}
             </span>
         </label>
 
-        <InputError v-if="errorMessage" :message="errorMessage" class="mt-2" />
+        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
     </div>
 </template>

@@ -5,27 +5,31 @@
 
 import { InputLabel, InputError } from '../../../index';
 import type { InputProps } from '../types';
+import type { NbClassValue } from '../../../ui/merge';
 
 interface InputWrapperProps extends Pick<InputProps, 
-    'field' | 'label' | 'noLabel' | 'sublabel' | 'tooltip' | 'required' | 'labelCustomClass'
+    'field' | 'label' | 'noLabel' | 'sublabel' | 'tooltip' | 'required'
 > {
     computedLabel?: string;
     hasFormErrors?: boolean;
     formError?: string | null;
+    /** Resolved classes from the owning `Input` */
+    rootClass?: NbClassValue;
+    labelClass?: NbClassValue;
+    errorClass?: NbClassValue;
 }
 
 const props = withDefaults(defineProps<InputWrapperProps>(), {
     noLabel: false,
     required: false,
-    labelCustomClass: '',
 });
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <div :class="rootClass">
         <InputLabel
             v-if="!noLabel"
-            :customClass="labelCustomClass"
+            :class="labelClass"
             :for="field"
             :value="computedLabel"
             :sublabel="sublabel"
@@ -38,7 +42,7 @@ const props = withDefaults(defineProps<InputWrapperProps>(), {
         <InputError 
             v-if="hasFormErrors" 
             :message="formError" 
-            class="mt-2" 
+            :class="errorClass" 
         />
     </div>
 </template>

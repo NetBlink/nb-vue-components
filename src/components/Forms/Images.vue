@@ -5,12 +5,27 @@
  * files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`,
  * using its own Inertia form. Unlike `FileDropZoneInput`, which only stages files on a
  * form you own, this component performs the upload itself.
+ *
+ * @part root - the upload `<form>`
+ * @part zone - the dashed drop area
+ * @part content - the clickable area inside it
+ * @part previews - the row of picked images
+ * @part preview - one picked image
+ * @part remove - the red remove badge on a preview
+ * @part button - the Upload button
+ * @part status - the "Images uploaded." message
+ * @part error - the `InputError`
+ * @part gallery - the existing images below the form
  */
 import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
-import { ref, reactive, getCurrentInstance } from 'vue';
+import { ref, reactive, getCurrentInstance, type PropType } from 'vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 import { getInertiaRouter } from '../../Helpers';
 
 const router = getInertiaRouter();
@@ -32,7 +47,11 @@ const props = defineProps({
         default: true,
     },
     endPoint: { type: String, default: 'images.store' },
+    /** Classes per part, merged over the defaults */
+    ui: { type: Object as PropType<UiProp<NbParts['Images']>>, default: undefined },
 });
+
+const { cls, attrs } = useUi('Images', props);
 
 const form = useForm({
     image: [],
@@ -91,40 +110,45 @@ const { getRootProps, getInputProps, isDragActive } = useDropzone({
 const dragEntered = ref(false);
 </script>
 <template>
-    <form @submit.prevent="submit" class="w-full" v-if="canUpload">
+    <form v-bind="attrs()" @submit.prevent="submit" :class="cls('root', 'w-full')" v-if="canUpload">
         <div class="flex w-full">
             <div
-                class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-l-lg border-2 border-r-0 border-dashed text-gray-700 transition duration-100 ease-in-out"
-                :class="{ 'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': dragEntered }"
+                :class="
+                    cls(
+                        'zone',
+                        'border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-l-lg border-2 border-r-0 border-dashed text-gray-700 transition duration-100 ease-in-out',
+                        { 'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': dragEntered }
+                    )
+                "
             >
-                <div class="flex h-20 w-full cursor-copy items-center justify-center p-4 font-medium" v-bind="getRootProps()">
+                <div :class="cls('content', 'flex h-20 w-full cursor-copy items-center justify-center p-4 font-medium')" v-bind="getRootProps()">
                     <input v-bind="getInputProps()" />
                     <span v-if="isDragActive">Drop the files here ...</span>
                     <span v-else>Drag 'n' drop images here</span>
                 </div>
-                <div v-if="form.image.length > 0" class="flex flex-wrap gap-2 p-4">
-                    <div class="relative cursor-pointer select-none" v-for="(image, index) in form.image" @click="removeImage(index)" :key="index">
-                        <div class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                <div v-if="form.image.length > 0" :class="cls('previews', 'flex flex-wrap gap-2 p-4')">
+                    <div :class="cls('preview', 'relative cursor-pointer select-none')" v-for="(image, index) in form.image" @click="removeImage(index)" :key="index">
+                        <div :class="cls('remove', 'absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 font-bold text-white')">
                             -
                         </div>
                         <img :src="image.dataUrl" class="h-auto max-w-[150px]" />
                     </div>
                 </div>
             </div>
-            <PrimaryButton class="inline rounded-l-none" :class="{ 'cursor-not-allowed': form.image.length == 0 }" :disabled="form.image.length == 0">
+            <PrimaryButton :class="cls('button', 'rounded-l-none')" :disabled="form.image.length == 0">
                 Upload
             </PrimaryButton>
             <progress v-if="form.progress" :value="form.progress.percentage" max="100">{{ form.progress.percentage }}%</progress>
         </div>
 
-        <InputError v-if="$page.props.errors.image" class="mt-2" :message="$page.props.errors.image" />
+        <InputError v-if="$page.props.errors.image" :class="cls('error', 'mt-2')" :message="$page.props.errors.image" />
         <div class="flex items-center gap-4">
             <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
-                <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Images uploaded.</p>
+                <p v-if="form.recentlySuccessful" :class="cls('status', 'text-sm text-gray-600 dark:text-gray-400')">Images uploaded.</p>
             </Transition>
         </div>
     </form>
-    <div v-if="images.length" class="mt-2">
+    <div v-if="images.length" :class="cls('gallery', 'mt-2')">
         <hr />
         <div class="container mx-auto px-5 py-2 lg:px-8 lg:pt-8">
             <div class="-m-1 flex flex-wrap md:-m-2">

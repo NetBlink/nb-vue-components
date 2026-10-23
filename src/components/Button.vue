@@ -7,25 +7,35 @@
  * @prop {ComponentTheme} theme - The button theme (default: 'primary')
  * @prop {'button' | 'submit' | 'reset'} type - The button type (default: 'button')
  * @prop {boolean} disabled - Whether the button is disabled
- * @prop {string} customClass - Custom CSS classes to apply
+ * @prop {string} customClass - Deprecated, use `class`
  * @prop {'xs' | 'sm' | 'md' | 'lg'} size - Button size (default: 'md')
+ * @part root - the `<button>` element
  */
 
-import type { ComponentTheme } from '../Types';
+import type { ButtonSizes, ButtonThemes, NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
 import { ComponentTheme as Theme } from '../Types';
 
-type ButtonType = 'button' | 'submit' | 'reset';
-type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+defineOptions({ inheritAttrs: false });
 
-interface Props {
-    theme?: ComponentTheme;
+type ButtonType = 'button' | 'submit' | 'reset';
+
+export interface ButtonProps {
+    /** Colour theme. Add your own through the `variants` config. */
+    theme?: keyof ButtonThemes;
     type?: ButtonType;
     disabled?: boolean;
+    /** Deprecated, use `class` */
     customClass?: string;
-    size?: ButtonSize;
+    size?: keyof ButtonSizes;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Button']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<ButtonProps>(), {
     theme: 'primary',
     type: 'button',
     disabled: false,
@@ -33,12 +43,14 @@ const props = withDefaults(defineProps<Props>(), {
     size: 'md',
 });
 
+const { cls, attrs, variant } = useUi('Button', props, { aliases: { customClass: 'root' } });
+
 // Base button styles
 const baseStyles =
     'focusable inline-flex cursor-pointer items-center justify-center rounded-md border font-semibold tracking-widest uppercase transition duration-150 ease-in-out focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:cursor-not-allowed';
 
 // Size variants
-const sizeVariants = {
+const sizeVariants: Record<string, string> = {
     xs: 'px-2 py-1 text-xs',
     sm: 'px-3 py-1.5 text-xs',
     md: 'px-4 py-2 text-xs',
@@ -46,7 +58,7 @@ const sizeVariants = {
 };
 
 // Theme variants
-const themeVariants: Record<ComponentTheme, string> = {
+const themeVariants: Record<string, string> = {
     /*
      * primary-600, not the bare `primary` alias: that alias resolves to the 300
      * step (#aad3d9), which against white text is ~1.6:1 - far under WCAG AA.
@@ -85,16 +97,18 @@ const themeVariants: Record<ComponentTheme, string> = {
 
 <template>
     <button
+        v-bind="attrs()"
         :type="type"
         :disabled="disabled"
-        :class="[
-            // Apply base styles and size only if not no-style theme
-            props.theme !== Theme.NO_STYLE ? [baseStyles, sizeVariants[props.size]] : [],
-            // Always apply theme variant
-            themeVariants[props.theme],
-            // Custom classes
-            props.customClass,
-        ]"
+        :class="
+            cls(
+                'root',
+                // Apply base styles and size only if not no-style theme
+                props.theme !== Theme.NO_STYLE ? [baseStyles, variant('size', sizeVariants, props.size).root] : [],
+                // Always apply theme variant
+                variant('theme', themeVariants, props.theme).root
+            )
+        "
     >
         <slot />
     </button>

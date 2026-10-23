@@ -13,16 +13,23 @@
  * @prop {string} tooltip - Tooltip text shown next to label
  * @prop {boolean} required - Whether the field is required
  * @prop {boolean} noLabel - Whether to hide the label
- * @prop {string} labelCustomClass - Custom CSS classes for the label
+ * @prop {string} labelCustomClass - Deprecated, use `:ui="{ label: '...' }"`
  * @prop {Object} form - Form object containing field values and errors
  * @prop {string} error - Custom error message (overrides form error)
  * @prop {string} htmlFor - HTML for attribute (defaults to field)
+ * @part root - the wrapper `<div>`
+ * @part label - the `InputLabel`
+ * @part error - the `InputError`
  */
 
 import { computed } from 'vue';
 import { InputLabel, InputError } from '../index';
+import type { NbParts, UiProp } from '../ui/parts';
+import { useUi } from '../ui/useUi';
 
-interface InputWrapperProps {
+defineOptions({ inheritAttrs: false });
+
+export interface InputWrapperProps {
     /** Field name for the input */
     field?: string;
     /** Label text (auto-generated from field if not provided) */
@@ -35,7 +42,7 @@ interface InputWrapperProps {
     required?: boolean;
     /** Whether to hide the label */
     noLabel?: boolean;
-    /** Custom CSS classes for the label */
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
     /** Form object containing field values and errors */
     form?: {
@@ -46,6 +53,8 @@ interface InputWrapperProps {
     error?: string;
     /** HTML for attribute (defaults to field) */
     htmlFor?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['InputWrapper']>;
 }
 
 const props = withDefaults(defineProps<InputWrapperProps>(), {
@@ -60,6 +69,8 @@ const props = withDefaults(defineProps<InputWrapperProps>(), {
     error: undefined,
     htmlFor: undefined,
 });
+
+const { cls, attrs } = useUi('InputWrapper', props, { aliases: { labelCustomClass: 'label' } });
 
 // Helper function to convert field names to readable labels
 function ucwords(text: string): string {
@@ -96,11 +107,11 @@ const forAttribute = computed(() => {
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <div v-bind="attrs()" :class="cls('root', noLabel ? 'mb-2' : 'mb-4')">
         <!-- Label with tooltip and sublabel -->
         <InputLabel
             v-if="!noLabel && (computedLabel || field)"
-            :customClass="labelCustomClass"
+            :class="cls('label')"
             :for="forAttribute"
             :value="computedLabel"
             :sublabel="sublabel"
@@ -112,6 +123,6 @@ const forAttribute = computed(() => {
         <slot />
 
         <!-- Error message -->
-        <InputError v-if="errorMessage" :message="errorMessage" class="mt-2" />
+        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
     </div>
 </template>

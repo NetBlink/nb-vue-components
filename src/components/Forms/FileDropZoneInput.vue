@@ -4,6 +4,13 @@
  * browse, an `accept` filter and optional multiple selection. It assigns the chosen
  * File objects straight onto the Inertia `:form` + `field` you pass and surfaces both
  * rejection reasons and `form.errors` inline; the enclosing form still does the upload.
+ *
+ * @prop {string} FileDropCustomClass - Deprecated, use `:ui="{ zone: '...' }"`
+ * @part root - the wrapper `<div>`
+ * @part zone - the dashed drop area
+ * @part content - the clickable area inside it
+ * @part label - the label text
+ * @part error - the `InputError`
  */
 import { useForm } from '@inertiajs/vue3';
 import { getInertiaRouter } from '../../Helpers';
@@ -12,6 +19,9 @@ import Link from '../../overrides/InertiaLink';
 import { PrimaryButton, InputError } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
 import { ref, reactive, onMounted } from 'vue';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const router = getInertiaRouter();
 const props = defineProps({
@@ -22,8 +32,16 @@ const props = defineProps({
     field: String,
     required: Boolean,
     disabled: Boolean,
+    /** Deprecated, use `:ui="{ zone: '...' }"` */
     FileDropCustomClass: String,
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['FileDropZoneInput']>>} */ (Object),
+        default: undefined,
+    },
 });
+
+const { cls, attrs } = useUi('FileDropZoneInput', props, { aliases: { FileDropCustomClass: 'zone' } });
 
 const errors = ref(null);
 
@@ -67,17 +85,21 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
 });
 </script>
 <template>
-    <div class="flex w-full flex-col">
+    <div v-bind="attrs()" :class="cls('root', 'flex w-full flex-col')">
         <div
-            class="border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-lg border-2 border-dashed text-gray-700 transition duration-100 ease-in-out"
-            :class="{
-                'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': isDragActive,
-                'bg-primary-100 border-red-600 dark:bg-red-950/40': props.form.errors[field] ?? errors,
-                [FileDropCustomClass]: !!FileDropCustomClass,
-            }"
+            :class="
+                cls(
+                    'zone',
+                    'border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-lg border-2 border-dashed text-gray-700 transition duration-100 ease-in-out',
+                    {
+                        'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': isDragActive,
+                        'bg-primary-100 border-red-600 dark:bg-red-950/40': props.form.errors[field] ?? errors,
+                    }
+                )
+            "
         >
-            <div class="flex h-20 w-full cursor-copy flex-col items-center justify-center p-4 font-medium" v-bind="getRootProps()">
-                <p v-if="label" class="text-gray-900 select-none dark:text-gray-100">{{ label }}</p>
+            <div :class="cls('content', 'flex h-20 w-full cursor-copy flex-col items-center justify-center p-4 font-medium')" v-bind="getRootProps()">
+                <p v-if="label" :class="cls('label', 'text-gray-900 select-none dark:text-gray-100')">{{ label }}</p>
                 <input v-bind="getInputProps()" :name="field" />
                 <span v-if="isDragActive" class="select-none">Drop the {{ ucwords(field) }} here ...</span>
                 <span v-else-if="form[field]">{{ form[field]?.path ?? 'File prepared' }}</span>
@@ -85,6 +107,6 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
             </div>
             <!-- Could add item remover for multiple files input -->
         </div>
-        <InputError class="mt-2" :message="props.form.errors[field] ?? errors" />
+        <InputError :class="cls('error', 'mt-2')" :message="props.form.errors[field] ?? errors" />
     </div>
 </template>

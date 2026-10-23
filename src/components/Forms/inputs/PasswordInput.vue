@@ -6,16 +6,18 @@
 import { computed } from 'vue';
 import { TextInput } from '../../../index';
 import NbIcon from '../../../icons/NbIcon.vue';
-import type { InputProps } from '../types';
+import { normalizeClass } from 'vue';
+import type { InputProps, InputPartResolver } from '../types';
 
 interface PasswordInputProps extends Pick<InputProps, 
     'field' | 'name' | 'required' | 'disabled' | 'placeholder' | 
-    'autofocus' | 'pattern' | 'autocomplete' | 'hidePasswordToggler' | 'inputCustomClass'
+    'autofocus' | 'pattern' | 'autocomplete' | 'hidePasswordToggler'
 > {
     modelValue?: any;
     computedName?: string;
     computedAutocomplete?: string;
     displayType?: string;
+    cls?: InputPartResolver;
 }
 
 const props = withDefaults(defineProps<PasswordInputProps>(), {
@@ -23,8 +25,8 @@ const props = withDefaults(defineProps<PasswordInputProps>(), {
     disabled: false,
     autofocus: false,
     hidePasswordToggler: false,
-    inputCustomClass: '',
     displayType: 'password',
+    cls: (_part: string, ...defaults: unknown[]) => normalizeClass(defaults),
 });
 
 const emit = defineEmits<{
@@ -45,11 +47,11 @@ const handleToggle = () => {
 </script>
 
 <template>
-    <div class="relative flex w-full">
+    <div :class="cls('group', 'relative flex w-full')">
         <TextInput
             :id="field"
             :type="displayType"
-            :class="{ [inputCustomClass]: !!inputCustomClass }"
+            :class="cls('input')"
             v-model="model"
             :required="required"
             :disabled="disabled"
@@ -64,8 +66,13 @@ const handleToggle = () => {
         <div
             v-if="showToggle"
             @click="handleToggle"
-            class="absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600 dark:text-gray-400"
-            :class="{ 'bg-primary-50': displayType !== 'password' }"
+            :class="
+                cls(
+                    'toggle',
+                    'absolute top-1/2 -translate-y-1/2 right-1 z-2 flex size-8 rounded-lg hover:bg-primary-100 cursor-pointer items-center justify-center transition-all text-sm leading-normal text-gray-600 dark:text-gray-400',
+                    { 'bg-primary-50': displayType !== 'password' }
+                )
+            "
         >
             <NbIcon :name="displayType === 'password' ? '$eye' : '$eye-off'" />
         </div>

@@ -6,7 +6,8 @@
 import { computed } from 'vue';
 import { TextInput, SubmitButton } from '../../../index';
 import NbIcon from '../../../icons/NbIcon.vue';
-import type { InputProps, InertiaForm } from '../types';
+import { normalizeClass } from 'vue';
+import type { InputProps, InertiaForm, InputPartResolver } from '../types';
 
 interface InputWithActionsProps
     extends Pick<
@@ -22,8 +23,6 @@ interface InputWithActionsProps
         | 'max'
         | 'step'
         | 'autocomplete'
-        | 'inputCustomClass'
-        | 'buttonCustomClass'
         | 'addon'
         | 'submitBtn'
         | 'whatsApp'
@@ -34,6 +33,7 @@ interface InputWithActionsProps
     computedName?: string;
     computedAutocomplete?: string;
     form?: InertiaForm;
+    cls?: InputPartResolver;
 }
 
 const props = withDefaults(defineProps<InputWithActionsProps>(), {
@@ -41,9 +41,8 @@ const props = withDefaults(defineProps<InputWithActionsProps>(), {
     required: false,
     disabled: false,
     autofocus: false,
-    inputCustomClass: '',
-    buttonCustomClass: '',
     noNumberSpinners: false,
+    cls: (_part: string, ...defaults: unknown[]) => normalizeClass(defaults),
 });
 
 const emit = defineEmits<{
@@ -61,23 +60,29 @@ const inputClasses = computed(() => ({
     'rounded-l-none shadow-none': props.addon,
     'rounded-r-none': props.submitBtn || props.whatsApp,
     // The ring lives on the wrapper so it encircles addon + input + button as one
-    // control; the bare input must not draw a second ring inside it.
-    'focus:ring-0 focus:border-gray-300 dark:focus:border-gray-600': isGrouped.value,
-    [props.inputCustomClass]: !!props.inputCustomClass,
+    // control; the bare input must not draw a second ring inside it. (The input
+    // keeps its own focus border colour, as it always has.)
+    'focus:ring-0': isGrouped.value,
 }));
 </script>
 
 <template>
     <div
-        class="relative flex w-full max-w-full items-stretch rounded-md"
-        :class="{
-            'focus-within:ring-primary-500 dark:focus-within:ring-primary-400 focus-within:ring-2': isGrouped,
-        }"
+        :class="
+            cls('group', 'relative flex w-full max-w-full items-stretch rounded-md', {
+                'focus-within:ring-primary-500 dark:focus-within:ring-primary-400 focus-within:ring-2': isGrouped,
+            })
+        "
     >
         <span
             v-if="addon"
-            class="flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-3 text-center text-sm whitespace-nowrap text-gray-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-gray-400"
-            :class="{ shadow: !disabled }"
+            :class="
+                cls(
+                    'addon',
+                    'flex items-center rounded-l-md rounded-r-none border border-r-0 border-gray-300 bg-slate-50 px-3 text-center text-sm whitespace-nowrap text-gray-500 dark:border-gray-600 dark:bg-gray-900/60 dark:text-gray-400',
+                    { shadow: !disabled }
+                )
+            "
         >
             {{ addon }}
         </span>
@@ -85,7 +90,7 @@ const inputClasses = computed(() => ({
         <TextInput
             :id="field"
             :type="type"
-            :class="inputClasses"
+            :class="cls('input', inputClasses)"
             v-model="model"
             :required="required"
             :disabled="disabled"
@@ -104,8 +109,7 @@ const inputClasses = computed(() => ({
             <SubmitButton
                 v-if="submitBtn"
                 :form="form"
-                class="z-2 rounded-l-none focus:ring-0 focus:ring-offset-0"
-                :class="buttonCustomClass"
+                :class="cls('button', 'z-2 rounded-l-none')"
                 :id="`submit-button-${field}`"
             >
                 {{ submitBtn }}
@@ -114,8 +118,7 @@ const inputClasses = computed(() => ({
             <SubmitButton
                 v-if="$slots?.submit"
                 :form="form"
-                class="z-2 rounded-l-none focus:ring-0 focus:ring-offset-0"
-                :class="buttonCustomClass"
+                :class="cls('button', 'z-2 rounded-l-none')"
                 id="button-input"
             >
                 <slot name="submit" />
@@ -125,8 +128,12 @@ const inputClasses = computed(() => ({
         <!-- Mirrors Button's primary variant so in-input actions read as the same control -->
         <a
             v-if="whatsApp"
-            class="bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 z-2 inline-flex cursor-pointer items-center justify-center rounded-md rounded-l-none border border-transparent px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out focus:ring-0 focus:ring-offset-0 focus:outline-hidden"
-            :class="buttonCustomClass"
+            :class="
+                cls(
+                    'button',
+                    'bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 z-2 inline-flex cursor-pointer items-center justify-center rounded-md rounded-l-none border border-transparent px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out focus:ring-0 focus:ring-offset-0 focus:outline-hidden'
+                )
+            "
             :href="whatsApp"
             target="_blank"
         >

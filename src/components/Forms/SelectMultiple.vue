@@ -4,9 +4,22 @@
  * value, rather than as a dropdown. It writes directly into the Inertia `:form` + `field`
  * array, so a `form` is required. Use `RichSelect` with `multiple` when you want a
  * searchable dropdown instead of an always-visible list.
+ *
+ * @part root - the wrapper `<div>`
+ * @part label - the `InputLabel`
+ * @part trigger - the toggle button
+ * @part icon - the chevron
+ * @part content - the dropdown panel
+ * @part list - the option list
+ * @part item - an option row
+ * @part check - the square checkbox on each option
+ * @part error - the `InputError`
  */
 import NbIcon from '../../icons/NbIcon.vue';
 import { InputLabel, InputError } from '../../index';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const props = defineProps({
     id: {
@@ -42,9 +55,16 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['SelectMultiple']>>} */ (Object),
+        default: undefined,
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const { cls, attrs } = useUi('SelectMultiple', props);
 
 const ucwords = (text) => {
     let res = [];
@@ -85,11 +105,16 @@ const getSelectedItems = () => {
 </script>
 
 <template>
-    <div class="w-full">
-        <InputLabel v-if="!noLabel && (label || field)" :for="id ?? field" :value="ucwords(label ?? field)" />
+    <div v-bind="attrs()" :class="cls('root', 'w-full')">
+        <InputLabel v-if="!noLabel && (label || field)" :for="id ?? field" :value="ucwords(label ?? field)" :class="cls('label')" />
         <div class="model-list relative flex w-full min-w-[10rem]" data-te-dropdown-ref :id="id ?? field">
             <button
-                class="aria-expanded:border-accent-500 aria-expanded:outline-accent-500 flex h-10 w-full items-center justify-between rounded border border-gray-300 px-3 py-2 pr-5 text-base leading-normal whitespace-nowrap shadow outline outline-1 outline-transparent transition duration-150 ease-in-out aria-expanded:rounded-b-none motion-reduce:transition-none"
+                :class="
+                    cls(
+                        'trigger',
+                        'aria-expanded:border-accent-500 aria-expanded:outline-accent-500 flex h-10 w-full items-center justify-between rounded border border-gray-300 px-3 py-2 pr-5 text-base leading-normal whitespace-nowrap shadow outline outline-1 outline-transparent transition duration-150 ease-in-out aria-expanded:rounded-b-none motion-reduce:transition-none'
+                    )
+                "
                 type="button"
                 data-te-dropdown-toggle-ref
                 data-te-auto-close="outside"
@@ -102,28 +127,37 @@ const getSelectedItems = () => {
                     {{ placeholder }}
                 </span>
                 <span class="ml-2 w-2">
-                    <NbIcon name="$expand" class="h-5 w-5" />
+                    <NbIcon name="$expand" :class="cls('icon', 'h-5 w-5')" />
                 </span>
             </button>
-            <div class="absolute z-1000 -mt-1! hidden min-w-full bg-white data-te-dropdown-show:block" data-te-dropdown-menu-ref>
+            <div :class="cls('content', 'absolute z-1000 -mt-1! hidden min-w-full bg-white data-te-dropdown-show:block')" data-te-dropdown-menu-ref>
                 <ul
-                    class="float-left m-0 box-border max-h-80 min-w-full list-none overflow-auto rounded rounded-t-none border border-t-0 border-gray-300 bg-clip-padding text-left text-base shadow"
+                    :class="
+                        cls(
+                            'list',
+                            'float-left m-0 box-border max-h-80 min-w-full list-none overflow-auto rounded rounded-t-none border border-t-0 border-gray-300 bg-clip-padding text-left text-base shadow'
+                        )
+                    "
                 >
                     <li
                         v-for="item of list"
                         @click="click(item)"
                         :key="item[optionValue]"
-                        class="flex w-full min-w-full cursor-pointer items-center justify-start border-t border-gray-50 px-4 py-3 text-sm leading-4 font-normal hover:bg-[rgba(0,0,0,.03)]"
+                        :class="
+                            cls(
+                                'item',
+                                'flex w-full min-w-full cursor-pointer items-center justify-start border-t border-gray-50 px-4 py-3 text-sm leading-4 font-normal hover:bg-[rgba(0,0,0,.03)]'
+                            )
+                        "
                     >
                         <div
-                            class="mr-2 -ml-2 h-4 w-4 rounded border"
-                            :class="isSelected(item) ? 'bg-primary-600 border-primary-600' : 'bg-white dark:bg-gray-800'"
+                            :class="cls('check', 'mr-2 -ml-2 h-4 w-4 rounded border', isSelected(item) ? 'bg-primary-600 border-primary-600' : 'bg-white dark:bg-gray-800')"
                         ></div>
                         {{ item[optionText] }}
                     </li>
                 </ul>
             </div>
         </div>
-        <InputError :message="form.errors[field]" />
+        <InputError :message="form.errors[field]" :class="cls('error')" />
     </div>
 </template>

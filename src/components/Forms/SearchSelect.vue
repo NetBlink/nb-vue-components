@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Single-choice select with a type-to-filter box, built on `vue-search-select`'s
  * `ModelListSelect` over a client-side `list` whose value/label keys you name via
@@ -6,64 +6,60 @@
  * Binds via `v-model` or the Inertia `:form` + `field` pattern. Use `Select`/`SimpleSelect`
  * when a plain dropdown will do, `Select2ajax` when options must be fetched from a server,
  * and `SelectMultiple` or `RichSelect` when more than one value can be chosen.
+ *
+ * @part root - the wrapper `<div>`
+ * @part label - the `InputLabel`
+ * @part input - the search select control
+ * @part error - the `InputError`
  */
 import { ModelListSelect } from 'vue-search-select';
 import { InputLabel, InputError } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
 
-const props = defineProps({
-    id: {
-        type: String,
-        required: true,
+defineOptions({ inheritAttrs: false });
+
+export interface SearchSelectProps {
+    id: string;
+    label?: string;
+    list: any[];
+    optionValue: string;
+    optionText: string;
+    optionDisabled?: string;
+    placeholder?: string;
+    field?: string;
+    form?: Record<string, any>;
+    modelValue?: any;
+    noLabel?: boolean;
+    disabled?: boolean;
+    noForm?: boolean;
+    filterPredicate?: (option: string, term: string) => boolean;
+    required?: boolean;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['SearchSelect']>;
+}
+
+export interface SearchSelectEmits {
+    (e: 'update:modelValue', value: any): void;
+    (e: 'searchchange', term: string): void;
+}
+
+const props = withDefaults(defineProps<SearchSelectProps>(), {
+    noLabel: false,
+    disabled: false,
+    noForm: false,
+    filterPredicate: (option: string, term: string) => {
+        return option.toLowerCase().includes(term.toLowerCase());
     },
-    label: {
-        type: String,
-    },
-    list: {
-        type: Array,
-        required: true,
-    },
-    optionValue: {
-        type: String,
-        required: true,
-    },
-    optionText: {
-        type: String,
-        required: true,
-    },
-    optionDisabled: {
-        type: String,
-    },
-    placeholder: {
-        type: String,
-    },
-    field: String,
-    form: Object,
-    modelValue: {},
-    noLabel: {
-        type: Boolean,
-        default: false,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    noForm: {
-        type: Boolean,
-        default: false,
-    },
-    filterPredicate: {
-        type: Function,
-        default: (option, term) => {
-            return option.toLowerCase().includes(term.toLowerCase());
-        },
-    },
-    required: Boolean,
+    required: false,
 });
 
-const emit = defineEmits(['update:modelValue', 'searchchange']);
+const emit = defineEmits<SearchSelectEmits>();
 
-const ucwords = (text) => {
-    let res = [];
+const { cls, attrs } = useUi('SearchSelect', props);
+
+const ucwords = (text: string) => {
+    let res: string[] = [];
     text.split('_')
         .join(' ')
         .split(' ')
@@ -75,8 +71,14 @@ const ucwords = (text) => {
 </script>
 
 <template>
-    <div>
-        <InputLabel v-if="!noLabel && (label || field)" :for="id ?? field" :value="ucwords(label ?? field)" :required="required" />
+    <div v-bind="attrs()" :class="cls('root')">
+        <InputLabel
+            v-if="!noLabel && (label || field)"
+            :for="id ?? field"
+            :value="ucwords((label ?? field)!)"
+            :required="required"
+            :class="cls('label')"
+        />
         <template v-if="noForm">
             <model-list-select
                 :id="id ?? field"
@@ -86,7 +88,7 @@ const ucwords = (text) => {
                 :option-text="optionText"
                 :option-disabled="optionDisabled"
                 :placeholder="placeholder"
-                class="model-list relative! mt-0! max-w-full! rounded! border-gray-300! shadow! h-[42px]"
+                :class="cls('input', 'model-list relative! mt-0! max-w-full! rounded! border-gray-300! shadow! h-[42px]')"
                 @update:modelValue="(val) => emit('update:modelValue', val)"
                 @searchchange="($event) => emit('searchchange', $event)"
                 :is-disabled="disabled"
@@ -97,18 +99,18 @@ const ucwords = (text) => {
             <model-list-select
                 :id="id ?? field"
                 :list="list"
-                v-model="form[field]"
+                v-model="form![field!]"
                 :option-value="optionValue"
                 :option-text="optionText"
                 :option-disabled="optionDisabled"
                 :placeholder="placeholder"
-                class="model-list relative! mt-0! max-w-full! rounded! border-gray-300! px-3! shadow! h-[42px]"
+                :class="cls('input', 'model-list relative! mt-0! max-w-full! rounded! border-gray-300! px-3! shadow! h-[42px]')"
                 @update:modelValue="(val) => emit('update:modelValue', val)"
                 @searchchange="($event) => emit('searchchange', $event)"
                 :is-disabled="disabled"
                 :filterPredicate="filterPredicate"
             ></model-list-select>
-            <InputError :message="form.errors[field]" />
+            <InputError :message="form!.errors[field!]" :class="cls('error')" />
         </template>
     </div>
 </template>

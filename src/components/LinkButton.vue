@@ -5,7 +5,8 @@
  * @component
  *
  * @prop {string} href - The URL to navigate to
- * @prop {string[]} colourClasses - Array of CSS classes for styling (legacy, deprecated)
+ * @prop {string[]} colourClasses - Deprecated: replaces all default classes. Use `class`, or `theme="no-style"` plus `class`
+ * @part root - the `<a>`, or the Inertia `Link` when `method` or `data` is set
  * @prop {ComponentTheme} theme - Predefined theme (primary, secondary, success, danger, warning, info)
  * @prop {string} target - Link target attribute (default: '_self')
  * @prop {boolean} disabled - Whether the button is disabled
@@ -14,15 +15,19 @@
  */
 
 import Link from '../overrides/InertiaLink';
-import type { ComponentTheme } from '../Types';
 import { ComponentTheme as Theme } from '../Types';
+import type { ButtonThemes, NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
+import { useUi } from '../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 // Base button styles
 const baseStyles =
     'focusable inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-2 text-sm leading-normal font-medium transition-colors duration-200 select-none';
 
 // Theme variants matching Button component exactly
-const themeVariants: Record<ComponentTheme, string> = {
+const themeVariants: Record<string, string> = {
     // Matches Button's primary variant - see the contrast note there.
     [Theme.PRIMARY]:
         'bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 focus:ring-primary-500 active:bg-primary-800 border-transparent text-white',
@@ -45,22 +50,31 @@ const themeVariants: Record<ComponentTheme, string> = {
     [Theme.NO_STYLE]: '',
 };
 
-interface Props {
+export interface LinkButtonProps {
     href?: string;
+    /** Deprecated: replaces all default classes. Use `class` */
     colourClasses?: string[];
-    theme?: ComponentTheme;
+    /** Colour theme. Add your own through the `variants` config. */
+    theme?: keyof ButtonThemes;
     target?: string;
     disabled?: boolean;
     method?: string;
     data?: Record<string, any>;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['LinkButton']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<LinkButtonProps>(), {
     colourClasses: undefined,
     theme: 'primary',
     target: '_self',
     disabled: false,
 });
+
+// colourClasses keeps its 3.x semantics (it replaces the theme styling) in getClasses below.
+const { cls, attrs, variant } = useUi('LinkButton', props, { aliases: { colourClasses: 'root' } });
 
 // Anchors never match the `disabled:` CSS variant (there is no :disabled state
 // on <a>), so the muted look must be applied as plain classes.
@@ -82,7 +96,7 @@ const getClasses = (): string[] => {
     }
 
     // Apply theme variant
-    classes.push(themeVariants[props.theme]);
+    classes.push(variant('theme', themeVariants, props.theme).root);
 
     if (props.disabled) {
         classes.push(disabledClasses);
@@ -90,6 +104,8 @@ const getClasses = (): string[] => {
 
     return classes;
 };
+
+const rootClass = () => cls('root', getClasses());
 </script>
 
 <template>
@@ -98,7 +114,8 @@ const getClasses = (): string[] => {
         :href="href"
         :method="method"
         :data="data"
-        :class="getClasses()"
+        v-bind="attrs()"
+        :class="rootClass()"
         :disabled="disabled"
         as="button"
         tabindex="0"
@@ -109,8 +126,9 @@ const getClasses = (): string[] => {
     <a
         v-else
         :href="href"
+        v-bind="attrs()"
         :target="target"
-        :class="getClasses()"
+        :class="rootClass()"
         :tabindex="disabled ? -1 : 0"
         :aria-disabled="disabled"
         @click="disabled && $event.preventDefault()"

@@ -5,11 +5,23 @@
  * array of values when `value` is set so several checkboxes can share one field; it binds
  * through `v-model` or the Inertia `:form` + `field` pattern. `<Input type="checkbox">`
  * renders this, so use it directly only when bypassing `Input`.
+ *
+ * @part root - the field wrapper
+ * @part label - the `InputLabel` above the checkbox
+ * @part field - the clickable row holding the box and its descriptions
+ * @part description - the left and right description text
+ * @part input - the checkbox `<input>`
+ * @part error - the `InputError`
  */
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
-import { InputLabel, InputError, Tooltip } from '../../index';
+import { InputLabel, InputError } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
+import { useUi } from '../../ui/useUi';
 
-interface CheckboxEmits {
+defineOptions({ inheritAttrs: false });
+
+export interface CheckboxEmits {
     /** Emitted when the checked state changes */
     'update:checked': [value: boolean | any[]];
     /** Emitted when the model value changes */
@@ -18,12 +30,12 @@ interface CheckboxEmits {
     changed: [data: { value: boolean | any[]; old_value: boolean | any[] }];
 }
 
-interface CheckboxProps {
+export interface CheckboxProps {
     /** The checked state - can be boolean for single checkbox or array for multiple */
     checked?: boolean | any[];
     /** The value of the checkbox when used in arrays */
     value?: any;
-    /** Custom CSS classes to apply */
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     customClass?: string;
     /** ID attribute for the checkbox */
     id?: string;
@@ -54,10 +66,14 @@ interface CheckboxProps {
     leftDescription?: string | boolean;
     /** Text shown to the right of the checkbox */
     rightDescription?: string | boolean;
-    /** Custom CSS classes for the label */
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
     /** Custom error message */
     error?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Checkbox']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const emit = defineEmits<CheckboxEmits>();
@@ -82,6 +98,8 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
     labelCustomClass: '',
     error: undefined,
 });
+
+const { cls, attrs } = useUi('Checkbox', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
 
 // Helper function for label text
 function ucwords(text: string) {
@@ -187,10 +205,10 @@ defineExpose({
 </script>
 
 <template>
-    <div :class="noLabel ? 'mb-2' : 'mb-4'">
+    <div v-bind="attrs()" :class="cls('root', noLabel ? 'mb-2' : 'mb-4')">
         <InputLabel
             v-if="!noLabel && label"
-            :customClass="labelCustomClass"
+            :class="cls('label')"
             :for="checkboxId"
             :value="computedLabel"
             :sublabel="sublabel"
@@ -198,9 +216,9 @@ defineExpose({
             :tooltip="tooltip"
         />
 
-        <label class="flex items-center">
+        <label :class="cls('field', 'flex items-center')">
             <slot v-if="$slots?.leftDescription" name="leftDescription" />
-            <span v-else-if="leftDescription" class="mr-1">
+            <span v-else-if="leftDescription" :class="cls('description', 'mr-1')">
                 {{ leftDescription === true ? 'Disable' : leftDescription }}
             </span>
 
@@ -212,16 +230,20 @@ defineExpose({
                 :disabled="disabled"
                 :required="required"
                 :name="name || field"
-                class="text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 rounded border-gray-300 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50"
-                :class="{ [customClass]: customClass }"
+                :class="
+                    cls(
+                        'input',
+                        'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 rounded border-gray-300 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50'
+                    )
+                "
             />
 
             <slot v-if="$slots?.rightDescription" name="rightDescription" />
-            <span v-else-if="rightDescription" class="ml-1">
+            <span v-else-if="rightDescription" :class="cls('description', 'ml-1')">
                 {{ rightDescription === true ? 'Enable' : rightDescription }}
             </span>
         </label>
 
-        <InputError v-if="errorMessage" :message="errorMessage" class="mt-2" />
+        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
     </div>
 </template>

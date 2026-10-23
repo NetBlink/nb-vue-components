@@ -7,6 +7,15 @@
  * Binds either through `v-model` or the Inertia `:form` + `field` pattern, pulling
  * validation errors straight off `form.errors`. `TextInput` is the bare unstyled-chrome
  * `<input>` underneath, use it only when you are building your own field layout.
+ *
+ * @part root - the field wrapper (for textarea, switch and checkbox, that component's root)
+ * @part label - the `InputLabel`
+ * @part group - the row holding the input with its addon, buttons or password toggle
+ * @part input - the control itself
+ * @part addon - the leading addon text
+ * @part button - the submit and WhatsApp buttons
+ * @part toggle - the password show/hide button
+ * @part error - the `InputError`
  */
 import { computed, defineModel, type ModelRef } from 'vue';
 import { Textarea, Switch, Checkbox } from '../../index';
@@ -19,6 +28,9 @@ import { useFormIntegration } from '../../composables/useFormIntegration';
 import { useInputUtils } from '../../composables/useInputUtils';
 
 import type { InputProps, InputEmits } from './types';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(defineProps<InputProps>(), {
     type: 'text',
@@ -40,6 +52,22 @@ const props = withDefaults(defineProps<InputProps>(), {
 });
 
 const emit = defineEmits<InputEmits>();
+
+const { cls, attrs } = useUi('Input', props, {
+    aliases: { inputCustomClass: 'input', labelCustomClass: 'label', buttonCustomClass: 'button' },
+});
+
+// Textarea, Switch and Checkbox take this component's layer as their instance `ui`,
+// so their own `ui.Textarea` / `ui.Switch` / `ui.Checkbox` config still applies underneath.
+const childUi = () => ({
+    root: cls('root'),
+    label: cls('label'),
+    group: cls('group'),
+    input: cls('input'),
+    addon: cls('addon'),
+    button: cls('button'),
+    error: cls('error'),
+});
 
 const model: ModelRef<any> = defineModel();
 
@@ -79,6 +107,7 @@ defineExpose({
 <template>
     <Textarea
         v-if="inputType === 'textarea'"
+        v-bind="attrs()"
         :form="form"
         :field="field"
         :label="label"
@@ -95,9 +124,7 @@ defineExpose({
         :whats-app="whatsApp"
         :autocomplete="computedAutocomplete"
         :tooltip="tooltip"
-        :custom-class="inputCustomClass"
-        :label-custom-class="labelCustomClass"
-        :button-custom-class="buttonCustomClass"
+        :ui="childUi()"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -110,6 +137,7 @@ defineExpose({
 
     <Switch
         v-else-if="inputType === 'switch'"
+        v-bind="attrs()"
         :form="form"
         :field="field"
         :label="label"
@@ -121,8 +149,7 @@ defineExpose({
         :tooltip="tooltip"
         :left-description="leftDescription"
         :right-description="rightDescription"
-        :custom-class="inputCustomClass"
-        :label-custom-class="labelCustomClass"
+        :ui="childUi()"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -138,6 +165,7 @@ defineExpose({
 
     <Checkbox
         v-else-if="inputType === 'checkbox'"
+        v-bind="attrs()"
         :form="form"
         :field="field"
         :label="label"
@@ -149,8 +177,7 @@ defineExpose({
         :tooltip="tooltip"
         :left-description="leftDescription"
         :right-description="rightDescription"
-        :custom-class="inputCustomClass"
-        :label-custom-class="labelCustomClass"
+        :ui="childUi()"
         :error="error"
         :inputmode="inputmode"
         v-model="value"
@@ -173,7 +200,10 @@ defineExpose({
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
-        :label-custom-class="labelCustomClass"
+        v-bind="attrs()"
+        :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
+        :label-class="cls('label')"
+        :error-class="cls('error', 'mt-2')"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -183,7 +213,7 @@ defineExpose({
             :name="name"
             :required="required"
             :disabled="disabled"
-            :input-custom-class="inputCustomClass"
+            :cls="cls"
             :computed-name="computedName"
             v-model="value"
         >
@@ -200,7 +230,10 @@ defineExpose({
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
-        :label-custom-class="labelCustomClass"
+        v-bind="attrs()"
+        :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
+        :label-class="cls('label')"
+        :error-class="cls('error', 'mt-2')"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -215,7 +248,7 @@ defineExpose({
             :pattern="pattern"
             :autocomplete="autocomplete"
             :hide-password-toggler="hidePasswordToggler"
-            :input-custom-class="inputCustomClass"
+            :cls="cls"
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
             :display-type="displayType"
@@ -234,7 +267,10 @@ defineExpose({
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
-        :label-custom-class="labelCustomClass"
+        v-bind="attrs()"
+        :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
+        :label-class="cls('label')"
+        :error-class="cls('error', 'mt-2')"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -252,8 +288,7 @@ defineExpose({
             :max="max"
             :step="step"
             :autocomplete="autocomplete"
-            :input-custom-class="inputCustomClass"
-            :button-custom-class="buttonCustomClass"
+            :cls="cls"
             :addon="addon"
             :submit-btn="submitBtn"
             :whats-app="whatsApp"
@@ -279,7 +314,10 @@ defineExpose({
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
-        :label-custom-class="labelCustomClass"
+        v-bind="attrs()"
+        :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
+        :label-class="cls('label')"
+        :error-class="cls('error', 'mt-2')"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
         :form-error="formError"
@@ -297,7 +335,7 @@ defineExpose({
             :max="max"
             :step="step"
             :autocomplete="autocomplete"
-            :input-custom-class="inputCustomClass"
+            :cls="cls"
             :computed-name="computedName"
             :computed-autocomplete="computedAutocomplete"
             :inputmode="inputmode"

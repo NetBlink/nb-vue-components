@@ -4,15 +4,23 @@
  * `:form` + `field` pair) to form a group, selection is derived by comparing this
  * option's `value` against the bound field, and choosing it writes straight back to the
  * Inertia form. There is no wrapping fieldset or error display; add those yourself.
+ *
+ * @part root - the row wrapper
+ * @part input - the radio `<input>`
+ * @part label - the `<label>`
  */
 import { computed } from 'vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
 
-interface RadioButtonEmits {
+defineOptions({ inheritAttrs: false });
+
+export interface RadioButtonEmits {
     /** Emitted when the radio button value changes */
     'update:modelValue': [value: string];
 }
 
-interface RadioButtonProps {
+export interface RadioButtonProps {
     /** Unique identifier for the radio button */
     id?: string;
     /** Name attribute for grouping radio buttons */
@@ -32,6 +40,8 @@ interface RadioButtonProps {
     };
     /** Field name for form binding */
     field?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['RadioButton']>;
 }
 
 const emit = defineEmits<RadioButtonEmits>();
@@ -45,6 +55,8 @@ const props = withDefaults(defineProps<RadioButtonProps>(), {
     form: undefined,
     field: undefined,
 });
+
+const { cls, attrs } = useUi('RadioButton', props);
 
 /**
  * Handle radio button value change
@@ -72,7 +84,7 @@ const radioId = computed(() => {
 </script>
 
 <template>
-    <div class="flex items-center space-x-3">
+    <div v-bind="attrs()" :class="cls('root', 'flex items-center space-x-3')">
         <input
             :id="radioId"
             type="radio"
@@ -80,9 +92,14 @@ const radioId = computed(() => {
             :value="value"
             :checked="isSelected"
             @change="updateValue"
-            class="text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 h-4 w-4 border-gray-300 focus:ring-2 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800"
+            :class="
+                cls(
+                    'input',
+                    'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 h-4 w-4 border-gray-300 focus:ring-2 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800'
+                )
+            "
         />
-        <label :for="radioId" class="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-200">
+        <label :for="radioId" :class="cls('label', 'cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-200')">
             {{ label }}
         </label>
     </div>

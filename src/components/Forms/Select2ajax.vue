@@ -58,9 +58,16 @@ const props = defineProps({
     queryParams: {
         type: Object,
     },
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['Select2ajax']>>} */ (Object),
+        default: undefined,
+    },
 });
 
 const emit = defineEmits(['update:modelValue', 'changed']);
+
+const { cls, attrs } = useUi('Select2ajax', props);
 const list = ref([]);
 const page = ref(1);
 const canIncreasePage = ref(true);
@@ -162,6 +169,8 @@ defineExpose({ getCurrentOption });
 
 <template>
     <SearchSelect
+        v-bind="attrs()"
+        :ui="{ root: cls('root'), label: cls('label'), input: cls('input'), error: cls('error') }"
         :id="id"
         :label="label"
         :list="list"

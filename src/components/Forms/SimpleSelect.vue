@@ -14,10 +14,20 @@
  * @prop {boolean} noLabel - Whether to hide the label
  * @prop {string} tooltip - Tooltip text shown next to label
  * @prop {any} modelValue - Direct value binding (alternative to form/field)
+ * @prop {string} customClass - Deprecated, use `:ui="{ input: '...' }"`
+ * @part root - the wrapper `<div>`
+ * @part header - the row holding the label and tooltip
+ * @part label - the `InputLabel`
+ * @part input - the native `<select>`
+ * @part error - the `InputError`
  */
 
 import { computed } from 'vue';
 import { InputLabel, InputError, Tooltip } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 interface Option {
     value: any;
@@ -25,7 +35,7 @@ interface Option {
     disabled?: boolean;
 }
 
-interface SelectProps {
+export interface SimpleSelectProps {
     /** Form object containing field values and errors */
     form?: {
         [key: string]: any;
@@ -49,16 +59,18 @@ interface SelectProps {
     tooltip?: string;
     /** Direct value binding (alternative to form/field) */
     modelValue?: any;
-    /** Custom CSS classes */
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     customClass?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['SimpleSelect']>;
 }
 
-interface SelectEmits {
+export interface SimpleSelectEmits {
     /** Emitted when the select value changes */
     'update:modelValue': [value: any];
 }
 
-const props = withDefaults(defineProps<SelectProps>(), {
+const props = withDefaults(defineProps<SimpleSelectProps>(), {
     form: undefined,
     field: undefined,
     label: undefined,
@@ -71,7 +83,9 @@ const props = withDefaults(defineProps<SelectProps>(), {
     customClass: '',
 });
 
-const emit = defineEmits<SelectEmits>();
+const emit = defineEmits<SimpleSelectEmits>();
+
+const { cls, attrs } = useUi('SimpleSelect', props, { aliases: { customClass: 'input' } });
 
 // Computed value that works with both form/field and v-model patterns
 const value = computed({
@@ -115,10 +129,10 @@ const selectId = computed(() => props.field || `select-${Math.random().toString(
 </script>
 
 <template>
-    <div class="relative">
+    <div v-bind="attrs()" :class="cls('root', 'relative')">
         <!-- Label -->
-        <div v-if="!noLabel && (label || field)" class="mb-2 flex items-center gap-2">
-            <InputLabel :for="selectId" :value="labelText" :required="required" />
+        <div v-if="!noLabel && (label || field)" :class="cls('header', 'mb-2 flex items-center gap-2')">
+            <InputLabel :for="selectId" :value="labelText" :required="required" :class="cls('label')" />
             <Tooltip v-if="tooltip" :content="tooltip" />
         </div>
 
@@ -128,13 +142,15 @@ const selectId = computed(() => props.field || `select-${Math.random().toString(
             v-model="value"
             :required="required"
             :disabled="disabled"
-            class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500"
-            :class="[
-                customClass,
-                {
-                    'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
-                },
-            ]"
+            :class="
+                cls(
+                    'input',
+                    'focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500',
+                    {
+                        'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
+                    }
+                )
+            "
         >
             <!-- Placeholder option -->
             <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
@@ -146,6 +162,6 @@ const selectId = computed(() => props.field || `select-${Math.random().toString(
         </select>
 
         <!-- Error Message -->
-        <InputError v-if="errorMessage" :message="errorMessage" class="mt-1" />
+        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-1')" />
     </div>
 </template>

@@ -4,19 +4,21 @@
  */
 
 import { computed } from 'vue';
-import type { InputProps } from '../types';
+import { normalizeClass } from 'vue';
+import type { InputProps, InputPartResolver } from '../types';
 
 interface SelectInputProps extends Pick<InputProps, 
-    'field' | 'name' | 'required' | 'disabled' | 'inputCustomClass'
+    'field' | 'name' | 'required' | 'disabled'
 > {
     modelValue?: any;
     computedName?: string;
+    cls?: InputPartResolver;
 }
 
 const props = withDefaults(defineProps<SelectInputProps>(), {
     required: false,
     disabled: false,
-    inputCustomClass: '',
+    cls: (_part: string, ...defaults: unknown[]) => normalizeClass(defaults),
 });
 
 const emit = defineEmits<{
@@ -36,8 +38,12 @@ const model = computed({
         :required="required"
         :disabled="disabled"
         :name="computedName"
-        class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-        :class="{ [inputCustomClass]: !!inputCustomClass }"
+        :class="
+            cls(
+                'input',
+                'focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none'
+            )
+        "
     >
         <slot />
     </select>

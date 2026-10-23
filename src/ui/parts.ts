@@ -21,7 +21,7 @@ export interface NbParts {
     InputError: 'root' | 'message';
     TextInput: 'root';
     InputWrapper: 'root' | 'label' | 'error';
-    Input: 'root' | 'label' | 'input' | 'addon' | 'button' | 'toggle' | 'error';
+    Input: 'root' | 'label' | 'group' | 'input' | 'addon' | 'button' | 'toggle' | 'error';
     Textarea: 'root' | 'label' | 'group' | 'addon' | 'input' | 'button' | 'error';
     Switch: 'root' | 'label' | 'field' | 'description' | 'input' | 'thumb' | 'error';
     Checkbox: 'root' | 'label' | 'field' | 'description' | 'input' | 'error';

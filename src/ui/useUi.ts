@@ -38,7 +38,7 @@ export interface UseUiReturn<P extends string> {
     /** Attrs for the element that would have received fallthrough attrs, without `class`. */
     attrs: () => Record<string, unknown>;
     /** `data-nb-motion="off"` for elements rendered outside the root (portals). */
-    motionAttrs: () => Record<string, string | undefined>;
+    motionAttrs: () => Record<string, string>;
     /** A variant value from the app config, falling back to the built-in map. Normalised to classes per part. */
     variant: <K extends string>(prop: string, builtIn: Record<string, NbVariantValue<K>>, value: string | undefined, mainPart?: K) => Partial<Record<K, string>>;
     /** Effective motion level of this instance. */
@@ -82,7 +82,7 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
         return mergeLayers(config.merge, defaults, house, instance);
     };
 
-    const motionAttrs = () => ({ 'data-nb-motion': level.value === 'off' ? 'off' : undefined });
+    const motionAttrs = (): Record<string, string> => (level.value === 'off' ? { 'data-nb-motion': 'off' } : {});
 
     const attrs = () => {
         const { class: _class, motion: _motion, ...rest } = rawAttrs;

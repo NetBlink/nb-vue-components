@@ -3,6 +3,12 @@
  */
 
 import type { Ref, ComputedRef } from 'vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
+import type { NbClassValue } from '../../ui/merge';
+
+/** Internal: resolves one of Input's parts, handed to the input sub-components. */
+export type InputPartResolver = (part: NbParts['Input'], ...defaults: NbClassValue[]) => string;
 
 export interface InertiaForm {
     [key: string]: any;
@@ -37,10 +43,18 @@ export interface InputProps extends BaseInputProps {
     rows?: number;
 
     addon?: string;
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     inputCustomClass?: string;
+    /** Deprecated, never had an effect */
     checkboxCustomClass?: string;
+    /** Deprecated, use `:ui="{ button: '...' }"` */
     buttonCustomClass?: string;
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Input']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 
     submitBtn?: string;
     whatsApp?: string;

@@ -24,17 +24,29 @@
  * oldest of the select family and carries an external dependency, so prefer the in-house
  * `SearchSelect` for filterable single-choice fields and `Select2ajax` when the options
  * have to come from a server.
+ *
+ * @part root - the `vue-select` control
  */
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 const props = defineProps({
     options: Array,
     label: String,
     placeholder: String,
+    /** Classes per part, merged over the defaults */
+    ui: {
+        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['DropdownSearchbar']>>} */ (Object),
+        default: undefined,
+    },
 });
+
+const { cls, attrs } = useUi('DropdownSearchbar', props);
 </script>
 
 <template>
-    <VueSelect :options="options" :label="label" :placeholder="placeholder" class="min-w-44"></VueSelect>
+    <VueSelect v-bind="attrs()" :options="options" :label="label" :placeholder="placeholder" :class="cls('root', 'min-w-44')"></VueSelect>
 </template>

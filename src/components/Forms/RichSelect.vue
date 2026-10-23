@@ -27,11 +27,36 @@
  * @prop {string} optionValue - Property name for option value (default: 'value')
  * @prop {string} optionLabel - Property name for option label (default: 'label')
  * @prop {string} optionGroup - Property name for option group (default: 'group')
+ * @prop {string} customClass - Deprecated, use `:ui="{ trigger: '...' }"`
+ * @part root - the field wrapper (an `InputWrapper`)
+ * @part label - the `InputLabel`
+ * @part trigger - the button showing the current value
+ * @part tag - a selected value chip (multiple)
+ * @part tagButton - the remove button inside a chip
+ * @part value - the selected text or placeholder
+ * @part clear - the clear button
+ * @part icon - the chevron
+ * @part content - the dropdown panel
+ * @part search - the row around the search box
+ * @part searchIcon - the magnifier icon
+ * @part searchInput - the search `<input>`
+ * @part loading - the loading row
+ * @part list - the scrolling option list
+ * @part groupLabel - a group heading
+ * @part item - an option
+ * @part check - the tick on a selected option
+ * @part empty - the "No options found" row
+ * @part error - the `InputError`
  */
 
 import { computed, ref, watch, nextTick, onMounted } from 'vue';
 import { InputWrapper, Spinner } from '../../index';
 import NbIcon from '../../icons/NbIcon.vue';
+import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 interface SelectOption {
     [key: string]: any;
@@ -41,7 +66,7 @@ interface SelectOption {
     group?: string;
 }
 
-interface SelectProps {
+export interface RichSelectProps {
     /** Form object containing field values and errors */
     form?: {
         [key: string]: any;
@@ -91,11 +116,15 @@ interface SelectProps {
     optionLabel?: string;
     /** Property name for option group */
     optionGroup?: string;
-    /** Custom CSS classes */
+    /** Deprecated, use `:ui="{ trigger: '...' }"` */
     customClass?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['RichSelect']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
-interface SelectEmits {
+export interface RichSelectEmits {
     /** Emitted when the select value changes */
     'update:modelValue': [value: any];
     /** Emitted when search is performed */
@@ -104,7 +133,7 @@ interface SelectEmits {
     optionsLoaded: [options: SelectOption[]];
 }
 
-const props = withDefaults(defineProps<SelectProps>(), {
+const props = withDefaults(defineProps<RichSelectProps>(), {
     form: undefined,
     field: undefined,
     label: undefined,
@@ -131,7 +160,9 @@ const props = withDefaults(defineProps<SelectProps>(), {
     customClass: '',
 });
 
-const emit = defineEmits<SelectEmits>();
+const emit = defineEmits<RichSelectEmits>();
+
+const { cls, attrs } = useUi('RichSelect', props, { aliases: { customClass: 'trigger' } });
 
 // Local state
 const isOpen = ref(false);
@@ -141,6 +172,7 @@ const searchTimeout = ref<number | null>(null);
 const localOptions = ref<SelectOption[]>([...props.options]);
 const dropdownRef = ref<HTMLElement>();
 const searchInputRef = ref<HTMLInputElement>();
+const listRef = ref<HTMLElement>();
 
 // Computed value that works with both form/field and v-model patterns
 const value = computed({
@@ -372,6 +404,8 @@ onUnmounted(cleanup);
 
 <template>
     <InputWrapper
+        v-bind="attrs()"
+        :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="labelText"
         :tooltip="tooltip"
@@ -388,14 +422,16 @@ onUnmounted(cleanup);
                 :id="selectId"
                 @click="toggleDropdown"
                 :disabled="disabled"
-                class="focusable focus:border-primary-500 focus:ring-primary-500 relative w-full cursor-pointer rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left text-gray-900 shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500"
-                :class="[
-                    customClass,
-                    {
-                        'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
-                        'border-primary-500 ring-primary-500 ring-2': isOpen,
-                    },
-                ]"
+                :class="
+                    cls(
+                        'trigger',
+                        'focusable focus:border-primary-500 focus:ring-primary-500 relative w-full cursor-pointer rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left text-gray-900 shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500',
+                        {
+                            'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
+                            'border-primary-500 ring-primary-500 ring-2': isOpen,
+                        }
+                    )
+                "
             >
                 <div class="flex flex-wrap gap-1">
                     <!-- Multiple selection tags -->
@@ -403,17 +439,17 @@ onUnmounted(cleanup);
                         <span
                             v-for="option in selectedOptions"
                             :key="getOptionValue(option)"
-                            class="bg-primary-100 text-primary-800 inline-flex items-center gap-1 rounded px-2 py-1 text-xs dark:bg-primary-900/50 dark:text-primary-100"
+                            :class="cls('tag', 'bg-primary-100 text-primary-800 inline-flex items-center gap-1 rounded px-2 py-1 text-xs dark:bg-primary-900/50 dark:text-primary-100')"
                         >
                             {{ getOptionLabel(option) }}
-                            <button type="button" @click="removeOption(option, $event)" class="hover:text-primary-600 transition-colors">
+                            <button type="button" @click="removeOption(option, $event)" :class="cls('tagButton', 'hover:text-primary-600 transition-colors')">
                                 <NbIcon name="$close" class="h-3 w-3" />
                             </button>
                         </span>
                     </template>
 
                     <!-- Single selection or placeholder -->
-                    <span v-else class="block truncate" :class="{ 'text-gray-500 dark:text-gray-400': !selectedOptions.length }">
+                    <span v-else :class="cls('value', 'block truncate', { 'text-gray-500 dark:text-gray-400': !selectedOptions.length })">
                         {{ displayText }}
                     </span>
                 </div>
@@ -423,7 +459,7 @@ onUnmounted(cleanup);
                     v-if="clearable && selectedOptions.length"
                     type="button"
                     @click="clearSelection"
-                    class="absolute inset-y-0 right-8 flex items-center pr-2 text-gray-400 transition-colors hover:text-gray-600"
+                    :class="cls('clear', 'absolute inset-y-0 right-8 flex items-center pr-2 text-gray-400 transition-colors hover:text-gray-600')"
                 >
                     <NbIcon name="$close" class="h-4 w-4" />
                 </button>
@@ -432,8 +468,7 @@ onUnmounted(cleanup);
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <NbIcon
                         name="$expand"
-                        class="h-4 w-4 text-gray-400 transition-transform duration-200"
-                        :class="{ 'rotate-180': isOpen }"
+                        :class="cls('icon', 'h-4 w-4 text-gray-400 transition-transform duration-200', { 'rotate-180': isOpen })"
                     />
                 </div>
             </button>
@@ -449,36 +484,46 @@ onUnmounted(cleanup);
             >
                 <div
                     v-show="isOpen"
-                    class="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/40"
+                    :class="
+                        cls(
+                            'content',
+                            'absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:shadow-black/40'
+                        )
+                    "
                 >
                     <!-- Search input -->
-                    <div v-if="searchable" class="border-b border-gray-200 dark:border-gray-700 p-2">
+                    <div v-if="searchable" :class="cls('search', 'border-b border-gray-200 dark:border-gray-700 p-2')">
                         <div class="relative">
-                            <NbIcon name="$search" class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                            <NbIcon name="$search" :class="cls('searchIcon', 'absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400')" />
                             <input
                                 ref="searchInputRef"
                                 type="text"
                                 v-model="searchQuery"
                                 @input="handleSearch(searchQuery)"
                                 placeholder="Search options..."
-                                class="focusable focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 m-0 block w-full rounded-md border-gray-300 py-2 pr-3 pl-10 text-sm shadow dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500"
+                                :class="
+                                    cls(
+                                        'searchInput',
+                                        'focusable focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-400 dark:focus:ring-primary-400 m-0 block w-full rounded-md border-gray-300 py-2 pr-3 pl-10 text-sm shadow dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder:text-gray-500'
+                                    )
+                                "
                             />
                         </div>
                     </div>
 
                     <!-- Loading state -->
-                    <div v-if="isLoading" class="flex items-center justify-center p-4">
-                        <Spinner class="h-5 w-5" />
+                    <div v-if="isLoading" :class="cls('loading', 'flex items-center justify-center p-4')">
+                        <Spinner />
                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">Loading...</span>
                     </div>
 
                     <!-- Options -->
-                    <div v-else class="max-h-60 overflow-auto">
+                    <div v-else ref="listRef" :class="cls('list', 'max-h-60 overflow-auto')">
                         <template v-if="grouping">
                             <div v-for="(groupOptions, groupName) in groupedOptions" :key="groupName">
                                 <div
                                     v-if="groupName !== 'ungrouped'"
-                                    class="bg-gray-50 dark:bg-gray-900/40 px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase"
+                                    :class="cls('groupLabel', 'bg-gray-50 dark:bg-gray-900/40 px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase')"
                                 >
                                     {{ groupName }}
                                 </div>
@@ -488,14 +533,15 @@ onUnmounted(cleanup);
                                     type="button"
                                     @click="toggleOption(option)"
                                     :disabled="option.disabled"
-                                    class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-                                    :class="{
-                                        'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
-                                        'text-gray-900 dark:text-gray-100': !isSelected(option),
-                                    }"
+                                    :class="
+                                        cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', {
+                                            'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
+                                            'text-gray-900 dark:text-gray-100': !isSelected(option),
+                                        })
+                                    "
                                 >
                                     <span class="block truncate">{{ getOptionLabel(option) }}</span>
-                                    <span v-if="isSelected(option)" class="text-primary-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                                    <span v-if="isSelected(option)" :class="cls('check', 'text-primary-600 absolute inset-y-0 right-0 flex items-center pr-4')">
                                         ✓
                                     </span>
                                 </button>
@@ -510,19 +556,20 @@ onUnmounted(cleanup);
                                 type="button"
                                 @click="toggleOption(option)"
                                 :disabled="option.disabled"
-                                class="relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-                                :class="{
-                                    'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
-                                    'text-gray-900 dark:text-gray-100': !isSelected(option),
-                                }"
+                                :class="
+                                    cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', {
+                                        'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
+                                        'text-gray-900 dark:text-gray-100': !isSelected(option),
+                                    })
+                                "
                             >
                                 <span class="block truncate">{{ getOptionLabel(option) }}</span>
-                                <span v-if="isSelected(option)" class="text-primary-600 absolute inset-y-0 right-0 flex items-center pr-4">✓</span>
+                                <span v-if="isSelected(option)" :class="cls('check', 'text-primary-600 absolute inset-y-0 right-0 flex items-center pr-4')">✓</span>
                             </button>
                         </template>
 
                         <!-- No options message -->
-                        <div v-if="!filteredOptions.length" class="px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400">No options found</div>
+                        <div v-if="!filteredOptions.length" :class="cls('empty', 'px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400')">No options found</div>
                     </div>
                 </div>
             </transition>

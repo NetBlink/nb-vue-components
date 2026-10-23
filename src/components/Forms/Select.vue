@@ -19,13 +19,22 @@
  * @prop {any} modelValue - Direct value binding (alternative to form/field)
  * @prop {string} name - Name attribute for the select element
  * @prop {string} sublabel - Sub-label text
- * @prop {string} customClass - Custom CSS classes for the select element
- * @prop {string} labelCustomClass - Custom CSS classes for the label
+ * @prop {string} customClass - Deprecated, use `:ui="{ input: '...' }"`
+ * @prop {string} labelCustomClass - Deprecated, use `:ui="{ label: '...' }"`
  * @prop {string} error - Custom error message
+ * @part root - the field wrapper (an `InputWrapper`)
+ * @part label - the `InputLabel`
+ * @part input - the native `<select>`
+ * @part placeholder - the disabled placeholder `<option>`
+ * @part error - the `InputError`
  */
 
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputWrapper } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
+import { useUi } from '../../ui/useUi';
+
+defineOptions({ inheritAttrs: false });
 
 interface SelectOption {
     value: any;
@@ -33,7 +42,7 @@ interface SelectOption {
     disabled?: boolean;
 }
 
-interface SelectProps {
+export interface SelectProps {
     /** Form object containing field values and errors */
     form?: {
         [key: string]: any;
@@ -61,15 +70,17 @@ interface SelectProps {
     name?: string;
     /** Sub-label text */
     sublabel?: string;
-    /** Custom CSS classes for the select */
+    /** Deprecated, use `:ui="{ input: '...' }"` */
     customClass?: string;
-    /** Custom CSS classes for the label */
+    /** Deprecated, use `:ui="{ label: '...' }"` */
     labelCustomClass?: string;
     /** Custom error message */
     error?: string;
+    /** Classes per part, merged over the defaults */
+    ui?: UiProp<NbParts['Select']>;
 }
 
-interface SelectEmits {
+export interface SelectEmits {
     /** Emitted when the select value changes */
     (e: 'update:modelValue', value: any): void;
     /** Emitted when value changes with old and new values */
@@ -87,6 +98,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
 });
 
 const emit = defineEmits<SelectEmits>();
+
+const { cls, attrs } = useUi('Select', props, { aliases: { customClass: 'input', labelCustomClass: 'label' } });
 
 // Utility function to convert field names to proper case
 function ucwords(text: string): string {
@@ -196,13 +209,14 @@ defineExpose({
 
 <template>
     <InputWrapper
+        v-bind="attrs()"
+        :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="computedLabel"
         :sublabel="sublabel"
         :tooltip="tooltip"
         :required="required"
         :noLabel="noLabel"
-        :labelCustomClass="labelCustomClass"
         :form="form"
         :error="errorMessage"
         :htmlFor="field"
@@ -213,11 +227,15 @@ defineExpose({
             :required="required"
             :disabled="disabled"
             :name="name || field"
-            class="focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500 dark:[&>option]:bg-gray-800 dark:[&>option]:text-gray-100"
-            :class="customClass"
+            :class="
+                cls(
+                    'input',
+                    'focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border-gray-300 px-3 py-2 shadow disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500 dark:[&>option]:bg-gray-800 dark:[&>option]:text-gray-100'
+                )
+            "
         >
             <!-- Placeholder option -->
-            <option v-if="placeholder" value="" disabled :selected="!value" class="text-gray-500 dark:text-gray-400">
+            <option v-if="placeholder" value="" disabled :selected="!value" :class="cls('placeholder', 'text-gray-500 dark:text-gray-400')">
                 {{ placeholder }}
             </option>
 
