@@ -112,7 +112,7 @@ const snippet = [
     '            placeholder="Write a message…"',
     '            class="focusable min-w-0 flex-1 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100"',
     '        />',
-    '        <PrimaryButton type="submit" :disabled="!draft.trim()" custom-button-class="rounded-full!">',
+    '        <PrimaryButton type="submit" :disabled="!draft.trim()" class="rounded-full">',
     '            <NbIcon :name="faPaperPlane" size="sm" />',
     '        </PrimaryButton>',
     '    </form>',
@@ -197,7 +197,7 @@ const snippet = [
                             placeholder="Write a message…"
                             class="focusable min-w-0 flex-1 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 placeholder-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500"
                         />
-                        <PrimaryButton type="submit" :disabled="!draft.trim()" custom-button-class="rounded-full!">
+                        <PrimaryButton type="submit" :disabled="!draft.trim()" class="rounded-full">
                             <NbIcon :name="faPaperPlane" size="sm" />
                         </PrimaryButton>
                     </form>

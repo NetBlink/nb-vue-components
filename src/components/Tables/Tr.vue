@@ -30,10 +30,12 @@ const VARIANTS: Record<string, string> = {
     info: 'border-blue-200 bg-blue-50',
 };
 
-const emit = defineEmits<{
+export interface TrEmits {
     click: [event: MouseEvent];
     select: [selected: boolean];
-}>();
+}
+
+const emit = defineEmits<TrEmits>();
 
 const handleClick = (event: MouseEvent) => {
     if (props.selectable) {

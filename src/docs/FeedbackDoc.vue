@@ -131,8 +131,8 @@ const tooltipProps = [
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the tooltip entirely (trigger still renders)' },
     { prop: 'sideOffset', type: 'number', default: '4', description: 'Pixel offset between trigger and tooltip' },
     { prop: 'collisionPadding', type: 'number', default: '8', description: 'Pixels of padding to keep from the viewport edge' },
-    { prop: 'contentClass', type: 'string', default: "''", description: 'Extra classes for the tooltip bubble' },
-    { prop: 'arrowClass', type: 'string', default: "''", description: 'Extra classes for the arrow' },
+    { prop: 'contentClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'arrowClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 

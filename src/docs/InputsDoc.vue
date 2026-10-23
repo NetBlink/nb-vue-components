@@ -170,10 +170,10 @@ const inputProps = [
     { prop: 'leftDescription', type: 'string | boolean', default: 'false', description: 'Text on the left of checkbox/switch types' },
     { prop: 'rightDescription', type: 'string | boolean', default: "'Enable'", description: 'Text on the right of checkbox/switch types' },
     { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
-    { prop: 'inputCustomClass', type: 'string', default: "''", description: 'Extra classes for the input element (also forwarded as customClass to textarea/switch/checkbox types)' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
-    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Extra classes for the submit/WhatsApp action buttons' },
-    { prop: 'checkboxCustomClass', type: 'string', default: "''", description: 'Accepted but not currently used - use inputCustomClass for type="checkbox"' },
+    { prop: 'inputCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'checkboxCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
     { prop: 'switchDescription', type: 'string', default: '-', description: 'Accepted but not currently used - use leftDescription/rightDescription' },
 ];
 
@@ -193,8 +193,8 @@ const checkboxProps = [
     { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
     { prop: 'id', type: 'string', default: '-', description: 'Input id attribute (auto-generated when omitted)' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
-    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the checkbox input' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
     { prop: 'checked', type: 'boolean | any[]', default: 'false', description: 'Legacy - kept for backward compatibility. Prefer v-model or form/field' },
 ];
 
@@ -212,8 +212,8 @@ const switchProps = [
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark field as required' },
     { prop: 'name', type: 'string', default: '-', description: 'Input name attribute (falls back to field)' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
-    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the switch track' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const textareaProps = [
@@ -235,9 +235,9 @@ const textareaProps = [
     { prop: 'whatsApp', type: 'string', default: '-', description: 'Renders a WhatsApp action button bound to this number' },
     { prop: 'name', type: 'string', default: '-', description: 'Textarea name attribute' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
-    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the textarea element' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
-    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Extra classes for the submit/WhatsApp action buttons' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'buttonCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const radioProps = [
@@ -265,8 +265,8 @@ const selectProps = [
     { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
     { prop: 'name', type: 'string', default: '-', description: 'Select name attribute' },
     { prop: 'error', type: 'string', default: '-', description: 'Override error message' },
-    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the select element' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const richSelectProps = [
@@ -488,7 +488,7 @@ const inputLabelProps = [
     { prop: 'sublabel', type: 'string', default: '-', description: 'Smaller grey text after the label' },
     { prop: 'required', type: 'boolean', default: '-', description: 'Append a red asterisk' },
     { prop: 'tooltip', type: 'string', default: '-', description: 'Show a help icon with this tooltip text' },
-    { prop: 'customClass', type: 'string', default: '-', description: 'Extra classes for the <label>' },
+    { prop: 'customClass', type: 'string', default: '-', description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const inputErrorProps = [
@@ -502,7 +502,7 @@ const inputWrapperProps = [
     { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'Append a red asterisk to the label' },
     { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label' },
-    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Extra classes for the label' },
+    { prop: 'labelCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
     { prop: 'form', type: 'InertiaForm', default: '-', description: 'Form object; the error is read from form.errors[field]' },
     { prop: 'error', type: 'string', default: '-', description: 'Error message (overrides the form error)' },
     { prop: 'htmlFor', type: 'string', default: '-', description: 'Label `for` attribute (defaults to field)' },
@@ -522,7 +522,7 @@ const fileDropZoneInputProps = [
     { prop: 'label', type: 'string', default: '-', description: 'Label text displayed above the drop area' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'Mark the field as required' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the drop zone' },
-    { prop: 'FileDropCustomClass', type: 'string', default: '-', description: 'Extra CSS classes applied to the drop area container' },
+    { prop: 'FileDropCustomClass', type: 'string', default: '-', description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const imagesProps = [
@@ -544,7 +544,7 @@ const simpleSelectProps = [
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the select' },
     { prop: 'noLabel', type: 'boolean', default: 'false', description: 'Hide the label block' },
     { prop: 'tooltip', type: 'string', default: '-', description: 'Tooltip rendered next to the label' },
-    { prop: 'customClass', type: 'string', default: "''", description: 'Extra classes for the select element' },
+    { prop: 'customClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const searchSelectProps = [

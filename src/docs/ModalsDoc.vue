@@ -112,8 +112,8 @@ const modalProps = [
     { prop: 'resizable', type: 'boolean', default: 'false', description: 'Render edge/corner handles so the user can resize the modal' },
     { prop: 'backdropDuration', type: 'number', default: '200', description: 'Backdrop fade duration in ms' },
     { prop: 'modalDuration', type: 'number', default: '200', description: 'Modal enter/leave duration in ms' },
-    { prop: 'modalCustomClass', type: 'string', default: "''", description: 'Extra classes for the modal panel' },
-    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Extra classes for the backdrop' },
+    { prop: 'modalCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const modalEvents = [
@@ -135,7 +135,7 @@ const newModalProps = [
     { prop: 'padded', type: 'boolean', default: 'true', description: 'Built-in panel padding. false when the slot brings its own' },
     { prop: 'backdropDuration', type: 'number', default: '-', description: 'Backdrop animation duration in ms (defaults to the theme motion tokens)' },
     { prop: 'modalDuration', type: 'number', default: '-', description: 'Panel animation duration in ms (defaults to the theme motion tokens)' },
-    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Extra classes for the backdrop. Panel classes go on class' },
+    { prop: 'backdropCustomClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const newModalEvents = [
@@ -158,7 +158,7 @@ const migrationRows = [
     { prop: ':show + @close', type: 'same', default: '-', description: 'Works as-is. v-model:open is the idiomatic form for new code' },
     { prop: 'maxWidth, closeable, hideOverflow, showBorder, resizable', type: 'same', default: '-', description: 'Same names and values' },
     { prop: 'backdropDuration, modalDuration, backdropCustomClass', type: 'same', default: '-', description: 'Same names and values' },
-    { prop: 'modalCustomClass', type: 'renamed', default: '-', description: 'Use class, it lands on the panel' },
+    { prop: 'modalCustomClass', type: 'renamed', default: '-', description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
     { prop: 'alignCenter', type: 'removed', default: '-', description: 'Centred is the default. Where alignCenter was absent, add align-top to keep the old position' },
     { prop: 'own padding in the slot', type: 'new prop', default: '-', description: 'Add :padded="false" so it is not padded twice' },
 ];

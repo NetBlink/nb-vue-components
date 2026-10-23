@@ -93,7 +93,12 @@ const props = withDefaults(defineProps<NewModalProps>(), {
     backdropCustomClass: '',
 });
 
-const emit = defineEmits<{ close: []; 'update:show': [value: boolean] }>();
+export interface NewModalEmits {
+    close: [];
+    'update:show': [value: boolean];
+}
+
+const emit = defineEmits<NewModalEmits>();
 const { cls, attrs, motionAttrs, anim, level } = useUi('NewModal', props, { classPart: 'content', aliases: { backdropCustomClass: 'overlay' } });
 const slots = useSlots();
 

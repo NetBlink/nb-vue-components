@@ -110,12 +110,36 @@ Colours are Tailwind v4 `@theme` tokens. Override the numeric steps to re-brand 
 
 The docs site has a theme builder that generates a full scale from one anchor colour.
 
+## Styling and motion
+
+Every component takes `class` for its root and `:ui` for its named parts. Your classes are merged
+with tailwind-merge, so a clashing default is replaced rather than fighting it with `!`:
+
+```vue
+<Input field="email" class="mb-8" :ui="{ label: 'text-xs uppercase', input: 'bg-gray-50' }" />
+```
+
+House styles, extra variant values and the motion level go in the plugin options:
+
+```js
+app.use(Componentsnb, {
+    ui: { Input: { input: 'border-gray-300 shadow-sm' }, SubmitButton: { root: 'rounded-full' } },
+    variants: { Button: { theme: { brand: 'bg-violet-600 text-white hover:bg-violet-700' } } },
+    motion: { level: 'smooth' }, // 'off' | 'simple' | 'smooth' | 'fancy'
+});
+```
+
+`useMotion()` lets end users pick a level at runtime; the choice persists across reloads. The
+Customizing page in the docs covers precedence, typed variants, your own Tailwind tokens, the
+wrapper pattern and migrating from the 3.x `customClass`-style props, and every component page
+lists its parts and its motion per level.
+
 ## Using this with an LLM
 
 Two files ship inside the package and describe the whole library in markdown:
 
 - `llms.txt` covers setup, conventions and an index of every component and block
-- `llms-full.txt` adds props, defaults, slots and emits for all 72 components
+- `llms-full.txt` adds props, defaults, slots, emits, parts and motion for all 73 components
 
 After `npm install` they sit in `node_modules/@netblink/vue-components/`, so an assistant working
 in your project can read them directly. Nothing to install or run:

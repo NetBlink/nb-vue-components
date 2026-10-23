@@ -49,11 +49,13 @@ const tableProps = computed(() => {
     return rest;
 });
 
-const emit = defineEmits<{
+export interface EnhancedTableEmits {
     'row-click': [row: TableRow, index: number];
     'selection-change': [selected: TableRow[]];
     'sort': [column: string, direction: 'asc' | 'desc'];
-}>();
+}
+
+const emit = defineEmits<EnhancedTableEmits>();
 
 const table = useTable({
     sortable: props.sortable,

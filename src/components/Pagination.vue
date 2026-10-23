@@ -57,9 +57,11 @@ export interface PaginationProps {
     motion?: MotionLevel;
 }
 
-const emit = defineEmits<{
+export interface PaginationEmits {
     change: [url: string];
-}>();
+}
+
+const emit = defineEmits<PaginationEmits>();
 
 const props = withDefaults(defineProps<PaginationProps>(), {
     linkReturn: false,

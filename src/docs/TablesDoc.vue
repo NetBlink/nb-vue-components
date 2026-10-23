@@ -84,9 +84,9 @@ const paginationProps = [
     { prop: 'only', type: 'string[]', default: '[]', description: 'Forwarded to Inertia Link (partial reload property names)' },
     { prop: 'showPerPage', type: 'boolean', default: 'false', description: 'Render a per-page selector with options [10, 25, 50, 100, 250]' },
     { prop: 'defaultPerPage', type: 'number', default: '100', description: 'Initial value for the per-page selector' },
-    { prop: 'customLinkClass', type: 'string', default: "''", description: 'Extra classes on each link' },
-    { prop: 'customActiveLinkClass', type: 'string', default: "''", description: 'Extra classes on the active link' },
-    { prop: 'customListClass', type: 'string', default: "''", description: 'Extra classes on the <ul>' },
+    { prop: 'customLinkClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customActiveLinkClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customListClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const paginationEvents = [

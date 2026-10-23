@@ -1,5 +1,36 @@
 # Changelog - Vue Component Library
 
+## [4.0.0-beta.0] - unreleased
+
+### Breaking
+- Instance classes are now merged with tailwind-merge instead of appended. A class you pass (through `class`, `:ui` or a deprecated override prop) removes the library default it clashes with; defaults that don't clash stay. Pages that relied on a default winning a clash over their own class will look different, and `!` markers added only to beat a default can go.
+- Every component sets `inheritAttrs: false` and binds attrs itself, so `class` can be merged. Where 3.x put `class` on two elements it now lands on one: `DropdownLink` (the link only) and `Collapse` (the trigger button only). `class` now reaches elements that silently dropped it in 3.x: the `Tooltip` bubble, the `Modal` panel and the `Images` upload form.
+- Animation classes changed with the new motion levels (see Added): overlays, collapsing content and toasts pick their enter and leave classes from the open state instead of `data-[state=*]:animate-*` variants, and `Tabs` draws the active marker with a sliding indicator element once mounted. Static styling with no app config is unchanged.
+- `tailwind-merge` is a new runtime dependency.
+
+### Added
+- `:ui` prop on every component, typed per component, for classes on named parts. Each component documents its parts, and which part receives `class`, with `@part` tags.
+- Plugin options `ui` (house styles per component and part), `variants` (new or redefined values for Button `theme`/`size`, LinkButton `theme`, Alert `type`, DataTile `theme`, Spinner `size`, Tr `variant`, Section `variant`, Tabs `variant`, Toast `type`) and `twMerge` (teach the merger your own `@theme` tokens). Variant prop types are augmentable interfaces (`ButtonThemes`, `ButtonSizes`, `AlertTypes`, `DataTileThemes`, `SpinnerSizes`, `TrVariants`, `SectionVariants`, `TabsVariants`).
+- Motion levels `off`, `simple`, `smooth` (default) and `fancy`: plugin option `motion` (global level, per-component pins and per-level animation class overrides, `respectReducedMotion`), a `motion` prop on animated components, and `useMotion()` for a persisted end-user choice that also caps every component. OS reduced motion caps at `simple` unless the user chose a level in the app.
+- Exit animations for Dropdown, LinkDropdownButton and Tooltip; height animation for field errors and for NewModal content that grows or shrinks; a sliding Tabs indicator; SubmitButton cross-fades into its spinner; `fancy` adds a NewModal that grows out of the element that opened it, spring timings, and reflow for Tbody rows and RichSelect options.
+- New theme tokens: `--duration-slow`, `--ease-spring` and the `animate-*` tokens the levels use. A `data-nb-motion="off"` rule in theme.css makes hover and focus transitions instant at `off`.
+- Exported props and emits types for every component (`ButtonProps`, `InputProps`, `NewModalProps`, `NewModalEmits`, ...) and the styling types (`NbStyleOptions`, `UiProp`, `NbParts`, `MotionLevel`, ...).
+- Docs: a Customizing page, generated Parts and Motion tables on every component page, and a motion switcher next to the dark-mode toggle. `llms-full.txt` lists parts and motion per component.
+
+### Deprecated
+These still work, warn once each in development, and are removed in 5.0. `scripts/v4-rename-map.json` in the repository maps each one to its part.
+- `customClass` on Button, Danger/Warning/Info/Success/SecondaryButton and InputLabel: use `class`.
+- `customButtonClass` on PrimaryButton and SubmitButton: use `class`.
+- `colourClasses` on LinkButton: use `theme="no-style"` plus `class` (it still replaces the theme classes while deprecated).
+- Input `inputCustomClass`, `labelCustomClass`, `buttonCustomClass`: use `:ui` `input`, `label`, `button`. `checkboxCustomClass` never had an effect.
+- Textarea, Switch, Checkbox, Select `customClass` / `labelCustomClass` (and Textarea `buttonCustomClass`): use `:ui` `input`, `label`, `button`. SimpleSelect `customClass`: `:ui` `input`. RichSelect `customClass`: `:ui` `trigger`. InputWrapper `labelCustomClass`: `:ui` `label`. FileDropZoneInput `FileDropCustomClass`: `:ui` `zone`.
+- NewModal `backdropCustomClass`: `:ui` `overlay`. Modal `modalCustomClass`: `class`; `backdropCustomClass`: `:ui` `overlay`.
+- Tooltip `contentClass`: `class`; `arrowClass`: `:ui` `arrow`.
+- Pagination `customListClass`, `customLinkClass`, `customActiveLinkClass`: `:ui` `list`, `link` (and `disabledLink`), `activeLink`.
+- Stats `customContainerClass`, `customStatClass`, `customStatValueClass`, `customStatLabelClass`: `class`, `:ui` `stat`, `value`, `label`.
+- DataTile `customStatClass`, `customStatValueClass`, `customStatLabelClass`: `class`, `:ui` `value`, `label`.
+- `Modal` remains deprecated in favour of `NewModal`, and is still usable in 4.x.
+
 ## [3.2.1] - 2026-10-23
 
 ### Fixed

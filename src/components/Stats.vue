@@ -53,9 +53,11 @@ export interface StatsProps {
     motion?: MotionLevel;
 }
 
-const emit = defineEmits<{
+export interface StatsEmits {
     updateSearch: [status: string | null];
-}>();
+}
+
+const emit = defineEmits<StatsEmits>();
 
 const props = withDefaults(defineProps<StatsProps>(), {
     statusName: null,

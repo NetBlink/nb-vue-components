@@ -29,8 +29,8 @@ const linkButtonExamples = [
     '<!-- Disabled state -->',
     '<LinkButton href="/disabled" theme="danger" disabled>Disabled</LinkButton>',
     '',
-    '<!-- Legacy colourClasses (still supported) -->',
-    '<LinkButton href="/custom" :colourClasses="[\'bg-purple-600\', \'text-white\']">Custom</LinkButton>',
+    '<!-- Your own styling: no-style drops the base classes, class adds yours -->',
+    '<LinkButton href="/custom" theme="no-style" class="rounded bg-purple-600 px-2 text-white">Custom</LinkButton>',
     '',
     '<!-- With Inertia method and data -->',
     '<LinkButton href="/logout" method="post" theme="danger">Logout</LinkButton>',
@@ -69,7 +69,7 @@ const submitButtonExamples = [
 const linkButtonProps = [
     { prop: 'href', type: 'string', default: '-', description: 'URL the link points to (renders as `<a>`, or as Inertia `<Link>` when method or data is set)' },
     { prop: 'theme', type: 'ComponentTheme', default: "'primary'", description: 'primary | secondary | success | danger | warning | info | no-style' },
-    { prop: 'colourClasses', type: 'string[]', default: 'undefined', description: 'Legacy escape hatch - when set, replaces theme styling entirely' },
+    { prop: 'colourClasses', type: 'string[]', default: 'undefined', description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the link (prevents click and removes tab focus)' },
     { prop: 'target', type: 'string', default: "'_self'", description: 'Anchor target attribute (ignored when rendering as Inertia Link)' },
     { prop: 'method', type: 'string', default: '-', description: 'HTTP method for Inertia requests (get, post, put, patch, delete)' },
@@ -80,7 +80,7 @@ const buttonProps = [
     { prop: 'type', type: "'button' | 'submit' | 'reset'", default: "'submit'", description: 'HTML button type attribute' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the button' },
     { prop: 'size', type: "'xs' | 'sm' | 'md' | 'lg'", default: "'md'", description: 'Button size' },
-    { prop: 'customButtonClass', type: 'string', default: "''", description: 'Extra classes applied to the underlying <button> element' },
+    { prop: 'customButtonClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const submitButtonProps = [
@@ -90,7 +90,7 @@ const submitButtonProps = [
     { prop: 'type', type: "'button' | 'submit' | 'reset'", default: "'submit'", description: 'HTML button type attribute' },
     { prop: 'disabled', type: 'boolean', default: 'false', description: 'Disable the button (also disabled while form is processing / loading)' },
     { prop: 'size', type: "'xs' | 'sm' | 'md' | 'lg'", default: "'md'", description: 'Button size' },
-    { prop: 'customButtonClass', type: 'string', default: "''", description: 'Extra classes applied to the underlying <button> element' },
+    { prop: 'customButtonClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 </script>

@@ -125,10 +125,10 @@ const gravatarProps = [
 const statsProps = [
     { prop: 'stats', type: 'StatItem[]', default: '-', description: 'Each item is `{ name, value, label? }` - `label` falls back to `name` for display', required: true },
     { prop: 'statusName', type: 'string | null', default: 'null', description: 'Name of the URL query parameter used to determine the selected stat' },
-    { prop: 'customContainerClass', type: 'string', default: "''", description: 'Extra classes on the outer grid' },
-    { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on each stat card' },
-    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Extra classes on each stat value' },
-    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Extra classes on each stat label' },
+    { prop: 'customContainerClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customStatClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 const statsEvents = [
@@ -142,9 +142,9 @@ const dataTileProps = [
     { prop: 'icon', type: 'IconProp', default: '-', description: 'FontAwesome icon shown in the background of the value area' },
     { prop: 'theme', type: 'ComponentTheme', default: "'primary'", description: 'primary | secondary | success | danger | warning' },
     { prop: 'selected', type: 'boolean', default: 'false', description: 'Adds a ring outline to indicate the tile is currently active' },
-    { prop: 'customStatClass', type: 'string', default: "''", description: 'Extra classes on the outer card' },
-    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Extra classes on the value section' },
-    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Extra classes on the label section' },
+    { prop: 'customStatClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customStatValueClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
+    { prop: 'customStatLabelClass', type: 'string', default: "''", description: 'Deprecated, removed in 5.0. Use class or :ui (see Parts and motion below)' },
 ];
 
 

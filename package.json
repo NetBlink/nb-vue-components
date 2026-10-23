@@ -1,6 +1,6 @@
 {
     "name": "@netblink/vue-components",
-    "version": "3.2.1",
+    "version": "4.0.0-beta.0",
     "description": "",
     "type": "module",
     "main": "dist/nb-vue-components.es.js",

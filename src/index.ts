@@ -253,3 +253,83 @@ export type { AliasName, IconLike, IconSet, NbIconsOptions, RawSvg, SetPrefixed 
 
 // Styling, variants and motion - v4.0.0
 export * from './ui';
+
+// Props and emits types, for typed wrappers (see the Customizing docs page).
+export type { AlertProps, AlertEmits } from './components/Alert.vue';
+export type { ButtonProps } from './components/Button.vue';
+export type { CodePreviewProps } from './components/CodePreview.vue';
+export type { CollapsableSectionProps } from './components/CollapsableSection.vue';
+export type { CollapseProps } from './components/Collapse.vue';
+export type { DangerButtonProps } from './components/DangerButton.vue';
+export type { DataTileProps } from './components/DataTile.vue';
+export type { DescriptionListProps } from './components/DescriptionList.vue';
+export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
+export type { DropdownProps } from './components/Dropdown.vue';
+export type { DropdownLinkProps } from './components/DropdownLink.vue';
+export type { DropdownSeparatorProps } from './components/DropdownSeparator.vue';
+export type { CheckboxEmits, CheckboxProps } from './components/Forms/Checkbox.vue';
+export type { InputErrorProps } from './components/Forms/InputError.vue';
+export type { InputLabelProps } from './components/Forms/InputLabel.vue';
+export type { RadioButtonEmits, RadioButtonProps } from './components/Forms/RadioButton.vue';
+export type { RichSelectProps, RichSelectEmits } from './components/Forms/RichSelect.vue';
+export type { SearchSelectProps, SearchSelectEmits } from './components/Forms/SearchSelect.vue';
+export type { SelectProps, SelectEmits } from './components/Forms/Select.vue';
+export type { SimpleSelectProps, SimpleSelectEmits } from './components/Forms/SimpleSelect.vue';
+export type { SubmitButtonProps } from './components/Forms/SubmitButton.vue';
+export type { SwitchProps, SwitchEmits } from './components/Forms/Switch.vue';
+export type { TextInputEmits, TextInputProps } from './components/Forms/TextInput.vue';
+export type { TextareaProps, TextareaEmits } from './components/Forms/Textarea.vue';
+export type { GravatarImgProps } from './components/GravatarImg.vue';
+export type { InfoButtonProps } from './components/InfoButton.vue';
+export type { InputWrapperProps } from './components/InputWrapper.vue';
+export type { LinkButtonProps } from './components/LinkButton.vue';
+export type { LinkDropdownButtonProps } from './components/LinkDropdownButton.vue';
+export type { LinkDropdownButtonItemProps } from './components/LinkDropdownButtonItem.vue';
+export type { NavCollapseProps } from './components/NavCollapse.vue';
+export type { NavLinkProps } from './components/NavLink.vue';
+export type { NewModalProps, NewModalEmits } from './components/NewModal.vue';
+export type { PaginationProps, PaginationEmits } from './components/Pagination.vue';
+export type { PrimaryButtonProps } from './components/PrimaryButton.vue';
+export type { PropsTableProps } from './components/PropsTable.vue';
+export type { ResponsiveNavLinkProps } from './components/ResponsiveNavLink.vue';
+export type { SecondaryButtonProps } from './components/SecondaryButton.vue';
+export type { SectionProps } from './components/Section.vue';
+export type { SpinnerProps } from './components/Spinner.vue';
+export type { StatsProps, StatsEmits } from './components/Stats.vue';
+export type { SuccessButtonProps } from './components/SuccessButton.vue';
+export type { TabProps } from './components/Tab.vue';
+export type { EnhancedTableProps, EnhancedTableEmits } from './components/Tables/EnhancedTable.vue';
+export type { TableItemCardProps } from './components/Tables/TableItemCard.vue';
+export type { TbodyProps } from './components/Tables/Tbody.vue';
+export type { TdCollapseHandlerProps } from './components/Tables/TdCollapseHandler.vue';
+export type { ThProps } from './components/Tables/Th.vue';
+export type { TrEmits } from './components/Tables/Tr.vue';
+export type { TrCollapseProps } from './components/Tables/TrCollapse.vue';
+export type { TrCollapseHandlerProps } from './components/Tables/TrCollapseHandler.vue';
+export type { TrPlaceholderProps } from './components/Tables/TrPlaceholder.vue';
+export type { TabItem, TabsProps } from './components/Tabs.vue';
+export type { ToastProps, ToastEmits } from './components/Toast.vue';
+export type { ToasterProps } from './components/Toaster.vue';
+export type { TooltipProps } from './components/Tooltip.vue';
+export type { UnderConstructionProps } from './components/UnderConstruction.vue';
+export type { WarningButtonProps } from './components/WarningButton.vue';
+export type { H2Props } from './HelperComponents/H2.vue';
+export type {
+    TableProps,
+    TableHeaderProps as TheadProps,
+    TableHeaderCellProps,
+    TableCellProps as TdProps,
+    TableRowProps as TrProps,
+} from './components/Tables/types';
+
+// Components still declaring runtime props: their types come from the component itself.
+type PropsOf<C> = C extends abstract new (...args: any) => { $props: infer P } ? P : never;
+export type DottedCarouselProps = PropsOf<typeof DottedCarousel>;
+export type LogsProps = PropsOf<typeof Logs>;
+export type LogsContentProps = PropsOf<typeof LogsContent>;
+export type ModalProps = PropsOf<typeof Modal>;
+export type DropdownSearchbarProps = PropsOf<typeof DropdownSearchbar>;
+export type FileDropZoneInputProps = PropsOf<typeof FileDropZoneInput>;
+export type ImagesProps = PropsOf<typeof Images>;
+export type Select2ajaxProps = PropsOf<typeof Select2ajax>;
+export type SelectMultipleProps = PropsOf<typeof SelectMultiple>;

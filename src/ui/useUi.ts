@@ -15,11 +15,11 @@ const isDev = () => typeof process !== 'undefined' && process.env.NODE_ENV !== '
 
 const warned = new Set<string>();
 
-function warnDeprecated(component: string, prop: string, part: string) {
+function warnDeprecated(component: string, prop: string, part: string, classPart: string) {
     const key = `${component}.${prop}`;
     if (warned.has(key) || !isDev() || typeof console === 'undefined') return;
     warned.add(key);
-    const target = part === 'root' ? '`class`' : `\`:ui="{ ${part}: '...' }"\``;
+    const target = part === classPart ? '`class`' : `\`:ui="{ ${part}: '...' }"\``;
     console.warn(`[nb-vue-components] ${component}: \`${prop}\` is deprecated and will be removed in 5.0. Use ${target} instead.`);
 }
 
@@ -63,7 +63,7 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
 
     for (const [prop, part] of Object.entries(aliases)) {
         const value = props[prop];
-        if (value !== undefined && value !== '' && !(Array.isArray(value) && !value.length)) warnDeprecated(name, prop, part as string);
+        if (value !== undefined && value !== '' && !(Array.isArray(value) && !value.length)) warnDeprecated(name, prop, part as string, classPart as string);
     }
 
     const level = computed<MotionLevel>(() => {
