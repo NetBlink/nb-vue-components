@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to-
  * browse, an `accept` filter and optional multiple selection. It assigns the chosen
@@ -19,26 +19,33 @@ import Link from '../../overrides/InertiaLink';
 import { PrimaryButton, InputError } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
 import { ref, reactive, onMounted } from 'vue';
+import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
 const router = getInertiaRouter();
-const props = defineProps({
-    accept: { String, default: 'image/*' },
-    multiple: { Boolean, default: false },
-    label: String,
-    form: Object,
-    field: String,
-    required: Boolean,
-    disabled: Boolean,
+export interface FileDropZoneInputProps {
+    /** File types the picker and drop accept */
+    accept?: string | string[];
+    /** Allow several files */
+    multiple?: boolean;
+    label?: string;
+    form: Record<string, any>;
+    field: string;
+    required?: boolean;
+    disabled?: boolean;
     /** Deprecated, use `:ui="{ zone: '...' }"` */
-    FileDropCustomClass: String,
+    FileDropCustomClass?: string;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['FileDropZoneInput']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['FileDropZoneInput']>;
+}
+
+const props = withDefaults(defineProps<FileDropZoneInputProps>(), {
+    accept: 'image/*',
+    multiple: false,
+    required: false,
+    disabled: false,
 });
 
 const { cls, attrs } = useUi('FileDropZoneInput', props, { aliases: { FileDropCustomClass: 'zone' } });

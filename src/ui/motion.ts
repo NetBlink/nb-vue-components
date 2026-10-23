@@ -1,4 +1,4 @@
-import { computed, ref, type ComputedRef, type Ref } from 'vue';
+import { computed, getCurrentInstance, onMounted, ref, type ComputedRef, type Ref } from 'vue';
 import type { NbComponentName, NbParts } from './parts';
 
 /**
@@ -55,8 +55,10 @@ const STORAGE_KEY_DEFAULT = 'nb-vue-components:motion';
 
 /*
  * Module state, shared by every app on the page like useDarkMode's. Browser
- * APIs are only touched from `hydrateMotion`, which runs on the client (plugin
- * install, or the first `useMotion` call), never at import time.
+ * APIs are only touched from `hydrateMotion`, which runs on the client after
+ * the first mount, never at import time or during the first render. That keeps
+ * a server-rendered page and its hydration on the same classes: the stored
+ * choice and the OS preference apply from the next render on.
  */
 const userLevel: Ref<MotionLevel | null> = ref(null);
 const prefersReduced = ref(false);
@@ -98,11 +100,17 @@ export function hydrateMotion(): void {
     }
 }
 
-/** Called by the plugin install with the app's `motion` option. */
+/** Called by the plugin install with the app's `motion` option. The plugin hydrates after mount. */
 export function configureMotion(config: NbMotionConfig = {}): void {
     appMotion.value = config;
     if (config.storageKey !== undefined) storageKey = config.storageKey;
-    hydrateMotion();
+}
+
+/** Hydrate once the calling component has mounted, or right away outside a component. */
+export function hydrateMotionAfterMount(): void {
+    if (hydrated) return;
+    if (getCurrentInstance()) onMounted(hydrateMotion);
+    else hydrateMotion();
 }
 
 /** The global level after the user's pick and the reduced-motion cap, before any component pin. */
@@ -151,15 +159,17 @@ export interface UseMotionReturn {
  * ```
  */
 export function useMotion(): UseMotionReturn {
-    hydrateMotion();
+    hydrateMotionAfterMount();
     return {
         level: globalLevel,
         userLevel,
         setLevel(level: MotionLevel) {
+            hydrateMotion();
             userLevel.value = level;
             writeStorage(level);
         },
         reset() {
+            hydrateMotion();
             userLevel.value = null;
             writeStorage(null);
         },

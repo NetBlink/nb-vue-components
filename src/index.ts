@@ -98,7 +98,7 @@ export interface ComponentsnbOptions extends NbStyleOptions {
 
 import { useDarkMode } from './composables/useDarkMode';
 import { createNbConfig, NB_CONFIG_KEY, type NbStyleOptions } from './ui/config';
-import { configureMotion } from './ui/motion';
+import { configureMotion, hydrateMotion } from './ui/motion';
 import { createNbIcons } from './icons/createNbIcons';
 import { NB_ICONS_KEY } from './icons/inject';
 
@@ -146,6 +146,15 @@ const Componentsnb = {
         // merger instead of each falling back to the default.
         App.provide(NB_CONFIG_KEY, createNbConfig(options));
         configureMotion(options.motion);
+
+        // The stored motion choice and the OS reduced-motion preference are read
+        // after mounting, so a server-rendered page hydrates against the same classes.
+        const mount = App.mount;
+        App.mount = (...args: any[]) => {
+            const vm = mount.apply(App, args);
+            hydrateMotion();
+            return vm;
+        };
 
         // Opt-in dark-mode bootstrap. Pure no-op unless the host passes `darkMode`.
         if (options.darkMode) {
@@ -264,16 +273,22 @@ export type { DangerButtonProps } from './components/DangerButton.vue';
 export type { DataTileProps } from './components/DataTile.vue';
 export type { DescriptionListProps } from './components/DescriptionList.vue';
 export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
+export type { DottedCarouselProps } from './components/DottedCarousel.vue';
 export type { DropdownProps } from './components/Dropdown.vue';
 export type { DropdownLinkProps } from './components/DropdownLink.vue';
 export type { DropdownSeparatorProps } from './components/DropdownSeparator.vue';
 export type { CheckboxEmits, CheckboxProps } from './components/Forms/Checkbox.vue';
+export type { DropdownSearchbarProps } from './components/Forms/DropdownSearchbar.vue';
+export type { FileDropZoneInputProps } from './components/Forms/FileDropZoneInput.vue';
+export type { ImagesProps } from './components/Forms/Images.vue';
 export type { InputErrorProps } from './components/Forms/InputError.vue';
 export type { InputLabelProps } from './components/Forms/InputLabel.vue';
 export type { RadioButtonEmits, RadioButtonProps } from './components/Forms/RadioButton.vue';
 export type { RichSelectProps, RichSelectEmits } from './components/Forms/RichSelect.vue';
 export type { SearchSelectProps, SearchSelectEmits } from './components/Forms/SearchSelect.vue';
 export type { SelectProps, SelectEmits } from './components/Forms/Select.vue';
+export type { Select2ajaxProps, Select2ajaxEmits } from './components/Forms/Select2ajax.vue';
+export type { SelectMultipleProps, SelectMultipleEmits } from './components/Forms/SelectMultiple.vue';
 export type { SimpleSelectProps, SimpleSelectEmits } from './components/Forms/SimpleSelect.vue';
 export type { SubmitButtonProps } from './components/Forms/SubmitButton.vue';
 export type { SwitchProps, SwitchEmits } from './components/Forms/Switch.vue';
@@ -285,6 +300,9 @@ export type { InputWrapperProps } from './components/InputWrapper.vue';
 export type { LinkButtonProps } from './components/LinkButton.vue';
 export type { LinkDropdownButtonProps } from './components/LinkDropdownButton.vue';
 export type { LinkDropdownButtonItemProps } from './components/LinkDropdownButtonItem.vue';
+export type { LogsProps } from './components/Logs.vue';
+export type { LogsContentProps } from './components/LogsContent.vue';
+export type { ModalProps, ModalEmits } from './components/Modal.vue';
 export type { NavCollapseProps } from './components/NavCollapse.vue';
 export type { NavLinkProps } from './components/NavLink.vue';
 export type { NewModalProps, NewModalEmits } from './components/NewModal.vue';
@@ -321,15 +339,3 @@ export type {
     TableCellProps as TdProps,
     TableRowProps as TrProps,
 } from './components/Tables/types';
-
-// Components still declaring runtime props: their types come from the component itself.
-type PropsOf<C> = C extends abstract new (...args: any) => { $props: infer P } ? P : never;
-export type DottedCarouselProps = PropsOf<typeof DottedCarousel>;
-export type LogsProps = PropsOf<typeof Logs>;
-export type LogsContentProps = PropsOf<typeof LogsContent>;
-export type ModalProps = PropsOf<typeof Modal>;
-export type DropdownSearchbarProps = PropsOf<typeof DropdownSearchbar>;
-export type FileDropZoneInputProps = PropsOf<typeof FileDropZoneInput>;
-export type ImagesProps = PropsOf<typeof Images>;
-export type Select2ajaxProps = PropsOf<typeof Select2ajax>;
-export type SelectMultipleProps = PropsOf<typeof SelectMultiple>;

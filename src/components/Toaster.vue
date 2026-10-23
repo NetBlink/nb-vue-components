@@ -27,7 +27,7 @@
  * @motion off - toasts appear and leave instantly, the stack doesn't animate
  * @motion simple - toasts fade in and out quickly; the stack jumps rather than glides
  * @motion smooth - toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave
- * @motion fancy - springier, longer entries and a zoomed exit; the stack glides on a spring
+ * @motion fancy - springier, longer entries and a zoomed exit; the stack glides on a spring (override with `toast.move`)
  */
 
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
@@ -273,8 +273,11 @@ const layout = () => {
     // between. Interleaving reads and writes would force one layout per toast.
     const landed = elements.map(edgeOf);
 
-    // Below `smooth` the stack just lands where it belongs.
-    if (!levelAtLeast(level.value, 'smooth')) {
+    // A `toast.move` override in the motion config carries its own transition.
+    const moveClass = anim('toast', 'move', motion.value);
+
+    // Below `smooth` the stack just lands where it belongs, unless the app set a move.
+    if (!levelAtLeast(level.value, 'smooth') && !moveClass) {
         for (const el of elements) el.style.transition = '';
         return;
     }
@@ -289,7 +292,16 @@ const layout = () => {
 
     void elements[0].offsetHeight; // commit the offsets before animating out of them
 
+    const classes = moveClass.split(/\s+/).filter(Boolean);
     for (const el of elements) {
+        if (classes.length) {
+            // The override's transition has to cover `translate` and `scale`, e.g. `transition-all duration-700`.
+            el.style.transition = '';
+            el.classList.add(...classes);
+            el.style.translate = `0 ${resting.get(el)}px`;
+            setTimeout(() => el.classList.remove(...classes), 2000);
+            continue;
+        }
         el.style.transition = `translate ${moveMs()}ms ${moveEase()}, scale ${moveMs()}ms ${moveEase()}`;
         el.style.translate = `0 ${resting.get(el)}px`;
 

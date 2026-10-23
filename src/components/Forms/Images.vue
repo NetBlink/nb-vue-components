@@ -21,7 +21,7 @@ import { useForm } from '@inertiajs/vue3';
 import Link from '../../overrides/InertiaLink';
 import { InputError, PrimaryButton } from '../../index';
 import { useDropzone } from 'vue3-dropzone';
-import { ref, reactive, getCurrentInstance, type PropType } from 'vue';
+import { ref, reactive, getCurrentInstance } from 'vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
@@ -38,17 +38,21 @@ const $page: { props: { errors: Record<string, any> } } =
     (getCurrentInstance()?.appContext.config.globalProperties as any)?.$page
     ?? { props: { errors: {} } };
 
-const props = defineProps({
-    images: Object,
-    itemType: String,
-    itemId: Number,
-    canUpload: {
-        type: Boolean,
-        default: true,
-    },
-    endPoint: { type: String, default: 'images.store' },
+export interface ImagesProps {
+    /** Existing images, `{ id, url }[]` */
+    images?: Array<{ id: number | string; url: string }>;
+    itemType?: string;
+    itemId?: number;
+    canUpload?: boolean;
+    endPoint?: string;
     /** Classes per part, merged over the defaults */
-    ui: { type: Object as PropType<UiProp<NbParts['Images']>>, default: undefined },
+    ui?: UiProp<NbParts['Images']>;
+}
+
+const props = withDefaults(defineProps<ImagesProps>(), {
+    images: () => [],
+    canUpload: true,
+    endPoint: 'images.store',
 });
 
 const { cls, attrs } = useUi('Images', props);

@@ -523,6 +523,22 @@
 }
 
 /*
+ * A component with a higher level inside an `off` one (a pin or a `motion`
+ * prop) gets its own transitions back: `revert-layer` falls back to the
+ * utility classes. The third rule restores `off` one level deeper again.
+ */
+[data-nb-motion='off'] [data-nb-motion]:not([data-nb-motion='off']),
+[data-nb-motion='off'] [data-nb-motion]:not([data-nb-motion='off']) * {
+    transition-duration: revert-layer !important;
+    transition-delay: revert-layer !important;
+}
+[data-nb-motion]:not([data-nb-motion='off']) [data-nb-motion='off'],
+[data-nb-motion]:not([data-nb-motion='off']) [data-nb-motion='off'] * {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+}
+
+/*
  * Swipe-to-dismiss feedback for toasts. reka-ui handles the gesture and sets
  * the offset vars; without these rules the toast dismisses but never follows
  * your finger, which feels broken on touch.

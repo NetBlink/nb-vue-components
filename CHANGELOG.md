@@ -14,8 +14,15 @@
 - Motion levels `off`, `simple`, `smooth` (default) and `fancy`: plugin option `motion` (global level, per-component pins and per-level animation class overrides, `respectReducedMotion`), a `motion` prop on animated components, and `useMotion()` for a persisted end-user choice that also caps every component. OS reduced motion caps at `simple` unless the user chose a level in the app.
 - Exit animations for Dropdown, LinkDropdownButton and Tooltip; height animation for field errors and for NewModal content that grows or shrinks; a sliding Tabs indicator; SubmitButton cross-fades into its spinner; `fancy` adds a NewModal that grows out of the element that opened it, spring timings, and reflow for Tbody rows and RichSelect options.
 - New theme tokens: `--duration-slow`, `--ease-spring` and the `animate-*` tokens the levels use. A `data-nb-motion="off"` rule in theme.css makes hover and focus transitions instant at `off`.
+- `move` overrides in the motion config (`components.Tbody.<level>.root.move`, `RichSelect` `list.move`, `Toaster` `toast.move`) replace the built-in reflow with your own transition classes, and turn the reflow on at that level.
+- A component pinned above `off` (by config or the `motion` prop) keeps its transitions inside an `off` ancestor.
+- Server-rendered apps: the stored motion choice and the OS reduced-motion preference are read after mounting, so hydration sees the same classes as the server.
 - Exported props and emits types for every component (`ButtonProps`, `InputProps`, `NewModalProps`, `NewModalEmits`, ...) and the styling types (`NbStyleOptions`, `UiProp`, `NbParts`, `MotionLevel`, ...).
 - Docs: a Customizing page, generated Parts and Motion tables on every component page, and a motion switcher next to the dark-mode toggle. `llms-full.txt` lists parts and motion per component.
+
+### Fixed
+- `FileDropZoneInput` `multiple` and `accept`, and `DottedCarousel` `padding`/`gap`, had no runtime type, so a bare `multiple` attribute was read as an empty string. Every component now declares typed props.
+- `Images` no longer throws when `images` is omitted (it defaults to an empty list).
 
 ### Deprecated
 These still work, warn once each in development, and are removed in 5.0. `scripts/v4-rename-map.json` in the repository maps each one to its part.

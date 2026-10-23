@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Horizontal snap-scroll carousel with dot navigation underneath. Each top-level child of
  * the default slot becomes a slide, so mark each with `class="min-w-full snap-start"` for
@@ -16,6 +16,8 @@
  */
 // @ts-nocheck
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -29,18 +31,20 @@ const container = ref(null);
 const slideCount = ref(0);
 let childObserver = null;
 
-const props = defineProps({
+export interface DottedCarouselProps {
     /** Outer padding offset applied to the scroll math when clicking a dot */
-    padding: { default: 0 },
+    padding?: number;
     /** Pixel gap between slides */
-    gap: { default: 20 },
+    gap?: number;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts['DottedCarousel']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['DottedCarousel']>;
     /** Motion level for this instance */
-    motion: { type: String, default: undefined },
+    motion?: MotionLevel;
+}
+
+const props = withDefaults(defineProps<DottedCarouselProps>(), {
+    padding: 0,
+    gap: 20,
 });
 
 const { cls, attrs, level } = useUi('DottedCarousel', props);

@@ -167,7 +167,7 @@ const props = withDefaults(defineProps<RichSelectProps>(), {
 
 const emit = defineEmits<RichSelectEmits>();
 
-const { cls, attrs, level } = useUi('RichSelect', props, { aliases: { customClass: 'trigger' } });
+const { cls, attrs, level, anim } = useUi('RichSelect', props, { aliases: { customClass: 'trigger' } });
 
 // Local state
 const isOpen = ref(false);
@@ -179,8 +179,8 @@ const dropdownRef = ref<HTMLElement>();
 const searchInputRef = ref<HTMLInputElement>();
 const listRef = ref<HTMLElement>();
 
-// Options reflow while filtering (fancy only).
-useFlip(() => listRef.value, () => level.value === 'fancy' && isOpen.value, () => level.value);
+// Options reflow while filtering (fancy, or any level with a `list.move` override).
+useFlip(() => (isOpen.value ? listRef.value : null), () => level.value === 'fancy', () => level.value, () => anim('list', 'move', {}));
 
 const PANEL: Record<MotionLevel, Record<string, string>> = {
     off: {},

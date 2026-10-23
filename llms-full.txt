@@ -553,7 +553,10 @@ Horizontal snap-scroll carousel with dot navigation underneath. Each top-level c
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `padding` | `/** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts'DottedCarousel'>>} */ (Object)` | `0 }` | Outer padding offset applied to the scroll math when clicking a dot |
+| `padding` | `number` | `0` | Outer padding offset applied to the scroll math when clicking a dot |
+| `gap` | `number` | `20` | Pixel gap between slides |
+| `ui` | `UiProp<NbParts['DottedCarousel']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -619,7 +622,10 @@ Thin wrapper around the third-party `vue-select` component, giving a type-to-sea
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
+| `options` | `any[]` | - |  |
+| `label` | `string` | - |  |
+| `placeholder` | `string` | - |  |
+| `ui` | `UiProp<NbParts['DropdownSearchbar']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -666,7 +672,15 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `accept` | `/** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts'FileDropZoneInput'>>} */ (Object)` | `'image/*' }` |  |
+| `accept` | `string \| string[]` | `'image/*'` | File types the picker and drop accept |
+| `multiple` | `boolean` | `false` | Allow several files |
+| `label` | `string` | - |  |
+| `form` | `Record<string, any>` | **required** |  |
+| `field` | `string` | **required** |  |
+| `required` | `boolean` | `false` |  |
+| `disabled` | `boolean` | `false` |  |
+| `FileDropCustomClass` | `string` | - | Deprecated, use `:ui="{ zone: '...' }"` |
+| `ui` | `UiProp<NbParts['FileDropZoneInput']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -722,7 +736,13 @@ Self-contained image gallery and uploader for a given record: it shows the exist
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `canUpload` | `Boolean` | `true` |  |
+| `images` | `Array<{ id: number \| string` | `() => []` | Existing images, `{ id, url }[]` |
+| `url` | `string }>` | **required** |  |
+| `itemType` | `string` | - |  |
+| `itemId` | `number` | - |  |
+| `canUpload` | `boolean` | `true` |  |
+| `endPoint` | `string` | `'images.store'` |  |
+| `ui` | `UiProp<NbParts['Images']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -945,7 +965,11 @@ activity timeline wrapped in a collapsible section.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `header` | `Boolean` | `'Logs' }` | heading text in the section header bar |
+| `header` | `string` | `'Logs'` | Heading text in the section header bar |
+| `logs` | `Record<string, any>` | - | Laravel-style paginated result `{ total, data[], links? }` |
+| `open` | `boolean` | `false` | Start expanded |
+| `ui` | `UiProp<NbParts['Logs']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -961,7 +985,9 @@ Renders a paginated Laravel activity-log payload as a vertical timeline, with a 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `causerRoute` | `String` | `'users.show' }` | Route name used to link a log entry's causer. Set to null to never link. |
+| `logs` | `Record<string, any>` | - | Laravel-style paginated result `{ total, data[], links? }` |
+| `causerRoute` | `string \| null` | `'users.show'` | Route name used to link a log entry's causer. Set to null to never link. |
+| `ui` | `UiProp<NbParts['LogsContent']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -984,23 +1010,21 @@ teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, bo
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `show` | `Boolean` | `false` | visibility, paired with `@close` (there is no `update:show`, so `v-model:show` can't close it) |
-| `maxWidth` | `String` | `'2xl'` | sm \| md \| lg \| xl \| 2xl-7xl \| '50%' \| '60%' \| '75%' \| '80%' \| '90%' \| '95%' |
-| `closeable` | `Boolean` | `true` | allow closing via backdrop click or Escape key |
-| `hideOverflow` | `Boolean` | `true` | apply overflow-hidden to the modal container |
-| `backdropDuration` | `Number` | `200` | backdrop fade duration (ms) |
-| `modalDuration` | `Number` | `200` | modal enter/leave duration (ms) |
-| `alignCenter` | `Boolean` | `false` | vertically center the modal (default top-aligns) |
-| `showBorder` | `Boolean` | `false` | add the brand-coloured border around the panel |
-| `modalCustomClass` | `String` | `''` | deprecated, use `class` |
-| `backdropCustomClass` | `String` | `''` | deprecated, use `:ui="{ overlay: '...' }"` |
-| `resizable` | `Boolean` | `false` | render edge/corner handles so the user can resize the modal |
-| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
-| `motion` | `String as PropType<MotionLevel>` | `undefined` | Motion level for this instance |
+| `show` | `boolean` | `false` | visibility, paired with `@close` (there is no `update:show`, so `v-model:show` can't close it) |
+| `maxWidth` | `string` | `'2xl'` | sm \| md \| lg \| xl \| 2xl-7xl \| '50%' \| '60%' \| '75%' \| '80%' \| '90%' \| '95%' |
+| `closeable` | `boolean` | `true` | allow closing via backdrop click or Escape key |
+| `hideOverflow` | `boolean` | `true` | apply overflow-hidden to the modal container |
+| `backdropDuration` | `number` | `200` | backdrop fade duration (ms) |
+| `modalDuration` | `number` | `200` | modal enter/leave duration (ms) |
+| `alignCenter` | `boolean` | `false` | vertically center the modal (default top-aligns) |
+| `showBorder` | `boolean` | `false` | add the brand-coloured border around the panel |
+| `modalCustomClass` | `string` | `''` | Deprecated, use `class` |
+| `backdropCustomClass` | `string` | `''` | Deprecated, use `:ui="{ overlay: '...' }"` |
+| `resizable` | `boolean` | `false` | render edge/corner handles so the user can resize the modal |
+| `ui` | `UiProp<NbParts['Modal']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
-
-**Emits:** `close`
 
 **Parts** (`:ui` keys; `class` goes to `content`):
 
@@ -1385,6 +1409,7 @@ Simple Select component Works with both array options and slot options, API-comp
 | `labelCustomClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
 | `error` | `string` | - | Custom error message |
 | `ui` | `UiProp<NbParts['Select']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -1406,20 +1431,22 @@ Server-backed version of `SearchSelect`: it wraps that component and fills the o
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `id` | `String` | **required** |  |
-| `label` | `String` | - |  |
-| `optionValue` | `String` | `'value'` |  |
-| `optionText` | `String` | `'label'` |  |
-| `optionDisabled` | `String` | `'disabled'` |  |
-| `placeholder` | `String` | - |  |
-| `modelValue` | `Boolean` | `false` |  |
-| `disabled` | `Boolean` | `false` |  |
-| `noForm` | `Boolean` | `false` |  |
-| `url` | `String` | **required** |  |
-| `queryParams` | `Object` | - |  |
-| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
-
-**Emits:** `update:modelValue`, `changed`
+| `id` | `string` | **required** |  |
+| `label` | `string` | - |  |
+| `optionValue` | `string` | `'value'` |  |
+| `optionText` | `string` | `'label'` |  |
+| `optionDisabled` | `string` | `'disabled'` |  |
+| `placeholder` | `string` | - |  |
+| `field` | `string` | - |  |
+| `form` | `Record<string, any>` | - |  |
+| `modelValue` | `any` | - |  |
+| `noLabel` | `boolean` | `false` |  |
+| `disabled` | `boolean` | `false` |  |
+| `noForm` | `boolean` | `false` |  |
+| `required` | `boolean` | `false` |  |
+| `url` | `string` | **required** | Endpoint queried with `term` and `page` |
+| `queryParams` | `Record<string, any>` | - | Extra query parameters sent with every request |
+| `ui` | `UiProp<NbParts['Select2ajax']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -1438,17 +1465,17 @@ Multi-select rendered as a clickable list of options that toggle in and out of a
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `id` | `String` | **required** |  |
-| `label` | `String` | - |  |
-| `list` | `Array` | `() => []` |  |
-| `optionValue` | `String` | **required** |  |
-| `optionText` | `String` | **required** |  |
-| `placeholder` | `String` | - |  |
-| `noLabel` | `Boolean` | `false` |  |
-| `isDisabled` | `Boolean` | `false` |  |
-| `ui` | `UiProp` | `undefined` | Classes per part, merged over the defaults |
-
-**Emits:** `update:modelValue`
+| `id` | `string` | **required** |  |
+| `label` | `string` | - |  |
+| `list` | `any[]` | `() => []` |  |
+| `optionValue` | `string` | **required** |  |
+| `optionText` | `string` | **required** |  |
+| `placeholder` | `string` | - |  |
+| `field` | `string` | - |  |
+| `form` | `Record<string, any>` | - |  |
+| `noLabel` | `boolean` | `false` |  |
+| `isDisabled` | `boolean` | `false` |  |
+| `ui` | `UiProp<NbParts['SelectMultiple']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -1765,7 +1792,7 @@ The `<tbody>` primitive, which also owns the table's loading and empty states: i
 | `root` | the `<tbody>` |
 | `empty` | the `Td` showing the empty message |
 
-**Motion:** `fancy`: rows glide to their new place when rows are added, removed or re-sorted, new rows fade in; all levels: below fancy, rows change in place; the loading skeleton pulses at every level.
+**Motion:** `fancy`: rows glide to their new place when rows are added, removed or re-sorted, new rows fade in (override with `root.move`); all levels: below fancy, rows change in place; the loading skeleton pulses at every level.
 
 ### Td
 
@@ -1950,7 +1977,7 @@ the viewport that renders the notification queue. Mount exactly one, in your roo
 | `root` | the viewport the toasts stack in |
 | `toast` | each `Toast` |
 
-**Motion:** `off`: toasts appear and leave instantly, the stack doesn't animate; `simple`: toasts fade in and out quickly; the stack jumps rather than glides; `smooth`: toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave; `fancy`: springier, longer entries and a zoomed exit; the stack glides on a spring.
+**Motion:** `off`: toasts appear and leave instantly, the stack doesn't animate; `simple`: toasts fade in and out quickly; the stack jumps rather than glides; `smooth`: toasts slide in from their edge (or fade/scale, per `animation`) and fade out; the stack glides when toasts arrive or leave; `fancy`: springier, longer entries and a zoomed exit; the stack glides on a spring (override with `toast.move`).
 
 ### Tooltip
 

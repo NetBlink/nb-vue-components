@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Renders a paginated Laravel activity-log payload as a vertical timeline, with a per-entry
  * icon, the formatted event, old → new value diffs and the causer's name. It shows a
@@ -21,19 +21,22 @@ import { Spinner } from '../index';
 import Link from '../overrides/InertiaLink';
 import NbIcon from '../icons/NbIcon.vue';
 import { getRoute } from '../Helpers';
+import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    logs: Object,
+export interface LogsContentProps {
+    /** Laravel-style paginated result `{ total, data[], links? }` */
+    logs?: Record<string, any>;
     /** Route name used to link a log entry's causer. Set to null to never link. */
-    causerRoute: { type: String, default: 'users.show' },
+    causerRoute?: string | null;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts['LogsContent']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['LogsContent']>;
+}
+
+const props = withDefaults(defineProps<LogsContentProps>(), {
+    causerRoute: 'users.show',
 });
 
 const { cls, attrs } = useUi('LogsContent', props);

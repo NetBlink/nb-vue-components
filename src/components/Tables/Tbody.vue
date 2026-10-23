@@ -8,7 +8,7 @@
  *
  * @part root - the `<tbody>`
  * @part empty - the `Td` showing the empty message
- * @motion fancy - rows glide to their new place when rows are added, removed or re-sorted, new rows fade in
+ * @motion fancy - rows glide to their new place when rows are added, removed or re-sorted, new rows fade in (override with `root.move`)
  * @motion all - below fancy, rows change in place; the loading skeleton pulses at every level
  */
 import { computed, ref } from 'vue';
@@ -56,10 +56,11 @@ const props = withDefaults(defineProps<TbodyProps>(), {
     ignoreDefer: false
 });
 
-const { cls, attrs, level } = useUi('Tbody', props);
+const { cls, attrs, level, anim } = useUi('Tbody', props);
 
+// Rows reflow at `fancy`; a `move` override in the motion config (part `root`) sets the transition instead.
 const tbody = ref<HTMLElement | null>(null);
-useFlip(() => tbody.value, () => level.value === 'fancy', () => level.value);
+useFlip(() => tbody.value, () => level.value === 'fancy', () => level.value, () => anim('root', 'move', {}));
 
 const inertiaTable = typeof props.data === 'string' ? useInertiaTable(props.data) : null;
 

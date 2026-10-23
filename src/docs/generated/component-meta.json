@@ -1774,7 +1774,7 @@
         "motion": [
             {
                 "level": "fancy",
-                "description": "rows glide to their new place when rows are added, removed or re-sorted, new rows fade in"
+                "description": "rows glide to their new place when rows are added, removed or re-sorted, new rows fade in (override with `root.move`)"
             },
             {
                 "level": "all",
@@ -1978,7 +1978,7 @@
             },
             {
                 "level": "fancy",
-                "description": "springier, longer entries and a zoomed exit; the stack glides on a spring"
+                "description": "springier, longer entries and a zoomed exit; the stack glides on a spring (override with `toast.move`)"
             }
         ]
     },

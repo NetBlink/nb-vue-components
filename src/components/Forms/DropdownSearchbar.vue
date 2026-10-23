@@ -17,7 +17,7 @@
     min-width: 5rem;
 }
 </style>
-<script setup>
+<script setup lang="ts">
 /**
  * Thin wrapper around the third-party `vue-select` component, giving a type-to-search
  * dropdown over a static `options` array with only light styling applied. It is the
@@ -29,20 +29,20 @@
  */
 import VueSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    options: Array,
-    label: String,
-    placeholder: String,
+export interface DropdownSearchbarProps {
+    options?: any[];
+    label?: string;
+    placeholder?: string;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['DropdownSearchbar']>>} */ (Object),
-        default: undefined,
-    },
-});
+    ui?: UiProp<NbParts['DropdownSearchbar']>;
+}
+
+const props = defineProps<DropdownSearchbarProps>();
 
 const { cls, attrs } = useUi('DropdownSearchbar', props);
 </script>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Server-backed version of `SearchSelect`: it wraps that component and fills the option
  * list by requesting `url` with the current search term, appending further pages as the
@@ -13,67 +13,50 @@
  */
 // @ts-nocheck
 import { SearchSelect } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 import { ref, onMounted } from 'vue';
 
-const props = defineProps({
-    id: {
-        type: String,
-        required: true,
-    },
-    label: {
-        type: String,
-    },
-    optionValue: {
-        type: String,
-        default: 'value',
-    },
-    optionText: {
-        type: String,
-        default: 'label',
-    },
-    optionDisabled: {
-        type: String,
-        default: 'disabled',
-    },
-    placeholder: {
-        type: String,
-    },
-    field: String,
-    form: Object,
-    modelValue: {},
-    noLabel: {
-        type: Boolean,
-        default: false,
-    },
-    disabled: {
-        type: Boolean,
-        default: false,
-    },
-    noForm: {
-        type: Boolean,
-        default: false,
-    },
-    required: Boolean,
-
-    // ajax specific props
-    url: {
-        type: String,
-        required: true,
-    },
-    queryParams: {
-        type: Object,
-    },
+export interface Select2ajaxProps {
+    id: string;
+    label?: string;
+    optionValue?: string;
+    optionText?: string;
+    optionDisabled?: string;
+    placeholder?: string;
+    field?: string;
+    form?: Record<string, any>;
+    modelValue?: any;
+    noLabel?: boolean;
+    disabled?: boolean;
+    noForm?: boolean;
+    required?: boolean;
+    /** Endpoint queried with `term` and `page` */
+    url: string;
+    /** Extra query parameters sent with every request */
+    queryParams?: Record<string, any>;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['Select2ajax']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['Select2ajax']>;
+}
+
+const props = withDefaults(defineProps<Select2ajaxProps>(), {
+    optionValue: 'value',
+    optionText: 'label',
+    optionDisabled: 'disabled',
+    noLabel: false,
+    disabled: false,
+    noForm: false,
+    required: false,
 });
 
-const emit = defineEmits(['update:modelValue', 'changed']);
+export interface Select2ajaxEmits {
+    (e: 'update:modelValue', value: any): void;
+    (e: 'changed', value: any): void;
+}
+
+const emit = defineEmits<Select2ajaxEmits>();
 
 const { cls, attrs } = useUi('Select2ajax', props);
 const list = ref([]);

@@ -1,7 +1,7 @@
 import { computed, useAttrs, type ComputedRef } from 'vue';
 import { useNbConfig } from './config';
 import { mergeLayers, type NbClassValue } from './merge';
-import { hydrateMotion, isMotionLevel, resolveMotionLevel, type MotionLevel, type NbComponentMotion, type NbMotionClasses, type NbMotionTable } from './motion';
+import { hydrateMotionAfterMount, isMotionLevel, resolveMotionLevel, type MotionLevel, type NbComponentMotion, type NbMotionClasses, type NbMotionTable } from './motion';
 import type { NbComponentName, NbParts, NbVariantValue, UiProp } from './parts';
 
 declare const process: { env: Record<string, string | undefined> };
@@ -59,7 +59,7 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
     const classPart = options.classPart ?? ('root' as P);
     const aliases = options.aliases ?? {};
 
-    hydrateMotion();
+    hydrateMotionAfterMount();
 
     for (const [prop, part] of Object.entries(aliases)) {
         const value = props[prop];
@@ -82,7 +82,16 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
         return mergeLayers(config.merge, defaults, house, instance);
     };
 
-    const motionAttrs = (): Record<string, string> => (level.value === 'off' ? { 'data-nb-motion': 'off' } : {});
+    /*
+     * `off` is always marked, so theme.css can make transitions instant. Any
+     * other level is only marked when it differs from the app-wide level, which
+     * lets a component pinned above an `off` ancestor keep its transitions.
+     */
+    const appLevel = computed<MotionLevel>(() => resolveMotionLevel(config.motion, '', null));
+    const motionAttrs = (): Record<string, string> => {
+        if (level.value === 'off') return { 'data-nb-motion': 'off' };
+        return level.value !== appLevel.value ? { 'data-nb-motion': level.value } : {};
+    };
 
     const attrs = () => {
         const { class: _class, motion: _motion, ...rest } = rawAttrs;

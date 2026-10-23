@@ -15,25 +15,54 @@ export function motionTiming(level: MotionLevel, kind: 'enter' | 'leave' = 'ente
 const canAnimate = (el: Element): el is HTMLElement => typeof (el as HTMLElement).animate === 'function';
 
 /**
+ * Play a FLIP move with classes instead of the Web Animations API: the element
+ * is put back where it was, then `moveClass` (which carries the transition)
+ * goes on and the offset comes off. Used when the app overrides `move`.
+ */
+export function moveWithClass(el: HTMLElement, dx: number, dy: number, moveClass: string): void {
+    const classes = moveClass.split(/\s+/).filter(Boolean);
+    el.style.transition = 'none';
+    el.style.transform = `translate(${dx}px, ${dy}px)`;
+    void el.offsetHeight;
+    el.style.transition = '';
+    el.classList.add(...classes);
+    el.style.transform = '';
+    let done = false;
+    const cleanup = () => {
+        if (done) return;
+        done = true;
+        el.classList.remove(...classes);
+        el.removeEventListener('transitionend', cleanup);
+    };
+    el.addEventListener('transitionend', cleanup);
+    setTimeout(cleanup, 2000);
+}
+
+/**
  * FLIP reflow for the direct children of a container: wherever an update moves
  * a child, it glides from its old position instead of jumping. New children
  * fade in. Runs from the component's own update hooks, so it covers slot
  * content too (slot content renders inside the child component).
+ *
+ * `moveClass` is the app's `move` override from the motion config. When set it
+ * replaces the built-in animation, and enables the reflow at that level.
  */
-export function useFlip(container: () => Element | null | undefined, enabled: () => boolean, level: () => MotionLevel): void {
+export function useFlip(container: () => Element | null | undefined, enabled: () => boolean, level: () => MotionLevel, moveClass: () => string = () => ''): void {
+    const active = () => enabled() || !!moveClass();
     let before = new Map<Element, DOMRect>();
 
     onBeforeUpdate(() => {
         before = new Map();
         const el = container();
-        if (!el || !enabled()) return;
+        if (!el || !active()) return;
         for (const child of Array.from(el.children)) before.set(child, child.getBoundingClientRect());
     });
 
     onUpdated(() => {
         const el = container();
-        if (!el || !enabled() || !before.size) return;
+        if (!el || !active() || !before.size) return;
         const { duration, easing } = motionTiming(level());
+        const custom = moveClass();
         for (const child of Array.from(el.children)) {
             if (!canAnimate(child)) continue;
             const old = before.get(child);
@@ -45,6 +74,10 @@ export function useFlip(container: () => Element | null | undefined, enabled: ()
             const dx = old.left - now.left;
             const dy = old.top - now.top;
             if (!dx && !dy) continue;
+            if (custom) {
+                moveWithClass(child, dx, dy, custom);
+                continue;
+            }
             child.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration, easing });
         }
         before.clear();

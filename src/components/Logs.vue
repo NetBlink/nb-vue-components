@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Logs - activity timeline wrapped in a collapsible section.
  *
@@ -8,25 +8,34 @@
  * @part root - the `CollapsableSection` card
  */
 import { LogsContent, CollapsibleSection } from '../index';
+import type { NbParts, UiProp } from '../ui/parts';
+import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    header: { default: 'Logs' },
-    logs: Object,
-    open: { type: Boolean, default: false },
+export interface LogsProps {
+    /** Heading text in the section header bar */
+    header?: string;
+    /** Laravel-style paginated result `{ total, data[], links? }` */
+    logs?: Record<string, any>;
+    /** Start expanded */
+    open?: boolean;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../ui/parts').UiProp<import('../ui/parts').NbParts['Logs']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['Logs']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
+}
+
+const props = withDefaults(defineProps<LogsProps>(), {
+    header: 'Logs',
+    open: false,
 });
 
 const { cls, attrs } = useUi('Logs', props);
 </script>
 <template>
-    <CollapsibleSection v-bind="attrs()" :class="cls('root')" :header="header" :open="open">
+    <CollapsibleSection v-bind="attrs()" :motion="motion" :class="cls('root')" :header="header" :open="open">
         <LogsContent :logs="logs" />
     </CollapsibleSection>
 </template>

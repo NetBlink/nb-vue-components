@@ -18,7 +18,7 @@
  * @motion smooth - backdrop fades, the panel fades and scales in (the 3.x behaviour)
  * @motion fancy - same as smooth
  */
-import { computed, onMounted, onUnmounted, watch, ref, type PropType } from 'vue';
+import { computed, onMounted, onUnmounted, watch, ref } from 'vue';
 import type { NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
@@ -39,61 +39,38 @@ defineOptions({ inheritAttrs: false });
  * @prop {string}  [backdropCustomClass=''] - deprecated, use `:ui="{ overlay: '...' }"`
  * @emits close - fires when the user clicks the backdrop or presses Escape (only when `closeable` is true)
  */
-const props = defineProps({
-    show: {
-        type: Boolean,
-        default: false,
-    },
-    maxWidth: {
-        type: String,
-        default: '2xl',
-    },
-    closeable: {
-        type: Boolean,
-        default: true,
-    },
-    hideOverflow: {
-        type: Boolean,
-        default: true,
-    },
-    backdropDuration: {
-        type: Number,
-        default: 200,
-    },
-    modalDuration: {
-        type: Number,
-        default: 200,
-    },
-    alignCenter: {
-        type: Boolean,
-        default: false,
-    },
-    showBorder: {
-        type: Boolean,
-        default: false,
-    },
-    modalCustomClass: {
-        type: String,
-        default: '',
-    },
-    backdropCustomClass: {
-        type: String,
-        default: '',
-    },
-    resizable: {
-        type: Boolean,
-        default: false,
-    },
+export interface ModalProps {
+    show?: boolean;
+    maxWidth?: string;
+    closeable?: boolean;
+    hideOverflow?: boolean;
+    backdropDuration?: number;
+    modalDuration?: number;
+    alignCenter?: boolean;
+    showBorder?: boolean;
+    /** Deprecated, use `class` */
+    modalCustomClass?: string;
+    /** Deprecated, use `:ui="{ overlay: '...' }"` */
+    backdropCustomClass?: string;
+    resizable?: boolean;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: Object as PropType<UiProp<NbParts['Modal']>>,
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['Modal']>;
     /** Motion level for this instance */
-    motion: {
-        type: String as PropType<MotionLevel>,
-        default: undefined,
-    },
+    motion?: MotionLevel;
+}
+
+const props = withDefaults(defineProps<ModalProps>(), {
+    show: false,
+    maxWidth: '2xl',
+    closeable: true,
+    hideOverflow: true,
+    backdropDuration: 200,
+    modalDuration: 200,
+    alignCenter: false,
+    showBorder: false,
+    modalCustomClass: '',
+    backdropCustomClass: '',
+    resizable: false,
 });
 
 const { cls, attrs, level } = useUi('Modal', props, {
@@ -105,7 +82,11 @@ const { cls, attrs, level } = useUi('Modal', props, {
 const panelHidden = computed(() => (level.value === 'simple' ? 'opacity-0' : 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'));
 const panelShown = computed(() => (level.value === 'simple' ? 'opacity-100' : 'opacity-100 translate-y-0 sm:scale-100'));
 
-const emit = defineEmits(['close']);
+export interface ModalEmits {
+    (e: 'close'): void;
+}
+
+const emit = defineEmits<ModalEmits>();
 const modalContent = ref(null);
 
 watch(

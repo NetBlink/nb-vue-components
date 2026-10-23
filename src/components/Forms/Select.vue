@@ -32,6 +32,7 @@
 import { computed, ref, watch, onMounted, defineModel } from 'vue';
 import { InputWrapper } from '../../index';
 import type { NbParts, UiProp } from '../../ui/parts';
+import type { MotionLevel } from '../../ui/motion';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -78,6 +79,8 @@ export interface SelectProps {
     error?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Select']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 export interface SelectEmits {
@@ -210,6 +213,7 @@ defineExpose({
 <template>
     <InputWrapper
         v-bind="attrs()"
+        :motion="motion"
         :ui="{ root: cls('root'), label: cls('label'), error: cls('error') }"
         :field="field"
         :label="computedLabel"

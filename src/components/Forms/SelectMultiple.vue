@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Multi-select rendered as a clickable list of options that toggle in and out of an array
  * value, rather than as a dropdown. It writes directly into the Inertia `:form` + `field`
@@ -17,52 +17,37 @@
  */
 import NbIcon from '../../icons/NbIcon.vue';
 import { InputLabel, InputError } from '../../index';
+import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-    id: {
-        type: String,
-        required: true,
-    },
-    label: {
-        type: String,
-    },
-    list: {
-        type: Array,
-        required: true,
-        default: () => [],
-    },
-    optionValue: {
-        type: String,
-        required: true,
-    },
-    optionText: {
-        type: String,
-        required: true,
-    },
-    placeholder: {
-        type: String,
-    },
-    field: String,
-    form: Object,
-    noLabel: {
-        type: Boolean,
-        default: false,
-    },
-    isDisabled: {
-        type: Boolean,
-        default: false,
-    },
+export interface SelectMultipleProps {
+    id: string;
+    label?: string;
+    list: any[];
+    optionValue: string;
+    optionText: string;
+    placeholder?: string;
+    field?: string;
+    form?: Record<string, any>;
+    noLabel?: boolean;
+    isDisabled?: boolean;
     /** Classes per part, merged over the defaults */
-    ui: {
-        type: /** @type {import('vue').PropType<import('../../ui/parts').UiProp<import('../../ui/parts').NbParts['SelectMultiple']>>} */ (Object),
-        default: undefined,
-    },
+    ui?: UiProp<NbParts['SelectMultiple']>;
+}
+
+const props = withDefaults(defineProps<SelectMultipleProps>(), {
+    list: () => [],
+    noLabel: false,
+    isDisabled: false,
 });
 
-const emit = defineEmits(['update:modelValue']);
+export interface SelectMultipleEmits {
+    (e: 'update:modelValue', value: string[]): void;
+}
+
+const emit = defineEmits<SelectMultipleEmits>();
 
 const { cls, attrs } = useUi('SelectMultiple', props);
 
