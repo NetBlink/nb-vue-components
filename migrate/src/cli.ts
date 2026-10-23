@@ -3,64 +3,37 @@ import { Command } from 'commander';
 import pc from 'picocolors';
 import path from 'node:path';
 import { locateEntry } from './locate-entry.js';
-import { transformEntry } from './transform-entry.js';
-import { transformSfcs } from './transform-sfc.js';
-import { writeReport } from './report.js';
+import { runUpgrade } from './engine.js';
 import { transformSwitch, SET_CONFIGS, type SetKey } from './transform-switch.js';
 
 const program = new Command();
 
 program
     .name('nb-vue-components-migrate')
-    .description('Upgrade an app from @netblink/vue-components v2.x to v3.x.');
+    .description('Upgrade an app using @netblink/vue-components from any 1.x/2.x/3.x version to the latest.');
 
 program
     .command('upgrade', { isDefault: true })
-    .description('Default: inject the FA preset (preserves v2 visuals)')
-    .option('--path <dir>', 'directory to scan', '.')
-    .option('--entry <file>', 'explicit path to the app entrypoint (e.g. src/main.ts)')
-    .option('--dry-run', 'show changes without writing files', false)
-    .option('--check', 'exit 1 if any change would be made (CI)', false)
-    .option('--yes', 'bypass interactive prompts', false)
+    .description('Upgrade the app to the latest version (or --to <major>)')
+    .option('--path <dir>', 'app root', '.')
+    .option('--to <major>', 'stop at the newest known version of this major')
+    .option('--dry-run', 'print the full diff, write nothing', false)
+    .option('--check', 'exit 1 if anything would change, write nothing', false)
+    .option('--yes', 'no prompts: take every default and write', false)
+    .option('--force', 'run even with uncommitted changes', false)
+    .option('--entry <file>', 'app entry file (default: found by looking for createApp/createInertiaApp)')
+    .option('--choices <file>', 'JSON file of { "<choice id>": "keep" | "adopt" }')
     .action(async (opts) => {
-        const root = path.resolve(opts.path);
-        const summary = {
-            entryUpdated: '',
-            sfcsScanned: 0,
-            sfcsRewritten: 0,
-            faPassthroughSites: 0,
-            manualReviewItems: [] as { file: string; line: number; reason: string }[],
-        };
-
-        const entry = await locateEntry(root, opts.entry);
-        if (!entry) {
-            console.error(pc.red('No entrypoint found.'));
-            console.error('Pass --entry <path-to-main.{js,ts}> to specify one.');
-            process.exit(2);
-        }
-
-        const entryChanged = await transformEntry({ file: entry, dryRun: opts.dryRun, summary });
-        if (entryChanged) summary.entryUpdated = path.relative(root, entry);
-
-        const sfcResult = await transformSfcs({ root, dryRun: opts.dryRun, summary });
-        summary.sfcsScanned = sfcResult.scanned;
-        summary.sfcsRewritten = sfcResult.rewritten;
-
-        await writeReport(root, summary);
-
-        console.log('');
-        console.log(pc.green(`✓ Entry file updated:           ${summary.entryUpdated || '(no change)'}`));
-        console.log(pc.green(`✓ Vue files scanned:            ${summary.sfcsScanned}`));
-        console.log(pc.green(`✓ Vue files rewritten:          ${summary.sfcsRewritten}`));
-        console.log(pc.cyan(`ⓘ FA passthrough preserved:     ${summary.faPassthroughSites} site(s)`));
-        console.log(pc.yellow(`⚠ Manual review needed:         ${summary.manualReviewItems.length} item(s)`));
-        if (summary.manualReviewItems.length > 0) {
-            console.log(pc.yellow('  See ./nb-vue-components-migration.md'));
-        }
-
-        if (opts.check && (entryChanged || sfcResult.rewritten > 0 || summary.manualReviewItems.length > 0)) {
-            process.exit(1);
-        }
+        process.exitCode = await runUpgrade({
+            root: path.resolve(opts.path),
+            to: opts.to,
+            dryRun: opts.dryRun,
+            check: opts.check,
+            yes: opts.yes,
+            force: opts.force,
+            entry: opts.entry,
+            choicesFile: opts.choices,
+        });
     });
 
 program
