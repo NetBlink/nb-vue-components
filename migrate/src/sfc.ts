@@ -29,8 +29,10 @@ export interface LibTag {
     line: number;
     start: number;
     end: number;
-    /** Offset right after the tag name, where new attributes go. */
+    /** Offset right after the tag name. */
     nameEnd: number;
+    /** Offset right after the last attribute (or the tag name), where new attributes go. */
+    attrsEnd: number;
     selfClosing: boolean;
     /** name, :name, v-bind:name, v-model:name; kebab-case and camelCase both match. */
     attr(name: string): LibAttr | null;
@@ -87,6 +89,7 @@ function makeTag(file: string, node: any, component: string): LibTag {
         start: node.loc.start.offset,
         end: node.loc.end.offset,
         nameEnd: node.loc.start.offset + 1 + node.tag.length,
+        attrsEnd: props.length ? Math.max(...props.map((p) => p.loc.end.offset)) : node.loc.start.offset + 1 + node.tag.length,
         selfClosing: !!node.isSelfClosing,
         hasSpread: props.some((p) => p.type === DIRECTIVE && p.name === 'bind' && !p.arg),
         node,
