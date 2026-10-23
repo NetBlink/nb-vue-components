@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
-import NbVueComponents from '@netblink/vue-components';
 import App from './App.vue';
+import { plugin } from './plugin';
 
 const app = createApp(App);
-app.use(NbVueComponents);
+app.use(plugin);
 app.mount('#app');

@@ -2,9 +2,11 @@
 import { Command } from 'commander';
 import pc from 'picocolors';
 import path from 'node:path';
-import { locateEntry } from './locate-entry.js';
+import { locateEntry } from './entry.js';
 import { runUpgrade } from './engine.js';
-import { transformSwitch, SET_CONFIGS, type SetKey } from './transform-switch.js';
+import { FileStore } from './files.js';
+import { SET_CONFIGS, type SetKey } from './icons.js';
+import { transformSwitch } from './transform-switch.js';
 
 const program = new Command();
 
@@ -51,7 +53,8 @@ program
         }
 
         const root = path.resolve(opts.path);
-        const entry = await locateEntry(root, opts.entry);
+        const files = new FileStore(root);
+        const entry = await locateEntry(files, opts.entry);
         if (!entry) {
             console.error(pc.red('No entrypoint found.'));
             console.error('Pass --entry <path-to-main.{js,ts}> to specify one.');
@@ -60,14 +63,19 @@ program
 
         const config = SET_CONFIGS[key];
         try {
-            await transformSwitch({ file: entry, dryRun: opts.dryRun, target: key });
+            files.write(entry, transformSwitch((await files.read(entry))!, key));
         } catch (err) {
             console.error(pc.red((err as Error).message));
             process.exit(2);
         }
+        if (opts.dryRun) {
+            console.log(files.diff());
+            return;
+        }
+        await files.flush();
 
         console.log('');
-        console.log(pc.green(`✓ Switched to ${config.label}: ${path.relative(root, entry)}`));
+        console.log(pc.green(`✓ Switched to ${config.label}: ${entry}`));
         console.log('');
         console.log(pc.cyan('Next step — install peer deps:'));
         console.log('  ' + config.installCmd);

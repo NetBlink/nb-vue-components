@@ -1,0 +1,12 @@
+{
+    "name": "app",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@netblink/vue-components": "^2.0.48",
+        "vue": "^3.4.21"
+    },
+    "devDependencies": {
+        "tailwindcss": "^4.1.11"
+    }
+}
