@@ -1,0 +1,48 @@
+name: Migrate CLI Release
+
+on:
+    push:
+        branches:
+            - main
+            - next
+        paths: ['migrate/**']
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        defaults:
+            run:
+                working-directory: migrate
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24.x
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run fixtures
+              run: npm run fixtures
+
+            - name: Publish if this version is not on npm yet
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_MIGRATE_TOKEN }}
+              run: |
+                  VERSION=$(node -p "require('./package.json').version")
+                  if [ -n "$(npm view "@netblink/vue-components-migrate@$VERSION" version 2>/dev/null)" ]; then
+                      echo "@netblink/vue-components-migrate@$VERSION is already published, skipping"
+                      exit 0
+                  fi
+                  if [ "$GITHUB_REF_NAME" = "next" ]; then
+                      npm publish --access public --tag next
+                  else
+                      npm publish --access public
+                  fi

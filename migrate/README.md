@@ -1,10 +1,6 @@
 # @netblink/vue-components-migrate
 
-Codemod for upgrading apps from `@netblink/vue-components` v2.x to v3.x.
-
-## What it does
-
-v3.0.0 decouples the component library from FontAwesome. This codemod injects the FA preset into your app's entrypoint so all existing icon visuals are preserved automatically — for projects already using `@fortawesome/free-*-svg-icons`, you should see zero visual diff after the upgrade.
+Upgrades an app from any installed `@netblink/vue-components` 1.x, 2.x or 3.x to the latest version this CLI knows (3.2.1), one step per breaking release.
 
 ## Usage
 
@@ -13,45 +9,138 @@ cd my-app
 npx @netblink/vue-components-migrate
 ```
 
-Common flags:
+The CLI detects the installed version (package-lock.json, then node_modules, then the package.json range), picks the steps between it and the target, asks one question per kind of change, shows the files it will change and asks before writing. It bumps `@netblink/vue-components` in package.json but never runs npm or a build in your app. Run `npm install` and build afterwards.
+
+It refuses to run on a git tree with uncommitted changes, so you can review the result with `git diff` and undo it with `git checkout .`.
+
+## Flags
 
 | Flag | Purpose |
 | --- | --- |
-| `--path <dir>` | restrict the scan to a subdirectory (default: cwd) |
-| `--entry <file>` | point at your Vue app entrypoint explicitly if the heuristic misses it |
-| `--dry-run` | print the changes without writing |
-| `--check` | exit `1` if any change would be made (use in CI) |
-| `--yes` | skip interactive prompts |
+| `--path <dir>` | app root (default: current directory) |
+| `--to <version>` | stop at the newest known version of a major (`--to 2`), or at an exact step version (`--to 2.0.49`) |
+| `--dry-run` | print the full diff, write nothing |
+| `--check` | write nothing, exit 1 if anything would change |
+| `--yes` | no prompts: take the default of every choice and write |
+| `--choices <file>` | JSON file of `{ "<choice id>": "keep" \| "adopt" }`, used instead of asking |
+| `--force` | run even with uncommitted changes |
+| `--entry <file>` | app entry file, when it is not found automatically |
 
-## What it changes
+The entry file is looked for in `resources/js/app.ts`, `resources/js/app.js`, `src/main.ts` and `src/main.js`, then in the first `.js`/`.ts` file calling `createInertiaApp(` or `createApp(`.
 
-1. **Your app entrypoint** (`src/main.ts` or wherever you call `app.use(NbVueComponents)`):
+Exit codes: 0 done (or nothing to do), 1 `--check` found changes, 2 refused.
 
-   ```ts
-   import { createNbIcons } from '@netblink/vue-components/icons';
-   import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';
+## Choices
 
-   app.use(NbVueComponents);
-   app.use(createNbIcons({ aliases: faAliasPreset, sets: { fa: faSet }, defaultSet: 'fa' }));
-   ```
+Where a prop restores the old behaviour exactly, you choose:
 
-2. **Deprecated FA string-form icons** in `.vue` files that import from `@netblink/vue-components`:
+- **keep**: add the prop so the app behaves as before;
+- **adopt**: take the new default.
 
-   ```diff
-   - <FontAwesomeIcon icon="fab fa-whatsapp" />
-   + <NbIcon name="$whatsapp" />
-   ```
+There is one question per kind of change, not per site. Changes that are purely visual are only listed in the report.
 
-3. Writes a report to `./nb-vue-components-migration.md` listing anything that needs your attention (notably: the `$whatsapp` alias has no default and must be mapped explicitly).
+## Steps
 
-## What it does NOT change
+### `v1-to-v2` (to 2.0.1)
 
-- Your own `<FontAwesomeIcon :icon="faXyz" />` usages keep working via the FA passthrough — they are counted but not rewritten.
-- Your `package.json` is not touched. After migration, you can decide independently whether to keep `@fortawesome/*` (recommended if you still want the FA preset).
+Needs Tailwind 4 (see below).
 
-## Re-runs
+- Dropdown `align="left"`/`"right"` become `"start"`/`"end"`. `width` and `contentClasses` are removed and reported.
+- NavCollapse `show` becomes `open` (`:show`, `v-model:show`).
+- DropdownLink without `href` is reported.
+- Dropdown, LinkDropdownButton, CollapsibleSection and NavCollapse moved to reka-ui: each site is listed to check visually.
+- Apps using TrCollapse, TrCollapseHandler, TdCollapseHandler or SelectMultiple are told to keep tw-elements.
 
-The codemod is idempotent. Running it twice has no additional effect.
+| Choice id | Default | keep | adopt |
+| --- | --- | --- | --- |
+| `dropdown-align` | keep | Dropdowns without align stay right-aligned (`align="end"`) | use the new default (`align="start"`) |
+
+### `v2-patch` (to 2.0.49)
+
+- Adds `setInertiaPage(usePage());` after `setInertiaRouter(router);` in the entry, with its imports. Stats needs it.
+- Alert `message` was removed: each use is reported.
+- From 2.0.25 to 2.0.31, TrPlaceholder `columns` becomes `placeholders` again.
+- LinkButton sites are listed to check visually.
+
+| Choice id | Default | keep | adopt |
+| --- | --- | --- | --- |
+| `alert-dismissible` | keep | add `dismissible`, keeping the close button | no close button |
+| `table-sticky` | keep | add `sticky` (restores sticky, not the exact old look, 3.2 reworks sticky) | not sticky |
+
+### `v2-to-v3` (to 3.0.1)
+
+- Bumps `vue` to `^3.5.0` when the range allows older versions.
+
+| Choice id | Default | keep | adopt |
+| --- | --- | --- | --- |
+| `icons` | keep | keep FontAwesome icons: adds the FA preset to the entry, adds missing `@fortawesome/*` packages and rewrites `<FontAwesomeIcon icon="fab fa-whatsapp">` to `<NbIcon name="$whatsapp">` | use the built-in SVG icons; each Input/Textarea `whatsApp` prop is reported because `$whatsapp` needs a mapping |
+
+With keep, the entry gets:
+
+```js
+import { createNbIcons } from '@netblink/vue-components/icons';
+import { faAliasPreset, faSet } from '@netblink/vue-components/icons/fa';
+
+createApp({ render: () => h(App, props) })
+    .use(plugin)
+    .use(createNbIcons({ aliases: faAliasPreset, sets: { fa: faSet }, defaultSet: 'fa' }))
+    .mount(el);
+```
+
+### `v3-to-v3-2` (to 3.2.1)
+
+- Adds `@import '@netblink/vue-components/theme.css';` after `@import 'tailwindcss';` in the app stylesheet, drops `@source` lines pointing at @netblink and removes `@keyframes` identical to the library's. Same-named keyframes with a different body are reported.
+- Adds `import '@netblink/vue-components/style.css';` to the entry.
+- Section, Pagination, LinkDropdownButton, disabled buttons and sticky Tables are listed to check visually.
+
+| Choice id | Default | keep | adopt |
+| --- | --- | --- | --- |
+| `newmodal-maxwidth` | keep | remove `max-width` from NewModal, keeping the 600px width | honour the `max-width` you set |
+| `modal-to-newmodal` | keep | keep Modal | rename Modal to NewModal: `modal-custom-class` becomes `class`, `align-top` is added where `align-center` was absent, `:padded="false"` where the slot brings its own padding |
+
+## What is never rewritten
+
+- Your own components that share a library name. Only tags imported from `@netblink/vue-components` in that SFC count.
+- Dynamic bindings (`:align="wide ? 'left' : 'right'"`), `v-bind` spreads and render-function calls (`h(NavCollapse, ...)`). They are reported with file and line.
+
+## The report
+
+Every run writes `nb-vue-components-migration.md` in the app root with:
+
+- the choices made, with their ids, so you can rerun with `--choices`;
+- manual changes needed, with file:line;
+- sites to check visually;
+- the next steps.
+
+## Tailwind 3
+
+The 1.x to 2.x step needs Tailwind 4. On a Tailwind 3 app the CLI stops before it: run `npx @tailwindcss/upgrade`, commit, then run this CLI again.
+
+## @shbc/vue-components
+
+Not supported. Only apps on `@netblink/vue-components` can be upgraded.
+
+## Switching icon sets
+
+After the upgrade, swap the icon preset in the entry file:
+
+```bash
+npx @netblink/vue-components-migrate switch hero   # fa, hero, material or solar
+```
+
+`--dry-run`, `--path` and `--entry` work as above. It prints the packages the new set needs.
+
+## Development
+
+```bash
+npm ci
+npm run fixtures            # build, then run every fixture
+npm run fixtures <name>     # one fixture
+```
+
+A fixture is `fixtures/<name>/before/` (the app), `after/` (the expected tree, report included), optional `args.json` (CLI arguments, default `["--yes"]`) and optional `expect.json` (`{ exitCode, stdoutIncludes, dirty }`).
+
+`node scripts/snapshot-theme.mjs` refreshes `src/steps/data/theme-keyframes.ts` from the library's `theme.css`.
 
 ## Reporting issues
 

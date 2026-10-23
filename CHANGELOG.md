@@ -48,7 +48,7 @@
 ## [3.0.0] - 2026-05-19
 
 ### Breaking
-- FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. A codemod (`@netblink/vue-components-migrate`) to automate the first option exists but is not published to npm yet.
+- FontAwesome is no longer a build-time dependency of this package. Consumers must either install the FA preset (`@netblink/vue-components/icons/fa`) or migrate their alias overrides to another provider. Run `npx @netblink/vue-components-migrate` to automate the first option.
 - `DataTile.icon` prop changed type from `IconProp` (FA) to `IconLike`. Existing `:icon="faXyz"` calls continue to work as long as the FA preset is registered.
 - The internal hardcoded `<FontAwesomeIcon icon="fab fa-whatsapp" …>` form in `InputWithActions` was replaced with `<NbIcon name="$whatsapp" …>`. Consumers who use `InputWithActions` or `Textarea`'s WhatsApp affordance must register a `$whatsapp` alias.
 
