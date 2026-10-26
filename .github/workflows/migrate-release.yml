@@ -36,9 +36,27 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_MIGRATE_TOKEN }}
               run: |
+                  PACKAGE=@netblink/vue-components-migrate
                   VERSION=$(node -p "require('./package.json').version")
-                  if [ -n "$(npm view "@netblink/vue-components-migrate@$VERSION" version 2>/dev/null)" ]; then
-                      echo "@netblink/vue-components-migrate@$VERSION is already published, skipping"
+                  # next only publishes prereleases: a release version published there under the
+                  # next tag would be skipped later on main, leaving latest behind.
+                  if [ "$GITHUB_REF_NAME" = "next" ]; then
+                      case "$VERSION" in
+                          *-*) ;;
+                          *)
+                              echo "::notice::$PACKAGE@$VERSION is not a prerelease, it is published from main"
+                              exit 0
+                              ;;
+                      esac
+                  fi
+                  if [ -n "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null)" ]; then
+                      LATEST=$(npm view "$PACKAGE" dist-tags.latest 2>/dev/null)
+                      if [ "$GITHUB_REF_NAME" = "main" ] && [ "$LATEST" != "$VERSION" ]; then
+                          echo "$PACKAGE@$VERSION is already published, moving latest to it (was $LATEST)"
+                          npm dist-tag add "$PACKAGE@$VERSION" latest
+                      else
+                          echo "$PACKAGE@$VERSION is already published, skipping"
+                      fi
                       exit 0
                   fi
                   if [ "$GITHUB_REF_NAME" = "next" ]; then
