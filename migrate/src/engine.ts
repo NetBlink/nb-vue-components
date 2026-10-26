@@ -18,6 +18,8 @@ export { LIBRARY };
 export interface UpgradeOptions {
     root: string;
     to?: string;
+    /** Installed version to start from, instead of detecting it. */
+    from?: string;
     dryRun: boolean;
     check: boolean;
     yes: boolean;
@@ -49,8 +51,11 @@ export async function runUpgrade(opts: UpgradeOptions): Promise<number> {
     }
     if (!deps[LIBRARY]) return refuse(`${LIBRARY} is not a dependency of this project.`);
 
-    const detected = await detectVersion(opts.root, LIBRARY);
-    if (!detected) return refuse(`Could not work out which ${LIBRARY} version is installed.`);
+    if (opts.from !== undefined && !semver.valid(opts.from)) return refuse(`--from ${opts.from}: not a version (use e.g. --from 2.0.48).`);
+    const detected = opts.from ? { version: opts.from, source: '--from' } : await detectVersion(opts.root, LIBRARY);
+    if (!detected) {
+        return refuse(`Could not work out which ${LIBRARY} version is installed (no lockfile or node_modules entry, and the package.json range "${deps[LIBRARY]}" has no lower bound): pass --from <version>.`);
+    }
     const installed = detected.version;
 
     let target: string;

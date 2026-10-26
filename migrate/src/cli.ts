@@ -19,6 +19,7 @@ program
     .description('Upgrade the app to the latest version (or --to <major>)')
     .option('--path <dir>', 'app root', '.')
     .option('--to <major>', 'stop at the newest known version of this major')
+    .option('--from <version>', 'installed version to start from, when it cannot be detected')
     .option('--dry-run', 'print the full diff, write nothing', false)
     .option('--check', 'exit 1 if anything would change, write nothing', false)
     .option('--yes', 'no prompts: take every default and write', false)
@@ -29,6 +30,7 @@ program
         process.exitCode = await runUpgrade({
             root: path.resolve(opts.path),
             to: opts.to,
+            from: opts.from,
             dryRun: opts.dryRun,
             check: opts.check,
             yes: opts.yes,

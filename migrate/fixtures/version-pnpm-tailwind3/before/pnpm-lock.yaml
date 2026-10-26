@@ -1,0 +1,23 @@
+lockfileVersion: '6.0'
+
+dependencies:
+  '@netblink/vue-components':
+    specifier: ^1.0.0
+    version: 1.0.28(vue@3.5.13)
+
+devDependencies:
+  tailwindcss:
+    specifier: ^3.0.0
+    version: 3.4.17
+
+packages:
+
+  /@netblink/vue-components@1.0.28(vue@3.5.13):
+    resolution: {integrity: sha512-x}
+    dependencies:
+      tailwindcss: 3.4.17
+    dev: false
+
+  /tailwindcss@3.4.17:
+    resolution: {integrity: sha512-x}
+    dev: true
