@@ -11,7 +11,7 @@ jobs:
     release:
         runs-on: ubuntu-latest
         permissions:
-            contents: read
+            contents: write
         defaults:
             run:
                 working-directory: migrate
@@ -24,7 +24,6 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 24.x
-                  registry-url: 'https://registry.npmjs.org'
 
             - name: Install dependencies
               run: npm ci
@@ -32,35 +31,31 @@ jobs:
             - name: Run fixtures
               run: npm run fixtures
 
-            - name: Publish if this version is not on npm yet
+            # The CLI ships as a tarball on a GitHub release, so it needs no npm token:
+            # npx https://github.com/<repo>/releases/download/migrate-v<version>/vue-components-migrate-<version>.tgz
+            - name: Attach the CLI to a GitHub release if this version has none yet
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_MIGRATE_TOKEN }}
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  PACKAGE=@netblink/vue-components-migrate
                   VERSION=$(node -p "require('./package.json').version")
-                  # next only publishes prereleases: a release version published there under the
-                  # next tag would be skipped later on main, leaving latest behind.
-                  if [ "$GITHUB_REF_NAME" = "next" ]; then
-                      case "$VERSION" in
-                          *-*) ;;
-                          *)
-                              echo "::notice::$PACKAGE@$VERSION is not a prerelease, it is published from main"
-                              exit 0
-                              ;;
-                      esac
-                  fi
-                  if [ -n "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null)" ]; then
-                      LATEST=$(npm view "$PACKAGE" dist-tags.latest 2>/dev/null)
-                      if [ "$GITHUB_REF_NAME" = "main" ] && [ "$LATEST" != "$VERSION" ]; then
-                          echo "$PACKAGE@$VERSION is already published, moving latest to it (was $LATEST)"
-                          npm dist-tag add "$PACKAGE@$VERSION" latest
-                      else
-                          echo "$PACKAGE@$VERSION is already published, skipping"
-                      fi
+                  TAG="migrate-v$VERSION"
+                  case "$VERSION" in *-*) PRE=1 ;; *) PRE= ;; esac
+                  # next only releases prereleases and main only release versions, so a beta never
+                  # shows up as the stable CLI and a stable version is never released from next.
+                  if [ "$GITHUB_REF_NAME" = "next" ] && [ -z "$PRE" ]; then
+                      echo "::notice::$VERSION is not a prerelease, it is released from main"
                       exit 0
                   fi
-                  if [ "$GITHUB_REF_NAME" = "next" ]; then
-                      npm publish --access public --tag next
-                  else
-                      npm publish --access public
+                  if [ "$GITHUB_REF_NAME" = "main" ] && [ -n "$PRE" ]; then
+                      echo "::notice::$VERSION is a prerelease, it is released from next"
+                      exit 0
                   fi
+                  if gh release view "$TAG" >/dev/null 2>&1; then
+                      echo "$TAG already exists, skipping"
+                      exit 0
+                  fi
+                  FILE="vue-components-migrate-$VERSION.tgz"
+                  mv "$(npm pack --silent)" "$FILE"
+                  URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$FILE"
+                  gh release create "$TAG" "$FILE" --target "$GITHUB_SHA" --title "Upgrade CLI $VERSION" \
+                      --notes "npx $URL" ${PRE:+--prerelease}
