@@ -5,6 +5,7 @@ import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleG
 import { NbIcon } from '../icons';
 import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab, H2 } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import PageHeaderDoc from './sections/PageHeaderDoc.vue';
 
 // Collapse lives here beside CollapsableSection - same idea, one styled and one bare.
 const collapseOpen = ref(false);
@@ -543,6 +544,8 @@ const tabProps = [
         </section>
 
 
-        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable']" />
+        <PageHeaderDoc />
+
+        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable', 'PageHeader']" />
     </div>
 </template>

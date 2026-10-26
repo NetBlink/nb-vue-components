@@ -13,6 +13,7 @@ import {
     PropsTable,
 } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import IconButtonDoc from './sections/IconButtonDoc.vue';
 
 // Code examples for LinkButton themes
 const linkButtonExamples = [
@@ -190,6 +191,8 @@ const submitButtonProps = [
         </section>
 
 
-        <DocComponentMeta :names="['Button', 'PrimaryButton', 'SecondaryButton', 'DangerButton', 'WarningButton', 'InfoButton', 'SuccessButton', 'SubmitButton', 'LinkButton']" />
+        <IconButtonDoc />
+
+        <DocComponentMeta :names="['Button', 'PrimaryButton', 'SecondaryButton', 'DangerButton', 'WarningButton', 'InfoButton', 'SuccessButton', 'SubmitButton', 'LinkButton', 'IconButton', 'CopyButton']" />
     </div>
 </template>

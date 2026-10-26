@@ -25,6 +25,10 @@ import {
     PropsTable,
 } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import CardDoc from './sections/CardDoc.vue';
+import BadgeDoc from './sections/BadgeDoc.vue';
+import AvatarDoc from './sections/AvatarDoc.vue';
+import TimelineDoc from './sections/TimelineDoc.vue';
 
 // Only the fields the editable description-list demo needs.
 const form = useForm({
@@ -237,6 +241,12 @@ const descriptionListProps = [
     { prop: 'value', type: 'string', default: 'undefined', description: 'DescriptionListItem - value text (alternative to default slot)' },
     { prop: 'required', type: 'boolean', default: 'false', description: 'DescriptionListItem - render a red asterisk next to the label' },
 ];
+
+const statsWithExtras = [
+    { name: 'open', label: 'Open tickets', value: 18, chip: { icon: faTriangleExclamation, variant: 'warning' as const }, change: { value: '4', direction: 'up' as const }, live: true },
+    { name: 'solved', label: 'Solved today', value: 42, chip: { icon: faCircleCheck, variant: 'success' as const }, change: { value: '9%', direction: 'up' as const } },
+    { name: 'agents', label: 'Agents online', value: 7, chip: { icon: faUsers, variant: 'info' as const } },
+];
 </script>
 
 <template>
@@ -312,6 +322,24 @@ const descriptionListProps = [
                 </p>
                 <div class="mb-6 max-w-xs">
                     <DataTile :value="123" label="Example label" :icon="faChevronCircleDown" theme="success" />
+                </div>
+
+                <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Icon chip, trend and live dot</div>
+                <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">icon-variant</code> moves the icon into a coloured chip beside the value,
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">trend</code> adds a change line and
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">ping</code> a pulsing live dot. In
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> the same extras are the
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">chip</code>, <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">change</code> and
+                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">live</code> fields of each stat.
+                </p>
+                <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+                    <DataTile :value="1284" label="Active users" :icon="faUsers" icon-variant="primary" :trend="{ value: '12%', direction: 'up' }" ping />
+                    <DataTile :value="'£45,678'" label="Revenue (MTD)" :icon="faChartLine" icon-variant="success" :trend="{ value: '3.1%', direction: 'down' }" />
+                    <DataTile :value="32" label="Failed jobs" :icon="faTriangleExclamation" icon-variant="danger" :trend="{ value: 'same as last week', direction: 'flat' }" />
+                </div>
+                <div class="mb-6">
+                    <Stats :stats="statsWithExtras" />
                 </div>
 
                 <CodePreview
@@ -469,6 +497,14 @@ const descriptionListProps = [
             </DocDemoCard>
         </section>
 
-        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg']" />
+        <CardDoc />
+
+        <BadgeDoc />
+
+        <AvatarDoc />
+
+        <TimelineDoc />
+
+        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle']" />
     </div>
 </template>

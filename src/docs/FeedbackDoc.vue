@@ -18,6 +18,9 @@ import { faTriangleExclamation, faCircleCheck, faGears } from '@fortawesome/free
 import { NbIcon } from '../icons';
 import { Alert, Spinner, Tooltip, UnderConstruction, CodePreview, PropsTable } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import EmptyStateDoc from './sections/EmptyStateDoc.vue';
+import ProgressDoc from './sections/ProgressDoc.vue';
+import SkeletonDoc from './sections/SkeletonDoc.vue';
 import DocCallout from './HelperComponents/DocCallout.vue';
 
 const showAlert = ref(true);
@@ -372,6 +375,12 @@ const underConstructionProps = [
             </DocDemoCard>
         </section>
 
-        <DocComponentMeta :names="['Alert', 'Spinner', 'Tooltip', 'UnderConstruction']" />
+        <EmptyStateDoc />
+
+        <ProgressDoc />
+
+        <SkeletonDoc />
+
+        <DocComponentMeta :names="['Alert', 'Spinner', 'Tooltip', 'UnderConstruction', 'EmptyState', 'Progress', 'Skeleton']" />
     </div>
 </template>

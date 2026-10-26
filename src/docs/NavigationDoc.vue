@@ -19,6 +19,9 @@ import {
     PropsTable,
 } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import BreadcrumbsDoc from './sections/BreadcrumbsDoc.vue';
+import SubNavDoc from './sections/SubNavDoc.vue';
+import StepperDoc from './sections/StepperDoc.vue';
 
 const currentRoute = ref('/dashboard');
 
@@ -371,6 +374,12 @@ const dropdownSeparatorNote = [
             </DocDemoCard>
         </section>
 
-        <DocComponentMeta :names="['NavLink', 'ResponsiveNavLink', 'NavCollapse', 'Dropdown', 'DropdownLink', 'DropdownSeparator', 'LinkDropdownButton', 'LinkDropdownButtonItem']" />
+        <BreadcrumbsDoc />
+
+        <SubNavDoc />
+
+        <StepperDoc />
+
+        <DocComponentMeta :names="['NavLink', 'ResponsiveNavLink', 'NavCollapse', 'Dropdown', 'DropdownLink', 'DropdownSeparator', 'LinkDropdownButton', 'LinkDropdownButtonItem', 'Breadcrumbs', 'SubNav', 'Stepper']" />
     </div>
 </template>

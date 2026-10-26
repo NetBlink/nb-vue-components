@@ -4,6 +4,7 @@ import { CodePreview, Input, PrimaryButton, NewModal, SecondaryButton } from '..
 import { useMotion, MOTION_LEVELS } from '../ui/motion';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import DocCallout from './HelperComponents/DocCallout.vue';
+import TransitionsDoc from './sections/TransitionsDoc.vue';
 import renameMap from '../../scripts/v4-rename-map.json';
 
 const { level, userLevel, setLevel, reset } = useMotion();
@@ -152,6 +153,16 @@ const levelRows = [
 const renames = computed(() => renameMap.renames);
 const replacementText = (r: { replacement: string | null; part: string | null }) =>
     r.replacement === null ? 'remove it' : r.replacement === 'class' ? 'class' : `:ui="{ ${r.part}: '...' }"`;
+
+const badgeSnippet = [
+    'app.use(Componentsnb, {',
+    '    badge: {',
+    "        statuses: { shipped: 'success', on_hold: 'warning', refunded: 'info' },",
+    '    },',
+    '});',
+    '',
+    '<Badge :status="order.status" />  <!-- "On hold", yellow -->',
+];
 </script>
 
 <template>
@@ -230,8 +241,14 @@ const replacementText = (r: { replacement: string | null; part: string | null })
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 The interfaces to augment are <code :class="code">ButtonThemes</code>, <code :class="code">ButtonSizes</code>, <code :class="code">AlertTypes</code>,
                 <code :class="code">DataTileThemes</code>, <code :class="code">SpinnerSizes</code>, <code :class="code">TrVariants</code>,
-                <code :class="code">SectionVariants</code> and <code :class="code">TabsVariants</code>.
+                <code :class="code">SectionVariants</code>, <code :class="code">TabsVariants</code> and <code :class="code">NbColorVariants</code>
+                (Badge, IconCircle, Progress).
             </p>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+                The <code :class="code">badge</code> option sets which colour a status word gets when a Badge is given
+                <code :class="code">status</code>. Your words are added to the built-in ones and win over them.
+            </p>
+            <CodePreview :code="badgeSnippet" filename="app.js" />
         </section>
 
         <section id="your-own-tokens" class="space-y-3">
@@ -314,6 +331,8 @@ const replacementText = (r: { replacement: string | null; part: string | null })
                 lists what that component does at each level.
             </p>
         </section>
+
+        <TransitionsDoc />
 
         <section id="migrating-from-3x" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Migrating from 3.x override props</h2>
