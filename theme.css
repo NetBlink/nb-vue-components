@@ -572,3 +572,84 @@
 .collapse-icon-leave-to {
     transform: translateY(20px);
 }
+
+/*
+ * NbTransition presets. The component picks the class prefix per motion level:
+ * `nb-<preset>` at smooth, `nb-<preset>-fancy` at fancy, `nb-fade-quick` at
+ * simple, and no CSS at all at off. Timing comes from the motion tokens, so an
+ * app that overrides --duration-* or --ease-* retunes these too.
+ */
+.nb-fade-quick-enter-active,
+.nb-fade-quick-leave-active {
+    transition: opacity var(--duration-quick) ease-out;
+}
+.nb-fade-enter-active,
+.nb-slide-up-enter-active,
+.nb-slide-down-enter-active,
+.nb-scale-enter-active {
+    transition:
+        opacity var(--duration-base) var(--ease-emphasised),
+        transform var(--duration-base) var(--ease-emphasised);
+}
+.nb-fade-leave-active,
+.nb-slide-up-leave-active,
+.nb-slide-down-leave-active,
+.nb-scale-leave-active {
+    transition:
+        opacity var(--duration-quick) ease-in,
+        transform var(--duration-quick) ease-in;
+}
+.nb-fade-fancy-enter-active,
+.nb-slide-up-fancy-enter-active,
+.nb-slide-down-fancy-enter-active,
+.nb-scale-fancy-enter-active {
+    transition:
+        opacity var(--duration-slow) var(--ease-emphasised),
+        transform var(--duration-slow) var(--ease-spring);
+}
+.nb-fade-fancy-leave-active,
+.nb-slide-up-fancy-leave-active,
+.nb-slide-down-fancy-leave-active,
+.nb-scale-fancy-leave-active {
+    transition:
+        opacity var(--duration-base) ease-in,
+        transform var(--duration-base) var(--ease-emphasised);
+}
+.nb-fade-quick-enter-from,
+.nb-fade-quick-leave-to,
+.nb-fade-enter-from,
+.nb-fade-leave-to,
+.nb-fade-fancy-enter-from,
+.nb-fade-fancy-leave-to {
+    opacity: 0;
+}
+.nb-slide-up-enter-from,
+.nb-slide-up-leave-to {
+    opacity: 0;
+    transform: translateY(8px);
+}
+.nb-slide-up-fancy-enter-from,
+.nb-slide-up-fancy-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.nb-slide-down-enter-from,
+.nb-slide-down-leave-to {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+.nb-slide-down-fancy-enter-from,
+.nb-slide-down-fancy-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+.nb-scale-enter-from,
+.nb-scale-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+}
+.nb-scale-fancy-enter-from,
+.nb-scale-fancy-leave-to {
+    opacity: 0;
+    transform: scale(0.85);
+}

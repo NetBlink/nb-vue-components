@@ -556,6 +556,25 @@
             }
         ]
     },
+    "IconCircle": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the disc"
+            },
+            {
+                "name": "icon",
+                "description": "the icon"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
     "Images": {
         "parts": [
             {

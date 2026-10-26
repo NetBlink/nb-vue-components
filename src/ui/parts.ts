@@ -103,6 +103,7 @@ export interface NbParts {
     CodePreview: 'root' | 'header' | 'filename' | 'copy' | 'pre';
     PropsTable: 'root' | 'empty';
     H2: 'root' | 'title';
+    IconCircle: 'root' | 'icon';
 }
 
 export type NbComponentName = keyof NbParts;
@@ -141,6 +142,16 @@ export interface AlertTypes {
     success: true;
     error: true;
     warning: true;
+    info: true;
+}
+/** The colour vocabulary shared by Badge, IconCircle and the other status-coloured components. */
+export interface NbColorVariants {
+    neutral: true;
+    primary: true;
+    accent: true;
+    success: true;
+    warning: true;
+    danger: true;
     info: true;
 }
 export interface DataTileThemes {
@@ -191,4 +202,5 @@ export interface NbVariantsConfig {
     Section?: { variant?: VariantMap<'root', keyof SectionVariants & string> };
     Tabs?: { variant?: VariantMap<'list' | 'trigger' | 'indicator', keyof TabsVariants & string> };
     Toast?: { type?: VariantMap<'icon', 'success' | 'error' | 'warning' | 'info' | 'progress'> };
+    IconCircle?: { variant?: VariantMap<'root' | 'icon', keyof NbColorVariants & string> };
 }

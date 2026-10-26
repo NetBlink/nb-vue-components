@@ -68,6 +68,7 @@ import WarningButton from './components/WarningButton.vue';
 import InfoButton from './components/InfoButton.vue';
 import SuccessButton from './components/SuccessButton.vue';
 import DataTile from './components/DataTile.vue';
+import IconCircle from './components/IconCircle.vue';
 
 // Helper components
 import CodePreview from './components/CodePreview.vue';
@@ -121,7 +122,7 @@ const components = {
     LogsContent, Modal, NewModal, NavLink, Pagination, PrimaryButton, DangerButton, WarningButton,
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
-    Toast, Toaster, Button, DataTile,
+    Toast, Toaster, Button, DataTile, IconCircle,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -243,6 +244,7 @@ export {
     Toaster,
     Button,
     DataTile,
+    IconCircle,
     // Helper components
     CodePreview,
     H2,
@@ -271,6 +273,7 @@ export type { CollapsableSectionProps } from './components/CollapsableSection.vu
 export type { CollapseProps } from './components/Collapse.vue';
 export type { DangerButtonProps } from './components/DangerButton.vue';
 export type { DataTileProps } from './components/DataTile.vue';
+export type { IconCircleProps } from './components/IconCircle.vue';
 export type { DescriptionListProps } from './components/DescriptionList.vue';
 export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
 export type { DottedCarouselProps } from './components/DottedCarousel.vue';

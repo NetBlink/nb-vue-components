@@ -1,7 +1,13 @@
 import { inject, type InjectionKey } from 'vue';
 import { createMerge, getDefaultMerge, type NbMerge, type NbMergeExtension } from './merge';
 import type { NbMotionConfig } from './motion';
-import type { NbUiConfig, NbVariantsConfig } from './parts';
+import type { NbColorVariants, NbUiConfig, NbVariantsConfig } from './parts';
+
+/** Badge options: which colour a `status` word gets. */
+export interface NbBadgeOptions {
+    /** Status word (case-insensitive) to Badge variant, merged over the built-in map. */
+    statuses?: Record<string, keyof NbColorVariants | (string & {})>;
+}
 
 /** Styling and motion options accepted by `app.use(Componentsnb, { ... })`. */
 export interface NbStyleOptions {
@@ -13,6 +19,8 @@ export interface NbStyleOptions {
     motion?: NbMotionConfig;
     /** Extra `extendTailwindMerge` config, for tokens your app adds in its own `@theme`. */
     twMerge?: NbMergeExtension;
+    /** Badge `status` colours, e.g. `{ statuses: { shipped: 'success' } }`. */
+    badge?: NbBadgeOptions;
 }
 
 /** Internal: the resolved config components read. */
@@ -21,6 +29,7 @@ export interface NbConfig {
     variants: NbVariantsConfig;
     motion: NbMotionConfig;
     merge: NbMerge;
+    badge: NbBadgeOptions;
 }
 
 /** String key, for the same HMR reasons as the icon registry key. */
@@ -32,6 +41,7 @@ export function createNbConfig(options: NbStyleOptions = {}): NbConfig {
         variants: options.variants ?? {},
         motion: options.motion ?? {},
         merge: options.twMerge ? createMerge(options.twMerge) : getDefaultMerge(),
+        badge: options.badge ?? {},
     };
 }
 

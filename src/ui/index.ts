@@ -8,3 +8,5 @@ export { useMotion, configureMotion, resolveMotionLevel, MOTION_LEVELS, levelAtL
 export type { MotionLevel, NbMotionConfig, NbMotionClasses, NbMotionTable, NbComponentMotion, UseMotionReturn } from './motion';
 export { useFlip, heightTransition, animateResizes, motionTiming } from './flip';
 export type * from './parts';
+export { useBadgeStatus, statusLabel } from './status';
+export type { NbBadgeOptions } from './config';

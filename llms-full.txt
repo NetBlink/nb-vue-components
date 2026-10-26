@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (73 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (74 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -727,6 +727,26 @@ a bold `<h2>` with a brand-coloured underline and an id slugged from the title, 
 | --- | --- |
 | `root` | the spacing wrapper |
 | `title` | the `<h2>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### IconCircle
+
+An icon on a soft coloured disc. The building block behind timeline markers, empty states and stat-tile chips, also usable on its own next to list rows or card titles. Colours follow the shared status vocabulary (`neutral`, `primary`, `accent`, `success`, `warning`, `danger`, `info`).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `icon` | `IconLike` | **required** | The icon: an alias like `$info`, a set-prefixed name, a component or raw SVG |
+| `variant` | `keyof NbColorVariants` | `'primary'` | Colour. Add your own through the `variants` config. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Disc size |
+| `ui` | `UiProp<NbParts['IconCircle']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the disc |
+| `icon` | the icon |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 

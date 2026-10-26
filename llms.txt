@@ -287,6 +287,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **FileDropZoneInput**, Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection.
 - **GravatarImg**, `<img>` pointing at the Gravatar for an email.
 - **H2**, a bold `<h2>` with a brand-coloured underline and an id slugged from the title, so it can be linked to..
+- **IconCircle**, An icon on a soft coloured disc.
 - **Images**, Self-contained image gallery and uploader for a given record: it shows the existing `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`, using its own Inertia form.
 - **InfoButton**, Info Button component.
 - **Input**, The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions.
