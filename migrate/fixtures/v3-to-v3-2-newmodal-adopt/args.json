@@ -1,1 +1,1 @@
-["--yes", "--choices", "choices.json"]
+["--yes", "--choices", "choices.json", "--to", "3.2.1"]

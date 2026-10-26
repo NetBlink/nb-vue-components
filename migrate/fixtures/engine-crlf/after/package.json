@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"dependencies": {
-		"@netblink/vue-components": "^3.2.1",
+		"@netblink/vue-components": "^4.0.0-beta.0",
 		"vue": "^3.5.13"
 	},
 	"devDependencies": {

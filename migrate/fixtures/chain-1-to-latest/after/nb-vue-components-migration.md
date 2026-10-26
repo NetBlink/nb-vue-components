@@ -1,8 +1,8 @@
 # @netblink/vue-components migration report
 
-Upgraded from 1.0.28 to 3.2.1.
+Upgraded from 1.0.28 to 4.0.0-beta.0.
 
-Steps: v1-to-v2, v2-patch, v2-to-v3, v3-to-v3-2
+Steps: v1-to-v2, v2-patch, v2-to-v3, v3-to-v3-2, v3-to-v4
 
 ## Choices made
 
@@ -21,6 +21,7 @@ None.
 - **resources/js/Pages/Orders.vue:12**: Dropdown moved from tw-elements to reka-ui: check how it opens, closes and is positioned.
 - **resources/js/Pages/Orders.vue:15**: NavCollapse moved from tw-elements to reka-ui: check how it opens, closes and is positioned.
 - **resources/js/Pages/Orders.vue:17**: Table sticky was reworked: check the sticky header.
+- Override classes (`class`, `:ui` and the deprecated props) now beat the library defaults they clash with: check pages that relied on a default winning, and drop `!` markers added only to beat a default.
 
 ## Next steps
 
