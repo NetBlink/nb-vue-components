@@ -52,7 +52,9 @@ const trClasses = computed(() => [
         'hover:bg-gray-50': props.hoverable && !props.selected,
         'bg-blue-50 border-blue-200': props.selected,
         'cursor-pointer': props.clickable || props.selectable,
-        [variant('variant', VARIANTS, props.variant).root ?? '']: true,
+    },
+    variant('variant', VARIANTS, props.variant).root,
+    {
         'sm:table-row': true,
         'flex flex-col mb-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm bg-white sm:mb-0 sm:rounded-none sm:border-0 sm:shadow-none sm:bg-transparent': true
     }

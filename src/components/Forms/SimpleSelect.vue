@@ -26,6 +26,7 @@ import { computed } from 'vue';
 import { InputLabel, InputError, Tooltip } from '../../index';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
+import { baseLayer, stateLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -146,9 +147,9 @@ const selectId = computed(() => props.field || `select-${Math.random().toString(
                 cls(
                     'input',
                     'focusable focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500',
-                    {
+                    stateLayer({
                         'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
-                    }
+                    })
                 )
             "
         >
@@ -162,6 +163,6 @@ const selectId = computed(() => props.field || `select-${Math.random().toString(
         </select>
 
         <!-- Error Message -->
-        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-1')" />
+        <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error')" :ui="{ root: baseLayer('mt-1') }" />
     </div>
 </template>

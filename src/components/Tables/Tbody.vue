@@ -21,6 +21,7 @@ import type { TableBodyProps, TableRow } from './types';
 import type { NbParts, UiProp } from '../../ui/parts';
 import type { MotionLevel } from '../../ui/motion';
 import { useUi } from '../../ui/useUi';
+import { baseLayer } from '../../ui/merge';
 import { useFlip } from '../../ui/flip';
 
 defineOptions({ inheritAttrs: false });
@@ -109,7 +110,7 @@ const records = computed(() => tableData.value);
         
         <template v-else-if="showEmptyMessage">
             <tr>
-                <Td colspan="999" align="center" :class="cls('empty', 'py-8 sm:py-8 text-gray-500 dark:text-gray-400')">
+                <Td colspan="999" align="center" :class="cls('empty')" :ui="{ root: baseLayer('py-8 sm:py-8 text-gray-500 dark:text-gray-400') }">
                     <slot name="empty">{{ emptyText }}</slot>
                 </Td>
             </tr>
@@ -128,7 +129,7 @@ const records = computed(() => tableData.value);
             
             <template v-if="showEmptyMessage">
                 <tr>
-                    <Td colspan="999" align="center" :class="cls('empty', 'py-8 sm:py-8 text-gray-500 dark:text-gray-400')">
+                    <Td colspan="999" align="center" :class="cls('empty')" :ui="{ root: baseLayer('py-8 sm:py-8 text-gray-500 dark:text-gray-400') }">
                         <slot name="empty">{{ emptyText }}</slot>
                     </Td>
                 </tr>

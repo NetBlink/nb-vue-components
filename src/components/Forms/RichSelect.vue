@@ -61,6 +61,7 @@ import type { NbParts, UiProp } from '../../ui/parts';
 import type { MotionLevel } from '../../ui/motion';
 import { useFlip } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
+import { stateLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -468,10 +469,10 @@ onUnmounted(cleanup);
                     cls(
                         'trigger',
                         'focusable focus:border-primary-500 focus:ring-primary-500 relative w-full cursor-pointer rounded-md border border-gray-300 bg-white py-2 pr-10 pl-3 text-left text-gray-900 shadow-sm transition-colors focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:focus:border-primary-400 dark:focus:ring-primary-400 dark:disabled:border-gray-700 dark:disabled:bg-gray-800/50 dark:disabled:text-gray-500',
-                        {
+                        stateLayer({
                             'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage,
                             'border-primary-500 ring-primary-500 ring-2': isOpen,
-                        }
+                        })
                     )
                 "
             >
@@ -569,10 +570,10 @@ onUnmounted(cleanup);
                                     @click="toggleOption(option)"
                                     :disabled="option.disabled"
                                     :class="
-                                        cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', {
-                                            'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
-                                            'text-gray-900 dark:text-gray-100': !isSelected(option),
-                                        })
+                                        cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', [
+                                            stateLayer({ 'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option) }),
+                                            { 'text-gray-900 dark:text-gray-100': !isSelected(option) },
+                                        ])
                                     "
                                 >
                                     <span class="block truncate">{{ getOptionLabel(option) }}</span>
@@ -592,10 +593,10 @@ onUnmounted(cleanup);
                                 @click="toggleOption(option)"
                                 :disabled="option.disabled"
                                 :class="
-                                    cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', {
-                                        'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option),
-                                        'text-gray-900 dark:text-gray-100': !isSelected(option),
-                                    })
+                                    cls('item', 'relative w-full cursor-pointer py-2 pr-9 pl-3 text-left select-none hover:bg-gray-100 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50', [
+                                        stateLayer({ 'bg-primary-100 text-primary-900 dark:bg-primary-900/40 dark:text-primary-100': isSelected(option) }),
+                                        { 'text-gray-900 dark:text-gray-100': !isSelected(option) },
+                                    ])
                                 "
                             >
                                 <span class="block truncate">{{ getOptionLabel(option) }}</span>

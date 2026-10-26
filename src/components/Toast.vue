@@ -29,6 +29,7 @@ import type { ToastItem, ToastType } from '../composables/useToast';
 import type { NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
+import { baseLayer } from '../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -160,7 +161,7 @@ const onBodyClick = () => {
         :class="cls('root', rootClasses)"
         @update:open="(open: boolean) => !open && emit('close')"
     >
-        <Spinner v-if="showSpinner" size="xs" :color="iconClasses" :class="cls('icon', 'shrink-0', isSnackbar ? '' : 'mt-0.5')" />
+        <Spinner v-if="showSpinner" size="xs" :color="iconClasses" :class="cls('icon')" :ui="{ root: baseLayer(['shrink-0', isSnackbar ? '' : 'mt-0.5']) }" />
         <NbIcon v-else-if="icon" :name="icon" :class="cls('icon', 'mt-0.5 size-5 shrink-0', [iconClasses, isSnackbar && 'mt-0'])" />
 
         <component

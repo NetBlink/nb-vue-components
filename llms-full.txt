@@ -1538,7 +1538,7 @@ a CSS-only spinning ring in five preset sizes, with `role="status"` and a visual
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `size` | `keyof SpinnerSizes` | `'md'` | Spinner size. Add your own through the `variants` config. |
-| `color` | `string` | `undefined` | Custom color classes, replacing the default colour |
+| `color` | `NbClassValue` | `undefined` | Custom color classes, replacing the default colour |
 | `ui` | `UiProp<NbParts['Spinner']>` | - | Classes per part, merged over the defaults |
 
 **Parts** (`:ui` keys; `class` goes to `root`):

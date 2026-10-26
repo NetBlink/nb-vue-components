@@ -39,6 +39,7 @@ import type { NbParts, UiProp } from '../../ui/parts';
 import { levelAtLeast, type MotionLevel } from '../../ui/motion';
 import { heightTransition } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
+import { baseLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -245,7 +246,7 @@ defineExpose({
         </label>
 
         <Transition v-bind="heightTransition(level)">
-            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error')" :ui="{ root: baseLayer('mt-2') }" />
         </Transition>
     </div>
 </template>

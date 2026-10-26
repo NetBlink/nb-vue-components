@@ -21,6 +21,7 @@ import { useDropzone } from 'vue3-dropzone';
 import { ref, reactive, onMounted } from 'vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
+import { baseLayer, stateLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -98,10 +99,10 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
                 cls(
                     'zone',
                     'border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-lg border-2 border-dashed text-gray-700 transition duration-100 ease-in-out',
-                    {
+                    stateLayer({
                         'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': isDragActive,
                         'bg-primary-100 border-red-600 dark:bg-red-950/40': props.form.errors[field] ?? errors,
-                    }
+                    })
                 )
             "
         >
@@ -114,6 +115,6 @@ const { getRootProps, getInputProps, isDragActive, ...rest } = useDropzone({
             </div>
             <!-- Could add item remover for multiple files input -->
         </div>
-        <InputError :class="cls('error', 'mt-2')" :message="props.form.errors[field] ?? errors" />
+        <InputError :class="cls('error')" :ui="{ root: baseLayer('mt-2') }" :message="props.form.errors[field] ?? errors" />
     </div>
 </template>

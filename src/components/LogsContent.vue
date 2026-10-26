@@ -24,6 +24,7 @@ import NbIcon from '../icons/NbIcon.vue';
 import { getRoute } from '../Helpers';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
+import { baseLayer } from '../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -111,6 +112,6 @@ const causerHref = (causer) => {
                 </div>
             </li>
         </ol>
-        <Pagination v-if="logs.links" class="mt-6" :links="logs.links" :logs="true" />
+        <Pagination v-if="logs.links" :ui="{ root: baseLayer('mt-6') }" :links="logs.links" :logs="true" />
     </div>
 </template>

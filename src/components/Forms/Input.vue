@@ -57,12 +57,12 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 const emit = defineEmits<InputEmits>();
 
-const { cls, attrs, level } = useUi('Input', props, {
+const { cls, own, attrs, level } = useUi('Input', props, {
     aliases: { inputCustomClass: 'input', labelCustomClass: 'label', buttonCustomClass: 'button' },
 });
 
-// Textarea, Switch and Checkbox take this component's layer as their instance `ui`,
-// so their own `ui.Textarea` / `ui.Switch` / `ui.Checkbox` config still applies underneath.
+// Textarea takes this component's layer as its instance `ui`, so its own
+// `ui.Textarea` config still applies underneath.
 const childUi = () => ({
     root: cls('root'),
     label: cls('label'),
@@ -71,6 +71,15 @@ const childUi = () => ({
     addon: cls('addon'),
     button: cls('button'),
     error: cls('error'),
+});
+
+// Switch and Checkbox only get this instance's `class`, `:ui` and deprecated props.
+// App `ui.Input` config is for text fields; they pick up `ui.Switch` / `ui.Checkbox` themselves.
+const toggleUi = () => ({
+    root: own('root'),
+    label: own('label'),
+    input: own('input'),
+    error: own('error'),
 });
 
 const model: ModelRef<any> = defineModel();
@@ -154,7 +163,7 @@ defineExpose({
         :tooltip="tooltip"
         :left-description="leftDescription"
         :right-description="rightDescription"
-        :ui="childUi()"
+        :ui="toggleUi()"
         :motion="motion"
         :error="error"
         :inputmode="inputmode"
@@ -183,7 +192,7 @@ defineExpose({
         :tooltip="tooltip"
         :left-description="leftDescription"
         :right-description="rightDescription"
-        :ui="childUi()"
+        :ui="toggleUi()"
         :motion="motion"
         :error="error"
         :inputmode="inputmode"
@@ -210,7 +219,7 @@ defineExpose({
         v-bind="attrs()"
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
-        :error-class="cls('error', 'mt-2')"
+        :error-class="cls('error')"
         :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
@@ -241,7 +250,7 @@ defineExpose({
         v-bind="attrs()"
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
-        :error-class="cls('error', 'mt-2')"
+        :error-class="cls('error')"
         :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
@@ -279,7 +288,7 @@ defineExpose({
         v-bind="attrs()"
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
-        :error-class="cls('error', 'mt-2')"
+        :error-class="cls('error')"
         :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"
@@ -327,7 +336,7 @@ defineExpose({
         v-bind="attrs()"
         :root-class="cls('root', noLabel ? 'mb-2' : 'mb-4')"
         :label-class="cls('label')"
-        :error-class="cls('error', 'mt-2')"
+        :error-class="cls('error')"
         :level="level"
         :computed-label="computedLabel"
         :has-form-errors="hasFormErrors"

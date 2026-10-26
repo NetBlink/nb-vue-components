@@ -20,6 +20,7 @@ import NbIcon from '../../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import type { MotionLevel } from '../../ui/motion';
 import { useUi } from '../../ui/useUi';
+import { baseLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -246,7 +247,7 @@ defineExpose({
                 <SubmitButton
                     v-if="submitBtn"
                     :form="form"
-                    :class="cls('button', 'z-2 rounded-l-none')"
+                    :class="cls('button')" :ui="{ root: baseLayer('z-2 rounded-l-none') }"
                     :id="`submit-button-${field}`"
                 >
                     {{ submitBtn }}
@@ -254,7 +255,7 @@ defineExpose({
                 <SubmitButton
                     v-if="$slots?.submit"
                     :form="form"
-                    :class="cls('button', 'z-2 rounded-l-none')"
+                    :class="cls('button')" :ui="{ root: baseLayer('z-2 rounded-l-none') }"
                     id="button-textarea"
                 >
                     <slot name="submit" />

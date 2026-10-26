@@ -29,6 +29,7 @@ import { Input } from '../index';
 import type { NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
+import { baseLayer, stateLayer } from '../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -85,7 +86,8 @@ const LINK = 'focusable relative block cursor-pointer rounded-md bg-transparent 
 const ACTIVE = 'bg-primary-50 text-primary-700 font-semibold dark:bg-primary-900/40 dark:text-primary-100';
 // 3.x applied customLinkClass to the disabled links too, so the deprecated prop still does.
 const disabledClass = () => cls('disabledLink', 'focusable pointer-events-none relative block rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-400 transition-colors duration-150 dark:text-gray-600', props.customLinkClass);
-const linkClass = (active: boolean) => (active ? cls('activeLink', cls('link', LINK, ACTIVE)) : cls('link', LINK));
+// The active classes sit above any `link` override; `activeLink` overrides layer on top of both.
+const linkClass = (active: boolean) => (active ? cls('activeLink', cls('link', LINK, stateLayer(ACTIVE))) : cls('link', LINK));
 
 const perPage = ref(props.defaultPerPage);
 const perPageOptions = [10, 25, 50, 100, 250];
@@ -128,7 +130,7 @@ const perPageChanged = (e) => {
 <template>
     <div v-bind="attrs()" :class="cls('root', 'pagination flex justify-between')">
         <div>
-            <Input type="select" v-model="perPage" class="per-page-input w-20" @changed="perPageChanged" v-if="showPerPage">
+            <Input type="select" v-model="perPage" :ui="{ root: baseLayer('per-page-input w-20') }" @changed="perPageChanged" v-if="showPerPage">
                 <option v-for="option in perPageOptions" :key="option" :value="option" :selected="option == perPage">
                     {{ option }}
                 </option>

@@ -1,6 +1,6 @@
-import { computed, useAttrs, type ComputedRef } from 'vue';
+import { computed, normalizeClass, useAttrs, type ComputedRef } from 'vue';
 import { useNbConfig } from './config';
-import { mergeLayers, type NbClassValue } from './merge';
+import { baseLayer, liftLayers, mergeLayers, type NbClassValue } from './merge';
 import { hydrateMotionAfterMount, isMotionLevel, resolveMotionLevel, type MotionLevel, type NbComponentMotion, type NbMotionClasses, type NbMotionTable } from './motion';
 import type { NbComponentName, NbParts, NbVariantValue, UiProp } from './parts';
 
@@ -52,8 +52,14 @@ export interface UseUiReturn<P extends string> {
     attrs: () => Record<string, unknown>;
     /** `data-nb-motion="off"` for elements rendered outside the root (portals). */
     motionAttrs: () => Record<string, string>;
-    /** A variant value from the app config, falling back to the built-in map. Normalised to classes per part. */
-    variant: <K extends string>(prop: string, builtIn: Record<string, NbVariantValue<K>>, value: string | undefined, mainPart?: K) => Partial<Record<K, string>>;
+    /** Only the instance's own classes for one part (`:ui`, deprecated props, `class`), for handing on to an inner component. */
+    own: (part: P) => string;
+    /**
+     * Classes per part for one variant value. Built-in parts come back as written;
+     * an app `variants` entry replaces them part by part, wrapped so `cls` puts it
+     * in its own layer above the defaults. A plain string is the `mainPart`.
+     */
+    variant: <K extends string>(prop: string, builtIn: Record<string, NbVariantValue<K>>, value: string | undefined, mainPart?: K) => Partial<Record<K, NbClassValue>>;
     /** Effective motion level of this instance. */
     level: ComputedRef<MotionLevel>;
     /** Animation classes for one part and state at the current level. App config replaces the built-in table. */
@@ -87,16 +93,33 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
         return resolveMotionLevel(config.motion, name, isMotionLevel(instance) ? instance : null);
     });
 
-    const cls = (part: P, ...defaults: NbClassValue[]): string => {
-        const house = (config.ui[name] as Partial<Record<P, string>> | undefined)?.[part];
+    const instanceLayer = (part: P): NbClassValue[] => {
         const instance: NbClassValue[] = [];
         for (const [prop, target] of Object.entries(aliases)) {
             if (target === part) instance.push(props[prop]);
         }
         instance.push(props.ui?.[part]);
         if (part === classPart) instance.push(rawAttrs.class as NbClassValue);
-        return mergeLayers(config.merge, defaults, house, instance);
+        return instance;
     };
+
+    /*
+     * Layers, lowest first: library defaults, `baseLayer` classes (app variants,
+     * a wrapper's defaults), app config, instance, then `stateLayer` classes.
+     * With nothing above the defaults the state classes stay inline, so the
+     * zero-config output is the defaults exactly as written.
+     */
+    const cls = (part: P, ...defaults: NbClassValue[]): string => {
+        const house = (config.ui[name] as Partial<Record<P, string>> | undefined)?.[part];
+        const below: NbClassValue[] = [];
+        const above: NbClassValue[] = [];
+        const instance = liftLayers(instanceLayer(part), below, above);
+        const base = liftLayers(defaults, below, above);
+        if (!normalizeClass([below, house, instance])) return mergeLayers(config.merge, liftLayers(defaults, [], null));
+        return mergeLayers(config.merge, base, below, house, instance, above);
+    };
+
+    const own = (part: P): string => mergeLayers(config.merge, null, liftLayers(instanceLayer(part), [], null));
 
     /*
      * `off` is always marked, so theme.css can make transitions instant. Any
@@ -116,10 +139,15 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
 
     const variant = <K extends string>(prop: string, builtIn: Record<string, NbVariantValue<K>>, value: string | undefined, mainPart: K = 'root' as K) => {
         if (value === undefined) return {};
-        const custom = (config.variants as Record<string, Record<string, Record<string, NbVariantValue<K>>> | undefined>)[name]?.[prop]?.[value];
-        const picked = custom ?? builtIn[value];
-        if (picked === undefined) return {};
-        return typeof picked === 'string' ? ({ [mainPart]: picked } as Partial<Record<K, string>>) : picked;
+        const toParts = (picked: NbVariantValue<K> | undefined) =>
+            picked === undefined ? undefined : typeof picked === 'string' ? ({ [mainPart]: picked } as Partial<Record<K, string>>) : picked;
+        const builtInParts: Partial<Record<K, NbClassValue>> = toParts(builtIn[value]) ?? {};
+        const custom = toParts((config.variants as Record<string, Record<string, Record<string, NbVariantValue<K>>> | undefined>)[name]?.[prop]?.[value]);
+        if (!custom) return builtInParts;
+        // App entries redefine part by part and sit in their own layer, so they win clashes with the defaults.
+        const picked = { ...builtInParts };
+        for (const [part, classes] of Object.entries(custom) as [K, string][]) picked[part] = baseLayer(classes);
+        return picked;
     };
 
     const anim = (part: P, state: keyof NbMotionClasses, table: NbMotionTable<P>): string => {
@@ -130,5 +158,5 @@ export function useUi<C extends NbComponentName>(name: C, props: UiProps<NbParts
         return table[current]?.[part]?.[state] ?? '';
     };
 
-    return { cls, attrs, motionAttrs, variant, level, anim };
+    return { cls, own, attrs, motionAttrs, variant, level, anim };
 }

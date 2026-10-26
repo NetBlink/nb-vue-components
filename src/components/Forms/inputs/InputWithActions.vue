@@ -4,6 +4,7 @@
  */
 
 import { computed } from 'vue';
+import { baseLayer } from '../../../ui/merge';
 import { TextInput, SubmitButton } from '../../../index';
 import NbIcon from '../../../icons/NbIcon.vue';
 import { normalizeClass } from 'vue';
@@ -90,7 +91,7 @@ const inputClasses = computed(() => ({
         <TextInput
             :id="field"
             :type="type"
-            :class="cls('input', inputClasses)"
+            :class="cls('input')" :ui="{ root: baseLayer(inputClasses) }"
             v-model="model"
             :required="required"
             :disabled="disabled"
@@ -109,7 +110,7 @@ const inputClasses = computed(() => ({
             <SubmitButton
                 v-if="submitBtn"
                 :form="form"
-                :class="cls('button', 'z-2 rounded-l-none')"
+                :class="cls('button')" :ui="{ root: baseLayer('z-2 rounded-l-none') }"
                 :id="`submit-button-${field}`"
             >
                 {{ submitBtn }}
@@ -118,7 +119,7 @@ const inputClasses = computed(() => ({
             <SubmitButton
                 v-if="$slots?.submit"
                 :form="form"
-                :class="cls('button', 'z-2 rounded-l-none')"
+                :class="cls('button')" :ui="{ root: baseLayer('z-2 rounded-l-none') }"
                 id="button-input"
             >
                 <slot name="submit" />

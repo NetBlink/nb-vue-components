@@ -30,6 +30,7 @@ import { computed } from 'vue';
 import { InputLabel, InputError } from '../index';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
+import { baseLayer } from '../ui/merge';
 import { heightTransition } from '../ui/flip';
 import type { MotionLevel } from '../ui/motion';
 
@@ -132,7 +133,7 @@ const forAttribute = computed(() => {
 
         <!-- Error message -->
         <Transition v-bind="heightTransition(level)">
-            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error', 'mt-2')" />
+            <InputError v-if="errorMessage" :message="errorMessage" :class="cls('error')" :ui="{ root: baseLayer('mt-2') }" />
         </Transition>
     </div>
 </template>

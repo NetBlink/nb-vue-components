@@ -6,6 +6,7 @@
 import { InputLabel, InputError } from '../../../index';
 import type { InputProps } from '../types';
 import type { NbClassValue } from '../../../ui/merge';
+import { baseLayer } from '../../../ui/merge';
 import type { MotionLevel } from '../../../ui/motion';
 import { heightTransition } from '../../../ui/flip';
 
@@ -48,7 +49,7 @@ const props = withDefaults(defineProps<InputWrapperProps>(), {
             <InputError 
                 v-if="hasFormErrors" 
                 :message="formError" 
-                :class="errorClass" 
+                :class="errorClass" :ui="{ root: baseLayer('mt-2') }" 
             />
         </Transition>
     </div>

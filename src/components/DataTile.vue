@@ -126,10 +126,7 @@ const themeClasses = computed(() => {
     <div
         v-bind="attrs()"
         :class="
-            cls('root', 'group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40', {
-                [themeClasses.selected ?? '']: selected,
-                'ring-2': selected,
-            })
+            cls('root', 'group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40', selected ? [themeClasses.selected, 'ring-2'] : [])
         "
     >
         <!-- Value Section -->

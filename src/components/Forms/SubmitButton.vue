@@ -27,6 +27,7 @@ import { ComponentTheme as Theme } from '../../Types';
 import type { ButtonSizes, ButtonThemes, NbParts, UiProp } from '../../ui/parts';
 import { levelAtLeast, type MotionLevel } from '../../ui/motion';
 import { useUi } from '../../ui/useUi';
+import { baseLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -71,7 +72,8 @@ const loader = computed(() => LOADER[level.value]);
         :theme="theme"
         :disabled="loading || form?.processing || disabled"
         :type="type"
-        :class="cls('root', 'relative focusable')"
+        :class="cls('root')"
+        :ui="{ root: baseLayer('relative focusable') }"
         :size="size"
         :motion="motion"
     >
@@ -87,7 +89,7 @@ const loader = computed(() => LOADER[level.value]);
             :leave-to-class="loader.hidden"
         >
             <div v-if="form?.processing || loading" :class="cls('loader', 'absolute inset-2 flex items-center justify-center')">
-                <Spinner :class="cls('spinner', 'aspect-square h-full! w-auto! text-white')" />
+                <Spinner :class="cls('spinner')" :ui="{ root: baseLayer('aspect-square h-full! w-auto! text-white') }" />
             </div>
         </Transition>
     </Button>

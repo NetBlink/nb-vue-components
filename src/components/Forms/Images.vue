@@ -24,6 +24,7 @@ import { useDropzone } from 'vue3-dropzone';
 import { ref, reactive, getCurrentInstance } from 'vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
+import { baseLayer, stateLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 import { getInertiaRouter } from '../../Helpers';
@@ -121,7 +122,7 @@ const dragEntered = ref(false);
                     cls(
                         'zone',
                         'border-primary-200 bg-primary-50 hover:border-primary-600 hover:text-primary-700 dark:border-primary-800 dark:bg-primary-950/40 dark:text-gray-200 dark:hover:border-primary-500 dark:hover:text-primary-300 w-full rounded-l-lg border-2 border-r-0 border-dashed text-gray-700 transition duration-100 ease-in-out',
-                        { 'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': dragEntered }
+                        stateLayer({ 'border-primary-400 bg-primary-100 dark:border-primary-500 dark:bg-primary-900/50': dragEntered })
                     )
                 "
             >
@@ -139,13 +140,13 @@ const dragEntered = ref(false);
                     </div>
                 </div>
             </div>
-            <PrimaryButton :class="cls('button', 'rounded-l-none')" :disabled="form.image.length == 0">
+            <PrimaryButton :class="cls('button')" :ui="{ root: baseLayer('rounded-l-none') }" :disabled="form.image.length == 0">
                 Upload
             </PrimaryButton>
             <progress v-if="form.progress" :value="form.progress.percentage" max="100">{{ form.progress.percentage }}%</progress>
         </div>
 
-        <InputError v-if="$page.props.errors.image" :class="cls('error', 'mt-2')" :message="$page.props.errors.image" />
+        <InputError v-if="$page.props.errors.image" :class="cls('error')" :ui="{ root: baseLayer('mt-2') }" :message="$page.props.errors.image" />
         <div class="flex items-center gap-4">
             <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
                 <p v-if="form.recentlySuccessful" :class="cls('status', 'text-sm text-gray-600 dark:text-gray-400')">Images uploaded.</p>

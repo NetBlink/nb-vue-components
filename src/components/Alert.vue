@@ -108,7 +108,7 @@ const TYPES: Record<string, { root: string; icon: string; dismiss: string }> = {
 const typeClasses = computed(() => variant<'root' | 'icon' | 'dismiss'>('type', TYPES, props.type));
 
 // An unknown type keeps the info box, as in 3.x (its icon and button stay uncoloured).
-const alertClasses = computed(() => `relative w-full rounded-lg border px-4 py-3 text-sm ${typeClasses.value.root ?? TYPES.info.root}`);
+const alertClasses = computed(() => ['relative w-full rounded-lg border px-4 py-3 text-sm', typeClasses.value.root ?? TYPES.info.root]);
 
 // Icon for each alert type
 const alertIcon = computed<'$success' | '$error' | '$warning' | '$info'>(() => {

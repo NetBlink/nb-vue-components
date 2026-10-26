@@ -10,6 +10,7 @@
 import { computed } from 'vue';
 import type { NbParts, SpinnerSizes, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
+import type { NbClassValue } from '../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -17,7 +18,7 @@ export interface SpinnerProps {
     /** Spinner size. Add your own through the `variants` config. */
     size?: keyof SpinnerSizes;
     /** Custom color classes, replacing the default colour */
-    color?: string;
+    color?: NbClassValue;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Spinner']>;
 }

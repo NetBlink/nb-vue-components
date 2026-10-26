@@ -9,6 +9,7 @@
 import Td from './Td.vue';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
+import { baseLayer } from '../../ui/merge';
 
 defineOptions({ inheritAttrs: false });
 
@@ -22,7 +23,7 @@ const props = defineProps<TdCollapseHandlerProps>();
 const { cls, attrs } = useUi('TdCollapseHandler', props);
 </script>
 <template>
-    <Td v-bind="attrs()" data-te-collapse-init :data-te-target="'#' + collapse_id" aria-expanded="false" :aria-controls="collapse_id" :class="cls('root', 'cursor-pointer')">
+    <Td v-bind="attrs()" data-te-collapse-init :data-te-target="'#' + collapse_id" aria-expanded="false" :aria-controls="collapse_id" :class="cls('root')" :ui="{ root: baseLayer('cursor-pointer') }">
         <slot />
     </Td>
 </template>

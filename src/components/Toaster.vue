@@ -38,6 +38,7 @@ import type { ToastAnimation, ToastInput, ToastOrder, ToastPosition } from '../c
 import type { NbParts, UiProp } from '../ui/parts';
 import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
+import { baseLayer } from '../ui/merge';
 import { motionTokens } from '../ui/flip';
 
 defineOptions({ inheritAttrs: false });
@@ -368,7 +369,8 @@ onBeforeUnmount(() => {
                 :key="item.id"
                 :item="item"
                 :data-toast-id="item.id"
-                :class="cls('toast', toastMotion(item.open))"
+                :class="cls('toast')"
+                :ui="{ root: baseLayer(toastMotion(item.open)) }"
                 @close="toast.dismiss(item.id)"
             />
         </ToastViewport>
