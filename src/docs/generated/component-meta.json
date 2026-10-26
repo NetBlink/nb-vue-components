@@ -735,6 +735,30 @@
                 "description": "the label text"
             },
             {
+                "name": "list",
+                "description": "the list of picked files"
+            },
+            {
+                "name": "file",
+                "description": "each file row"
+            },
+            {
+                "name": "thumb",
+                "description": "the image preview or file icon"
+            },
+            {
+                "name": "name",
+                "description": "the file name and size"
+            },
+            {
+                "name": "progress",
+                "description": "the upload `Progress`"
+            },
+            {
+                "name": "remove",
+                "description": "the remove `IconButton`"
+            },
+            {
                 "name": "error",
                 "description": "the `InputError`"
             }
@@ -742,8 +766,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "files appear and leave the list instantly"
+            },
+            {
+                "level": "simple",
+                "description": "files fade in and out"
+            },
+            {
+                "level": "smooth",
+                "description": "files slide in and the list closes up smoothly"
+            },
+            {
+                "level": "fancy",
+                "description": "the same, springier"
             }
         ]
     },

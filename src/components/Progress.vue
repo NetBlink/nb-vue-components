@@ -87,7 +87,7 @@ const barMotion = computed(() => {
         <div
             :class="cls('track', 'w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700', SIZES[size])"
             role="progressbar"
-            :aria-label="label"
+            :aria-label="label ?? ($attrs['aria-label'] as string | undefined)"
             :aria-valuemin="0"
             :aria-valuemax="max"
             :aria-valuenow="indeterminate ? undefined : value"

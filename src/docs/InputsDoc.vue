@@ -514,9 +514,66 @@ const textInputProps = [
     { prop: 'noNumberSpinners', type: 'boolean', default: 'false', description: 'Hide native number-spinner arrows for type="number"' },
 ];
 
+// v-model mode: plain File objects, no Inertia form.
+const pickedFiles = ref<File[]>([]);
+
+// Upload mode: a fake uploader that reports progress and fails one file in four, so retry can be tried.
+const uploadedTokens = ref<string[]>([]);
+const fakeUpload = (file: File, { onProgress }: { onProgress: (percent: number) => void }) =>
+    new Promise<string>((resolve, reject) => {
+        let percent = 0;
+        const fails = Math.random() < 0.25;
+        const timer = setInterval(() => {
+            percent += 20;
+            onProgress(percent);
+            if (fails && percent >= 60) {
+                clearInterval(timer);
+                reject(new Error('Upload failed, try again'));
+            } else if (percent >= 100) {
+                clearInterval(timer);
+                resolve(`tmp_${Math.random().toString(36).slice(2, 10)}`);
+            }
+        }, 250);
+    });
+const fakeRemove = () => new Promise<void>((resolve) => setTimeout(resolve, 300));
+const storedFiles = [{ name: 'contract-signed.pdf', size: 248000, value: 'perm_4f9a2c' }];
+
+const fileDropModesExamples = [
+    '<!-- v-model: File objects, no Inertia form -->',
+    '<FileDropZoneInput v-model="files" multiple accept="image/*,.pdf" :max-size="5" />',
+    '',
+    '<!-- Upload as soon as a file is picked; v-model holds the server tokens -->',
+    '<FileDropZoneInput',
+    '    v-model="tokens"',
+    '    multiple',
+    '    accept="*/*"',
+    '    :upload="(file, { onProgress }) => uploadToTemp(file, onProgress)"',
+    '    :remove="(token) => axios.delete(`/api/files/temp/${token}`)"',
+    '    :initial-files="existingFiles"',
+    '    :max-files="5"',
+    '/>',
+    '',
+    '// uploadToTemp resolves with whatever v-model should hold, e.g. a token:',
+    'const uploadToTemp = async (file, onProgress) => {',
+    "    const data = new FormData(); data.append('file', file);",
+    "    const res = await axios.post('/api/files/temp-upload', data, {",
+    '        onUploadProgress: (e) => onProgress((e.loaded / e.total) * 100),',
+    '    });',
+    '    return res.data.token;',
+    '};',
+];
+
 const fileDropZoneInputProps = [
-    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object; the dropped file is assigned to form[field]', required: true },
-    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object', required: true },
+    { prop: 'form', type: 'InertiaForm', default: '-', description: 'Inertia form object; the dropped file is assigned to form[field] (form mode)' },
+    { prop: 'field', type: 'string', default: '-', description: 'Field name on the form object (form mode)' },
+    { prop: 'v-model', type: 'File | File[] | unknown', default: '-', description: 'The picked File(s), or the values :upload resolved with' },
+    { prop: 'upload', type: '(file, { onProgress }) => Promise<unknown>', default: '-', description: 'Upload each file as soon as it is picked; its result goes into v-model' },
+    { prop: 'remove', type: '(value) => Promise<void>', default: '-', description: 'Delete an uploaded or initial file on the server; a rejection keeps it in the list' },
+    { prop: 'initialFiles', type: '{ name, url?, size?, value }[]', default: '[]', description: 'Files already stored, listed with the new ones' },
+    { prop: 'maxSize', type: 'number', default: '-', description: 'Largest accepted file, in MB' },
+    { prop: 'maxFiles', type: 'number', default: '-', description: 'Most files accepted at once' },
+    { prop: 'list', type: 'boolean', default: 'on for v-model/upload', description: 'Show the file list with previews and remove buttons (opt-in in form mode)' },
+    { prop: 'preview', type: 'boolean', default: 'true', description: 'Thumbnails for images in the list' },
     { prop: 'accept', type: 'string', default: "'image/*'", description: 'MIME types or file extensions accepted by the dropzone' },
     { prop: 'multiple', type: 'boolean', default: 'false', description: 'Allow dropping multiple files at once' },
     { prop: 'label', type: 'string', default: '-', description: 'Label text displayed above the drop area' },
@@ -937,6 +994,34 @@ const dropdownSearchbarProps = [
                     <FileDropZoneInput :form="form" field="avatar" label="Avatar" accept="image/*" />
                 </div>
                 <CodePreview :code="fileDropZoneExamples" />
+
+                <div class="mt-8 mb-2 font-semibold text-gray-800 dark:text-gray-100">Without a form, and uploading as you pick</div>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">
+                    With <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">v-model</code> the component holds plain File objects. With
+                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:upload</code> each file uploads straight away with its own progress
+                    bar, failed uploads offer a retry, and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">v-model</code> ends up holding what
+                    your upload function returned. The demo's uploader is fake and fails now and then.
+                </p>
+                <div class="mb-6 grid gap-6 md:grid-cols-2">
+                    <div>
+                        <FileDropZoneInput v-model="pickedFiles" multiple accept="image/*,.pdf" label="Attachments" :max-size="5" />
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">v-model: {{ pickedFiles.length }} file(s)</p>
+                    </div>
+                    <div>
+                        <FileDropZoneInput
+                            v-model="uploadedTokens"
+                            multiple
+                            accept="*/*"
+                            label="Documents"
+                            :upload="fakeUpload"
+                            :remove="fakeRemove"
+                            :initial-files="storedFiles"
+                            :max-files="5"
+                        />
+                        <p class="mt-2 text-xs break-all text-gray-500 dark:text-gray-400">v-model: {{ JSON.stringify(uploadedTokens) }}</p>
+                    </div>
+                </div>
+                <CodePreview :code="fileDropModesExamples" />
                 <CollapsableSection header="FileDropZoneInput Props" class="mt-6">
                     <PropsTable :rows="fileDropZoneInputProps" />
                 </CollapsableSection>

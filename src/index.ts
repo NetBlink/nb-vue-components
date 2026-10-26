@@ -331,7 +331,7 @@ export type { DropdownLinkProps } from './components/DropdownLink.vue';
 export type { DropdownSeparatorProps } from './components/DropdownSeparator.vue';
 export type { CheckboxEmits, CheckboxProps } from './components/Forms/Checkbox.vue';
 export type { DropdownSearchbarProps } from './components/Forms/DropdownSearchbar.vue';
-export type { FileDropZoneInputProps } from './components/Forms/FileDropZoneInput.vue';
+export type { FileDropZoneInputProps, FileDropZoneInputEmits, FileDropInitialFile, FileDropUpload } from './components/Forms/FileDropZoneInput.vue';
 export type { ImagesProps } from './components/Forms/Images.vue';
 export type { InputErrorProps } from './components/Forms/InputError.vue';
 export type { InputLabelProps } from './components/Forms/InputLabel.vue';

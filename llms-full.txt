@@ -851,19 +851,28 @@ Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to
 
 ### FileDropZoneInput
 
-Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection. It assigns the chosen File objects straight onto the Inertia `:form` + `field` you pass and surfaces both rejection reasons and `form.errors` inline; the enclosing form still does the upload.
+Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection. Three ways to use it: - `:form` + `field`: the chosen File objects go straight onto the Inertia form, which uploads them with the rest of the form (rejections and `form.errors` show inline). - `v-model`: the chosen `File` (or `File[]` with `multiple`), without an Inertia form. - `:upload`: each file uploads as soon as it is picked, with per-file progress and retry. Whatever the function resolves to (a server token, an id) goes into `v-model`; `initialFiles` lists files already on the server and `:remove` deletes them. The file list (with previews and remove buttons) is on by default for `v-model` and `:upload`, and opt-in with `list` for `:form` + `field`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `accept` | `string \| string[]` | `'image/*'` | File types the picker and drop accept |
 | `multiple` | `boolean` | `false` | Allow several files |
 | `label` | `string` | - |  |
-| `form` | `Record<string, any>` | **required** |  |
-| `field` | `string` | **required** |  |
+| `form` | `Record<string, any>` | `undefined` | Inertia form to write the files onto (with `field`) |
+| `field` | `string` | `undefined` | Form field name |
 | `required` | `boolean` | `false` |  |
 | `disabled` | `boolean` | `false` |  |
+| `modelValue` | `unknown` | `undefined` | Picked file(s), or uploaded values with `:upload` |
+| `upload` | `FileDropUpload` | `undefined` | Upload each file as soon as it is picked |
+| `remove` | `(value: unknown) => Promise<void> \| void` | `undefined` | Delete an uploaded or initial file on the server; rejecting keeps it in the list |
+| `initialFiles` | `FileDropInitialFile[]` | `() => []` | Files already stored, shown in the list (with `:upload`) |
+| `maxSize` | `number` | `undefined` | Largest accepted file, in MB |
+| `maxFiles` | `number` | `undefined` | Most files accepted at once |
+| `list` | `boolean` | `undefined` | Show the file list (default on for `v-model` and `:upload`, off for `:form` + `field`) |
+| `preview` | `boolean` | `true` | Thumbnails for images in the list |
 | `FileDropCustomClass` | `string` | - | Deprecated, use `:ui="{ zone: '...' }"` |
 | `ui` | `UiProp<NbParts['FileDropZoneInput']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -873,9 +882,15 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 | `zone` | the dashed drop area |
 | `content` | the clickable area inside it |
 | `label` | the label text |
+| `list` | the list of picked files |
+| `file` | each file row |
+| `thumb` | the image preview or file icon |
+| `name` | the file name and size |
+| `progress` | the upload `Progress` |
+| `remove` | the remove `IconButton` |
 | `error` | the `InputError` |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: files appear and leave the list instantly; `simple`: files fade in and out; `smooth`: files slide in and the list closes up smoothly; `fancy`: the same, springier.
 
 ### GravatarImg
 

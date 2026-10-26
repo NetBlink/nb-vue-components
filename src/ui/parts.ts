@@ -51,7 +51,7 @@ export interface NbParts {
     Select2ajax: 'root' | 'label' | 'input' | 'error';
     SelectMultiple: 'root' | 'label' | 'trigger' | 'icon' | 'content' | 'list' | 'item' | 'check' | 'error';
     DropdownSearchbar: 'root';
-    FileDropZoneInput: 'root' | 'zone' | 'content' | 'label' | 'error';
+    FileDropZoneInput: 'root' | 'zone' | 'content' | 'label' | 'list' | 'file' | 'thumb' | 'name' | 'progress' | 'remove' | 'error';
     Images: 'root' | 'zone' | 'content' | 'previews' | 'preview' | 'remove' | 'button' | 'status' | 'error' | 'gallery';
     RadioButton: 'root' | 'input' | 'label';
     // Tables
