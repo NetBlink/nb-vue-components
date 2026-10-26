@@ -1249,6 +1249,50 @@
             }
         ]
     },
+    "NbTransition": {
+        "parts": [],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "appears and disappears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "a quick fade (collapse still animates its height)"
+            },
+            {
+                "level": "smooth",
+                "description": "the chosen preset"
+            },
+            {
+                "level": "fancy",
+                "description": "a stronger, springier version of the preset"
+            }
+        ]
+    },
+    "NbTransitionGroup": {
+        "parts": [],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "items appear, disappear and reorder instantly"
+            },
+            {
+                "level": "simple",
+                "description": "items fade quickly, the rest reorder instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the chosen preset, and moving items glide"
+            },
+            {
+                "level": "fancy",
+                "description": "a stronger preset, and moving items glide on a spring"
+            }
+        ]
+    },
     "NewModal": {
         "parts": [
             {

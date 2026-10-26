@@ -311,6 +311,8 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Modal**, teleported to `<body>`, with its own backdrop, escape/backdrop-click closing, body-scroll locking and optional drag-resize handles, driven by `:show` + `@close`.
 - **NavCollapse**, Navigation Collapse component with expandable/collapsible content.
 - **NavLink**, sidebar / header navigation link wrapping an Inertia `<Link>`.
+- **NbTransition**, `<Transition>` with ready-made presets that follow the motion levels and the theme's motion tokens: `fade`, `slide-up`, `slide-down`, `scale`, and `collapse` (height).
+- **NbTransitionGroup**, `<TransitionGroup>` for lists: items fade or slide in and out with the same presets as `NbTransition`, and from `smooth` up the remaining items glide to their new places when the list is filtered, sorted or changed.
 - **NewModal**, Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code.
 - **PageHeader**, breadcrumbs, title, description and an `#actions` slot on the right, with a mobile "Back" link when `back` is set.
 - **Pagination**, Pagination component for navigating through pages of data.

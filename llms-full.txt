@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (88 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (90 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -1309,6 +1309,36 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 | `label` | the label `<span>` |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### NbTransition
+
+`<Transition>` with ready-made presets that follow the motion levels and the theme's motion tokens: `fade`, `slide-up`, `slide-down`, `scale`, and `collapse` (height). Use it for "Saved." flashes, page transitions in a layout (`mode="out-in"`), or anything shown with `v-if`/`v-show`. Prefixed `Nb` so it doesn't clash with Vue's own `<Transition>`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `preset` | `'fade' \| 'slide-up' \| 'slide-down' \| 'scale' \| 'collapse'` | `'fade'` | Animation |
+| `mode` | `'in-out' \| 'out-in' \| 'default'` | `undefined` | Passed to `<Transition>`: `out-in` for swapping content such as pages |
+| `appear` | `boolean` | `false` | Animate on first render too |
+| `motion` | `MotionLevel` | `undefined` | Motion level for this instance |
+
+**Slots:** `default`
+
+**Motion:** `off`: appears and disappears instantly; `simple`: a quick fade (collapse still animates its height); `smooth`: the chosen preset; `fancy`: a stronger, springier version of the preset.
+
+### NbTransitionGroup
+
+`<TransitionGroup>` for lists: items fade or slide in and out with the same presets as `NbTransition`, and from `smooth` up the remaining items glide to their new places when the list is filtered, sorted or changed. Give every child a stable `key`. Prefixed `Nb` so it doesn't clash with Vue's own component.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `preset` | `'fade' \| 'slide-up' \| 'slide-down' \| 'scale'` | `'fade'` | Enter/leave animation for each item |
+| `tag` | `string` | `'div'` | Element that wraps the list |
+| `appear` | `boolean` | `false` | Animate the initial items too |
+| `motion` | `MotionLevel` | `undefined` | Motion level for this instance |
+
+**Slots:** `default`
+
+**Motion:** `off`: items appear, disappear and reorder instantly; `simple`: items fade quickly, the rest reorder instantly; `smooth`: the chosen preset, and moving items glide; `fancy`: a stronger preset, and moving items glide on a spring.
 
 ### NewModal
 

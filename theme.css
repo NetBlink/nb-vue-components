@@ -663,3 +663,14 @@
         transform: translateX(250%);
     }
 }
+
+/* NbTransitionGroup: list moves glide (Vue FLIPs them through the move class); leaving items step out of the flow so the rest can close the gap. */
+.nb-move {
+    transition: transform var(--duration-base) var(--ease-emphasised);
+}
+.nb-move-fancy {
+    transition: transform var(--duration-slow) var(--ease-spring);
+}
+.nb-leaving {
+    position: absolute;
+}
