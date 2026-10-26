@@ -628,6 +628,9 @@ themed statistic tile with a background icon. Renders a card with a large value,
 | `customStatClass` | `string` | `''` | Deprecated, use `class` |
 | `customStatValueClass` | `string` | `''` | Deprecated, use `:ui="{ value: '...' }"` |
 | `customStatLabelClass` | `string` | `''` | Deprecated, use `:ui="{ label: '...' }"` |
+| `iconVariant` | `keyof NbColorVariants` | - | Show `icon` in a coloured chip beside the value instead of as the background watermark |
+| `trend` | `StatTrendValue \| 'up' \| 'down' \| 'flat' \| 'stable'` | - | Change indicator under the value, e.g. `{ value: '12%', direction: 'up' }` |
+| `ping` | `boolean` | - | Pulsing "live" dot in the corner |
 | `theme` | `keyof DataTileThemes` | `'primary'` | Colour theme - primary \| secondary \| success \| danger \| warning \| info. Add your own through the `variants` config. |
 | `ui` | `UiProp<NbParts['DataTile']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
@@ -645,6 +648,9 @@ themed statistic tile with a background icon. Renders a card with a large value,
 | `label` | the label section |
 | `labelText` | the label text |
 | `underline` | the hover underline |
+| `chip` | the icon chip (with `iconVariant`) |
+| `trend` | the change indicator (with `trend`) |
+| `ping` | the live dot (with `ping`) |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
@@ -1909,6 +1915,9 @@ Responsive grid of clickable stat tiles used as quick filters above a table. Cli
 | `label` | the label section |
 | `labelText` | the label text |
 | `underline` | the hover underline |
+| `chip` | a stat's icon chip (when the stat has `chip`) |
+| `trend` | a stat's change indicator (when the stat has `change`) |
+| `ping` | a stat's live dot (when the stat has `live`) |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 

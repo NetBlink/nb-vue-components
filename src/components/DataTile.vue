@@ -21,12 +21,17 @@
  * @part label - the label section
  * @part labelText - the label text
  * @part underline - the hover underline
+ * @part chip - the icon chip (with `iconVariant`)
+ * @part trend - the change indicator (with `trend`)
+ * @part ping - the live dot (with `ping`)
  */
 
 import NbIcon from '../icons/NbIcon.vue';
+import IconCircle from './IconCircle.vue';
+import StatTrend, { type StatTrendValue } from './StatTrend.vue';
 import type { IconLike } from '../icons/types';
 import { computed } from 'vue';
-import type { DataTileThemes, NbParts, UiProp } from '../ui/parts';
+import type { DataTileThemes, NbColorVariants, NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
@@ -47,6 +52,12 @@ export interface DataTileProps {
     customStatValueClass?: string;
     /** Deprecated, use `:ui="{ label: '...' }"` */
     customStatLabelClass?: string;
+    /** Show `icon` in a coloured chip beside the value instead of as the background watermark */
+    iconVariant?: keyof NbColorVariants;
+    /** Change indicator under the value, e.g. `{ value: '12%', direction: 'up' }` */
+    trend?: StatTrendValue | 'up' | 'down' | 'flat' | 'stable';
+    /** Pulsing "live" dot in the corner */
+    ping?: boolean;
     /** Colour theme - primary | secondary | success | danger | warning | info. Add your own through the `variants` config. */
     theme?: keyof DataTileThemes;
     /** Classes per part, merged over the defaults */
@@ -129,8 +140,23 @@ const themeClasses = computed(() => {
             cls('root', 'group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40', selected ? [themeClasses.selected, 'ring-2'] : [])
         "
     >
-        <!-- Value Section -->
-        <div :class="cls('value', 'relative overflow-clip px-6 py-4')">
+        <!-- Live dot (opt-in): a status indicator, so it pulses at every motion level -->
+        <span v-if="ping" :class="cls('ping', 'absolute top-3 right-3 z-10 flex h-2.5 w-2.5')" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
+        </span>
+
+        <!-- Value Section: with `iconVariant` the icon sits in a chip beside the value instead of behind it -->
+        <div v-if="iconVariant" :class="cls('value', 'relative flex items-center justify-between gap-3 px-6 py-4')">
+            <div class="min-w-0">
+                <div :class="cls('valueText', 'relative text-2xl font-bold text-gray-900 transition-colors dark:text-gray-100', themeClasses.valueText)">
+                    {{ value }}
+                </div>
+                <StatTrend v-if="trend" :trend="trend" :class="cls('trend', 'mt-1')" />
+            </div>
+            <IconCircle v-if="icon" :icon="icon" :variant="iconVariant" :class="cls('chip')" />
+        </div>
+        <div v-else :class="cls('value', 'relative overflow-clip px-6 py-4')">
             <div class="absolute inset-0 isolate z-0 size-full">
                 <slot name="icon">
                     <NbIcon
@@ -144,6 +170,7 @@ const themeClasses = computed(() => {
             <div :class="cls('valueText', 'relative text-2xl font-bold text-gray-900 transition-colors dark:text-gray-100', themeClasses.valueText)">
                 {{ value }}
             </div>
+            <StatTrend v-if="trend" :trend="trend" :class="cls('trend', 'relative mt-1')" />
         </div>
 
         <div :class="cls('label', 'border-t border-gray-100 bg-gray-50/50 px-6 py-3 dark:border-gray-700 dark:bg-gray-900/40')">

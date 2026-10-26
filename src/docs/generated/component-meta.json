@@ -459,6 +459,18 @@
             {
                 "name": "underline",
                 "description": "the hover underline"
+            },
+            {
+                "name": "chip",
+                "description": "the icon chip (with `iconVariant`)"
+            },
+            {
+                "name": "trend",
+                "description": "the change indicator (with `trend`)"
+            },
+            {
+                "name": "ping",
+                "description": "the live dot (with `ping`)"
             }
         ],
         "classPart": "root",
@@ -1912,6 +1924,18 @@
             {
                 "name": "underline",
                 "description": "the hover underline"
+            },
+            {
+                "name": "chip",
+                "description": "a stat's icon chip (when the stat has `chip`)"
+            },
+            {
+                "name": "trend",
+                "description": "a stat's change indicator (when the stat has `change`)"
+            },
+            {
+                "name": "ping",
+                "description": "a stat's live dot (when the stat has `live`)"
             }
         ],
         "classPart": "root",

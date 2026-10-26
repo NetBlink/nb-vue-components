@@ -89,8 +89,8 @@ export interface NbParts {
     Pagination: 'root' | 'list' | 'link' | 'activeLink' | 'disabledLink';
     // Data display
     Alert: 'root' | 'icon' | 'content' | 'title' | 'body' | 'dismiss';
-    Stats: 'root' | 'stat' | 'value' | 'valueText' | 'label' | 'labelText' | 'underline';
-    DataTile: 'root' | 'value' | 'icon' | 'valueText' | 'label' | 'labelText' | 'underline';
+    Stats: 'root' | 'stat' | 'value' | 'valueText' | 'label' | 'labelText' | 'underline' | 'chip' | 'trend' | 'ping';
+    DataTile: 'root' | 'value' | 'icon' | 'valueText' | 'label' | 'labelText' | 'underline' | 'chip' | 'trend' | 'ping';
     DescriptionList: 'root' | 'list';
     DescriptionListItem: 'root' | 'term' | 'required' | 'details' | 'row' | 'value' | 'actions' | 'edit';
     DottedCarousel: 'root' | 'track' | 'dots' | 'indicator' | 'dot';

@@ -8,7 +8,10 @@
  */
 import { computed } from 'vue';
 import { getInertiaPage } from '../Helpers';
-import type { NbParts, UiProp } from '../ui/parts';
+import type { NbColorVariants, NbParts, UiProp } from '../ui/parts';
+import type { IconLike } from '../icons/types';
+import IconCircle from './IconCircle.vue';
+import StatTrend, { type StatTrendValue } from './StatTrend.vue';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
@@ -29,6 +32,9 @@ defineOptions({ inheritAttrs: false });
  * @part label - the label section
  * @part labelText - the label text
  * @part underline - the hover underline
+ * @part chip - a stat's icon chip (when the stat has `chip`)
+ * @part trend - a stat's change indicator (when the stat has `change`)
+ * @part ping - a stat's live dot (when the stat has `live`)
  */
 
 interface StatItem {
@@ -38,6 +44,16 @@ interface StatItem {
     value: number;
     /** Display label (falls back to `name` if omitted) */
     label?: string;
+    /*
+     * Opt-in extras. Named to avoid fields apps already keep on their stat objects
+     * (`icon`, `trend`), so passing existing data never changes how a tile looks.
+     */
+    /** Icon in a coloured chip beside the value, e.g. `{ icon: '$info', variant: 'success' }` */
+    chip?: { icon: IconLike; variant?: keyof NbColorVariants };
+    /** Change indicator under the value, e.g. `{ value: '12%', direction: 'up' }` */
+    change?: StatTrendValue;
+    /** Pulsing "live" dot in the corner */
+    live?: boolean;
 }
 
 export interface StatsProps {
@@ -113,8 +129,23 @@ const ifSelected = (status: string): boolean => {
             "
             @click="onClick(s.name)"
         >
-            <!-- Value Section -->
-            <div :class="cls('value', 'px-6 py-4')">
+            <!-- Live dot (opt-in): a status indicator, so it pulses at every motion level -->
+            <span v-if="s.live" :class="cls('ping', 'absolute top-3 right-3 z-10 flex h-2.5 w-2.5')" aria-hidden="true">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
+            </span>
+
+            <!-- Value Section (chip and trend only render when the stat asks for them) -->
+            <div v-if="s.chip || s.change" :class="cls('value', 'flex items-center justify-between gap-3 px-6 py-4')">
+                <div class="min-w-0">
+                    <div :class="cls('valueText', 'group-hover:text-primary-600 text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100 dark:group-hover:text-primary-300')">
+                        {{ s.value }}
+                    </div>
+                    <StatTrend v-if="s.change" :trend="s.change" :class="cls('trend', 'mt-1')" />
+                </div>
+                <IconCircle v-if="s.chip" :icon="s.chip.icon" :variant="s.chip.variant ?? 'primary'" :class="cls('chip')" />
+            </div>
+            <div v-else :class="cls('value', 'px-6 py-4')">
                 <div :class="cls('valueText', 'group-hover:text-primary-600 text-2xl font-bold text-gray-900 dark:text-gray-100 transition-colors dark:text-gray-100 dark:group-hover:text-primary-300')">
                     {{ s.value }}
                 </div>
