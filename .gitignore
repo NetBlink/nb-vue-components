@@ -37,7 +37,7 @@ Thumbs.db
 
 # Log files
 *.log
-docs/
+/docs/
 
 # Upgrade CLI build output
 migrate/node_modules/
