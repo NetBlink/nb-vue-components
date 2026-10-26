@@ -10,6 +10,9 @@ Vue 3 component library for Laravel and Inertia applications. TypeScript, Tailwi
 npm install @netblink/vue-components
 ```
 
+4.x betas are published under the npm tag `next` (`npm install @netblink/vue-components@next`) and
+3.x fixes under `v3`. To upgrade an app from 3.x, run `npx @netblink/vue-components-migrate@next`.
+
 `vue` is the only required peer. FontAwesome and `@iconify/vue` are optional peers, needed only if
 you route icons through those providers. Everything else the components use is bundled.
 
