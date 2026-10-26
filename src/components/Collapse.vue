@@ -5,8 +5,8 @@
  * be replaced entirely via the `trigger` slot. Use this for inline "Show more" toggles;
  * use `CollapsableSection` when you want a full bordered card with a header bar.
  *
- * @part root - the collapsible wrapper
- * @part trigger - the `SecondaryButton`; `class` and other attrs land here, as in 3.x
+ * @part root - the collapsible wrapper; `class` lands here
+ * @part trigger - the `SecondaryButton`; other attrs land here
  * @part label - the button text
  * @part icon - the chevron in the button
  * @part content - the collapsing panel
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<CollapseProps>(), {
     button: () => ['Show more', 'Show less'] as [string, string],
 });
 
-const { cls, attrs, anim } = useUi('Collapse', props, { classPart: 'trigger' });
+const { cls, attrs, anim } = useUi('Collapse', props);
 
 // Height in and out: quick for `simple`, a spring for `fancy`.
 const MOTION: NbMotionTable<'content'> = {

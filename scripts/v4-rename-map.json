@@ -321,7 +321,7 @@
         },
         {
             "component": "Collapse",
-            "change": "`class` and attrs now land only on the trigger button. 3.x also put them on the collapsible wrapper; use `:ui=\"{ root: '...' }\"` for the wrapper."
+            "change": "`class` now lands only on the collapsible wrapper and other attrs only on the trigger button. 3.x put both on both; use `:ui=\"{ trigger: '...' }\"` to style the button."
         },
         {
             "component": "Tooltip",

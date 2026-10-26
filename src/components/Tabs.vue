@@ -124,7 +124,8 @@ const listClasses = computed(() => {
 const triggerClasses = computed(() => [
     TRIGGER_BASE,
     variantClasses.value.trigger,
-    sliding.value ? 'relative z-10' : variantClasses.value.marker,
+    // The trigger sits above the indicator, so its hover border must not cover it on the active tab.
+    sliding.value ? 'relative z-10 data-[state=active]:hover:border-transparent dark:data-[state=active]:hover:border-transparent' : variantClasses.value.marker,
     props.fitted ? 'flex-1' : '',
 ]);
 
