@@ -19,8 +19,10 @@ const SECTIONS: [ReportKind, string][] = [
 export class Report {
     private items: ReportItem[] = [];
 
+    /** Several steps can report the same thing (an unparseable file): it is listed once. */
     add(item: ReportItem): void {
-        this.items.push(item);
+        const same = (i: ReportItem) => i.kind === item.kind && i.file === item.file && i.line === item.line && i.message === item.message;
+        if (!this.items.some(same)) this.items.push(item);
     }
 
     count(kind?: ReportKind): number {

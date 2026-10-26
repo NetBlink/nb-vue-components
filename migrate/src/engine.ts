@@ -28,12 +28,26 @@ export interface UpgradeOptions {
     choicesFile?: string;
 }
 
-/** Runs the whole upgrade and returns the exit code: 0 ok, 1 `--check` found changes, 2 refused. */
+const refuse = (message: string) => {
+    console.log(pc.red(message));
+    return 2;
+};
+
+/**
+ * Runs the whole upgrade and returns the exit code: 0 ok, 1 `--check` found changes, 2 refused.
+ * An unexpected error is printed and gives 2 too, so `--check` never mistakes a crash for changes.
+ */
 export async function runUpgrade(opts: UpgradeOptions): Promise<number> {
-    const refuse = (message: string) => {
-        console.log(pc.red(message));
-        return 2;
-    };
+    try {
+        return await upgrade(opts);
+    } catch (err) {
+        if ((err as Error).message === 'aborted') return refuse('Aborted, nothing was written.');
+        console.error((err as Error).stack ?? err);
+        return refuse(`Unexpected error, nothing was written: ${(err as Error).message}. Please report it with the stack trace above.`);
+    }
+}
+
+async function upgrade(opts: UpgradeOptions): Promise<number> {
 
     if (!opts.force && !isGitClean(opts.root)) {
         return refuse('The project has uncommitted changes (or is not a git repo). Commit first, or pass --force.');

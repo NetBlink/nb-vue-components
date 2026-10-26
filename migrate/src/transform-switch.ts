@@ -1,7 +1,7 @@
-import { parse } from '@babel/parser';
 import _traverse from '@babel/traverse';
 import MagicString from 'magic-string';
 import { SET_CONFIGS, type SetKey } from './icons.js';
+import { parseCode } from './parse.js';
 
 const traverse = ((_traverse as any).default ?? _traverse) as typeof _traverse;
 
@@ -14,9 +14,9 @@ const PRESET_IMPORT_RE = /^@netblink\/vue-components\/icons\/(?:fa|heroicons|mat
  *
  * Throws when there is no createNbIcons call: run the upgrade first.
  */
-export function transformSwitch(source: string, target: SetKey): string {
+export function transformSwitch(source: string, target: SetKey, lang: string): string {
     const config = SET_CONFIGS[target];
-    const ast = parse(source, { sourceType: 'module', plugins: ['typescript', 'jsx'] });
+    const ast = parseCode(source, lang);
 
     const presetImports: { start: number; end: number }[] = [];
     const calls: { start: number; end: number }[] = [];

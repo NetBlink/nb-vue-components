@@ -19,11 +19,11 @@ export const v1ToV2: Step = {
             NavCollapse: 'rename `show` to `open`',
             DropdownLink: '`href` is required and it must sit inside a Dropdown',
         };
-        for (const use of await renderFnUses(files, Object.keys(renderHints))) {
+        for (const use of await renderFnUses(files, Object.keys(renderHints), report, 'v1-to-v2')) {
             add('manual', use, `${use.component} in a render function: ${renderHints[use.component]}.`);
         }
 
-        const tags = await libraryTags(files, [...REKA_UI, 'DropdownLink', ...TW_ELEMENTS]);
+        const tags = await libraryTags(files, [...REKA_UI, 'DropdownLink', ...TW_ELEMENTS], report, 'v1-to-v2');
         const edits = new Map<string, ((ms: MagicString) => void)[]>();
         const edit = (t: LibTag, fn: (ms: MagicString) => void) => {
             if (!edits.has(t.file)) edits.set(t.file, []);

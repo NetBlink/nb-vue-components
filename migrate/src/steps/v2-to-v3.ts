@@ -2,6 +2,7 @@ import semver from 'semver';
 import { parse as parseSfc } from '@vue/compiler-sfc';
 import { ensureNamedImport, insertIntoAppChain } from '../entry.js';
 import { FA_ALIASES, FA_PEERS, ICONS_IMPORT, SET_CONFIGS } from '../icons.js';
+import { langOf, reportUnparseable } from '../parse.js';
 import { editSfc, libraryTags, lineAt, LIBRARY } from '../sfc.js';
 import type { FileStore } from '../files.js';
 import type { Step } from './types.js';
@@ -55,7 +56,7 @@ export const v2ToV3: Step = {
             report.add({ kind: 'manual', step: STEP, file: at?.file, line: at?.line, message });
 
         const icons = await stringIcons(files);
-        const whatsApp = (await libraryTags(files, ['Input', 'Textarea'])).filter((t) => t.attr('whatsApp'));
+        const whatsApp = (await libraryTags(files, ['Input', 'Textarea'], report, STEP)).filter((t) => t.attr('whatsApp'));
         const decision = await choose({
             id: 'icons',
             title: 'Icons now come from an icon preset',
@@ -71,11 +72,16 @@ export const v2ToV3: Step = {
             if (source === null) {
                 manual(`No app entry file found: add ${snippet}.`);
             } else if (!source.includes('createNbIcons')) {
-                const next = insertIntoAppChain(source, FA.call);
-                if (next === null) manual(`Could not find where the app is mounted: add ${snippet}.`, { file: entry!, line: 1 });
-                else {
-                    const withIcons = ensureNamedImport(next, '@netblink/vue-components/icons', ['createNbIcons']);
-                    files.write(entry!, ensureNamedImport(withIcons, '@netblink/vue-components/icons/fa', ['faAliasPreset', 'faSet']));
+                const lang = langOf(entry!);
+                try {
+                    const next = insertIntoAppChain(source, FA.call, lang);
+                    if (next === null) manual(`Could not find where the app is mounted: add ${snippet}.`, { file: entry!, line: 1 });
+                    else {
+                        const withIcons = ensureNamedImport(next, '@netblink/vue-components/icons', ['createNbIcons'], lang);
+                        files.write(entry!, ensureNamedImport(withIcons, '@netblink/vue-components/icons/fa', ['faAliasPreset', 'faSet'], lang));
+                    }
+                } catch (err) {
+                    reportUnparseable(report, STEP, entry!, err, `add ${snippet}`);
                 }
             }
 
@@ -93,7 +99,7 @@ export const v2ToV3: Step = {
                     }
                     if (scriptSetup) {
                         const { start, end } = scriptSetup.loc;
-                        const next = ensureNamedImport(scriptSetup.content, LIBRARY, ['NbIcon']);
+                        const next = ensureNamedImport(scriptSetup.content, LIBRARY, ['NbIcon'], scriptSetup.lang ?? 'js');
                         if (next !== scriptSetup.content) ms.overwrite(start.offset, end.offset, next);
                     }
                 });

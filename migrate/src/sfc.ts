@@ -1,9 +1,10 @@
 import path from 'node:path';
 import { parse as parseSfc } from '@vue/compiler-sfc';
-import { parse as parseJs } from '@babel/parser';
 import _traverse from '@babel/traverse';
 import MagicString from 'magic-string';
 import type { FileStore } from './files.js';
+import type { Report } from './report.js';
+import { langOf, parseCode, reportUnparseable } from './parse.js';
 
 const traverse = ((_traverse as any).default ?? _traverse) as typeof _traverse;
 
@@ -42,7 +43,7 @@ export interface LibTag {
 }
 
 const camel = (s: string) => s.replace(/-(\w)/g, (_, c) => c.toUpperCase());
-const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+export const kebab = (s: string) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
 export function lineAt(source: string, offset: number): number {
     let line = 1;
@@ -50,19 +51,11 @@ export function lineAt(source: string, offset: number): number {
     return line;
 }
 
-function parseScript(content: string, startLine = 1) {
-    try {
-        return parseJs(content, { sourceType: 'module', startLine, plugins: ['typescript', 'jsx'] });
-    } catch {
-        return null;
-    }
-}
-
-/** Local name -> library export name for every `import { X as Y } from '@netblink/vue-components'`. */
-function libraryImports(ast: any): Map<string, string> {
+/** Local name -> export name for every `import { X as Y } from 'module'`. */
+export function importsFrom(ast: any, module: string): Map<string, string> {
     const out = new Map<string, string>();
-    for (const node of ast?.program.body ?? []) {
-        if (node.type !== 'ImportDeclaration' || node.source.value !== LIBRARY) continue;
+    for (const node of ast.program.body) {
+        if (node.type !== 'ImportDeclaration' || node.source.value !== module) continue;
         for (const s of node.specifiers) {
             if (s.type === 'ImportSpecifier') out.set(s.local.name, s.imported.type === 'Identifier' ? s.imported.name : s.imported.value);
         }
@@ -70,13 +63,40 @@ function libraryImports(ast: any): Map<string, string> {
     return out;
 }
 
+/** Local names of `import * as X from 'module'`. */
+function namespaceImports(ast: any, module: string): string[] {
+    return ast.program.body
+        .filter((n: any) => n.type === 'ImportDeclaration' && n.source.value === module)
+        .flatMap((n: any) => n.specifiers.filter((s: any) => s.type === 'ImportNamespaceSpecifier').map((s: any) => s.local.name));
+}
+
 async function vueFiles(files: FileStore): Promise<string[]> {
     return files.glob(['**/*.vue']);
 }
 
-function sfcScripts(source: string) {
+/** The SFC and its parsed `<script>` blocks; null (and a manual report item) when a script does not parse. */
+export function parseSfcScripts(file: string, source: string, report: Report, step: string) {
     const { descriptor } = parseSfc(source);
-    return { descriptor, scripts: [descriptor.script, descriptor.scriptSetup].filter((s) => s !== null) };
+    const asts: any[] = [];
+    for (const s of [descriptor.script, descriptor.scriptSetup]) {
+        if (!s) continue;
+        try {
+            asts.push(parseCode(s.content, s.lang ?? 'js', s.loc.start.line));
+        } catch (err) {
+            reportUnparseable(report, step, file, err);
+            return null;
+        }
+    }
+    return { descriptor, asts };
+}
+
+/** Calls `fn` on every element of a template AST, `v-if` branches included. */
+export function walkElements(nodes: any[], fn: (node: any) => void): void {
+    for (const node of nodes) {
+        if (node.type === ELEMENT) fn(node);
+        if (node.children) walkElements(node.children, fn);
+        if (node.branches) walkElements(node.branches, fn);
+    }
 }
 
 function makeTag(file: string, node: any, component: string): LibTag {
@@ -113,34 +133,51 @@ function makeTag(file: string, node: any, component: string): LibTag {
     };
 }
 
-/** Template tags of `components`, counted only where the SFC imports them from the library. */
-export async function libraryTags(files: FileStore, components: string[]): Promise<LibTag[]> {
+/**
+ * Template tags of `components`, counted only where the SFC imports them from the library.
+ * What cannot be followed (a script that does not parse, a pug or `src` template, a namespace
+ * import) is reported as a manual item of `step`.
+ */
+export async function libraryTags(files: FileStore, components: string[], report: Report, step: string): Promise<LibTag[]> {
     const out: LibTag[] = [];
+    const manual = (file: string, line: number, message: string) => report.add({ kind: 'manual', step, file, line, message });
     for (const file of await vueFiles(files)) {
         const source = await files.read(file);
         if (!source || !source.includes(LIBRARY)) continue;
-        const { descriptor, scripts } = sfcScripts(source);
-        if (!descriptor.template?.ast) continue;
+        const sfc = parseSfcScripts(file, source, report, step);
+        if (!sfc) continue;
         const local = new Map<string, string>();
-        for (const s of scripts) for (const [k, v] of libraryImports(parseScript(s.content))) local.set(k, v);
+        const namespaces: string[] = [];
+        for (const ast of sfc.asts) {
+            for (const [k, v] of importsFrom(ast, LIBRARY)) local.set(k, v);
+            namespaces.push(...namespaceImports(ast, LIBRARY));
+        }
+        for (const ns of namespaces) {
+            const re = new RegExp(`(?<![\\w$.])${ns.replace(/\$/g, '\\$')}\\.(${components.join('|')})\\b`, 'g');
+            const uses = [...source.matchAll(re)];
+            if (uses.length === 0) continue;
+            const names = [...new Set(uses.map((m) => `\`${m[0]}\``))];
+            manual(file, lineAt(source, uses[0].index!), `${names.join(', ')} come${names.length > 1 ? '' : 's'} from a namespace import of ${LIBRARY}, which this CLI does not follow: make this upgrade's changes to ${names.length > 1 ? 'them' : 'it'} by hand.`);
+        }
         const byTag = new Map<string, string>();
         for (const [name, exported] of local) {
             if (!components.includes(exported)) continue;
             byTag.set(name, exported);
             byTag.set(kebab(name), exported);
         }
-        if (byTag.size === 0) continue;
-        const walk = (nodes: any[]) => {
-            for (const node of nodes) {
-                if (node.type === ELEMENT) {
-                    const component = byTag.get(node.tag);
-                    if (component) out.push(makeTag(file, node, component));
-                }
-                if (node.children) walk(node.children);
-                if (node.branches) walk(node.branches);
-            }
-        };
-        walk(descriptor.template.ast.children);
+        const template = sfc.descriptor.template;
+        if (byTag.size === 0 || !template) continue;
+        if (template.src || (template.lang && template.lang !== 'html')) {
+            const what = template.src ? `src="${template.src}"` : `lang="${template.lang}"`;
+            const names = [...new Set(byTag.values())].join(', ');
+            manual(file, template.loc.start.line, `\`<template ${what}>\` is not read by this CLI: make this upgrade's changes to its ${names} tags by hand.`);
+            continue;
+        }
+        if (!template.ast) continue;
+        walkElements(template.ast.children, (node) => {
+            const component = byTag.get(node.tag);
+            if (component) out.push(makeTag(file, node, component));
+        });
     }
     return out.sort((a, b) => (a.file === b.file ? a.start - b.start : a.file < b.file ? -1 : 1));
 }
@@ -171,19 +208,24 @@ export function renameAttr(ms: MagicString, a: LibAttr, from: string, to: string
 }
 
 /** `h(X, ...)` / `createVNode(X, ...)` calls with a library component, in SFC scripts and .js/.ts files. */
-export async function renderFnUses(files: FileStore, components: string[]): Promise<{ file: string; line: number; component: string }[]> {
+export async function renderFnUses(files: FileStore, components: string[], report: Report, step: string): Promise<{ file: string; line: number; component: string }[]> {
     const out: { file: string; line: number; component: string }[] = [];
     for (const file of await files.glob(['**/*.{vue,js,ts,jsx,tsx,mjs}'])) {
         const source = await files.read(file);
         if (!source || !source.includes(LIBRARY)) continue;
-        const blocks =
-            path.extname(file) === '.vue'
-                ? sfcScripts(source).scripts.map((s) => ({ content: s.content, line: s.loc.start.line }))
-                : [{ content: source, line: 1 }];
-        for (const block of blocks) {
-            const ast = parseScript(block.content, block.line);
-            if (!ast) continue;
-            const local = libraryImports(ast);
+        let asts: any[];
+        if (path.extname(file) === '.vue') {
+            asts = parseSfcScripts(file, source, report, step)?.asts ?? [];
+        } else {
+            try {
+                asts = [parseCode(source, langOf(file))];
+            } catch (err) {
+                reportUnparseable(report, step, file, err);
+                continue;
+            }
+        }
+        for (const ast of asts) {
+            const local = importsFrom(ast, LIBRARY);
             traverse(ast, {
                 CallExpression(p) {
                     const { callee, arguments: args } = p.node;

@@ -1,8 +1,8 @@
 import { parse as parseSfc } from '@vue/compiler-sfc';
-import { parse as parseJs } from '@babel/parser';
 import type MagicString from 'magic-string';
 import { ensureImportAfter, locateAppCss, removeKeyframes, removeNetblinkSources } from '../css.js';
 import { ensureSideEffectImport } from '../entry.js';
+import { langOf, parseCode, reportUnparseable } from '../parse.js';
 import { editSfc, libraryTags, lineAt, LIBRARY, removeAttr, renameAttr, type LibTag } from '../sfc.js';
 import { THEME_KEYFRAMES } from './data/theme-keyframes.js';
 import type { Step } from './types.js';
@@ -20,8 +20,8 @@ const RESTYLED: Record<string, string> = {
 };
 
 /** Renames the library import `Modal` to `NewModal` in a `<script setup>` body, or drops it when NewModal is already imported. */
-function renameModalImport(content: string): string | null {
-    const ast = parseJs(content, { sourceType: 'module', plugins: ['typescript', 'jsx'] });
+function renameModalImport(content: string, lang: string): string | null {
+    const ast = parseCode(content, lang);
     for (const node of ast.program.body) {
         if (node.type !== 'ImportDeclaration' || node.source.value !== LIBRARY) continue;
         const specs = node.specifiers;
@@ -66,9 +66,15 @@ export const v3ToV32: Step = {
 
         const entrySource = entry ? await files.read(entry) : null;
         if (entrySource === null) manual(`No app entry file found: add \`import '${STYLE_CSS}';\` to it.`);
-        else files.write(entry!, ensureSideEffectImport(entrySource, STYLE_CSS, LIBRARY));
+        else {
+            try {
+                files.write(entry!, ensureSideEffectImport(entrySource, STYLE_CSS, LIBRARY, langOf(entry!)));
+            } catch (err) {
+                reportUnparseable(report, STEP, entry!, err, `add \`import '${STYLE_CSS}';\``);
+            }
+        }
 
-        const tags = await libraryTags(files, ['NewModal', 'Modal', 'Section', 'Pagination', 'LinkDropdownButton', 'Table', ...BUTTONS]);
+        const tags = await libraryTags(files, ['NewModal', 'Modal', 'Section', 'Pagination', 'LinkDropdownButton', 'Table', ...BUTTONS], report, STEP);
         const edits = new Map<string, ((ms: MagicString) => void)[]>();
         const edit = (file: string, fn: (ms: MagicString) => void) => {
             if (!edits.has(file)) edits.set(file, []);
@@ -112,7 +118,7 @@ export const v3ToV32: Step = {
                 for (const [file, list] of byFile) {
                     const source = (await files.read(file))!;
                     const setup = parseSfc(source).descriptor.scriptSetup;
-                    const imports = setup ? renameModalImport(setup.content) : null;
+                    const imports = setup ? renameModalImport(setup.content, setup.lang ?? 'js') : null;
                     const skipped = list.filter((t) => {
                         const reason = t.hasSpread
                             ? 'a `v-bind` spread'

@@ -1,6 +1,7 @@
 import semver from 'semver';
 import type MagicString from 'magic-string';
 import { ensureNamedImport, insertAfterCall } from '../entry.js';
+import { langOf, reportUnparseable } from '../parse.js';
 import { editSfc, libraryTags, LIBRARY, renameAttr, type LibTag } from '../sfc.js';
 import type { Step } from './types.js';
 
@@ -18,16 +19,21 @@ export const v2Patch: Step = {
         if (source === null) {
             manual('Add `setInertiaPage(usePage());` where you call `setInertiaRouter(router);` (no app entry file found).');
         } else if (!source.includes('setInertiaPage(')) {
-            const next = insertAfterCall(source, 'setInertiaRouter', 'setInertiaPage(usePage());');
-            if (next === null) {
-                manual('Call `setInertiaRouter(router);` (from @inertiajs/vue3 `router`) after creating the app.', { file: entry!, line: 1 });
-                manual('Call `setInertiaPage(usePage());` (from @inertiajs/vue3 `usePage`) after `setInertiaRouter(router);`.', { file: entry!, line: 1 });
-            } else {
-                files.write(entry!, ensureNamedImport(ensureNamedImport(next, '@inertiajs/vue3', ['usePage']), LIBRARY, ['setInertiaPage']));
+            const lang = langOf(entry!);
+            try {
+                const next = insertAfterCall(source, 'setInertiaRouter', 'setInertiaPage(usePage());', lang);
+                if (next === null) {
+                    manual('Call `setInertiaRouter(router);` (from @inertiajs/vue3 `router`) after creating the app.', { file: entry!, line: 1 });
+                    manual('Call `setInertiaPage(usePage());` (from @inertiajs/vue3 `usePage`) after `setInertiaRouter(router);`.', { file: entry!, line: 1 });
+                } else {
+                    files.write(entry!, ensureNamedImport(ensureNamedImport(next, '@inertiajs/vue3', ['usePage'], lang), LIBRARY, ['setInertiaPage'], lang));
+                }
+            } catch (err) {
+                reportUnparseable(report, STEP, entry!, err, 'add `setInertiaPage(usePage());` after `setInertiaRouter(router);`, with its imports');
             }
         }
 
-        const tags = await libraryTags(files, ['Alert', 'Table', 'TrPlaceholder', 'LinkButton']);
+        const tags = await libraryTags(files, ['Alert', 'Table', 'TrPlaceholder', 'LinkButton'], report, STEP);
         const edits = new Map<string, ((ms: MagicString) => void)[]>();
         const edit = (t: LibTag, fn: (ms: MagicString) => void) => {
             if (!edits.has(t.file)) edits.set(t.file, []);

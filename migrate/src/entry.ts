@@ -1,15 +1,13 @@
-import { parse } from '@babel/parser';
+import fs from 'node:fs';
+import path from 'node:path';
 import _traverse from '@babel/traverse';
 import MagicString from 'magic-string';
 import type { FileStore } from './files.js';
+import { parseCode } from './parse.js';
 
 const traverse = ((_traverse as any).default ?? _traverse) as typeof _traverse;
 
 const CANDIDATES = ['resources/js/app.ts', 'resources/js/app.js', 'src/main.ts', 'src/main.js'];
-
-function parseModule(source: string) {
-    return parse(source, { sourceType: 'module', plugins: ['typescript', 'jsx'] });
-}
 
 /** Indentation of the line holding `offset`. */
 function indentAt(source: string, offset: number): string {
@@ -30,13 +28,21 @@ export async function locateEntry(files: FileStore, override?: string): Promise<
     return null;
 }
 
-/** Adds `names` to the named import from `from`, creating the import after the last one if needed. */
-export function ensureNamedImport(source: string, from: string, names: string[]): string {
-    const ast = parseModule(source);
+/**
+ * Adds `names` to the named import from `from`, creating the import after the last one if needed.
+ * A name already bound in the module (imported from anywhere, or declared) is left alone.
+ */
+export function ensureNamedImport(source: string, from: string, names: string[], lang: string): string {
+    const ast = parseCode(source, lang);
     const imports = ast.program.body.filter((n) => n.type === 'ImportDeclaration');
     const existing = imports.find((n) => n.source.value === from && n.importKind !== 'type' && !n.specifiers.some((s) => s.type === 'ImportNamespaceSpecifier'));
-    const have = new Set(imports.filter((n) => n.source.value === from).flatMap((n) => n.specifiers.map((s) => s.local.name)));
-    const missing = names.filter((n) => !have.has(n));
+    let missing: string[] = [];
+    traverse(ast, {
+        Program(p) {
+            missing = names.filter((n) => !p.scope.hasBinding(n, true));
+            p.stop();
+        },
+    });
     if (missing.length === 0) return source;
 
     const ms = new MagicString(source);
@@ -55,8 +61,8 @@ export function ensureNamedImport(source: string, from: string, names: string[])
 }
 
 /** Adds `import 'spec';` after the import of `after` (or after the last import). */
-export function ensureSideEffectImport(source: string, spec: string, after: string): string {
-    const imports = parseModule(source).program.body.filter((n) => n.type === 'ImportDeclaration');
+export function ensureSideEffectImport(source: string, spec: string, after: string, lang: string): string {
+    const imports = parseCode(source, lang).program.body.filter((n) => n.type === 'ImportDeclaration');
     if (imports.some((n) => n.source.value === spec)) return source;
     const anchor = [...imports].reverse().find((n) => n.source.value === after) ?? imports[imports.length - 1];
     const line = `import '${spec}';`;
@@ -67,10 +73,10 @@ export function ensureSideEffectImport(source: string, spec: string, after: stri
 }
 
 /** Inserts the statement `code` on its own line after the first `calleeName(...);` statement. */
-export function insertAfterCall(source: string, calleeName: string, code: string): string | null {
+export function insertAfterCall(source: string, calleeName: string, code: string, lang: string): string | null {
     if (source.includes(code)) return source;
     let at = null as { end: number; start: number } | null;
-    traverse(parseModule(source), {
+    traverse(parseCode(source, lang), {
         ExpressionStatement(p) {
             const e = p.node.expression;
             if (!at && e.type === 'CallExpression' && e.callee.type === 'Identifier' && e.callee.name === calleeName) {
@@ -89,8 +95,8 @@ export function insertAfterCall(source: string, calleeName: string, code: string
  * Registers a plugin on the app: `.use(X)` right before `.mount(` in a `createApp(...)` chain,
  * or an `app.use(X);` statement after the last `app.use(...)` (or before `app.mount(...)`).
  */
-export function insertIntoAppChain(source: string, useCode: string): string | null {
-    const ast = parseModule(source);
+export function insertIntoAppChain(source: string, useCode: string, lang: string): string | null {
+    const ast = parseCode(source, lang);
     const ms = new MagicString(source);
     let done = false;
 

@@ -7,6 +7,7 @@ import { runUpgrade } from './engine.js';
 import { FileStore } from './files.js';
 import { SET_CONFIGS, type SetKey } from './icons.js';
 import { transformSwitch } from './transform-switch.js';
+import { langOf } from './parse.js';
 
 const program = new Command();
 
@@ -65,7 +66,7 @@ program
 
         const config = SET_CONFIGS[key];
         try {
-            files.write(entry, transformSwitch((await files.read(entry))!, key));
+            files.write(entry, transformSwitch((await files.read(entry))!, key, langOf(entry)));
         } catch (err) {
             console.error(pc.red((err as Error).message));
             process.exit(2);
@@ -84,4 +85,7 @@ program
         console.log('');
     });
 
-program.parseAsync(process.argv);
+program.parseAsync(process.argv).catch((err) => {
+    console.error(pc.red(`Unexpected error: ${(err as Error).stack ?? err}`));
+    process.exit(2);
+});
