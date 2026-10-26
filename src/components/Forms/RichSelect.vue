@@ -58,7 +58,7 @@ import { computed, ref, watch, nextTick, onMounted } from 'vue';
 import { InputWrapper, Spinner } from '../../index';
 import NbIcon from '../../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../../ui/parts';
-import type { MotionLevel } from '../../ui/motion';
+import { levelAtLeast, type MotionLevel } from '../../ui/motion';
 import { useFlip } from '../../ui/flip';
 import { useUi } from '../../ui/useUi';
 import { stateLayer } from '../../ui/merge';
@@ -511,7 +511,7 @@ onUnmounted(cleanup);
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <NbIcon
                         name="$expand"
-                        :class="cls('icon', 'h-4 w-4 text-gray-400 transition-transform duration-200', { 'rotate-180': isOpen })"
+                        :class="cls('icon', 'h-4 w-4 text-gray-400', { 'transition-transform duration-200': levelAtLeast(level, 'smooth'), 'rotate-180': isOpen })"
                     />
                 </div>
             </button>

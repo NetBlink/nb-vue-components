@@ -11,13 +11,14 @@
  * @part indicator - the active dot that slides between positions
  * @part dot - each dot
  * @motion off - the active dot jumps
+ * @motion simple - the active dot jumps
  * @motion smooth - the active dot slides to the current slide
  * @motion fancy - the active dot slides on a spring
  */
 // @ts-nocheck
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel } from '../ui/motion';
+import { levelAtLeast, type MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -107,7 +108,7 @@ onBeforeUnmount(() => {
         <div class="mt-4 flex flex-col items-center justify-center">
             <div :class="cls('dots', 'relative flex w-fit flex-row justify-center gap-3')">
                 <div
-                    :class="cls('indicator', 'bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full transition-all duration-300', { 'ease-(--ease-spring)': level === 'fancy' })"
+                    :class="cls('indicator', 'bg-primary-600 dark:bg-primary-400 absolute h-2 w-2 rounded-full', { 'transition-all duration-300': levelAtLeast(level, 'smooth'), 'ease-(--ease-spring)': level === 'fancy' })"
                     :style="{ left: `${currentDotPosition}px` }"
                     ref="activeDot"
                 />

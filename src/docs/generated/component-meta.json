@@ -190,11 +190,11 @@
         "parts": [
             {
                 "name": "root",
-                "description": "the collapsible wrapper"
+                "description": "the collapsible wrapper; `class` lands here"
             },
             {
                 "name": "trigger",
-                "description": "the `SecondaryButton`; `class` and other attrs land here, as in 3.x"
+                "description": "the `SecondaryButton`; other attrs land here"
             },
             {
                 "name": "label",
@@ -213,7 +213,7 @@
                 "description": "the spacing wrapper around the slot"
             }
         ],
-        "classPart": "trigger",
+        "classPart": "root",
         "motion": [
             {
                 "level": "off",
@@ -376,6 +376,10 @@
         "motion": [
             {
                 "level": "off",
+                "description": "the active dot jumps"
+            },
+            {
+                "level": "simple",
                 "description": "the active dot jumps"
             },
             {
@@ -800,7 +804,7 @@
             },
             {
                 "level": "smooth",
-                "description": "fades in with a small slide away from the trigger, fades out"
+                "description": "fades in with a small slide away from the trigger, fades out, the chevron turns"
             },
             {
                 "level": "fancy",
@@ -1599,7 +1603,7 @@
             },
             {
                 "level": "simple",
-                "description": "the thumb slides, the error appears instantly"
+                "description": "the thumb jumps, the error appears instantly"
             },
             {
                 "level": "smooth",
@@ -1630,11 +1634,11 @@
             },
             {
                 "level": "smooth",
-                "description": "the new panel fades in"
+                "description": "the new panel fades in, the old one fades out"
             },
             {
                 "level": "fancy",
-                "description": "the new panel fades in with a small rise"
+                "description": "the new panel fades in with a small rise, the old one fades out with a small drop"
             }
         ]
     },

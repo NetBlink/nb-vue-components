@@ -24,7 +24,7 @@ import NbIcon from '../icons/NbIcon.vue';
 import { computed, ref, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel, NbMotionTable } from '../ui/motion';
+import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<NavCollapseProps>(), {
     open: false,
 });
 
-const { cls, attrs, anim } = useUi('NavCollapse', props);
+const { cls, attrs, anim, level } = useUi('NavCollapse', props);
 
 // Height in and out: quick for `simple`, a spring for `fancy`.
 const MOTION: NbMotionTable<'content'> = {
@@ -79,7 +79,7 @@ watch(
                     </div>
                     <!-- ml-3 only when an icon actually renders, otherwise the label sits on a phantom indent -->
                     <span :class="cls('label', 'flex-1 text-left whitespace-nowrap', { 'ml-3': $slots.icon })">{{ name }}</span>
-                    <NbIcon name="$expand" :class="cls('chevron', 'transition-all', { 'rotate-180': isOpen })" />
+                    <NbIcon name="$expand" :class="cls('chevron', { 'transition-all': levelAtLeast(level, 'smooth'), 'rotate-180': isOpen })" />
                 </button>
             </CollapsibleTrigger>
 

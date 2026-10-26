@@ -21,7 +21,7 @@ import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 import { SecondaryButton } from './index.js';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel, NbMotionTable } from '../ui/motion';
+import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<CollapseProps>(), {
     button: () => ['Show more', 'Show less'] as [string, string],
 });
 
-const { cls, attrs, anim } = useUi('Collapse', props);
+const { cls, attrs, anim, level } = useUi('Collapse', props);
 
 // Height in and out: quick for `simple`, a spring for `fancy`.
 const MOTION: NbMotionTable<'content'> = {
@@ -69,7 +69,7 @@ onMounted(() => {
                     <span :class="cls('label')">
                         {{ isOpen ? button[1] : button[0] }}
                     </span>
-                    <NbIcon name="$expand" :class="cls('icon', 'transition-all', { 'rotate-180': isOpen })" />
+                    <NbIcon name="$expand" :class="cls('icon', { 'transition-all': levelAtLeast(level, 'smooth'), 'rotate-180': isOpen })" />
                 </SecondaryButton>
             </slot>
         </CollapsibleTrigger>

@@ -11,7 +11,7 @@
  * @part list - the `<ul>` around the items
  * @motion off - opens and closes instantly
  * @motion simple - quick fade in and out
- * @motion smooth - fades in with a small slide away from the trigger, fades out
+ * @motion smooth - fades in with a small slide away from the trigger, fades out, the chevron turns
  * @motion fancy - pops out of the trigger on a spring, zooms out on close
  */
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui';
@@ -20,7 +20,7 @@ import type { Align } from '@/Types';
 import { Align as AlignValue } from '@/Types';
 import NbIcon from '../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel, NbMotionTable } from '../ui/motion';
+import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -44,7 +44,7 @@ const props = withDefaults(defineProps<LinkDropdownButtonProps>(), {
     title: undefined,
 });
 
-const { cls, attrs, anim } = useUi('LinkDropdownButton', props, { classPart: 'content' });
+const { cls, attrs, anim, level } = useUi('LinkDropdownButton', props, { classPart: 'content' });
 
 const toggleState = ref(false);
 
@@ -80,7 +80,7 @@ const contentMotion = () => anim('content', toggleState.value ? 'enter' : 'leave
                 type="button"
             >
                 {{ title }}
-                <NbIcon name="$expand" :class="cls('icon', 'size-3 transition-transform', { 'rotate-180': toggleState })" />
+                <NbIcon name="$expand" :class="cls('icon', 'size-3', { 'transition-transform': levelAtLeast(level, 'smooth'), 'rotate-180': toggleState })" />
             </button>
         </DropdownMenuTrigger>
 

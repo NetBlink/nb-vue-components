@@ -20,7 +20,7 @@ import { CollapsibleContent, CollapsibleRoot, CollapsibleTrigger } from 'reka-ui
 import { onMounted, ref, watch } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 import type { NbParts, UiProp } from '../ui/parts';
-import type { MotionLevel, NbMotionTable } from '../ui/motion';
+import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
@@ -44,7 +44,7 @@ const props = withDefaults(defineProps<CollapsableSectionProps>(), {
     headerColor: undefined,
 });
 
-const { cls, attrs, anim } = useUi('CollapsableSection', props);
+const { cls, attrs, anim, level } = useUi('CollapsableSection', props);
 
 // Height in and out: quick for `simple`, a spring for `fancy`.
 const MOTION: NbMotionTable<'content'> = {
@@ -85,7 +85,7 @@ onMounted(() => {
                 <span v-if="header">{{ header }}</span>
                 <slot v-else name="trigger" />
             </h3>
-            <div :class="cls('icon', 'text-primary-600 transition-transform duration-300 ease-in-out dark:text-primary-300', { 'rotate-180': isOpen })">
+            <div :class="cls('icon', 'text-primary-600', { 'transition-transform duration-300 ease-in-out': levelAtLeast(level, 'smooth') }, 'dark:text-primary-300', { 'rotate-180': isOpen })">
                 <NbIcon name="$expand" class="h-5 w-5" />
             </div>
         </CollapsibleTrigger>

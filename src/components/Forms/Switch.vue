@@ -27,7 +27,7 @@
  * @part thumb - the sliding knob
  * @part error - the `InputError`
  * @motion off - the switch flips and the error appears instantly
- * @motion simple - the thumb slides, the error appears instantly
+ * @motion simple - the thumb jumps, the error appears instantly
  * @motion smooth - the thumb slides, the error grows in and out
  * @motion fancy - the thumb slides on a spring
  */
@@ -232,8 +232,10 @@ defineExpose({
                     :class="
                         cls(
                             'thumb',
-                            'pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5 transition-transform will-change-transform data-[state=checked]:translate-x-[1.625rem]',
-                            level === 'fancy' ? 'duration-300 ease-(--ease-spring)' : 'duration-150'
+                            'pointer-events-none block h-[1.25rem] w-[1.25rem] translate-x-[0.125rem] rounded-full bg-white shadow-md ring-1 ring-black/5',
+                            { 'transition-transform': levelAtLeast(level, 'smooth') },
+                            'will-change-transform data-[state=checked]:translate-x-[1.625rem]',
+                            level === 'fancy' ? 'duration-300 ease-(--ease-spring)' : level === 'smooth' ? 'duration-150' : ''
                         )
                     "
                 />
