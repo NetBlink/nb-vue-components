@@ -1366,6 +1366,57 @@
             }
         ]
     },
+    "Progress": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "header",
+                "description": "the row above the bar holding label and value"
+            },
+            {
+                "name": "label",
+                "description": "the label"
+            },
+            {
+                "name": "value",
+                "description": "the percentage"
+            },
+            {
+                "name": "track",
+                "description": "the grey track"
+            },
+            {
+                "name": "bar",
+                "description": "the coloured fill"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the fill jumps to the new width"
+            },
+            {
+                "level": "simple",
+                "description": "the fill jumps to the new width"
+            },
+            {
+                "level": "smooth",
+                "description": "the fill glides to the new width"
+            },
+            {
+                "level": "fancy",
+                "description": "the fill glides to the new width on a longer curve"
+            },
+            {
+                "level": "all",
+                "description": "the indeterminate sweep runs at every level, like Spinner"
+            }
+        ]
+    },
     "PropsTable": {
         "parts": [
             {
@@ -1724,6 +1775,29 @@
             {
                 "level": "all",
                 "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Skeleton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "line",
+                "description": "each text line"
+            },
+            {
+                "name": "circle",
+                "description": "the circle"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "pulses at every level, like Spinner"
             }
         ]
     },

@@ -314,6 +314,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **PageHeader**, breadcrumbs, title, description and an `#actions` slot on the right, with a mobile "Back" link when `back` is set.
 - **Pagination**, Pagination component for navigating through pages of data.
 - **PrimaryButton**, Primary Button component.
+- **Progress**, `value` out of `max`, with an optional label and percentage above it.
 - **PropsTable**, Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state.
 - **RadioButton**, One radio option with its label.
 - **ResponsiveNavLink**, mobile/stacked variant of `NavLink`.
@@ -325,6 +326,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Select2ajax**, Server-backed version of `SearchSelect`: it wraps that component and fills the option list by requesting `url` with the current search term, appending further pages as the user scrolls the dropdown to the bottom.
 - **SelectMultiple**, Multi-select rendered as a clickable list of options that toggle in and out of an array value, rather than as a dropdown.
 - **SimpleSelect**, Simple Select component that works with options array.
+- **Skeleton**, `text` lines, a `circle`, a `rect` block, or a `row` (circle plus two lines, the shape of a list item).
 - **Spinner**, a CSS-only spinning ring in five preset sizes, with `role="status"` and a visually hidden "Loading..." label for screen readers.
 - **Stats**, Responsive grid of clickable stat tiles used as quick filters above a table.
 - **SubmitButton**, Submit Button component with loading state and theme support.

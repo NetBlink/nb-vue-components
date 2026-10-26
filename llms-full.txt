@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (82 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (84 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -1415,6 +1415,35 @@ Primary Button component
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
+### Progress
+
+`value` out of `max`, with an optional label and percentage above it. `indeterminate` shows a sweeping bar for work of unknown length. Exposed as `role="progressbar"` with the current values.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | `0` | Current value |
+| `max` | `number` | `100` | Value that means done |
+| `theme` | `keyof NbColorVariants` | `'primary'` | Fill colour. Add your own through the `variants` config. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Bar thickness |
+| `label` | `string` | `undefined` | Text above the bar (also the accessible name) |
+| `showValue` | `boolean` | `false` | Show the percentage above the bar |
+| `indeterminate` | `boolean` | `false` | Unknown length: a sweeping bar instead of a fill |
+| `ui` | `UiProp<NbParts['Progress']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `header` | the row above the bar holding label and value |
+| `label` | the label |
+| `value` | the percentage |
+| `track` | the grey track |
+| `bar` | the coloured fill |
+
+**Motion:** `off`: the fill jumps to the new width; `simple`: the fill jumps to the new width; `smooth`: the fill glides to the new width; `fancy`: the fill glides to the new width on a longer curve; all levels: the indeterminate sweep runs at every level, like Spinner.
+
 ### PropsTable
 
 Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state. Used by the docs pages, not intended for app UI.
@@ -1759,6 +1788,28 @@ Simple Select component that works with options array
 | `error` | the `InputError` |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Skeleton
+
+`text` lines, a `circle`, a `rect` block, or a `row` (circle plus two lines, the shape of a list item). The pulse is a status indicator, so it keeps running at every motion level. `TrPlaceholder` is the table-row equivalent.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `shape` | `'text' \| 'circle' \| 'rect' \| 'row'` | `'text'` | Shape of the placeholder |
+| `lines` | `number` | `3` | Number of lines for `text` |
+| `width` | `string` | `undefined` | CSS width (any length), e.g. `12rem` or `60%` |
+| `height` | `string` | `undefined` | CSS height for `rect` and `circle` |
+| `ui` | `UiProp<NbParts['Skeleton']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `line` | each text line |
+| `circle` | the circle |
+
+**Motion:** all levels: pulses at every level, like Spinner.
 
 ### Spinner
 

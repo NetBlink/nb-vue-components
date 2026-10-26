@@ -112,6 +112,8 @@ export interface NbParts {
     Breadcrumbs: 'root' | 'list' | 'item' | 'link' | 'current' | 'separator';
     PageHeader: 'root' | 'breadcrumbs' | 'back' | 'main' | 'title' | 'description' | 'meta' | 'actions';
     EmptyState: 'root' | 'icon' | 'title' | 'description' | 'actions';
+    Progress: 'root' | 'header' | 'label' | 'value' | 'track' | 'bar';
+    Skeleton: 'root' | 'line' | 'circle';
 }
 
 export type NbComponentName = keyof NbParts;
@@ -213,4 +215,5 @@ export interface NbVariantsConfig {
     IconCircle?: { variant?: VariantMap<'root' | 'icon', keyof NbColorVariants & string> };
     Badge?: { variant?: VariantMap<'root' | 'dot', keyof NbColorVariants & string> };
     IconButton?: { theme?: VariantMap<'root', string>; size?: VariantMap<'root' | 'icon', 'xs' | 'sm' | 'md' | 'lg'> };
+    Progress?: { theme?: VariantMap<'root', keyof NbColorVariants & string> };
 }
