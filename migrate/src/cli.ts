@@ -2,7 +2,7 @@
 import { Command } from 'commander';
 import pc from 'picocolors';
 import path from 'node:path';
-import { locateEntry } from './entry.js';
+import { locateEntry, resolveEntryOption } from './entry.js';
 import { runUpgrade } from './engine.js';
 import { FileStore } from './files.js';
 import { SET_CONFIGS, type SetKey } from './icons.js';
@@ -57,10 +57,10 @@ program
 
         const root = path.resolve(opts.path);
         const files = new FileStore(root);
-        const entry = await locateEntry(files, opts.entry);
+        const entry = opts.entry ? resolveEntryOption(root, opts.entry) : await locateEntry(files);
         if (!entry) {
-            console.error(pc.red('No entrypoint found.'));
-            console.error('Pass --entry <path-to-main.{js,ts}> to specify one.');
+            console.error(pc.red(opts.entry ? `--entry ${opts.entry}: no such file.` : 'No entrypoint found.'));
+            if (!opts.entry) console.error('Pass --entry <path-to-main.{js,ts}> to specify one.');
             process.exit(2);
         }
 

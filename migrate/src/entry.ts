@@ -15,9 +15,18 @@ function indentAt(source: string, offset: number): string {
     return /^[ \t]*/.exec(source.slice(lineStart))![0];
 }
 
+/**
+ * `--entry` relative to the app root: an absolute path as is, a relative one against the
+ * current directory first, then against the app root. Null when neither exists.
+ */
+export function resolveEntryOption(root: string, entry: string): string | null {
+    const candidates = path.isAbsolute(entry) ? [entry] : [path.resolve(entry), path.resolve(root, entry)];
+    const found = candidates.find((c) => fs.statSync(c, { throwIfNoEntry: false })?.isFile());
+    return found ? path.relative(root, found) : null;
+}
+
 /** The file that creates the Vue app, relative to the app root. */
-export async function locateEntry(files: FileStore, override?: string): Promise<string | null> {
-    if (override) return (await files.read(override)) === null ? null : override;
+export async function locateEntry(files: FileStore): Promise<string | null> {
     for (const c of CANDIDATES) {
         if ((await files.read(c)) !== null) return c;
     }

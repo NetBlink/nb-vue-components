@@ -8,7 +8,7 @@ import { Report, REPORT_FILE } from './report.js';
 import { Chooser, type Decision } from './choices.js';
 import { isGitClean } from './git.js';
 import { LIBRARY } from './sfc.js';
-import { locateEntry } from './entry.js';
+import { locateEntry, resolveEntryOption } from './entry.js';
 import { detectVersion, pickSteps, resolveTarget } from './version.js';
 import { STEPS, LATEST } from './steps/index.js';
 import type { StepContext } from './steps/types.js';
@@ -104,7 +104,8 @@ async function upgrade(opts: UpgradeOptions): Promise<number> {
             return refuse(`Could not read --choices ${opts.choicesFile}: ${(err as Error).message}`);
         }
     }
-    const interactive = !opts.yes && !!process.stdin.isTTY;
+    // --dry-run and --check never ask: they take the defaults (or --choices).
+    const interactive = !opts.yes && !opts.dryRun && !opts.check && !!process.stdin.isTTY;
     if (!interactive && !opts.yes && !opts.dryRun && !opts.check) {
         return refuse('No terminal to ask questions on: pass --yes to accept the defaults (see --choices).');
     }
@@ -112,27 +113,28 @@ async function upgrade(opts: UpgradeOptions): Promise<number> {
     const files = new FileStore(opts.root);
     const report = new Report();
     const chooser = new Chooser({ interactive, preset });
-    const entry = await locateEntry(files, opts.entry);
+    let entry: string | null;
+    if (opts.entry) {
+        entry = resolveEntryOption(opts.root, opts.entry);
+        if (entry === null) return refuse(`--entry ${opts.entry}: no such file (looked in the current directory, then in ${opts.root}).`);
+    } else {
+        entry = await locateEntry(files);
+    }
     const ctx: StepContext = { root: opts.root, installed, target, entry, files, report, choose: chooser.choose };
 
-    try {
-        for (const step of steps) {
-            await step.run({
-                ...ctx,
-                choose: async (c) => {
-                    const decision = await chooser.choose(c);
-                    report.add({
-                        kind: 'choice',
-                        step: step.id,
-                        message: `${c.title}: **${decision}**, ${decision === 'keep' ? c.keep : c.adopt} (${c.sites} site${c.sites === 1 ? '' : 's'}, choice id \`${c.id}\`)`,
-                    });
-                    return decision;
-                },
-            });
-        }
-    } catch (err) {
-        if ((err as Error).message === 'aborted') return refuse('Aborted, nothing was written.');
-        throw err;
+    for (const step of steps) {
+        await step.run({
+            ...ctx,
+            choose: async (c) => {
+                const decision = await chooser.choose(c);
+                report.add({
+                    kind: 'choice',
+                    step: step.id,
+                    message: `${c.title}: **${decision}**, ${decision === 'keep' ? c.keep : c.adopt} (${c.sites} site${c.sites === 1 ? '' : 's'}, choice id \`${c.id}\`)`,
+                });
+                return decision;
+            },
+        });
     }
 
     await files.editJson('package.json', (json) => {
