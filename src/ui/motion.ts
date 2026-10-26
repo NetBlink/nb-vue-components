@@ -94,9 +94,12 @@ export function hydrateMotion(): void {
     if (window.matchMedia) {
         const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
         prefersReduced.value = mql.matches;
-        mql.addEventListener?.('change', (e) => {
+        const onChange = (e: MediaQueryListEvent) => {
             prefersReduced.value = e.matches;
-        });
+        };
+        // Safari before 14 only has the older addListener.
+        if (mql.addEventListener) mql.addEventListener('change', onChange);
+        else mql.addListener?.(onChange);
     }
 }
 

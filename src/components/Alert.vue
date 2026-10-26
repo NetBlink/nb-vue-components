@@ -139,8 +139,8 @@ const handleDismiss = () => {
  * tokens so alerts move like the rest of the system.
  */
 /*
- * The motion level picks the timing (motionTiming mirrors the theme tokens:
- * 400ms in / 200ms out at `smooth`). `simple` drops the drift, `off` skips the
+ * The motion level picks the timing (motionTiming reads the theme tokens:
+ * 400ms in / 200ms out at `smooth` with the defaults). `simple` drops the drift, `off` skips the
  * transition altogether.
  */
 const hidden = () => ({ height: '0px', opacity: '0', transform: level.value === 'simple' ? 'none' : 'translateY(-8px)' });

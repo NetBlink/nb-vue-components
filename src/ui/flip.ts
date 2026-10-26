@@ -4,12 +4,40 @@ import { levelAtLeast, type MotionLevel } from './motion';
 const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 const SPRING = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
-/** Duration and easing per level for JS-driven motion, mirroring the theme tokens. */
+const readToken = (name: string): string => {
+    if (typeof document === 'undefined' || typeof getComputedStyle === 'undefined') return '';
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+};
+
+const readMs = (name: string, fallback: number): number => {
+    const raw = readToken(name);
+    const value = parseFloat(raw);
+    if (Number.isNaN(value)) return fallback;
+    return raw.endsWith('ms') ? value : raw.endsWith('s') ? value * 1000 : value;
+};
+
+/**
+ * The theme's motion tokens, read at run time so an app that overrides
+ * `--duration-quick`, `--duration-base` or the easings in its own `@theme` moves
+ * JS-driven animations too. The values in theme.css are the fallbacks.
+ */
+export function motionTokens(): { quick: number; base: number; ease: string; spring: string } {
+    return {
+        quick: readMs('--duration-quick', 150),
+        base: readMs('--duration-base', 400),
+        ease: readToken('--ease-emphasised') || EASE,
+        spring: readToken('--ease-spring') || SPRING,
+    };
+}
+
+/** Duration and easing per level for JS-driven motion, derived from the theme tokens. */
 export function motionTiming(level: MotionLevel, kind: 'enter' | 'leave' = 'enter'): { duration: number; easing: string } {
     if (level === 'off') return { duration: 0, easing: 'linear' };
-    if (level === 'simple') return { duration: 150, easing: 'ease-out' };
-    if (level === 'fancy') return kind === 'enter' ? { duration: 600, easing: SPRING } : { duration: 250, easing: EASE };
-    return kind === 'enter' ? { duration: 400, easing: EASE } : { duration: 200, easing: EASE };
+    const { quick, base, ease, spring } = motionTokens();
+    if (level === 'simple') return { duration: quick, easing: 'ease-out' };
+    // With the default tokens: 600ms / 250ms at fancy, 400ms / 200ms at smooth.
+    if (level === 'fancy') return kind === 'enter' ? { duration: base * 1.5, easing: spring } : { duration: base * 0.625, easing: ease };
+    return kind === 'enter' ? { duration: base, easing: ease } : { duration: base * 0.5, easing: ease };
 }
 
 const canAnimate = (el: Element): el is HTMLElement => typeof (el as HTMLElement).animate === 'function';
@@ -70,6 +98,11 @@ export function useFlip(container: () => Element | null | undefined, enabled: ()
                 child.animate([{ opacity: 0 }, { opacity: 1 }], { duration, easing: 'ease-out' });
                 continue;
             }
+            // A move still running from the previous update would skew the new
+            // measurement. Keyframe animations from classes are left alone.
+            for (const running of child.getAnimations?.() ?? []) {
+                if (!('animationName' in running)) running.cancel();
+            }
             const now = child.getBoundingClientRect();
             const dx = old.left - now.left;
             const dy = old.top - now.top;
@@ -99,7 +132,8 @@ export function heightTransition(level: MotionLevel, minLevel: MotionLevel = 'sm
             { height: '0px', opacity: 0, overflow: 'hidden' },
             { height, opacity: 1, overflow: 'hidden' },
         ];
-        el.animate(entering ? frames : frames.reverse(), { duration, easing }).onfinish = done;
+        const animation = el.animate(entering ? frames : frames.reverse(), { duration, easing });
+        animation.onfinish = animation.oncancel = () => done();
     };
     return {
         css: false,

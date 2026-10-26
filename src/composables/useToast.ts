@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import type { IconLike } from '../icons/types';
+import { motionTokens } from '../ui/flip';
 
 /**
  * Toast / snackbar queue.
@@ -83,7 +84,7 @@ export interface ToastItem extends ToastOptions {
     id: string | number;
     /**
      * Flipped to false to start the exit animation; the item is dropped from the
-     * queue `EXIT_MS` later. Removing it outright would unmount mid-animation.
+     * queue a little after --duration-quick. Removing it outright would unmount mid-animation.
      */
     open: boolean;
 }
@@ -93,8 +94,8 @@ export type ToastInput = string | ToastOptions;
 const items = ref<ToastItem[]>([]);
 let seq = 0;
 
-/** Matches --duration-quick plus a frame or two of slack. */
-const EXIT_MS = 200;
+/** --duration-quick plus a frame or two of slack, read when the toast closes. */
+const exitMs = () => motionTokens().quick + 50;
 
 function remove(id: string | number): void {
     const i = items.value.findIndex((t) => t.id === id);
@@ -128,7 +129,7 @@ function dismiss(id?: string | number): void {
     for (const target of targets) {
         if (!target.open) continue; // already leaving
         target.open = false;
-        setTimeout(() => remove(target.id), EXIT_MS);
+        setTimeout(() => remove(target.id), exitMs());
     }
 }
 

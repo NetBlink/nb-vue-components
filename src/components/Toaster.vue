@@ -38,6 +38,7 @@ import type { ToastAnimation, ToastInput, ToastOrder, ToastPosition } from '../c
 import type { NbParts, UiProp } from '../ui/parts';
 import { levelAtLeast, type MotionLevel, type NbMotionTable } from '../ui/motion';
 import { useUi } from '../ui/useUi';
+import { motionTokens } from '../ui/flip';
 
 defineOptions({ inheritAttrs: false });
 
@@ -207,7 +208,7 @@ const collapsed = computed(() => props.stack && !expanded.value);
  * free for the swipe-to-dismiss rules.
  */
 // Matches the enter animation, so push and arrival read as one movement.
-const moveMs = () => (level.value === 'fancy' ? 600 : 400);
+const moveMs = () => motionTokens().base * (level.value === 'fancy' ? 1.5 : 1);
 const moveEase = () => (level.value === 'fancy' ? 'var(--ease-spring)' : 'var(--ease-emphasised)');
 const previousEdges = new Map<string, number>();
 

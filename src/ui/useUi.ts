@@ -9,9 +9,17 @@ declare const process: { env: Record<string, string | undefined> };
 /*
  * `process.env.NODE_ENV` rather than `import.meta.env.DEV`: Vite replaces the
  * latter when building the library, so the warnings would never reach an app.
- * The consumer's bundler replaces this one.
+ * The consumer's bundler replaces the whole expression, as with Vue's own
+ * esm-bundler build, so it must stay written out in full. Without a bundler
+ * and without `process` it throws, and the warnings stay off.
  */
-const isDev = () => typeof process !== 'undefined' && process.env.NODE_ENV !== 'production';
+const isDev = () => {
+    try {
+        return process.env.NODE_ENV !== 'production';
+    } catch {
+        return false;
+    }
+};
 
 const warned = new Set<string>();
 
