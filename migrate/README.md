@@ -1,6 +1,11 @@
 # @netblink/vue-components-migrate
 
-Upgrades an app from any installed `@netblink/vue-components` 1.x, 2.x or 3.x to the latest version this CLI knows (3.2.1), one step per breaking release.
+Upgrades an app from any installed `@netblink/vue-components` 1.x, 2.x or 3.x to the latest version this CLI knows, one step per breaking release.
+
+Two channels follow the library's branches:
+
+- `npx @netblink/vue-components-migrate` (from `main`): up to 3.2.1.
+- `npx @netblink/vue-components-migrate@next` (from `next`, a beta channel): up to 4.0.0-beta.0, with the `v3-to-v4` step. `--to 3` still stops at 3.2.1.
 
 ## Usage
 
@@ -108,6 +113,21 @@ createApp({ render: () => h(App, props) })
 
 With adopt, an aliased import is followed (`import { Modal as M }`): it becomes `NewModal as M`, or, when NewModal is imported too, `<M>` tags become that NewModal. A file using Modal as a value (`:is="Modal"`, `h(Modal)`, `markRaw(Modal)`) is left as is and reported.
 
+### `v3-to-v4` (to 4.0.0-beta.0)
+
+4.x is in beta: this step ships in the `next` channel only. It follows the library's rename map (`scripts/v4-rename-map.json`, snapshotted into `src/steps/data/v4-rename-map.ts`).
+
+- Deprecated override props move to their 4.x part. Those whose part takes `class` (Button `customClass`, PrimaryButton and SubmitButton `customButtonClass`, InputLabel `customClass`, Modal `modalCustomClass`, Tooltip `contentClass`, Stats `customContainerClass`, DataTile `customStatClass`) go to `class`: a static value is merged into the static `class` (created if absent), a bound one into `:class` (`:class="[old, existing]"`). The others go to `:ui`: `input-custom-class="rounded-none"` becomes `:ui="{ input: 'rounded-none' }"`, keys are added to an existing `:ui` object literal, and a key that is already there is combined (`'old existing'` for two strings, `[old, existing]` otherwise). The deprecated value comes first because 4.x layers it below `class` and `:ui`, so the result renders exactly as the deprecated prop did.
+- A `:ui` bound to anything but an object literal (a variable, a spread, a computed key) is not touched: the prop is reported.
+- LinkButton `colourClasses` replaces the theme classes and still does in 4.x: it is left as is and reported with the 4.x alternative (`theme="no-style"` plus `class`). Input `checkboxCustomClass` never had an effect: it is reported so you can remove it.
+- Reported to check visually: every DropdownLink, Collapse, Tooltip, Modal, Images, Toaster and TrPlaceholder with a `class` (where that class lands changed), every Tbody and EnhancedTable (the empty row is centred grey text now; restore it with `:ui="{ empty: 'text-left text-gray-900 sm:py-4' }"` on Tbody, or the plugin option `ui: { Tbody: { empty: '...' } }` for EnhancedTable), every LogsContent (its empty line is `text-sm`), and one line saying that override classes now beat the defaults they clash with, so `!` markers added only to win can go.
+
+| Choice id | Default | keep | adopt |
+| --- | --- | --- | --- |
+| `tbody-empty-message` | keep | remove Tbody `noRecordsMessage`: 3.x never showed it, so the text stays the same | rename it to `emptyMessage`, so your text appears |
+
+A Tbody that sets `emptyMessage` too just loses `noRecordsMessage` (it was never shown) and is not counted as a site.
+
 ## What is never rewritten
 
 - Your own components that share a library name. Only tags imported from `@netblink/vue-components` in that SFC count.
@@ -152,7 +172,7 @@ npm run fixtures <name>     # one fixture
 
 A fixture is `fixtures/<name>/before/` (the app), `after/` (the expected tree, report included), optional `args.json` (CLI arguments, default `["--yes"]`, a subcommand such as `["switch", "hero"]` first) and optional `expect.json` (`{ exitCode, stdoutIncludes, dirty }`).
 
-`node scripts/snapshot-theme.mjs` refreshes `src/steps/data/theme-keyframes.ts` from the library's `theme.css`.
+`node scripts/snapshot-theme.mjs` refreshes `src/steps/data/theme-keyframes.ts` from the library's `theme.css`, and `node scripts/snapshot-rename-map.mjs` refreshes `src/steps/data/v4-rename-map.ts` from the library's `scripts/v4-rename-map.json`.
 
 ## Reporting issues
 

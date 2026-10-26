@@ -1,6 +1,6 @@
 {
     "name": "@netblink/vue-components-migrate",
-    "version": "1.0.0",
+    "version": "1.1.0-beta.0",
     "description": "Upgrade an app using @netblink/vue-components from any version to the latest.",
     "type": "module",
     "bin": {
