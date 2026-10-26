@@ -79,6 +79,8 @@ import PageHeader from './components/PageHeader.vue';
 import EmptyState from './components/EmptyState.vue';
 import Progress from './components/Progress.vue';
 import Skeleton from './components/Skeleton.vue';
+import Stepper from './components/Stepper.vue';
+import Timeline from './components/Timeline.vue';
 
 // Helper components
 import CodePreview from './components/CodePreview.vue';
@@ -133,7 +135,7 @@ const components = {
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
     Toast, Toaster, Button, DataTile, IconCircle,
-    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton,
+    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -266,6 +268,8 @@ export {
     EmptyState,
     Progress,
     Skeleton,
+    Stepper,
+    Timeline,
     // Helper components
     CodePreview,
     H2,
@@ -305,6 +309,8 @@ export type { PageHeaderProps } from './components/PageHeader.vue';
 export type { EmptyStateProps } from './components/EmptyState.vue';
 export type { ProgressProps } from './components/Progress.vue';
 export type { SkeletonProps } from './components/Skeleton.vue';
+export type { StepperProps, StepperEmits, StepperStep, StepState } from './components/Stepper.vue';
+export type { TimelineProps, TimelineItem } from './components/Timeline.vue';
 export type { DescriptionListProps } from './components/DescriptionList.vue';
 export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
 export type { DottedCarouselProps } from './components/DottedCarousel.vue';

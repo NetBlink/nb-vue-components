@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (84 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (86 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -1858,6 +1858,33 @@ Responsive grid of clickable stat tiles used as quick filters above a table. Cli
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
+### Stepper
+
+Progress through a multi-step flow: numbered markers joined by rails that fill as steps complete. Give each step a `state`, or just pass `current` (0-based) and steps before it count as complete. `clickable` makes markers buttons that emit `select`, for wizards that allow jumping back. Horizontal or vertical.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `steps` | `StepperStep[]` | **required** | The steps in order |
+| `current` | `number` | `0` | Index of the current step (0-based), used for steps without a `state` |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout |
+| `clickable` | `boolean` | `false` | Markers become buttons that emit `select` |
+| `label` | `string` | `'Progress'` | Accessible name of the list |
+| `ui` | `UiProp<NbParts['Stepper']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<ol>` |
+| `step` | each step |
+| `marker` | the numbered or checked circle |
+| `label` | the step name |
+| `description` | the hint under the name |
+| `connector` | the rail to the next step |
+
+**Motion:** `off`: markers and rails change colour instantly; `simple`: markers and rails change colour instantly; `smooth`: markers and rails fade to their new colour; `fancy`: the same, and a newly completed marker pops.
+
 ### SubmitButton
 
 Submit Button component with loading state and theme support
@@ -2210,6 +2237,33 @@ The `<thead>` primitive, holding a row of `Th` cells. In responsive mode it is h
 | Part | Element |
 | --- | --- |
 | `root` | the `<thead>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Timeline
+
+Chronological list of events, each with a coloured icon marker, a title, a time and an optional description. `line` (default) joins the markers with a rail; `cards` puts each event in a softly tinted row instead. Use the scoped `#item` slot to render your own event body.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `TimelineItem[]` | **required** | The events, in display order |
+| `layout` | `'line' \| 'cards'` | `'line'` | Connected rail or tinted rows |
+| `ui` | `UiProp<NbParts['Timeline']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `item`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<ol>` |
+| `item` | each event |
+| `marker` | the `IconCircle` |
+| `connector` | the rail between markers (`line` layout) |
+| `content` | the column holding the text |
+| `title` | the title |
+| `time` | the time |
+| `description` | the description |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 

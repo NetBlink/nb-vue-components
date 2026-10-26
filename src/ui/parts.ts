@@ -114,6 +114,8 @@ export interface NbParts {
     EmptyState: 'root' | 'icon' | 'title' | 'description' | 'actions';
     Progress: 'root' | 'header' | 'label' | 'value' | 'track' | 'bar';
     Skeleton: 'root' | 'line' | 'circle';
+    Stepper: 'root' | 'step' | 'marker' | 'label' | 'description' | 'connector';
+    Timeline: 'root' | 'item' | 'marker' | 'connector' | 'content' | 'title' | 'time' | 'description';
 }
 
 export type NbComponentName = keyof NbParts;

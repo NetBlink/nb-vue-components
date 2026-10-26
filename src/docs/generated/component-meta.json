@@ -1855,6 +1855,53 @@
             }
         ]
     },
+    "Stepper": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<ol>`"
+            },
+            {
+                "name": "step",
+                "description": "each step"
+            },
+            {
+                "name": "marker",
+                "description": "the numbered or checked circle"
+            },
+            {
+                "name": "label",
+                "description": "the step name"
+            },
+            {
+                "name": "description",
+                "description": "the hint under the name"
+            },
+            {
+                "name": "connector",
+                "description": "the rail to the next step"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "markers and rails change colour instantly"
+            },
+            {
+                "level": "simple",
+                "description": "markers and rails change colour instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "markers and rails fade to their new colour"
+            },
+            {
+                "level": "fancy",
+                "description": "the same, and a newly completed marker pops"
+            }
+        ]
+    },
     "SubmitButton": {
         "parts": [
             {
@@ -2255,6 +2302,49 @@
             {
                 "name": "root",
                 "description": "the `<thead>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Timeline": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<ol>`"
+            },
+            {
+                "name": "item",
+                "description": "each event"
+            },
+            {
+                "name": "marker",
+                "description": "the `IconCircle`"
+            },
+            {
+                "name": "connector",
+                "description": "the rail between markers (`line` layout)"
+            },
+            {
+                "name": "content",
+                "description": "the column holding the text"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "time",
+                "description": "the time"
+            },
+            {
+                "name": "description",
+                "description": "the description"
             }
         ],
         "classPart": "root",
