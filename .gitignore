@@ -37,4 +37,4 @@ Thumbs.db
 
 # Log files
 *.log
-docs/
+/docs/
