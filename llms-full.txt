@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (86 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (88 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -567,6 +567,30 @@ Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `Second
 | `body` | the spacing wrapper around the slot |
 
 **Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
+
+### CopyButton
+
+the icon turns into a check and screen readers hear "Copied". Renders an `IconButton` by default; put your own button in the default slot (it receives `copy` and `copied`). Falls back to a hidden textarea where the Clipboard API is unavailable (plain-HTTP pages).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string \| (() => string)` | **required** | Text to copy, or a function returning it |
+| `label` | `string` | `'Copy'` | Accessible name and tooltip of the default button |
+| `copiedLabel` | `string` | `'Copied'` | What screen readers hear after copying |
+| `timeout` | `number` | `2000` | How long the copied state lasts (ms) |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'` | Size of the default button |
+| `theme` | `'ghost' \| 'secondary' \| 'primary'` | `'ghost'` | Theme of the default button |
+| `ui` | `UiProp<NbParts['CopyButton']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `icon` | the copy or check icon (default button) |
+| `status` | the visually hidden live region |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### DangerButton
 
@@ -1913,6 +1937,30 @@ Submit Button component with loading state and theme support
 | `spinner` | the `Spinner` shown while loading |
 
 **Motion:** `off`: the spinner swaps in instantly (it keeps spinning at every level); `simple`: the spinner fades in; `smooth`: the label dims and the spinner fades and scales in; `fancy`: the spinner pops in on a spring.
+
+### SubNav
+
+Navigation between sibling pages (Inertia links) that looks like `Tabs`: `pills`, `underline` or a full-width `segmented` strip, with the same sliding active marker from `smooth` up. The active item is taken from each item's `active` flag, or matched against the current page URL (the longest matching `href` wins, so a section's sub-pages keep their parent highlighted). For switching panels on one page, use `Tabs`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `SubNavItem[]` | **required** | The links |
+| `variant` | `'pills' \| 'underline' \| 'segmented'` | `'pills'` | Look |
+| `label` | `string` | `'Section navigation'` | Accessible name of the navigation landmark |
+| `ui` | `UiProp<NbParts['SubNav']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<nav>` landmark |
+| `list` | the strip holding the links |
+| `item` | each link |
+| `badge` | the count next to a label |
+| `indicator` | the sliding active marker (smooth and fancy motion only) |
+
+**Motion:** `off`: the active marker moves instantly; `simple`: the active marker moves instantly; `smooth`: the active marker slides between items; `fancy`: the active marker slides on a spring.
 
 ### SuccessButton
 

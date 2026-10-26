@@ -392,6 +392,29 @@
             }
         ]
     },
+    "CopyButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "icon",
+                "description": "the copy or check icon (default button)"
+            },
+            {
+                "name": "status",
+                "description": "the visually hidden live region"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
     "DangerButton": {
         "parts": [
             {
@@ -1938,6 +1961,49 @@
             {
                 "level": "fancy",
                 "description": "the spinner pops in on a spring"
+            }
+        ]
+    },
+    "SubNav": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<nav>` landmark"
+            },
+            {
+                "name": "list",
+                "description": "the strip holding the links"
+            },
+            {
+                "name": "item",
+                "description": "each link"
+            },
+            {
+                "name": "badge",
+                "description": "the count next to a label"
+            },
+            {
+                "name": "indicator",
+                "description": "the sliding active marker (smooth and fancy motion only)"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the active marker moves instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the active marker moves instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the active marker slides between items"
+            },
+            {
+                "level": "fancy",
+                "description": "the active marker slides on a spring"
             }
         ]
     },

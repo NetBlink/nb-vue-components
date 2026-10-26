@@ -279,6 +279,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **CodePreview**, Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
 - **CollapsableSection**, Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.
 - **Collapse**, Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot.
+- **CopyButton**, the icon turns into a check and screen readers hear "Copied".
 - **DangerButton**, Danger Button component.
 - **DataTile**, themed statistic tile with a background icon.
 - **DescriptionList**, Wrapper `<dl>` for a stack of `DescriptionListItem` rows.
@@ -331,6 +332,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Stats**, Responsive grid of clickable stat tiles used as quick filters above a table.
 - **Stepper**, Progress through a multi-step flow: numbered markers joined by rails that fill as steps complete.
 - **SubmitButton**, Submit Button component with loading state and theme support.
+- **SubNav**, Navigation between sibling pages (Inertia links) that looks like `Tabs`: `pills`, `underline` or a full-width `segmented` strip, with the same sliding active marker from `smooth` up.
 - **SuccessButton**, Success Button component.
 - **Switch**, Switch component.
 - **Tab**, a single panel inside `<Tabs>`.

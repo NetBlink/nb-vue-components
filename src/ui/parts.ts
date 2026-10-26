@@ -116,6 +116,8 @@ export interface NbParts {
     Skeleton: 'root' | 'line' | 'circle';
     Stepper: 'root' | 'step' | 'marker' | 'label' | 'description' | 'connector';
     Timeline: 'root' | 'item' | 'marker' | 'connector' | 'content' | 'title' | 'time' | 'description';
+    SubNav: 'root' | 'list' | 'item' | 'badge' | 'indicator';
+    CopyButton: 'root' | 'icon' | 'status';
 }
 
 export type NbComponentName = keyof NbParts;
@@ -218,4 +220,5 @@ export interface NbVariantsConfig {
     Badge?: { variant?: VariantMap<'root' | 'dot', keyof NbColorVariants & string> };
     IconButton?: { theme?: VariantMap<'root', string>; size?: VariantMap<'root' | 'icon', 'xs' | 'sm' | 'md' | 'lg'> };
     Progress?: { theme?: VariantMap<'root', keyof NbColorVariants & string> };
+    SubNav?: { variant?: VariantMap<'list' | 'item' | 'marker' | 'indicator', 'pills' | 'underline' | 'segmented'> };
 }
