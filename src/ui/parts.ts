@@ -104,6 +104,10 @@ export interface NbParts {
     PropsTable: 'root' | 'empty';
     H2: 'root' | 'title';
     IconCircle: 'root' | 'icon';
+    Badge: 'root' | 'dot' | 'label';
+    Avatar: 'root' | 'image' | 'initials' | 'status';
+    AvatarGroup: 'root' | 'item' | 'more';
+    IconButton: 'root' | 'icon';
 }
 
 export type NbComponentName = keyof NbParts;
@@ -203,4 +207,6 @@ export interface NbVariantsConfig {
     Tabs?: { variant?: VariantMap<'list' | 'trigger' | 'indicator', keyof TabsVariants & string> };
     Toast?: { type?: VariantMap<'icon', 'success' | 'error' | 'warning' | 'info' | 'progress'> };
     IconCircle?: { variant?: VariantMap<'root' | 'icon', keyof NbColorVariants & string> };
+    Badge?: { variant?: VariantMap<'root' | 'dot', keyof NbColorVariants & string> };
+    IconButton?: { theme?: VariantMap<'root', string>; size?: VariantMap<'root' | 'icon', 'xs' | 'sm' | 'md' | 'lg'> };
 }

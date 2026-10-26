@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (74 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (78 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -297,6 +297,76 @@ Inline `role="alert"` banner in success / error / warning / info variants, with 
 | `dismiss` | the dismiss button |
 
 **Motion:** `off`: appears and disappears instantly; `simple`: height and opacity, quickly, no movement; `smooth`: height and opacity with a small upward drift; `fancy`: the same on a longer spring.
+
+### Avatar
+
+A user picture, or their initials on a tinted disc when there is no picture or it fails to load. Initials come from the first letters of the first two words of `name`, and the tint is picked from `name` so the same person keeps the same colour everywhere. `status` adds a presence dot. Stack several with `AvatarGroup`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `src` | `string \| null` | `undefined` | Picture URL |
+| `name` | `string` | `''` | Full name: used for the initials, the tint and the accessible label |
+| `alt` | `string` | `undefined` | Alternative text for the picture (defaults to `name`) |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size |
+| `status` | `'online' \| 'offline' \| 'busy' \| 'away'` | `undefined` | Presence dot |
+| `square` | `boolean` | - | Rounded square instead of a circle |
+| `ui` | `UiProp<NbParts['Avatar']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the avatar |
+| `image` | the picture |
+| `initials` | the initials text |
+| `status` | the presence dot |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### AvatarGroup
+
+Overlapping row of `Avatar`s, each ringed so the overlap reads clearly. Past `max`, the rest collapse into a "+N" bubble. Avatars passed with `v-for` count one by one.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `max` | `number` | `undefined` | How many avatars to show before the "+N" bubble |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of the "+N" bubble; match it to the avatars |
+| `ui` | `UiProp<NbParts['AvatarGroup']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the row |
+| `item` | the wrapper around each avatar |
+| `more` | the "+N" bubble |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Badge
+
+Small rounded label for statuses, counts and tags, in the shared colour vocabulary. Pass `status` (e.g. an order's status field) and the badge picks its colour from the status map (built-in words plus the app's `badge.statuses` plugin option) and shows the word capitalised, replacing hand-written `getStatusColor()` helpers. `dot` adds a leading status dot.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `keyof NbColorVariants` | `'neutral'` | Colour. Ignored when `status` is set. Add your own through the `variants` config. |
+| `size` | `'sm' \| 'md'` | `'sm'` | Size |
+| `dot` | `boolean` | - | Show a leading status dot |
+| `status` | `string` | - | A status word: picks the colour from the status map and becomes the label |
+| `label` | `string` | - | Text, when not using the default slot |
+| `ui` | `UiProp<NbParts['Badge']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the badge |
+| `dot` | the leading dot |
+| `label` | the text |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Button
 
@@ -727,6 +797,30 @@ a bold `<h2>` with a brand-coloured underline and an id slugged from the title, 
 | --- | --- |
 | `root` | the spacing wrapper |
 | `title` | the `<h2>` |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### IconButton
+
+close buttons, row actions, toolbar tools. `label` is required and becomes the accessible name (and the hover title), since an icon alone tells a screen reader nothing. `ghost` is the quiet toolbar look used by the library's own close buttons; the filled themes match `Button`. Pass `href` to render an Inertia link instead.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `icon` | `IconLike` | **required** | The icon: an alias like `$close`, a set-prefixed name, a component or raw SVG |
+| `label` | `string` | **required** | What the button does, for screen readers and the hover title. Required. |
+| `theme` | `'ghost' \| 'ghost-danger' \| 'primary' \| 'secondary' \| 'danger' \| 'success' \| 'warning' \| 'info'` | `'ghost'` | Look. Add your own through the `variants` config. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| `href` | `string` | `undefined` | Render an Inertia link to this URL instead of a button |
+| `disabled` | `boolean` | `false` | Disabled |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Button type |
+| `ui` | `UiProp<NbParts['IconButton']>` | - | Classes per part, merged over the defaults |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the button or link |
+| `icon` | the icon |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 

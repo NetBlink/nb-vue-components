@@ -69,6 +69,10 @@ import InfoButton from './components/InfoButton.vue';
 import SuccessButton from './components/SuccessButton.vue';
 import DataTile from './components/DataTile.vue';
 import IconCircle from './components/IconCircle.vue';
+import Badge from './components/Badge.vue';
+import Avatar from './components/Avatar.vue';
+import AvatarGroup from './components/AvatarGroup.vue';
+import IconButton from './components/IconButton.vue';
 
 // Helper components
 import CodePreview from './components/CodePreview.vue';
@@ -123,6 +127,7 @@ const components = {
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
     Toast, Toaster, Button, DataTile, IconCircle,
+    Badge, Avatar, AvatarGroup, IconButton,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -245,6 +250,10 @@ export {
     Button,
     DataTile,
     IconCircle,
+    Badge,
+    Avatar,
+    AvatarGroup,
+    IconButton,
     // Helper components
     CodePreview,
     H2,
@@ -274,6 +283,10 @@ export type { CollapseProps } from './components/Collapse.vue';
 export type { DangerButtonProps } from './components/DangerButton.vue';
 export type { DataTileProps } from './components/DataTile.vue';
 export type { IconCircleProps } from './components/IconCircle.vue';
+export type { BadgeProps } from './components/Badge.vue';
+export type { AvatarProps } from './components/Avatar.vue';
+export type { AvatarGroupProps } from './components/AvatarGroup.vue';
+export type { IconButtonProps, IconButtonEmits } from './components/IconButton.vue';
 export type { DescriptionListProps } from './components/DescriptionList.vue';
 export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
 export type { DottedCarouselProps } from './components/DottedCarousel.vue';

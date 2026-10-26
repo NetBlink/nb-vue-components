@@ -46,6 +46,79 @@
             }
         ]
     },
+    "Avatar": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the avatar"
+            },
+            {
+                "name": "image",
+                "description": "the picture"
+            },
+            {
+                "name": "initials",
+                "description": "the initials text"
+            },
+            {
+                "name": "status",
+                "description": "the presence dot"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "AvatarGroup": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the row"
+            },
+            {
+                "name": "item",
+                "description": "the wrapper around each avatar"
+            },
+            {
+                "name": "more",
+                "description": "the \"+N\" bubble"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Badge": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the badge"
+            },
+            {
+                "name": "dot",
+                "description": "the leading dot"
+            },
+            {
+                "name": "label",
+                "description": "the text"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
     "Button": {
         "parts": [
             {
@@ -546,6 +619,25 @@
             {
                 "name": "title",
                 "description": "the `<h2>`"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "IconButton": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the button or link"
+            },
+            {
+                "name": "icon",
+                "description": "the icon"
             }
         ],
         "classPart": "root",
