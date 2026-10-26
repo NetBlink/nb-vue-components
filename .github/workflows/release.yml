@@ -2,8 +2,11 @@ name: Build and Release
 
 on:
     push:
+        # main releases latest, next the 4.x betas (npm tag next), 3.x the 3.x patches (npm tag v3).
         branches:
             - main
+            - next
+            - 3.x
         # Only what ships in the package or builds it: docs, the migrate CLI and CI changes release nothing.
         paths:
             - 'src/**'
@@ -57,18 +60,39 @@ jobs:
                   git diff-index --quiet HEAD || git commit -m "Release version - update dependencies [ci skip]"
 
                   # If package.json already carries an unpublished version (a deliberate
-                  # minor or major bump), release exactly that. Otherwise this is an
-                  # ordinary push to main, so bump the patch as before.
+                  # minor or major bump, or a new beta), release exactly that. Otherwise
+                  # bump: the patch on main and 3.x, the beta number on next.
                   LOCAL=$(npm pkg get version | tr -d '"')
-                  if npm view "@netblink/vue-components@$LOCAL" version > /dev/null 2>&1; then
-                      npm version patch -m "Release version %s [ci skip]"
+                  if [ "$GITHUB_REF_NAME" = "next" ]; then
+                      # next only releases prereleases: a plain version published there under
+                      # the next tag would be skipped later on main, leaving latest behind.
+                      case "$LOCAL" in
+                          *-*) ;;
+                          *)
+                              echo "::error::package.json is at $LOCAL on next. Set a prerelease version (e.g. 4.0.0-beta.0) or release it from main."
+                              exit 1
+                              ;;
+                      esac
+                  fi
+                  if [ -n "$(npm view "@netblink/vue-components@$LOCAL" version 2>/dev/null)" ]; then
+                      if [ "$GITHUB_REF_NAME" = "next" ]; then
+                          npm version prerelease --preid beta -m "Release version %s [ci skip]"
+                      else
+                          npm version patch -m "Release version %s [ci skip]"
+                      fi
                   else
                       echo "package.json is at $LOCAL, which is unpublished. Releasing that version."
                       git tag -a "v$LOCAL" -m "Release version $LOCAL"
                   fi
                   # The tag pushed here is the release marker. No release/v* branch
                   # is created: it only ever duplicated the tag.
-                  git push origin main --follow-tags
+                  # Back to the branch that triggered the run, never to main from another branch.
+                  git push origin "HEAD:$GITHUB_REF_NAME" --follow-tags
 
             - name: Publish to npm
-              run: npm publish --access=public --provenance
+              run: |
+                  case "$GITHUB_REF_NAME" in
+                      next) npm publish --access=public --provenance --tag next ;;
+                      3.x) npm publish --access=public --provenance --tag v3 ;;
+                      *) npm publish --access=public --provenance ;;
+                  esac
