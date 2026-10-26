@@ -6,10 +6,14 @@ import { createTwoFilesPatch } from 'diff';
 // Build output, dependencies and Laravel's public/vendor/storage never hold app source.
 const IGNORE = ['**/node_modules/**', '.git/**', 'dist/**', 'build/**', 'vendor/**', 'public/**', 'storage/**'];
 
-/** In-memory view of the app: reads hit the disk once, writes are staged until flush(). */
+/**
+ * In-memory view of the app: reads hit the disk once, writes are staged until flush().
+ * Steps see `\n` line ends; a file read with `\r\n` is written back with `\r\n`.
+ */
 export class FileStore {
     private original = new Map<string, string | null>();
     private staged = new Map<string, string>();
+    private crlf = new Set<string>();
 
     constructor(private root: string) {}
 
@@ -17,7 +21,9 @@ export class FileStore {
         if (this.staged.has(rel)) return this.staged.get(rel)!;
         if (!this.original.has(rel)) {
             try {
-                this.original.set(rel, await fs.readFile(path.join(this.root, rel), 'utf8'));
+                const text = await fs.readFile(path.join(this.root, rel), 'utf8');
+                if (text.includes('\r\n')) this.crlf.add(rel);
+                this.original.set(rel, text.replace(/\r\n/g, '\n'));
             } catch {
                 this.original.set(rel, null);
             }
@@ -59,7 +65,8 @@ export class FileStore {
         for (const rel of this.changed()) {
             const full = path.join(this.root, rel);
             await fs.mkdir(path.dirname(full), { recursive: true });
-            await fs.writeFile(full, this.staged.get(rel)!, 'utf8');
+            const text = this.staged.get(rel)!;
+            await fs.writeFile(full, this.crlf.has(rel) ? text.replace(/\n/g, '\r\n') : text, 'utf8');
         }
     }
 }
