@@ -1,0 +1,36 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@netblink/vue-components':
+        specifier: ^2.0.0
+        version: 3.0.1(vue@3.5.13)
+      vue:
+        specifier: ^3.5.13
+        version: 3.5.13
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.11
+        version: 4.1.11
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.1.11
+
+packages:
+
+  '@netblink/vue-components@3.0.1':
+    resolution: {integrity: sha512-x}
+    peerDependencies:
+      vue: ^3.5.0
+
+  '@tailwindcss/vite@4.1.11':
+    resolution: {integrity: sha512-x}
+
+  tailwindcss@4.1.11:
+    resolution: {integrity: sha512-x}

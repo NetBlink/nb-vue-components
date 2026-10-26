@@ -1,0 +1,66 @@
+name: Migrate CLI Release
+
+on:
+    push:
+        branches:
+            - main
+            - next
+        paths: ['migrate/**']
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        defaults:
+            run:
+                working-directory: migrate
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24.x
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run fixtures
+              run: npm run fixtures
+
+            - name: Publish if this version is not on npm yet
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_MIGRATE_TOKEN }}
+              run: |
+                  PACKAGE=@netblink/vue-components-migrate
+                  VERSION=$(node -p "require('./package.json').version")
+                  # next only publishes prereleases: a release version published there under the
+                  # next tag would be skipped later on main, leaving latest behind.
+                  if [ "$GITHUB_REF_NAME" = "next" ]; then
+                      case "$VERSION" in
+                          *-*) ;;
+                          *)
+                              echo "::notice::$PACKAGE@$VERSION is not a prerelease, it is published from main"
+                              exit 0
+                              ;;
+                      esac
+                  fi
+                  if [ -n "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null)" ]; then
+                      LATEST=$(npm view "$PACKAGE" dist-tags.latest 2>/dev/null)
+                      if [ "$GITHUB_REF_NAME" = "main" ] && [ "$LATEST" != "$VERSION" ]; then
+                          echo "$PACKAGE@$VERSION is already published, moving latest to it (was $LATEST)"
+                          npm dist-tag add "$PACKAGE@$VERSION" latest
+                      else
+                          echo "$PACKAGE@$VERSION is already published, skipping"
+                      fi
+                      exit 0
+                  fi
+                  if [ "$GITHUB_REF_NAME" = "next" ]; then
+                      npm publish --access public --tag next
+                  else
+                      npm publish --access public
+                  fi
