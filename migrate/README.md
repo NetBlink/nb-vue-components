@@ -4,10 +4,14 @@ Upgrades an app from any installed `@netblink/vue-components` 1.x, 2.x or 3.x to
 
 ## Usage
 
+The CLI is released as a tarball on GitHub (no npm package yet). Run it straight from there:
+
 ```bash
 cd my-app
-npx @netblink/vue-components-migrate
+npx https://github.com/NetBlink/nb-vue-components/releases/download/migrate-v1.0.0/vue-components-migrate-1.0.0.tgz
 ```
+
+Each release is listed under the repository's Releases as `migrate-v<version>`; use that version's URL. Betas from the `next` branch are marked as pre-releases.
 
 The CLI detects the installed version (package-lock.json, pnpm-lock.yaml or yarn.lock, classic or berry, then node_modules, then the package.json range), picks the steps between it and the target, asks one question per kind of change, shows the files it will change and asks before writing. It bumps `@netblink/vue-components` in package.json but never runs npm or a build in your app. Run `npm install` and build afterwards.
 
@@ -137,7 +141,7 @@ Not supported. Only apps on `@netblink/vue-components` can be upgraded.
 After the upgrade, swap the icon preset in the entry file:
 
 ```bash
-npx @netblink/vue-components-migrate switch hero   # fa, hero, material, solar or lucide
+npx https://github.com/NetBlink/nb-vue-components/releases/download/migrate-v1.0.0/vue-components-migrate-1.0.0.tgz switch hero   # fa, hero, material, solar or lucide
 ```
 
 `--dry-run`, `--path`, `--entry` and `--force` work as above (it refuses uncommitted changes too). Aliases you added beside the preset (`aliases: { ...faAliasPreset, $logo: Logo }`) are kept. It prints the packages the new set needs.

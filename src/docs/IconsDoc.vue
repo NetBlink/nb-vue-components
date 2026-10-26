@@ -420,11 +420,12 @@ const usageSnippet = [
 ];
 
 const switchCmd = [
-    '# Convenience helper that rewrites your createNbIcons() call:',
-    'npx @netblink/vue-components-migrate switch fa        # FontAwesome (default)',
-    'npx @netblink/vue-components-migrate switch hero      # Heroicons',
-    'npx @netblink/vue-components-migrate switch material  # Google Material Symbols',
-    'npx @netblink/vue-components-migrate switch solar     # Solar',
+    '# Convenience helper that rewrites your createNbIcons() call (the CLI is a GitHub release tarball):',
+    'CLI=https://github.com/NetBlink/nb-vue-components/releases/download/migrate-v1.0.0/vue-components-migrate-1.0.0.tgz',
+    'npx $CLI switch fa        # FontAwesome (default)',
+    'npx $CLI switch hero      # Heroicons',
+    'npx $CLI switch material  # Google Material Symbols',
+    'npx $CLI switch solar     # Solar',
 ];
 
 // === "Custom libraries / your own SVG" snippets ============================
