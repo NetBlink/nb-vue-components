@@ -4,8 +4,9 @@ Upgrades an app from any installed `@netblink/vue-components` 1.x, 2.x or 3.x to
 
 Two channels follow the library's branches:
 
-- `npx @netblink/vue-components-migrate` (from `main`): up to 3.2.1.
-- `npx @netblink/vue-components-migrate@next` (from `next`, a beta channel): up to 4.0.0-beta.0, with the `v3-to-v4` step. `--to 3` still stops at 3.2.1.
+- `migrate-v1.0.0` (from `main`): up to 3.2.1.
+- `migrate-v1.1.0-beta.0` (from `next`, a GitHub pre-release): up to 4.0.0-beta.0, with the `v3-to-v4` step. `--to 3` still stops at 3.2.1:
+  `npx https://github.com/NetBlink/nb-vue-components/releases/download/migrate-v1.1.0-beta.0/vue-components-migrate-1.1.0-beta.0.tgz`
 
 ## Usage
 

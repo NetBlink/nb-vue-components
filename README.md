@@ -11,7 +11,7 @@ npm install @netblink/vue-components
 ```
 
 4.x betas are published under the npm tag `next` (`npm install @netblink/vue-components@next`) and
-3.x fixes under `v3`. To upgrade an app from 3.x, run `npx @netblink/vue-components-migrate@next`.
+3.x fixes under `v3`. To upgrade an app from 3.x, run the beta upgrade CLI: `npx https://github.com/NetBlink/nb-vue-components/releases/download/migrate-v1.1.0-beta.0/vue-components-migrate-1.1.0-beta.0.tgz`.
 
 `vue` is the only required peer. FontAwesome and `@iconify/vue` are optional peers, needed only if
 you route icons through those providers. Everything else the components use is bundled.

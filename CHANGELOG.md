@@ -19,7 +19,7 @@
 - Server-rendered apps: the stored motion choice and the OS reduced-motion preference are read after mounting, so hydration sees the same classes as the server.
 - Exported props and emits types for every component (`ButtonProps`, `InputProps`, `NewModalProps`, `NewModalEmits`, ...) and the styling types (`NbStyleOptions`, `UiProp`, `NbParts`, `MotionLevel`, ...).
 - Docs: a Customizing page, generated Parts and Motion tables on every component page, and a motion switcher next to the dark-mode toggle. `llms-full.txt` lists parts and motion per component.
-- Release channels: betas are published from the `next` branch under the npm tag `next`, 3.x patches from the `3.x` branch under `v3`. The upgrade CLI's `next` channel (`npx @netblink/vue-components-migrate@next`) has the 3 to 4 step, which moves the deprecated override props to `class` and `:ui`.
+- Release channels: betas are published from the `next` branch under the npm tag `next`, 3.x patches from the `3.x` branch under `v3`. The upgrade CLI's beta (GitHub pre-release `migrate-v1.1.0-beta.0`, run it with `npx` and the tarball URL) has the 3 to 4 step, which moves the deprecated override props to `class` and `:ui`.
 
 ### Changed
 - App `variants` entries sit in their own layer above the library defaults, so they win clashes with them. Redefining an entry with several parts (Alert `success`, Tabs `underline`) merges part by part over the built-in one; a plain string sets the main part only.
