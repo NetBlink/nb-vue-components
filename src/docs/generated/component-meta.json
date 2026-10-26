@@ -134,6 +134,57 @@
             }
         ]
     },
+    "Card": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the card"
+            },
+            {
+                "name": "header",
+                "description": "the row holding title, description and actions"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "description",
+                "description": "the text under the title"
+            },
+            {
+                "name": "actions",
+                "description": "the right-hand actions slot"
+            },
+            {
+                "name": "body",
+                "description": "the default slot wrapper"
+            },
+            {
+                "name": "footer",
+                "description": "the footer band"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "hover and selection change instantly"
+            },
+            {
+                "level": "simple",
+                "description": "border and shadow fade on hover"
+            },
+            {
+                "level": "smooth",
+                "description": "border and shadow fade on hover"
+            },
+            {
+                "level": "fancy",
+                "description": "interactive cards also lift slightly on hover"
+            }
+        ]
+    },
     "Checkbox": {
         "parts": [
             {

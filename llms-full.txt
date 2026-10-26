@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (78 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (79 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -391,6 +391,38 @@ Base Button component with theme support
 | `root` | the `<button>` element |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Card
+
+a header (title, description and an `#actions` slot), a body and an optional footer band. Give it `href` to make the whole card an Inertia link, or `clickable` for a keyboard-reachable button card; `selected` marks the chosen one in a picker. Lighter than `Section`, which has a full header band and is meant for page sections.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `undefined` | Title in the header |
+| `description` | `string` | `undefined` | Text under the title |
+| `href` | `string` | `undefined` | Make the whole card an Inertia link |
+| `clickable` | `boolean` | `false` | Make the card a button (emits `click`, reachable with Tab, Enter and Space) |
+| `selected` | `boolean` | `false` | Mark the card as the selected one |
+| `hover` | `boolean` | `false` | Hover lift and border even when not interactive |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Inner spacing |
+| `ui` | `UiProp<NbParts['Card']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Slots:** `actions`, `default`, `footer`, `header`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the card |
+| `header` | the row holding title, description and actions |
+| `title` | the title |
+| `description` | the text under the title |
+| `actions` | the right-hand actions slot |
+| `body` | the default slot wrapper |
+| `footer` | the footer band |
+
+**Motion:** `off`: hover and selection change instantly; `simple`: border and shadow fade on hover; `smooth`: border and shadow fade on hover; `fancy`: interactive cards also lift slightly on hover.
 
 ### Checkbox
 
