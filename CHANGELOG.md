@@ -4,7 +4,7 @@
 
 ### Breaking
 - Instance classes are now merged with tailwind-merge instead of appended. A class you pass (through `class`, `:ui` or a deprecated override prop) removes the library default it clashes with; defaults that don't clash stay. Pages that relied on a default winning a clash over their own class will look different, and `!` markers added only to beat a default can go.
-- Every component sets `inheritAttrs: false` and binds attrs itself, so `class` can be merged. Where 3.x put `class` on two elements it now lands on one: `DropdownLink` (the link only) and `Collapse` (the trigger button only). `class` now reaches elements that silently dropped it in 3.x: the `Tooltip` bubble, the `Modal` panel and the `Images` upload form.
+- Every component sets `inheritAttrs: false` and binds attrs itself, so `class` can be merged. Where 3.x put `class` on two elements it now lands on one: `DropdownLink` (the link only) and `Collapse` (`class` on the wrapper, other attrs on the trigger button). `class` now reaches elements that silently dropped it in 3.x: the `Tooltip` bubble, the `Modal` panel, the `Images` upload form, the `Toaster` viewport and every `TrPlaceholder` row; `Modal` and `Tooltip` also take other attrs now.
 - Animation classes changed with the new motion levels (see Added): overlays, collapsing content and toasts pick their enter and leave classes from the open state instead of `data-[state=*]:animate-*` variants, and `Tabs` draws the active marker with a sliding indicator element once mounted. Static styling with no app config is unchanged.
 - `tailwind-merge` is a new runtime dependency.
 
@@ -21,6 +21,12 @@
 - Docs: a Customizing page, generated Parts and Motion tables on every component page, and a motion switcher next to the dark-mode toggle. `llms-full.txt` lists parts and motion per component.
 
 ### Changed
+- App `variants` entries sit in their own layer above the library defaults, so they win clashes with them. Redefining an entry with several parts (Alert `success`, Tabs `underline`) merges part by part over the built-in one; a plain string sets the main part only.
+- Error, open, selected and drag-over classes on SimpleSelect, RichSelect, FileDropZoneInput, Images and the active Pagination link sit above your overrides, so a plain `border-*` or `bg-*` override no longer removes them.
+- Classes a component hands to a library component it renders (SubmitButton's `relative`, the `mt-2` on field errors, ...) now sit below that component's app config, so `ui.Button` and `ui.InputError` beat them.
+- `<Input type="switch">` and `type="checkbox"` no longer pick up app `ui.Input` config; they use `ui.Switch` / `ui.Checkbox`. Instance `class` and `:ui` still pass through.
+- JS-driven motion reads `--duration-quick`, `--duration-base`, `--ease-emphasised` and `--ease-spring` at run time, so overriding the tokens changes it too.
+- At `simple`, the Switch thumb, DottedCarousel dot and expand chevrons no longer slide or turn. Tab panels fade out at `smooth` and up.
 - Empty states share one API and look: `Tbody` (and `EnhancedTable`), `RichSelect`, `LogsContent` and `PropsTable` take an `emptyMessage` prop and an `#empty` slot, style through the `empty` part, and render centred `text-sm` grey text. The defaults keep their 3.x wording.
 
 ### Fixed
@@ -28,6 +34,15 @@
 - `Tbody` `noRecordsMessage` was never shown because `emptyMessage` always had a default. It is honoured now, and deprecated in favour of `emptyMessage`.
 - `FileDropZoneInput` `multiple` and `accept`, and `DottedCarousel` `padding`/`gap`, had no runtime type, so a bare `multiple` attribute was read as an empty string. Every component now declares typed props.
 - `Images` no longer throws when `images` is omitted (it defaults to an empty list).
+- Deprecation warnings never fired in Vite and webpack builds.
+- Rapid re-sorts with the `fancy` reflow measured rows mid-animation and jumped.
+- Hovering the active underline tab painted its grey hover border over the sliding indicator.
+- A `Collapse` with a custom `#trigger` slot dropped the instance `class`.
+- The OS reduced-motion preference is followed live on Safari before 14 too.
+
+### Decisions
+- `fancy` morphs use CSS keyframes rather than the View Transitions API: they work in every browser and with reka-ui's presence handling.
+- `NavLink` keeps a colour change for the active link instead of a sliding indicator.
 
 ### Deprecated
 These still work, warn once each in development, and are removed in 5.0. `scripts/v4-rename-map.json` in the repository maps each one to its part.

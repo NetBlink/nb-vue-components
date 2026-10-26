@@ -15,7 +15,7 @@ const instanceSnippet = [
     '<Input',
     '    field="email"',
     '    class="mb-8"',
-    "    :ui=\"{ label: 'text-xs uppercase tracking-wide', input: 'bg-gray-50' }\"",
+    "    :ui=\"{ label: 'text-xs uppercase tracking-wide', input: 'bg-primary-50 dark:bg-primary-950' }\"",
     '/>',
     '',
     '<!-- A clashing class wins: rounded-full replaces rounded-md, no ! needed -->',
@@ -185,7 +185,7 @@ const replacementText = (r: { replacement: string | null; part: string | null })
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">class and :ui</h2>
             <DocDemoCard>
                 <div class="grid max-w-xl gap-2">
-                    <Input field="email" placeholder="you@example.com" :ui="{ label: 'text-xs uppercase tracking-wide', input: 'bg-gray-50 dark:bg-gray-900' }" />
+                    <Input field="email" placeholder="you@example.com" :ui="{ label: 'text-xs uppercase tracking-wide', input: 'bg-primary-50 dark:bg-primary-950' }" />
                     <div class="flex gap-3">
                         <PrimaryButton type="button">Default</PrimaryButton>
                         <PrimaryButton type="button" class="rounded-full">rounded-full</PrimaryButton>

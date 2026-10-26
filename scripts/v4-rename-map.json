@@ -325,15 +325,23 @@
         },
         {
             "component": "Tooltip",
-            "change": "`class` now styles the tooltip bubble. 3.x dropped it."
+            "change": "`class` and other attrs (`id`, `data-*`, listeners) now land on the tooltip bubble. 3.x dropped them."
         },
         {
             "component": "Modal",
-            "change": "`class` now styles the panel. 3.x dropped it."
+            "change": "`class` now styles the panel, and other attrs (`id`, `data-*`, listeners) land on the modal container. 3.x dropped them."
         },
         {
             "component": "Images",
             "change": "`class` now lands on the upload form. 3.x dropped it (the component has two root elements)."
+        },
+        {
+            "component": "Toaster",
+            "change": "`class` and attrs now reach the toast viewport."
+        },
+        {
+            "component": "TrPlaceholder",
+            "change": "`class` and attrs now land on every placeholder row."
         }
     ],
     "kept": [
