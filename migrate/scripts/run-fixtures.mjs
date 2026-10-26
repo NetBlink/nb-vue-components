@@ -1,6 +1,6 @@
 // Runs every fixture in fixtures/ (or the one named in argv[2]) through the real CLI.
 // A fixture is before/ (the app), after/ (the expected tree, defaults to before/),
-// args.json (extra CLI args, default ["--yes"]) and expect.json
+// args.json (CLI args, default ["--yes"], a subcommand like `switch hero` first) and expect.json
 // ({ exitCode, stdoutIncludes, dirty }). The CLI runs with the fixture dir as cwd,
 // so `--choices choices.json` resolves next to args.json.
 import fs from 'node:fs';
@@ -62,7 +62,7 @@ for (const name of names) {
     git(tmp, ['commit', '-q', '-m', 'before']);
     if (expect.dirty) fs.appendFileSync(path.join(tmp, 'package.json'), DIRTY_LINE);
 
-    const run = spawnSync('node', [cli, '--path', tmp, ...args], { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    const run = spawnSync('node', [cli, ...args, '--path', tmp], { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
     const stdout = run.stdout ?? '';
     const problems = [];
 

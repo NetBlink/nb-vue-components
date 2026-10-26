@@ -3,6 +3,7 @@ import { Command } from 'commander';
 import pc from 'picocolors';
 import path from 'node:path';
 import { locateEntry, resolveEntryOption } from './entry.js';
+import { isGitClean } from './git.js';
 import { runUpgrade } from './engine.js';
 import { FileStore } from './files.js';
 import { SET_CONFIGS, type SetKey } from './icons.js';
@@ -43,10 +44,11 @@ program
 
 program
     .command('switch <set>')
-    .description('Swap the active icon preset. Accepts: fa, hero, material, solar')
+    .description(`Swap the active icon preset. Accepts: ${Object.keys(SET_CONFIGS).join(', ')}`)
     .option('--path <dir>', 'directory to scan', '.')
     .option('--entry <file>', 'explicit path to the app entrypoint')
     .option('--dry-run', 'show changes without writing files', false)
+    .option('--force', 'run even with uncommitted changes', false)
     .action(async (setArg: string, opts) => {
         const key = setArg.toLowerCase() as SetKey;
         if (!(key in SET_CONFIGS)) {
@@ -56,6 +58,10 @@ program
         }
 
         const root = path.resolve(opts.path);
+        if (!opts.force && !isGitClean(root)) {
+            console.error(pc.red('The project has uncommitted changes (or is not a git repo). Commit first, or pass --force.'));
+            process.exit(2);
+        }
         const files = new FileStore(root);
         const entry = opts.entry ? resolveEntryOption(root, opts.entry) : await locateEntry(files);
         if (!entry) {
@@ -80,7 +86,7 @@ program
         console.log('');
         console.log(pc.green(`✓ Switched to ${config.label}: ${entry}`));
         console.log('');
-        console.log(pc.cyan('Next step — install peer deps:'));
+        console.log(pc.cyan('Next step, install the peer dependencies:'));
         console.log('  ' + config.installCmd);
         console.log('');
     });

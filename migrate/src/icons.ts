@@ -1,4 +1,4 @@
-export type SetKey = 'fa' | 'hero' | 'material' | 'solar';
+export type SetKey = 'fa' | 'hero' | 'material' | 'solar' | 'lucide';
 
 export interface SetConfig {
     /** Friendly name. */
@@ -38,6 +38,12 @@ export const SET_CONFIGS: Record<SetKey, SetConfig> = {
         importLine: "import { solarAliasPreset, solarSet } from '@netblink/vue-components/icons/solar';",
         call: 'createNbIcons({ aliases: solarAliasPreset, sets: { solar: solarSet } })',
         installCmd: 'npm install @iconify/vue @iconify-json/solar',
+    },
+    lucide: {
+        label: 'Lucide',
+        importLine: "import { lucideAliasPreset, lucideSet } from '@netblink/vue-components/icons/lucide';",
+        call: 'createNbIcons({ aliases: lucideAliasPreset, sets: { lucide: lucideSet } })',
+        installCmd: 'npm install @iconify/vue @iconify-json/lucide',
     },
 };
 
