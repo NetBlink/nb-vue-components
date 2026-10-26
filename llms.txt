@@ -272,6 +272,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Avatar**, A user picture, or their initials on a tinted disc when there is no picture or it fails to load.
 - **AvatarGroup**, Overlapping row of `Avatar`s, each ringed so the overlap reads clearly.
 - **Badge**, Small rounded label for statuses, counts and tags, in the shared colour vocabulary.
+- **Breadcrumbs**, Trail of links to the current page.
 - **Button**, Base Button component with theme support.
 - **Card**, a header (title, description and an `#actions` slot), a body and an optional footer band.
 - **Checkbox**, Single checkbox with label, sublabel, tooltip and error message, plus optional descriptive text on either side of the box.
@@ -287,6 +288,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **DropdownLink**, A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui `DropdownMenuItem` so keyboard navigation and menu semantics come for free.
 - **DropdownSearchbar**, Thin wrapper around the third-party `vue-select` component, giving a type-to-search dropdown over a static `options` array with only light styling applied.
 - **DropdownSeparator**, Dropdown separator component A visual separator for dropdown menu items..
+- **EmptyState**, an icon, a title, a short explanation and the actions that fix it (the default slot), centred.
 - **EnhancedTable**, Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants.
 - **FileDropZoneInput**, Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection.
 - **GravatarImg**, `<img>` pointing at the Gravatar for an email.
@@ -309,6 +311,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **NavCollapse**, Navigation Collapse component with expandable/collapsible content.
 - **NavLink**, sidebar / header navigation link wrapping an Inertia `<Link>`.
 - **NewModal**, Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one to use for new code.
+- **PageHeader**, breadcrumbs, title, description and an `#actions` slot on the right, with a mobile "Back" link when `back` is set.
 - **Pagination**, Pagination component for navigating through pages of data.
 - **PrimaryButton**, Primary Button component.
 - **PropsTable**, Documentation-only table that renders an array of `{ prop, type, default, description }` rows into a four-column prop reference, with an optional `highlight` flag to tint a row and a "No props defined" empty state.

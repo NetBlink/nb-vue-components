@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (79 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (82 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -365,6 +365,31 @@ Small rounded label for statuses, counts and tags, in the shared colour vocabula
 | `root` | the badge |
 | `dot` | the leading dot |
 | `label` | the text |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Breadcrumbs
+
+Trail of links to the current page. Items with an `href` become Inertia links; the last item is the current page (`aria-current="page"`). `collapse` keeps long trails on one line on small screens by hiding the middle items behind an ellipsis. `PageHeader` renders one for you from its `breadcrumbs` prop.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `BreadcrumbItem[]` | **required** | The trail, first to current |
+| `collapse` | `boolean` | `false` | On small screens show only the first and the last two items |
+| `ui` | `UiProp<NbParts['Breadcrumbs']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `separator`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<nav>` landmark |
+| `list` | the `<ol>` |
+| `item` | each `<li>` |
+| `link` | a link item |
+| `current` | the current page |
+| `separator` | the separator between items |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
@@ -750,6 +775,32 @@ Dropdown separator component A visual separator for dropdown menu items.
 | Part | Element |
 | --- | --- |
 | `root` | the separator line |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### EmptyState
+
+an icon, a title, a short explanation and the actions that fix it (the default slot), centred. `compact` is the one-line "No X found" form for inside lists, tables and cards.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `icon` | `IconLike` | `undefined` | Icon above the title (in compact mode, before the text) |
+| `title` | `string` | `undefined` | Title, or the whole message in compact mode |
+| `description` | `string` | `undefined` | Short explanation under the title |
+| `compact` | `boolean` | `false` | One-line form for lists, tables and cards |
+| `ui` | `UiProp<NbParts['EmptyState']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper |
+| `icon` | the `IconCircle` |
+| `title` | the title |
+| `description` | the explanation |
+| `actions` | the default slot wrapper |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
@@ -1275,6 +1326,38 @@ Accessible dialog built on reka-ui's headless `Dialog` primitives, and the one t
 | `close` | the close button |
 
 **Motion:** `off`: opens and closes instantly; `simple`: backdrop and panel fade quickly; `smooth`: backdrop fades, the panel slides up in and drops out; the panel animates its height when its content grows or shrinks; `fancy`: the panel grows out of the element that opened it and shrinks back into it on close.
+
+### PageHeader
+
+breadcrumbs, title, description and an `#actions` slot on the right, with a mobile "Back" link when `back` is set. `variant="bar"` is the compact bordered breadcrumb/actions bar many admin screens use instead of a title block. `sticky` (either variant) keeps it in view while scrolling; set the `--nb-sticky-offset` CSS variable to clear a fixed banner above it.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | `undefined` | Page title |
+| `description` | `string` | `undefined` | Text under the title |
+| `breadcrumbs` | `BreadcrumbItem[]` | `undefined` | Breadcrumb trail, first to current |
+| `back` | `string` | `undefined` | URL for a "Back" link shown on small screens |
+| `variant` | `'default' \| 'bar'` | `'default'` | `default` title block or the compact bordered `bar` |
+| `sticky` | `boolean` | `false` | Stick to the top while scrolling (offset by `--nb-sticky-offset`) |
+| `backLabel` | `string` | `'Back'` | Label of the mobile back link |
+| `ui` | `UiProp<NbParts['PageHeader']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `actions`, `default`, `meta`, `title`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the header |
+| `breadcrumbs` | the `Breadcrumbs` |
+| `back` | the mobile "Back" link |
+| `main` | the column holding breadcrumbs, title and description |
+| `title` | the title |
+| `description` | the text under the title |
+| `meta` | the `#meta` slot wrapper |
+| `actions` | the `#actions` slot wrapper |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
 ### Pagination
 

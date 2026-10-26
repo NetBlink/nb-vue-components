@@ -119,6 +119,41 @@
             }
         ]
     },
+    "Breadcrumbs": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<nav>` landmark"
+            },
+            {
+                "name": "list",
+                "description": "the `<ol>`"
+            },
+            {
+                "name": "item",
+                "description": "each `<li>`"
+            },
+            {
+                "name": "link",
+                "description": "a link item"
+            },
+            {
+                "name": "current",
+                "description": "the current page"
+            },
+            {
+                "name": "separator",
+                "description": "the separator between items"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
     "Button": {
         "parts": [
             {
@@ -586,6 +621,37 @@
             {
                 "name": "root",
                 "description": "the separator line"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "EmptyState": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper"
+            },
+            {
+                "name": "icon",
+                "description": "the `IconCircle`"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "description",
+                "description": "the explanation"
+            },
+            {
+                "name": "actions",
+                "description": "the default slot wrapper"
             }
         ],
         "classPart": "root",
@@ -1208,6 +1274,49 @@
             {
                 "level": "fancy",
                 "description": "the panel grows out of the element that opened it and shrinks back into it on close"
+            }
+        ]
+    },
+    "PageHeader": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the header"
+            },
+            {
+                "name": "breadcrumbs",
+                "description": "the `Breadcrumbs`"
+            },
+            {
+                "name": "back",
+                "description": "the mobile \"Back\" link"
+            },
+            {
+                "name": "main",
+                "description": "the column holding breadcrumbs, title and description"
+            },
+            {
+                "name": "title",
+                "description": "the title"
+            },
+            {
+                "name": "description",
+                "description": "the text under the title"
+            },
+            {
+                "name": "meta",
+                "description": "the `#meta` slot wrapper"
+            },
+            {
+                "name": "actions",
+                "description": "the `#actions` slot wrapper"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
             }
         ]
     },

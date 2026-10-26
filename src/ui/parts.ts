@@ -109,6 +109,9 @@ export interface NbParts {
     AvatarGroup: 'root' | 'item' | 'more';
     IconButton: 'root' | 'icon';
     Card: 'root' | 'header' | 'title' | 'description' | 'actions' | 'body' | 'footer';
+    Breadcrumbs: 'root' | 'list' | 'item' | 'link' | 'current' | 'separator';
+    PageHeader: 'root' | 'breadcrumbs' | 'back' | 'main' | 'title' | 'description' | 'meta' | 'actions';
+    EmptyState: 'root' | 'icon' | 'title' | 'description' | 'actions';
 }
 
 export type NbComponentName = keyof NbParts;
