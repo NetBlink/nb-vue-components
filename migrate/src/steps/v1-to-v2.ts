@@ -71,6 +71,12 @@ export const v1ToV2: Step = {
             }
             const show = t.attr('show');
             if (show) edit(t, (ms) => renameAttr(ms, show, 'show', 'open'));
+            // `@update:show` / `v-on:update:show` listen to the event `v-model:show` used.
+            for (const p of t.node.props) {
+                if (p.type === 7 && p.name === 'on' && p.arg?.isStatic && p.arg.content === 'update:show') {
+                    edit(t, (ms) => ms.overwrite(p.arg.loc.start.offset, p.arg.loc.end.offset, 'update:open'));
+                }
+            }
         }
 
         for (const t of tags.filter((t) => t.component === 'DropdownLink')) {

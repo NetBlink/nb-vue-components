@@ -1,11 +1,15 @@
+import semver from 'semver';
 import { parse as parseSfc } from '@vue/compiler-sfc';
+import _traverse from '@babel/traverse';
 import type MagicString from 'magic-string';
 import { ensureImportAfter, locateAppCss, removeKeyframes, removeNetblinkSources } from '../css.js';
 import { ensureSideEffectImport } from '../entry.js';
 import { langOf, parseCode, reportUnparseable } from '../parse.js';
-import { editSfc, libraryTags, lineAt, LIBRARY, removeAttr, renameAttr, type LibTag } from '../sfc.js';
+import { editSfc, kebab, libraryTags, lineAt, LIBRARY, removeAttr, renameAttr, type LibTag } from '../sfc.js';
 import { THEME_KEYFRAMES } from './data/theme-keyframes.js';
 import type { Step } from './types.js';
+
+const traverse = ((_traverse as any).default ?? _traverse) as typeof _traverse;
 
 const STEP = 'v3-to-v3-2';
 const THEME_CSS = '@netblink/vue-components/theme.css';
@@ -19,9 +23,13 @@ const RESTYLED: Record<string, string> = {
     LinkDropdownButton: 'LinkDropdownButton uses primary-600 now.',
 };
 
-/** Renames the library import `Modal` to `NewModal` in a `<script setup>` body, or drops it when NewModal is already imported. */
-function renameModalImport(content: string, lang: string): string | null {
-    const ast = parseCode(content, lang);
+/**
+ * Renames the library import `Modal` to `NewModal` in a `<script setup>` body, or drops it when NewModal
+ * is already imported. `local` is Modal's local name, `next` the name its tags take, `scriptUse` the line
+ * of the first script reference to Modal beyond the import (0 when none).
+ */
+function renameModalImport(content: string, lang: string, startLine: number): { imports: string; local: string; next: string; scriptUse: number } | null {
+    const ast = parseCode(content, lang, startLine);
     for (const node of ast.program.body) {
         if (node.type !== 'ImportDeclaration' || node.source.value !== LIBRARY) continue;
         const specs = node.specifiers;
@@ -29,23 +37,47 @@ function renameModalImport(content: string, lang: string): string | null {
         const i = specs.findIndex((s) => imported(s) === 'Modal');
         if (i < 0) continue;
         const spec = specs[i];
-        const hasNewModal = ast.program.body.some(
-            (n) => n.type === 'ImportDeclaration' && n.source.value === LIBRARY && n.specifiers.some((s) => imported(s) === 'NewModal'),
-        );
-        if (!hasNewModal) {
+        const local = spec.local.name;
+        let scriptUse = 0;
+        traverse(ast, {
+            Program(p) {
+                scriptUse = p.scope.getBinding(local)?.referencePaths[0]?.node.loc?.start.line ?? 0;
+                p.stop();
+            },
+        });
+        const newModal = ast.program.body
+            .flatMap((n) => (n.type === 'ImportDeclaration' && n.source.value === LIBRARY ? n.specifiers : []))
+            .find((s) => imported(s) === 'NewModal');
+        if (!newModal) {
+            // `Modal as M` becomes `NewModal as M`: the tags keep their name.
             const text = content.slice(spec.start!, spec.end!);
-            return content.slice(0, spec.start!) + text.replace(/^Modal\b/, 'NewModal') + content.slice(spec.end!);
+            const imports = content.slice(0, spec.start!) + text.replace(/^Modal\b/, 'NewModal') + content.slice(spec.end!);
+            return { imports, local, next: local === 'Modal' ? 'NewModal' : local, scriptUse };
         }
         const [start, end] = i < specs.length - 1 ? [spec.start!, specs[i + 1].start!] : [specs[i - 1]?.end ?? spec.start!, spec.end!];
-        return content.slice(0, start) + content.slice(end);
+        return { imports: content.slice(0, start) + content.slice(end), local, next: newModal.local.name, scriptUse };
     }
     return null;
+}
+
+/** Line of the first template expression (`:is="Modal"`, `{{ Modal }}`) naming `name`, or 0. */
+function templateUse(nodes: any[], name: string): number {
+    const re = new RegExp(`(?<![\\w$.])${name.replace(/\$/g, '\\$')}(?![\\w$])`);
+    for (const node of nodes) {
+        if (node.type === 5 && re.test(node.content.content)) return node.loc.start.line;
+        for (const p of node.props ?? []) if (p.type === 7 && p.exp && re.test(p.exp.content)) return p.loc.start.line;
+        const inner = templateUse(node.children ?? [], name);
+        if (inner) return inner;
+    }
+    return 0;
 }
 
 export const v3ToV32: Step = {
     id: STEP,
     to: '3.2.1',
-    async run({ entry, files, report, choose }) {
+    async run({ installed, entry, files, report, choose }) {
+        // Fixed or restyled in 3.2.0: an app already on 3.2.0 has them (and its max-widths work).
+        const before320 = semver.lt(installed, '3.2.0');
         const manual = (message: string, at?: { file: string; line: number }) =>
             report.add({ kind: 'manual', step: STEP, file: at?.file, line: at?.line, message });
         const visual = (message: string, at: { file: string; line: number }) =>
@@ -82,7 +114,7 @@ export const v3ToV32: Step = {
         };
 
         const sized: LibTag[] = [];
-        for (const t of tags.filter((t) => t.component === 'NewModal')) {
+        for (const t of tags.filter((t) => before320 && t.component === 'NewModal')) {
             if (t.hasSpread) manual('NewModal with a `v-bind` spread: it honours `maxWidth` now (it was fixed at 600px).', t);
             else if (t.attr('maxWidth')) sized.push(t);
         }
@@ -117,8 +149,14 @@ export const v3ToV32: Step = {
                 for (const t of modals) byFile.set(t.file, [...(byFile.get(t.file) ?? []), t]);
                 for (const [file, list] of byFile) {
                     const source = (await files.read(file))!;
-                    const setup = parseSfc(source).descriptor.scriptSetup;
-                    const imports = setup ? renameModalImport(setup.content, setup.lang ?? 'js') : null;
+                    const { scriptSetup: setup, template } = parseSfc(source).descriptor;
+                    const rename = setup ? renameModalImport(setup.content, setup.lang ?? 'js', setup.loc.start.line) : null;
+                    // `:is="Modal"`, `h(Modal)`, `markRaw(Modal)`: renaming the import would break those.
+                    const valueUse = rename && (rename.scriptUse || templateUse(template!.ast!.children, rename.local));
+                    if (valueUse) {
+                        manual(`Modal left as is in this file: \`${rename.local}\` is used as a value on this line (\`:is\`, \`h()\` or another script reference), which renaming its import would break. Switch to NewModal by hand: \`modal-custom-class\` becomes \`class\`, add \`align-top\` unless it was centred.`, { file, line: valueUse });
+                        continue;
+                    }
                     const skipped = list.filter((t) => {
                         const reason = t.hasSpread
                             ? 'a `v-bind` spread'
@@ -126,7 +164,7 @@ export const v3ToV32: Step = {
                               ? 'a dynamic `align-center`'
                               : t.attr('modalCustomClass') && t.attr('class')
                                 ? 'both `class` and `modal-custom-class`'
-                                : !imports
+                                : !rename
                                   ? 'no `<script setup>` import to rename'
                                   : null;
                         if (reason) manual(`Modal left as is (${reason}): rename it to NewModal by hand, \`modal-custom-class\` becomes \`class\`, add \`align-top\` unless it was centred.`, t);
@@ -140,8 +178,9 @@ export const v3ToV32: Step = {
                     }
                     for (const t of list) {
                         edit(file, (ms) => {
-                            if (t.tag === 'Modal' || t.tag === 'modal') {
-                                const name = t.tag === 'Modal' ? 'NewModal' : 'new-modal';
+                            const { local, next } = rename!;
+                            if (next !== local && (t.tag === local || t.tag === kebab(local))) {
+                                const name = t.tag === local ? next : kebab(next);
                                 ms.overwrite(t.start + 1, t.nameEnd, name);
                                 const close = `</${t.tag}>`;
                                 if (!t.selfClosing && source.slice(t.end - close.length, t.end) === close) {
@@ -160,12 +199,12 @@ export const v3ToV32: Step = {
                             if (added) ms.appendLeft(t.attrsEnd, added);
                         });
                     }
-                    edit(file, (ms) => ms.overwrite(setup!.loc.start.offset, setup!.loc.end.offset, imports!));
+                    edit(file, (ms) => ms.overwrite(setup!.loc.start.offset, setup!.loc.end.offset, rename!.imports));
                 }
             }
         }
 
-        for (const t of tags) {
+        for (const t of tags.filter(() => before320)) {
             if (RESTYLED[t.component]) visual(RESTYLED[t.component], t);
             else if (t.component === 'Table' && t.attr('sticky')) visual('Table sticky was reworked: check the sticky header.', t);
             else if (BUTTONS.includes(t.component) && t.attr('disabled')) visual(`${t.component} has a new disabled style.`, t);
