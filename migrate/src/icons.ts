@@ -41,12 +41,6 @@ export const SET_CONFIGS: Record<SetKey, SetConfig> = {
     },
 };
 
-/** Aliases the FA preset maps (3.0.1). */
-export const FA_ALIASES = [
-    'expand', 'close', 'success', 'error', 'warning', 'info', 'search', 'eye', 'eye-off',
-    'help', 'edit', 'edit-alt', 'construction', 'sun', 'moon', 'whatsapp',
-];
-
 /** FA packages the FA preset needs, with the library's peer ranges. */
 export const FA_PEERS: Record<string, string> = {
     '@fortawesome/fontawesome-svg-core': '^6.4.0',

@@ -1,49 +1,97 @@
 import semver from 'semver';
-import { parse as parseSfc } from '@vue/compiler-sfc';
+import _traverse from '@babel/traverse';
+import type MagicString from 'magic-string';
 import { ensureNamedImport, insertIntoAppChain } from '../entry.js';
-import { FA_ALIASES, FA_PEERS, ICONS_IMPORT, SET_CONFIGS } from '../icons.js';
-import { langOf, reportUnparseable } from '../parse.js';
-import { editSfc, libraryTags, lineAt, LIBRARY } from '../sfc.js';
+import { FA_PEERS, ICONS_IMPORT, SET_CONFIGS } from '../icons.js';
+import { langOf, parseCode, reportUnparseable } from '../parse.js';
+import { editSfc, importsFrom, libraryTags, LIBRARY, parseSfcScripts, walkElements } from '../sfc.js';
 import type { FileStore } from '../files.js';
+import type { Report } from '../report.js';
 import type { Step } from './types.js';
 
+const traverse = ((_traverse as any).default ?? _traverse) as typeof _traverse;
+
 const STEP = 'v2-to-v3';
-const STRING_ICON_RE = /<FontAwesomeIcon\b([^>]*?\bicon\s*=\s*"(?:fab|fas|far)\s+fa-([a-z0-9-]+)"[^>]*?)\s*(\/)?>/g;
 const FA = SET_CONFIGS.fa;
+const FA_VUE = '@fortawesome/vue-fontawesome';
+// Only the WhatsApp icon has an alias meaning the same thing: FA names like fa-expand map to
+// aliases that look different ($expand is a chevron), so those icons stay FontAwesomeIcon.
+const WHATSAPP_RE = /^(?:fab|fa-brands)\s+fa-whatsapp$/;
+
+/** `font-awesome-icon` -> `FontAwesomeIcon`, the form Vue resolves both spellings to. */
+const pascal = (s: string) => s.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
 
 interface StringIcon {
     file: string;
     line: number;
-    start: number;
-    end: number;
-    replacement: string;
+    /** False when the tag may not be FontAwesome's component: reported, not rewritten. */
+    sure: boolean;
+    apply(ms: MagicString): void;
 }
 
-/** `<FontAwesomeIcon icon="fab fa-x">` sites in SFCs that import the library, for icons the FA preset maps. */
-async function stringIcons(files: FileStore): Promise<StringIcon[]> {
+/** Names `FontAwesomeIcon` is registered under with `app.component('Name', FontAwesomeIcon)` in the entry. */
+function globalFaNames(source: string | null, lang: string): Set<string> {
+    const out = new Set<string>();
+    if (source === null || !source.includes(FA_VUE)) return out;
+    let ast;
+    try {
+        ast = parseCode(source, lang);
+    } catch {
+        return out; // reported by the steps that edit the entry
+    }
+    const fa = importsFrom(ast, FA_VUE);
+    traverse(ast, {
+        CallExpression(p) {
+            const { callee, arguments: [name, component] } = p.node;
+            if (callee.type !== 'MemberExpression' || callee.property.type !== 'Identifier' || callee.property.name !== 'component') return;
+            if (name?.type === 'StringLiteral' && component?.type === 'Identifier' && fa.get(component.name) === 'FontAwesomeIcon') out.add(pascal(name.value));
+        },
+    });
+    return out;
+}
+
+/** `<FontAwesomeIcon icon="fab fa-whatsapp">` sites in SFCs that import the library, where the tag is FontAwesome's. */
+async function stringIcons(files: FileStore, entry: string | null, report: Report): Promise<StringIcon[]> {
+    const global = globalFaNames(entry ? await files.read(entry) : null, entry ? langOf(entry) : 'js');
     const out: StringIcon[] = [];
     for (const file of await files.glob(['**/*.vue'])) {
         const source = await files.read(file);
-        if (!source || !source.includes(LIBRARY)) continue;
-        const template = parseSfc(source).descriptor.template;
-        if (!template) continue;
-        const base = template.loc.start.offset;
-        for (const m of template.content.matchAll(STRING_ICON_RE)) {
-            if (!FA_ALIASES.includes(m[2])) continue;
-            const attrs = m[1]
-                .replace(/\s*\bicon\s*=\s*"(?:fab|fas|far)\s+fa-[a-z0-9-]+"\s*/, ' ')
-                .replace(/\s+$/, '')
-                .replace(/^\s+/, ' ');
-            // A non-self-closing tag's `</FontAwesomeIcon>` is renamed with it.
-            const start = base + m.index!;
+        if (!source || !source.includes(LIBRARY) || !/fa-whatsapp/.test(source)) continue;
+        const sfc = parseSfcScripts(file, source, report, STEP);
+        if (!sfc?.descriptor.template?.ast) continue;
+        // Every imported name, so a local component that happens to be called FontAwesomeIcon is left alone.
+        const imported = new Map<string, boolean>();
+        for (const ast of sfc.asts) {
+            for (const node of ast.program.body) {
+                if (node.type !== 'ImportDeclaration') continue;
+                for (const s of node.specifiers) {
+                    const isFa = node.source.value === FA_VUE && s.type === 'ImportSpecifier' && (s.imported.name ?? s.imported.value) === 'FontAwesomeIcon';
+                    imported.set(pascal(s.local.name), isFa);
+                }
+            }
+        }
+        walkElements(sfc.descriptor.template.ast.children, (node) => {
+            const icon = node.props.find((p: any) => p.type === 6 && p.name === 'icon');
+            if (!icon?.value || !WHATSAPP_RE.test(icon.value.content.trim())) return;
+            const name = pascal(node.tag);
+            const local = imported.get(name);
+            if (local === false) return;
+            if (local === undefined && !global.has(name) && name !== 'FontAwesomeIcon') return;
+            const start = node.loc.start.offset;
+            const end = node.loc.end.offset;
+            const nb = node.tag.includes('-') ? 'nb-icon' : 'NbIcon';
+            const close = `</${node.tag}>`;
             out.push({
                 file,
-                line: lineAt(source, start),
-                start,
-                end: start + m[0].length,
-                replacement: `<NbIcon name="$${m[2]}"${attrs}${m[3] ? ' />' : '>'}`,
+                line: node.loc.start.line,
+                sure: local === true || global.has(name),
+                apply(ms) {
+                    ms.overwrite(start + 1, start + 1 + node.tag.length, nb);
+                    ms.overwrite(icon.loc.start.offset, icon.loc.end.offset, 'name="$whatsapp"');
+                    if (!node.isSelfClosing && source.slice(end - close.length, end) === close) ms.overwrite(end - close.length + 2, end - 1, nb);
+                },
             });
-        }
+        });
     }
     return out;
 }
@@ -55,7 +103,7 @@ export const v2ToV3: Step = {
         const manual = (message: string, at?: { file: string; line: number }) =>
             report.add({ kind: 'manual', step: STEP, file: at?.file, line: at?.line, message });
 
-        const icons = await stringIcons(files);
+        const icons = await stringIcons(files, entry, report);
         const whatsApp = (await libraryTags(files, ['Input', 'Textarea'], report, STEP)).filter((t) => t.attr('whatsApp'));
         const decision = await choose({
             id: 'icons',
@@ -85,18 +133,15 @@ export const v2ToV3: Step = {
                 }
             }
 
+            for (const i of icons.filter((i) => !i.sure)) {
+                manual('`FontAwesomeIcon` is neither imported from @fortawesome/vue-fontawesome here nor registered in the entry: if it is FontAwesome\'s, replace it with `<NbIcon name="$whatsapp" />`.', i);
+            }
             const byFile = new Map<string, StringIcon[]>();
-            for (const i of icons) byFile.set(i.file, [...(byFile.get(i.file) ?? []), i]);
+            for (const i of icons.filter((i) => i.sure)) byFile.set(i.file, [...(byFile.get(i.file) ?? []), i]);
             for (const [file, sites] of byFile) {
-                const source = (await files.read(file))!;
-                const scriptSetup = parseSfc(source).descriptor.scriptSetup;
+                const scriptSetup = parseSfcScripts(file, (await files.read(file))!, report, STEP)!.descriptor.scriptSetup;
                 await editSfc(files, file, (ms) => {
-                    for (const s of sites) {
-                        ms.overwrite(s.start, s.end, s.replacement);
-                        if (s.replacement.endsWith(' />')) continue;
-                        const close = source.indexOf('</FontAwesomeIcon>', s.end);
-                        if (close >= 0) ms.overwrite(close, close + '</FontAwesomeIcon>'.length, '</NbIcon>');
-                    }
+                    for (const s of sites) s.apply(ms);
                     if (scriptSetup) {
                         const { start, end } = scriptSetup.loc;
                         const next = ensureNamedImport(scriptSetup.content, LIBRARY, ['NbIcon'], scriptSetup.lang ?? 'js');
