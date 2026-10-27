@@ -118,21 +118,54 @@ export function useFlip(container: () => Element | null | undefined, enabled: ()
 }
 
 /**
- * `<Transition>` hooks that animate height (and opacity) in and out, for content
- * that appears inside a layout, such as a field error. No hooks at all below
- * `minLevel`, so the element appears instantly as before.
+ * Keyframes for collapsing an element to nothing and back. Height alone is not
+ * enough: padding, borders and margins would stay full size, so the element
+ * would appear at padding height on the first frame and the space around it
+ * would vanish on the last. `open` is read from the element as it renders now.
  */
-export function heightTransition(level: MotionLevel, minLevel: MotionLevel = 'smooth') {
+export function collapseFrames(el: HTMLElement, extra: { open?: Keyframe; closed?: Keyframe } = {}): { open: Keyframe; closed: Keyframe } {
+    const style = getComputedStyle(el);
+    const open: Keyframe = {
+        height: `${el.offsetHeight}px`,
+        paddingTop: style.paddingTop,
+        paddingBottom: style.paddingBottom,
+        borderTopWidth: style.borderTopWidth,
+        borderBottomWidth: style.borderBottomWidth,
+        marginTop: style.marginTop,
+        marginBottom: style.marginBottom,
+        opacity: 1,
+        overflow: 'hidden',
+        ...extra.open,
+    };
+    const closed: Keyframe = {
+        height: '0px',
+        paddingTop: '0px',
+        paddingBottom: '0px',
+        borderTopWidth: '0px',
+        borderBottomWidth: '0px',
+        marginTop: '0px',
+        marginBottom: '0px',
+        opacity: 0,
+        overflow: 'hidden',
+        ...extra.closed,
+    };
+    return { open, closed };
+}
+
+/**
+ * `<Transition>` hooks that collapse content in and out (height, the box around
+ * it and opacity), for content that appears inside a layout, such as a field
+ * error. No hooks at all below `minLevel`, so the element appears instantly.
+ * `drift` adds a small vertical slide from `smooth` up (e.g. `'-8px'`).
+ */
+export function heightTransition(level: MotionLevel, minLevel: MotionLevel = 'smooth', options: { drift?: string } = {}) {
     if (!levelAtLeast(level, minLevel)) return { css: false };
+    const drift = options.drift && levelAtLeast(level, 'smooth') ? options.drift : undefined;
     const run = (el: Element, done: () => void, entering: boolean) => {
         if (!canAnimate(el)) return done();
-        const height = `${el.scrollHeight}px`;
+        const { open, closed } = collapseFrames(el, drift ? { open: { transform: 'translateY(0)' }, closed: { transform: `translateY(${drift})` } } : {});
         const { duration, easing } = motionTiming(level, entering ? 'enter' : 'leave');
-        const frames = [
-            { height: '0px', opacity: 0, overflow: 'hidden' },
-            { height, opacity: 1, overflow: 'hidden' },
-        ];
-        const animation = el.animate(entering ? frames : frames.reverse(), { duration, easing });
+        const animation = el.animate(entering ? [closed, open] : [open, closed], { duration, easing });
         animation.onfinish = animation.oncancel = () => done();
     };
     return {

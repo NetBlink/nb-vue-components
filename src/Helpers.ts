@@ -133,6 +133,10 @@ function getInertiaPage(): Page | null {
     return inertiaPage;
 }
 
+/** Internal: the page/router when the app registered them, without the setup error. For code that has its own fallback. */
+export const peekInertiaPage = (): Page | null => inertiaPage;
+export const peekInertiaRouter = (): Router | null => inertiaRouter;
+
 export {
     getRoute,
     numberFormat,

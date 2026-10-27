@@ -19,7 +19,7 @@
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import Link from '../overrides/InertiaLink';
-import { getInertiaPage } from '../Helpers';
+import { peekInertiaPage } from '../Helpers';
 import { levelAtLeast, type MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
@@ -87,7 +87,7 @@ const path = (href: string) => {
 
 const currentPath = computed(() => {
     if (props.items.some((item) => item.active !== undefined)) return '';
-    const url = getInertiaPage()?.url ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+    const url = peekInertiaPage()?.url ?? (typeof window !== 'undefined' ? window.location.pathname : '');
     return path(url);
 });
 

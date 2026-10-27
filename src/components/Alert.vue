@@ -21,7 +21,7 @@ import NbIcon from '../icons/NbIcon.vue';
 import type { AlertTypes, NbParts, UiProp } from '../ui/parts';
 import type { MotionLevel } from '../ui/motion';
 import { useUi } from '../ui/useUi';
-import { motionTiming } from '../ui/flip';
+import { heightTransition } from '../ui/flip';
 
 defineOptions({ inheritAttrs: false });
 
@@ -127,97 +127,13 @@ const handleDismiss = () => {
     emit('dismiss');
 };
 
-/*
- * Height/opacity transition hooks.
- *
- * The ordering matters: the start state must be *committed* by the browser
- * before the end state is written, otherwise both land in one style recalc and
- * there is nothing to interpolate - the alert snaps instead of animating.
- * Reading `offsetHeight` forces that commit (`flush` below).
- *
- * Easing and durations mirror the --ease-emphasised / --duration-* theme
- * tokens so alerts move like the rest of the system.
- */
-/*
- * The motion level picks the timing (motionTiming reads the theme tokens:
- * 400ms in / 200ms out at `smooth` with the defaults). `simple` drops the drift, `off` skips the
- * transition altogether.
- */
-const hidden = () => ({ height: '0px', opacity: '0', transform: level.value === 'simple' ? 'none' : 'translateY(-8px)' });
-
-const flush = (el: HTMLElement) => el.offsetHeight;
-
-const applyTransition = (el: HTMLElement, kind: 'enter' | 'leave') => {
-    const { duration, easing } = motionTiming(level.value, kind);
-    el.style.transition = `height ${duration}ms ${easing}, opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`;
-    return duration;
-};
-
-const onBeforeEnter = (el: Element) => {
-    if (level.value === 'off') return;
-    Object.assign((el as HTMLElement).style, hidden());
-};
-
-const onEnter = (el: Element, done: () => void) => {
-    if (level.value === 'off') return done();
-    const element = el as HTMLElement;
-    const height = element.scrollHeight;
-
-    flush(element);
-    const ms = applyTransition(element, 'enter');
-
-    element.style.height = `${height}px`;
-    element.style.opacity = '1';
-    element.style.transform = 'translateY(0)';
-
-    setTimeout(done, ms);
-};
-
-const onAfterEnter = (el: Element) => {
-    const element = el as HTMLElement;
-    // Drop the transition first so switching to `auto` is not itself animated.
-    element.style.transition = '';
-    element.style.height = 'auto';
-};
-
-const onBeforeLeave = (el: Element) => {
-    const element = el as HTMLElement;
-    element.style.height = `${element.scrollHeight}px`;
-};
-
-const onLeave = (el: Element, done: () => void) => {
-    if (level.value === 'off') return done();
-    const element = el as HTMLElement;
-
-    flush(element);
-    const ms = applyTransition(element, 'leave');
-
-    Object.assign(element.style, hidden());
-
-    setTimeout(done, ms);
-};
-
-const onAfterLeave = (el: Element) => {
-    const element = el as HTMLElement;
-    element.style.height = '';
-    element.style.opacity = '';
-    element.style.transform = '';
-    element.style.transition = '';
-};
+// Height, the box around it and opacity collapse together (`simple` and up), with a small drift from `smooth`.
+const transition = computed(() => heightTransition(level.value, 'simple', { drift: '-8px' }));
 </script>
 
 <template>
-    <Transition
-        name="alert"
-        @before-enter="onBeforeEnter"
-        @enter="onEnter"
-        @after-enter="onAfterEnter"
-        @before-leave="onBeforeLeave"
-        @leave="onLeave"
-        @after-leave="onAfterLeave"
-        :css="false"
-    >
-        <div v-if="show" v-bind="attrs()" :class="cls('root', alertClasses)" role="alert" style="overflow: hidden">
+    <Transition v-bind="transition">
+        <div v-if="show" v-bind="attrs()" :class="cls('root', alertClasses)" role="alert">
             <div class="flex">
                 <!-- Icon -->
                 <div class="flex-shrink-0">

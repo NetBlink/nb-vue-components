@@ -115,14 +115,14 @@ const vertical = computed(() => props.orientation === 'vertical');
                 />
                 <template v-if="!vertical">
                     <span :class="cls('label', 'mt-2 text-xs font-medium', states[index] === 'upcoming' ? 'text-gray-500 dark:text-gray-400' : 'text-gray-700 dark:text-gray-300')">
-                        {{ step.label }}
+                        {{ step.label }}<span v-if="states[index] === 'complete'" class="sr-only"> (completed)</span>
                     </span>
                     <span v-if="step.description" :class="cls('description', 'hidden text-xs text-gray-500 sm:block dark:text-gray-400')">{{ step.description }}</span>
                 </template>
             </div>
             <div v-if="vertical" :class="index < steps.length - 1 ? 'pb-6' : ''">
                 <p :class="cls('label', 'pt-1 text-sm font-semibold', states[index] === 'upcoming' ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-gray-100')">
-                    {{ step.label }}
+                    {{ step.label }}<span v-if="states[index] === 'complete'" class="sr-only"> (completed)</span>
                 </p>
                 <p v-if="step.description" :class="cls('description', 'mt-0.5 text-xs text-gray-500 dark:text-gray-400')">{{ step.description }}</p>
             </div>

@@ -18,7 +18,7 @@
  * @motion smooth - border and shadow fade on hover
  * @motion fancy - interactive cards also lift slightly on hover
  */
-import { computed, useSlots } from 'vue';
+import { computed, getCurrentInstance, useSlots } from 'vue';
 import Link from '../overrides/InertiaLink';
 import type { MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
@@ -94,6 +94,9 @@ const onClick = (event: MouseEvent) => {
     if (props.clickable) emit('click', event);
 };
 
+// A clickable card with a bound `selected` is a toggle button in both states, not only when selected.
+const selectedBound = 'selected' in (getCurrentInstance()?.vnode.props ?? {});
+
 const onKeydown = (event: KeyboardEvent) => {
     if (!props.clickable || (event.key !== 'Enter' && event.key !== ' ')) return;
     // Keys pressed in a child (an action button, an input) belong to that child.
@@ -111,7 +114,7 @@ const onKeydown = (event: KeyboardEvent) => {
         :class="rootClass"
         :role="clickable && !href ? 'button' : undefined"
         :tabindex="clickable && !href ? 0 : undefined"
-        :aria-pressed="clickable && !href && selected ? true : undefined"
+        :aria-pressed="clickable && !href && selectedBound ? (selected ? 'true' : 'false') : undefined"
         :aria-current="href && selected ? 'true' : undefined"
         @click="onClick"
         @keydown="onKeydown"

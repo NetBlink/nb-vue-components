@@ -154,7 +154,9 @@ const themeClasses = computed(() => {
                 </div>
                 <StatTrend v-if="trend" :trend="trend" :class="cls('trend', 'mt-1')" />
             </div>
-            <IconCircle v-if="icon" :icon="icon" :variant="iconVariant" :class="cls('chip')" />
+            <slot name="icon">
+                <IconCircle v-if="icon" :icon="icon" :variant="iconVariant" :class="cls('chip')" />
+            </slot>
         </div>
         <div v-else :class="cls('value', 'relative overflow-clip px-6 py-4')">
             <div class="absolute inset-0 isolate z-0 size-full">

@@ -1569,8 +1569,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "the dot appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the dot appears instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the colour fades"
+            },
+            {
+                "level": "fancy",
+                "description": "the dot pops on a spring"
             }
         ]
     },

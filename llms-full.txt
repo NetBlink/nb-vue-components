@@ -1552,6 +1552,7 @@ One radio option with its label. Render several sharing the same `name` (or the 
 | `label` | `string` | `undefined` | Label text for the radio button |
 | `field` | `string` | `undefined` | Form object containing field values and errors */ form?: { [key: string]: any; errors?: { [key: string]: string }; }; /** Field name for form binding |
 | `ui` | `UiProp<NbParts['RadioButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -1561,7 +1562,7 @@ One radio option with its label. Render several sharing the same `name` (or the 
 | `input` | the radio `<input>` |
 | `label` | the `<label>` |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: the dot appears instantly; `simple`: the dot appears instantly; `smooth`: the colour fades; `fancy`: the dot pops on a spring.
 
 ### ResponsiveNavLink
 

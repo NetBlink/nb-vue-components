@@ -8,8 +8,13 @@
  * @part root - the row wrapper
  * @part input - the radio `<input>`
  * @part label - the `<label>`
+ * @motion off - the dot appears instantly
+ * @motion simple - the dot appears instantly
+ * @motion smooth - the colour fades
+ * @motion fancy - the dot pops on a spring
  */
 import { computed } from 'vue';
+import { levelAtLeast, type MotionLevel } from '../../ui/motion';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
 
@@ -42,6 +47,8 @@ export interface RadioButtonProps {
     field?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['RadioButton']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const emit = defineEmits<RadioButtonEmits>();
@@ -56,7 +63,7 @@ const props = withDefaults(defineProps<RadioButtonProps>(), {
     field: undefined,
 });
 
-const { cls, attrs } = useUi('RadioButton', props);
+const { cls, attrs, level } = useUi('RadioButton', props);
 
 /**
  * Handle radio button value change
@@ -95,7 +102,8 @@ const radioId = computed(() => {
             :class="
                 cls(
                     'input',
-                    'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 h-4 w-4 border-gray-300 focus:ring-2 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800'
+                    'text-primary-600 focus:ring-primary-500 dark:checked:bg-primary-500 h-4 w-4 border-gray-300 focus:ring-2 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-800',
+                    { 'transition-colors duration-150': levelAtLeast(level, 'smooth'), 'checked:animate-check-pop': level === 'fancy' }
                 )
             "
         />
