@@ -241,7 +241,11 @@ async function refreshHeadings(): Promise<void> {
         if (/\b(props|parameters)\b/i.test(text)) return;
 
         let id = el.id;
-        if (!id) {
+        // A section already carrying the slug is the anchor; giving the heading the same id would duplicate it.
+        const ownSection = !id && el.closest(`section[id="${slugify(text) || 'section'}"]`);
+        if (ownSection) {
+            id = ownSection.id;
+        } else if (!id) {
             const base = slugify(text) || 'section';
             const n = (seen.get(base) || 0) + 1;
             seen.set(base, n);

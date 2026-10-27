@@ -8,7 +8,8 @@ const step = () => (value.value = value.value >= 100 ? 0 : Math.min(100, value.v
 
 const code = [
     '<Progress :value="35" label="Profile completeness" show-value />',
-    '<Progress :value="80" theme="success" size="sm" />',
+    '<!-- no visible label: name it for screen readers -->',
+    '<Progress :value="80" theme="success" size="sm" aria-label="Storage used" />',
     '<Progress indeterminate label="Importing contacts" />',
 ];
 
@@ -33,8 +34,8 @@ const props = [
             </p>
             <div class="mb-6 max-w-md space-y-5">
                 <Progress :value="value" label="Profile completeness" show-value />
-                <Progress :value="80" theme="success" size="sm" />
-                <Progress :value="45" theme="warning" size="lg" />
+                <Progress :value="80" theme="success" size="sm" aria-label="Storage used" />
+                <Progress :value="45" theme="warning" size="lg" aria-label="Monthly quota" />
                 <Progress indeterminate label="Importing contacts" />
                 <SecondaryButton size="sm" @click="step">Advance</SecondaryButton>
             </div>

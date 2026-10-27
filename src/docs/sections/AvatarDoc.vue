@@ -43,7 +43,8 @@ const groupProps = [
                 <Avatar name="Tom Becker" status="online" />
                 <Avatar name="Aisha Khan" status="busy" />
                 <Avatar name="Jonas Weber" status="away" square />
-                <Avatar src="/missing-picture.jpg" name="Broken Picture" status="offline" />
+                <!-- an undecodable image: shows the fallback without a network 404 -->
+                <Avatar src="data:image/png;base64,AA==" name="Broken Picture" status="offline" />
             </div>
 
             <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Group</div>
