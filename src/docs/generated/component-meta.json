@@ -872,6 +872,45 @@
             }
         ]
     },
+    "FilterBar": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the row"
+            },
+            {
+                "name": "search",
+                "description": "the search `Input`"
+            },
+            {
+                "name": "filters",
+                "description": "the wrapper around your controls"
+            },
+            {
+                "name": "clear",
+                "description": "the clear button"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the clear button appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the clear button fades quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "the clear button fades in and out"
+            },
+            {
+                "level": "fancy",
+                "description": "the clear button scales in on a spring"
+            }
+        ]
+    },
     "GravatarImg": {
         "parts": [
             {

@@ -17,3 +17,6 @@ export * from './useDarkMode';
 // Notifications
 export * from './useToast';
 export { confirm, useConfirm, type ConfirmOptions } from './useConfirm';
+
+// Filters in the URL
+export { useQueryFilters, type QueryFiltersOptions, type QueryFilters } from './useQueryFilters';

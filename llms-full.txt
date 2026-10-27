@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (95 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (96 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -954,6 +954,32 @@ Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with clic
 | `error` | the `InputError` |
 
 **Motion:** `off`: files appear and leave the list instantly; `simple`: files fade in and out; `smooth`: files slide in and the list closes up smoothly; `fancy`: the same, springier.
+
+### FilterBar
+
+a search box, your filter controls (default slot) and a "Clear filters" action that shows while anything is filtered. Pair it with `useQueryFilters()` so the filters live in the URL.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `search` | `string` | - | Search text (`v-model:search`); omit to hide the search box |
+| `placeholder` | `string` | - | Placeholder of the search box |
+| `filtered` | `boolean` | - | Show "Clear filters" (pass `isFiltered` from useQueryFilters) |
+| `clearLabel` | `string` | - | Label of the clear button |
+| `ui` | `UiProp<NbParts['FilterBar']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the row |
+| `search` | the search `Input` |
+| `filters` | the wrapper around your controls |
+| `clear` | the clear button |
+
+**Motion:** `off`: the clear button appears instantly; `simple`: the clear button fades quickly; `smooth`: the clear button fades in and out; `fancy`: the clear button scales in on a spring.
 
 ### GravatarImg
 

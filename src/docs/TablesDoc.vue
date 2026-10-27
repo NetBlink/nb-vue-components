@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FilterBarDoc from './sections/FilterBarDoc.vue';
 import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref, computed } from 'vue';
 import {
@@ -905,6 +906,8 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
         </section>
 
         <!-- Using Composables -->
+        <FilterBarDoc />
+
         <section id="pagination">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Pagination</h3>
             <DocDemoCard>
@@ -1244,6 +1247,6 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </DocDemoCard>
         </section>
 
-        <DocComponentMeta :names="['Table', 'Thead', 'Tbody', 'Th', 'Td', 'Tr', 'TrPlaceholder', 'TrCollapse', 'TrCollapseHandler', 'TdCollapseHandler', 'EnhancedTable', 'TableItemCard', 'Pagination']" />
+        <DocComponentMeta :names="['Table', 'Thead', 'Tbody', 'Th', 'Td', 'Tr', 'TrPlaceholder', 'TrCollapse', 'TrCollapseHandler', 'TdCollapseHandler', 'EnhancedTable', 'TableItemCard', 'Pagination', 'FilterBar']" />
     </div>
 </template>
