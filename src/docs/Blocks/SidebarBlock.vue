@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineComponent, h, ref, type PropType } from 'vue';
-import { NavLink, NavCollapse, CodePreview, Input } from '../../index';
+import { NavLink, NavCollapse, CodePreview, Input, IconButton, EmptyState } from '../../index';
 import { NbIcon } from '../../icons';
 import {
     faGauge,
@@ -268,7 +268,7 @@ const sidenavSnippet = [
     '<script setup lang="ts">',
     "import { computed, ref } from 'vue';",
     "import { usePage } from '@inertiajs/vue3';",
-    "import { Input } from '@netblink/vue-components';",
+    "import { Input, IconButton, EmptyState } from '@netblink/vue-components';",
     "import { NbIcon } from '@netblink/vue-components/icons';",
     "import { faBan, faGauge, faTimes } from '@fortawesome/free-solid-svg-icons';",
     "import RecursiveLink, { type LinkItem } from './RecursiveLink.vue';",
@@ -311,9 +311,7 @@ const sidenavSnippet = [
     '    <aside class="h-screen w-64 overflow-y-auto border-r border-gray-200 bg-white px-3 py-4 dark:border-gray-700 dark:bg-gray-800">',
     '        <div class="relative mb-4">',
     '            <Input v-model="term" field="nav-search" noLabel placeholder="Search" />',
-    '            <button v-if="term" type="button" class="absolute top-3 right-3 text-gray-400" @click="term = \'\'">',
-    '                <NbIcon :name="faTimes" class="h-4 w-4" />',
-    '            </button>',
+    '            <IconButton v-if="term" :icon="faTimes" label="Clear search" size="xs" class="absolute top-2 right-2" @click="term = \'\'" />',
     '        </div>',
     '',
     '        <ul class="m-0 list-none space-y-2 p-0">',
@@ -322,8 +320,8 @@ const sidenavSnippet = [
     '                <RecursiveLink :link="link" :term="term" />',
     '            </template>',
     '',
-    '            <li v-if="!filteredLinks.length" class="flex cursor-pointer items-center gap-2 p-2 text-sm text-gray-500" @click="term = \'\'">',
-    '                <NbIcon :name="faBan" class="h-4 w-4" /> No items found',
+    '            <li v-if="!filteredLinks.length" class="cursor-pointer list-none" @click="term = \'\'">',
+    '                <EmptyState compact :icon="faBan" title="No items found" />',
     '            </li>',
     '        </ul>',
     '    </aside>',
@@ -436,14 +434,7 @@ const sidenavSnippet = [
                 >
                     <div class="relative mb-4">
                         <Input v-model="term" field="nav-search" noLabel placeholder="Search" />
-                        <button
-                            v-if="term"
-                            type="button"
-                            class="absolute top-3 right-3 cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                            @click="term = ''"
-                        >
-                            <NbIcon :name="faTimes" class="h-4 w-4" />
-                        </button>
+                        <IconButton v-if="term" :icon="faTimes" label="Clear search" size="xs" class="absolute top-2 right-2" @click="term = ''" />
                     </div>
 
                     <ul class="m-0 list-none space-y-2 p-0">
@@ -454,13 +445,8 @@ const sidenavSnippet = [
                             <RecursiveLink :link="link" />
                         </template>
 
-                        <li
-                            v-if="!filteredLinks.length"
-                            class="m-0 flex cursor-pointer list-none items-center gap-2 p-2 text-sm text-gray-500 dark:text-gray-400"
-                            @click="term = ''"
-                        >
-                            <NbIcon :name="faBan" class="h-4 w-4" />
-                            No items found
+                        <li v-if="!filteredLinks.length" class="m-0 cursor-pointer list-none" @click="term = ''">
+                            <EmptyState compact :icon="faBan" title="No items found" />
                         </li>
                     </ul>
                 </aside>

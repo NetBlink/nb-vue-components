@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import { Input, Select, Textarea, Alert, NewModal, PrimaryButton, SecondaryButton, DangerButton, CodePreview } from '../../index';
+import { Input, Select, Textarea, Alert, NewModal, PrimaryButton, SecondaryButton, DangerButton, Badge, Card, PageHeader, DescriptionList, DescriptionListItem, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -75,37 +75,28 @@ function save() {
 }
 
 const readSnippet = [
-    '<div class="flex flex-wrap items-start justify-between gap-4 border-b border-gray-200 pb-4 dark:border-gray-700">',
-    '    <div>',
-    '        <h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100">{{ customer.name }}</h1>',
-    '        <span',
-    '            class="mt-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium"',
-    '            :class="customer.status === \'active\' ? \'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200\' : \'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200\'"',
-    '        >',
-    '            {{ customer.status }}',
-    '        </span>',
-    '    </div>',
-    '    <div class="flex gap-2">',
+    '<PageHeader :title="customer.name" class="border-b border-gray-200 pb-4 dark:border-gray-700">',
+    '    <template #meta>',
+    "        <Badge :variant=\"customer.status === 'active' ? 'success' : 'warning'\" :label=\"customer.status === 'active' ? 'Active' : 'Suspended'\" />",
+    '    </template>',
+    '    <template #actions>',
     '        <PrimaryButton type="button" size="sm" @click="editing = true">Edit</PrimaryButton>',
     '        <DangerButton type="button" size="sm" @click="router.delete(`/customers/${customer.id}`)">Delete</DangerButton>',
-    '    </div>',
-    '</div>',
+    '    </template>',
+    '</PageHeader>',
     '',
     '<Alert type="success" class="mt-4" dismissible v-model="saved">Customer details were updated.</Alert>',
     '',
-    '<dl class="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">',
-    '    <div v-for="field in fields" :key="field.key">',
-    '        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ field.label }}</dt>',
-    '        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ customer[field.key] }}</dd>',
-    '        <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">{{ field.description }}</p>',
-    '    </div>',
-    '',
-    '    <div class="sm:col-span-2">',
-    '        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Internal notes</dt>',
-    '        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ customer.notes }}</dd>',
-    '        <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">Only visible to your team, never shown to the customer.</p>',
-    '    </div>',
-    '</dl>',
+    '<DescriptionList class="mt-6">',
+    '    <DescriptionListItem v-for="field in fields" :key="field.key" :label="field.label">',
+    '        <div>{{ customer[field.key] }}</div>',
+    '        <p class="text-xs text-gray-500 dark:text-gray-500">{{ field.description }}</p>',
+    '    </DescriptionListItem>',
+    '    <DescriptionListItem label="Internal notes">',
+    '        <div>{{ customer.notes }}</div>',
+    '        <p class="text-xs text-gray-500 dark:text-gray-500">Only visible to your team, never shown to the customer.</p>',
+    '    </DescriptionListItem>',
+    '</DescriptionList>',
 ];
 
 const editSnippet = [
@@ -163,59 +154,46 @@ const editSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a two-column description list where every
+                A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a DescriptionList where every
                 field carries a help line; edit mode turns the same fields into Input, Select and Textarea with the same help lines as hints. Cancelling with
                 unsaved changes asks for confirmation in a NewModal.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto w-full max-w-3xl rounded-lg border border-gray-200 bg-white p-4 sm:p-6 dark:border-gray-700 dark:bg-gray-800">
-                    <!-- Page header -->
-                    <div class="flex flex-wrap items-start justify-between gap-4 border-b border-gray-200 pb-4 dark:border-gray-700">
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">{{ record.name }}</h2>
-                            <span
-                                class="mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
-                                :class="
-                                    record.status === 'active'
-                                        ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
-                                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200'
-                                "
-                            >
-                                {{ record.status === 'active' ? 'Active' : 'Suspended' }}
-                            </span>
-                        </div>
-
-                        <div class="flex gap-2" v-if="mode === 'read'">
-                            <PrimaryButton type="button" size="sm" @click="startEdit">
-                                <NbIcon :name="faPen" class="mr-2 h-3 w-3" />
-                                Edit
-                            </PrimaryButton>
-                            <DangerButton type="button" size="sm" @click.prevent>
-                                <NbIcon :name="faTrash" class="mr-2 h-3 w-3" />
-                                Delete
-                            </DangerButton>
-                        </div>
-                        <span v-else class="rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">Editing</span>
-                    </div>
+                <Card class="mx-auto w-full max-w-3xl">
+                    <PageHeader :title="record.name" :ui="{ title: 'text-xl' }" class="border-b border-gray-200 pb-4 dark:border-gray-700">
+                        <template #meta>
+                            <Badge :variant="record.status === 'active' ? 'success' : 'warning'" :label="record.status === 'active' ? 'Active' : 'Suspended'" />
+                        </template>
+                        <template #actions>
+                            <template v-if="mode === 'read'">
+                                <PrimaryButton type="button" size="sm" @click="startEdit">
+                                    <NbIcon :name="faPen" class="mr-2 h-3 w-3" />
+                                    Edit
+                                </PrimaryButton>
+                                <DangerButton type="button" size="sm" @click.prevent>
+                                    <NbIcon :name="faTrash" class="mr-2 h-3 w-3" />
+                                    Delete
+                                </DangerButton>
+                            </template>
+                            <Badge v-else label="Editing" />
+                        </template>
+                    </PageHeader>
 
                     <!-- Read mode -->
                     <template v-if="mode === 'read'">
                         <Alert type="success" class="mt-4" dismissible v-model="saved">Customer details were updated.</Alert>
 
-                        <dl class="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
-                            <div v-for="field in fields" :key="field.key">
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ field.label }}</dt>
-                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ displayValue(field.key) }}</dd>
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">{{ field.description }}</p>
-                            </div>
-
-                            <div class="sm:col-span-2">
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Internal notes</dt>
-                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ record.notes }}</dd>
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">Only visible to your team, never shown to the customer.</p>
-                            </div>
-                        </dl>
+                        <DescriptionList class="mt-6">
+                            <DescriptionListItem v-for="field in fields" :key="field.key" :label="field.label">
+                                <div>{{ displayValue(field.key) }}</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-500">{{ field.description }}</p>
+                            </DescriptionListItem>
+                            <DescriptionListItem label="Internal notes">
+                                <div>{{ record.notes }}</div>
+                                <p class="text-xs text-gray-500 dark:text-gray-500">Only visible to your team, never shown to the customer.</p>
+                            </DescriptionListItem>
+                        </DescriptionList>
                     </template>
 
                     <!-- Edit mode -->
@@ -255,7 +233,7 @@ const editSnippet = [
                             </PrimaryButton>
                         </div>
                     </form>
-                </div>
+                </Card>
             </div>
 
             <NewModal v-model="confirmDiscard" title="Discard changes?" description="You have unsaved edits on this customer. Closing the editor will lose them.">

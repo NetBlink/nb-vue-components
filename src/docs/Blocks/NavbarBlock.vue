@@ -13,7 +13,7 @@ import {
     faGear,
     faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, ResponsiveNavLink, NavCollapse, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, CodePreview } from '../../index';
+import { NavLink, ResponsiveNavLink, NavCollapse, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, IconButton, NbTransition, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const navItems = [
@@ -99,11 +99,10 @@ const snippet = [
     '    </Dropdown>',
     '    </div>',
     '',
-    '    <button class="sm:hidden" @click="mobileOpen = !mobileOpen">',
-    '      <NbIcon :name="mobileOpen ? faXmark : faBars" class="h-5 w-5" />',
-    '    </button>',
+    '    <IconButton class="sm:hidden" :icon="mobileOpen ? faXmark : faBars" label="Toggle navigation" :aria-expanded="mobileOpen" @click="mobileOpen = !mobileOpen" />',
     '  </div>',
     '',
+    '  <NbTransition preset="collapse">',
     '  <div v-show="mobileOpen" class="space-y-1 border-t border-gray-200 py-2 sm:hidden dark:border-gray-700">',
     '    <!-- NavCollapse renders an <li>, so the list needs a <ul> around it -->',
     '    <ul class="m-0 list-none space-y-1 p-0">',
@@ -130,6 +129,7 @@ const snippet = [
     '    <ResponsiveNavLink href="/settings">Settings</ResponsiveNavLink>',
     '    <ResponsiveNavLink href="/logout" method="post" as="button">Log out</ResponsiveNavLink>',
     '  </div>',
+    '  </NbTransition>',
     '</nav>',
 ];
 </script>
@@ -210,17 +210,15 @@ const snippet = [
                 <nav class="w-full max-w-[22rem] rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
                     <div class="flex h-14 items-center justify-between px-4">
                         <span class="rounded bg-primary-600 px-2 py-1 text-sm font-bold text-white">NB</span>
-                        <button
-                            type="button"
-                            class="focusable cursor-pointer rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                        <IconButton
+                            :icon="mobileOpen ? faXmark : faBars"
+                            label="Toggle navigation"
                             :aria-expanded="mobileOpen"
-                            aria-label="Toggle navigation"
                             @click="mobileOpen = !mobileOpen"
-                        >
-                            <NbIcon :name="mobileOpen ? faXmark : faBars" class="h-5 w-5" />
-                        </button>
+                        />
                     </div>
 
+                    <NbTransition preset="collapse">
                     <div v-show="mobileOpen" class="max-h-72 space-y-1 overflow-y-auto border-t border-gray-200 py-2 dark:border-gray-700">
                         <ul class="m-0 list-none space-y-1 p-0">
                             <template v-for="item in navItems" :key="item.name">
@@ -250,6 +248,7 @@ const snippet = [
                         <ResponsiveNavLink href="#">Settings</ResponsiveNavLink>
                         <ResponsiveNavLink href="#">Log out</ResponsiveNavLink>
                     </div>
+                    </NbTransition>
                 </nav>
             </div>
 

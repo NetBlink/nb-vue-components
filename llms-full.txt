@@ -2597,7 +2597,7 @@ A horizontal application header driven by a single navItems array: items with ch
 
 Source: `src/docs/Blocks/NavbarBlock.vue`
 
-Uses: `Dropdown`, `NbIcon`, `DropdownLink`, `NavLink`, `GravatarImg`, `DropdownSeparator`, `NavCollapse`, `ResponsiveNavLink`, `CodePreview`
+Uses: `Dropdown`, `NbIcon`, `DropdownLink`, `NavLink`, `GravatarImg`, `DropdownSeparator`, `IconButton`, `NbTransition`, `NavCollapse`, `ResponsiveNavLink`, `CodePreview`
 
 ### Auth Pages
 
@@ -2637,7 +2637,15 @@ The canonical list screen: header action, Stats tiles doubling as filters, a sea
 
 Source: `src/docs/Blocks/IndexPageBlock.vue`
 
-Uses: `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `PrimaryButton`, `Button`, `NewModal`, `Pagination`, `CodePreview`
+Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Badge`, `IconButton`, `NewModal`, `PrimaryButton`, `Pagination`, `CodePreview`
+
+### Dashboard Overview
+
+A dashboard landing composition: a KPI grid of DataTiles with icon chips and signed trends, a bar chart Card, and an activity feed panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
+
+Source: `src/docs/Blocks/DashboardBlock.vue`
+
+Uses: `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `Switch`, `CodePreview`
 
 ### Feeds & Timelines
 
@@ -2669,7 +2677,7 @@ A horizontal navbar whose items open wide multi-column panels: two columns of ic
 
 Source: `src/docs/Blocks/MegaMenuBlock.vue`
 
-Uses: `NbIcon`, `NavLink`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `NbIcon`, `NavLink`, `NbTransition`, `IconCircle`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
 
 ### Modal Recipes
 
@@ -2703,21 +2711,13 @@ Source: `src/docs/Blocks/OrderableBlock.vue`
 
 Uses: `NbIcon`, `Button`, `Input`, `CodePreview`
 
-### Orders this week
-
-A dashboard landing composition: a KPI stat-card grid with signed deltas and tinted icon tiles, a bar chart card, and an activity feed panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this package. Flip the Loading switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
-
-Source: `src/docs/Blocks/DashboardBlock.vue`
-
-Uses: `NbIcon`, `Spinner`, `SecondaryButton`, `Switch`, `CodePreview`
-
 ### Page Shell
 
-The page skeleton every consumer app rebuilds by hand: a header bar (growing breadcrumb + right-aligned action buttons), a bordered content container, and a stack of Section components.
+The page skeleton every app needs: a PageHeader bar (breadcrumbs plus right-aligned actions), a Card for the content, and a stack of Section components.
 
 Source: `src/docs/Blocks/PageShellBlock.vue`
 
-Uses: `SecondaryButton`, `NbIcon`, `PrimaryButton`, `Section`, `CodePreview`
+Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `PrimaryButton`, `Card`, `Section`, `CodePreview`
 
 ### Product Page
 
@@ -2737,11 +2737,11 @@ Uses: `Section`, `Input`, `Textarea`, `PrimaryButton`, `Checkbox`, `DangerButton
 
 ### Show & Edit Page
 
-A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a two-column description list where every field carries a help line; edit mode turns the same fields into Input, Select and Textarea with the same help lines as hints. Cancelling with unsaved changes asks for confirmation in a NewModal.
+A CRUD resource page that swaps the whole page between a read view and an edit view. Read mode is a DescriptionList where every field carries a help line; edit mode turns the same fields into Input, Select and Textarea with the same help lines as hints. Cancelling with unsaved changes asks for confirmation in a NewModal.
 
 Source: `src/docs/Blocks/ShowEditBlock.vue`
 
-Uses: `PrimaryButton`, `DangerButton`, `Alert`, `Input`, `Select`, `Textarea`, `SecondaryButton`, `NewModal`, `NbIcon`, `CodePreview`
+Uses: `PageHeader`, `Badge`, `PrimaryButton`, `DangerButton`, `Alert`, `DescriptionList`, `DescriptionListItem`, `Input`, `Select`, `Textarea`, `SecondaryButton`, `NewModal`, `Card`, `NbIcon`, `CodePreview`
 
 ### Sidebar Navigation
 
@@ -2749,7 +2749,7 @@ A vertical app sidebar built from NavLink (with #icon slots) and NavCollapse gro
 
 Source: `src/docs/Blocks/SidebarBlock.vue`
 
-Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `CodePreview`
+Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `CodePreview`
 
 ### Skeletons & Loading
 
@@ -2761,8 +2761,8 @@ Uses: `Switch`, `SubmitButton`, `CodePreview`
 
 ### Tabbed Detail Page
 
-A record-detail page: title row with a status pill and a destructive action, then a Section holding Tabs/Tab panes - an inline-edit DescriptionList bound to useForm() whose Save button only appears while the form is dirty, plus a Logs timeline.
+A record-detail page: a PageHeader with a status Badge and a destructive action, then a Section holding Tabs/Tab panes - an inline-edit DescriptionList bound to useForm() whose Save button only appears while the form is dirty, plus a Logs timeline.
 
 Source: `src/docs/Blocks/TabbedDetailBlock.vue`
 
-Uses: `DangerButton`, `NbIcon`, `Section`, `Tabs`, `Tab`, `SecondaryButton`, `DescriptionList`, `DescriptionListItem`, `Input`, `Logs`, `CodePreview`
+Uses: `PageHeader`, `Badge`, `DangerButton`, `NbIcon`, `Section`, `Tabs`, `Tab`, `SecondaryButton`, `DescriptionList`, `DescriptionListItem`, `Input`, `Logs`, `NbTransition`, `CodePreview`

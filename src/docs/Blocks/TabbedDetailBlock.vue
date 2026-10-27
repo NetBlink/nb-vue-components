@@ -8,7 +8,7 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { faBan, faCirclePlay, faPenToSquare, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../../icons';
-import { Section, Tabs, Tab, DescriptionList, DescriptionListItem, Input, Logs, SecondaryButton, DangerButton, CodePreview } from '../../index';
+import { Section, Tabs, Tab, DescriptionList, DescriptionListItem, Input, Logs, SecondaryButton, DangerButton, PageHeader, Badge, NbTransition, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const tab = ref('info');
@@ -57,18 +57,15 @@ const logs = {
 };
 
 const snippet = [
-    '<div class="mb-4 flex flex-wrap items-center justify-between gap-3">',
-    '  <div class="flex items-center gap-3">',
-    '    <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ device.name }}</h2>',
-    '    <span class="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/40 dark:text-green-300">',
-    '      {{ device.status }}',
-    '    </span>',
-    '  </div>',
-    '  <DangerButton type="button" size="sm" @click="suspend">',
-    '    <NbIcon :name="faBan" class="mr-2 h-4 w-4" />',
-    '    Suspend',
-    '  </DangerButton>',
-    '</div>',
+    '<PageHeader :title="device.name" class="mb-4">',
+    '  <template #meta><Badge dot :status="device.status" /></template>',
+    '  <template #actions>',
+    '    <DangerButton type="button" size="sm" @click="suspend">',
+    '      <NbIcon :name="faBan" class="mr-2 h-4 w-4" />',
+    '      Suspend',
+    '    </DangerButton>',
+    '  </template>',
+    '</PageHeader>',
     '',
     '<Section>',
     '  <Tabs',
@@ -112,7 +109,7 @@ const snippet = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tabbed Detail Page</h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A record-detail page: title row with a status pill and a destructive action, then a
+                A record-detail page: a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">PageHeader</code> with a status <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Badge</code> and a destructive action, then a
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Section</code> holding
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Tabs</code>/<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Tab</code> panes -
                 an inline-edit <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">DescriptionList</code> bound to
@@ -121,25 +118,17 @@ const snippet = [
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">{{ form.name }}</h2>
-                        <span
-                            class="rounded-full px-2.5 py-0.5 text-xs font-medium"
-                            :class="
-                                suspended
-                                    ? 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300'
-                                    : 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300'
-                            "
-                        >
-                            {{ suspended ? 'Suspended' : 'Online' }}
-                        </span>
-                    </div>
-                    <DangerButton type="button" size="sm" @click="suspended = !suspended">
-                        <NbIcon :name="suspended ? faRotate : faBan" class="mr-2 h-4 w-4" />
-                        {{ suspended ? 'Reactivate' : 'Suspend' }}
-                    </DangerButton>
-                </div>
+                <PageHeader :title="form.name" :ui="{ title: 'text-xl' }" class="mb-4">
+                    <template #meta>
+                        <Badge dot :variant="suspended ? 'danger' : 'success'" :label="suspended ? 'Suspended' : 'Online'" />
+                    </template>
+                    <template #actions>
+                        <DangerButton type="button" size="sm" @click="suspended = !suspended">
+                            <NbIcon :name="suspended ? faRotate : faBan" class="mr-2 h-4 w-4" />
+                            {{ suspended ? 'Reactivate' : 'Suspend' }}
+                        </DangerButton>
+                    </template>
+                </PageHeader>
 
                 <Section>
                     <Tabs
@@ -152,7 +141,7 @@ const snippet = [
                     >
                         <Tab value="info">
                             <div class="mb-2 flex h-9 items-center justify-end gap-3">
-                                <span v-if="saved" class="text-sm text-green-600 dark:text-green-400">Saved</span>
+                                <NbTransition><span v-if="saved" class="text-sm text-green-600 dark:text-green-400">Saved</span></NbTransition>
                                 <SecondaryButton v-if="form.isDirty" type="button" size="sm" @click="save">Save changes</SecondaryButton>
                             </div>
 

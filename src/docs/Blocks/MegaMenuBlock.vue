@@ -13,7 +13,7 @@ import {
     faTruckFast,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { NavLink, IconCircle, NbTransition, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Two mega panels, keyed by the bar item that opens them.
@@ -138,6 +138,7 @@ const snippet = [
     '    <NavLink href="/pricing" :active="route().current(\'pricing\')">Pricing</NavLink>',
     '  </div>',
     '',
+    '  <NbTransition preset="slide-down">',
     '  <div',
     '    v-if="openMenu"',
     '    class="absolute inset-x-0 top-full z-20 mt-2 grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-xl sm:grid-cols-2 sm:p-6 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-800"',
@@ -145,9 +146,7 @@ const snippet = [
     '    <div v-for="column in menus[openMenu].columns" :key="column.heading" class="space-y-1">',
     '      <p class="mb-3 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">{{ column.heading }}</p>',
     '      <a v-for="link in column.links" :key="link.href" :href="link.href" class="flex gap-3 rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-700/50">',
-    '        <span class="bg-primary-50 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">',
-    '          <NbIcon :name="link.icon" class="h-5 w-5" />',
-    '        </span>',
+    '        <IconCircle :icon="link.icon" class="shrink-0" />',
     '        <span>',
     '          <span class="block text-sm font-medium text-gray-800 dark:text-gray-100">{{ link.name }}</span>',
     '          <span class="block text-xs text-gray-500 dark:text-gray-400">{{ link.description }}</span>',
@@ -165,6 +164,7 @@ const snippet = [
     '      <SecondaryButton class="mt-auto self-start">Read more</SecondaryButton>',
     '    </div>',
     '  </div>',
+    '  </NbTransition>',
     '</nav>',
 ];
 </script>
@@ -209,6 +209,7 @@ const snippet = [
                         </span>
                     </div>
 
+                    <NbTransition preset="slide-down">
                     <div
                         v-if="activePanel"
                         class="absolute inset-x-0 top-full z-20 mt-2 grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-xl sm:grid-cols-2 sm:p-6 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-800"
@@ -225,11 +226,7 @@ const snippet = [
                                     class="flex gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"
                                     @click.prevent="pick(link.href)"
                                 >
-                                    <span
-                                        class="bg-primary-50 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-                                    >
-                                        <NbIcon :name="link.icon" class="h-5 w-5" />
-                                    </span>
+                                    <IconCircle :icon="link.icon" class="shrink-0" />
                                     <span>
                                         <span class="block text-sm font-medium text-gray-800 dark:text-gray-100">{{ link.name }}</span>
                                         <span class="block text-xs text-gray-500 dark:text-gray-400">{{ link.description }}</span>
@@ -250,6 +247,7 @@ const snippet = [
                             <SecondaryButton class="mt-auto self-start" @click="openMenu = null">Read more</SecondaryButton>
                         </div>
                     </div>
+                    </NbTransition>
                 </nav>
 
                 <div class="mt-4 flex flex-wrap items-center justify-between gap-2 px-1">

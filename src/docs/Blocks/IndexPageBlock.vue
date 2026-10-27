@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { NbIcon } from '../../icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
-    Button,
+    Badge,
     CodePreview,
+    IconButton,
     Input,
     NewModal,
+    PageHeader,
     Pagination,
     PrimaryButton,
     SecondaryButton,
@@ -76,13 +78,6 @@ const filterByStat = (name: string | null) => {
     status.value = !name || name === 'all' ? '' : name;
 };
 
-const statusClass = (s: UserRow['status']) =>
-    ({
-        active: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
-        pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300',
-        archived: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300',
-    })[s];
-
 const remove = (id: number) => {
     rows.value = rows.value.filter((r) => r.id !== id);
 };
@@ -123,12 +118,13 @@ const goToPage = (url: string) => {
 };
 
 const snippet = [
-    '<div class="mb-4 flex flex-wrap items-center justify-between gap-2">',
-    '  <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Users</h2>',
-    '  <SecondaryButton @click="showCreate = true">',
-    '    <NbIcon :name="faPlus" class="mr-2 h-3 w-3" /> Create New',
-    '  </SecondaryButton>',
-    '</div>',
+    '<PageHeader title="Users" class="mb-4">',
+    '  <template #actions>',
+    '    <SecondaryButton @click="showCreate = true">',
+    '      <NbIcon :name="faPlus" class="mr-2 h-3 w-3" /> Create New',
+    '    </SecondaryButton>',
+    '  </template>',
+    '</PageHeader>',
     '',
     '<Stats :stats="stats" statusName="status" @updateSearch="(s) => router.get(route(\'users.index\'), { status: s })" />',
     '',
@@ -159,17 +155,16 @@ const snippet = [
     '      </Td>',
     '      <Td label="Plan">{{ user.plan }}</Td>',
     '      <Td label="Status">',
-    '        <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium capitalize" :class="statusClass(user.status)">',
-    '          {{ user.status }}',
-    '        </span>',
+    '        <!-- active / pending / ... map to colours through the badge status map -->',
+    '        <Badge :status="user.status" />',
     '      </Td>',
     '      <Td label="Created" nowrap>',
     '        <span class="text-gray-500 dark:text-gray-400">{{ user.created_at }}</span>',
     '      </Td>',
     '      <Td>',
     '        <div class="flex justify-end gap-2">',
-    '          <PrimaryButton size="xs" @click="edit(user)">Edit</PrimaryButton>',
-    '          <Button theme="danger" size="xs" @click="destroy(user)">Delete</Button>',
+    '          <IconButton :icon="faPen" :label="`Edit ${user.name}`" size="sm" @click="edit(user)" />',
+    '          <IconButton :icon="faTrash" :label="`Delete ${user.name}`" theme="ghost-danger" size="sm" @click="destroy(user)" />',
     '        </div>',
     '      </Td>',
     '    </Tr>',
@@ -207,13 +202,14 @@ const snippet = [
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <!-- Header row -->
-                <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
-                    <h4 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Users</h4>
-                    <SecondaryButton @click="openCreate">
-                        <NbIcon :name="faPlus" class="mr-2 h-3 w-3" />
-                        Create New
-                    </SecondaryButton>
-                </div>
+                <PageHeader title="Users" class="mb-4">
+                    <template #actions>
+                        <SecondaryButton @click="openCreate">
+                            <NbIcon :name="faPlus" class="mr-2 h-3 w-3" />
+                            Create New
+                        </SecondaryButton>
+                    </template>
+                </PageHeader>
 
                 <!-- Stats strip: tiles filter the table -->
                 <Stats :stats="stats" @updateSearch="filterByStat" />
@@ -256,17 +252,15 @@ const snippet = [
                             </Td>
                             <Td label="Plan">{{ user.plan }}</Td>
                             <Td label="Status">
-                                <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium capitalize" :class="statusClass(user.status)">
-                                    {{ user.status }}
-                                </span>
+                                <Badge :status="user.status" />
                             </Td>
                             <Td label="Created" nowrap>
                                 <span class="text-gray-500 dark:text-gray-400">{{ user.created }}</span>
                             </Td>
                             <Td>
-                                <div class="flex justify-end gap-2">
-                                    <PrimaryButton type="button" size="xs">Edit</PrimaryButton>
-                                    <Button theme="danger" size="xs" @click="remove(user.id)">Delete</Button>
+                                <div class="flex justify-end gap-1">
+                                    <IconButton :icon="faPen" :label="`Edit ${user.name}`" size="sm" />
+                                    <IconButton :icon="faTrash" :label="`Delete ${user.name}`" theme="ghost-danger" size="sm" @click="remove(user.id)" />
                                 </div>
                             </Td>
                         </Tr>
