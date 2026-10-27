@@ -11,7 +11,7 @@
  * @part time - the time under a bubble
  * @part typing - the typing indicator
  * @motion off - messages appear instantly, the typing dots stand still
- * @motion simple - messages fade in quickly
+ * @motion simple - messages fade in quickly, the typing dots stand still
  * @motion smooth - messages slide in, the list scrolls smoothly
  * @motion fancy - the same on a spring
  */
@@ -131,7 +131,7 @@ onMounted(() => scrollDown(false));
                     v-for="dot in 3"
                     :key="dot"
                     class="size-1.5 rounded-full bg-gray-400 dark:bg-gray-300"
-                    :class="level !== 'off' && 'animate-typing-dot'"
+                    :class="levelAtLeast(level, 'smooth') && 'animate-typing-dot'"
                     :style="{ animationDelay: `${(dot - 1) * 0.15}s` }"
                 />
             </div>

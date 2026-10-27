@@ -118,6 +118,31 @@ export function useFlip(container: () => Element | null | undefined, enabled: ()
 }
 
 /**
+ * Spacing the parent puts around an element (a flex/grid `gap`, or the bottom margin
+ * `space-y-*` gives the sibling above a last child) stays while the element is at
+ * height 0 and vanishes the frame it is removed. A negative margin in the collapsed
+ * frame cancels it, so the neighbours glide instead of jumping at the end.
+ */
+function spacingPull(el: HTMLElement): Keyframe {
+    const parent = el.parentElement;
+    if (!parent) return {};
+    const style = getComputedStyle(parent);
+    const prev = el.previousElementSibling;
+    const next = el.nextElementSibling;
+    if (/flex|grid/.test(style.display)) {
+        const column = style.display.includes('grid') || style.flexDirection.startsWith('column');
+        const gap = column ? parseFloat(style.rowGap) || 0 : 0;
+        if (!gap || (!prev && !next)) return {};
+        return prev ? { marginTop: `${-gap}px` } : { marginBottom: `${-gap}px` };
+    }
+    if (prev && !next) {
+        const above = parseFloat(getComputedStyle(prev).marginBottom) || 0;
+        if (above) return { marginTop: `${-above}px` };
+    }
+    return {};
+}
+
+/**
  * Keyframes for collapsing an element to nothing and back. Height alone is not
  * enough: padding, borders and margins would stay full size, so the element
  * would appear at padding height on the first frame and the space around it
@@ -147,6 +172,7 @@ export function collapseFrames(el: HTMLElement, extra: { open?: Keyframe; closed
         marginBottom: '0px',
         opacity: 0,
         overflow: 'hidden',
+        ...spacingPull(el),
         ...extra.closed,
     };
     return { open, closed };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { AttachmentList, CodePreview, CollapsableSection, PropsTable, InlineCode, type AttachmentItem } from '../../index';
+import { AttachmentList, SecondaryButton, CodePreview, CollapsableSection, PropsTable, InlineCode, type AttachmentItem } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const files = ref<AttachmentItem[]>([
@@ -12,7 +12,9 @@ const files = ref<AttachmentItem[]>([
 // Demo server: removing the signed contract is refused.
 const remove = (item: AttachmentItem) =>
     new Promise<void>((resolve, reject) => setTimeout(() => (item.value === 3 ? reject(new Error('Not allowed')) : resolve()), 700));
-const onRemoved = (item: AttachmentItem) => (files.value = files.value.filter((f) => f.value !== item.value));
+const onRemoved = (item: AttachmentItem) => (files.value = files.value.filter((f) => f !== item));
+// A file picked locally has no server id yet.
+const addLocal = () => files.value.push({ name: 'report.pdf', size: 230 * 1024 });
 
 const code = [
     "import { AttachmentList, formatFileSize } from '@netblink/vue-components';",
@@ -39,6 +41,7 @@ const props = [
                 Files that belong to a record. Sizes come from <InlineCode>formatFileSize()</InlineCode>, which you can use on its own too. Here the signed contract
                 refuses to be removed.
             </p>
+            <SecondaryButton size="sm" class="mb-3" @click="addLocal">Add report.pdf</SecondaryButton>
             <AttachmentList :items="files" :remove="remove" class="mb-6 max-w-lg" @removed="onRemoved" />
             <CodePreview :code="code" />
             <CollapsableSection header="AttachmentList Props" class="mt-6">

@@ -8,7 +8,7 @@
  *
  * @part root - the button or link
  * @part icon - the icon
- * @motion off - colour changes are instant
+ * @motion off - static
  * @motion simple - static
  * @motion smooth - static
  * @motion fancy - the button presses in when clicked
@@ -65,7 +65,7 @@ const { cls, attrs, variant, level } = useUi('IconButton', props);
 if (!props.label) devWarnOnce('IconButton.label', 'IconButton: `label` is required, an icon alone has no accessible name.');
 
 const BASE =
-    'focusable inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border transition-colors duration-150 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-800';
+    'focusable inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border duration-150 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-800';
 
 const SIZES: Record<string, { root: string; icon: string }> = {
     xs: { root: 'p-1', icon: 'h-3.5 w-3.5' },
@@ -88,7 +88,15 @@ const THEMES: Record<string, string> = {
 const DISABLED = 'pointer-events-none cursor-not-allowed opacity-50';
 
 const rootClass = computed(() =>
-    cls('root', BASE, variant('size', SIZES, props.size).root ?? SIZES.md.root, variant('theme', THEMES, props.theme).root, props.disabled && DISABLED, level.value === 'fancy' && !props.disabled && 'transition-transform active:scale-90'),
+    cls(
+        'root',
+        BASE,
+        variant('size', SIZES, props.size).root ?? SIZES.md.root,
+        variant('theme', THEMES, props.theme).root,
+        props.disabled && DISABLED,
+        // Library defaults are joined, not merged, so the transition is picked here rather than overridden.
+        level.value === 'fancy' && !props.disabled ? 'transition-[color,background-color,border-color,transform] active:scale-90' : 'transition-colors',
+    ),
 );
 const iconClass = computed(() => cls('icon', variant('size', SIZES, props.size).icon ?? SIZES.md.icon));
 </script>

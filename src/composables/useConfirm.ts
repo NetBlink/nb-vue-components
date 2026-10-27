@@ -25,21 +25,29 @@ let mounted = 0;
 /** Internal: questions waiting for the mounted `<ConfirmDialog>`, oldest first. */
 export const confirmQueue = shallowRef<PendingConfirm[]>([]);
 
-let owner: symbol | null = null;
+const dialogs = shallowRef<symbol[]>([]);
 
 /**
  * Internal: a `<ConfirmDialog>` registers itself so `confirm()` knows someone will answer.
- * Returns whether this one renders the questions (the first mounted does) and a release function.
+ * The first mounted one renders the questions; when it unmounts the next takes over. If the
+ * dialog that was showing questions goes away (an Inertia page change, say), those questions
+ * are answered "no" so a stale question never appears on the next page.
  */
 export const registerConfirmDialog = (): { owns: () => boolean; release: () => void } => {
     const id = Symbol('ConfirmDialog');
     mounted++;
-    if (!owner) owner = id;
+    dialogs.value = [...dialogs.value, id];
     return {
-        owns: () => owner === id,
+        owns: () => dialogs.value[0] === id,
         release: () => {
             mounted--;
-            if (owner === id) owner = null;
+            const wasOwner = dialogs.value[0] === id;
+            dialogs.value = dialogs.value.filter((d) => d !== id);
+            if (wasOwner) {
+                const pending = confirmQueue.value;
+                confirmQueue.value = [];
+                pending.forEach((q) => q.resolve(false));
+            }
         },
     };
 };

@@ -1,4 +1,4 @@
-import { computed, reactive, watch, type ComputedRef } from 'vue';
+import { computed, onScopeDispose, reactive, watch, type ComputedRef } from 'vue';
 import { peekInertiaPage, peekInertiaRouter } from '../Helpers';
 
 export interface QueryFiltersOptions {
@@ -78,13 +78,14 @@ export function useQueryFilters<T extends Record<string, unknown>>(defaults: T, 
         const url = currentUrl();
         if (!url) return;
         const query = toQuery(filters, defaults);
-        // Keep params this composable doesn't own, except the page number.
+        // Keep params this composable doesn't own, except the page number. Array params are kept
+        // under their bare name (`tags`, not `tags[]`) so the brackets aren't doubled when re-sent.
         const kept: Record<string, string | string[]> = {};
         for (const name of new Set(url.searchParams.keys())) {
             const base = name.replace(/\[\d*\]$/, '');
-            if (name === 'page' || base in defaults) continue;
+            if (base === 'page' || base in defaults) continue;
             const all = url.searchParams.getAll(name);
-            kept[name] = all.length > 1 ? all : all[0];
+            kept[base] = base !== name || all.length > 1 ? [...((kept[base] as string[] | undefined) ?? []), ...all] : all[0];
         }
         const router = visit ? peekInertiaRouter() : null;
         if (router) {
@@ -92,7 +93,10 @@ export function useQueryFilters<T extends Record<string, unknown>>(defaults: T, 
             return;
         }
         const params = new URLSearchParams();
-        for (const [name, value] of Object.entries(kept)) (Array.isArray(value) ? value : [value]).forEach((v) => params.append(name, v));
+        for (const [name, value] of Object.entries(kept)) {
+            if (Array.isArray(value)) value.forEach((v) => params.append(`${name}[]`, v));
+            else params.append(name, value);
+        }
         for (const [name, value] of Object.entries(query)) {
             if (Array.isArray(value)) value.forEach((v) => params.append(`${name}[]`, String(v)));
             else params.append(name, String(value));
@@ -111,6 +115,9 @@ export function useQueryFilters<T extends Record<string, unknown>>(defaults: T, 
             else apply();
         },
     );
+
+    // A visit still waiting for the debounce must not fire after the component is gone (it would hijack the next page).
+    onScopeDispose(() => clearTimeout(timer));
 
     const reset = () => {
         for (const key of Object.keys(defaults)) (filters as Record<string, unknown>)[key] = clone(defaults[key]);

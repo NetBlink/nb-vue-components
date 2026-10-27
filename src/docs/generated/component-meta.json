@@ -338,7 +338,7 @@
             },
             {
                 "level": "simple",
-                "description": "messages fade in quickly"
+                "description": "messages fade in quickly, the typing dots stand still"
             },
             {
                 "level": "smooth",
@@ -1133,7 +1133,7 @@
         "motion": [
             {
                 "level": "off",
-                "description": "colour changes are instant"
+                "description": "static"
             },
             {
                 "level": "simple",

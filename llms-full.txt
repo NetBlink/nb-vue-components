@@ -501,7 +501,7 @@ your messages on the right, theirs on the left, day separators and an optional t
 | `time` | the time under a bubble |
 | `typing` | the typing indicator |
 
-**Motion:** `off`: messages appear instantly, the typing dots stand still; `simple`: messages fade in quickly; `smooth`: messages slide in, the list scrolls smoothly; `fancy`: the same on a spring.
+**Motion:** `off`: messages appear instantly, the typing dots stand still; `simple`: messages fade in quickly, the typing dots stand still; `smooth`: messages slide in, the list scrolls smoothly; `fancy`: the same on a spring.
 
 ### Checkbox
 
@@ -1115,7 +1115,7 @@ close buttons, row actions, toolbar tools. `label` is required and becomes the a
 | `root` | the button or link |
 | `icon` | the icon |
 
-**Motion:** `off`: colour changes are instant; `simple`: static; `smooth`: static; `fancy`: the button presses in when clicked.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: the button presses in when clicked.
 
 ### IconCircle
 

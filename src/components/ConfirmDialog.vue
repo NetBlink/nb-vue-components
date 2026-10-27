@@ -12,7 +12,7 @@
  * @motion smooth - the dialog fades and scales in, as NewModal does
  * @motion fancy - the dialog grows out of the button that asked
  */
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 import NewModal from './NewModal.vue';
 import Button from './Button.vue';
 import SecondaryButton from './SecondaryButton.vue';
@@ -35,15 +35,12 @@ const props = defineProps<ConfirmDialogProps>();
 const { cls, attrs, level } = useUi('ConfirmDialog', props);
 
 // Only the first mounted dialog answers; the others stay silent.
-const active = ref(false);
-let registration: ReturnType<typeof registerConfirmDialog> | undefined;
-onMounted(() => {
-    registration = registerConfirmDialog();
-    active.value = registration.owns();
-});
+const registration = shallowRef<ReturnType<typeof registerConfirmDialog>>();
+const active = computed(() => !!registration.value?.owns());
+onMounted(() => (registration.value = registerConfirmDialog()));
 onBeforeUnmount(() => {
-    registration?.release();
-    active.value = false;
+    registration.value?.release();
+    registration.value = undefined;
 });
 
 const current = ref<PendingConfirm | null>(null);

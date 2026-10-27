@@ -15,7 +15,7 @@
  * @motion smooth - rows fade and slide, the rest glide into place
  * @motion fancy - the same on a spring
  */
-import { computed, reactive } from 'vue';
+import { computed, reactive, toRaw, watch } from 'vue';
 import IconButton from './IconButton.vue';
 import NbTransitionGroup from './NbTransitionGroup.vue';
 import NbIcon from '../icons/NbIcon.vue';
@@ -59,9 +59,26 @@ const props = defineProps<AttachmentListProps>();
 const emit = defineEmits<AttachmentListEmits>();
 const { cls, attrs, level } = useUi('AttachmentList', props);
 
-const keyOf = (item: AttachmentItem, index: number) => String(item.value ?? `${item.name}#${index}`);
+// Rows are keyed by `value` when there is one (stable across re-mapped arrays), otherwise by
+// the item object itself, so removing one row never re-keys the rows after it.
+const objectIds = new WeakMap<object, string>();
+let nextId = 0;
+const keyOf = (item: AttachmentItem) => {
+    if (item.value !== undefined && item.value !== null) return `v:${typeof item.value === 'object' ? JSON.stringify(item.value) : String(item.value)}`;
+    const raw = toRaw(item);
+    if (!objectIds.has(raw)) objectIds.set(raw, `o:${nextId++}`);
+    return objectIds.get(raw)!;
+};
 const state = reactive<Record<string, { removing?: boolean; error?: string; gone?: boolean }>>({});
-const rows = computed(() => props.items.map((item, index) => ({ item, key: keyOf(item, index) })).filter((row) => !state[row.key]?.gone));
+const rows = computed(() => props.items.map((item) => ({ item, key: keyOf(item) })).filter((row) => !state[row.key]?.gone));
+
+// Forget rows the parent no longer lists, so a file added again later shows up.
+watch(
+    () => props.items.map(keyOf),
+    (keys) => {
+        for (const key of Object.keys(state)) if (!keys.includes(key)) delete state[key];
+    },
+);
 
 const FILE = { svg: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2H5.5A1.5 1.5 0 0 0 4 3.5v13A1.5 1.5 0 0 0 5.5 18h9a1.5 1.5 0 0 0 1.5-1.5V7z"/><path d="M11 2v5h5"/></svg>' };
 const DOWNLOAD = { svg: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12"/></svg>' };
