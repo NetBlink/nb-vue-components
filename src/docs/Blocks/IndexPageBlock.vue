@@ -4,6 +4,9 @@ import { NbIcon } from '../../icons';
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
     Badge,
+    ConfirmDialog,
+    FilterBar,
+    confirm,
     CodePreview,
     IconButton,
     Input,
@@ -77,8 +80,9 @@ const filterByStat = (name: string | null) => {
     status.value = !name || name === 'all' ? '' : name;
 };
 
-const remove = (id: number) => {
-    rows.value = rows.value.filter((r) => r.id !== id);
+const remove = async (user: UserRow) => {
+    if (!(await confirm({ title: `Delete ${user.name}?`, description: 'They lose access straight away.', confirmLabel: 'Delete', danger: true }))) return;
+    rows.value = rows.value.filter((r) => r.id !== user.id);
 };
 
 // Create modal
@@ -127,14 +131,12 @@ const snippet = [
     '',
     '<Stats :stats="stats" statusName="status" @updateSearch="(s) => router.get(route(\'users.index\'), { status: s })" />',
     '',
-    '<div class="my-4 flex flex-wrap items-end gap-2">',
-    '  <div class="w-full sm:w-64">',
-    '    <Input type="search" name="search" no-label placeholder="Search users…" v-model="filters.search" />',
-    '  </div>',
+    "<!-- const { filters, isFiltered, reset } = useQueryFilters({ search: '', status: '' }); -->",
+    '<FilterBar v-model:search="filters.search" placeholder="Search users…" :filtered="isFiltered" class="my-4" @clear="reset">',
     '  <div class="w-full sm:w-48">',
     '    <Select name="status" no-label :options="statusOptions" v-model="filters.status" />',
     '  </div>',
-    '</div>',
+    '</FilterBar>',
     '',
     '<!-- Table renders its own overflow-x wrapper and Pagination from :links -->',
     '<Table :links="users.links" :total="users.total" hover bordered>',
@@ -164,6 +166,7 @@ const snippet = [
     '        <div class="flex justify-end gap-2">',
     '          <IconButton :icon="faPen" :label="`Edit ${user.name}`" size="sm" @click="edit(user)" />',
     '          <IconButton :icon="faTrash" :label="`Delete ${user.name}`" theme="ghost-danger" size="sm" @click="destroy(user)" />',
+    '          <!-- async destroy(user) { if (await confirm({ title: `Delete ${user.name}?`, confirmLabel: \'Delete\', danger: true })) router.delete(...) } -->',
     '        </div>',
     '      </Td>',
     '    </Tr>',
@@ -214,21 +217,12 @@ const snippet = [
                 <Stats :stats="stats" @updateSearch="filterByStat" />
 
                 <!-- Search row -->
-                <div class="my-4 flex flex-wrap items-end gap-2">
-                    <div class="w-full sm:w-64">
-                        <Input type="search" name="search" no-label placeholder="Search name, email or plan…" v-model="search" />
-                    </div>
+                <FilterBar v-model:search="search" placeholder="Search name, email or plan…" :filtered="!!(status || search)" class="my-4" @clear="((status = ''), (search = ''))">
                     <div class="w-full sm:w-48">
                         <Select name="status" no-label :options="statusOptions" v-model="status" />
                     </div>
-                    <button
-                        v-if="status || search"
-                        type="button"
-                        class="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 cursor-pointer px-2 py-2 text-sm"
-                        @click="((status = ''), (search = ''))"
-                    >
-                        Clear filters
-                    </button>
+                </FilterBar>
+                <div class="-mt-2 mb-3 flex justify-end">
                     <span class="ml-auto self-center text-sm text-gray-500 dark:text-gray-400">
                         Showing {{ visible.length }} of {{ rows.length }}
                     </span>
@@ -259,7 +253,7 @@ const snippet = [
                             <Td>
                                 <div class="flex justify-end gap-1">
                                     <IconButton :icon="faPen" :label="`Edit ${user.name}`" size="sm" />
-                                    <IconButton :icon="faTrash" :label="`Delete ${user.name}`" theme="ghost-danger" size="sm" @click="remove(user.id)" />
+                                    <IconButton :icon="faTrash" :label="`Delete ${user.name}`" theme="ghost-danger" size="sm" @click="remove(user)" />
                                 </div>
                             </Td>
                         </Tr>
@@ -271,6 +265,9 @@ const snippet = [
                     <Pagination :links="links" link-return @change="goToPage" />
                 </div>
             </div>
+
+            <!-- Renders confirm(); in an app the Toaster in your layout does this -->
+            <ConfirmDialog />
 
             <!-- Create modal -->
             <NewModal v-model:open="showCreate" title="Create user" description="Adds a row to the table above.">

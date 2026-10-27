@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineComponent, h, ref, type PropType } from 'vue';
-import { NavLink, NavCollapse, CodePreview, Input, IconButton, EmptyState, InlineCode } from '../../index';
+import { NavLink, NavCollapse, CodePreview, Input, IconButton, EmptyState, NbTransitionGroup, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import {
     faGauge,
@@ -166,6 +166,12 @@ const filterRecursive = (arr: LinkItem[], text: string): LinkItem[] =>
 
 // ponytail: computed instead of the apps' ref + watch(term) - same result, no plumbing.
 const filteredLinks = computed(() => filterRecursive(links, term.value));
+
+// Flattened for the transition group: a `break` becomes its own keyed separator row.
+const Separator = () => h('li', { class: 'm-0 list-none' }, [h('hr', { class: 'my-2 border-gray-200 dark:border-gray-700' })]);
+const navEntries = computed(() =>
+    filteredLinks.value.flatMap((link) => [...(link.break ? [{ key: `break-${link.label}`, link: undefined }] : []), { key: link.label, link }]),
+);
 
 const RecursiveLink = defineComponent({
     name: 'RecursiveLink',
@@ -437,18 +443,14 @@ const sidenavSnippet = [
                         <IconButton v-if="term" :icon="faTimes" label="Clear search" size="xs" class="absolute top-2 right-2" @click="term = ''" />
                     </div>
 
-                    <ul class="m-0 list-none space-y-2 p-0">
-                        <template v-for="link in filteredLinks" :key="link.label">
-                            <li v-if="link.break" class="m-0 list-none">
-                                <hr class="my-2 border-gray-200 dark:border-gray-700" />
-                            </li>
-                            <RecursiveLink :link="link" />
-                        </template>
+                    <!-- One keyed list (separators included) so filtering animates items in and out -->
+                    <NbTransitionGroup tag="ul" preset="fade" class="m-0 list-none space-y-2 p-0">
+                        <component :is="entry.link ? RecursiveLink : Separator" v-for="entry in navEntries" :key="entry.key" :link="entry.link" />
 
-                        <li v-if="!filteredLinks.length" class="m-0 cursor-pointer list-none" @click="term = ''">
+                        <li v-if="!filteredLinks.length" key="empty" class="m-0 cursor-pointer list-none" @click="term = ''">
                             <EmptyState compact :icon="faBan" title="No items found" />
                         </li>
-                    </ul>
+                    </NbTransitionGroup>
                 </aside>
 
                 <div class="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">

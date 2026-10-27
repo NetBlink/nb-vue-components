@@ -2896,7 +2896,7 @@ The canonical list screen: header action, Stats tiles doubling as filters, a sea
 
 Source: `src/docs/Blocks/IndexPageBlock.vue`
 
-Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Badge`, `IconButton`, `NewModal`, `PrimaryButton`, `InlineCode`, `Pagination`, `CodePreview`
+Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `Stats`, `FilterBar`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Badge`, `IconButton`, `NewModal`, `Input`, `PrimaryButton`, `InlineCode`, `Pagination`, `ConfirmDialog`, `CodePreview`
 
 ### Dashboard Overview
 
@@ -2904,7 +2904,7 @@ A dashboard landing composition: a KPI grid of DataTiles with icon chips and sig
 
 Source: `src/docs/Blocks/DashboardBlock.vue`
 
-Uses: `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `InlineCode`, `Switch`, `CodePreview`
+Uses: `ContentLoader`, `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `InlineCode`, `Switch`, `NbTransition`, `CodePreview`
 
 ### Empty & Error States
 
@@ -3000,7 +3000,7 @@ A CRUD resource page that swaps the whole page between a read view and an edit v
 
 Source: `src/docs/Blocks/ShowEditBlock.vue`
 
-Uses: `PageHeader`, `Badge`, `PrimaryButton`, `DangerButton`, `Alert`, `DescriptionList`, `DescriptionListItem`, `Input`, `Select`, `Textarea`, `SecondaryButton`, `NewModal`, `Card`, `NbIcon`, `CodePreview`
+Uses: `PageHeader`, `Badge`, `PrimaryButton`, `DangerButton`, `Alert`, `DescriptionList`, `DescriptionListItem`, `Input`, `Select`, `Textarea`, `SecondaryButton`, `NewModal`, `Card`, `NbIcon`, `NbTransition`, `CodePreview`
 
 ### Sidebar Navigation
 
@@ -3008,7 +3008,7 @@ A vertical app sidebar built from NavLink (with #icon slots) and NavCollapse gro
 
 Source: `src/docs/Blocks/SidebarBlock.vue`
 
-Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `InlineCode`, `CodePreview`
+Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `InlineCode`, `CodePreview`, `NbTransitionGroup`
 
 ### Skeletons & Loading
 

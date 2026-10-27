@@ -141,6 +141,7 @@ const snippet = [
     '  <NbTransition preset="slide-down">',
     '  <div',
     '    v-if="openMenu"',
+    '    :key="openMenu"',
     '    class="absolute inset-x-0 top-full z-20 mt-2 grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-xl sm:grid-cols-2 sm:p-6 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-800"',
     '  >',
     '    <div v-for="column in menus[openMenu].columns" :key="column.heading" class="space-y-1">',
@@ -209,9 +210,11 @@ const snippet = [
                         </span>
                     </div>
 
+                    <!-- keyed by menu: switching menus cross-fades the panels (they're absolutely positioned) -->
                     <NbTransition preset="slide-down">
                     <div
                         v-if="activePanel"
+                        :key="openMenu ?? ''"
                         class="absolute inset-x-0 top-full z-20 mt-2 grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 shadow-xl sm:grid-cols-2 sm:p-6 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-800"
                     >
                         <div v-for="column in activePanel.columns" :key="column.heading">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import { Input, Select, Textarea, Alert, NewModal, PrimaryButton, SecondaryButton, DangerButton, Badge, Card, PageHeader, DescriptionList, DescriptionListItem, CodePreview } from '../../index';
+import { Input, Select, Textarea, Alert, NewModal, PrimaryButton, SecondaryButton, DangerButton, Badge, Card, PageHeader, DescriptionList, DescriptionListItem, NbTransition, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -180,8 +180,9 @@ const editSnippet = [
                         </template>
                     </PageHeader>
 
-                    <!-- Read mode -->
-                    <template v-if="mode === 'read'">
+                    <!-- Read and edit swap with a cross-fade -->
+                    <NbTransition mode="out-in">
+                    <div v-if="mode === 'read'">
                         <Alert type="success" class="mt-4" dismissible v-model="saved">Customer details were updated.</Alert>
 
                         <DescriptionList class="mt-6">
@@ -194,7 +195,7 @@ const editSnippet = [
                                 <p class="text-xs text-gray-500 dark:text-gray-500">Only visible to your team, never shown to the customer.</p>
                             </DescriptionListItem>
                         </DescriptionList>
-                    </template>
+                    </div>
 
                     <!-- Edit mode -->
                     <form v-else @submit.prevent="save" class="mt-6">
@@ -233,6 +234,7 @@ const editSnippet = [
                             </PrimaryButton>
                         </div>
                     </form>
+                    </NbTransition>
                 </Card>
             </div>
 

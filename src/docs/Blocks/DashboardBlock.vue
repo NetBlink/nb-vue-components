@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Switch, Spinner, SecondaryButton, Card, DataTile, IconCircle, Skeleton, EmptyState, CodePreview, InlineCode } from '../../index';
+import { Switch, Spinner, SecondaryButton, Card, DataTile, IconCircle, Skeleton, EmptyState, ContentLoader, NbTransition, CodePreview, InlineCode } from '../../index';
 import { faUsers, faCartShopping, faCreditCard, faChartLine, faCircleCheck, faTriangleExclamation, faUserPlus, faInbox } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -38,32 +38,33 @@ const activity = ref([...defaultActivity]);
 const trendOf = (delta: number) => ({ value: `${delta >= 0 ? '+' : ''}${delta}%`, direction: delta >= 0 ? ('up' as const) : ('down' as const) });
 
 const snippet = [
-    '<!-- KPI grid: skeleton cards while loading, DataTile with icon chip + trend when loaded -->',
+    '<!-- KPI grid: ContentLoader cross-fades skeleton cards into DataTiles -->',
     '<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">',
-    '    <template v-for="stat in stats" :key="stat.label">',
-    '        <Card v-if="loading"><Skeleton /></Card>',
+    '    <ContentLoader v-for="stat in stats" :key="stat.label" :loading="loading">',
+    '        <template #loading><Card><Skeleton /></Card></template>',
     '        <DataTile',
-    '            v-else',
     '            :value="stat.value"',
     '            :label="stat.label"',
     '            :icon="stat.icon"',
     '            :iconVariant="stat.variant"',
     "            :trend=\"{ value: `${stat.delta >= 0 ? '+' : ''}${stat.delta}%`, direction: stat.delta >= 0 ? 'up' : 'down' }\"",
     '        />',
-    '    </template>',
+    '    </ContentLoader>',
     '</div>',
     '',
     '<div class="mt-6 grid gap-6 lg:grid-cols-3">',
     '    <!-- Chart card: plain flex of rounded bars with px heights, no chart library -->',
     '    <Card title="Orders this week" class="lg:col-span-2">',
-    '        <div v-if="loading" class="flex h-48 items-center justify-center"><Spinner size="lg" /></div>',
-    '        <div v-else class="flex h-48 items-end gap-1 sm:gap-3">',
+    '        <ContentLoader :loading="loading">',
+    '        <template #loading><div class="flex h-48 items-center justify-center"><Spinner size="lg" /></div></template>',
+    '        <div class="flex h-48 items-end gap-1 sm:gap-3">',
     '            <div v-for="bar in bars" :key="bar.day" class="flex min-w-0 flex-1 flex-col items-center gap-2">',
     '                <div class="bg-primary-500 hover:bg-primary-600 dark:bg-primary-400 dark:hover:bg-primary-300 w-full rounded-t transition-all"',
     "                     :style=\"{ height: bar.height * 1.6 + 'px' }\"></div>",
     '                <span class="text-xs text-gray-500 dark:text-gray-400">{{ bar.day }}</span>',
     '            </div>',
     '        </div>',
+    '        </ContentLoader>',
     '    </Card>',
     '',
     '    <!-- Activity feed: header band, icon rows, empty state -->',
@@ -105,10 +106,10 @@ const snippet = [
 
                 <!-- KPI grid -->
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    <template v-for="stat in stats" :key="stat.label">
-                        <Card v-if="loading"><Skeleton /></Card>
-                        <DataTile v-else :value="stat.value" :label="stat.label" :icon="stat.icon" :iconVariant="stat.variant" :trend="trendOf(stat.delta)" />
-                    </template>
+                    <ContentLoader v-for="stat in stats" :key="stat.label" :loading="loading">
+                        <template #loading><Card><Skeleton /></Card></template>
+                        <DataTile :value="stat.value" :label="stat.label" :icon="stat.icon" :iconVariant="stat.variant" :trend="trendOf(stat.delta)" />
+                    </ContentLoader>
                 </div>
 
                 <!-- Lower row: chart + activity feed -->
@@ -117,10 +118,11 @@ const snippet = [
                         <template #actions>
                             <span class="text-xs text-gray-500 dark:text-gray-400">CSS only, no chart library</span>
                         </template>
-                        <div v-if="loading" class="flex h-48 items-center justify-center">
-                            <Spinner size="lg" />
-                        </div>
-                        <div v-else class="flex h-48 items-end gap-1 sm:gap-3">
+                        <ContentLoader :loading="loading">
+                        <template #loading>
+                            <div class="flex h-48 items-center justify-center"><Spinner size="lg" /></div>
+                        </template>
+                        <div class="flex h-48 items-end gap-1 sm:gap-3">
                             <div v-for="bar in bars" :key="bar.day" class="flex min-w-0 flex-1 flex-col items-center gap-2">
                                 <div
                                     class="bg-primary-500 hover:bg-primary-600 dark:bg-primary-400 dark:hover:bg-primary-300 w-full rounded-t transition-all"
@@ -129,6 +131,7 @@ const snippet = [
                                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ bar.day }}</span>
                             </div>
                         </div>
+                        </ContentLoader>
                     </Card>
 
                     <Card
@@ -140,6 +143,7 @@ const snippet = [
                         <template #actions>
                             <SecondaryButton size="xs" @click="activity = []">Clear</SecondaryButton>
                         </template>
+                        <NbTransition mode="out-in">
                         <ul v-if="activity.length" class="divide-y divide-gray-100 dark:divide-gray-700">
                             <li v-for="item in activity" :key="item.id" class="flex gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/40">
                                 <IconCircle :icon="item.icon" :variant="item.variant" size="sm" class="shrink-0" />
@@ -152,6 +156,7 @@ const snippet = [
                         <EmptyState v-else :icon="faInbox" title="No activity yet">
                             <SecondaryButton size="sm" @click="activity = [...defaultActivity]">Restore demo data</SecondaryButton>
                         </EmptyState>
+                        </NbTransition>
                     </Card>
                 </div>
             </div>
