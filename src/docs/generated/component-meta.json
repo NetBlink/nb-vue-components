@@ -2016,6 +2016,41 @@
             }
         ]
     },
+    "StarRating": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper (`radiogroup` when editable, `img` when read-only)"
+            },
+            {
+                "name": "star",
+                "description": "one star (a radio when editable)"
+            },
+            {
+                "name": "fill",
+                "description": "the filled part of a star"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "stars fill instantly"
+            },
+            {
+                "level": "simple",
+                "description": "stars fill instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the fill fades in"
+            },
+            {
+                "level": "fancy",
+                "description": "the picked star pops on a spring"
+            }
+        ]
+    },
     "Stats": {
         "parts": [
             {

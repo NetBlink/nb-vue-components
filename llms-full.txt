@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (93 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (94 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -1967,6 +1967,30 @@ a CSS-only spinning ring in five preset sizes, with `role="status"` and a visual
 | `root` | the spinning ring |
 
 **Motion:** all levels: keeps spinning at every level, including `off`: it is a status indicator.
+
+### StarRating
+
+Star rating, to show a score or to pick one. Read-only ratings can be fractional (3.5 fills half of the fourth star). Editable ratings are a radio group: click a star, or use the arrow keys, Home and End.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `modelValue` | `number` | - | The rating |
+| `max` | `number` | - | Number of stars |
+| `readonly` | `boolean` | - | Display only (allows fractions) |
+| `size` | `'sm' \| 'md' \| 'lg'` | - | Star size |
+| `label` | `string` | - | Accessible name of the group, e.g. "Rate this order" |
+| `ui` | `UiProp<NbParts['StarRating']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper (`radiogroup` when editable, `img` when read-only) |
+| `star` | one star (a radio when editable) |
+| `fill` | the filled part of a star |
+
+**Motion:** `off`: stars fill instantly; `simple`: stars fill instantly; `smooth`: the fill fades in; `fancy`: the picked star pops on a spring.
 
 ### Stats
 

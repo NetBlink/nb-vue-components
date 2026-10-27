@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import StarRatingDoc from './sections/StarRatingDoc.vue';
 import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
@@ -830,6 +831,8 @@ const dropdownSearchbarProps = [
             </div>
         </DocCallout>
 
+        <StarRatingDoc />
+
         <section id="select">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select Components</h3>
             <DocDemoCard>
@@ -1199,6 +1202,6 @@ const dropdownSearchbarProps = [
             </div>
         </section>
 
-        <DocComponentMeta :names="['Input', 'TextInput', 'Textarea', 'Checkbox', 'Switch', 'RadioButton', 'Select', 'SimpleSelect', 'RichSelect', 'SearchSelect', 'Select2ajax', 'SelectMultiple', 'DropdownSearchbar', 'InputLabel', 'InputError', 'InputWrapper', 'FileDropZoneInput', 'Images']" />
+        <DocComponentMeta :names="['Input', 'TextInput', 'Textarea', 'Checkbox', 'Switch', 'RadioButton', 'Select', 'SimpleSelect', 'RichSelect', 'SearchSelect', 'Select2ajax', 'SelectMultiple', 'DropdownSearchbar', 'InputLabel', 'InputError', 'InputWrapper', 'FileDropZoneInput', 'Images', 'StarRating']" />
     </div>
 </template>

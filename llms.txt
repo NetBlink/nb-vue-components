@@ -334,6 +334,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **SimpleSelect**, Simple Select component that works with options array.
 - **Skeleton**, `text` lines, a `circle`, a `rect` block, or a `row` (circle plus two lines, the shape of a list item).
 - **Spinner**, a CSS-only spinning ring in five preset sizes, with `role="status"` and a visually hidden "Loading..." label for screen readers.
+- **StarRating**, Star rating, to show a score or to pick one.
 - **Stats**, Responsive grid of clickable stat tiles used as quick filters above a table.
 - **Stepper**, Progress through a multi-step flow: numbered markers joined by rails that fill as steps complete.
 - **SubmitButton**, Submit Button component with loading state and theme support.
