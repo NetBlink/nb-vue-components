@@ -8,7 +8,32 @@
 - Plugin option `badge.statuses` maps your own status words to Badge colours; `Badge status="..."` picks the colour and the label from it.
 - `DataTile`: `iconVariant` puts the icon in a coloured chip beside the value, `trend` shows a signed change, `ping` adds a live dot. `Stats` items take the same through `chip`, `change` and `live`.
 - `FileDropZoneInput` works with `v-model` and can upload by itself: `upload`, `remove`, `initialFiles`, `maxSize`, `maxFiles`, `list` and `preview`. Without them it behaves as in beta.0.
-- Docs: pages for every new component, and the 24 blocks rebuilt on the library components.
+- `confirm()` / `useConfirm()`: `await confirm({ title, description, confirmLabel, danger })` resolves true or false. The `<Toaster />` in your layout renders the dialog (or place `<ConfirmDialog />` without a Toaster); questions asked together queue up.
+- `FilterBar` and `useQueryFilters()`: filters kept in the URL query the way Laravel reads them (`tags[]=a&tags[]=b`), typed from their defaults, debounced for text, `page` dropped on change, other params kept; visits the page with Inertia, or only updates the URL with `visit: false`.
+- `AttachmentList` (download and async remove per file) and `formatFileSize()`.
+- `StarRating`: read-only (halves allowed) or editable as a keyboard-friendly radio group.
+- `ImpersonationBanner` and `EnvironmentBanner` (nothing on production; `environment.productionNames` adds names). Both stay at the top while scrolling and stack; `PageHeader sticky` moves down by their height through `--nb-environment-offset` and `--nb-impersonation-offset`.
+- `Lightbox`: full-screen image viewer with arrows, keys and swipe.
+- `ContentLoader`: cross-fades a placeholder into the content and eases the height change; `delay` avoids flashing on quick loads.
+- `ChatMessageList`: chat bubbles with day separators and a typing indicator; follows new messages unless the reader scrolled up.
+- `Divider` (with an optional label) and `InlineCode`.
+- `copyText()` helper: copies with the Clipboard API, or a fallback on plain http.
+- Fancy-level motion for the new components: CopyButton's check pops, Badge changes pop, AvatarGroup fans out on hover, Timeline events rise in turn, EmptyState's icon pops, Breadcrumbs and PageHeader fade in, IconButton presses in.
+- `RadioButton` gets the motion levels: colour fade from smooth, a pop at fancy (like Checkbox).
+- Docs: a Motion page, a motion switcher with a sliding pill above the dark-mode toggle, dark mode that follows the motion level, shorter full-width text, and animated blocks.
+
+### Changed
+- `CodePreview` copies through `CopyButton`, so its copy control is an icon button.
+- `CopyButton` keeps its accessible name after copying; only the live region announces it.
+
+### Fixed
+- Copying failed on plain http (CodePreview had no fallback).
+- Alerts, field errors and collapsing content jumped on the first and last frame: padding, borders and margins now collapse with the height.
+- `Card` with `clickable` no longer takes Enter and Space from buttons and inputs inside it; a bound `selected` keeps it a toggle button in both states.
+- `FileDropZoneInput` follows `v-model` changes from the parent, keeps removed stored files removed, and reacts to `disabled`.
+- `Avatar` folds its presence into its name instead of announcing it as a live region.
+- `Progress` puts `aria-label` on the progress bar only.
+- `IconCircle` icons were smaller than intended with FontAwesome.
 
 ## [4.0.0-beta.0] - 2026-10-26
 
