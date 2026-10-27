@@ -16,6 +16,7 @@ import {
     Select2ajax,
     DropdownSearchbar,
     FileDropZoneInput,
+    SecondaryButton,
     Images,
     TextInput,
     InputLabel,
@@ -541,6 +542,8 @@ const storedFiles = [{ name: 'contract-signed.pdf', size: 248000, value: 'perm_4
 const fileDropModesExamples = [
     '<!-- v-model: File objects, no Inertia form -->',
     '<FileDropZoneInput v-model="files" multiple accept="image/*,.pdf" :max-size="5" />',
+    '<!-- clearing the model clears the list too -->',
+    '<SecondaryButton size="xs" @click="files = []">Clear</SecondaryButton>',
     '',
     '<!-- Upload as soon as a file is picked; v-model holds the server tokens -->',
     '<FileDropZoneInput',
@@ -1005,7 +1008,10 @@ const dropdownSearchbarProps = [
                 <div class="mb-6 grid gap-6 md:grid-cols-2">
                     <div>
                         <FileDropZoneInput v-model="pickedFiles" multiple accept="image/*,.pdf" label="Attachments" :max-size="5" />
-                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">v-model: {{ pickedFiles.length }} file(s)</p>
+                        <div class="mt-2 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                            v-model: {{ pickedFiles.length }} file(s)
+                            <SecondaryButton v-if="pickedFiles.length" size="xs" @click="pickedFiles = []">Clear</SecondaryButton>
+                        </div>
                     </div>
                     <div>
                         <FileDropZoneInput

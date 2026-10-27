@@ -2701,7 +2701,7 @@ A three-step wizard: a Stepper whose rails fill as you advance, over a single fo
 
 Source: `src/docs/Blocks/WizardBlock.vue`
 
-Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `DescriptionList`, `DescriptionListItem`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
 
 ### Orderable Fields
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, CodePreview } from '../../index';
+import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, DescriptionList, DescriptionListItem, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const steps = [
@@ -71,7 +71,7 @@ const snippet = [
     '<script setup>',
     'import { ref, computed } from \'vue\';',
     'import { useForm } from \'@inertiajs/vue3\';',
-    'import { Alert, Card, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select, Stepper } from \'@netblink/vue-components\';',
+    'import { Alert, Card, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select, Stepper, DescriptionList, DescriptionListItem } from \'@netblink/vue-components\';',
     '',
     'const step = ref(1);',
     'const submitted = ref(false);',
@@ -123,12 +123,9 @@ const snippet = [
     '            </template>',
     '',
     '            <template v-if="step === 3">',
-    '                <dl class="divide-y divide-gray-200 dark:divide-gray-700">',
-    '                    <div v-for="row in reviewRows" :key="row.label" class="flex items-center justify-between gap-4 py-2 text-sm">',
-    '                        <dt class="text-gray-500 dark:text-gray-400">{{ row.label }}</dt>',
-    '                        <dd class="truncate font-medium text-gray-800 dark:text-gray-100">{{ row.value }}</dd>',
-    '                    </div>',
-    '                </dl>',
+    '                <DescriptionList>',
+    '                    <DescriptionListItem v-for="row in reviewRows" :key="row.label" :label="row.label" :value="row.value" />',
+    '                </DescriptionList>',
     '                <Checkbox :form="form" field="confirmed" noLabel rightDescription="The details above are correct" />',
     '            </template>',
     '',
@@ -200,12 +197,9 @@ const snippet = [
                             </template>
 
                             <template v-if="step === 3">
-                                <dl class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <div v-for="row in reviewRows" :key="row.label" class="flex items-center justify-between gap-4 py-2 text-sm">
-                                        <dt class="text-gray-500 dark:text-gray-400">{{ row.label }}</dt>
-                                        <dd class="truncate font-medium text-gray-800 dark:text-gray-100">{{ row.value }}</dd>
-                                    </div>
-                                </dl>
+                                <DescriptionList>
+                                    <DescriptionListItem v-for="row in reviewRows" :key="row.label" :label="row.label" :value="row.value" />
+                                </DescriptionList>
                                 <Checkbox v-model="form.confirmed" field="confirmed" noLabel rightDescription="The details above are correct" />
                             </template>
 
