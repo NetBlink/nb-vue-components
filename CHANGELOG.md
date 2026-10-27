@@ -1,6 +1,16 @@
 # Changelog - Vue Component Library
 
-## [4.0.0-beta.0] - unreleased
+## [4.0.0-beta.1] - unreleased
+
+### Added
+- New components: `Card`, `Badge`, `Avatar`, `AvatarGroup`, `IconButton`, `CopyButton`, `IconCircle`, `Breadcrumbs`, `PageHeader` (with `variant="bar"` and `sticky`), `SubNav`, `Stepper`, `Timeline` (`line` and `cards` layouts), `EmptyState`, `Progress` and `Skeleton`. Each takes `class` and `:ui`, documents its parts, and follows the motion levels where it animates.
+- `NbTransition` and `NbTransitionGroup`: Vue's transitions with `fade`, `slide-up`, `slide-down`, `scale` and `collapse` presets that follow the motion levels and theme tokens. The `nb-*` classes they use ship in theme.css.
+- Plugin option `badge.statuses` maps your own status words to Badge colours; `Badge status="..."` picks the colour and the label from it.
+- `DataTile`: `iconVariant` puts the icon in a coloured chip beside the value, `trend` shows a signed change, `ping` adds a live dot. `Stats` items take the same through `chip`, `change` and `live`.
+- `FileDropZoneInput` works with `v-model` and can upload by itself: `upload`, `remove`, `initialFiles`, `maxSize`, `maxFiles`, `list` and `preview`. Without them it behaves as in beta.0.
+- Docs: pages for every new component, and the 24 blocks rebuilt on the library components.
+
+## [4.0.0-beta.0] - 2026-10-26
 
 ### Breaking
 - Instance classes are now merged with tailwind-merge instead of appended. A class you pass (through `class`, `:ui` or a deprecated override prop) removes the library default it clashes with; defaults that don't clash stay. Pages that relied on a default winning a clash over their own class will look different, and `!` markers added only to beat a default can go.
