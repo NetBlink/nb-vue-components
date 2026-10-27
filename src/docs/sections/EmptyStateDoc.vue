@@ -28,7 +28,7 @@ const props = [
                 What to show when there is nothing to show yet: an icon, a title, one line of explanation and the action that fixes it.
                 <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">compact</code> is the one-line "No X found" form.
             </p>
-            <div class="mb-6 grid gap-4 md:grid-cols-2">
+            <div class="mb-6 grid items-start gap-4 md:grid-cols-2">
                 <Card padding="none">
                     <EmptyState :icon="faFolderOpen" title="No projects yet" description="Projects you create or are invited to show up here.">
                         <SecondaryButton size="sm">Import</SecondaryButton>
