@@ -27,6 +27,7 @@ import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import CardDoc from './sections/CardDoc.vue';
 import BadgeDoc from './sections/BadgeDoc.vue';
 import InlineCodeDoc from './sections/InlineCodeDoc.vue';
+import AttachmentListDoc from './sections/AttachmentListDoc.vue';
 import AvatarDoc from './sections/AvatarDoc.vue';
 import TimelineDoc from './sections/TimelineDoc.vue';
 
@@ -505,8 +506,10 @@ const statsWithExtras = [
 
         <TimelineDoc />
 
+        <AttachmentListDoc />
+
         <InlineCodeDoc />
 
-        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle', 'InlineCode']" />
+        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle', 'InlineCode', 'AttachmentList']" />
     </div>
 </template>

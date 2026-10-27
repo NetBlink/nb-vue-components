@@ -46,6 +46,53 @@
             }
         ]
     },
+    "AttachmentList": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the list"
+            },
+            {
+                "name": "item",
+                "description": "one row"
+            },
+            {
+                "name": "thumbnail",
+                "description": "the picture or file icon"
+            },
+            {
+                "name": "name",
+                "description": "the file name"
+            },
+            {
+                "name": "meta",
+                "description": "the size or status line"
+            },
+            {
+                "name": "actions",
+                "description": "the download and remove buttons"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "rows appear and disappear instantly"
+            },
+            {
+                "level": "simple",
+                "description": "rows fade quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "rows fade and slide, the rest glide into place"
+            },
+            {
+                "level": "fancy",
+                "description": "the same on a spring"
+            }
+        ]
+    },
     "Avatar": {
         "parts": [
             {

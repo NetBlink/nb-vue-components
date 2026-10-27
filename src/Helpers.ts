@@ -133,6 +133,15 @@ function getInertiaPage(): Page | null {
     return inertiaPage;
 }
 
+/** Human file size: `512 B`, `13 KB`, `4.2 MB`, `1.1 GB`. */
+export function formatFileSize(bytes: number): string {
+    if (!Number.isFinite(bytes) || bytes < 0) return '';
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 ** 2) return `${Math.round(bytes / 1024)} KB`;
+    if (bytes < 1024 ** 3) return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
+    return `${(bytes / 1024 ** 3).toFixed(1)} GB`;
+}
+
 /**
  * Copy text to the clipboard. Uses the Clipboard API where the page allows it (https,
  * localhost) and falls back to a hidden textarea and `execCommand('copy')` elsewhere,

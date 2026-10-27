@@ -269,6 +269,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 Full API for every component (props, defaults, slots, emits) is in `llms-full.txt`.
 
 - **Alert**, Inline `role="alert"` banner in success / error / warning / info variants, with a matching icon, an optional title and default-slot body.
+- **AttachmentList**, name, size, a download link and, with `remove`, a remove button.
 - **Avatar**, A user picture, or their initials on a tinted disc when there is no picture or it fails to load.
 - **AvatarGroup**, Overlapping row of `Avatar`s, each ringed so the overlap reads clearly.
 - **Badge**, Small rounded label for statuses, counts and tags, in the shared colour vocabulary.

@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (96 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (97 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -297,6 +297,30 @@ Inline `role="alert"` banner in success / error / warning / info variants, with 
 | `dismiss` | the dismiss button |
 
 **Motion:** `off`: appears and disappears instantly; `simple`: height and opacity, quickly, no movement; `smooth`: height and opacity with a small upward drift; `fancy`: the same on a longer spring.
+
+### AttachmentList
+
+name, size, a download link and, with `remove`, a remove button. Removing waits for your function (the row shows it's busy); if it fails the row stays and shows why. Rows animate in and out.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `AttachmentItem[]` | **required** | The files |
+| `remove` | `(item: AttachmentItem) => Promise<void> \| void` | - | Delete a file; reject to keep it (the message is shown) |
+| `ui` | `UiProp<NbParts['AttachmentList']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the list |
+| `item` | one row |
+| `thumbnail` | the picture or file icon |
+| `name` | the file name |
+| `meta` | the size or status line |
+| `actions` | the download and remove buttons |
+
+**Motion:** `off`: rows appear and disappear instantly; `simple`: rows fade quickly; `smooth`: rows fade and slide, the rest glide into place; `fancy`: the same on a spring.
 
 ### Avatar
 
