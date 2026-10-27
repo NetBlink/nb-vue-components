@@ -2581,7 +2581,7 @@ A two-factor challenge card: six auto-advancing single-character boxes that acce
 
 Source: `src/docs/Blocks/AuthSecurityBlock.vue`
 
-Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `CodePreview`
+Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `Card`, `IconCircle`, `CodePreview`
 
 ### AI Assistant
 
@@ -2605,7 +2605,7 @@ A registration card composed from Input and Checkbox, with a terms-of-service ag
 
 Source: `src/docs/Blocks/AuthPagesBlock.vue`
 
-Uses: `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `NbIcon`, `SecondaryButton`, `CodePreview`
+Uses: `Card`, `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `EmptyState`, `SecondaryButton`, `CodePreview`
 
 ### Cards & Lists
 
@@ -2661,7 +2661,7 @@ A centered login card composed from Input, Checkbox, and SecondaryButton, with a
 
 Source: `src/docs/Blocks/FormsBlock.vue`
 
-Uses: `Input`, `Checkbox`, `SecondaryButton`, `Select`, `Textarea`, `PrimaryButton`, `CodePreview`
+Uses: `Card`, `Input`, `Checkbox`, `SecondaryButton`, `Select`, `Textarea`, `PrimaryButton`, `CodePreview`
 
 ### Marketing Sections
 
@@ -2689,11 +2689,11 @@ Uses: `PrimaryButton`, `NbIcon`, `NewModal`, `Input`, `SecondaryButton`, `RadioB
 
 ### Multi-Step Form
 
-A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one useForm holds every field, and steps switch with v-if on a step ref.
+A three-step wizard: a Stepper whose rails fill as you advance, over a single form split across Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one useForm holds every field, and steps switch with v-if on a step ref.
 
 Source: `src/docs/Blocks/WizardBlock.vue`
 
-Uses: `NbIcon`, `Alert`, `Input`, `Select`, `RadioButton`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
 
 ### No projects yet
 
@@ -2705,11 +2705,11 @@ Uses: `NbIcon`, `PrimaryButton`, `SecondaryButton`, `LinkButton`, `CodePreview`
 
 ### Orderable Fields
 
-A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down Buttons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
+A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down IconButtons so the order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
 
 Source: `src/docs/Blocks/OrderableBlock.vue`
 
-Uses: `NbIcon`, `Button`, `Input`, `CodePreview`
+Uses: `NbIcon`, `IconButton`, `Input`, `NbTransitionGroup`, `CodePreview`
 
 ### Page Shell
 
@@ -2725,7 +2725,7 @@ An e-commerce product detail page: gallery with thumbnails, variant and size pic
 
 Source: `src/docs/Blocks/ProductPageBlock.vue`
 
-Uses: `NbIcon`, `PrimaryButton`, `SecondaryButton`, `Tabs`, `Tab`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Toaster`, `CodePreview`
+Uses: `Breadcrumbs`, `Badge`, `IconButton`, `PrimaryButton`, `SecondaryButton`, `NbIcon`, `Tabs`, `Tab`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Toaster`, `Card`, `CodePreview`
 
 ### Settings Page
 
@@ -2733,7 +2733,7 @@ A two-column account settings page: a vertical section nav on the left, and on t
 
 Source: `src/docs/Blocks/SettingsPageBlock.vue`
 
-Uses: `Section`, `Input`, `Textarea`, `PrimaryButton`, `Checkbox`, `DangerButton`, `NewModal`, `SecondaryButton`, `CodePreview`
+Uses: `Section`, `Input`, `Textarea`, `PrimaryButton`, `Checkbox`, `DangerButton`, `NewModal`, `SecondaryButton`, `NbTransition`, `CodePreview`
 
 ### Show & Edit Page
 

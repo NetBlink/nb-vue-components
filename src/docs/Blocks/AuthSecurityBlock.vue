@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { Alert, CodePreview, Input, PrimaryButton } from '../../index';
+import { Alert, Card, CodePreview, IconCircle, Input, PrimaryButton } from '../../index';
 import { NbIcon } from '../../icons';
 import { faFingerprint, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
@@ -221,10 +221,8 @@ const passkeySnippet = [
                 <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">Input</code>. Try <strong>123456</strong> for success, anything else to see the error.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/40">
-                        <NbIcon :name="faShieldHalved" size="lg" class="text-primary-600 dark:text-primary-300" />
-                    </div>
+                <Card class="mx-auto w-full max-w-md">
+                    <IconCircle :icon="faShieldHalved" size="lg" class="mx-auto mb-4 flex" />
 
                     <h2 class="mb-1 text-center text-lg font-semibold text-gray-800 dark:text-gray-100">Two-factor authentication</h2>
                     <p class="mb-6 text-center text-sm text-gray-600 dark:text-gray-400">
@@ -271,7 +269,7 @@ const passkeySnippet = [
                             {{ useRecovery ? 'Use your authenticator app instead' : 'Use a recovery code' }}
                         </button>
                     </form>
-                </div>
+                </Card>
             </div>
             <CodePreview :code="twoFactorSnippet" filename="TwoFactorChallenge.vue" />
         </DocDemoCard>
@@ -283,7 +281,7 @@ const passkeySnippet = [
                 fallback below it.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                <Card class="mx-auto w-full max-w-md">
                     <h2 class="mb-6 text-center text-lg font-semibold text-gray-800 dark:text-gray-100">Sign in to your account</h2>
 
                     <div class="space-y-3">
@@ -320,7 +318,7 @@ const passkeySnippet = [
                         <Input v-model="oauthEmail" field="email" type="email" label="Email" placeholder="you@example.com" />
                         <PrimaryButton type="button" class="w-full justify-center">Continue with Email</PrimaryButton>
                     </div>
-                </div>
+                </Card>
             </div>
             <CodePreview :code="oauthSnippet" filename="OAuthProviders.vue" />
         </DocDemoCard>
@@ -333,10 +331,8 @@ const passkeySnippet = [
                 <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">navigator.credentials.get()</code>.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/40">
-                        <NbIcon :name="faFingerprint" size="lg" class="text-primary-600 dark:text-primary-300" />
-                    </div>
+                <Card class="mx-auto w-full max-w-md">
+                    <IconCircle :icon="faFingerprint" size="lg" class="mx-auto mb-4 flex" />
 
                     <h2 class="mb-1 text-center text-lg font-semibold text-gray-800 dark:text-gray-100">Faster sign-in</h2>
                     <p class="mb-6 text-center text-sm text-gray-600 dark:text-gray-400">
@@ -362,7 +358,7 @@ const passkeySnippet = [
                     <p v-else class="text-center text-xs text-amber-600 dark:text-amber-400">
                         This device does not support passkeys, <a href="#" class="underline hover:no-underline" @click.prevent>sign in with your password</a>
                     </p>
-                </div>
+                </Card>
             </div>
             <CodePreview :code="passkeySnippet" filename="PasskeySignIn.vue" />
         </DocDemoCard>

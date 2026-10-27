@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
-import { Input, Checkbox, Select, Textarea, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { Input, Checkbox, Select, Textarea, PrimaryButton, SecondaryButton, Card, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Login/auth card demo state
@@ -18,8 +18,7 @@ function submitLogin() {
 }
 
 const loginSnippet = [
-    '<div class="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">',
-    '    <h2 class="mb-6 text-xl font-semibold text-gray-800 dark:text-gray-100">Sign in to your account</h2>',
+    '<Card title="Sign in to your account" class="mx-auto w-full max-w-md" :ui="{ title: \'text-xl\' }">',
     '',
     '    <form @submit.prevent="form.post(\'/login\')" class="space-y-4">',
     '        <Input :form="form" field="email" type="email" label="Email" required autofocus />',
@@ -35,7 +34,7 @@ const loginSnippet = [
     '            </SecondaryButton>',
     '        </div>',
     '    </form>',
-    '</div>',
+    '</Card>',
 ];
 
 // Two-column settings form demo state
@@ -95,8 +94,7 @@ const settingsSnippet = [
                 disabled while the form is processing.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-                    <h2 class="mb-6 text-xl font-semibold text-gray-800 dark:text-gray-100">Sign in to your account</h2>
+                <Card title="Sign in to your account" class="mx-auto w-full max-w-md" :ui="{ title: 'text-xl' }">
 
                     <form @submit.prevent="submitLogin" class="space-y-4">
                         <Input v-model="loginForm.email" field="email" type="email" label="Email" required />
@@ -112,7 +110,7 @@ const settingsSnippet = [
                             </SecondaryButton>
                         </div>
                     </form>
-                </div>
+                </Card>
             </div>
             <CodePreview :code="loginSnippet" filename="LoginCard.vue" />
         </DocDemoCard>

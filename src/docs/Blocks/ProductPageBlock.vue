@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { PrimaryButton, SecondaryButton, Table, Thead, Tbody, Th, Td, Tr, Tabs, Tab, Toaster, toast, CodePreview } from '../../index';
+import { PrimaryButton, SecondaryButton, IconButton, Badge, Breadcrumbs, Card, Table, Thead, Tbody, Th, Td, Tr, Tabs, Tab, Toaster, toast, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
-import { faStar, faHeart, faMinus, faPlus, faChevronRight, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHeart, faMinus, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const colors = [
@@ -27,6 +27,7 @@ const compareAt = 129;
 const discount = Math.round((1 - price / compareAt) * 100);
 const rating = 4;
 const reviewCount = 128;
+const crumbs = [{ label: 'Shop', href: '#' }, { label: 'Outerwear', href: '#' }, { label: 'Alpine Shell Jacket' }];
 
 function addToCart() {
     toast.success(`${quantity.value} × Alpine Shell Jacket added to your cart`, {
@@ -84,13 +85,12 @@ const snippet = [
     '',
     '    <!-- Details -->',
     '    <div>',
-    '        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ product.name }}</h1>',
+    '        <Breadcrumbs :items="[{ label: \'Shop\', href: \'/shop\' }, { label: product.category, href: product.categoryUrl }, { label: product.name }]" />',
+    '        <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ product.name }}</h1>',
     '        <div class="mt-4 flex items-baseline gap-3">',
     '            <span class="text-3xl font-bold text-gray-900 dark:text-gray-100">€{{ product.price }}</span>',
     '            <span class="text-gray-500 line-through dark:text-gray-400">€{{ product.compareAt }}</span>',
-    '            <span class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700 dark:bg-red-900/40 dark:text-red-300">',
-    '                -{{ product.discount }}%',
-    '            </span>',
+    '            <Badge variant="danger" :label="`-${product.discount}%`" />',
     '        </div>',
     '',
     '        <div class="mt-6 flex gap-2">',
@@ -113,13 +113,9 @@ const snippet = [
     '',
     '        <div class="mt-6 flex flex-wrap items-center gap-3">',
     '            <div class="flex items-center rounded-md border border-gray-300 dark:border-gray-600">',
-    '                <button type="button" class="px-3 py-2" @click="quantity = Math.max(1, quantity - 1)">',
-    '                    <NbIcon :name="faMinus" size="sm" />',
-    '                </button>',
+    '                <IconButton :icon="faMinus" label="Decrease quantity" size="sm" :disabled="quantity <= 1" @click="quantity--" />',
     '                <span class="w-10 text-center font-medium">{{ quantity }}</span>',
-    '                <button type="button" class="px-3 py-2" @click="quantity += 1">',
-    '                    <NbIcon :name="faPlus" size="sm" />',
-    '                </button>',
+    '                <IconButton :icon="faPlus" label="Increase quantity" size="sm" @click="quantity++" />',
     '            </div>',
     '            <PrimaryButton type="button" @click="addToCart">Add to cart</PrimaryButton>',
     '            <SecondaryButton type="button" @click="toggleWishlist">',
@@ -165,7 +161,7 @@ const snippet = [
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="rounded-lg border border-gray-200 bg-white p-4 sm:p-6 dark:border-gray-700 dark:bg-gray-800">
+                <Card :ui="{ body: 'p-4 sm:p-6' }">
                     <div class="grid gap-8 lg:grid-cols-2">
                         <!-- Gallery -->
                         <div>
@@ -193,13 +189,7 @@ const snippet = [
 
                         <!-- Details -->
                         <div>
-                            <nav class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                                <a href="#" class="hover:text-gray-700 dark:hover:text-gray-200" @click.prevent>Shop</a>
-                                <NbIcon :name="faChevronRight" size="12px" />
-                                <a href="#" class="hover:text-gray-700 dark:hover:text-gray-200" @click.prevent>Outerwear</a>
-                                <NbIcon :name="faChevronRight" size="12px" />
-                                <span class="text-gray-700 dark:text-gray-300">Alpine Shell Jacket</span>
-                            </nav>
+                            <Breadcrumbs :items="crumbs" />
 
                             <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">Alpine Shell Jacket</h1>
 
@@ -219,9 +209,7 @@ const snippet = [
                             <div class="mt-4 flex items-baseline gap-3">
                                 <span class="text-3xl font-bold text-gray-900 dark:text-gray-100">€{{ price }}</span>
                                 <span class="text-gray-500 line-through dark:text-gray-400">€{{ compareAt }}</span>
-                                <span class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700 dark:bg-red-900/40 dark:text-red-300">
-                                    -{{ discount }}%
-                                </span>
+                                <Badge variant="danger" :label="`-${discount}%`" />
                             </div>
 
                             <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
@@ -269,24 +257,9 @@ const snippet = [
 
                             <div class="mt-6 flex flex-wrap items-center gap-3">
                                 <div class="flex items-center rounded-md border border-gray-300 dark:border-gray-600">
-                                    <button
-                                        type="button"
-                                        class="cursor-pointer px-3 py-2 text-gray-600 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-40 dark:text-gray-400 dark:hover:text-gray-100"
-                                        :disabled="quantity <= 1"
-                                        aria-label="Decrease quantity"
-                                        @click="quantity = Math.max(1, quantity - 1)"
-                                    >
-                                        <NbIcon :name="faMinus" size="sm" />
-                                    </button>
+                                    <IconButton :icon="faMinus" label="Decrease quantity" size="sm" :disabled="quantity <= 1" @click="quantity = Math.max(1, quantity - 1)" />
                                     <span class="w-10 text-center text-sm font-medium text-gray-900 dark:text-gray-100">{{ quantity }}</span>
-                                    <button
-                                        type="button"
-                                        class="cursor-pointer px-3 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-                                        aria-label="Increase quantity"
-                                        @click="quantity += 1"
-                                    >
-                                        <NbIcon :name="faPlus" size="sm" />
-                                    </button>
+                                    <IconButton :icon="faPlus" label="Increase quantity" size="sm" @click="quantity += 1" />
                                 </div>
 
                                 <PrimaryButton type="button" @click="addToCart">Add to cart</PrimaryButton>
@@ -297,8 +270,8 @@ const snippet = [
                             </div>
 
                             <p class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                                In stock, ships within 24 hours
+                                <Badge dot variant="success" label="In stock" />
+                                Ships within 24 hours
                             </p>
                         </div>
                     </div>
@@ -358,7 +331,7 @@ const snippet = [
                             </ul>
                         </Tab>
                     </Tabs>
-                </div>
+                </Card>
             </div>
 
             <CodePreview :code="snippet" filename="ProductPage.vue" />

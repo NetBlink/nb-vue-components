@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Section, Input, Textarea, Checkbox, PrimaryButton, SecondaryButton, DangerButton, NewModal, CodePreview } from '../../index';
+import { Section, Input, Textarea, Checkbox, PrimaryButton, SecondaryButton, DangerButton, NewModal, NbTransition, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const sections = [
@@ -224,7 +224,7 @@ const snippet = [
                             <DangerButton type="button" @click="openDelete">Delete account</DangerButton>
                         </Section>
 
-                        <p v-if="savedLabel" class="text-sm text-green-600 dark:text-green-400">{{ savedLabel }}</p>
+                        <NbTransition><p v-if="savedLabel" class="text-sm text-green-600 dark:text-green-400">{{ savedLabel }}</p></NbTransition>
                     </div>
                 </div>
             </div>

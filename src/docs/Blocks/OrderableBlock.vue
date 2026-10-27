@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, type Ref } from 'vue';
-import { Button, Input, CodePreview } from '../../index';
+import { IconButton, Input, NbTransitionGroup, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faGripVertical, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -73,12 +73,8 @@ const listSnippet = [
     '        <span class="flex-1 text-sm text-gray-800 dark:text-gray-100">{{ item.label }}</span>',
     '',
     '        <!-- keyboard / a11y fallback -->',
-    '        <Button theme="secondary" size="xs" :disabled="i === 0" aria-label="Move up" @click="move(i, i - 1)">',
-    '            <NbIcon :name="faArrowUp" class="h-3 w-3" />',
-    '        </Button>',
-    '        <Button theme="secondary" size="xs" :disabled="i === items.length - 1" aria-label="Move down" @click="move(i, i + 1)">',
-    '            <NbIcon :name="faArrowDown" class="h-3 w-3" />',
-    '        </Button>',
+    '        <IconButton :icon="faArrowUp" label="Move up" theme="secondary" size="xs" :disabled="i === 0" @click="move(i, i - 1)" />',
+    '        <IconButton :icon="faArrowDown" label="Move down" theme="secondary" size="xs" :disabled="i === items.length - 1" @click="move(i, i + 1)" />',
     '    </li>',
     '</ul>',
     '',
@@ -146,12 +142,8 @@ const formSnippet = [
     '        </div>',
     '',
     '        <div class="mt-7 flex gap-1">',
-    '            <Button theme="secondary" size="xs" :disabled="i === 0" aria-label="Move up" @click="move(i, i - 1)">',
-    '                <NbIcon :name="faArrowUp" class="h-3 w-3" />',
-    '            </Button>',
-    '            <Button theme="secondary" size="xs" :disabled="i === fields.length - 1" aria-label="Move down" @click="move(i, i + 1)">',
-    '                <NbIcon :name="faArrowDown" class="h-3 w-3" />',
-    '            </Button>',
+    '            <IconButton :icon="faArrowUp" label="Move up" theme="secondary" size="xs" :disabled="i === 0" @click="move(i, i - 1)" />',
+    '            <IconButton :icon="faArrowDown" label="Move down" theme="secondary" size="xs" :disabled="i === fields.length - 1" @click="move(i, i + 1)" />',
     '        </div>',
     '    </div>',
     '</form>',
@@ -167,11 +159,11 @@ const formSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down Buttons so the
+                A drag-to-reorder list built on native HTML5 drag events, no library. Each row carries a grip handle and up/down IconButtons so the
                 order is reachable by keyboard too. The dragged row dims, and the drop target shows a line where the item will land.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <ul class="divide-y divide-gray-200 overflow-hidden rounded-md border border-gray-200 dark:divide-gray-700 dark:border-gray-700">
+                <NbTransitionGroup tag="ul" class="divide-y divide-gray-200 overflow-hidden rounded-md border border-gray-200 dark:divide-gray-700 dark:border-gray-700">
                     <li
                         v-for="(item, i) in widgets"
                         :key="item.id"
@@ -191,14 +183,10 @@ const formSnippet = [
                         <NbIcon :name="faGripVertical" class="h-4 w-4 shrink-0 cursor-grab text-gray-400 dark:text-gray-500" />
                         <span class="flex-1 text-sm text-gray-800 dark:text-gray-100">{{ item.label }}</span>
 
-                        <Button theme="secondary" size="xs" :disabled="i === 0" aria-label="Move up" @click="listMove(i, i - 1)">
-                            <NbIcon :name="faArrowUp" class="h-3 w-3" />
-                        </Button>
-                        <Button theme="secondary" size="xs" :disabled="i === widgets.length - 1" aria-label="Move down" @click="listMove(i, i + 1)">
-                            <NbIcon :name="faArrowDown" class="h-3 w-3" />
-                        </Button>
+                        <IconButton :icon="faArrowUp" label="Move up" theme="secondary" size="xs" :disabled="i === 0" @click="listMove(i, i - 1)" />
+                        <IconButton :icon="faArrowDown" label="Move down" theme="secondary" size="xs" :disabled="i === widgets.length - 1" @click="listMove(i, i + 1)" />
                     </li>
-                </ul>
+                </NbTransitionGroup>
 
                 <p class="mt-3 text-xs text-gray-600 dark:text-gray-400">
                     Current order:
@@ -247,12 +235,8 @@ const formSnippet = [
                         </div>
 
                         <div class="mt-7 flex shrink-0 gap-1">
-                            <Button theme="secondary" size="xs" :disabled="i === 0" aria-label="Move up" @click="formMove(i, i - 1)">
-                                <NbIcon :name="faArrowUp" class="h-3 w-3" />
-                            </Button>
-                            <Button theme="secondary" size="xs" :disabled="i === fields.length - 1" aria-label="Move down" @click="formMove(i, i + 1)">
-                                <NbIcon :name="faArrowDown" class="h-3 w-3" />
-                            </Button>
+                            <IconButton :icon="faArrowUp" label="Move up" theme="secondary" size="xs" :disabled="i === 0" @click="formMove(i, i - 1)" />
+                            <IconButton :icon="faArrowDown" label="Move down" theme="secondary" size="xs" :disabled="i === fields.length - 1" @click="formMove(i, i + 1)" />
                         </div>
                     </div>
 

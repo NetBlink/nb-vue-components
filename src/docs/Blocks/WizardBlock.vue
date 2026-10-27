@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
-import { NbIcon } from '../../icons';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, CodePreview } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const steps = [
-    { label: 'Account', hint: 'Your login details' },
-    { label: 'Company', hint: 'About your business' },
-    { label: 'Review', hint: 'Confirm and submit' },
+    { label: 'Account', description: 'Your login details' },
+    { label: 'Company', description: 'About your business' },
+    { label: 'Review', description: 'Confirm and submit' },
 ];
 
 const step = ref(1);
@@ -69,32 +67,20 @@ function submit() {
     }, 900);
 }
 
-const circleClass = (index: number) => {
-    const n = index + 1;
-    if (n < step.value) return 'bg-emerald-500 text-white ring-emerald-500 dark:bg-emerald-500 dark:ring-emerald-400';
-    if (n === step.value) return 'bg-primary-600 ring-primary-600 text-white dark:bg-primary-500 dark:ring-primary-400';
-    return 'bg-white text-gray-400 ring-gray-300 dark:bg-gray-800 dark:text-gray-500 dark:ring-gray-600';
-};
-
-const railClass = (index: number) =>
-    index + 1 < step.value ? 'bg-emerald-500 dark:bg-emerald-500' : 'bg-gray-200 dark:bg-gray-700';
-
 const snippet = [
     '<script setup>',
     'import { ref, computed } from \'vue\';',
     'import { useForm } from \'@inertiajs/vue3\';',
-    'import { Alert, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select } from \'@netblink/vue-components\';',
-    'import { NbIcon } from \'@netblink/vue-components/icons\';',
-    'import { faCheck } from \'@fortawesome/free-solid-svg-icons\';',
+    'import { Alert, Card, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select, Stepper } from \'@netblink/vue-components\';',
     '',
     'const step = ref(1);',
     'const submitted = ref(false);',
     'const form = useForm({ name: \'\', email: \'\', password: \'\', company: \'\', business_type: \'\', size: \'\', confirmed: false });',
     '',
     'const steps = [',
-    '    { label: \'Account\', hint: \'Your login details\' },',
-    '    { label: \'Company\', hint: \'About your business\' },',
-    '    { label: \'Review\', hint: \'Confirm and submit\' },',
+    '    { label: \'Account\', description: \'Your login details\' },',
+    '    { label: \'Company\', description: \'About your business\' },',
+    '    { label: \'Review\', description: \'Confirm and submit\' },',
     '];',
     'const businessTypes = [{ value: \'sole_trader\', label: \'Sole trader\' }, { value: \'limited\', label: \'Limited company\' }];',
     'const sizes = [{ value: \'1-10\', label: \'1 - 10 employees\' }, { value: \'51+\', label: \'51+ employees\' }];',
@@ -110,35 +96,14 @@ const snippet = [
     '<\/script>',
     '',
     '<template>',
-    '    <!-- Stepper -->',
-    '    <ol class="mb-8 flex items-start">',
-    '        <li v-for="(s, i) in steps" :key="s.label" class="flex flex-1 items-center last:flex-none">',
-    '            <div class="flex flex-col items-center">',
-    '                <span',
-    '                    class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2"',
-    '                    :class="i + 1 < step ? \'bg-emerald-500 text-white ring-emerald-500\'',
-    '                        : i + 1 === step ? \'bg-primary-600 text-white ring-primary-600\'',
-    '                        : \'bg-white text-gray-400 ring-gray-300 dark:bg-gray-800 dark:ring-gray-600\'"',
-    '                >',
-    '                    <NbIcon v-if="i + 1 < step" :name="faCheck" class="h-3.5 w-3.5" />',
-    '                    <template v-else>{{ i + 1 }}</template>',
-    '                </span>',
-    '                <span class="mt-2 text-xs font-medium text-gray-700 dark:text-gray-300">{{ s.label }}</span>',
-    '                <span class="hidden text-xs text-gray-500 sm:block dark:text-gray-400">{{ s.hint }}</span>',
-    '            </div>',
-    '            <span',
-    '                v-if="i < steps.length - 1"',
-    '                class="mx-3 mt-4 h-0.5 flex-1 self-start"',
-    '                :class="i + 1 < step ? \'bg-emerald-500\' : \'bg-gray-200 dark:bg-gray-700\'"',
-    '            />',
-    '        </li>',
-    '    </ol>',
+    '    <!-- Stepper: 0-based current step, done steps get a check -->',
+    '    <Stepper :steps="steps" :current="step - 1" class="mb-8" />',
     '',
     '    <Alert v-if="submitted" type="success" title="Account created" dismissible class="mb-6" @dismiss="submitted = false">',
     '        Your workspace is ready.',
     '    </Alert>',
     '',
-    '    <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">',
+    '    <Card>',
     '        <form @submit.prevent="form.post(route(\'register.store\'), { onSuccess: () => (submitted = true) })" class="space-y-4">',
     '            <template v-if="step === 1">',
     '                <Input :form="form" field="name" label="Full Name" required autofocus />',
@@ -176,7 +141,7 @@ const snippet = [
     '                </PrimaryButton>',
     '            </div>',
     '        </form>',
-    '    </div>',
+    '    </Card>',
     '</template>',
 ];
 </script>
@@ -187,7 +152,7 @@ const snippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A three-step wizard: a horizontal stepper with connector rails that fill as you advance, over a single form split across
+                A three-step wizard: a <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">Stepper</code> whose rails fill as you advance, over a single form split across
                 Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one
                 <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">useForm</code> holds every field, and steps switch with
                 <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">v-if</code> on a step ref.
@@ -199,30 +164,9 @@ const snippet = [
                         Your workspace is ready. The form has been reset back to step one.
                     </Alert>
 
-                    <!-- Stepper -->
-                    <ol class="mb-8 flex items-start">
-                        <li v-for="(s, i) in steps" :key="s.label" class="flex flex-1 items-center last:flex-none">
-                            <div class="flex flex-col items-center">
-                                <span
-                                    class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2 transition-colors"
-                                    :class="circleClass(i)"
-                                >
-                                    <NbIcon v-if="i + 1 < step" :name="faCheck" class="h-3.5 w-3.5" />
-                                    <template v-else>{{ i + 1 }}</template>
-                                </span>
-                                <span class="mt-2 text-xs font-medium text-gray-700 dark:text-gray-300">{{ s.label }}</span>
-                                <span class="hidden text-xs text-gray-500 sm:block dark:text-gray-400">{{ s.hint }}</span>
-                            </div>
-                            <span
-                                v-if="i < steps.length - 1"
-                                class="mx-3 mt-4 h-0.5 flex-1 self-start transition-colors"
-                                :class="railClass(i)"
-                            />
-                        </li>
-                    </ol>
+                    <Stepper :steps="steps" :current="step - 1" class="mb-8" />
 
-                    <!-- Card -->
-                    <div class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+                    <Card>
                         <form @submit.prevent="submit" class="space-y-4">
                             <template v-if="step === 1">
                                 <Input v-model="form.name" field="name" label="Full Name" required />
@@ -274,7 +218,7 @@ const snippet = [
                                 </PrimaryButton>
                             </div>
                         </form>
-                    </div>
+                    </Card>
                 </div>
             </div>
 
