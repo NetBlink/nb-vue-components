@@ -44,10 +44,11 @@ const VARIANTS: Record<string, { root: string; icon: string }> = {
     info: { root: 'bg-blue-100 dark:bg-blue-900/40', icon: 'text-blue-600 dark:text-blue-300' },
 };
 
+// The text size matters too: FontAwesome's runtime CSS sizes its svg at 1em, over the wrapper's h-full.
 const SIZES = {
-    sm: { root: 'h-8 w-8', icon: 'h-4 w-4' },
-    md: { root: 'h-10 w-10', icon: 'h-5 w-5' },
-    lg: { root: 'h-12 w-12', icon: 'h-6 w-6' },
+    sm: { root: 'h-8 w-8', icon: 'h-4 w-4 text-base' },
+    md: { root: 'h-10 w-10', icon: 'h-5 w-5 text-xl' },
+    lg: { root: 'h-12 w-12', icon: 'h-6 w-6 text-2xl' },
 };
 
 const colour = computed(() => variant<'root' | 'icon'>('variant', VARIANTS, props.variant));
