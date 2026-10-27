@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Switch, SubmitButton, Skeleton, Card, Avatar, CodePreview, InlineCode } from '../../index';
+import { Switch, SubmitButton, Skeleton, Card, Avatar, ContentLoader, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Primitives snippet
@@ -62,15 +62,17 @@ const showLoading = ref(true);
 const toggleSnippet = [
     '<Switch v-model="loading" no-label right-description="Loading" class="mb-4" />',
     '',
-    '<!-- the row skeleton, its circle sized to match the real avatar -->',
-    "<Skeleton v-if=\"loading\" shape=\"row\" :ui=\"{ circle: 'h-12 w-12' }\" />",
-    '<div v-else class="flex items-center gap-3">',
+    '<!-- ContentLoader cross-fades the skeleton (circle sized to the real avatar) into the content -->',
+    '<ContentLoader :loading="loading">',
+    "    <template #loading><Skeleton shape=\"row\" :ui=\"{ circle: 'h-12 w-12' }\" /></template>",
+    '<div class="flex items-center gap-3">',
     '    <Avatar :src="user.avatar" :name="user.name" size="lg" />',
     '    <div>',
     '        <div class="font-medium text-gray-800 dark:text-gray-100">{{ user.name }}</div>',
     '        <div class="text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</div>',
     '    </div>',
     '</div>',
+    '</ContentLoader>',
 ];
 
 // Button loading demo
@@ -173,14 +175,16 @@ const buttonSnippet = [
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Switch v-model="showLoading" no-label right-description="Loading" class="mb-4" />
 
-                <Skeleton v-if="showLoading" shape="row" :ui="{ circle: 'h-12 w-12' }" />
-                <div v-else class="flex items-center gap-3">
+                <ContentLoader :loading="showLoading">
+                <template #loading><Skeleton shape="row" :ui="{ circle: 'h-12 w-12' }" /></template>
+                <div class="flex items-center gap-3">
                     <Avatar name="Jane Cooper" size="lg" />
                     <div>
                         <div class="font-medium text-gray-800 dark:text-gray-100">Jane Cooper</div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">jane@example.com</div>
                     </div>
                 </div>
+                </ContentLoader>
             </div>
             <CodePreview :code="toggleSnippet" filename="ToggleCompare.vue" />
         </DocDemoCard>

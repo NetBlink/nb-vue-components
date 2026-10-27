@@ -173,7 +173,7 @@ const conversationSnippet = [
                         :key="conversation.id"
                         clickable
                         padding="sm"
-                        :class="conversation.unread && 'ring-2 ring-primary-500/50'"
+                        :class="['transition-shadow duration-300', conversation.unread && 'ring-2 ring-primary-500/50']"
                         @click="openConversation(conversation.id)"
                     >
                         <div class="flex items-start gap-3">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onUnmounted, ref } from 'vue';
-import { TextInput, PrimaryButton, SecondaryButton, Card, Badge, IconCircle, CodePreview } from '../../index';
+import { TextInput, PrimaryButton, SecondaryButton, Card, Badge, IconCircle, NbTransitionGroup, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faWandMagicSparkles, faWrench, faChevronDown, faPaperPlane, faStop, faArrowRotateRight, faUser } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -188,6 +188,7 @@ const snippet = [
                     </div>
 
                     <div ref="listEl" class="max-h-80 space-y-4 overflow-y-auto p-4">
+                        <NbTransitionGroup tag="div" preset="slide-up" class="space-y-4">
                         <div v-for="message in messages" :key="message.id" class="flex gap-3" :class="message.role === 'user' ? 'justify-end' : ''">
                             <IconCircle v-if="message.role === 'assistant'" :icon="faWandMagicSparkles" size="sm" />
 
@@ -238,6 +239,7 @@ const snippet = [
                                 </button>
                             </div>
                         </div>
+                        </NbTransitionGroup>
                     </div>
 
                     <div class="space-y-2 border-t border-gray-200 p-4 dark:border-gray-700">

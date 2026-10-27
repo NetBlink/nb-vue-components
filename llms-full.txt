@@ -2848,7 +2848,7 @@ A chat panel composed from TextInput, PrimaryButton and SecondaryButton: replies
 
 Source: `src/docs/Blocks/AiAssistantBlock.vue`
 
-Uses: `Card`, `IconCircle`, `Badge`, `NbIcon`, `TextInput`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `Card`, `IconCircle`, `Badge`, `NbIcon`, `TextInput`, `SecondaryButton`, `PrimaryButton`, `NbTransitionGroup`, `CodePreview`
 
 ### App Navbar
 
@@ -2884,11 +2884,11 @@ Uses: `Card`, `InlineCode`, `CodePreview`, `NbIcon`
 
 ### Chat Interface
 
-A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an animated typing indicator, and a composer with an IconButton send. Sending scrolls the pane and triggers a canned reply.
+A two-person messenger: a GravatarImg header with an online Badge, a ChatMessageList (day separators, typing indicator, follows new messages), and a composer with an IconButton send. Sending triggers a canned reply.
 
 Source: `src/docs/Blocks/ChatBlock.vue`
 
-Uses: `ChatMessage`, `Card`, `GravatarImg`, `Badge`, `NbTransitionGroup`, `NbTransition`, `IconButton`, `CodePreview`
+Uses: `ChatMessage`, `Card`, `GravatarImg`, `Badge`, `ChatMessageList`, `IconButton`, `InlineCode`, `CodePreview`
 
 ### CRUD Index Page
 
@@ -2920,7 +2920,7 @@ A reverse-chronological activity feed: Timeline with layout="cards" gives each e
 
 Source: `src/docs/Blocks/FeedTimelineBlock.vue`
 
-Uses: `Timeline`, `Select`, `Badge`, `Card`, `EmptyState`, `InlineCode`, `CodePreview`
+Uses: `Timeline`, `Select`, `Badge`, `Card`, `EmptyState`, `InlineCode`, `CodePreview`, `NbTransition`, `NbTransitionGroup`
 
 ### Form Layouts
 
@@ -3016,7 +3016,7 @@ Skeleton primitives: a text-line stack, an avatar row with two supporting lines,
 
 Source: `src/docs/Blocks/SkeletonsBlock.vue`
 
-Uses: `Skeleton`, `Card`, `Switch`, `Avatar`, `SubmitButton`, `InlineCode`, `CodePreview`
+Uses: `Skeleton`, `Card`, `Switch`, `ContentLoader`, `Avatar`, `SubmitButton`, `InlineCode`, `CodePreview`
 
 ### Tabbed Detail Page
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Select, Timeline, Badge, Card, EmptyState, CodePreview, InlineCode } from '../../index';
+import { Select, Timeline, Badge, Card, EmptyState, NbTransition, NbTransitionGroup, CodePreview, InlineCode } from '../../index';
 import { faCheck, faTriangleExclamation, faCircleInfo, faXmark, faInbox } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -122,8 +122,12 @@ const logSnippet = [
                     </p>
                 </div>
 
-                <ol
+                <!-- Rows fade in and out as the filter changes; the empty state cross-fades in -->
+                <NbTransition mode="out-in">
+                <NbTransitionGroup
                     v-if="filteredLogs.length"
+                    tag="ol"
+                    preset="fade"
                     class="mt-4 max-h-72 divide-y divide-gray-200 overflow-y-auto rounded-lg border border-gray-200 bg-white dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800"
                 >
                     <li
@@ -135,11 +139,12 @@ const logSnippet = [
                         <Badge :variant="typeVariants[log.type as keyof typeof typeVariants]" :label="log.type" class="w-20 shrink-0 justify-center" />
                         <span class="w-full min-w-0 truncate font-mono text-xs text-gray-700 sm:w-auto sm:flex-1 dark:text-gray-300">{{ log.payload }}</span>
                     </li>
-                </ol>
+                </NbTransitionGroup>
 
                 <Card v-else padding="none" class="mt-4">
                     <EmptyState :icon="faInbox" title="No log entries match this filter." />
                 </Card>
+                </NbTransition>
             </div>
             <CodePreview :code="logSnippet" filename="LogStream.vue" />
         </DocDemoCard>
