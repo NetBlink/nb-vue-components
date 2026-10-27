@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
-import { Card, CodePreview } from '../../index';
+import { Card, CodePreview, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -321,17 +321,17 @@ const themeKey = computed(() => themed.value.mode);
 
         <p class="mb-6 text-gray-600 dark:text-gray-400">
             These recipes use
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">apexcharts</code>
+            <InlineCode>apexcharts</InlineCode>
             with the
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">vue3-apexcharts</code>
+            <InlineCode>vue3-apexcharts</InlineCode>
             wrapper, install it with
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">npm i apexcharts vue3-apexcharts</code>,
+            <InlineCode>npm i apexcharts vue3-apexcharts</InlineCode>,
             then import the component locally in whichever SFC needs it. Apex renders to a detached SVG and cannot resolve Tailwind CSS variables, so the
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">primary-*</code> hex values are passed
-            straight into <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">colors</code>. Every chart below is built from a
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">computed</code> that reads an <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">isDark</code> ref (a
-            <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">MutationObserver</code> on <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">documentElement.classList</code>), so flipping the docs dark
-            toggle rebuilds <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">theme.mode</code>, <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">foreColor</code> and the grid colours in place.
+            <InlineCode>primary-*</InlineCode> hex values are passed
+            straight into <InlineCode>colors</InlineCode>. Every chart below is built from a
+            <InlineCode>computed</InlineCode> that reads an <InlineCode>isDark</InlineCode> ref (a
+            <InlineCode>MutationObserver</InlineCode> on <InlineCode>documentElement.classList</InlineCode>), so flipping the docs dark
+            toggle rebuilds <InlineCode>theme.mode</InlineCode>, <InlineCode>foreColor</InlineCode> and the grid colours in place.
         </p>
 
         <!-- 1. Area / line chart -->
@@ -353,7 +353,7 @@ const themeKey = computed(() => themed.value.mode);
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A donut with a bottom legend and a running total in the hollow, produced by
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">plotOptions.pie.donut.labels.total</code>, no overlay markup needed.
+                <InlineCode>plotOptions.pie.donut.labels.total</InlineCode>, no overlay markup needed.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Card title="Traffic sources" padding="sm" class="mx-auto max-w-md" :ui="{ title: 'text-sm' }">
@@ -380,7 +380,7 @@ const themeKey = computed(() => themed.value.mode);
         <!-- 4. RadialBar rings -->
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Three quota metrics as concentric <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">radialBar</code> rings. The centre label cycles per ring on hover and falls back
+                Three quota metrics as concentric <InlineCode>radialBar</InlineCode> rings. The centre label cycles per ring on hover and falls back
                 to the average.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
@@ -394,7 +394,7 @@ const themeKey = computed(() => themed.value.mode);
         <!-- 5. Sparkline KPI cards -->
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">chart.sparkline.enabled</code> strips axes, grid, padding and toolbar in a single flag, which is exactly what a stat
+                <InlineCode>chart.sparkline.enabled</InlineCode> strips axes, grid, padding and toolbar in a single flag, which is exactly what a stat
                 card wants below its number.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

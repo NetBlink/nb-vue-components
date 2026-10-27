@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PageHeader, Badge, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { PageHeader, Badge, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const crumbs = [
@@ -54,7 +54,7 @@ const slots = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 The top of a page: breadcrumbs, title, description and actions, with a mobile "Back" link. The
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">bar</code> variant is the compact bordered strip many admin screens use.
+                <InlineCode>bar</InlineCode> variant is the compact bordered strip many admin screens use.
             </p>
             <div class="mb-6 space-y-8">
                 <PageHeader title="Invoices" description="Everything billed to Acme Ltd." :breadcrumbs="crumbs" back="#">

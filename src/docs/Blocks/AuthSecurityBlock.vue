@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { Alert, Card, CodePreview, IconCircle, Input, PrimaryButton } from '../../index';
+import { Alert, Card, CodePreview, IconCircle, Input, PrimaryButton, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faFingerprint, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
@@ -218,7 +218,7 @@ const passkeySnippet = [
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A two-factor challenge card: six auto-advancing single-character boxes that accept a pasted 6-digit code, a Verify button that
                 stays disabled until the code is complete, and a toggle that swaps the boxes for a single recovery-code
-                <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">Input</code>. Try <strong>123456</strong> for success, anything else to see the error.
+                <InlineCode>Input</InlineCode>. Try <strong>123456</strong> for success, anything else to see the error.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Card class="mx-auto w-full max-w-md">
@@ -301,10 +301,10 @@ const passkeySnippet = [
                     <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
                         <template v-if="lastProvider">
                             In a real app this would navigate to
-                            <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">route('oauth.redirect', '{{ lastProvider }}')</code>.
+                            <InlineCode>route('oauth.redirect', '{{ lastProvider }}')</InlineCode>.
                         </template>
                         <template v-else>
-                            Each button links to <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">route('oauth.redirect', provider)</code>.
+                            Each button links to <InlineCode>route('oauth.redirect', provider)</InlineCode>.
                         </template>
                     </p>
 
@@ -327,8 +327,8 @@ const passkeySnippet = [
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A passkey sign-in card that really feature-detects WebAuthn on mount via
-                <code class="rounded bg-gray-100 px-1 text-xs break-all dark:bg-gray-900/60">PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()</code>, what you see below reflects <em>this</em> browser. The button fakes success; it never calls
-                <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">navigator.credentials.get()</code>.
+                <InlineCode>PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()</InlineCode>, what you see below reflects <em>this</em> browser. The button fakes success; it never calls
+                <InlineCode>navigator.credentials.get()</InlineCode>.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Card class="mx-auto w-full max-w-md">

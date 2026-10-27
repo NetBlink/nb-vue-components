@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Timeline, IconCircle, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Timeline, IconCircle, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import { faTruck, faCreditCard, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -39,8 +39,8 @@ const circleProps = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 A chronological list of events with coloured icon markers. The markers are
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">IconCircle</code>, also used by EmptyState and the stat tiles, and
-                available on its own. Use the scoped <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#item</code> slot for a custom event body.
+                <InlineCode>IconCircle</InlineCode>, also used by EmptyState and the stat tiles, and
+                available on its own. Use the scoped <InlineCode>#item</InlineCode> slot for a custom event body.
             </p>
 
             <div class="mb-6 grid gap-8 lg:grid-cols-2">

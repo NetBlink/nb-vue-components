@@ -13,7 +13,7 @@ import {
     faTruckFast,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, IconCircle, NbTransition, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { NavLink, IconCircle, NbTransition, PrimaryButton, SecondaryButton, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Two mega panels, keyed by the bar item that opens them.
@@ -176,7 +176,7 @@ const snippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A horizontal navbar whose items open wide multi-column panels: two columns of icon-tile links with one-line descriptions plus a
-                highlighted featured card. Built by hand rather than with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Dropdown</code>, because Dropdown portals its panel to the body and
+                highlighted featured card. Built by hand rather than with <InlineCode>Dropdown</InlineCode>, because Dropdown portals its panel to the body and
                 caps it at menu width, a mega panel needs to stay anchored to the bar and span its full width. Clicking outside the bar or on
                 any link closes it.
             </p>

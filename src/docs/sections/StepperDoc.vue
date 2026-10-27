@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Stepper, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Stepper, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const steps = [
@@ -46,8 +46,8 @@ const props = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Stepper</h3>
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
-                Progress through a multi-step flow. Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">current</code> and the earlier steps
-                count as done, or give each step its own <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">state</code>.
+                Progress through a multi-step flow. Pass <InlineCode>current</InlineCode> and the earlier steps
+                count as done, or give each step its own <InlineCode>state</InlineCode>.
             </p>
             <div class="mb-4">
                 <Stepper :steps="steps" :current="current" clickable @select="(i) => (i < current ? (current = i) : null)" />

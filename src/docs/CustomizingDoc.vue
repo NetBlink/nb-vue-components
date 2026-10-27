@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CodePreview, Input, PrimaryButton, NewModal, SecondaryButton } from '../index';
+import { CodePreview, Input, PrimaryButton, NewModal, SecondaryButton, InlineCode } from '../index';
 import { useMotion, MOTION_LEVELS } from '../ui/motion';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import DocCallout from './HelperComponents/DocCallout.vue';
@@ -9,7 +9,6 @@ import renameMap from '../../scripts/v4-rename-map.json';
 
 const { level, userLevel, setLevel, reset } = useMotion();
 
-const code = 'rounded bg-gray-100 px-1 dark:bg-gray-900/60';
 
 const instanceSnippet = [
     '<!-- class merges into the root part, :ui styles named parts -->',
@@ -169,7 +168,7 @@ const badgeSnippet = [
     <div class="space-y-10">
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Every component takes the same two styling inputs: <code :class="code">class</code> for its root element and <code :class="code">:ui</code> for its named
+                Every component takes the same two styling inputs: <InlineCode>class</InlineCode> for its root element and <InlineCode>:ui</InlineCode> for its named
                 parts. App-wide house styles, extra variants and the motion level live in the plugin options, so a wrapper component is only needed when you change
                 behaviour.
             </p>
@@ -178,16 +177,16 @@ const badgeSnippet = [
         <section id="precedence" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Precedence</h2>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Three layers, lowest first: the library default, the app config (<code :class="code">ui</code> plugin option), then the instance
-                (<code :class="code">class</code> and <code :class="code">:ui</code>). Each layer is merged with
+                Three layers, lowest first: the library default, the app config (<InlineCode>ui</InlineCode> plugin option), then the instance
+                (<InlineCode>class</InlineCode> and <InlineCode>:ui</InlineCode>). Each layer is merged with
                 <a class="text-primary-600 dark:text-primary-300 underline" href="https://github.com/dcastil/tailwind-merge">tailwind-merge</a>: a class in a later layer
                 removes the clashing classes of earlier layers, and classes that don't clash stay. With no config and no overrides the components render exactly the
                 classes they always have.
             </p>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Config for a component applies wherever it renders, including inside other library components: <code :class="code">ui.Button</code> styles the
-                button inside PrimaryButton and SubmitButton too, and <code :class="code">ui.SubmitButton</code> layers on top for submit buttons only.
-                <code :class="code">&lt;Input type="switch"&gt;</code> picks up <code :class="code">ui.Switch</code>. A component's own <code :class="code">ui</code>
+                Config for a component applies wherever it renders, including inside other library components: <InlineCode>ui.Button</InlineCode> styles the
+                button inside PrimaryButton and SubmitButton too, and <InlineCode>ui.SubmitButton</InlineCode> layers on top for submit buttons only.
+                <InlineCode>&lt;Input type="switch"&gt;</InlineCode> picks up <InlineCode>ui.Switch</InlineCode>. A component's own <InlineCode>ui</InlineCode>
                 only lists its own parts.
             </p>
         </section>
@@ -205,8 +204,8 @@ const badgeSnippet = [
                 <CodePreview :code="instanceSnippet" />
             </DocDemoCard>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                <code :class="code">:ui</code> is typed per component, so an unknown part name is a type error. Every component page ends with a Parts table listing the
-                part names and which part receives <code :class="code">class</code>. For a few overlays <code :class="code">class</code> goes to the panel rather than
+                <InlineCode>:ui</InlineCode> is typed per component, so an unknown part name is a type error. Every component page ends with a Parts table listing the
+                part names and which part receives <InlineCode>class</InlineCode>. For a few overlays <InlineCode>class</InlineCode> goes to the panel rather than
                 an outer element, as it did in 3.x (Dropdown, LinkDropdownButton, NewModal, Modal and Tooltip content, the Collapse button, the DropdownLink link).
             </p>
         </section>
@@ -215,7 +214,7 @@ const badgeSnippet = [
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">App config: ui and variants</h2>
             <CodePreview :code="configSnippet" filename="app.js" language="js" />
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                <code :class="code">variants</code> adds new values, or redefines existing ones, for props that pick from a fixed class map. A string value styles the
+                <InlineCode>variants</InlineCode> adds new values, or redefines existing ones, for props that pick from a fixed class map. A string value styles the
                 part listed below; an object value styles several parts. Values you add are valid prop values; to make TypeScript accept them, widen the type with
                 module augmentation.
             </p>
@@ -239,14 +238,14 @@ const badgeSnippet = [
             </div>
             <CodePreview :code="augmentSnippet" filename="types/nb-vue-components.d.ts" language="ts" />
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                The interfaces to augment are <code :class="code">ButtonThemes</code>, <code :class="code">ButtonSizes</code>, <code :class="code">AlertTypes</code>,
-                <code :class="code">DataTileThemes</code>, <code :class="code">SpinnerSizes</code>, <code :class="code">TrVariants</code>,
-                <code :class="code">SectionVariants</code>, <code :class="code">TabsVariants</code> and <code :class="code">NbColorVariants</code>
+                The interfaces to augment are <InlineCode>ButtonThemes</InlineCode>, <InlineCode>ButtonSizes</InlineCode>, <InlineCode>AlertTypes</InlineCode>,
+                <InlineCode>DataTileThemes</InlineCode>, <InlineCode>SpinnerSizes</InlineCode>, <InlineCode>TrVariants</InlineCode>,
+                <InlineCode>SectionVariants</InlineCode>, <InlineCode>TabsVariants</InlineCode> and <InlineCode>NbColorVariants</InlineCode>
                 (Badge, IconCircle, Progress).
             </p>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                The <code :class="code">badge</code> option sets which colour a status word gets when a Badge is given
-                <code :class="code">status</code>. Your words are added to the built-in ones and win over them.
+                The <InlineCode>badge</InlineCode> option sets which colour a status word gets when a Badge is given
+                <InlineCode>status</InlineCode>. Your words are added to the built-in ones and win over them.
             </p>
             <CodePreview :code="badgeSnippet" filename="app.js" />
         </section>
@@ -255,14 +254,14 @@ const badgeSnippet = [
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Your own Tailwind tokens</h2>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 tailwind-merge can only resolve conflicts between classes it understands. The library teaches it about its own tokens (the colour scales, the
-                <code :class="code">xxs</code>/<code :class="code">xs</code>/<code :class="code">laptop</code>/<code :class="code">3xl</code> breakpoints,
-                <code :class="code">text-xxs</code>, <code :class="code">gutters</code>, <code :class="code">no-spinners</code>, <code :class="code">bg-dotted</code>
-                and the <code :class="code">animate-*</code> tokens). If your app adds tokens in its own <code :class="code">@theme</code>, pass them through the
-                <code :class="code">twMerge</code> option.
+                <InlineCode>xxs</InlineCode>/<InlineCode>xs</InlineCode>/<InlineCode>laptop</InlineCode>/<InlineCode>3xl</InlineCode> breakpoints,
+                <InlineCode>text-xxs</InlineCode>, <InlineCode>gutters</InlineCode>, <InlineCode>no-spinners</InlineCode>, <InlineCode>bg-dotted</InlineCode>
+                and the <InlineCode>animate-*</InlineCode> tokens). If your app adds tokens in its own <InlineCode>@theme</InlineCode>, pass them through the
+                <InlineCode>twMerge</InlineCode> option.
             </p>
             <DocCallout tone="warning">
-                Without it, a custom font size such as <code :class="code">text-tiny</code> is read as a text colour, and passing it to a button silently removes the
-                button's <code :class="code">text-white</code>.
+                Without it, a custom font size such as <InlineCode>text-tiny</InlineCode> is read as a text colour, and passing it to a button silently removes the
+                button's <InlineCode>text-white</InlineCode>.
             </DocCallout>
             <CodePreview :code="mergeSnippet" filename="app.css / app.js" language="js" />
         </section>
@@ -270,10 +269,10 @@ const badgeSnippet = [
         <section id="wrapping-components" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wrapping a component</h2>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Pure styling wrappers are no longer needed: put house styles in <code :class="code">ui</code>. When a wrapper changes behaviour, extend the exported
-                props type instead of re-declaring props, turn off attribute inheritance, and pass <code :class="code">$attrs</code>, the props and every slot through.
+                Pure styling wrappers are no longer needed: put house styles in <InlineCode>ui</InlineCode>. When a wrapper changes behaviour, extend the exported
+                props type instead of re-declaring props, turn off attribute inheritance, and pass <InlineCode>$attrs</InlineCode>, the props and every slot through.
                 New props on the library component then reach the wrapper without edits. Every component exports its props type
-                (<code :class="code">InputProps</code>, <code :class="code">ButtonProps</code>, <code :class="code">NewModalProps</code>, ...) and, where it emits,
+                (<InlineCode>InputProps</InlineCode>, <InlineCode>ButtonProps</InlineCode>, <InlineCode>NewModalProps</InlineCode>, ...) and, where it emits,
                 its emits type.
             </p>
             <CodePreview :code="wrapperSnippet" filename="AppInput.vue" />
@@ -310,19 +309,19 @@ const badgeSnippet = [
             </DocDemoCard>
             <CodePreview :code="motionSnippet" filename="app.js" language="js" />
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                <code :class="code">components.X.&lt;level&gt;.&lt;part&gt;</code> replaces the animation classes one part uses for <code :class="code">enter</code>,
-                <code :class="code">leave</code> or <code :class="code">move</code> at that level. Animation classes replace rather than merge. Where the library picks
+                <InlineCode>components.X.&lt;level&gt;.&lt;part&gt;</InlineCode> replaces the animation classes one part uses for <InlineCode>enter</InlineCode>,
+                <InlineCode>leave</InlineCode> or <InlineCode>move</InlineCode> at that level. Animation classes replace rather than merge. Where the library picks
                 classes by direction (Dropdown and Tooltip by side, Toaster by position), an override applies to every direction.
             </p>
             <h3 id="resolving-the-level" class="text-lg font-semibold text-gray-900 dark:text-gray-100">How a component's level is resolved</h3>
             <ol class="max-w-3xl list-decimal space-y-1 pl-6 text-gray-600 dark:text-gray-400">
-                <li>Start from the app's <code :class="code">motion.level</code> (default <code :class="code">smooth</code>).</li>
-                <li>If the end user picked a level with <code :class="code">useMotion().setLevel</code>, it replaces the app level.</li>
-                <li>A component pin, then the instance <code :class="code">motion</code> prop, override that.</li>
+                <li>Start from the app's <InlineCode>motion.level</InlineCode> (default <InlineCode>smooth</InlineCode>).</li>
+                <li>If the end user picked a level with <InlineCode>useMotion().setLevel</InlineCode>, it replaces the app level.</li>
+                <li>A component pin, then the instance <InlineCode>motion</InlineCode> prop, override that.</li>
                 <li>The user's pick is also a ceiling: nothing animates above it, even a component pinned to fancy. Pins and instance props can go lower.</li>
                 <li>
-                    If the OS reports <code :class="code">prefers-reduced-motion: reduce</code>, the result is capped at simple, unless the user picked a level in the app or
-                    the app set <code :class="code">respectReducedMotion: false</code>.
+                    If the OS reports <InlineCode>prefers-reduced-motion: reduce</InlineCode>, the result is capped at simple, unless the user picked a level in the app or
+                    the app set <InlineCode>respectReducedMotion: false</InlineCode>.
                 </li>
             </ol>
             <CodePreview :code="useMotionSnippet" filename="Settings.vue" language="ts" />
@@ -338,7 +337,7 @@ const badgeSnippet = [
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Migrating from 3.x override props</h2>
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 The 3.x override props still work in 4.x and warn once each in development. They are removed in 5.0. 3.x appended them next to the defaults, so a
-                clashing default could still win; 4.0 merges them, so <code :class="code">!</code> markers added only to beat a default can go.
+                clashing default could still win; 4.0 merges them, so <InlineCode>!</InlineCode> markers added only to beat a default can go.
             </p>
             <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-sm">

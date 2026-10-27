@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CodePreview, CollapsableSection, PropsTable } from '../index';
+import { CodePreview, CollapsableSection, PropsTable, InlineCode } from '../index';
 import { useDarkMode } from '../composables/useDarkMode';
 import DocConfig from './HelperComponents/DocConfig.vue';
 
@@ -230,9 +230,9 @@ const darkApi = [
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Vue 3, Tailwind v4, Inertia. Components consume Inertia's
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useForm()</code>
-                via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> +
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code>. Dark mode is opt-in; default styles are
+                <InlineCode>useForm()</InlineCode>
+                via <InlineCode>:form</InlineCode> +
+                <InlineCode>field</InlineCode>. Dark mode is opt-in; default styles are
                 unchanged.
             </p>
         </header>
@@ -251,8 +251,8 @@ const darkApi = [
         <section id="register">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Register</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                As a plugin (globally registers every component as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Input&gt;</code>,
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;NewModal&gt;</code>, etc.):
+                As a plugin (globally registers every component as <InlineCode>&lt;Input&gt;</InlineCode>,
+                <InlineCode>&lt;NewModal&gt;</InlineCode>, etc.):
             </p>
             <CodePreview :code="registerGlobal" />
 
@@ -267,7 +267,7 @@ const darkApi = [
         <!-- 3. Tailwind -->
         <section id="tailwind">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tailwind</h3>
-            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme.css</code> brings the package's tokens, keyframes and utilities, and registers the built components with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@source</code> (Tailwind v4 skips node_modules by default).</p>
+            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Main CSS (Tailwind v4). <InlineCode>theme.css</InlineCode> brings the package's tokens, keyframes and utilities, and registers the built components with <InlineCode>@source</InlineCode> (Tailwind v4 skips node_modules by default).</p>
             <CodePreview :code="appCss" />
         </section>
 
@@ -304,7 +304,7 @@ const darkApi = [
             </CollapsableSection>
 
             <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                Dark variants ship for modals, inputs, tables, alerts, dropdowns, sections, stats, data tiles, and code blocks. For unstyled components, add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark:</code> classes on the wrapper.
+                Dark variants ship for modals, inputs, tables, alerts, dropdowns, sections, stats, data tiles, and code blocks. For unstyled components, add <InlineCode>dark:</InlineCode> classes on the wrapper.
             </p>
         </section>
 
@@ -312,10 +312,10 @@ const darkApi = [
         <section id="form">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form pattern</h3>
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> and
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code>. The component reads / writes
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form[field]</code> and renders the validation error
-                from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form.errors[field]</code>.
+                Pass <InlineCode>:form</InlineCode> and
+                <InlineCode>field</InlineCode>. The component reads / writes
+                <InlineCode>form[field]</InlineCode> and renders the validation error
+                from <InlineCode>form.errors[field]</InlineCode>.
             </p>
             <CodePreview :code="formExample" />
         </section>
@@ -328,33 +328,33 @@ const darkApi = [
 
             <CollapsableSection header="Tailwind classes aren't applying">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Confirm your main CSS imports <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@netblink/vue-components/theme.css</code> after Tailwind. Without it, Tailwind never scans the package and the brand colours, animations and breakpoints don't exist. See step 3.
+                    Confirm your main CSS imports <InlineCode>@netblink/vue-components/theme.css</InlineCode> after Tailwind. Without it, Tailwind never scans the package and the brand colours, animations and breakpoints don't exist. See step 3.
                 </p>
             </CollapsableSection>
 
             <CollapsableSection header="dark: classes don't activate" class="mt-3">
                 <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     <li>
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@custom-variant dark</code> missing from main
+                        <InlineCode>@custom-variant dark</InlineCode> missing from main
                         CSS (step 3).
                     </li>
                     <li>
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">html</code> never gets the
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.dark</code> class. Verify
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">toggle()</code> mutates it.
+                        <InlineCode>html</InlineCode> never gets the
+                        <InlineCode>.dark</InlineCode> class. Verify
+                        <InlineCode>toggle()</InlineCode> mutates it.
                     </li>
                     <li>
                         Mounted in a shadow root? Pass a custom
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">target</code> to
-                        <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useDarkMode()</code>.
+                        <InlineCode>target</InlineCode> to
+                        <InlineCode>useDarkMode()</InlineCode>.
                     </li>
                 </ul>
             </CollapsableSection>
 
             <CollapsableSection header="Form errors don't show on inputs" class="mt-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Pass the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useForm()</code> object, not a plain
-                    ref. Errors come from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form.errors[field]</code>,
+                    Pass the <InlineCode>useForm()</InlineCode> object, not a plain
+                    ref. Errors come from <InlineCode>form.errors[field]</InlineCode>,
                     which Inertia populates on a 422 response.
                 </p>
             </CollapsableSection>

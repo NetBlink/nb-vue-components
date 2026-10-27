@@ -10,8 +10,7 @@ import {
     LinkButton,
     SubmitButton,
     CodePreview,
-    PropsTable,
-} from '../index';
+    PropsTable, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import IconButtonDoc from './sections/IconButtonDoc.vue';
 
@@ -100,9 +99,9 @@ const submitButtonProps = [
     <div class="space-y-10">
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Every variant below (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">PrimaryButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">SecondaryButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">SuccessButton</code>,
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">WarningButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DangerButton</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InfoButton</code>) shares the implementation in
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Button.vue</code>. That shared base is also exported as <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Button</code> (with a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme</code> prop), so you can build custom variants on top of it.
+                Every variant below (<InlineCode>PrimaryButton</InlineCode>, <InlineCode>SecondaryButton</InlineCode>, <InlineCode>SuccessButton</InlineCode>,
+                <InlineCode>WarningButton</InlineCode>, <InlineCode>DangerButton</InlineCode>, <InlineCode>InfoButton</InlineCode>) shares the implementation in
+                <InlineCode>Button.vue</InlineCode>. That shared base is also exported as <InlineCode>Button</InlineCode> (with a <InlineCode>theme</InlineCode> prop), so you can build custom variants on top of it.
             </p>
         </header>
 
@@ -140,8 +139,8 @@ const submitButtonProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SubmitButton</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A themed button that shows a spinner while an Inertia form is processing. Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code>
-                    for automatic state, or <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:loading</code> for manual control.
+                    A themed button that shows a spinner while an Inertia form is processing. Pass <InlineCode>:form</InlineCode>
+                    for automatic state, or <InlineCode>:loading</InlineCode> for manual control.
                 </p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Idle / Loading</div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Skeleton, Card, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Skeleton, Card, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const code = [
@@ -23,7 +23,7 @@ const props = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 Pulsing placeholders shown while content loads, shaped like what is coming. The pulse runs at every motion level.
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">TrPlaceholder</code> is the table-row equivalent.
+                <InlineCode>TrPlaceholder</InlineCode> is the table-row equivalent.
             </p>
             <div class="mb-6 grid gap-4 md:grid-cols-3">
                 <Card><Skeleton :lines="4" /></Card>

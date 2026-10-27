@@ -12,8 +12,7 @@ import {
     Checkbox,
     CodePreview,
     CollapsableSection,
-    PropsTable,
-} from '../index';
+    PropsTable, InlineCode } from '../index';
 import { useForm } from '@inertiajs/vue3';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 
@@ -179,13 +178,13 @@ const newModalSlots = [
                 class="max-w-3xl rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
             >
                 <strong>NewModal</strong> is the canonical dialog - built on reka-ui's
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">Dialog</code>, drives state with
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">v-model:open</code>, and ships named
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">header</code> /
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">description</code> /
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">footer</code> /
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">trigger</code> slots. Use it for all new code. The older single-slot
-                <code class="rounded bg-white px-1 dark:bg-blue-900/50">Modal</code> is deprecated and lives at the bottom of this page.
+                <InlineCode>Dialog</InlineCode>, drives state with
+                <InlineCode>v-model:open</InlineCode>, and ships named
+                <InlineCode>header</InlineCode> /
+                <InlineCode>description</InlineCode> /
+                <InlineCode>footer</InlineCode> /
+                <InlineCode>trigger</InlineCode> slots. Use it for all new code. The older single-slot
+                <InlineCode>Modal</InlineCode> is deprecated and lives at the bottom of this page.
             </div>
         </header>
 
@@ -193,9 +192,9 @@ const newModalSlots = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Basic dialog</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">title</code> for the header bar (or use the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot for custom markup). Body goes in the default slot, action buttons
-                    in <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#footer</code>.
+                    Pass a <InlineCode>title</InlineCode> for the header bar (or use the
+                    <InlineCode>#header</InlineCode> slot for custom markup). Body goes in the default slot, action buttons
+                    in <InlineCode>#footer</InlineCode>.
                 </p>
 
                 <div class="mb-6">
@@ -204,8 +203,8 @@ const newModalSlots = [
 
                 <NewModal v-model:open="showBasic" title="Welcome to Our App">
                     <p class="text-gray-600 dark:text-gray-400">
-                        This is a basic dialog demonstrating <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">title</code> + default slot +
-                        <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#footer</code>.
+                        This is a basic dialog demonstrating <InlineCode>title</InlineCode> + default slot +
+                        <InlineCode>#footer</InlineCode>.
                     </p>
                     <template #footer>
                         <SecondaryButton @click="showBasic = false">Cancel</SecondaryButton>
@@ -220,7 +219,7 @@ const newModalSlots = [
         <section id="confirmation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Confirmation dialog</h3>
             <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#header</code> slot when you need icon + title together.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Use the <InlineCode>#header</InlineCode> slot when you need icon + title together.</p>
 
                 <div class="mb-6">
                     <DangerButton @click="showConfirmModal = true">Delete account</DangerButton>
@@ -319,10 +318,10 @@ const newModalSlots = [
 
             <div class="rounded-lg border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-900/40 dark:bg-amber-950/30">
                 <p class="mb-4 text-sm text-amber-900 dark:text-amber-200">
-                    The original <code class="rounded bg-white px-1 dark:bg-amber-900/40">Modal</code> component is documented here for backwards reference only - it
+                    The original <InlineCode>Modal</InlineCode> component is documented here for backwards reference only - it
                     will not be receiving further work. <strong>Migrate to NewModal for all new code</strong> (see <a href="#migration" class="underline">Migrating from Modal</a>). Modal exposes only a single default
-                    slot (no named header/footer slots) and uses <code class="rounded bg-white px-1 dark:bg-amber-900/40">:show + @close</code> instead of
-                    <code class="rounded bg-white px-1 dark:bg-amber-900/40">v-model:open</code>.
+                    slot (no named header/footer slots) and uses <InlineCode>:show + @close</InlineCode> instead of
+                    <InlineCode>v-model:open</InlineCode>.
                 </p>
 
                 <div class="mb-4">

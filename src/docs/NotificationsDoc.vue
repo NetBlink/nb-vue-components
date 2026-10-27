@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { computed, ref } from 'vue';
-import { CodePreview, CollapsableSection, PrimaryButton, SecondaryButton, PropsTable, Select, Input, Switch, Toaster, toast } from '../index';
+import { CodePreview, CollapsableSection, PrimaryButton, SecondaryButton, PropsTable, Select, Input, Switch, Toaster, toast, InlineCode } from '../index';
 import type { ToastAnimation, ToastOrder, ToastPosition } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import DocCallout from './HelperComponents/DocCallout.vue';
@@ -260,8 +260,8 @@ const toasterProps = [
     <div class="space-y-10">
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Mount one <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Toaster /&gt;</code> in your layout, then raise notifications from
-                anywhere with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">toast</code>. The Toaster decides where they appear and how they
+                Mount one <InlineCode>&lt;Toaster /&gt;</InlineCode> in your layout, then raise notifications from
+                anywhere with <InlineCode>toast</InlineCode>. The Toaster decides where they appear and how they
                 move; call sites only say what happened.
             </p>
         </header>
@@ -340,7 +340,7 @@ const toasterProps = [
                         <DocCallout class="mt-6">
                             Hover a toast to pause its timer, drag it towards the screen edge to flick it away, or press
                             <kbd class="rounded bg-white px-1 dark:bg-blue-900/50">F8</kbd> to jump focus to the stack. All of that is reka-ui's
-                            <code class="rounded bg-white px-1 dark:bg-blue-900/50">Toast</code> primitives, not something you configure.
+                            <InlineCode>Toast</InlineCode> primitives, not something you configure.
                         </DocCallout>
                     </div>
                 </div>
@@ -366,16 +366,16 @@ const toasterProps = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Any code on the page can raise a notification by dispatching a
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">nb:toast</code> window event. The mounted Toaster listens for it, so no
+                    <InlineCode>nb:toast</InlineCode> window event. The mounted Toaster listens for it, so no
                     import is needed at the call site.
                 </p>
 
                 <CodePreview :code="eventExample" filename="Window event" />
                 <DocCallout tone="warning" class="mt-4">
-                    An <code class="rounded bg-white px-1 dark:bg-amber-900/40">action.onClick</code> callback only survives the event when the dispatching
+                    An <InlineCode>action.onClick</InlineCode> callback only survives the event when the dispatching
                     code is real JavaScript. From a server-rendered template, stick to
-                    <code class="rounded bg-white px-1 dark:bg-amber-900/40">title</code>, <code class="rounded bg-white px-1 dark:bg-amber-900/40">description</code>
-                    and <code class="rounded bg-white px-1 dark:bg-amber-900/40">type</code>.
+                    <InlineCode>title</InlineCode>, <InlineCode>description</InlineCode>
+                    and <InlineCode>type</InlineCode>.
                 </DocCallout>
             </DocDemoCard>
         </section>
@@ -384,7 +384,7 @@ const toasterProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">API</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    The full surface: the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">toast</code> helper, the options every call accepts,
+                    The full surface: the <InlineCode>toast</InlineCode> helper, the options every call accepts,
                     and the props on the single mounted Toaster.
                 </p>
 

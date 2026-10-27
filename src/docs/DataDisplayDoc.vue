@@ -22,11 +22,11 @@ import {
     Select,
     CodePreview,
     CollapsableSection,
-    PropsTable,
-} from '../index';
+    PropsTable, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import CardDoc from './sections/CardDoc.vue';
 import BadgeDoc from './sections/BadgeDoc.vue';
+import InlineCodeDoc from './sections/InlineCodeDoc.vue';
 import AvatarDoc from './sections/AvatarDoc.vue';
 import TimelineDoc from './sections/TimelineDoc.vue';
 
@@ -263,9 +263,9 @@ const statsWithExtras = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Clickable stat cards. Each item is selectable; clicking emits
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">updateSearch</code> with the selected name (or null when the same stat is clicked again).
-                    Selection state is read from a URL query parameter named by <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">statusName</code> (defaults to
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">status</code>).
+                    <InlineCode>updateSearch</InlineCode> with the selected name (or null when the same stat is clicked again).
+                    Selection state is read from a URL query parameter named by <InlineCode>statusName</InlineCode> (defaults to
+                    <InlineCode>status</InlineCode>).
                 </p>
 
                 <div class="mb-6">
@@ -291,7 +291,7 @@ const statsWithExtras = [
             <DocDemoCard>
                 <p class="mb-2 text-gray-600 dark:text-gray-400">
                     A themed single-statistic tile with a large value, a label, and a FontAwesome watermark icon. Like
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> but for one number you've computed yourself - drop several into a grid for
+                    <InlineCode>Stats</InlineCode> but for one number you've computed yourself - drop several into a grid for
                     a dashboard layout.
                 </p>
                 <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
@@ -308,7 +308,7 @@ const statsWithExtras = [
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Selected state</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    Set <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selected</code> when the tile represents a currently-active filter or selection.
+                    Set <InlineCode>selected</InlineCode> when the tile represents a currently-active filter or selection.
                 </p>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
                     <DataTile :value="7" label="Pending reviews" :icon="faGears" theme="primary" />
@@ -326,12 +326,12 @@ const statsWithExtras = [
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Icon chip, trend and live dot</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">icon-variant</code> moves the icon into a coloured chip beside the value,
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">trend</code> adds a change line and
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">ping</code> a pulsing live dot. In
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Stats</code> the same extras are the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">chip</code>, <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">change</code> and
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">live</code> fields of each stat.
+                    <InlineCode>icon-variant</InlineCode> moves the icon into a coloured chip beside the value,
+                    <InlineCode>trend</InlineCode> adds a change line and
+                    <InlineCode>ping</InlineCode> a pulsing live dot. In
+                    <InlineCode>Stats</InlineCode> the same extras are the
+                    <InlineCode>chip</InlineCode>, <InlineCode>change</InlineCode> and
+                    <InlineCode>live</InlineCode> fields of each stat.
                 </p>
                 <div class="mb-6 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
                     <DataTile :value="1284" label="Active users" :icon="faUsers" icon-variant="primary" :trend="{ value: '12%', direction: 'up' }" ping />
@@ -383,7 +383,7 @@ const statsWithExtras = [
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Editable Example</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
                     Click the pencil to switch each row into edit mode. The component swaps the default slot for the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#edit</code> slot - that's where you put the actual input.
+                    <InlineCode>#edit</InlineCode> slot - that's where you put the actual input.
                 </p>
                 <DescriptionList :form="form">
                     <DescriptionListItem label="Name" editable>
@@ -409,9 +409,9 @@ const statsWithExtras = [
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Advanced Example</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    Mix and match: <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">forceEditing</code> opens in edit mode on mount, the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">value</code> prop is a shortcut when there's no slot content, and the
-                    <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#label</code> / <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#buttons</code> slots are
+                    Mix and match: <InlineCode>forceEditing</InlineCode> opens in edit mode on mount, the
+                    <InlineCode>value</InlineCode> prop is a shortcut when there's no slot content, and the
+                    <InlineCode>#label</InlineCode> / <InlineCode>#buttons</InlineCode> slots are
                     available too.
                 </p>
                 <DescriptionList :form="form">
@@ -444,9 +444,9 @@ const statsWithExtras = [
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     An activity-log timeline rendered inside a collapsible section. Pass a Laravel-style paginated result
                     and each entry is displayed as a timeline node with an icon, event description, optional causer link,
-                    field-change diff, and timestamp. When the paginated result includes a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">links</code> array,
-                    a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Pagination</code> bar is appended automatically.
-                    Passing <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">undefined</code> shows a loading spinner.
+                    field-change diff, and timestamp. When the paginated result includes a <InlineCode>links</InlineCode> array,
+                    a <InlineCode>Pagination</InlineCode> bar is appended automatically.
+                    Passing <InlineCode>undefined</InlineCode> shows a loading spinner.
                 </p>
 
                 <div class="mb-6">
@@ -463,10 +463,10 @@ const statsWithExtras = [
                 <section id="logs-content" class="mt-8">
                     <h4 class="mb-3 border-b border-gray-200 pb-2 text-lg font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">LogsContent</h4>
                     <p class="mb-4 text-gray-600 dark:text-gray-400">
-                        The inner timeline renderer used by <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Logs</code>.
+                        The inner timeline renderer used by <InlineCode>Logs</InlineCode>.
                         Use it directly when you want to embed the timeline without the surrounding
-                        <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">CollapsibleSection</code> wrapper - for example inside your own card or panel.
-                        It accepts the same paginated <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">logs</code> object.
+                        <InlineCode>CollapsibleSection</InlineCode> wrapper - for example inside your own card or panel.
+                        It accepts the same paginated <InlineCode>logs</InlineCode> object.
                     </p>
                     <div class="mt-4">
                         <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">LogsContent Props</div>
@@ -505,6 +505,8 @@ const statsWithExtras = [
 
         <TimelineDoc />
 
-        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle']" />
+        <InlineCodeDoc />
+
+        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle', 'InlineCode']" />
     </div>
 </template>

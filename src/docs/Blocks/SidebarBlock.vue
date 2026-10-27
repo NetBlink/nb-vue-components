@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineComponent, h, ref, type PropType } from 'vue';
-import { NavLink, NavCollapse, CodePreview, Input, IconButton, EmptyState } from '../../index';
+import { NavLink, NavCollapse, CodePreview, Input, IconButton, EmptyState, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import {
     faGauge,
@@ -334,10 +334,10 @@ const sidenavSnippet = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Sidebar Navigation</h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A vertical app sidebar built from <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavLink</code> (with
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#icon</code> slots) and
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavCollapse</code> groups. A single ref drives the
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">open</code> prop of every group, so only one group stays expanded at a time.
+                A vertical app sidebar built from <InlineCode>NavLink</InlineCode> (with
+                <InlineCode>#icon</InlineCode> slots) and
+                <InlineCode>NavCollapse</InlineCode> groups. A single ref drives the
+                <InlineCode>open</InlineCode> prop of every group, so only one group stays expanded at a time.
             </p>
 
             <div class="mb-6 flex flex-col overflow-hidden rounded border border-gray-200 bg-gray-50 sm:h-96 sm:flex-row dark:border-gray-700 dark:bg-gray-900/40">
@@ -396,7 +396,7 @@ const sidenavSnippet = [
 
                 <div class="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">
                     <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                        Current route: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">{{ current }}</code>
+                        Current route: <InlineCode>{{ current }}</InlineCode>
                     </p>
                     <div class="space-y-3 opacity-40">
                         <div class="h-6 w-1/3 rounded bg-gray-300 dark:bg-gray-700"></div>
@@ -417,14 +417,14 @@ const sidenavSnippet = [
         <DocDemoCard class="mt-6">
             <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Dynamic Nav with Search</h4>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                The same sidebar driven by a single <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">links</code> array and a small
+                The same sidebar driven by a single <InlineCode>links</InlineCode> array and a small
                 recursive render-function component: nodes with
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">items</code> become
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavCollapse</code> groups (to any depth), leaves become
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavLink</code>s. Typing filters the tree recursively and forces every
+                <InlineCode>items</InlineCode> become
+                <InlineCode>NavCollapse</InlineCode> groups (to any depth), leaves become
+                <InlineCode>NavLink</InlineCode>s. Typing filters the tree recursively and forces every
                 surviving group open; groups also open by themselves when a descendant is active. A
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">break</code> entry draws a separator, and the
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">hide: true</code> "Superadmin" group is pruned with its whole subtree
+                <InlineCode>break</InlineCode> entry draws a separator, and the
+                <InlineCode>hide: true</InlineCode> "Superadmin" group is pruned with its whole subtree
                 before filtering - it is in the data below but never renders.
             </p>
 
@@ -453,7 +453,7 @@ const sidenavSnippet = [
 
                 <div class="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">
                     <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                        Current route: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">{{ navCurrent }}</code>
+                        Current route: <InlineCode>{{ navCurrent }}</InlineCode>
                     </p>
                     <div class="space-y-3 opacity-40">
                         <div class="h-6 w-1/3 rounded bg-gray-300 dark:bg-gray-700"></div>
@@ -465,10 +465,10 @@ const sidenavSnippet = [
             </div>
 
             <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                The consumer version below uses Ziggy: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">route()</code> for hrefs and
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">route().current()</code> with pipe-separated wildcard patterns for
-                activeness. Because <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">route().current()</code> is not reactive, the
-                renderer touches <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">page.url</code> so it re-evaluates after every Inertia
+                The consumer version below uses Ziggy: <InlineCode>route()</InlineCode> for hrefs and
+                <InlineCode>route().current()</InlineCode> with pipe-separated wildcard patterns for
+                activeness. Because <InlineCode>route().current()</InlineCode> is not reactive, the
+                renderer touches <InlineCode>page.url</InlineCode> so it re-evaluates after every Inertia
                 visit.
             </p>
             <CodePreview :code="recursiveLinkSnippet" filename="RecursiveLink.vue" class="mb-4" />

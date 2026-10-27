@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Breadcrumbs, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Breadcrumbs, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const trail = [
@@ -33,9 +33,9 @@ const props = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 The trail of links to the current page, marked up as a breadcrumb landmark with the last item as the current page.
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">PageHeader</code> renders one from its
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">breadcrumbs</code> prop. Change the separator with the
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#separator</code> slot.
+                <InlineCode>PageHeader</InlineCode> renders one from its
+                <InlineCode>breadcrumbs</InlineCode> prop. Change the separator with the
+                <InlineCode>#separator</InlineCode> slot.
             </p>
             <div class="mb-6 space-y-4">
                 <Breadcrumbs :items="trail" />

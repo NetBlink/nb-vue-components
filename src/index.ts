@@ -85,6 +85,7 @@ import SubNav from './components/SubNav.vue';
 import CopyButton from './components/CopyButton.vue';
 import NbTransition from './components/NbTransition.vue';
 import NbTransitionGroup from './components/NbTransitionGroup.vue';
+import InlineCode from './components/InlineCode.vue';
 
 // Helper components
 import CodePreview from './components/CodePreview.vue';
@@ -139,7 +140,7 @@ const components = {
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
     Toast, Toaster, Button, DataTile, IconCircle,
-    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup,
+    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup, InlineCode,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -278,6 +279,7 @@ export {
     CopyButton,
     NbTransition,
     NbTransitionGroup,
+    InlineCode,
     // Helper components
     CodePreview,
     H2,
@@ -323,6 +325,7 @@ export type { SubNavProps, SubNavItem } from './components/SubNav.vue';
 export type { CopyButtonProps, CopyButtonEmits } from './components/CopyButton.vue';
 export type { NbTransitionProps } from './components/NbTransition.vue';
 export type { NbTransitionGroupProps } from './components/NbTransitionGroup.vue';
+export type { InlineCodeProps } from './components/InlineCode.vue';
 export type { DescriptionListProps } from './components/DescriptionList.vue';
 export type { DescriptionListItemProps, DescriptionListItemEmits } from './components/DescriptionListItem.vue';
 export type { DottedCarouselProps } from './components/DottedCarousel.vue';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, type Ref } from 'vue';
-import { IconButton, Input, NbTransitionGroup, CodePreview } from '../../index';
+import { IconButton, Input, NbTransitionGroup, CodePreview, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faGripVertical, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -190,7 +190,7 @@ const formSnippet = [
 
                 <p class="mt-3 text-xs text-gray-600 dark:text-gray-400">
                     Current order:
-                    <code class="rounded bg-gray-100 px-1 font-mono text-gray-800 dark:bg-gray-900/60 dark:text-gray-100">{{ widgetOrder }}</code>
+                    <InlineCode>{{ widgetOrder }}</InlineCode>
                 </p>
             </div>
             <CodePreview :code="listSnippet" filename="ReorderableList.vue" />
@@ -242,7 +242,7 @@ const formSnippet = [
 
                     <p class="text-xs text-gray-600 dark:text-gray-400">
                         Persisted order:
-                        <code class="rounded bg-gray-100 px-1 font-mono text-gray-800 dark:bg-gray-900/60 dark:text-gray-100">{{ JSON.stringify(fieldOrder) }}</code>
+                        <InlineCode>{{ JSON.stringify(fieldOrder) }}</InlineCode>
                     </p>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Switch, Spinner, SecondaryButton, Card, DataTile, IconCircle, Skeleton, EmptyState, CodePreview } from '../../index';
+import { Switch, Spinner, SecondaryButton, Card, DataTile, IconCircle, Skeleton, EmptyState, CodePreview, InlineCode } from '../../index';
 import { faUsers, faCartShopping, faCreditCard, faChartLine, faCircleCheck, faTriangleExclamation, faUserPlus, faInbox } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -92,8 +92,8 @@ const snippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A dashboard landing composition: a KPI grid of <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DataTile</code>s with icon
-                chips and signed trends, a bar chart <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Card</code>, and an activity feed
+                A dashboard landing composition: a KPI grid of <InlineCode>DataTile</InlineCode>s with icon
+                chips and signed trends, a bar chart <InlineCode>Card</InlineCode>, and an activity feed
                 panel. The chart is a flex row of rounded bars with pixel heights; no chart library is bundled with this package. Flip the Loading
                 switch to see the skeleton cards and the Spinner-guarded chart; Clear empties the feed to its empty state.
             </p>

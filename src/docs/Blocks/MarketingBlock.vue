@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PrimaryButton, SecondaryButton, Card, IconCircle, CodePreview } from '../../index';
+import { PrimaryButton, SecondaryButton, Card, IconCircle, CodePreview, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faBolt, faShieldHalved, faChartLine, faCheck } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -161,7 +161,7 @@ const footerSnippet = [
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 Alternating image/text feature rows: a gradient placeholder image on one side and a checklist with a CTA on the other, flipped
-                on the second row with <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">order-2</code>.
+                on the second row with <InlineCode>order-2</InlineCode>.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="space-y-16">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconButton, CopyButton, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { IconButton, CopyButton, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import { faPen, faTrash, faPlus, faArrowsRotate, faDownload } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -38,9 +38,9 @@ const copyProps = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">IconButton and CopyButton</h3>
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
-                Buttons that show only an icon. <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">label</code> is required: it is what screen
+                Buttons that show only an icon. <InlineCode>label</InlineCode> is required: it is what screen
                 readers announce and what the hover title shows.
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">CopyButton</code> copies a value and confirms with a check.
+                <InlineCode>CopyButton</InlineCode> copies a value and confirms with a check.
             </p>
             <div class="mb-6 flex flex-wrap items-center gap-3">
                 <IconButton v-for="t in themes" :key="t" :icon="t === 'ghost-danger' || t === 'danger' ? faTrash : faPen" :label="`${t} button`" :theme="t" />

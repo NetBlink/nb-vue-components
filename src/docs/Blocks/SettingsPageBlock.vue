@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Section, Input, Textarea, Checkbox, PrimaryButton, SecondaryButton, DangerButton, NewModal, NbTransition, CodePreview } from '../../index';
+import { Section, Input, Textarea, Checkbox, PrimaryButton, SecondaryButton, DangerButton, NewModal, NbTransition, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const sections = [
@@ -133,7 +133,7 @@ const snippet = [
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A two-column account settings page: a vertical section nav on the left, and on the right a Section card per topic, each with
                 its own form state and its own save button, so one save never submits the others. The Danger Zone card opens a NewModal that
-                only enables its confirm button once you type <code class="rounded bg-gray-100 px-1 font-mono text-xs dark:bg-gray-900/60">DELETE</code>.
+                only enables its confirm button once you type <InlineCode>DELETE</InlineCode>.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

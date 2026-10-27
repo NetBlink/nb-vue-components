@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Switch, SubmitButton, Skeleton, Card, Avatar, CodePreview } from '../../index';
+import { Switch, SubmitButton, Skeleton, Card, Avatar, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Primitives snippet
@@ -100,8 +100,8 @@ const buttonSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">Skeleton</code> primitives: a text-line stack, an avatar
-                row with two supporting lines, and an image card built from a <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">rect</code>.
+                <InlineCode>Skeleton</InlineCode> primitives: a text-line stack, an avatar
+                row with two supporting lines, and an image card built from a <InlineCode>rect</InlineCode>.
             </p>
             <div class="mb-6 flex flex-wrap items-start gap-8 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Skeleton :lines="3" width="14rem" />
@@ -187,9 +187,9 @@ const buttonSnippet = [
 
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Button-level loading: the library's <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">SubmitButton</code>
-                already ships this state, pass <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">:loading</code> (or an
-                Inertia <code class="rounded bg-gray-100 px-1 text-xs dark:bg-gray-900/60">:form</code>, whose processing flag it reads itself)
+                Button-level loading: the library's <InlineCode>SubmitButton</InlineCode>
+                already ships this state, pass <InlineCode>:loading</InlineCode> (or an
+                Inertia <InlineCode>:form</InlineCode>, whose processing flag it reads itself)
                 and it disables, dims the label and overlays a Spinner. Idle twin on the right.
             </p>
             <div class="mb-6 flex flex-wrap items-center gap-4 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

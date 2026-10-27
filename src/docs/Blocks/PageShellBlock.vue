@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Section, PageHeader, Card, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { Section, PageHeader, Card, PrimaryButton, SecondaryButton, CodePreview, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faPlus, faDownload } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -55,8 +55,8 @@ const snippet = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Page Shell</h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                The page skeleton every app needs: a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">PageHeader</code> bar (breadcrumbs plus right-aligned actions), a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Card</code> for the content, and a stack of <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Section</code> components.
+                The page skeleton every app needs: a <InlineCode>PageHeader</InlineCode> bar (breadcrumbs plus right-aligned actions), a
+                <InlineCode>Card</InlineCode> for the content, and a stack of <InlineCode>Section</InlineCode> components.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="min-h-[420px] rounded-lg bg-gray-100 p-4 dark:bg-gray-900">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EmptyState, PrimaryButton, SecondaryButton, Card, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { EmptyState, PrimaryButton, SecondaryButton, Card, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import { faFolderOpen, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -26,7 +26,7 @@ const props = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 What to show when there is nothing to show yet: an icon, a title, one line of explanation and the action that fixes it.
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">compact</code> is the one-line "No X found" form.
+                <InlineCode>compact</InlineCode> is the one-line "No X found" form.
             </p>
             <div class="mb-6 grid items-start gap-4 md:grid-cols-2">
                 <Card padding="none">

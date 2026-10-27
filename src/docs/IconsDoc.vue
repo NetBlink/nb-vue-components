@@ -15,8 +15,7 @@ import {
     PrimaryButton,
     SecondaryButton,
     Tabs,
-    Tab,
-} from '../index';
+    Tab, InlineCode } from '../index';
 import { useNbIcons, NbIcon } from '../icons';
 import type { AliasName, IconLike } from '../icons/types';
 import { faRocket } from '@fortawesome/free-solid-svg-icons';
@@ -512,7 +511,7 @@ const passwordValue = ref('s3cret');
         <!-- HEADER -->
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                All icons render through <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">&lt;NbIcon&gt;</code>. Map your icon source - FontAwesome, Heroicons, Material Symbols, Solar, an <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a> set, or your own SVG components - to named aliases. Default source is FontAwesome.
+                All icons render through <InlineCode>&lt;NbIcon&gt;</InlineCode>. Map your icon source - FontAwesome, Heroicons, Material Symbols, Solar, an <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a> set, or your own SVG components - to named aliases. Default source is FontAwesome.
             </p>
         </header>
 
@@ -541,7 +540,7 @@ const passwordValue = ref('s3cret');
                     class="flex flex-col items-center justify-center gap-2 bg-white px-4 py-6 dark:bg-gray-800"
                 >
                     <NbIcon :name="alias" size="xl" class="text-gray-800 dark:text-gray-200" />
-                    <code class="text-[11px] text-gray-500 dark:text-gray-400">{{ alias }}</code>
+                    <InlineCode>{{ alias }}</InlineCode>
                 </div>
             </div>
         </section>
@@ -554,10 +553,10 @@ const passwordValue = ref('s3cret');
                     <div class="font-semibold text-gray-900 dark:text-gray-100">Browse 200+ icon sets at Iconify</div>
                     <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">
                         <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">icon-sets.iconify.design</a>
-                        is the universal icon browser. Copy any icon's name (e.g. <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">solar:rocket-bold</code>)
-                        and pass it to <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">&lt;NbIcon name="…" /&gt;</code> -
-                        provided you've installed the matching <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">@iconify-json/&lt;set&gt;</code> data package
-                        and registered it once with <code class="rounded bg-white px-1.5 py-0.5 text-xs dark:bg-gray-800">addCollection()</code>.
+                        is the universal icon browser. Copy any icon's name (e.g. <InlineCode>solar:rocket-bold</InlineCode>)
+                        and pass it to <InlineCode>&lt;NbIcon name="…" /&gt;</InlineCode> -
+                        provided you've installed the matching <InlineCode>@iconify-json/&lt;set&gt;</InlineCode> data package
+                        and registered it once with <InlineCode>addCollection()</InlineCode>.
                     </p>
                 </div>
             </div>
@@ -576,7 +575,7 @@ const passwordValue = ref('s3cret');
         <section id="setup-by-example" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Setup - by example</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Each tab is what you'd literally write in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">main.ts</code> -
+                Each tab is what you'd literally write in your own <InlineCode>main.ts</InlineCode> -
                 real package imports, an inline alias map you can adapt. Mix providers freely in one project.
             </p>
 
@@ -594,7 +593,7 @@ const passwordValue = ref('s3cret');
                 <!-- "Any other source" tab: five patterns -->
                 <Tab value="other" class="space-y-3">
                 <p class="text-gray-600 dark:text-gray-400">
-                    The tabs above are example sources. The <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">aliases</code> map accepts Vue components, render functions, inline SVG, and CSS class strings - mixed in one project.
+                    The tabs above are example sources. The <InlineCode>aliases</InlineCode> map accepts Vue components, render functions, inline SVG, and CSS class strings - mixed in one project.
                 </p>
 
                 <div class="mt-4 font-semibold text-gray-900 dark:text-gray-100">Lucide / per-icon-component libraries</div>
@@ -605,26 +604,26 @@ const passwordValue = ref('s3cret');
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">MDI / SVG-path libraries</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Libraries that ship raw SVG paths (like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@mdi/js</code>) need a small wrapper component.
+                    Libraries that ship raw SVG paths (like <InlineCode>@mdi/js</InlineCode>) need a small wrapper component.
                 </p>
                 <CodePreview language="javascript" :code="mdiSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Inline SVG</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Have a custom SVG you want to drop in for one alias? Wrap it in <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{ svg: '…' }</code>. The string is sanitized before rendering.
+                    Have a custom SVG you want to drop in for one alias? Wrap it in <InlineCode>{ svg: '…' }</InlineCode>. The string is sanitized before rendering.
                 </p>
                 <CodePreview language="javascript" :code="rawSvgSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">Your own Vue component</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Any <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.vue</code> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
+                    Any <InlineCode>.vue</InlineCode> SFC works. Useful when an icon needs custom logic, gradients, or animation that doesn't fit a static SVG.
                 </p>
                 <CodePreview language="javascript" :code="customComponentSnippet" />
 
                 <div class="mt-6 font-semibold text-gray-900 dark:text-gray-100">CSS-class icon fonts</div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Bootstrap Icons, Material Icons font, the FA <em>kit</em> CSS bundle, your own bespoke icon font: pass a class string and
-                    NbIcon renders <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;i class="…" /&gt;</code> for you.
+                    NbIcon renders <InlineCode>&lt;i class="…" /&gt;</InlineCode> for you.
                 </p>
                 <CodePreview language="javascript" :code="cssClassSnippet" />
                 </Tab>
@@ -635,8 +634,8 @@ const passwordValue = ref('s3cret');
         <section id="cli-provider-switch" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">CLI provider switch</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                The migrate package can rewrite the <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">createNbIcons()</code> block in your entry file
-                and print the matching <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">npm install</code>.
+                The migrate package can rewrite the <InlineCode>createNbIcons()</InlineCode> block in your entry file
+                and print the matching <InlineCode>npm install</InlineCode>.
             </p>
             <CodePreview language="bash" :code="switchCmd" />
         </section>
@@ -648,19 +647,19 @@ const passwordValue = ref('s3cret');
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Aliases</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Semantic names like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$success</code>. The library references these internally; you map each one to a concrete icon from any source.
+                        Semantic names like <InlineCode>$expand</InlineCode>, <InlineCode>$close</InlineCode>, <InlineCode>$success</InlineCode>. The library references these internally; you map each one to a concrete icon from any source.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Sets</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Registered renderers - FA, an Iconify component, etc. Reference any icon from a set by its full name: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">"solar:home-bold"</code>.
+                        Registered renderers - FA, an Iconify component, etc. Reference any icon from a set by its full name: <InlineCode>"solar:home-bold"</InlineCode>.
                     </dd>
                 </div>
                 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <dt class="mb-1 font-semibold text-gray-900 dark:text-gray-100">Slots</dt>
                     <dd class="text-sm text-gray-600 dark:text-gray-400">
-                        Every icon-bearing component has an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#icon</code> slot - drop in your own Vue component and skip the resolver entirely.
+                        Every icon-bearing component has an <InlineCode>#icon</InlineCode> slot - drop in your own Vue component and skip the resolver entirely.
                     </dd>
                 </div>
             </dl>
@@ -671,14 +670,14 @@ const passwordValue = ref('s3cret');
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">See it in real components</h2>
             <p class="text-gray-600 dark:text-gray-400">
                 Click any provider in the <strong>Live preview</strong> at the top of this page - every icon below is a real
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@netblink/vue-components</code> component using the same aliases as your app, so they all re-render with the chosen set.
+                <InlineCode>@netblink/vue-components</InlineCode> component using the same aliases as your app, so they all re-render with the chosen set.
             </p>
 
             <div class="grid gap-6 lg:grid-cols-2">
                 <!-- Alert variants -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Alert · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$success</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$error</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$warning</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$info</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>
+                        Alert · <InlineCode>$success</InlineCode> <InlineCode>$error</InlineCode> <InlineCode>$warning</InlineCode> <InlineCode>$info</InlineCode> <InlineCode>$close</InlineCode>
                     </div>
                     <Alert type="success">Order placed - confirmation sent to your inbox.</Alert>
                     <Alert type="error">Something went wrong. Please try again.</Alert>
@@ -698,7 +697,7 @@ const passwordValue = ref('s3cret');
                 <!-- Collapse / chevron -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Collapse · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>
+                        Collapse · <InlineCode>$expand</InlineCode>
                     </div>
                     <Collapse name="Settings" :open="collapseExpanded">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -707,7 +706,7 @@ const passwordValue = ref('s3cret');
                     </Collapse>
 
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 pt-2">
-                        CollapsableSection · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$expand</code>
+                        CollapsableSection · <InlineCode>$expand</InlineCode>
                     </div>
                     <CollapsableSection title="Advanced options">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -719,10 +718,10 @@ const passwordValue = ref('s3cret');
                 <!-- DataTile with user-supplied icon -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        DataTile · user-supplied <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:icon</code> (always FA here)
+                        DataTile · user-supplied <InlineCode>:icon</InlineCode> (always FA here)
                     </div>
                     <p class="text-xs text-gray-500 dark:text-gray-400">
-                        Components that take an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">icon</code> prop accept any <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">IconLike</code> - the prop value wins over aliases,
+                        Components that take an <InlineCode>icon</InlineCode> prop accept any <InlineCode>IconLike</InlineCode> - the prop value wins over aliases,
                         so the rocket below stays FA regardless of the switcher.
                     </p>
                     <div class="grid grid-cols-2 gap-3">
@@ -734,12 +733,12 @@ const passwordValue = ref('s3cret');
                 <!-- Modal trigger / NewModal close button -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        NewModal · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code>
+                        NewModal · <InlineCode>$close</InlineCode>
                     </div>
                     <PrimaryButton @click="modalOpen = true">Open modal</PrimaryButton>
                     <NewModal v-model="modalOpen" title="Switch the icon set">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            The close (×) button in the header uses the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$close</code> alias. Pick another provider while this modal is open
+                            The close (×) button in the header uses the <InlineCode>$close</InlineCode> alias. Pick another provider while this modal is open
                             and watch the glyph swap.
                         </p>
                         <template #footer>
@@ -751,7 +750,7 @@ const passwordValue = ref('s3cret');
                 <!-- InputLabel tooltip indicator -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        InputLabel · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$help</code>
+                        InputLabel · <InlineCode>$help</InlineCode>
                     </div>
                     <Input
                         v-model="passwordValue"
@@ -764,7 +763,7 @@ const passwordValue = ref('s3cret');
                 <!-- UnderConstruction -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        UnderConstruction · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$construction</code>
+                        UnderConstruction · <InlineCode>$construction</InlineCode>
                     </div>
                     <UnderConstruction info="Demo block - picks up $construction from the active provider." />
                 </div>
@@ -772,7 +771,7 @@ const passwordValue = ref('s3cret');
                 <!-- DescriptionList edit icons -->
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800/60 lg:col-span-2">
                     <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        DescriptionList · <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$edit</code> <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">$edit-alt</code>
+                        DescriptionList · <InlineCode>$edit</InlineCode> <InlineCode>$edit-alt</InlineCode>
                     </div>
                     <DescriptionList>
                         <DescriptionListItem label="Display name" editable @edit="() => {}">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NbTransition, NbTransitionGroup, IconButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { NbTransition, NbTransitionGroup, IconButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const presets = ['fade', 'slide-up', 'slide-down', 'scale', 'collapse'] as const;
@@ -55,10 +55,10 @@ const props = [
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Transitions</h2>
         <DocDemoCard class="mt-4">
             <p class="mb-6 text-gray-600 dark:text-gray-400">
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NbTransition</code> and
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NbTransitionGroup</code> wrap Vue's own components with presets that
+                <InlineCode>NbTransition</InlineCode> and
+                <InlineCode>NbTransitionGroup</InlineCode> wrap Vue's own components with presets that
                 follow the motion levels and theme tokens, so app code stops copying
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.fade-enter-active</code> CSS. Try them at each level with the motion
+                <InlineCode>.fade-enter-active</InlineCode> CSS. Try them at each level with the motion
                 switcher.
             </p>
 

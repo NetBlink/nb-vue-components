@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { SubNav, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { SubNav, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // The docs have no router, so each demo marks its active item itself; in an app the current URL decides.
@@ -44,7 +44,7 @@ const props = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">SubNav</h3>
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
-                Links between sibling pages styled like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Tabs</code>, with the same sliding
+                Links between sibling pages styled like <InlineCode>Tabs</InlineCode>, with the same sliding
                 marker. Use it for settings sections and sub-pages; use Tabs to switch panels on one page.
             </p>
             <div class="mb-6 space-y-5" @click="pick">

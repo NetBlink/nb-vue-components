@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Card, Badge, IconButton, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Card, Badge, IconButton, PrimaryButton, SecondaryButton, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -54,9 +54,9 @@ const slots = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 A bordered panel with an optional header (title, description, actions), body and footer band. Lighter than
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Section</code>, which is meant for whole page sections. Make it a link with
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">href</code> or a selectable button with
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">clickable</code>.
+                <InlineCode>Section</InlineCode>, which is meant for whole page sections. Make it a link with
+                <InlineCode>href</InlineCode> or a selectable button with
+                <InlineCode>clickable</InlineCode>.
             </p>
 
             <div class="mb-6 grid gap-4 md:grid-cols-2">
@@ -74,7 +74,7 @@ const slots = [
                     </template>
                 </Card>
                 <Card title="Just a body" padding="sm">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Cards without a footer or actions stay compact; use <code>padding</code> to tighten or loosen them.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Cards without a footer or actions stay compact; use <InlineCode>padding</InlineCode> to tighten or loosen them.</p>
                 </Card>
             </div>
 

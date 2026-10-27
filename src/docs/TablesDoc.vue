@@ -18,8 +18,7 @@ import {
     TrCollapseHandler,
     TdCollapseHandler,
     TrPlaceholder,
-    Pagination,
-} from '../index';
+    Pagination, InlineCode } from '../index';
 import { useTableSort } from '../composables/useTable';
 import { mockUsers, mockOrders, type User, type Order } from '../mockData';
 
@@ -659,7 +658,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Tables adapt to smaller screens. Use the <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">label</code> prop on Td for mobile display.
+                    Tables adapt to smaller screens. Use the <InlineCode>label</InlineCode> prop on Td for mobile display.
                 </p>
 
                 <!-- Responsive Table Example -->
@@ -982,7 +981,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    EnhancedTable wraps Table with two rendering modes. Pass a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">columns</code> array to get automatic headers and cells with per-cell slot overrides (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">#cell-{key}</code>). Omit columns and compose Thead/Tbody yourself for full manual control. It also wires up <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">useTable</code> internally so setting <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">sortable</code> or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">selectable</code> is enough to get clickable sort headers and click-to-select rows.
+                    EnhancedTable wraps Table with two rendering modes. Pass a <InlineCode>columns</InlineCode> array to get automatic headers and cells with per-cell slot overrides (<InlineCode>#cell-{key}</InlineCode>). Omit columns and compose Thead/Tbody yourself for full manual control. It also wires up <InlineCode>useTable</InlineCode> internally so setting <InlineCode>sortable</InlineCode> or <InlineCode>selectable</InlineCode> is enough to get clickable sort headers and click-to-select rows.
                 </p>
 
                 <div class="mb-6">
@@ -1028,7 +1027,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    TableItemCard is the mobile-first card alternative to a table row. It displays an ID badge, timestamp, pill tags, a linked title, option lines, and an optional monetary amount. Render a list of these components instead of a <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Table</code> when the viewport is too narrow for columnar data.
+                    TableItemCard is the mobile-first card alternative to a table row. It displays an ID badge, timestamp, pill tags, a linked title, option lines, and an optional monetary amount. Render a list of these components instead of a <InlineCode>Table</InlineCode> when the viewport is too narrow for columnar data.
                 </p>
 
                 <div class="mb-6 space-y-2">
@@ -1065,7 +1064,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;tr&gt;</code> that acts as a Tailwind Elements collapse trigger. Clicking the entire row toggles the paired <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapse</code> whose <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">collapse_id</code> matches. See the combined demo below in the TrCollapse section.
+                    A <InlineCode>&lt;tr&gt;</InlineCode> that acts as a Tailwind Elements collapse trigger. Clicking the entire row toggles the paired <InlineCode>TrCollapse</InlineCode> whose <InlineCode>collapse_id</InlineCode> matches. See the combined demo below in the TrCollapse section.
                 </p>
 
                 <div class="mt-4">
@@ -1087,7 +1086,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">Td</code> that initialises a Tailwind Elements collapse trigger. Use this when only a single cell (e.g. an expand arrow) should toggle the detail row, rather than the whole <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapseHandler</code>. The cell receives <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">cursor-pointer</code> styling automatically.
+                    A <InlineCode>Td</InlineCode> that initialises a Tailwind Elements collapse trigger. Use this when only a single cell (e.g. an expand arrow) should toggle the detail row, rather than the whole <InlineCode>TrCollapseHandler</InlineCode>. The cell receives <InlineCode>cursor-pointer</InlineCode> styling automatically.
                 </p>
 
                 <div class="mt-4">
@@ -1109,7 +1108,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A hidden <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">&lt;tr&gt;</code> that expands when its paired trigger fires. It wraps a full-width cell (<code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">colspan="999"</code>) containing a Tailwind Elements collapsible panel div. Pair it with <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TrCollapseHandler</code> or <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">TdCollapseHandler</code> by sharing the same <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">collapse_id</code>.
+                    A hidden <InlineCode>&lt;tr&gt;</InlineCode> that expands when its paired trigger fires. It wraps a full-width cell (<InlineCode>colspan="999"</InlineCode>) containing a Tailwind Elements collapsible panel div. Pair it with <InlineCode>TrCollapseHandler</InlineCode> or <InlineCode>TdCollapseHandler</InlineCode> by sharing the same <InlineCode>collapse_id</InlineCode>.
                 </p>
 
                 <!-- Combined demo: TrCollapseHandler + TdCollapseHandler + TrCollapse in one table -->
@@ -1174,7 +1173,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             </h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Renders <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">n</code> animated skeleton rows to fill a table while data is loading. Each row contains a single cell that spans all columns via <code class="rounded bg-gray-100 dark:bg-gray-900/60 px-1">colspan="999"</code> and shows a pulsing gray bar. Replace it with real rows once loading completes.
+                    Renders <InlineCode>n</InlineCode> animated skeleton rows to fill a table while data is loading. Each row contains a single cell that spans all columns via <InlineCode>colspan="999"</InlineCode> and shows a pulsing gray bar. Replace it with real rows once loading completes.
                 </p>
 
                 <div class="mb-6">
@@ -1215,10 +1214,10 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <CollapsableSection header="Migration & back-compat notes">
                 <p class="mb-4 text-gray-600 dark:text-gray-400">All older table code still works; these are the current equivalents:</p>
                 <ul class="list-inside list-disc space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">seperate</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">separate</code></li>
-                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapsable</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapsible</code></li>
-                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapse_id</code> → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapseId</code></li>
-                    <li><code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">links</code> (array) → <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">pagination</code> (Laravel paginator payload)</li>
+                    <li><InlineCode>seperate</InlineCode> → <InlineCode>separate</InlineCode></li>
+                    <li><InlineCode>collapsable</InlineCode> → <InlineCode>collapsible</InlineCode></li>
+                    <li><InlineCode>collapse_id</InlineCode> → <InlineCode>collapseId</InlineCode></li>
+                    <li><InlineCode>links</InlineCode> (array) → <InlineCode>pagination</InlineCode> (Laravel paginator payload)</li>
                 </ul>
             </CollapsableSection>
         </section>
@@ -1227,9 +1226,9 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Empty state</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    When <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">data</code> is empty, Tbody shows a centred message. Change the text with
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">empty-message</code>, or replace it with the
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#empty</code> slot. RichSelect, LogsContent and EnhancedTable take the same prop and slot.
+                    When <InlineCode>data</InlineCode> is empty, Tbody shows a centred message. Change the text with
+                    <InlineCode>empty-message</InlineCode>, or replace it with the
+                    <InlineCode>#empty</InlineCode> slot. RichSelect, LogsContent and EnhancedTable take the same prop and slot.
                 </p>
                 <Table>
                     <Thead>

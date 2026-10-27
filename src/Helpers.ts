@@ -133,6 +133,38 @@ function getInertiaPage(): Page | null {
     return inertiaPage;
 }
 
+/**
+ * Copy text to the clipboard. Uses the Clipboard API where the page allows it (https,
+ * localhost) and falls back to a hidden textarea and `execCommand('copy')` elsewhere,
+ * such as an intranet app on plain http. Resolves false only when both fail.
+ */
+export async function copyText(text: string): Promise<boolean> {
+    try {
+        if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch {
+        // Permission denied or similar: try the fallback below.
+    }
+    if (typeof document === 'undefined') return false;
+    const area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    let ok = false;
+    try {
+        ok = document.execCommand('copy');
+    } catch {
+        ok = false;
+    }
+    document.body.removeChild(area);
+    return ok;
+}
+
 /** Internal: the page/router when the app registered them, without the setup error. For code that has its own fallback. */
 export const peekInertiaPage = (): Page | null => inertiaPage;
 export const peekInertiaRouter = (): Router | null => inertiaRouter;

@@ -24,8 +24,7 @@ import {
     InputWrapper,
     CodePreview,
     CollapsableSection,
-    PropsTable,
-} from '../index';
+    PropsTable, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import DocCallout from './HelperComponents/DocCallout.vue';
 
@@ -676,7 +675,7 @@ const dropdownSearchbarProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Form input components that integrate with Inertia's <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">useForm()</code> via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code> props.</p>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Form input components that integrate with Inertia's <InlineCode>useForm()</InlineCode> via <InlineCode>:form</InlineCode> and <InlineCode>field</InlineCode> props.</p>
         </header>
 
         <section id="input">
@@ -721,9 +720,9 @@ const dropdownSearchbarProps = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use checkbox:
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Input type="checkbox"&gt;</code>
+                    <InlineCode>&lt;Input type="checkbox"&gt;</InlineCode>
                     or
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Checkbox&gt;</code>
+                    <InlineCode>&lt;Checkbox&gt;</InlineCode>
                     - both are API-compatible.
                 </p>
 
@@ -746,9 +745,9 @@ const dropdownSearchbarProps = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use switch:
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Input type="switch"&gt;</code>
+                    <InlineCode>&lt;Input type="switch"&gt;</InlineCode>
                     or
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Switch&gt;</code>
+                    <InlineCode>&lt;Switch&gt;</InlineCode>
                     - both are API-compatible.
                 </p>
 
@@ -771,9 +770,9 @@ const dropdownSearchbarProps = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Two ways to use textarea:
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Input type="textarea"&gt;</code>
+                    <InlineCode>&lt;Input type="textarea"&gt;</InlineCode>
                     or
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Textarea&gt;</code>
+                    <InlineCode>&lt;Textarea&gt;</InlineCode>
                     - both are API-compatible.
                 </p>
 
@@ -794,8 +793,8 @@ const dropdownSearchbarProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Radio Buttons</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Radio buttons in the same group share a form field. Bind them with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:form</code> and
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">field</code>, giving each one the value it represents.
+                    Radio buttons in the same group share a form field. Bind them with <InlineCode>:form</InlineCode> and
+                    <InlineCode>field</InlineCode>, giving each one the value it represents.
                 </p>
 
                 <div class="mb-6 space-y-3">
@@ -835,9 +834,9 @@ const dropdownSearchbarProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Select Components</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Select</code> is a thin wrapper around a native
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;select&gt;</code> - use it for short lists. Reach for
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">RichSelect</code> when you need search, multiple selection, grouping, API-backed
+                    <InlineCode>Select</InlineCode> is a thin wrapper around a native
+                    <InlineCode>&lt;select&gt;</InlineCode> - use it for short lists. Reach for
+                    <InlineCode>RichSelect</InlineCode> when you need search, multiple selection, grouping, API-backed
                     autocomplete, or custom option shapes.
                 </p>
 
@@ -850,30 +849,30 @@ const dropdownSearchbarProps = [
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - searchable + clearable</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    Add <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">searchable</code> for an in-dropdown filter, and
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">clearable</code> for an × button to reset the value.
+                    Add <InlineCode>searchable</InlineCode> for an in-dropdown filter, and
+                    <InlineCode>clearable</InlineCode> for an × button to reset the value.
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="searchableFramework" :options="frameworks" searchable clearable label="Framework" />
                 </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ searchableFramework ?? 'null' }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected value: <InlineCode>{{ searchableFramework ?? 'null' }}</InlineCode></p>
                 <CodePreview :code="richSelectSearchExample" filename="RichSelect, searchable" />
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - multiple</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    Set <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">multiple</code> and bind to an array. Selected options render as removable chips.
+                    Set <InlineCode>multiple</InlineCode> and bind to an array. Selected options render as removable chips.
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="selectedTags" :options="tagOptions" multiple searchable label="Tags" />
                 </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ JSON.stringify(selectedTags) }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected: <InlineCode>{{ JSON.stringify(selectedTags) }}</InlineCode></p>
                 <CodePreview :code="richSelectMultipleExample" filename="RichSelect, multiple" />
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - grouping</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    With <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">grouping</code>, options are bucketed by their
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">group</code> field (configurable via
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">optionGroup</code>).
+                    With <InlineCode>grouping</InlineCode>, options are bucketed by their
+                    <InlineCode>group</InlineCode> field (configurable via
+                    <InlineCode>optionGroup</InlineCode>).
                 </p>
                 <div class="mb-3 max-w-md">
                     <RichSelect v-model="selectedTool" :options="groupedTools" grouping searchable clearable label="Tool" />
@@ -882,8 +881,8 @@ const dropdownSearchbarProps = [
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - custom option keys</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    Already have records shaped like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{ id, title }</code>? Map them with
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">optionValue</code> and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">optionLabel</code>
+                    Already have records shaped like <InlineCode>{ id, title }</InlineCode>? Map them with
+                    <InlineCode>optionValue</InlineCode> and <InlineCode>optionLabel</InlineCode>
                     rather than reformatting your data.
                 </p>
                 <div class="mb-3 max-w-md">
@@ -897,15 +896,15 @@ const dropdownSearchbarProps = [
                         clearable
                     />
                 </div>
-                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">{{ selectedUserId ?? 'null' }}</code></p>
+                <p class="mb-4 text-xs text-gray-500 dark:text-gray-400">Selected id: <InlineCode>{{ selectedUserId ?? 'null' }}</InlineCode></p>
                 <CodePreview :code="richSelectCustomKeysExample" filename="RichSelect, custom option keys" />
 
                 <div class="mt-8 mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">RichSelect - API search</div>
                 <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiSearch</code> debounces the search box and hits
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiUrl</code> with the query in
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiSearchParam</code>. Use
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">apiTransform</code> to map the response into the option shape RichSelect expects. (No
+                    <InlineCode>apiSearch</InlineCode> debounces the search box and hits
+                    <InlineCode>apiUrl</InlineCode> with the query in
+                    <InlineCode>apiSearchParam</InlineCode>. Use
+                    <InlineCode>apiTransform</InlineCode> to map the response into the option shape RichSelect expects. (No
                     live demo here - wire it up to a real endpoint in your app.)
                 </p>
                 <CodePreview :code="richSelectApiExample" filename="RichSelect, API search" />
@@ -924,14 +923,14 @@ const dropdownSearchbarProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">TextInput</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">TextInput</code> is a low-level bare
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;input&gt;</code> element with
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">v-model</code> support, an
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">inputmode</code> prop, and an optional
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">noNumberSpinners</code> flag. It carries no
+                    <InlineCode>TextInput</InlineCode> is a low-level bare
+                    <InlineCode>&lt;input&gt;</InlineCode> element with
+                    <InlineCode>v-model</InlineCode> support, an
+                    <InlineCode>inputmode</InlineCode> prop, and an optional
+                    <InlineCode>noNumberSpinners</InlineCode> flag. It carries no
                     label, error display, or form-object binding. In new code prefer the full-featured
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Input</code> component; use
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">TextInput</code> only when you need a
+                    <InlineCode>Input</InlineCode> component; use
+                    <InlineCode>TextInput</InlineCode> only when you need a
                     naked input element to compose into a custom wrapper.
                 </p>
                 <div class="mb-6 max-w-sm">
@@ -948,11 +947,11 @@ const dropdownSearchbarProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">InputLabel, InputError &amp; InputWrapper</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    The label and error pieces that <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Input</code> renders around its control.
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputLabel</code> is the styled
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;label&gt;</code> (sublabel, asterisk, tooltip),
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputError</code> is the red message line, and
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputWrapper</code> puts both around whatever you place in its slot.
+                    The label and error pieces that <InlineCode>Input</InlineCode> renders around its control.
+                    <InlineCode>InputLabel</InlineCode> is the styled
+                    <InlineCode>&lt;label&gt;</InlineCode> (sublabel, asterisk, tooltip),
+                    <InlineCode>InputError</InlineCode> is the red message line, and
+                    <InlineCode>InputWrapper</InlineCode> puts both around whatever you place in its slot.
                     Use them when building a custom field that should look like the others.
                 </p>
                 <div class="mb-6 grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
@@ -983,10 +982,10 @@ const dropdownSearchbarProps = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Drag-and-drop file picker backed by
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">vue3-dropzone</code>. Dropped files are
-                    written directly to <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">form[field]</code>
-                    (single file or array when <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">multiple</code>
-                    is set). Renders an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">InputError</code>
+                    <InlineCode>vue3-dropzone</InlineCode>. Dropped files are
+                    written directly to <InlineCode>form[field]</InlineCode>
+                    (single file or array when <InlineCode>multiple</InlineCode>
+                    is set). Renders an <InlineCode>InputError</InlineCode>
                     automatically when a rejected file or MIME mismatch occurs.
                 </p>
                 <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
@@ -1000,9 +999,9 @@ const dropdownSearchbarProps = [
 
                 <div class="mt-8 mb-2 font-semibold text-gray-800 dark:text-gray-100">Without a form, and uploading as you pick</div>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    With <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">v-model</code> the component holds plain File objects. With
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:upload</code> each file uploads straight away with its own progress
-                    bar, failed uploads offer a retry, and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">v-model</code> ends up holding what
+                    With <InlineCode>v-model</InlineCode> the component holds plain File objects. With
+                    <InlineCode>:upload</InlineCode> each file uploads straight away with its own progress
+                    bar, failed uploads offer a retry, and <InlineCode>v-model</InlineCode> ends up holding what
                     your upload function returned. The demo's uploader is fake and fails now and then.
                 </p>
                 <div class="mb-6 grid gap-6 md:grid-cols-2">
@@ -1040,13 +1039,13 @@ const dropdownSearchbarProps = [
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     Gallery-style image uploader with drag-and-drop. Displays existing images in a masonry grid and
                     posts new uploads to a named Inertia route. Each uploaded image can be deleted via a
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">images.delete</code> DELETE request.
-                    Pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">canUpload="false"</code> to render
+                    <InlineCode>images.delete</InlineCode> DELETE request.
+                    Pass <InlineCode>canUpload="false"</InlineCode> to render
                     the gallery read-only.
                 </p>
                 <p class="mb-4 text-sm text-amber-700 dark:text-amber-400">
                     Note: the demo renders the upload UI only. Uploads and deletes require a real endpoint configured
-                    via the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">endPoint</code> prop.
+                    via the <InlineCode>endPoint</InlineCode> prop.
                 </p>
                 <div class="mb-6">
                     <Images :images="[]" itemType="Post" :itemId="1" endPoint="images.store" />
@@ -1081,14 +1080,14 @@ const dropdownSearchbarProps = [
                         <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
                     </div>
                     <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
-                        A native <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">&lt;select&gt;</code> wrapper
-                        that accepts a typed <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">{ value, label, disabled? }</code>
+                        A native <InlineCode>&lt;select&gt;</InlineCode> wrapper
+                        that accepts a typed <InlineCode>{ value, label, disabled? }</InlineCode>
                         options array with tooltip, placeholder, and error display.
                     </p>
                     <div class="mt-3 mb-4 max-w-xs">
                         <SimpleSelect v-model="simpleSelectValue" :options="sampleOptions" label="Fruit" placeholder="Pick one..." />
                     </div>
-                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">{{ simpleSelectValue ?? 'null' }}</code></p>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <InlineCode>{{ simpleSelectValue ?? 'null' }}</InlineCode></p>
                     <CodePreview :code="simpleSelectExamples" />
                     <CollapsableSection header="SimpleSelect Props (deprecated)" class="mt-4">
                         <PropsTable :rows="simpleSelectProps" />
@@ -1103,10 +1102,10 @@ const dropdownSearchbarProps = [
                     </div>
                     <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
                         Filterable single-select powered by
-                        <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">vue-search-select</code>.
-                        Maps arbitrary object shapes via <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">optionValue</code> /
-                        <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">optionText</code> and emits
-                        <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">@searchchange</code> on every keystroke.
+                        <InlineCode>vue-search-select</InlineCode>.
+                        Maps arbitrary object shapes via <InlineCode>optionValue</InlineCode> /
+                        <InlineCode>optionText</InlineCode> and emits
+                        <InlineCode>@searchchange</InlineCode> on every keystroke.
                     </p>
                     <div class="mt-3 mb-4 max-w-xs">
                         <SearchSelect
@@ -1120,7 +1119,7 @@ const dropdownSearchbarProps = [
                             noForm
                         />
                     </div>
-                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">{{ searchSelectValue ?? 'null' }}</code></p>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <InlineCode>{{ searchSelectValue ?? 'null' }}</InlineCode></p>
                     <CodePreview :code="searchSelectExamples" />
                     <CollapsableSection header="SearchSelect Props (deprecated)" class="mt-4">
                         <PropsTable :rows="searchSelectProps" />
@@ -1138,7 +1137,7 @@ const dropdownSearchbarProps = [
                     </div>
                     <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
                         Checkbox-based multi-value picker. Selections are stored as an array of string IDs in
-                        <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">form[field]</code>.
+                        <InlineCode>form[field]</InlineCode>.
                     </p>
                     <div class="mt-3 mb-4 max-w-xs">
                         <SelectMultiple
@@ -1151,7 +1150,7 @@ const dropdownSearchbarProps = [
                             label="Fruits"
                         />
                     </div>
-                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">{{ JSON.stringify(selectMultipleForm.tags) }}</code></p>
+                    <p class="mb-4 text-xs text-amber-900/70 dark:text-amber-200/70">Selected: <InlineCode>{{ JSON.stringify(selectMultipleForm.tags) }}</InlineCode></p>
                     <CodePreview :code="selectMultipleExamples" />
                     <CollapsableSection header="SelectMultiple Props (deprecated)" class="mt-4">
                         <PropsTable :rows="selectMultipleProps" />
@@ -1165,7 +1164,7 @@ const dropdownSearchbarProps = [
                         <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">Deprecated</span>
                     </div>
                     <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
-                        A <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">SearchSelect</code> wrapper that loads
+                        A <InlineCode>SearchSelect</InlineCode> wrapper that loads
                         options from a paginated JSON endpoint with infinite-scroll and per-keystroke fetch.
                         Requires a live endpoint - no live demo.
                     </p>
@@ -1186,7 +1185,7 @@ const dropdownSearchbarProps = [
                     </div>
                     <p class="text-sm text-amber-900/90 dark:text-amber-200/90">
                         A lightweight wrapper around
-                        <code class="rounded bg-amber-100/60 px-1 dark:bg-amber-900/30">vue-select</code> that provides a
+                        <InlineCode>vue-select</InlineCode> that provides a
                         freeform dropdown with built-in search. No form binding or error display - intended for UI filters.
                     </p>
                     <div class="mt-3 mb-4 max-w-xs">

@@ -3,7 +3,7 @@ import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 import { ref } from 'vue';
 import { faRocket, faPaintBrush, faGears, faChartLine, faShieldHalved, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../icons';
-import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab, H2 } from '../index';
+import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab, H2, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import PageHeaderDoc from './sections/PageHeaderDoc.vue';
 
@@ -260,7 +260,7 @@ const tabProps = [
                 <CodePreview :code="sectionExamples" />
 
                 <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                    See the <strong>Sections</strong> entry under <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Utility Components</code> for the full prop
+                    See the <strong>Sections</strong> entry under <InlineCode>Utility Components</InlineCode> for the full prop
                     table.
                 </p>
             </DocDemoCard>
@@ -270,9 +270,9 @@ const tabProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">H2</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    A page-level section heading: a bold <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;h2&gt;</code> with a primary underline and
-                    an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">id</code> derived from the title, so it can be linked with
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#billing-details</code>. The text color is fixed to gray-900 with no dark variant.
+                    A page-level section heading: a bold <InlineCode>&lt;h2&gt;</InlineCode> with a primary underline and
+                    an <InlineCode>id</InlineCode> derived from the title, so it can be linked with
+                    <InlineCode>#billing-details</InlineCode>. The text color is fixed to gray-900 with no dark variant.
                 </p>
 
                 <div data-skip-anchor class="mb-6 rounded-lg bg-white px-4 py-1">
@@ -292,10 +292,10 @@ const tabProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tabs</h3>
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
-                    Tabbed panel switcher built on reka-ui's <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Tabs</code> primitives - arrow-key
+                    Tabbed panel switcher built on reka-ui's <InlineCode>Tabs</InlineCode> primitives - arrow-key
                     navigation, roving focus and ARIA wiring come for free. Declare the strip with
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:tabs</code>, then render one
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;Tab&gt;</code> per panel.
+                    <InlineCode>:tabs</InlineCode>, then render one
+                    <InlineCode>&lt;Tab&gt;</InlineCode> per panel.
                 </p>
 
                 <div class="mb-3 font-semibold text-gray-800 dark:text-gray-200">Underline (default)</div>
@@ -357,8 +357,8 @@ const tabProps = [
                     expandable groups.
                 </p>
                 <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                    Related: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Collapse</code> (inline disclosure, see <em>Utility Components</em>) and
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavCollapse</code> (nav menus, see <em>Navigation Components</em>).
+                    Related: <InlineCode>Collapse</InlineCode> (inline disclosure, see <em>Utility Components</em>) and
+                    <InlineCode>NavCollapse</InlineCode> (nav menus, see <em>Navigation Components</em>).
                 </p>
 
                 <div class="mb-6 space-y-4">
@@ -402,9 +402,9 @@ const tabProps = [
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Collapse</h3>
             <DocDemoCard>
                 <p class="mb-3 text-gray-600 dark:text-gray-400">
-                    Low-level open/close container. By default it renders a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">SecondaryButton</code> as the
-                    trigger (labels come from the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">button</code> prop); pass a
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">#trigger</code> slot to override.
+                    Low-level open/close container. By default it renders a <InlineCode>SecondaryButton</InlineCode> as the
+                    trigger (labels come from the <InlineCode>button</InlineCode> prop); pass a
+                    <InlineCode>#trigger</InlineCode> slot to override.
                 </p>
 
                 <!-- Family comparison: there are three "collapsible" components and they get confused -->
@@ -418,7 +418,7 @@ const tabProps = [
                         </li>
                         <li>
                             <strong>NavCollapse</strong> - expandable group inside a navigation list (renders as an
-                            <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">&lt;li&gt;</code>).
+                            <InlineCode>&lt;li&gt;</InlineCode>).
                             See <em>Navigation Components → Collapsible Navigation</em>.
                         </li>
                     </ul>
@@ -428,9 +428,9 @@ const tabProps = [
                 <Collapse class="mb-6">
                     <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                         <p class="text-gray-600 dark:text-gray-400">
-                            Default trigger uses a SecondaryButton labelled by the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">button</code> prop.
+                            Default trigger uses a SecondaryButton labelled by the <InlineCode>button</InlineCode> prop.
                             <br />
-                            <span class="text-gray-500 dark:text-gray-400">Try the labels: pass <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:button="['Details', 'Hide']"</code>.</span>
+                            <span class="text-gray-500 dark:text-gray-400">Try the labels: pass <InlineCode>:button="['Details', 'Hide']"</InlineCode>.</span>
                         </p>
                     </div>
                 </Collapse>
@@ -438,7 +438,7 @@ const tabProps = [
                 <Collapse :button="['View advanced details', 'Hide advanced details']" class="mb-6">
                     <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                         <p class="text-gray-600 dark:text-gray-400">
-                            Same Collapse, with custom button labels via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:button="['…', '…']"</code>.
+                            Same Collapse, with custom button labels via <InlineCode>:button="['…', '…']"</InlineCode>.
                         </p>
                     </div>
                 </Collapse>
@@ -456,7 +456,7 @@ const tabProps = [
                     </template>
                     <div class="mt-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4">
                         <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-                            When you supply your own trigger, you also own the open state - toggle <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">collapseOpen</code>
+                            When you supply your own trigger, you also own the open state - toggle <InlineCode>collapseOpen</InlineCode>
                             yourself.
                         </p>
                         <div class="grid grid-cols-2 gap-3 text-sm">

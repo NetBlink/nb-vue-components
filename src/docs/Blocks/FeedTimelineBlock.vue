@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Select, Timeline, Badge, Card, EmptyState, CodePreview } from '../../index';
+import { Select, Timeline, Badge, Card, EmptyState, CodePreview, InlineCode } from '../../index';
 import { faCheck, faTriangleExclamation, faCircleInfo, faXmark, faInbox } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -97,8 +97,8 @@ const logSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A reverse-chronological activity feed: <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Timeline</code> with
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">layout="cards"</code> gives each event a tinted row, an icon, a title with a
+                A reverse-chronological activity feed: <InlineCode>Timeline</InlineCode> with
+                <InlineCode>layout="cards"</InlineCode> gives each event a tinted row, an icon, a title with a
                 right-aligned relative time, and a detail line. Map your own statuses to the colour variants.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { PrimaryButton, SecondaryButton, LinkButton, EmptyState, CodePreview } from '../../index';
+import { PrimaryButton, SecondaryButton, LinkButton, EmptyState, CodePreview, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faInbox, faPlus, faCartShopping, faMagnifyingGlass, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -65,7 +65,7 @@ const notFoundSnippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A basic <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">EmptyState</code>: icon, title, short description, and a single call-to-action button.
+                A basic <InlineCode>EmptyState</InlineCode>: icon, title, short description, and a single call-to-action button.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <EmptyState :icon="faInbox" title="No projects yet" description="Get started by creating your first project.">
@@ -80,7 +80,7 @@ const notFoundSnippet = [
 
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Big-circle variant: the icon circle sized up through <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:ui</code>, useful for a more prominent empty state such as an empty cart.
+                Big-circle variant: the icon circle sized up through <InlineCode>:ui</InlineCode>, useful for a more prominent empty state such as an empty cart.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <EmptyState

@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (90 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (91 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -510,7 +510,7 @@ Read-only code block with a header bar showing a filename and a copy-to-clipboar
 | `root` | the block |
 | `header` | the header bar |
 | `filename` | the filename text |
-| `copy` | the copy button |
+| `copy` | the `CopyButton` |
 | `pre` | the `<pre>` holding the code |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
@@ -1023,6 +1023,24 @@ Info Button component
 | Part | Element |
 | --- | --- |
 | `root` | the `<button>`, rendered by `Button`, so `ui.Button` config applies too |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### InlineCode
+
+a prop name, a class, a command. Monospace on a faint tint, sized to the surrounding text and padded only sideways, so it never makes its line taller than the lines around it.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `ui` | `UiProp<NbParts['InlineCode']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the `<code>` element |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
@@ -2582,7 +2600,7 @@ A two-factor challenge card: six auto-advancing single-character boxes that acce
 
 Source: `src/docs/Blocks/AuthSecurityBlock.vue`
 
-Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `Card`, `IconCircle`, `CodePreview`
+Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `InlineCode`, `Card`, `IconCircle`, `CodePreview`
 
 ### AI Assistant
 
@@ -2598,7 +2616,7 @@ A horizontal application header driven by a single navItems array: items with ch
 
 Source: `src/docs/Blocks/NavbarBlock.vue`
 
-Uses: `Dropdown`, `NbIcon`, `DropdownLink`, `NavLink`, `GravatarImg`, `DropdownSeparator`, `IconButton`, `NbTransition`, `NavCollapse`, `ResponsiveNavLink`, `CodePreview`
+Uses: `Dropdown`, `NbIcon`, `DropdownLink`, `NavLink`, `GravatarImg`, `DropdownSeparator`, `IconButton`, `NbTransition`, `NavCollapse`, `ResponsiveNavLink`, `InlineCode`, `CodePreview`
 
 ### Auth Pages
 
@@ -2606,7 +2624,7 @@ A registration card composed from Input and Checkbox, with a terms-of-service ag
 
 Source: `src/docs/Blocks/AuthPagesBlock.vue`
 
-Uses: `Card`, `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `EmptyState`, `SecondaryButton`, `CodePreview`
+Uses: `Card`, `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `EmptyState`, `SecondaryButton`, `CodePreview`, `InlineCode`
 
 ### Cards & Lists
 
@@ -2622,7 +2640,7 @@ Two series on a smooth-curve area chart with a gradient fill that fades to trans
 
 Source: `src/docs/Blocks/ChartsBlock.vue`
 
-Uses: `Card`, `CodePreview`, `NbIcon`
+Uses: `Card`, `InlineCode`, `CodePreview`, `NbIcon`
 
 ### Chat Interface
 
@@ -2638,7 +2656,7 @@ The canonical list screen: header action, Stats tiles doubling as filters, a sea
 
 Source: `src/docs/Blocks/IndexPageBlock.vue`
 
-Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Badge`, `IconButton`, `NewModal`, `PrimaryButton`, `Pagination`, `CodePreview`
+Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `Stats`, `Input`, `Select`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Badge`, `IconButton`, `NewModal`, `PrimaryButton`, `InlineCode`, `Pagination`, `CodePreview`
 
 ### Dashboard Overview
 
@@ -2646,7 +2664,7 @@ A dashboard landing composition: a KPI grid of DataTiles with icon chips and sig
 
 Source: `src/docs/Blocks/DashboardBlock.vue`
 
-Uses: `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `Switch`, `CodePreview`
+Uses: `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `InlineCode`, `Switch`, `CodePreview`
 
 ### Empty & Error States
 
@@ -2654,7 +2672,7 @@ A basic EmptyState: icon, title, short description, and a single call-to-action 
 
 Source: `src/docs/Blocks/EmptyStatesBlock.vue`
 
-Uses: `EmptyState`, `PrimaryButton`, `NbIcon`, `SecondaryButton`, `LinkButton`, `CodePreview`
+Uses: `EmptyState`, `PrimaryButton`, `NbIcon`, `SecondaryButton`, `LinkButton`, `InlineCode`, `CodePreview`
 
 ### Feeds & Timelines
 
@@ -2662,7 +2680,7 @@ A reverse-chronological activity feed: Timeline with layout="cards" gives each e
 
 Source: `src/docs/Blocks/FeedTimelineBlock.vue`
 
-Uses: `Timeline`, `Select`, `Badge`, `Card`, `EmptyState`, `CodePreview`
+Uses: `Timeline`, `Select`, `Badge`, `Card`, `EmptyState`, `InlineCode`, `CodePreview`
 
 ### Form Layouts
 
@@ -2678,7 +2696,7 @@ A gradient hero band with an eyebrow pill, headline, supporting copy, and a CTA 
 
 Source: `src/docs/Blocks/MarketingBlock.vue`
 
-Uses: `PrimaryButton`, `SecondaryButton`, `Card`, `IconCircle`, `NbIcon`, `CodePreview`
+Uses: `PrimaryButton`, `SecondaryButton`, `Card`, `IconCircle`, `NbIcon`, `CodePreview`, `InlineCode`
 
 ### Mega Menu
 
@@ -2686,7 +2704,7 @@ A horizontal navbar whose items open wide multi-column panels: two columns of ic
 
 Source: `src/docs/Blocks/MegaMenuBlock.vue`
 
-Uses: `NbIcon`, `NavLink`, `NbTransition`, `IconCircle`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `NbIcon`, `NavLink`, `NbTransition`, `IconCircle`, `SecondaryButton`, `InlineCode`, `PrimaryButton`, `CodePreview`
 
 ### Modal Recipes
 
@@ -2694,7 +2712,7 @@ Five ready-made NewModal compositions: create form, export options, upload, dang
 
 Source: `src/docs/Blocks/ModalsBlock.vue`
 
-Uses: `PrimaryButton`, `NbIcon`, `NewModal`, `Input`, `SecondaryButton`, `RadioButton`, `Switch`, `FileDropZoneInput`, `DangerButton`, `CodePreview`
+Uses: `PrimaryButton`, `NbIcon`, `NewModal`, `Input`, `SecondaryButton`, `RadioButton`, `Switch`, `FileDropZoneInput`, `DangerButton`, `InlineCode`, `CodePreview`
 
 ### Multi-Step Form
 
@@ -2702,7 +2720,7 @@ A three-step wizard: a Stepper whose rails fill as you advance, over a single fo
 
 Source: `src/docs/Blocks/WizardBlock.vue`
 
-Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `DescriptionList`, `DescriptionListItem`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `DescriptionList`, `DescriptionListItem`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `InlineCode`, `CodePreview`
 
 ### Orderable Fields
 
@@ -2710,7 +2728,7 @@ A drag-to-reorder list built on native HTML5 drag events, no library. Each row c
 
 Source: `src/docs/Blocks/OrderableBlock.vue`
 
-Uses: `NbIcon`, `IconButton`, `Input`, `NbTransitionGroup`, `CodePreview`
+Uses: `NbIcon`, `IconButton`, `Input`, `NbTransitionGroup`, `InlineCode`, `CodePreview`
 
 ### Page Shell
 
@@ -2718,7 +2736,7 @@ The page skeleton every app needs: a PageHeader bar (breadcrumbs plus right-alig
 
 Source: `src/docs/Blocks/PageShellBlock.vue`
 
-Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `PrimaryButton`, `Card`, `Section`, `CodePreview`
+Uses: `PageHeader`, `SecondaryButton`, `NbIcon`, `PrimaryButton`, `Card`, `Section`, `InlineCode`, `CodePreview`
 
 ### Product Page
 
@@ -2734,7 +2752,7 @@ A two-column account settings page: a vertical section nav on the left, and on t
 
 Source: `src/docs/Blocks/SettingsPageBlock.vue`
 
-Uses: `Section`, `Input`, `Textarea`, `PrimaryButton`, `Checkbox`, `DangerButton`, `NewModal`, `SecondaryButton`, `NbTransition`, `CodePreview`
+Uses: `Section`, `Input`, `Textarea`, `PrimaryButton`, `Checkbox`, `DangerButton`, `NewModal`, `SecondaryButton`, `InlineCode`, `NbTransition`, `CodePreview`
 
 ### Show & Edit Page
 
@@ -2750,7 +2768,7 @@ A vertical app sidebar built from NavLink (with #icon slots) and NavCollapse gro
 
 Source: `src/docs/Blocks/SidebarBlock.vue`
 
-Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `CodePreview`
+Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `InlineCode`, `CodePreview`
 
 ### Skeletons & Loading
 
@@ -2758,7 +2776,7 @@ Skeleton primitives: a text-line stack, an avatar row with two supporting lines,
 
 Source: `src/docs/Blocks/SkeletonsBlock.vue`
 
-Uses: `Skeleton`, `Card`, `Switch`, `Avatar`, `SubmitButton`, `CodePreview`
+Uses: `Skeleton`, `Card`, `Switch`, `Avatar`, `SubmitButton`, `InlineCode`, `CodePreview`
 
 ### Tabbed Detail Page
 
@@ -2766,4 +2784,4 @@ A record-detail page: a PageHeader with a status Badge and a destructive action,
 
 Source: `src/docs/Blocks/TabbedDetailBlock.vue`
 
-Uses: `PageHeader`, `Badge`, `DangerButton`, `NbIcon`, `Section`, `Tabs`, `Tab`, `SecondaryButton`, `DescriptionList`, `DescriptionListItem`, `Input`, `Logs`, `NbTransition`, `CodePreview`
+Uses: `PageHeader`, `Badge`, `DangerButton`, `NbIcon`, `Section`, `Tabs`, `Tab`, `SecondaryButton`, `DescriptionList`, `DescriptionListItem`, `Input`, `Logs`, `InlineCode`, `NbTransition`, `CodePreview`

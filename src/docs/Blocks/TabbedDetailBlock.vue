@@ -8,7 +8,7 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { faBan, faCirclePlay, faPenToSquare, faRotate } from '@fortawesome/free-solid-svg-icons';
 import { NbIcon } from '../../icons';
-import { Section, Tabs, Tab, DescriptionList, DescriptionListItem, Input, Logs, SecondaryButton, DangerButton, PageHeader, Badge, NbTransition, CodePreview } from '../../index';
+import { Section, Tabs, Tab, DescriptionList, DescriptionListItem, Input, Logs, SecondaryButton, DangerButton, PageHeader, Badge, NbTransition, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const tab = ref('info');
@@ -109,12 +109,12 @@ const snippet = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Tabbed Detail Page</h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A record-detail page: a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">PageHeader</code> with a status <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Badge</code> and a destructive action, then a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Section</code> holding
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Tabs</code>/<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Tab</code> panes -
-                an inline-edit <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">DescriptionList</code> bound to
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">useForm()</code> whose Save button only appears while the form is dirty, plus a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60 dark:text-gray-200">Logs</code> timeline.
+                A record-detail page: a <InlineCode>PageHeader</InlineCode> with a status <InlineCode>Badge</InlineCode> and a destructive action, then a
+                <InlineCode>Section</InlineCode> holding
+                <InlineCode>Tabs</InlineCode>/<InlineCode>Tab</InlineCode> panes -
+                an inline-edit <InlineCode>DescriptionList</InlineCode> bound to
+                <InlineCode>useForm()</InlineCode> whose Save button only appears while the form is dirty, plus a
+                <InlineCode>Logs</InlineCode> timeline.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

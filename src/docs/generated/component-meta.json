@@ -283,7 +283,7 @@
             },
             {
                 "name": "copy",
-                "description": "the copy button"
+                "description": "the `CopyButton`"
             },
             {
                 "name": "pre",
@@ -911,6 +911,21 @@
             {
                 "name": "root",
                 "description": "the `<button>`, rendered by `Button`, so `ui.Button` config applies too"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "InlineCode": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the `<code>` element"
             }
         ],
         "classPart": "root",

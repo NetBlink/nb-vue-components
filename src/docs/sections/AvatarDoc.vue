@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Avatar, AvatarGroup, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Avatar, AvatarGroup, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const team = ['Maria Lopez', 'Tom Becker', 'Aisha Khan', 'Jonas Weber', 'Lena Fischer', 'Ravi Patel', 'Chen Wei'];
@@ -35,7 +35,7 @@ const groupProps = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 A user picture, or their initials on a tint picked from the name, so the same person keeps the same colour everywhere.
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">AvatarGroup</code> stacks several and folds the rest into a "+N" bubble.
+                <InlineCode>AvatarGroup</InlineCode> stacks several and folds the rest into a "+N" bubble.
             </p>
 
             <div class="mb-6 flex flex-wrap items-end gap-4">

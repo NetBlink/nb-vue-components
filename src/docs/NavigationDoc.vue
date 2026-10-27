@@ -16,8 +16,7 @@ import {
     PrimaryButton,
     CodePreview,
     CollapsableSection,
-    PropsTable,
-} from '../index';
+    PropsTable, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import BreadcrumbsDoc from './sections/BreadcrumbsDoc.vue';
 import SubNavDoc from './sections/SubNavDoc.vue';
@@ -165,7 +164,7 @@ const dropdownSeparatorNote = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Link</code> - clicks perform Inertia visits, not full reloads.</p>
+            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <InlineCode>Link</InlineCode> - clicks perform Inertia visits, not full reloads.</p>
         </header>
 
         <section id="nav-links">
@@ -216,7 +215,7 @@ const dropdownSeparatorNote = [
         <section id="dropdown-navigation">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Dropdown Navigation</h3>
             <DocDemoCard>
-                <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">openOnHover</code>.</p>
+                <p class="mb-4 text-gray-600 dark:text-gray-400">Supports click (default) and hover triggers via <InlineCode>openOnHover</InlineCode>.</p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">User Menu Dropdown</div>
                 <div class="mb-6 flex justify-end rounded border border-gray-200 bg-gray-50 dark:bg-gray-900/40 p-4">
@@ -313,8 +312,8 @@ const dropdownSeparatorNote = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A primary-styled trigger button that opens a floating dropdown menu. Uses Reka UI primitives internally.
-                    Items are plain anchor tags (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButtonItem</code>);
-                    use <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DropdownSeparator</code> to divide groups.
+                    Items are plain anchor tags (<InlineCode>LinkDropdownButtonItem</InlineCode>);
+                    use <InlineCode>DropdownSeparator</InlineCode> to divide groups.
                 </p>
 
                 <div class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Basic Menu</div>
@@ -340,7 +339,7 @@ const dropdownSeparatorNote = [
                 <section id="link-dropdown-button-item" class="mt-8">
                     <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-100">LinkDropdownButtonItem</h4>
                     <p class="mb-4 text-gray-600 dark:text-gray-400">
-                        A single menu row inside a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButton</code>.
+                        A single menu row inside a <InlineCode>LinkDropdownButton</InlineCode>.
                         Renders as a styled anchor element.
                     </p>
 
@@ -356,8 +355,8 @@ const dropdownSeparatorNote = [
             <DocDemoCard>
                 <p class="mb-4 text-gray-600 dark:text-gray-400">
                     A thin horizontal rule used to divide groups of items inside a
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Dropdown</code> or
-                    <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">LinkDropdownButton</code>.
+                    <InlineCode>Dropdown</InlineCode> or
+                    <InlineCode>LinkDropdownButton</InlineCode>.
                     No props or slots - place it between items.
                 </p>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { Input, Checkbox, PrimaryButton, SecondaryButton, Alert, Card, EmptyState, CodePreview } from '../../index';
+import { Input, Checkbox, PrimaryButton, SecondaryButton, Alert, Card, EmptyState, CodePreview, InlineCode } from '../../index';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -160,7 +160,7 @@ const gateSnippet = [
 
         <DocDemoCard class="mt-6">
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A members-only gate: an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">EmptyState</code> with a lock icon, explanatory copy, and dual calls to action for creating an account or signing in.
+                A members-only gate: an <InlineCode>EmptyState</InlineCode> with a lock icon, explanatory copy, and dual calls to action for creating an account or signing in.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <Card padding="none" class="mx-auto w-full max-w-md">

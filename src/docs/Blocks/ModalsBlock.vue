@@ -11,8 +11,7 @@ import {
     PrimaryButton,
     RadioButton,
     SecondaryButton,
-    Switch,
-} from '../../index';
+    Switch, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 // Every demo form is a plain reactive stand-in for Inertia's useForm: the
@@ -160,7 +159,7 @@ const resizableSnippet = [
         </h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                Five ready-made <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">NewModal</code> compositions: create form, export options, upload, danger confirm and a
+                Five ready-made <InlineCode>NewModal</InlineCode> compositions: create form, export options, upload, danger confirm and a
                 resizable dialog. Built from Input, RadioButton, Switch, FileDropZoneInput and the button family.
             </p>
 

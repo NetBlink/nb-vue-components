@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Badge, CodePreview, CollapsableSection, PropsTable } from '../../index';
+import { Badge, CodePreview, CollapsableSection, PropsTable, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const variants = ['neutral', 'primary', 'accent', 'success', 'warning', 'danger', 'info'] as const;
@@ -40,8 +40,8 @@ const props = [
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
                 Small rounded label for statuses, counts and tags. Pass
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">status</code> and it colours and labels itself from the status map, so
-                there is no <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">getStatusColor()</code> to write. Unknown words stay neutral.
+                <InlineCode>status</InlineCode> and it colours and labels itself from the status map, so
+                there is no <InlineCode>getStatusColor()</InlineCode> to write. Unknown words stay neutral.
             </p>
 
             <div class="mb-6 flex flex-wrap items-center gap-2">
@@ -60,7 +60,7 @@ const props = [
             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
                 Built-in words include paid, active, approved, completed (success), pending, processing, in progress, draft (warning), failed, rejected,
                 cancelled, overdue (danger) and new (info). Add your own with the
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">badge.statuses</code> plugin option.
+                <InlineCode>badge.statuses</InlineCode> plugin option.
             </p>
 
             <CodePreview :code="code" />

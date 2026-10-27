@@ -19,8 +19,7 @@ import {
     Td,
     Th,
     Thead,
-    Tr,
-} from '../../index';
+    Tr, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 interface UserRow {
@@ -193,10 +192,10 @@ const snippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 The canonical list screen: header action,
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Stats</code> tiles doubling as filters, a search row, a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Table</code> with an actions column and empty state,
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Pagination</code>, and a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NewModal</code> create form. Everything below is live: filter,
+                <InlineCode>Stats</InlineCode> tiles doubling as filters, a search row, a
+                <InlineCode>Table</InlineCode> with an actions column and empty state,
+                <InlineCode>Pagination</InlineCode>, and a
+                <InlineCode>NewModal</InlineCode> create form. Everything below is live: filter,
                 search, delete and create rows.
             </p>
 

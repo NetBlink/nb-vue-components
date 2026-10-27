@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { InlineCode } from '../../index';
 /**
  * DocComponentMeta - Parts and Motion tables for the components on a docs page.
  *
@@ -34,8 +35,8 @@ const motionRows = (m: Meta) => {
     <section id="parts-and-motion">
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Parts and motion</h3>
         <p class="mb-6 max-w-3xl text-sm text-gray-600 dark:text-gray-400">
-            Style a part with <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">:ui="{ part: '...' }"</code> on one instance, or app-wide with
-            the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">ui</code> plugin option. See Customizing for the precedence and the motion levels.
+            Style a part with <InlineCode>:ui="{ part: '...' }"</InlineCode> on one instance, or app-wide with
+            the <InlineCode>ui</InlineCode> plugin option. See Customizing for the precedence and the motion levels.
         </p>
         <div class="grid gap-6 lg:grid-cols-2">
             <div

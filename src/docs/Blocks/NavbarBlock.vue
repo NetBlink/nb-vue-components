@@ -13,7 +13,7 @@ import {
     faGear,
     faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, ResponsiveNavLink, NavCollapse, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, IconButton, NbTransition, CodePreview } from '../../index';
+import { NavLink, ResponsiveNavLink, NavCollapse, Dropdown, DropdownLink, DropdownSeparator, GravatarImg, IconButton, NbTransition, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const navItems = [
@@ -139,13 +139,13 @@ const snippet = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">App Navbar</h3>
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A horizontal application header driven by a single <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">navItems</code> array: items with
-                children render a <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">Dropdown</code> of
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">DropdownLink</code>s, the rest render a
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavLink</code>. The right side pairs
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">GravatarImg</code> with a user menu, and the hamburger re-renders the same array as
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">NavCollapse</code> +
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">ResponsiveNavLink</code>.
+                A horizontal application header driven by a single <InlineCode>navItems</InlineCode> array: items with
+                children render a <InlineCode>Dropdown</InlineCode> of
+                <InlineCode>DropdownLink</InlineCode>s, the rest render a
+                <InlineCode>NavLink</InlineCode>. The right side pairs
+                <InlineCode>GravatarImg</InlineCode> with a user menu, and the hamburger re-renders the same array as
+                <InlineCode>NavCollapse</InlineCode> +
+                <InlineCode>ResponsiveNavLink</InlineCode>.
             </p>
 
             <h4 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">Desktop</h4>

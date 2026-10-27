@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CodePreview, PropsTable } from '../index';
+import { CodePreview, PropsTable, InlineCode } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
 const { state, isModalOpen, defaults, shades, defaultShadeFor, v4Snippet } = useThemeBuilder();
@@ -98,8 +98,8 @@ const motionOverrideSnippet = [
         <header class="space-y-3">
             <p class="max-w-3xl text-gray-600 dark:text-gray-400">
                 Every value the package uses for colour, typography, spacing, and motion lives in
-                <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">@netblink/vue-components/theme.css</code>. Import it to get the defaults, override any token
-                in your own <code class="rounded bg-gray-100 px-1.5 py-0.5 text-sm dark:bg-gray-800">@theme</code> block, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.
+                <InlineCode>@netblink/vue-components/theme.css</InlineCode>. Import it to get the defaults, override any token
+                in your own <InlineCode>@theme</InlineCode> block, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.
             </p>
             <div>
                 <button
@@ -116,7 +116,7 @@ const motionOverrideSnippet = [
         <section id="wiring-it-into-your-project" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Wiring it into your project</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                One import after Tailwind. It defines every token on this page, the keyframes and custom utilities, and an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@source</code> for the built components (Tailwind v4 skips node_modules by default). Override tokens in an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@theme</code> block after it.
+                One import after Tailwind. It defines every token on this page, the keyframes and custom utilities, and an <InlineCode>@source</InlineCode> for the built components (Tailwind v4 skips node_modules by default). Override tokens in an <InlineCode>@theme</InlineCode> block after it.
             </p>
             <CodePreview language="css" :code="importSnippet" />
         </section>
@@ -125,14 +125,14 @@ const motionOverrideSnippet = [
         <section id="colour-scales" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Colour scales</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                Six themed scales plus two plain tokens (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">muted</code>). Every component variant maps to one of these - the
-                <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">theme="primary"</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">type="warning"</code>, etc. props all resolve to a Tailwind class like <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">bg-warning-500</code>.
+                Six themed scales plus two plain tokens (<InlineCode>dark</InlineCode>, <InlineCode>muted</InlineCode>). Every component variant maps to one of these - the
+                <InlineCode>theme="primary"</InlineCode>, <InlineCode>type="warning"</InlineCode>, etc. props all resolve to a Tailwind class like <InlineCode>bg-warning-500</InlineCode>.
             </p>
 
             <div v-for="name in COLOR_NAMES" :key="name" class="space-y-2">
                 <div class="flex items-baseline justify-between">
                     <div class="font-semibold text-gray-900 dark:text-gray-100">{{ name }}</div>
-                    <code class="text-xs text-gray-500 dark:text-gray-400">--color-{{ name }}: {{ defaults.colors[name][defaultShadeFor[name]] }} · base: {{ defaults.colors[name][500] }}</code>
+                    <InlineCode>--color-{{ name }}: {{ defaults.colors[name][defaultShadeFor[name]] }} · base: {{ defaults.colors[name][500] }}</InlineCode>
                 </div>
                 <div class="grid grid-cols-3 gap-1 sm:grid-cols-6 lg:grid-cols-11">
                     <div
@@ -175,13 +175,13 @@ const motionOverrideSnippet = [
         <section id="dark-mode" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Dark mode</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                The package ships one colour palette. Dark mode is opt-in via the <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">.dark</code> class
-                (see Setup). Components switch chrome via <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">dark:*</code> Tailwind utilities for backgrounds,
+                The package ships one colour palette. Dark mode is opt-in via the <InlineCode>.dark</InlineCode> class
+                (see Setup). Components switch chrome via <InlineCode>dark:*</InlineCode> Tailwind utilities for backgrounds,
                 borders, and text. The brand colours themselves stay the same in both modes.
             </p>
             <p class="text-gray-600 dark:text-gray-400">
                 To use different brand colours under dark mode, override the matching CSS custom properties
-                inside an <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">html.dark</code> block in your own CSS:
+                inside an <InlineCode>html.dark</InlineCode> block in your own CSS:
             </p>
             <CodePreview language="css" :code="darkColorsSnippet" />
         </section>
@@ -206,9 +206,9 @@ const motionOverrideSnippet = [
                 <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Font sizes</div>
                 <div class="space-y-1">
                     <div v-for="s in fontSizeSamples" :key="s.name" class="flex items-baseline gap-3">
-                        <code class="w-12 shrink-0 text-xs text-gray-500 dark:text-gray-400">{{ s.name }}</code>
+                        <InlineCode>{{ s.name }}</InlineCode>
                         <span :style="{ fontSize: s.size }" class="text-gray-800 dark:text-gray-100">Aa - sample text</span>
-                        <code class="ml-auto font-mono text-xs text-gray-500 dark:text-gray-400">{{ s.size }}</code>
+                        <InlineCode>{{ s.size }}</InlineCode>
                     </div>
                 </div>
             </div>
@@ -220,8 +220,8 @@ const motionOverrideSnippet = [
             <div class="grid gap-3 sm:grid-cols-4">
                 <div v-for="r in radiusSamples" :key="r.key" class="flex flex-col items-center gap-2 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
                     <div class="h-16 w-16 bg-primary-500" :style="{ borderRadius: state.radius[r.key] }" />
-                    <code class="text-xs font-medium text-gray-700 dark:text-gray-200">{{ r.name }}</code>
-                    <code class="font-mono text-[10px] text-gray-500 dark:text-gray-400">{{ state.radius[r.key] }}</code>
+                    <InlineCode>{{ r.name }}</InlineCode>
+                    <InlineCode>{{ state.radius[r.key] }}</InlineCode>
                 </div>
             </div>
         </section>
@@ -234,7 +234,7 @@ const motionOverrideSnippet = [
                     Card with the default shadow
                 </div>
                 <div class="mt-3">
-                    <code class="font-mono text-xs text-gray-500 dark:text-gray-400">--shadow: {{ state.shadow }}</code>
+                    <InlineCode>--shadow: {{ state.shadow }}</InlineCode>
                 </div>
             </div>
         </section>
@@ -251,7 +251,7 @@ const motionOverrideSnippet = [
 
             <PropsTable :rows="motionAnimations" />
 
-            <p class="text-gray-600 dark:text-gray-400">Override any of these in your <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">@theme {}</code> block:</p>
+            <p class="text-gray-600 dark:text-gray-400">Override any of these in your <InlineCode>@theme {}</InlineCode> block:</p>
             <CodePreview language="css" :code="motionOverrideSnippet" />
         </section>
 
@@ -259,8 +259,8 @@ const motionOverrideSnippet = [
         <section id="breakpoints" class="space-y-3">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Breakpoints (screens)</h2>
             <p class="text-gray-600 dark:text-gray-400">
-                The package overrides Tailwind's defaults and adds a few extras (<code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xxs</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xs</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">laptop</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">3xl</code>).
-                Note that <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">xl</code>, <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">laptop</code>, and <code class="rounded bg-gray-100 px-1 dark:bg-gray-900/60">2xl</code> all share the same min-width. The package treats anything
+                The package overrides Tailwind's defaults and adds a few extras (<InlineCode>xxs</InlineCode>, <InlineCode>xs</InlineCode>, <InlineCode>laptop</InlineCode>, <InlineCode>3xl</InlineCode>).
+                Note that <InlineCode>xl</InlineCode>, <InlineCode>laptop</InlineCode>, and <InlineCode>2xl</InlineCode> all share the same min-width. The package treats anything
                 ≥ 1084px as &ldquo;wide&rdquo; until 3xl kicks in.
             </p>
             <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
@@ -290,9 +290,9 @@ const motionOverrideSnippet = [
                 This is what the Theme builder produces. It reflects the current state of every token (open the modal to edit).
             </p>
             <div class="rounded-lg border border-gray-200 bg-gray-900 p-3 text-gray-100 dark:border-gray-700">
-                <pre class="overflow-x-auto whitespace-pre font-mono text-[11px] leading-snug"><code>{{ previewLines.join('\n') }}<span v-if="previewLines.length < totalLines">
+                <pre class="overflow-x-auto whitespace-pre font-mono text-[11px] leading-snug"><InlineCode>{{ previewLines.join('\n') }}<span v-if="previewLines.length < totalLines">
 …
-({{ totalLines - previewLines.length }} more lines - copy via the modal)</span></code></pre>
+({{ totalLines - previewLines.length }} more lines - copy via the modal)</span></InlineCode></pre>
             </div>
         </section>
     </div>

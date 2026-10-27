@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, DescriptionList, DescriptionListItem, CodePreview } from '../../index';
+import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, DescriptionList, DescriptionListItem, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const steps = [
@@ -149,10 +149,10 @@ const snippet = [
 
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
-                A three-step wizard: a <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">Stepper</code> whose rails fill as you advance, over a single form split across
+                A three-step wizard: a <InlineCode>Stepper</InlineCode> whose rails fill as you advance, over a single form split across
                 Account, Company, and Review steps. Composes Input, Select, RadioButton, Checkbox, Alert, and the button pair, one
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">useForm</code> holds every field, and steps switch with
-                <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">v-if</code> on a step ref.
+                <InlineCode>useForm</InlineCode> holds every field, and steps switch with
+                <InlineCode>v-if</InlineCode> on a step ref.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

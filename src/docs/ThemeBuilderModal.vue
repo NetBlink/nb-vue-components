@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NewModal, SecondaryButton, CodePreview } from '../index';
+import { NewModal, SecondaryButton, CodePreview, InlineCode } from '../index';
 import { useThemeBuilder, type ColorName } from './composables/useThemeBuilder';
 
 const {
@@ -271,7 +271,7 @@ function onMotionDurationBaseInput(e: Event): void {
             <!-- BREAKPOINTS ========================================= -->
             <div v-if="tab === 'breakpoints'" class="space-y-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Min-widths for each breakpoint. The package also defines <code>xxs</code>, <code>xs</code>, <code>laptop</code>, and <code>3xl</code>, left alone here.
+                    Min-widths for each breakpoint. The package also defines <InlineCode>xxs</InlineCode>, <InlineCode>xs</InlineCode>, <InlineCode>laptop</InlineCode>, and <InlineCode>3xl</InlineCode>, left alone here.
                 </p>
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
                     <label v-for="(_, key) in state.screens" :key="key" class="flex flex-col gap-1.5">
