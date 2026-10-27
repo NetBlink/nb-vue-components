@@ -852,6 +852,25 @@
             }
         ]
     },
+    "EnvironmentBanner": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the strip"
+            },
+            {
+                "name": "label",
+                "description": "the environment name"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
     "FileDropZoneInput": {
         "parts": [
             {
@@ -1071,6 +1090,29 @@
             {
                 "name": "gallery",
                 "description": "the existing images below the form"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "ImpersonationBanner": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the strip"
+            },
+            {
+                "name": "text",
+                "description": "the message"
+            },
+            {
+                "name": "action",
+                "description": "the stop link or button"
             }
         ],
         "classPart": "root",

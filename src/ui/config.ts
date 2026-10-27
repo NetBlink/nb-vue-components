@@ -9,6 +9,12 @@ export interface NbBadgeOptions {
     statuses?: Record<string, keyof NbColorVariants | (string & {})>;
 }
 
+/** EnvironmentBanner options. */
+export interface NbEnvironmentOptions {
+    /** Extra environment names that count as production (hidden), on top of production, prod and live */
+    productionNames?: string[];
+}
+
 /** Styling and motion options accepted by `app.use(Componentsnb, { ... })`. */
 export interface NbStyleOptions {
     /** House styles per component and part, merged over the library defaults. */
@@ -21,6 +27,8 @@ export interface NbStyleOptions {
     twMerge?: NbMergeExtension;
     /** Badge `status` colours, e.g. `{ statuses: { shipped: 'success' } }`. */
     badge?: NbBadgeOptions;
+    /** Which environments EnvironmentBanner treats as production, e.g. `{ productionNames: ['main'] }`. */
+    environment?: NbEnvironmentOptions;
 }
 
 /** Internal: the resolved config components read. */
@@ -30,6 +38,7 @@ export interface NbConfig {
     motion: NbMotionConfig;
     merge: NbMerge;
     badge: NbBadgeOptions;
+    environment: NbEnvironmentOptions;
 }
 
 /** String key, for the same HMR reasons as the icon registry key. */
@@ -42,6 +51,7 @@ export function createNbConfig(options: NbStyleOptions = {}): NbConfig {
         motion: options.motion ?? {},
         merge: options.twMerge ? createMerge(options.twMerge) : getDefaultMerge(),
         badge: options.badge ?? {},
+        environment: options.environment ?? {},
     };
 }
 

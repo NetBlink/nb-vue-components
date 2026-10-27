@@ -54,7 +54,8 @@ const props = withDefaults(defineProps<PageHeaderProps>(), {
 
 const { cls, attrs } = useUi('PageHeader', props);
 
-const STICKY = 'sticky top-[var(--nb-sticky-offset,0px)] z-20';
+// Below the app's own sticky navbar (--nb-sticky-offset) and any environment / impersonation banner.
+const STICKY = 'sticky top-[calc(var(--nb-sticky-offset,0px)_+_var(--nb-environment-offset,0px)_+_var(--nb-impersonation-offset,0px))] z-20';
 </script>
 
 <template>

@@ -295,6 +295,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **DropdownSeparator**, Dropdown separator component A visual separator for dropdown menu items..
 - **EmptyState**, an icon, a title, a short explanation and the actions that fix it (the default slot), centred.
 - **EnhancedTable**, Declarative, config-driven table: give it `columns` (or `autoGenerateColumns` to derive them from the first row) plus `data`, and it renders the whole header and body for you on top of `Table`/`Thead`/`Tbody`, adding opt-in sorting, row selection and `row-click` events via the `useTable` composable, which it provides to descendants.
+- **EnvironmentBanner**, A slim strip saying which environment you're in (local, staging, pre-live, ...) so nobody mistakes a test system for the real one.
 - **FileDropZoneInput**, Dashed drag-and-drop area for picking files, built on `vue3-dropzone`, with click-to- browse, an `accept` filter and optional multiple selection.
 - **FilterBar**, a search box, your filter controls (default slot) and a "Clear filters" action that shows while anything is filtered.
 - **GravatarImg**, `<img>` pointing at the Gravatar for an email.
@@ -302,6 +303,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **IconButton**, close buttons, row actions, toolbar tools.
 - **IconCircle**, An icon on a soft coloured disc.
 - **Images**, Self-contained image gallery and uploader for a given record: it shows the existing `images`, and when `canUpload` is set adds a `vue3-dropzone` area that previews picked files and POSTs them as multipart form data to `endPoint` with `item_type`/`item_id`, using its own Inertia form.
+- **ImpersonationBanner**, "You are signed in as …" strip for support staff acting as a user, with a way back.
 - **InfoButton**, Info Button component.
 - **InlineCode**, a prop name, a class, a command.
 - **Input**, The all-in-one form control and the default choice for any field: it renders the label, sublabel, tooltip and error message around the input and switches implementation on the `type` prop, delegating to `Textarea`, `Switch`, `Checkbox`, a native select, a password field with a show/hide toggle, or a plain input with addon/submit/WhatsApp actions.

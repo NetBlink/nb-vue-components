@@ -7,6 +7,7 @@ import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, Pro
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import PageHeaderDoc from './sections/PageHeaderDoc.vue';
 import DividerDoc from './sections/DividerDoc.vue';
+import BannersDoc from './sections/BannersDoc.vue';
 
 // Collapse lives here beside CollapsableSection - same idea, one styled and one bare.
 const collapseOpen = ref(false);
@@ -549,6 +550,8 @@ const tabProps = [
 
         <DividerDoc />
 
-        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable', 'PageHeader', 'Divider']" />
+        <BannersDoc />
+
+        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable', 'PageHeader', 'Divider', 'EnvironmentBanner', 'ImpersonationBanner']" />
     </div>
 </template>
