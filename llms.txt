@@ -279,11 +279,13 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **CodePreview**, Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
 - **CollapsableSection**, Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.
 - **Collapse**, Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot.
+- **ContentLoader**, Shows a placeholder (`#loading`, usually a Skeleton) while `loading` is true and the real content once it is false, cross-fading between them and easing the height change instead of popping.
 - **CopyButton**, the icon turns into a check and screen readers hear "Copied".
 - **DangerButton**, Danger Button component.
 - **DataTile**, themed statistic tile with a background icon.
 - **DescriptionList**, Wrapper `<dl>` for a stack of `DescriptionListItem` rows.
 - **DescriptionListItem**, One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair.
+- **Divider**, A dividing line, optionally with a short centred label ("or").
 - **DottedCarousel**, Horizontal snap-scroll carousel with dot navigation underneath.
 - **Dropdown**, menu popover built on reka-ui's `DropdownMenu` primitives.
 - **DropdownLink**, A single navigation entry inside a `Dropdown`, wrapping an Inertia `Link` in a reka-ui `DropdownMenuItem` so keyboard navigation and menu semantics come for free.

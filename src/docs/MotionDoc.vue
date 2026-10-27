@@ -3,6 +3,8 @@ import { CodePreview, PrimaryButton, NewModal, SecondaryButton, InlineCode } fro
 import { useMotion, MOTION_LEVELS } from '../ui/motion';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import TransitionsDoc from './sections/TransitionsDoc.vue';
+import ContentLoaderDoc from './sections/ContentLoaderDoc.vue';
+import DocComponentMeta from './HelperComponents/DocComponentMeta.vue';
 
 const { level, userLevel, setLevel, reset } = useMotion();
 
@@ -99,5 +101,9 @@ const useMotionSnippet = [
         </section>
 
         <TransitionsDoc />
+
+        <ContentLoaderDoc />
+
+        <DocComponentMeta :names="['NbTransition', 'NbTransitionGroup', 'ContentLoader']" />
     </div>
 </template>

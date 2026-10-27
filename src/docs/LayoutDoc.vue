@@ -6,6 +6,7 @@ import { NbIcon } from '../icons';
 import { Section, CollapsableSection, Collapse, DottedCarousel, CodePreview, PropsTable, Tabs, Tab, H2, InlineCode } from '../index';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
 import PageHeaderDoc from './sections/PageHeaderDoc.vue';
+import DividerDoc from './sections/DividerDoc.vue';
 
 // Collapse lives here beside CollapsableSection - same idea, one styled and one bare.
 const collapseOpen = ref(false);
@@ -546,6 +547,8 @@ const tabProps = [
 
         <PageHeaderDoc />
 
-        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable', 'PageHeader']" />
+        <DividerDoc />
+
+        <DocComponentMeta :names="['Section', 'H2', 'Tabs', 'Tab', 'CollapsableSection', 'Collapse', 'DottedCarousel', 'CodePreview', 'PropsTable', 'PageHeader', 'Divider']" />
     </div>
 </template>

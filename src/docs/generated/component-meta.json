@@ -392,6 +392,41 @@
             }
         ]
     },
+    "ContentLoader": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the wrapper (marked `aria-busy` while the placeholder shows)"
+            },
+            {
+                "name": "loading",
+                "description": "the placeholder layer"
+            },
+            {
+                "name": "content",
+                "description": "the content layer"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "the placeholder and content swap instantly"
+            },
+            {
+                "level": "simple",
+                "description": "a quick cross-fade"
+            },
+            {
+                "level": "smooth",
+                "description": "a cross-fade, and the height eases to the new content"
+            },
+            {
+                "level": "fancy",
+                "description": "the same with a soft rise on the content"
+            }
+        ]
+    },
     "CopyButton": {
         "parts": [
             {
@@ -533,6 +568,29 @@
             {
                 "name": "edit",
                 "description": "the edit toggle button"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "all",
+                "description": "only hover and focus colour transitions, which `off` makes instant"
+            }
+        ]
+    },
+    "Divider": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the separator"
+            },
+            {
+                "name": "line",
+                "description": "each line segment"
+            },
+            {
+                "name": "label",
+                "description": "the label text"
             }
         ],
         "classPart": "root",

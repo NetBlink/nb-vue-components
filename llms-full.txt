@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (91 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (93 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -568,6 +568,29 @@ Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `Second
 
 **Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
 
+### ContentLoader
+
+Shows a placeholder (`#loading`, usually a Skeleton) while `loading` is true and the real content once it is false, cross-fading between them and easing the height change instead of popping. `delay` keeps fast loads from flashing the placeholder: it only appears once loading has lasted that long.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `loading` | `boolean` | **required** | Show the placeholder instead of the content |
+| `delay` | `number` | - | Wait this long (ms) before showing the placeholder, so quick loads don't flash it |
+| `ui` | `UiProp<NbParts['ContentLoader']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Slots:** `default`, `loading`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the wrapper (marked `aria-busy` while the placeholder shows) |
+| `loading` | the placeholder layer |
+| `content` | the content layer |
+
+**Motion:** `off`: the placeholder and content swap instantly; `simple`: a quick cross-fade; `smooth`: a cross-fade, and the height eases to the new content; `fancy`: the same with a soft rise on the content.
+
 ### CopyButton
 
 the icon turns into a check and screen readers hear "Copied". Renders an `IconButton` by default; put your own button in the default slot (it receives `copy` and `copied`). Falls back to a hidden textarea where the Clipboard API is unavailable (plain-HTTP pages).
@@ -701,6 +724,28 @@ One label/value row inside a `DescriptionList`, rendered as a `<dt>`/`<dd>` pair
 | `value` | the value or edit slot area |
 | `actions` | the buttons area |
 | `edit` | the edit toggle button |
+
+**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+
+### Divider
+
+A dividing line, optionally with a short centred label ("or"). `vertical` stands between items in a toolbar or a flex row.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | - | Text in the middle of the line, such as "or" |
+| `orientation` | `'horizontal' \| 'vertical'` | - | Direction |
+| `ui` | `UiProp<NbParts['Divider']>` | - | Classes per part, merged over the defaults |
+
+**Slots:** `default`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the separator |
+| `line` | each line segment |
+| `label` | the label text |
 
 **Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
 
