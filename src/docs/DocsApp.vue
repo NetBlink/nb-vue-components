@@ -182,6 +182,45 @@ const { isDark, toggle, initialize } = useDarkMode();
 
 // Motion-level switcher: the end user's pick, persisted like the dark-mode choice.
 const { level: motionLevel, setLevel: setMotionLevel } = useMotion();
+
+// The switcher's pill slides to the chosen level, at that level's own pace.
+const PILL_MOTION = {
+    off: '',
+    simple: 'transition-transform duration-150 ease-out',
+    smooth: 'transition-transform duration-300 ease-(--ease-emphasised)',
+    fancy: 'transition-transform duration-500 ease-(--ease-spring)',
+};
+const pillIndex = computed(() => Math.max(0, MOTION_LEVELS.indexOf(motionLevel.value)));
+
+// Dark mode follows the motion level too: instant, a fade, a cross-fade with a turning
+// icon, or (fancy) a circle growing from the toggle where View Transitions exist.
+const iconTurns = ref(0);
+const fadeTheme = (ms: number) => {
+    const root = document.documentElement;
+    root.style.setProperty('--nb-theme-fade', `${ms}ms`);
+    root.classList.add('nb-theme-fade');
+    toggle();
+    window.setTimeout(() => root.classList.remove('nb-theme-fade'), ms + 50);
+};
+const onToggleDark = (event: MouseEvent) => {
+    const level = motionLevel.value;
+    if (level === 'off') return toggle();
+    if (level !== 'simple') iconTurns.value++;
+    if (level === 'simple') return fadeTheme(150);
+    const start = (document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void> } }).startViewTransition;
+    if (level !== 'fancy' || !start) return fadeTheme(400);
+    const button = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = button.left + button.width / 2;
+    const y = button.top + button.height / 2;
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    const transition = start.call(document, () => toggle());
+    transition.ready.then(() => {
+        document.documentElement.animate(
+            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+            { duration: 650, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' },
+        );
+    });
+};
 onMounted(() => {
     initialize();
 });
@@ -455,46 +494,55 @@ function onMainScroll(e: Event): void {
                 </template>
             </ul>
 
-            <!-- Dark-mode toggle: stays put while the list above scrolls -->
+            <!-- Motion level and dark mode: stay put while the list above scrolls -->
             <div class="flex-shrink-0 border-t border-white/10 p-4">
+                <p class="text-primary-100/70 mb-1 px-1 text-[11px] font-semibold tracking-wider uppercase">Motion</p>
+                <div class="relative flex rounded-md bg-white/5 p-1 text-xs" role="radiogroup" aria-label="Motion level">
+                    <span
+                        class="bg-primary-600 absolute inset-y-1 left-1 w-[calc((100%-0.5rem)/4)] rounded"
+                        :class="PILL_MOTION[motionLevel]"
+                        :style="{ transform: `translateX(${pillIndex * 100}%)` }"
+                        aria-hidden="true"
+                    />
+                    <button
+                        v-for="option in MOTION_LEVELS"
+                        :key="option"
+                        role="radio"
+                        :aria-checked="motionLevel === option"
+                        @click="setMotionLevel(option)"
+                        class="relative flex-1 rounded px-1.5 py-1 capitalize transition-colors"
+                        :class="motionLevel === option ? 'text-white' : 'text-primary-100/70 hover:text-white'"
+                    >
+                        {{ option }}
+                    </button>
+                </div>
+
                 <button
-                    @click="toggle"
-                    class="flex w-full items-center justify-between gap-2 rounded-md bg-white/5 px-3 py-2 text-sm transition-colors hover:bg-white/10"
+                    @click="onToggleDark"
+                    class="mt-3 flex w-full items-center justify-between gap-2 rounded-md bg-white/5 px-3 py-2 text-sm transition-colors hover:bg-white/10"
                     :aria-pressed="isDark"
                     aria-label="Toggle dark mode"
                 >
                     <span class="flex items-center gap-2">
-                        <NbIcon :name="isDark ? '$moon' : '$sun'" class="h-4 w-4" />
+                        <span
+                            class="inline-flex"
+                            :class="motionLevel === 'off' || motionLevel === 'simple' ? '' : 'transition-transform duration-500 ease-(--ease-spring)'"
+                            :style="{ transform: `rotate(${iconTurns * 360}deg)` }"
+                        >
+                            <NbIcon :name="isDark ? '$moon' : '$sun'" class="h-4 w-4" />
+                        </span>
                         <span>{{ isDark ? 'Dark mode' : 'Light mode' }}</span>
                     </span>
                     <span
-                        class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors"
-                        :class="isDark ? 'bg-primary-400' : 'bg-white/20'"
+                        class="relative inline-flex h-5 w-9 items-center rounded-full"
+                        :class="[isDark ? 'bg-primary-400' : 'bg-white/20', motionLevel !== 'off' && 'transition-colors']"
                     >
                         <span
-                            class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
-                            :class="isDark ? 'translate-x-4' : 'translate-x-0.5'"
+                            class="inline-block h-4 w-4 transform rounded-full bg-white shadow"
+                            :class="[isDark ? 'translate-x-4' : 'translate-x-0.5', PILL_MOTION[motionLevel]]"
                         />
                     </span>
                 </button>
-
-                <!-- Motion level: same control the Customizing page describes (useMotion) -->
-                <div class="mt-3">
-                    <p class="text-primary-100/70 mb-1 px-1 text-[11px] font-semibold tracking-wider uppercase">Motion</p>
-                    <div class="flex rounded-md bg-white/5 p-1 text-xs" role="radiogroup" aria-label="Motion level">
-                        <button
-                            v-for="option in MOTION_LEVELS"
-                            :key="option"
-                            role="radio"
-                            :aria-checked="motionLevel === option"
-                            @click="setMotionLevel(option)"
-                            class="flex-1 rounded px-1.5 py-1 capitalize transition-colors"
-                            :class="motionLevel === option ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
-                        >
-                            {{ option }}
-                        </button>
-                    </div>
-                </div>
             </div>
         </nav>
 
@@ -586,6 +634,26 @@ nav::-webkit-scrollbar-thumb:hover {
   because they're DOM-inserted after render.
 -->
 <style>
+/* Dark-mode switch at simple/smooth: every colour eases for the length of the switch. */
+.nb-theme-fade,
+.nb-theme-fade *,
+.nb-theme-fade *::before,
+.nb-theme-fade *::after {
+    transition:
+        background-color var(--nb-theme-fade) ease,
+        border-color var(--nb-theme-fade) ease,
+        color var(--nb-theme-fade) ease,
+        fill var(--nb-theme-fade) ease,
+        stroke var(--nb-theme-fade) ease !important;
+}
+
+/* Dark-mode switch at fancy: the new theme is revealed by a growing circle (script drives clip-path). */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
 main h2,
 main h3 {
     scroll-margin-top: 1.5rem;
