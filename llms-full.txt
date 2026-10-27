@@ -356,6 +356,7 @@ Overlapping row of `Avatar`s, each ringed so the overlap reads clearly. Past `ma
 | `max` | `number` | `undefined` | How many avatars to show before the "+N" bubble |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of the "+N" bubble; match it to the avatars |
 | `ui` | `UiProp<NbParts['AvatarGroup']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -365,7 +366,7 @@ Overlapping row of `Avatar`s, each ringed so the overlap reads clearly. Past `ma
 | `item` | the wrapper around each avatar |
 | `more` | the "+N" bubble |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: the avatars fan out on hover.
 
 ### Badge
 
@@ -379,6 +380,7 @@ Small rounded label for statuses, counts and tags, in the shared colour vocabula
 | `status` | `string` | - | A status word: picks the colour from the status map and becomes the label |
 | `label` | `string` | - | Text, when not using the default slot |
 | `ui` | `UiProp<NbParts['Badge']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -390,7 +392,7 @@ Small rounded label for statuses, counts and tags, in the shared colour vocabula
 | `dot` | the leading dot |
 | `label` | the text |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: changes instantly; `simple`: changes instantly; `smooth`: changes instantly; `fancy`: a new label or status pops in.
 
 ### Breadcrumbs
 
@@ -401,6 +403,7 @@ Trail of links to the current page. Items with an `href` become Inertia links; t
 | `items` | `BreadcrumbItem[]` | **required** | The trail, first to current |
 | `collapse` | `boolean` | `false` | On small screens show only the first and the last two items |
 | `ui` | `UiProp<NbParts['Breadcrumbs']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `separator`
 
@@ -415,7 +418,7 @@ Trail of links to the current page. Items with an `href` become Inertia links; t
 | `current` | the current page |
 | `separator` | the separator between items |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: fades in when it appears.
 
 ### Button
 
@@ -673,6 +676,7 @@ the icon turns into a check and screen readers hear "Copied". Renders an `IconBu
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'sm'` | Size of the default button |
 | `theme` | `'ghost' \| 'secondary' \| 'primary'` | `'ghost'` | Theme of the default button |
 | `ui` | `UiProp<NbParts['CopyButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -682,7 +686,7 @@ the icon turns into a check and screen readers hear "Copied". Renders an `IconBu
 | `icon` | the copy or check icon (default button) |
 | `status` | the visually hidden live region |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: the check appears instantly; `simple`: the check appears instantly; `smooth`: the check appears instantly; `fancy`: the check pops.
 
 ### DangerButton
 
@@ -933,6 +937,7 @@ an icon, a title, a short explanation and the actions that fix it (the default s
 | `description` | `string` | `undefined` | Short explanation under the title |
 | `compact` | `boolean` | `false` | One-line form for lists, tables and cards |
 | `ui` | `UiProp<NbParts['EmptyState']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `default`
 
@@ -946,7 +951,7 @@ an icon, a title, a short explanation and the actions that fix it (the default s
 | `description` | the explanation |
 | `actions` | the default slot wrapper |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: the icon pops in.
 
 ### EnhancedTable
 
@@ -1101,6 +1106,7 @@ close buttons, row actions, toolbar tools. `label` is required and becomes the a
 | `disabled` | `boolean` | `false` | Disabled |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Button type |
 | `ui` | `UiProp<NbParts['IconButton']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Parts** (`:ui` keys; `class` goes to `root`):
 
@@ -1109,7 +1115,7 @@ close buttons, row actions, toolbar tools. `label` is required and becomes the a
 | `root` | the button or link |
 | `icon` | the icon |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: colour changes are instant; `simple`: static; `smooth`: static; `fancy`: the button presses in when clicked.
 
 ### IconCircle
 
@@ -1642,6 +1648,7 @@ breadcrumbs, title, description and an `#actions` slot on the right, with a mobi
 | `sticky` | `boolean` | `false` | Stick to the top while scrolling (offset by `--nb-sticky-offset`) |
 | `backLabel` | `string` | `'Back'` | Label of the mobile back link |
 | `ui` | `UiProp<NbParts['PageHeader']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `actions`, `default`, `meta`, `title`
 
@@ -1658,7 +1665,7 @@ breadcrumbs, title, description and an `#actions` slot on the right, with a mobi
 | `meta` | the `#meta` slot wrapper |
 | `actions` | the `#actions` slot wrapper |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: fades in when it appears.
 
 ### Pagination
 
@@ -2602,6 +2609,7 @@ Chronological list of events, each with a coloured icon marker, a title, a time 
 | `items` | `TimelineItem[]` | **required** | The events, in display order |
 | `layout` | `'line' \| 'cards'` | `'line'` | Connected rail or tinted rows |
 | `ui` | `UiProp<NbParts['Timeline']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
 
 **Slots:** `item`
 
@@ -2618,7 +2626,7 @@ Chronological list of events, each with a coloured icon marker, a title, a time 
 | `time` | the time |
 | `description` | the description |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: static; `simple`: static; `smooth`: static; `fancy`: the events rise in one after another.
 
 ### Toast
 

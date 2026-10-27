@@ -8,10 +8,15 @@
  * @part root - the wrapper
  * @part icon - the copy or check icon (default button)
  * @part status - the visually hidden live region
+ * @motion off - the check appears instantly
+ * @motion simple - the check appears instantly
+ * @motion smooth - the check appears instantly
+ * @motion fancy - the check pops
  */
 import { onBeforeUnmount, ref } from 'vue';
 import IconButton from './IconButton.vue';
 import { copyText } from '../Helpers';
+import type { MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 
@@ -32,6 +37,8 @@ export interface CopyButtonProps {
     theme?: 'ghost' | 'secondary' | 'primary';
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['CopyButton']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<CopyButtonProps>(), {
@@ -49,7 +56,7 @@ export interface CopyButtonEmits {
 
 const emit = defineEmits<CopyButtonEmits>();
 
-const { cls, attrs } = useUi('CopyButton', props);
+const { cls, attrs, level } = useUi('CopyButton', props);
 
 const copied = ref(false);
 let timer: ReturnType<typeof setTimeout> | undefined;
@@ -79,7 +86,7 @@ const copy = async () => {
                 :label="label"
                 :size="size"
                 :theme="theme"
-                :ui="{ icon: cls('icon', copied && 'text-green-600 dark:text-green-400') }"
+                :ui="{ icon: cls('icon', copied && 'text-green-600 dark:text-green-400', copied && level === 'fancy' && 'animate-check-pop') }"
                 @click="copy"
             />
         </slot>

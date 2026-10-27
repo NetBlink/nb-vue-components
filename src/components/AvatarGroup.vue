@@ -7,8 +7,13 @@
  * @part root - the row
  * @part item - the wrapper around each avatar
  * @part more - the "+N" bubble
+ * @motion off - static
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - the avatars fan out on hover
  */
 import { Fragment, computed, useSlots, type VNode } from 'vue';
+import type { MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 
@@ -21,6 +26,8 @@ export interface AvatarGroupProps {
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['AvatarGroup']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<AvatarGroupProps>(), {
@@ -28,7 +35,7 @@ const props = withDefaults(defineProps<AvatarGroupProps>(), {
     size: 'md',
 });
 
-const { cls, attrs } = useUi('AvatarGroup', props);
+const { cls, attrs, level } = useUi('AvatarGroup', props);
 const slots = useSlots();
 
 const SIZES = { xs: 'h-6 w-6 text-[10px]', sm: 'h-8 w-8 text-xs', md: 'h-10 w-10 text-sm', lg: 'h-12 w-12 text-base', xl: 'h-16 w-16 text-lg' };
@@ -46,8 +53,8 @@ const ring = computed(() => 'rounded-full ring-2 ring-white dark:ring-gray-800')
 </script>
 
 <template>
-    <div v-bind="attrs()" :class="cls('root', 'flex items-center', OVERLAP[size])">
-        <span v-for="(item, index) in shown()" :key="index" :class="cls('item', 'relative inline-flex', ring)">
+    <div v-bind="attrs()" :class="cls('root', 'flex items-center', OVERLAP[size], level === 'fancy' && 'hover:space-x-0.5')">
+        <span v-for="(item, index) in shown()" :key="index" :class="cls('item', 'relative inline-flex', ring, level === 'fancy' && 'transition-[margin] duration-300 ease-(--ease-spring)')">
             <component :is="item" />
         </span>
         <span

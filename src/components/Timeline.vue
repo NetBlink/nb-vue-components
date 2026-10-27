@@ -13,8 +13,13 @@
  * @part title - the title
  * @part time - the time
  * @part description - the description
+ * @motion off - static
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - the events rise in one after another
  */
 import IconCircle from './IconCircle.vue';
+import type { MotionLevel } from '../ui/motion';
 import type { IconLike } from '../icons/types';
 import type { NbColorVariants, NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
@@ -36,13 +41,15 @@ export interface TimelineProps {
     layout?: 'line' | 'cards';
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Timeline']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<TimelineProps>(), {
     layout: 'line',
 });
 
-const { cls, attrs } = useUi('Timeline', props);
+const { cls, attrs, level } = useUi('Timeline', props);
 
 const DEFAULT_ICONS: Record<string, IconLike> = {
     success: '$success',
@@ -74,8 +81,10 @@ const iconFor = (item: TimelineItem) => item.icon ?? DEFAULT_ICONS[item.variant 
                     'item',
                     'relative flex items-start gap-3 sm:gap-4',
                     layout === 'cards' ? ['rounded-lg border p-4 sm:p-5', CARD[item.variant ?? 'neutral'] ?? CARD.neutral] : index < items.length - 1 && 'pb-6',
+                    level === 'fancy' && 'animate-slide-up-fade [animation-fill-mode:both]',
                 )
             "
+            :style="level === 'fancy' ? { animationDelay: `${index * 70}ms` } : undefined"
         >
             <span
                 v-if="layout === 'line' && index < items.length - 1"

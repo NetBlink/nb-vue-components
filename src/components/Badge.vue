@@ -9,8 +9,13 @@
  * @part root - the badge
  * @part dot - the leading dot
  * @part label - the text
+ * @motion off - changes instantly
+ * @motion simple - changes instantly
+ * @motion smooth - changes instantly
+ * @motion fancy - a new label or status pops in
  */
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import type { MotionLevel } from '../ui/motion';
 import type { NbColorVariants, NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 import { useBadgeStatus } from '../ui/status';
@@ -30,6 +35,8 @@ export interface BadgeProps {
     label?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Badge']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<BadgeProps>(), {
@@ -37,7 +44,11 @@ const props = withDefaults(defineProps<BadgeProps>(), {
     size: 'sm',
 });
 
-const { cls, attrs, variant } = useUi('Badge', props);
+const { cls, attrs, variant, level } = useUi('Badge', props);
+
+// fancy: a changed label pops in (not on first render).
+const changes = ref(0);
+watch(() => [props.label, props.status], () => changes.value++);
 const fromStatus = useBadgeStatus();
 
 const VARIANTS: Record<string, { root: string; dot: string }> = {
@@ -60,6 +71,6 @@ const text = computed(() => props.label ?? resolved.value?.label);
 <template>
     <span v-bind="attrs()" :class="cls('root', 'inline-flex items-center gap-1.5 rounded-full font-medium whitespace-nowrap', SIZES[size], colour.root ?? VARIANTS.neutral.root)">
         <span v-if="dot" :class="cls('dot', 'h-1.5 w-1.5 shrink-0 rounded-full', colour.dot ?? VARIANTS.neutral.dot)" aria-hidden="true" />
-        <span :class="cls('label')"><slot>{{ text }}</slot></span>
+        <span :key="changes" :class="cls('label', level === 'fancy' && changes > 0 && 'animate-pop-in')"><slot>{{ text }}</slot></span>
     </span>
 </template>

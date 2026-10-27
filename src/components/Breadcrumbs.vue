@@ -11,8 +11,13 @@
  * @part link - a link item
  * @part current - the current page
  * @part separator - the separator between items
+ * @motion off - static
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - fades in when it appears
  */
 import Link from '../overrides/InertiaLink';
+import type { MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 
@@ -30,20 +35,22 @@ export interface BreadcrumbsProps {
     collapse?: boolean;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Breadcrumbs']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<BreadcrumbsProps>(), {
     collapse: false,
 });
 
-const { cls, attrs } = useUi('Breadcrumbs', props);
+const { cls, attrs, level } = useUi('Breadcrumbs', props);
 
 // With `collapse`, the items between the first and the last two hide below `sm`.
 const collapsed = (index: number) => props.collapse && props.items.length > 3 && index > 0 && index < props.items.length - 2;
 </script>
 
 <template>
-    <nav v-bind="attrs()" aria-label="Breadcrumb" :class="cls('root', 'min-w-0')">
+    <nav v-bind="attrs()" aria-label="Breadcrumb" :class="cls('root', 'min-w-0', level === 'fancy' && 'animate-fade-in')">
         <ol :class="cls('list', 'flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-gray-500 dark:text-gray-400')">
             <template v-for="(item, index) in items" :key="`${index}-${item.label}`">
                 <!-- Collapsed on small screens: first / … / second-to-last / last. The ellipsis takes item 1's place; the separators after hidden items hide with them. -->

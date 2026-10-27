@@ -9,9 +9,14 @@
  * @part title - the title
  * @part description - the explanation
  * @part actions - the default slot wrapper
+ * @motion off - static
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - the icon pops in
  */
 import IconCircle from './IconCircle.vue';
 import NbIcon from '../icons/NbIcon.vue';
+import type { MotionLevel } from '../ui/motion';
 import type { IconLike } from '../icons/types';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
@@ -29,6 +34,8 @@ export interface EmptyStateProps {
     compact?: boolean;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['EmptyState']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<EmptyStateProps>(), {
@@ -38,7 +45,7 @@ const props = withDefaults(defineProps<EmptyStateProps>(), {
     compact: false,
 });
 
-const { cls, attrs } = useUi('EmptyState', props);
+const { cls, attrs, level } = useUi('EmptyState', props);
 </script>
 
 <template>
@@ -49,7 +56,7 @@ const { cls, attrs } = useUi('EmptyState', props);
         <div v-if="$slots.default" :class="cls('actions', 'ml-1')"><slot /></div>
     </div>
     <div v-else v-bind="attrs()" :class="cls('root', 'flex flex-col items-center px-6 py-12 text-center')">
-        <IconCircle v-if="icon" :icon="icon" variant="neutral" size="lg" :class="cls('icon')" />
+        <IconCircle v-if="icon" :icon="icon" variant="neutral" size="lg" :class="cls('icon', level === 'fancy' && 'animate-pop-in')" />
         <h3 v-if="title" :class="cls('title', 'text-base font-semibold text-gray-900 dark:text-gray-100', icon && 'mt-4')">{{ title }}</h3>
         <p v-if="description" :class="cls('description', 'mt-1 max-w-sm text-sm text-gray-500 dark:text-gray-400')">{{ description }}</p>
         <div v-if="$slots.default" :class="cls('actions', 'mt-6 flex flex-wrap items-center justify-center gap-3')"><slot /></div>

@@ -8,10 +8,15 @@
  *
  * @part root - the button or link
  * @part icon - the icon
+ * @motion off - colour changes are instant
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - the button presses in when clicked
  */
 import { computed } from 'vue';
 import NbIcon from '../icons/NbIcon.vue';
 import Link from '../overrides/InertiaLink';
+import type { MotionLevel } from '../ui/motion';
 import type { IconLike } from '../icons/types';
 import type { NbParts, UiProp } from '../ui/parts';
 import { devWarnOnce, useUi } from '../ui/useUi';
@@ -37,6 +42,8 @@ export interface IconButtonProps {
     type?: 'button' | 'submit' | 'reset';
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['IconButton']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
@@ -53,7 +60,7 @@ export interface IconButtonEmits {
 
 const emit = defineEmits<IconButtonEmits>();
 
-const { cls, attrs, variant } = useUi('IconButton', props);
+const { cls, attrs, variant, level } = useUi('IconButton', props);
 
 if (!props.label) devWarnOnce('IconButton.label', 'IconButton: `label` is required, an icon alone has no accessible name.');
 
@@ -80,7 +87,9 @@ const THEMES: Record<string, string> = {
 
 const DISABLED = 'pointer-events-none cursor-not-allowed opacity-50';
 
-const rootClass = computed(() => cls('root', BASE, variant('size', SIZES, props.size).root ?? SIZES.md.root, variant('theme', THEMES, props.theme).root, props.disabled && DISABLED));
+const rootClass = computed(() =>
+    cls('root', BASE, variant('size', SIZES, props.size).root ?? SIZES.md.root, variant('theme', THEMES, props.theme).root, props.disabled && DISABLED, level.value === 'fancy' && !props.disabled && 'transition-transform active:scale-90'),
+);
 const iconClass = computed(() => cls('icon', variant('size', SIZES, props.size).icon ?? SIZES.md.icon));
 </script>
 

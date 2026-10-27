@@ -14,10 +14,15 @@
  * @part description - the text under the title
  * @part meta - the `#meta` slot wrapper
  * @part actions - the `#actions` slot wrapper
+ * @motion off - static
+ * @motion simple - static
+ * @motion smooth - static
+ * @motion fancy - fades in when it appears
  */
 import NbIcon from '../icons/NbIcon.vue';
 import Link from '../overrides/InertiaLink';
 import Breadcrumbs, { type BreadcrumbItem } from './Breadcrumbs.vue';
+import type { MotionLevel } from '../ui/motion';
 import type { NbParts, UiProp } from '../ui/parts';
 import { useUi } from '../ui/useUi';
 
@@ -40,6 +45,8 @@ export interface PageHeaderProps {
     backLabel?: string;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['PageHeader']>;
+    /** Motion level for this instance */
+    motion?: MotionLevel;
 }
 
 const props = withDefaults(defineProps<PageHeaderProps>(), {
@@ -52,7 +59,7 @@ const props = withDefaults(defineProps<PageHeaderProps>(), {
     backLabel: 'Back',
 });
 
-const { cls, attrs } = useUi('PageHeader', props);
+const { cls, attrs, level } = useUi('PageHeader', props);
 
 // Below the app's own sticky navbar (--nb-sticky-offset) and any environment / impersonation banner.
 const STICKY = 'sticky top-[calc(var(--nb-sticky-offset,0px)_+_var(--nb-environment-offset,0px)_+_var(--nb-impersonation-offset,0px))] z-20';
@@ -67,6 +74,7 @@ const STICKY = 'sticky top-[calc(var(--nb-sticky-offset,0px)_+_var(--nb-environm
                 'root',
                 'flex flex-wrap items-center gap-2 rounded-lg border border-gray-300 bg-neutral-50 px-4 py-2 shadow dark:border-gray-700 dark:bg-gray-800',
                 sticky && STICKY,
+                level === 'fancy' && 'animate-fade-in',
             )
         "
     >
@@ -89,6 +97,7 @@ const STICKY = 'sticky top-[calc(var(--nb-sticky-offset,0px)_+_var(--nb-environm
                 'root',
                 'flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between',
                 sticky && [STICKY, 'bg-white/90 py-4 backdrop-blur dark:bg-gray-900/90'],
+                level === 'fancy' && 'animate-fade-in',
             )
         "
     >

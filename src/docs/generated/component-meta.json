@@ -138,8 +138,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "static"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "the avatars fan out on hover"
             }
         ]
     },
@@ -161,8 +173,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "changes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "changes instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "changes instantly"
+            },
+            {
+                "level": "fancy",
+                "description": "a new label or status pops in"
             }
         ]
     },
@@ -196,8 +220,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "static"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "fades in when it appears"
             }
         ]
     },
@@ -570,8 +606,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "the check appears instantly"
+            },
+            {
+                "level": "simple",
+                "description": "the check appears instantly"
+            },
+            {
+                "level": "smooth",
+                "description": "the check appears instantly"
+            },
+            {
+                "level": "fancy",
+                "description": "the check pops"
             }
         ]
     },
@@ -875,8 +923,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "static"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "the icon pops in"
             }
         ]
     },
@@ -1072,8 +1132,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "colour changes are instant"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "the button presses in when clicked"
             }
         ]
     },
@@ -1764,8 +1836,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "static"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "fades in when it appears"
             }
         ]
     },
@@ -2901,8 +2985,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "static"
+            },
+            {
+                "level": "simple",
+                "description": "static"
+            },
+            {
+                "level": "smooth",
+                "description": "static"
+            },
+            {
+                "level": "fancy",
+                "description": "the events rise in one after another"
             }
         ]
     },
