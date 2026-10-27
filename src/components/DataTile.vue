@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<DataTileProps>(), {
     theme: 'primary',
 });
 
-const { cls, attrs, variant } = useUi('DataTile', props, {
+const { cls, attrs, variant, level } = useUi('DataTile', props, {
     aliases: { customStatClass: 'root', customStatValueClass: 'value', customStatLabelClass: 'label' },
 });
 
@@ -140,9 +140,9 @@ const themeClasses = computed(() => {
             cls('root', 'group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-black/40', selected ? [themeClasses.selected, 'ring-2'] : [])
         "
     >
-        <!-- Live dot (opt-in): a status indicator, so it pulses at every motion level -->
+        <!-- Live dot (opt-in): the solid dot says "live" at every level; the pulse stops at `off` -->
         <span v-if="ping" :class="cls('ping', 'absolute top-3 right-3 z-10 flex h-2.5 w-2.5')" aria-hidden="true">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+            <span v-if="level !== 'off'" class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 motion-safe:animate-ping" />
             <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
         </span>
 

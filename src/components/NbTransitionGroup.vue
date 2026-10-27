@@ -46,7 +46,8 @@ const bindings = computed(() => {
 </script>
 
 <template>
-    <TransitionGroup v-bind="bindings" :tag="tag" :appear="appear">
+    <!-- relative: leaving items are absolutely positioned against the group -->
+    <TransitionGroup v-bind="bindings" :tag="tag" :appear="appear" class="relative">
         <slot />
     </TransitionGroup>
 </template>

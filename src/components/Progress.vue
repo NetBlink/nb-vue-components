@@ -94,7 +94,7 @@ const barMotion = computed(() => {
             :aria-valuenow="indeterminate ? undefined : value"
             :aria-busy="indeterminate || undefined"
         >
-            <div :class="cls('bar', 'h-full rounded-full', variant('theme', THEMES, theme).root ?? THEMES.primary, barMotion)" :style="indeterminate ? undefined : { width: `${percent}%` }" />
+            <div :class="cls('bar', 'h-full rounded-full', variant('theme', THEMES, theme, 'bar').bar ?? THEMES.primary, barMotion)" :style="indeterminate ? undefined : { width: `${percent}%` }" />
         </div>
     </div>
 </template>

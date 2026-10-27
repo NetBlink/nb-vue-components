@@ -83,7 +83,7 @@ const props = withDefaults(defineProps<StatsProps>(), {
     customStatValueClass: '',
 });
 
-const { cls, attrs } = useUi('Stats', props, {
+const { cls, attrs, level } = useUi('Stats', props, {
     aliases: { customContainerClass: 'root', customStatClass: 'stat', customStatLabelClass: 'label', customStatValueClass: 'value' },
 });
 
@@ -129,9 +129,9 @@ const ifSelected = (status: string): boolean => {
             "
             @click="onClick(s.name)"
         >
-            <!-- Live dot (opt-in): a status indicator, so it pulses at every motion level -->
+            <!-- Live dot (opt-in): the solid dot says "live" at every level; the pulse stops at `off` -->
             <span v-if="s.live" :class="cls('ping', 'absolute top-3 right-3 z-10 flex h-2.5 w-2.5')" aria-hidden="true">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span v-if="level !== 'off'" class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 motion-safe:animate-ping" />
                 <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500" />
             </span>
 

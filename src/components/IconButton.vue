@@ -14,7 +14,7 @@ import NbIcon from '../icons/NbIcon.vue';
 import Link from '../overrides/InertiaLink';
 import type { IconLike } from '../icons/types';
 import type { NbParts, UiProp } from '../ui/parts';
-import { useUi } from '../ui/useUi';
+import { devWarnOnce, useUi } from '../ui/useUi';
 
 defineOptions({ inheritAttrs: false });
 
@@ -55,11 +55,7 @@ const emit = defineEmits<IconButtonEmits>();
 
 const { cls, attrs, variant } = useUi('IconButton', props);
 
-try {
-    if (!props.label && process.env.NODE_ENV !== 'production') console.warn('[nb-vue-components] IconButton: `label` is required, an icon alone has no accessible name.');
-} catch {
-    // No bundler-provided process.env: stay quiet.
-}
+if (!props.label) devWarnOnce('IconButton.label', 'IconButton: `label` is required, an icon alone has no accessible name.');
 
 const BASE =
     'focusable inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md border transition-colors duration-150 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:outline-hidden dark:focus:ring-offset-gray-800';

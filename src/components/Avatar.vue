@@ -87,6 +87,8 @@ const tint = computed(() => {
 
 const showImage = computed(() => !!props.src && !failed.value);
 const label = computed(() => props.alt ?? props.name);
+// The presence is part of the name ("Ada Lovelace (online)"), not a live region that announces on render.
+const fullLabel = computed(() => (props.status && label.value ? `${label.value} (${props.status})` : label.value));
 </script>
 
 <template>
@@ -102,15 +104,14 @@ const label = computed(() => props.alt ?? props.name);
             )
         "
         :role="showImage ? undefined : 'img'"
-        :aria-label="showImage ? undefined : label || undefined"
+        :aria-label="showImage ? undefined : fullLabel || undefined"
     >
-        <img v-if="showImage" :src="src!" :alt="label" :class="cls('image', 'h-full w-full object-cover', square ? 'rounded-md' : 'rounded-full')" @error="failed = true" />
+        <img v-if="showImage" :src="src!" :alt="fullLabel" :class="cls('image', 'h-full w-full object-cover', square ? 'rounded-md' : 'rounded-full')" @error="failed = true" />
         <span v-else :class="cls('initials')" aria-hidden="true">{{ initials }}</span>
         <span
             v-if="status"
             :class="cls('status', 'absolute right-0 bottom-0 block rounded-full ring-2 ring-white dark:ring-gray-800', SIZES[size].status, STATUS[status])"
-            :aria-label="status"
-            role="status"
+            aria-hidden="true"
         />
     </span>
 </template>

@@ -219,6 +219,6 @@ export interface NbVariantsConfig {
     IconCircle?: { variant?: VariantMap<'root' | 'icon', keyof NbColorVariants & string> };
     Badge?: { variant?: VariantMap<'root' | 'dot', keyof NbColorVariants & string> };
     IconButton?: { theme?: VariantMap<'root', string>; size?: VariantMap<'root' | 'icon', 'xs' | 'sm' | 'md' | 'lg'> };
-    Progress?: { theme?: VariantMap<'root', keyof NbColorVariants & string> };
+    Progress?: { theme?: VariantMap<'bar', keyof NbColorVariants & string> };
     SubNav?: { variant?: VariantMap<'list' | 'item' | 'marker' | 'indicator', 'pills' | 'underline' | 'segmented'> };
 }

@@ -30,6 +30,13 @@ function warnOnce(component: string, prop: string, target: string) {
     console.warn(`[nb-vue-components] ${component}: \`${prop}\` is deprecated and will be removed in 5.0. Use ${target} instead.`);
 }
 
+/** A development-only warning, shown once per app however many instances trigger it. */
+export function devWarnOnce(key: string, message: string): void {
+    if (warned.has(key) || !isDev() || typeof console === 'undefined') return;
+    warned.add(key);
+    console.warn(`[nb-vue-components] ${message}`);
+}
+
 function warnDeprecated(component: string, prop: string, part: string, classPart: string) {
     warnOnce(component, prop, part === classPart ? '`class`' : `\`:ui="{ ${part}: '...' }"\``);
 }

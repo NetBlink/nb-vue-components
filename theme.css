@@ -672,5 +672,7 @@
     transition: transform var(--duration-slow) var(--ease-spring);
 }
 .nb-leaving {
+    /* Out of the flow so the rest can glide, full width of the (relative) group */
     position: absolute;
+    inset-inline: 0;
 }

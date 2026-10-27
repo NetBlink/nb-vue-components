@@ -96,6 +96,8 @@ const onClick = (event: MouseEvent) => {
 
 const onKeydown = (event: KeyboardEvent) => {
     if (!props.clickable || (event.key !== 'Enter' && event.key !== ' ')) return;
+    // Keys pressed in a child (an action button, an input) belong to that child.
+    if (event.target !== event.currentTarget) return;
     event.preventDefault();
     emit('click', event);
 };
