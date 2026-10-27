@@ -35,7 +35,7 @@ import IconButton from '../IconButton.vue';
 import Progress from '../Progress.vue';
 import NbTransitionGroup from '../NbTransitionGroup.vue';
 import { useDropzone } from 'vue3-dropzone';
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, reactive, ref, toRaw, toRef, watch } from 'vue';
 import type { MotionLevel } from '../../ui/motion';
 import type { NbParts, UiProp } from '../../ui/parts';
 import { useUi } from '../../ui/useUi';
@@ -122,7 +122,7 @@ export interface FileDropZoneInputEmits {
 
 const emit = defineEmits<FileDropZoneInputEmits>();
 
-const { cls, attrs } = useUi('FileDropZoneInput', props, { aliases: { FileDropCustomClass: 'zone' } });
+const { cls, attrs, level } = useUi('FileDropZoneInput', props, { aliases: { FileDropCustomClass: 'zone' } });
 
 const errors = ref<string | null>(null);
 
@@ -175,11 +175,29 @@ const dropUrl = (url?: string) => {
 
 onBeforeUnmount(() => ownUrls.forEach((url) => URL.revokeObjectURL(url)));
 
+// Stored files are matched by value, so a parent that rebuilds the array on every render
+// (`:initial-files="doc.files.map(...)"`) neither resets the list nor brings back a removed file.
+const valueKey = (value: unknown) => (value !== null && typeof value === 'object' ? JSON.stringify(value) : String(value));
+const removedInitial = new Set<string>();
 watch(
-    () => props.initialFiles,
-    (initial) => {
-        const kept = entries.value.filter((e) => e.file);
-        entries.value = [...initial.map((f) => ({ id: nextId++, name: f.name, size: f.size, url: props.preview ? f.url : undefined, value: f.value, status: 'done' as Status, progress: 100 })), ...kept];
+    () => props.initialFiles.map((f) => valueKey(f.value)).join('\u0000'),
+    () => {
+        const current = entries.value;
+        const stored = props.initialFiles
+            .filter((f) => !removedInitial.has(valueKey(f.value)))
+            .map(
+                (f) =>
+                    current.find((e) => !e.file && valueKey(e.value) === valueKey(f.value)) ?? {
+                        id: nextId++,
+                        name: f.name,
+                        size: f.size,
+                        url: props.preview ? f.url : undefined,
+                        value: f.value,
+                        status: 'done' as Status,
+                        progress: 100,
+                    },
+            );
+        entries.value = [...stored, ...current.filter((e) => e.file)];
     },
     { immediate: true },
 );
@@ -193,15 +211,37 @@ const sizeText = (bytes?: number) => {
 
 /* --- Emitting the model ---------------------------------------------------- */
 
+// What we last emitted, so the watcher below can tell the parent's own changes from our echo.
+let lastEmitted: unknown;
+
 const emitModel = () => {
     if (props.upload) {
         const values = entries.value.filter((e) => e.status === 'done').map((e) => e.value);
-        emit('update:modelValue', props.multiple ? values : (values[0] ?? null));
-        return;
+        lastEmitted = props.multiple ? values : (values[0] ?? null);
+    } else {
+        const files = entries.value.map((e) => e.file).filter(Boolean) as File[];
+        lastEmitted = props.multiple ? files : (files[0] ?? null);
     }
-    const files = entries.value.map((e) => e.file).filter(Boolean) as File[];
-    emit('update:modelValue', props.multiple ? files : (files[0] ?? null));
+    emit('update:modelValue', lastEmitted);
 };
+
+// The parent changed v-model itself (typically cleared it after submitting): follow it.
+watch(
+    () => props.modelValue,
+    (value) => {
+        if (formMode.value || toRaw(value) === toRaw(lastEmitted)) return;
+        const empty = value === null || value === undefined || (Array.isArray(value) && value.length === 0);
+        if (empty) {
+            entries.value.forEach((e) => dropUrl(e.url));
+            entries.value = entries.value.filter((e) => e.status === 'uploading');
+        } else if (!props.upload) {
+            const files = (Array.isArray(value) ? value : [value]).filter((f): f is File => typeof File !== 'undefined' && f instanceof File);
+            entries.value.forEach((e) => dropUrl(e.url));
+            entries.value = files.map((file) => ({ id: nextId++, name: file.name, size: file.size, file, url: objectUrl(file), status: 'done', progress: 100 }));
+        }
+        lastEmitted = value;
+    },
+);
 
 /* --- Picking ----------------------------------------------------------------- */
 
@@ -238,6 +278,11 @@ const startUpload = async (entry: Entry) => {
         entry.value = value;
         entry.status = 'done';
         entry.progress = 100;
+        if (!props.multiple) {
+            // Single file: the previous one goes only once its replacement is stored.
+            entries.value.filter((e) => e.id !== entry.id).forEach((e) => dropUrl(e.url));
+            entries.value = entries.value.filter((e) => e.id === entry.id);
+        }
         emitModel();
         emit('uploaded', value, entry.file!);
     } catch (error: any) {
@@ -252,8 +297,14 @@ const addFiles = (files: File[]) => {
     if (props.multiple) {
         entries.value = [...entries.value, ...fresh];
     } else {
-        entries.value.forEach((e) => e.file && dropUrl(e.url));
-        entries.value = [...entries.value.filter((e) => !e.file && !props.upload), ...fresh];
+        if (props.upload) {
+            // Keep the stored file until the new upload succeeds; drop an earlier failed or pending pick.
+            entries.value.filter((e) => e.status !== 'done').forEach((e) => dropUrl(e.url));
+            entries.value = [...entries.value.filter((e) => e.status === 'done'), ...fresh];
+        } else {
+            entries.value.forEach((e) => e.file && dropUrl(e.url));
+            entries.value = [...entries.value.filter((e) => !e.file), ...fresh];
+        }
     }
     if (props.upload) {
         // The entries in the list are reactive proxies; upload through them so progress shows.
@@ -312,6 +363,7 @@ const removeEntry = async (entry: Entry) => {
             return;
         }
     }
+    if (!entry.file && entry.value !== undefined) removedInitial.add(valueKey(entry.value));
     dropUrl(entry.url);
     entries.value = entries.value.filter((e) => e.id !== entry.id);
     if (formMode.value) {
@@ -325,12 +377,15 @@ const removeEntry = async (entry: Entry) => {
 
 /* --- Dropzone ---------------------------------------------------------------- */
 
-const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    multiple: props.multiple,
-    accept: props.accept,
-    disabled: props.disabled,
-});
+// Reactive options: vue3-dropzone copies a plain object once, so `disabled` would never update.
+const { getRootProps, getInputProps, isDragActive } = useDropzone(
+    reactive({
+        onDrop,
+        multiple: toRef(props, 'multiple'),
+        accept: toRef(props, 'accept'),
+        disabled: toRef(props, 'disabled'),
+    }),
+);
 
 const formErrors = computed(() => (formMode.value ? props.form!.errors?.[props.field!] : undefined));
 const errorMessage = computed(() => formErrors.value ?? errors.value);
@@ -367,7 +422,7 @@ const pickedText = computed(() => {
             </div>
         </div>
 
-        <NbTransitionGroup v-if="showList" tag="ul" preset="slide-up" :class="cls('list', entries.length ? 'mt-3 space-y-2' : '')">
+        <NbTransitionGroup v-if="showList" tag="ul" preset="slide-up" :motion="level" :class="cls('list', entries.length ? 'mt-3 space-y-2' : '')">
             <li
                 v-for="entry in entries"
                 :key="entry.id"
