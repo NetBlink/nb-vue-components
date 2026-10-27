@@ -78,6 +78,7 @@
     --animate-toast-spring-top:    toastInTop    var(--duration-slow) var(--ease-spring);
     --animate-toast-spring-bottom: toastInBottom var(--duration-slow) var(--ease-spring);
     --animate-check-pop:          checkPop        var(--duration-base) var(--ease-spring);
+    --animate-typing-dot:         typingDot       1.2s ease-in-out infinite;
 
     /* Plain colors */
     --color-dark:  #161b1c;
@@ -501,6 +502,19 @@
         transform: translate(var(--nb-origin-x, 0px), var(--nb-origin-y, 0px)) scale(var(--nb-origin-scale, 0.2));
     }
 }
+@keyframes typingDot {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    30% {
+        transform: translateY(-3px);
+        opacity: 1;
+    }
+}
+
 @keyframes checkPop {
     0% {
         transform: scale(0.8);

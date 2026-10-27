@@ -276,6 +276,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **Breadcrumbs**, Trail of links to the current page.
 - **Button**, Base Button component with theme support.
 - **Card**, a header (title, description and an `#actions` slot), a body and an optional footer band.
+- **ChatMessageList**, your messages on the right, theirs on the left, day separators and an optional typing indicator.
 - **Checkbox**, Single checkbox with label, sublabel, tooltip and error message, plus optional descriptive text on either side of the box.
 - **CodePreview**, Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
 - **CollapsableSection**, Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.

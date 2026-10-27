@@ -85,6 +85,7 @@ import SubNav from './components/SubNav.vue';
 import CopyButton from './components/CopyButton.vue';
 import NbTransition from './components/NbTransition.vue';
 import NbTransitionGroup from './components/NbTransitionGroup.vue';
+import ChatMessageList from './components/ChatMessageList.vue';
 import Lightbox from './components/Lightbox.vue';
 import EnvironmentBanner from './components/EnvironmentBanner.vue';
 import ImpersonationBanner from './components/ImpersonationBanner.vue';
@@ -149,7 +150,7 @@ const components = {
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
     Toast, Toaster, Button, DataTile, IconCircle,
-    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup, Lightbox, EnvironmentBanner, ImpersonationBanner, AttachmentList, FilterBar, ConfirmDialog, StarRating, Divider, ContentLoader, InlineCode,
+    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup, ChatMessageList, Lightbox, EnvironmentBanner, ImpersonationBanner, AttachmentList, FilterBar, ConfirmDialog, StarRating, Divider, ContentLoader, InlineCode,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -298,6 +299,7 @@ export {
     ImpersonationBanner,
     EnvironmentBanner,
     Lightbox,
+    ChatMessageList,
     // Helper components
     CodePreview,
     H2,
@@ -343,6 +345,7 @@ export type { SubNavProps, SubNavItem } from './components/SubNav.vue';
 export type { CopyButtonProps, CopyButtonEmits } from './components/CopyButton.vue';
 export type { NbTransitionProps } from './components/NbTransition.vue';
 export type { NbTransitionGroupProps } from './components/NbTransitionGroup.vue';
+export type { ChatMessageListProps, ChatMessage } from './components/ChatMessageList.vue';
 export type { LightboxProps, LightboxImage } from './components/Lightbox.vue';
 export type { EnvironmentBannerProps } from './components/EnvironmentBanner.vue';
 export type { ImpersonationBannerProps, ImpersonationBannerEmits } from './components/ImpersonationBanner.vue';

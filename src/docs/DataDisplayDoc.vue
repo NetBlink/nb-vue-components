@@ -29,6 +29,7 @@ import BadgeDoc from './sections/BadgeDoc.vue';
 import InlineCodeDoc from './sections/InlineCodeDoc.vue';
 import AttachmentListDoc from './sections/AttachmentListDoc.vue';
 import LightboxDoc from './sections/LightboxDoc.vue';
+import ChatMessageListDoc from './sections/ChatMessageListDoc.vue';
 import AvatarDoc from './sections/AvatarDoc.vue';
 import TimelineDoc from './sections/TimelineDoc.vue';
 
@@ -511,8 +512,10 @@ const statsWithExtras = [
 
         <LightboxDoc />
 
+        <ChatMessageListDoc />
+
         <InlineCodeDoc />
 
-        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle', 'InlineCode', 'AttachmentList', 'Lightbox']" />
+        <DocComponentMeta :names="['Stats', 'DataTile', 'DescriptionList', 'DescriptionListItem', 'Logs', 'LogsContent', 'GravatarImg', 'Card', 'Badge', 'Avatar', 'AvatarGroup', 'Timeline', 'IconCircle', 'InlineCode', 'AttachmentList', 'Lightbox', 'ChatMessageList']" />
     </div>
 </template>

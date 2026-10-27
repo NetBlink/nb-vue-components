@@ -267,6 +267,53 @@
             }
         ]
     },
+    "ChatMessageList": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the scrolling list (`role=\"log\"`)"
+            },
+            {
+                "name": "day",
+                "description": "a day separator"
+            },
+            {
+                "name": "row",
+                "description": "one message row"
+            },
+            {
+                "name": "bubble",
+                "description": "the message bubble"
+            },
+            {
+                "name": "time",
+                "description": "the time under a bubble"
+            },
+            {
+                "name": "typing",
+                "description": "the typing indicator"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "messages appear instantly, the typing dots stand still"
+            },
+            {
+                "level": "simple",
+                "description": "messages fade in quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "messages slide in, the list scrolls smoothly"
+            },
+            {
+                "level": "fancy",
+                "description": "the same on a spring"
+            }
+        ]
+    },
     "Checkbox": {
         "parts": [
             {

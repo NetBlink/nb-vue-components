@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (100 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (101 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -472,6 +472,33 @@ a header (title, description and an `#actions` slot), a body and an optional foo
 | `footer` | the footer band |
 
 **Motion:** `off`: hover and selection change instantly; `simple`: border and shadow fade on hover; `smooth`: border and shadow fade on hover; `fancy`: interactive cards also lift slightly on hover.
+
+### ChatMessageList
+
+your messages on the right, theirs on the left, day separators and an optional typing indicator. It scrolls to new messages unless the reader has scrolled up to read older ones, and new messages slide in.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `messages` | `ChatMessage[]` | **required** | The messages, oldest first |
+| `typing` | `boolean` | - | Show the typing indicator |
+| `dayLabel` | `(date: Date) => string` | - | Label for a day separator (default: Today, Yesterday or the date) |
+| `ui` | `UiProp<NbParts['ChatMessageList']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Slots:** `message`
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the scrolling list (`role="log"`) |
+| `day` | a day separator |
+| `row` | one message row |
+| `bubble` | the message bubble |
+| `time` | the time under a bubble |
+| `typing` | the typing indicator |
+
+**Motion:** `off`: messages appear instantly, the typing dots stand still; `simple`: messages fade in quickly; `smooth`: messages slide in, the list scrolls smoothly; `fancy`: the same on a spring.
 
 ### Checkbox
 
@@ -2853,7 +2880,7 @@ A two-person messenger: GravatarImg header with an online pill, a scrollable bub
 
 Source: `src/docs/Blocks/ChatBlock.vue`
 
-Uses: `Card`, `GravatarImg`, `Badge`, `NbTransitionGroup`, `NbTransition`, `IconButton`, `CodePreview`
+Uses: `ChatMessage`, `Card`, `GravatarImg`, `Badge`, `NbTransitionGroup`, `NbTransition`, `IconButton`, `CodePreview`
 
 ### CRUD Index Page
 

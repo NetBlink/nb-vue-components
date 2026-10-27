@@ -43,6 +43,7 @@ const ANIMATIONS = [
     'grow-from-origin',
     'shrink-to-origin',
     'check-pop',
+    'typing-dot',
 ];
 
 const LIBRARY_EXTENSION: NbMergeExtension = {
