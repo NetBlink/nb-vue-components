@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (99 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (100 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -1302,6 +1302,33 @@ InputWrapper component A reusable wrapper that standardizes label, tooltip, subl
 | `error` | the `InputError` |
 
 **Motion:** `off`: the error appears instantly; `simple`: the error appears instantly; `smooth`: the error grows in and out; `fancy`: the error grows in on a spring.
+
+### Lightbox
+
+Full-screen image viewer. Open it at an image (`v-model:open`, `v-model:index`), then page through with the arrows, the arrow keys or a swipe; Esc or the close button closes it and focus returns to whatever opened it.
+
+**v-model:** `v-model:open`, `v-model:index`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `images` | `LightboxImage[]` | **required** | The images |
+| `ui` | `UiProp<NbParts['Lightbox']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `panel`):
+
+| Part | Element |
+| --- | --- |
+| `overlay` | the dark backdrop |
+| `panel` | the full-screen layer holding the image and controls |
+| `image` | the image |
+| `caption` | the caption under the image |
+| `counter` | "2 / 5" |
+| `prev` | the previous button |
+| `next` | the next button |
+| `close` | the close button |
+
+**Motion:** `off`: opens, closes and changes image instantly; `simple`: quick fades; `smooth`: the image zooms in softly; images cross-fade; `fancy`: the viewer grows out of the thumbnail that opened it.
 
 ### LinkButton
 

@@ -311,6 +311,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **InputLabel**, Styled `<label>` for form fields: takes its text from the `value` prop or the default slot and can append a grey sublabel, a red required asterisk and a help icon with a `Tooltip`.
 - **InputWrapper**, Wrapper component for form inputs with label and error handling.
 - **InputWrapper**, InputWrapper component A reusable wrapper that standardizes label, tooltip, sublabel, and error handling across all form input components..
+- **Lightbox**, Full-screen image viewer.
 - **LinkButton**, Link Button component that can render as either a Link or anchor tag.
 - **LinkDropdownButton**, Primary-styled button that opens a reka-ui dropdown menu of links, rendering the slot content inside its own `<ul>`.
 - **LinkDropdownButtonItem**, One entry in a `LinkDropdownButton` menu.

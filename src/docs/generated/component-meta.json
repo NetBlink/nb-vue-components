@@ -1289,6 +1289,61 @@
             }
         ]
     },
+    "Lightbox": {
+        "parts": [
+            {
+                "name": "overlay",
+                "description": "the dark backdrop"
+            },
+            {
+                "name": "panel",
+                "description": "the full-screen layer holding the image and controls"
+            },
+            {
+                "name": "image",
+                "description": "the image"
+            },
+            {
+                "name": "caption",
+                "description": "the caption under the image"
+            },
+            {
+                "name": "counter",
+                "description": "\"2 / 5\""
+            },
+            {
+                "name": "prev",
+                "description": "the previous button"
+            },
+            {
+                "name": "next",
+                "description": "the next button"
+            },
+            {
+                "name": "close",
+                "description": "the close button"
+            }
+        ],
+        "classPart": "panel",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens, closes and changes image instantly"
+            },
+            {
+                "level": "simple",
+                "description": "quick fades"
+            },
+            {
+                "level": "smooth",
+                "description": "the image zooms in softly; images cross-fade"
+            },
+            {
+                "level": "fancy",
+                "description": "the viewer grows out of the thumbnail that opened it"
+            }
+        ]
+    },
     "LinkButton": {
         "parts": [
             {
