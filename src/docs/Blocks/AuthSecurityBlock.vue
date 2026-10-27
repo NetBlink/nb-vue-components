@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { Alert, Card, CodePreview, IconCircle, Input, PrimaryButton, InlineCode } from '../../index';
+import { Alert, Card, CodePreview, ContentLoader, Divider, IconCircle, Input, NbTransition, PrimaryButton, InlineCode } from '../../index';
 import { NbIcon } from '../../icons';
 import { faFingerprint, faShieldHalved } from '@fortawesome/free-solid-svg-icons';
 import { faApple, faGithub, faGoogle, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
@@ -148,11 +148,7 @@ const oauthSnippet = [
     '    </a>',
     '</div>',
     '',
-    '<div class="my-6 flex items-center gap-3">',
-    '    <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700" />',
-    '    <span class="text-xs font-medium tracking-wide text-gray-500 uppercase dark:text-gray-400">or</span>',
-    '    <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700" />',
-    '</div>',
+    '<Divider label="or" class="my-6" />',
     '',
     '<Input v-model="form.email" field="email" type="email" label="Email" required />',
 ];
@@ -230,6 +226,7 @@ const passkeySnippet = [
                     </p>
 
                     <form class="space-y-4" @submit.prevent="verifyCode">
+                        <NbTransition mode="out-in">
                         <div v-if="!useRecovery" class="flex justify-center gap-2" :class="{ 'nb-shake': shaking }" @paste="onDigitPaste">
                             <input
                                 v-for="(digit, i) in digits"
@@ -251,6 +248,7 @@ const passkeySnippet = [
                         </div>
 
                         <Input v-else v-model="recoveryCode" field="recovery_code" label="Recovery code" placeholder="xxxxxxxx-xxxxxxxx" />
+                        </NbTransition>
 
                         <Alert v-if="status === 'success'" type="success" title="Verified">
                             Code accepted, redirecting to your dashboard.
@@ -308,11 +306,7 @@ const passkeySnippet = [
                         </template>
                     </p>
 
-                    <div class="my-6 flex items-center gap-3">
-                        <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-                        <span class="text-xs font-medium tracking-wide text-gray-500 uppercase dark:text-gray-400">or</span>
-                        <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-                    </div>
+                    <Divider label="or" class="my-6" />
 
                     <div class="space-y-4">
                         <Input v-model="oauthEmail" field="email" type="email" label="Email" placeholder="you@example.com" />
@@ -339,11 +333,12 @@ const passkeySnippet = [
                         Use your fingerprint, face or screen lock instead of a password.
                     </p>
 
-                    <p v-if="passkeySupport === 'checking'" class="text-center text-xs text-gray-500 dark:text-gray-400">
-                        Checking this device for passkey support&hellip;
-                    </p>
+                    <ContentLoader :loading="passkeySupport === 'checking'">
+                    <template #loading>
+                        <p class="text-center text-xs text-gray-500 dark:text-gray-400">Checking this device for passkey support&hellip;</p>
+                    </template>
 
-                    <template v-else-if="passkeySupport === 'yes'">
+                    <template v-if="passkeySupport === 'yes'">
                         <div v-if="passkeyDone" class="mb-3">
                             <Alert type="success" title="Signed in">Passkey accepted, welcome back.</Alert>
                         </div>
@@ -358,6 +353,7 @@ const passkeySnippet = [
                     <p v-else class="text-center text-xs text-amber-600 dark:text-amber-400">
                         This device does not support passkeys, <a href="#" class="underline hover:no-underline" @click.prevent>sign in with your password</a>
                     </p>
+                    </ContentLoader>
                 </Card>
             </div>
             <CodePreview :code="passkeySnippet" filename="PasskeySignIn.vue" />

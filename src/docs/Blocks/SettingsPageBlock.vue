@@ -156,6 +156,8 @@ const snippet = [
                     </nav>
 
                     <div class="space-y-6">
+                        <!-- One section at a time, cross-fading as you switch -->
+                        <NbTransition mode="out-in">
                         <Section v-if="activeSection === 'profile'" header="Profile">
                             <form @submit.prevent="fakeSubmit(profileForm, 'Profile saved')" class="space-y-1">
                                 <Input v-model="profileForm.name" field="settings_name" label="Full name" required />
@@ -169,7 +171,7 @@ const snippet = [
                             </form>
                         </Section>
 
-                        <Section v-if="activeSection === 'security'" header="Security">
+                        <Section v-else-if="activeSection === 'security'" header="Security">
                             <form @submit.prevent="fakeSubmit(passwordForm, 'Password updated')" class="space-y-1">
                                 <Input
                                     v-model="passwordForm.current_password"
@@ -194,7 +196,7 @@ const snippet = [
                             </form>
                         </Section>
 
-                        <Section v-if="activeSection === 'notifications'" header="Notifications">
+                        <Section v-else-if="activeSection === 'notifications'" header="Notifications">
                             <form @submit.prevent="fakeSubmit(notifyForm, 'Preferences saved')">
                                 <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
                                     <Checkbox
@@ -216,13 +218,14 @@ const snippet = [
 
                         <!-- ponytail: ring instead of border-red-*, Section already sets a gray border, and two
                              border-color utilities collide unpredictably in the generated CSS. -->
-                        <Section v-if="activeSection === 'danger'" header="Danger Zone" class="ring-2 ring-red-400 dark:ring-red-700">
+                        <Section v-else-if="activeSection === 'danger'" header="Danger Zone" class="ring-2 ring-red-400 dark:ring-red-700">
                             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
                                 Deleting your account removes every project, invoice and file it owns. This cannot be undone, export anything
                                 you want to keep first.
                             </p>
                             <DangerButton type="button" @click="openDelete">Delete account</DangerButton>
                         </Section>
+                        </NbTransition>
 
                         <NbTransition><p v-if="savedLabel" class="text-sm text-green-600 dark:text-green-400">{{ savedLabel }}</p></NbTransition>
                     </div>

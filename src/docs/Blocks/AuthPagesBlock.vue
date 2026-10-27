@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import { Input, Checkbox, PrimaryButton, SecondaryButton, Alert, Card, EmptyState, CodePreview, InlineCode } from '../../index';
+import { Input, Checkbox, PrimaryButton, SecondaryButton, Alert, Card, EmptyState, NbTransition, CodePreview, InlineCode } from '../../index';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -141,18 +141,20 @@ const gateSnippet = [
                     class="mx-auto w-full max-w-md"
                     :ui="{ title: 'text-xl' }"
                 >
-                    <template v-if="!forgotSent">
+                    <NbTransition mode="out-in">
+                    <div v-if="!forgotSent">
                         <form @submit.prevent="submitForgot" class="space-y-4">
                             <Input v-model="forgotForm.email" field="email" type="email" label="Email" required autofocus />
                             <PrimaryButton type="submit" :disabled="forgotForm.processing" class="w-full justify-center">
                                 {{ forgotForm.processing ? 'Sending...' : 'Email Password Reset Link' }}
                             </PrimaryButton>
                         </form>
-                    </template>
+                    </div>
 
                     <Alert v-else type="success" title="Check your inbox">
                         We have emailed your password reset link.
                     </Alert>
+                    </NbTransition>
                 </Card>
             </div>
             <CodePreview :code="forgotSnippet" filename="ForgotPasswordCard.vue" />

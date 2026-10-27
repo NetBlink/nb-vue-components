@@ -2840,7 +2840,7 @@ A two-factor challenge card: six auto-advancing single-character boxes that acce
 
 Source: `src/docs/Blocks/AuthSecurityBlock.vue`
 
-Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `InlineCode`, `Card`, `IconCircle`, `CodePreview`
+Uses: `Input`, `Alert`, `PrimaryButton`, `NbIcon`, `Divider`, `InlineCode`, `Card`, `IconCircle`, `NbTransition`, `CodePreview`, `ContentLoader`
 
 ### AI Assistant
 
@@ -2864,7 +2864,7 @@ A registration card composed from Input and Checkbox, with a terms-of-service ag
 
 Source: `src/docs/Blocks/AuthPagesBlock.vue`
 
-Uses: `Card`, `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `EmptyState`, `SecondaryButton`, `CodePreview`, `InlineCode`
+Uses: `Card`, `Input`, `Checkbox`, `PrimaryButton`, `Alert`, `EmptyState`, `SecondaryButton`, `CodePreview`, `NbTransition`, `InlineCode`
 
 ### Cards & Lists
 
@@ -2960,7 +2960,7 @@ A three-step wizard: a Stepper whose rails fill as you advance, over a single fo
 
 Source: `src/docs/Blocks/WizardBlock.vue`
 
-Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `DescriptionList`, `DescriptionListItem`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `InlineCode`, `CodePreview`
+Uses: `Stepper`, `Alert`, `Card`, `NbTransition`, `Input`, `Select`, `RadioButton`, `DescriptionList`, `DescriptionListItem`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `InlineCode`, `CodePreview`
 
 ### Orderable Fields
 
@@ -2984,7 +2984,7 @@ An e-commerce product detail page: gallery with thumbnails, variant and size pic
 
 Source: `src/docs/Blocks/ProductPageBlock.vue`
 
-Uses: `Breadcrumbs`, `Badge`, `IconButton`, `PrimaryButton`, `SecondaryButton`, `NbIcon`, `Tabs`, `Tab`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Toaster`, `Card`, `CodePreview`
+Uses: `NbTransition`, `Lightbox`, `Breadcrumbs`, `StarRating`, `Badge`, `IconButton`, `PrimaryButton`, `SecondaryButton`, `NbIcon`, `Tabs`, `Tab`, `Table`, `Thead`, `Th`, `Tbody`, `Tr`, `Td`, `Toaster`, `Card`, `CodePreview`
 
 ### Settings Page
 

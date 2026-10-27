@@ -203,6 +203,7 @@ const formSnippet = [
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="mx-auto w-full max-w-lg space-y-3">
+                    <NbTransitionGroup tag="div" class="space-y-3">
                     <div
                         v-for="(field, i) in fields"
                         :key="field.key"
@@ -239,6 +240,8 @@ const formSnippet = [
                             <IconButton :icon="faArrowDown" label="Move down" theme="secondary" size="xs" :disabled="i === fields.length - 1" @click="formMove(i, i + 1)" />
                         </div>
                     </div>
+
+                    </NbTransitionGroup>
 
                     <p class="text-xs text-gray-600 dark:text-gray-400">
                         Persisted order:

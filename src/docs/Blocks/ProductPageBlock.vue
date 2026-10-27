@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { PrimaryButton, SecondaryButton, IconButton, Badge, Breadcrumbs, Card, Table, Thead, Tbody, Th, Td, Tr, Tabs, Tab, Toaster, toast, CodePreview } from '../../index';
+import { PrimaryButton, SecondaryButton, IconButton, Badge, Breadcrumbs, Card, StarRating, Lightbox, NbTransition, Table, Thead, Tbody, Th, Td, Tr, Tabs, Tab, Toaster, toast, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
-import { faStar, faHeart, faMinus, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faMinus, faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const colors = [
-    { value: 'graphite', label: 'Graphite', swatch: 'bg-gray-700', gradient: 'from-gray-500 to-gray-800' },
-    { value: 'sand', label: 'Sand', swatch: 'bg-amber-300', gradient: 'from-amber-200 to-amber-500' },
-    { value: 'ocean', label: 'Ocean', swatch: 'bg-primary-500', gradient: 'from-primary-300 to-primary-700' },
-    { value: 'moss', label: 'Moss', swatch: 'bg-green-600', gradient: 'from-green-400 to-green-700' },
+    { value: 'graphite', label: 'Graphite', swatch: 'bg-gray-700', gradient: 'from-gray-500 to-gray-800', hex: ['#9ca3af', '#1f2937'] },
+    { value: 'sand', label: 'Sand', swatch: 'bg-amber-300', gradient: 'from-amber-200 to-amber-500', hex: ['#fde68a', '#f59e0b'] },
+    { value: 'ocean', label: 'Ocean', swatch: 'bg-primary-500', gradient: 'from-primary-300 to-primary-700', hex: ['#8fcfd6', '#2f6f78'] },
+    { value: 'moss', label: 'Moss', swatch: 'bg-green-600', gradient: 'from-green-400 to-green-700', hex: ['#4ade80', '#15803d'] },
 ];
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+
+// Stand-in product photos: one gradient per view in the chosen colour.
+const photo = (from: string, to: string, label: string) =>
+    `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000"><defs><linearGradient id="g" x2="1" y2="1"><stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="1000" height="1000" fill="url(#g)"/><text x="500" y="520" font-family="sans-serif" font-size="56" fill="white" text-anchor="middle">${label}</text></svg>`)}`;
+const galleryOpen = ref(false);
 
 const activeColor = ref(colors[2].value);
 const activeSize = ref('M');
@@ -21,6 +26,9 @@ const quantity = ref(1);
 const wishlisted = ref(false);
 
 const selectedColor = computed(() => colors.find((c) => c.value === activeColor.value) ?? colors[0]);
+const gallery = computed(() =>
+    [1, 2, 3, 4].map((n) => ({ src: photo(selectedColor.value.hex[0], selectedColor.value.hex[1], `${selectedColor.value.label} · view ${n}`), alt: `${selectedColor.value.label}, view ${n}` })),
+);
 
 const price = 89;
 const compareAt = 129;
@@ -68,7 +76,10 @@ const snippet = [
     '<div class="grid gap-8 lg:grid-cols-2">',
     '    <!-- Gallery -->',
     '    <div>',
-    '        <img :src="images[activeImage]" :alt="product.name" class="aspect-square w-full rounded-lg object-cover" />',
+    '        <button type="button" class="block w-full cursor-zoom-in" @click="galleryOpen = true">',
+    '            <NbTransition><img :key="images[activeImage]" :src="images[activeImage]" :alt="product.name" class="aspect-square w-full rounded-lg object-cover" /></NbTransition>',
+    '        </button>',
+    '        <Lightbox v-model:open="galleryOpen" v-model:index="activeImage" :images="images.map((src) => ({ src, alt: product.name }))" />',
     '        <div class="mt-3 grid grid-cols-4 gap-3">',
     '            <button',
     '                v-for="(image, i) in images"',
@@ -87,6 +98,7 @@ const snippet = [
     '    <div>',
     '        <Breadcrumbs :items="[{ label: \'Shop\', href: \'/shop\' }, { label: product.category, href: product.categoryUrl }, { label: product.name }]" />',
     '        <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">{{ product.name }}</h1>',
+    '        <StarRating :model-value="product.rating" readonly size="sm" class="mt-2" />',
     '        <div class="mt-4 flex items-baseline gap-3">',
     '            <span class="text-3xl font-bold text-gray-900 dark:text-gray-100">€{{ product.price }}</span>',
     '            <span class="text-gray-500 line-through dark:text-gray-400">€{{ product.compareAt }}</span>',
@@ -165,14 +177,26 @@ const snippet = [
                     <div class="grid gap-8 lg:grid-cols-2">
                         <!-- Gallery -->
                         <div>
-                            <div
-                                class="flex aspect-square w-full items-end rounded-lg bg-gradient-to-br p-4"
-                                :class="selectedColor.gradient"
+                            <!-- Changing colour or view cross-fades the photo; clicking it opens the Lightbox -->
+                            <button
+                                type="button"
+                                class="focusable relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-lg"
+                                aria-label="Open the photos full screen"
+                                @click="galleryOpen = true"
                             >
-                                <span class="rounded-md bg-black/40 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
-                                    {{ selectedColor.label }} · view {{ activeImage + 1 }}
-                                </span>
-                            </div>
+                                <NbTransition>
+                                    <div
+                                        :key="`${activeColor}-${activeImage}`"
+                                        class="absolute inset-0 flex items-end bg-gradient-to-br p-4"
+                                        :class="selectedColor.gradient"
+                                    >
+                                        <span class="rounded-md bg-black/40 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
+                                            {{ selectedColor.label }} · view {{ activeImage + 1 }}
+                                        </span>
+                                    </div>
+                                </NbTransition>
+                            </button>
+                            <Lightbox v-model:open="galleryOpen" v-model:index="activeImage" :images="gallery" />
 
                             <div class="mt-3 grid grid-cols-4 gap-3">
                                 <button
@@ -194,15 +218,7 @@ const snippet = [
                             <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">Alpine Shell Jacket</h1>
 
                             <div class="mt-2 flex items-center gap-2">
-                                <div class="flex items-center gap-0.5">
-                                    <NbIcon
-                                        v-for="star in 5"
-                                        :key="star"
-                                        :name="faStar"
-                                        size="sm"
-                                        :class="star <= rating ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'"
-                                    />
-                                </div>
+                                <StarRating :model-value="rating" readonly size="sm" />
                                 <span class="text-sm text-gray-600 dark:text-gray-400">{{ rating }}.0 · {{ reviewCount }} reviews</span>
                             </div>
 
@@ -314,15 +330,7 @@ const snippet = [
                             <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                                 <li v-for="review in reviews" :key="review.author" class="py-4 first:pt-0 last:pb-0">
                                     <div class="flex items-center gap-2">
-                                        <div class="flex items-center gap-0.5">
-                                            <NbIcon
-                                                v-for="star in 5"
-                                                :key="star"
-                                                :name="faStar"
-                                                size="sm"
-                                                :class="star <= review.stars ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'"
-                                            />
-                                        </div>
+                                        <StarRating :model-value="review.stars" readonly size="sm" />
                                         <span class="text-sm font-semibold text-gray-800 dark:text-gray-100">{{ review.title }}</span>
                                     </div>
                                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ review.body }}</p>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, DescriptionList, DescriptionListItem, CodePreview, InlineCode } from '../../index';
+import { Input, Select, RadioButton, Checkbox, Alert, PrimaryButton, SecondaryButton, Stepper, Card, DescriptionList, DescriptionListItem, NbTransition, CodePreview, InlineCode } from '../../index';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
 const steps = [
@@ -71,7 +71,7 @@ const snippet = [
     '<script setup>',
     'import { ref, computed } from \'vue\';',
     'import { useForm } from \'@inertiajs/vue3\';',
-    'import { Alert, Card, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select, Stepper, DescriptionList, DescriptionListItem } from \'@netblink/vue-components\';',
+    'import { Alert, Card, Checkbox, Input, PrimaryButton, RadioButton, SecondaryButton, Select, Stepper, DescriptionList, DescriptionListItem, NbTransition } from \'@netblink/vue-components\';',
     '',
     'const step = ref(1);',
     'const submitted = ref(false);',
@@ -105,13 +105,15 @@ const snippet = [
     '',
     '    <Card>',
     '        <form @submit.prevent="form.post(route(\'register.store\'), { onSuccess: () => (submitted = true) })" class="space-y-4">',
-    '            <template v-if="step === 1">',
+    '            <!-- steps slide in and out -->',
+    '            <NbTransition preset="slide-up" mode="out-in">',
+    '            <div v-if="step === 1" key="1" class="space-y-4">',
     '                <Input :form="form" field="name" label="Full Name" required autofocus />',
     '                <Input :form="form" field="email" type="email" label="Email" required />',
     '                <Input :form="form" field="password" type="password" label="Password" required />',
-    '            </template>',
+    '            </div>',
     '',
-    '            <template v-if="step === 2">',
+    '            <div v-else-if="step === 2" key="2" class="space-y-4">',
     '                <Input :form="form" field="company" label="Company Name" required />',
     '                <Select :form="form" field="business_type" label="Business Type" placeholder="Select a type" :options="businessTypes" />',
     '                <div>',
@@ -120,14 +122,14 @@ const snippet = [
     '                        <RadioButton v-for="s in sizes" :key="s.value" :form="form" field="size" :value="s.value" :label="s.label" />',
     '                    </div>',
     '                </div>',
-    '            </template>',
+    '            </div>',
     '',
-    '            <template v-if="step === 3">',
+    '            <div v-else key="3" class="space-y-4">',
     '                <DescriptionList>',
     '                    <DescriptionListItem v-for="row in reviewRows" :key="row.label" :label="row.label" :value="row.value" />',
     '                </DescriptionList>',
     '                <Checkbox :form="form" field="confirmed" noLabel rightDescription="The details above are correct" />',
-    '            </template>',
+    '            </div>',
     '',
     '            <div class="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">',
     '                <SecondaryButton v-if="step > 1" type="button" @click="step--">Back</SecondaryButton>',
@@ -137,6 +139,7 @@ const snippet = [
     '                    {{ form.processing ? \'Creating...\' : \'Create Account\' }}',
     '                </PrimaryButton>',
     '            </div>',
+    '            </NbTransition>',
     '        </form>',
     '    </Card>',
     '</template>',
@@ -165,13 +168,14 @@ const snippet = [
 
                     <Card>
                         <form @submit.prevent="submit" class="space-y-4">
-                            <template v-if="step === 1">
+                            <NbTransition :preset="'slide-up'" mode="out-in">
+                            <div v-if="step === 1" key="1" class="space-y-4">
                                 <Input v-model="form.name" field="name" label="Full Name" required />
                                 <Input v-model="form.email" field="email" type="email" label="Email" required />
                                 <Input v-model="form.password" field="password" type="password" label="Password" required />
-                            </template>
+                            </div>
 
-                            <template v-if="step === 2">
+                            <div v-else-if="step === 2" key="2" class="space-y-4">
                                 <Input v-model="form.company" field="company" label="Company Name" required />
                                 <Select
                                     v-model="form.business_type"
@@ -194,14 +198,16 @@ const snippet = [
                                         />
                                     </div>
                                 </div>
-                            </template>
+                            </div>
 
-                            <template v-if="step === 3">
+                            <div v-else key="3" class="space-y-4">
                                 <DescriptionList>
                                     <DescriptionListItem v-for="row in reviewRows" :key="row.label" :label="row.label" :value="row.value" />
                                 </DescriptionList>
                                 <Checkbox v-model="form.confirmed" field="confirmed" noLabel rightDescription="The details above are correct" />
-                            </template>
+                            </div>
+
+                            </NbTransition>
 
                             <div class="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-700">
                                 <SecondaryButton v-if="step > 1" type="button" @click="back">Back</SecondaryButton>
