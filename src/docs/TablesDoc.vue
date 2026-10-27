@@ -579,7 +579,7 @@ setTimeout(() => { isLoadingDemo.value = false; }, 2000);
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Data table components with sorting, responsive layout, sticky headers, and composable helpers.</p>
+            <p class="text-gray-600 dark:text-gray-400">Data table components with sorting, responsive layout, sticky headers, and composable helpers.</p>
         </header>
 
         <!-- Basic Table -->

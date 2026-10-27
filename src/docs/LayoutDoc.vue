@@ -221,7 +221,7 @@ const tabProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Layout primitives for structuring content: collapsible sections and dotted carousels.</p>
+            <p class="text-gray-600 dark:text-gray-400">Page structure: headers, sections, tabs, collapsible panels and carousels.</p>
         </header>
 
         <section id="sections">

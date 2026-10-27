@@ -7,6 +7,7 @@ import { useMotion, MOTION_LEVELS } from '../ui/motion';
 // Import documentation components
 import SetupDoc from './SetupDoc.vue';
 import CustomizingDoc from './CustomizingDoc.vue';
+import MotionDoc from './MotionDoc.vue';
 import IconsDoc from './IconsDoc.vue';
 import ThemeDoc from './ThemeDoc.vue';
 import InputsDoc from './InputsDoc.vue';
@@ -60,6 +61,7 @@ const foundationSections: SectionMap = {
     setup: { component: SetupDoc, title: 'Getting Started' },
     theme: { component: ThemeDoc, title: 'Theme & Tokens' },
     customizing: { component: CustomizingDoc, title: 'Customizing' },
+    motion: { component: MotionDoc, title: 'Motion' },
     icons: { component: IconsDoc, title: 'Icons' },
 };
 

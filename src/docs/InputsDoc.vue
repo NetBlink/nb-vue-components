@@ -675,7 +675,7 @@ const dropdownSearchbarProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">Form input components that integrate with Inertia's <InlineCode>useForm()</InlineCode> via <InlineCode>:form</InlineCode> and <InlineCode>field</InlineCode> props.</p>
+            <p class="text-gray-600 dark:text-gray-400">Form input components that integrate with Inertia's <InlineCode>useForm()</InlineCode> via <InlineCode>:form</InlineCode> and <InlineCode>field</InlineCode> props.</p>
         </header>
 
         <section id="input">
@@ -954,7 +954,7 @@ const dropdownSearchbarProps = [
                     <InlineCode>InputWrapper</InlineCode> puts both around whatever you place in its slot.
                     Use them when building a custom field that should look like the others.
                 </p>
-                <div class="mb-6 grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
+                <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <InputWrapper field="nickname" sublabel="Shown publicly" required error="This nickname is taken.">
                         <TextInput v-model="nicknameValue" id="nickname" class="w-full" />
                     </InputWrapper>

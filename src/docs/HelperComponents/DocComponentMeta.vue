@@ -34,7 +34,7 @@ const motionRows = (m: Meta) => {
 <template>
     <section id="parts-and-motion">
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Parts and motion</h3>
-        <p class="mb-6 max-w-3xl text-sm text-gray-600 dark:text-gray-400">
+        <p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
             Style a part with <InlineCode>:ui="{ part: '...' }"</InlineCode> on one instance, or app-wide with
             the <InlineCode>ui</InlineCode> plugin option. See Customizing for the precedence and the motion levels.
         </p>

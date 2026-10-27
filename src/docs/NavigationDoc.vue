@@ -164,7 +164,7 @@ const dropdownSeparatorNote = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <InlineCode>Link</InlineCode> - clicks perform Inertia visits, not full reloads.</p>
+            <p class="text-gray-600 dark:text-gray-400">All nav components wrap the Inertia <InlineCode>Link</InlineCode> - clicks perform Inertia visits, not full reloads.</p>
         </header>
 
         <section id="nav-links">

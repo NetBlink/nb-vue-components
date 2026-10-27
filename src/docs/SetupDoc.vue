@@ -228,7 +228,7 @@ const darkApi = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Vue 3, Tailwind v4, Inertia. Components consume Inertia's
                 <InlineCode>useForm()</InlineCode>
                 via <InlineCode>:form</InlineCode> +

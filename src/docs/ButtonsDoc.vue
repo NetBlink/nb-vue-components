@@ -98,10 +98,9 @@ const submitButtonProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
-                Every variant below (<InlineCode>PrimaryButton</InlineCode>, <InlineCode>SecondaryButton</InlineCode>, <InlineCode>SuccessButton</InlineCode>,
-                <InlineCode>WarningButton</InlineCode>, <InlineCode>DangerButton</InlineCode>, <InlineCode>InfoButton</InlineCode>) shares the implementation in
-                <InlineCode>Button.vue</InlineCode>. That shared base is also exported as <InlineCode>Button</InlineCode> (with a <InlineCode>theme</InlineCode> prop), so you can build custom variants on top of it.
+            <p class="text-gray-600 dark:text-gray-400">
+                One button per job (primary, secondary, success, warning, danger, info), plus <InlineCode>Button</InlineCode> with a <InlineCode>theme</InlineCode>
+                prop when you want to pick the look in code, and <InlineCode>IconButton</InlineCode> for icon-only actions.
             </p>
         </header>
 

@@ -252,7 +252,7 @@ const statsWithExtras = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Presentational components for data you already have - summary figures, key/value detail, activity trails and avatars. Nothing here
                 collects input; for that see Forms.
             </p>

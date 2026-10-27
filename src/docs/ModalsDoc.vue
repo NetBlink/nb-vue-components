@@ -175,7 +175,7 @@ const newModalSlots = [
     <div class="space-y-10">
         <header class="space-y-3">
             <div
-                class="max-w-3xl rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
+                class="rounded-lg border border-blue-200 bg-blue-50/50 p-4 text-sm text-blue-900 dark:border-blue-800/60 dark:bg-blue-950/40 dark:text-blue-100"
             >
                 <strong>NewModal</strong> is the canonical dialog - built on reka-ui's
                 <InlineCode>Dialog</InlineCode>, drives state with

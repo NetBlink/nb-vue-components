@@ -259,7 +259,7 @@ const toasterProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Mount one <InlineCode>&lt;Toaster /&gt;</InlineCode> in your layout, then raise notifications from
                 anywhere with <InlineCode>toast</InlineCode>. The Toaster decides where they appear and how they
                 move; call sites only say what happened.

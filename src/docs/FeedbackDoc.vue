@@ -153,7 +153,7 @@ const underConstructionProps = [
 <template>
     <div class="space-y-10">
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Components that report state back to the user - inline messages, loading indicators, on-demand hints and placeholders for work that
                 isn't built yet. For transient corner notifications see
                 <span class="font-medium text-gray-700 dark:text-gray-300">Toasts &amp; Snackbars</span>.

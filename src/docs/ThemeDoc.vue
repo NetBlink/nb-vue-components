@@ -96,7 +96,7 @@ const motionOverrideSnippet = [
     <div class="space-y-10">
         <!-- HEADER -->
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 Every value the package uses for colour, typography, spacing, and motion lives in
                 <InlineCode>@netblink/vue-components/theme.css</InlineCode>. Import it to get the defaults, override any token
                 in your own <InlineCode>@theme</InlineCode> block, or hit the <strong>Theme</strong> button (bottom-right) to customise values live and copy the result.

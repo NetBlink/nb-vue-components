@@ -510,7 +510,7 @@ const passwordValue = ref('s3cret');
     <div class="space-y-10">
         <!-- HEADER -->
         <header class="space-y-3">
-            <p class="max-w-3xl text-gray-600 dark:text-gray-400">
+            <p class="text-gray-600 dark:text-gray-400">
                 All icons render through <InlineCode>&lt;NbIcon&gt;</InlineCode>. Map your icon source - FontAwesome, Heroicons, Material Symbols, Solar, an <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" class="font-medium text-primary-600 underline dark:text-primary-300">Iconify</a> set, or your own SVG components - to named aliases. Default source is FontAwesome.
             </p>
         </header>
