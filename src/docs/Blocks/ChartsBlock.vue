@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
-import { CodePreview } from '../../index';
+import { Card, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -283,14 +283,13 @@ function sparkOptions(color: string) {
 
 const sparkSnippet = [
     '<div class="grid gap-4 sm:grid-cols-3">',
-    '    <div v-for="k in kpis" :key="k.label"',
-    '         class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">',
+    '    <Card v-for="k in kpis" :key="k.label" padding="sm">',
     '        <p class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ k.label }}</p>',
     '        <p class="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">{{ k.value }}</p>',
     '        <p class="text-xs" :class="k.up ? \'text-success-600\' : \'text-danger-600\'">{{ k.delta }}</p>',
     '        <VueApexCharts type="area" height="56" width="100%"',
     '                       :options="sparkOptions(k.color)" :series="[{ name: k.label, data: k.data }]" />',
-    '    </div>',
+    '    </Card>',
     '</div>',
     '',
     '<script setup>',
@@ -342,13 +341,10 @@ const themeKey = computed(() => themed.value.mode);
                 not operated.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-                    <div class="flex items-baseline justify-between">
-                        <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-100">Monthly revenue</h4>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Jan, Aug 2025</span>
-                    </div>
+                <Card title="Monthly revenue" padding="sm" :ui="{ title: 'text-sm' }">
+                    <template #actions><span class="text-xs text-gray-500 dark:text-gray-400">Jan, Aug 2025</span></template>
                     <VueApexCharts :key="themeKey" type="area" height="300" width="100%" :options="areaOptions" :series="areaSeries" />
-                </div>
+                </Card>
             </div>
             <CodePreview :code="areaSnippet" filename="AreaChart.vue" />
         </DocDemoCard>
@@ -360,10 +356,9 @@ const themeKey = computed(() => themed.value.mode);
                 <code class="rounded bg-gray-100 px-1 text-sm dark:bg-gray-900/60">plotOptions.pie.donut.labels.total</code>, no overlay markup needed.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto max-w-md rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-                    <h4 class="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-100">Traffic sources</h4>
+                <Card title="Traffic sources" padding="sm" class="mx-auto max-w-md" :ui="{ title: 'text-sm' }">
                     <VueApexCharts :key="themeKey" type="donut" height="320" width="100%" :options="donutOptions" :series="donutSeries" />
-                </div>
+                </Card>
             </div>
             <CodePreview :code="donutSnippet" filename="DonutChart.vue" />
         </DocDemoCard>
@@ -375,10 +370,9 @@ const themeKey = computed(() => themed.value.mode);
                 its side.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-                    <h4 class="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-100">Signups by plan</h4>
+                <Card title="Signups by plan" padding="sm" :ui="{ title: 'text-sm' }">
                     <VueApexCharts :key="themeKey" type="bar" height="300" width="100%" :options="barOptions" :series="barSeries" />
-                </div>
+                </Card>
             </div>
             <CodePreview :code="barSnippet" filename="BarComparison.vue" />
         </DocDemoCard>
@@ -390,10 +384,9 @@ const themeKey = computed(() => themed.value.mode);
                 to the average.
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto max-w-md rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-                    <h4 class="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-100">Plan usage</h4>
+                <Card title="Plan usage" padding="sm" class="mx-auto max-w-md" :ui="{ title: 'text-sm' }">
                     <VueApexCharts :key="themeKey" type="radialBar" height="330" width="100%" :options="radialOptions" :series="radialSeries" />
-                </div>
+                </Card>
             </div>
             <CodePreview :code="radialSnippet" filename="RadialRings.vue" />
         </DocDemoCard>
@@ -406,7 +399,7 @@ const themeKey = computed(() => themed.value.mode);
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div v-for="k in kpis" :key="k.label" class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+                    <Card v-for="k in kpis" :key="k.label" padding="sm">
                         <p class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ k.label }}</p>
                         <p class="mt-1 text-xl font-bold text-gray-900 dark:text-gray-100">{{ k.value }}</p>
                         <p
@@ -424,7 +417,7 @@ const themeKey = computed(() => themed.value.mode);
                             :options="sparkOptions(k.color)"
                             :series="[{ name: k.label, data: k.data }]"
                         />
-                    </div>
+                    </Card>
                 </div>
             </div>
             <CodePreview :code="sparkSnippet" filename="SparklineStatCards.vue" />

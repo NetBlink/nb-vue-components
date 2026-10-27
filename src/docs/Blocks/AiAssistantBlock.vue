@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onUnmounted, ref } from 'vue';
-import { TextInput, PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { TextInput, PrimaryButton, SecondaryButton, Card, Badge, IconCircle, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faWandMagicSparkles, faWrench, faChevronDown, faPaperPlane, faStop, faArrowRotateRight, faUser } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -115,20 +115,16 @@ function regenerate() {
 onUnmounted(stop);
 
 const snippet = [
-    '<div class="flex flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">',
+    '<Card padding="none">',
     '    <div class="flex items-center gap-3 border-b border-gray-200 p-4 dark:border-gray-700">',
-    '        <span class="flex size-9 items-center justify-center rounded-lg bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300">',
-    '            <NbIcon :name="faWandMagicSparkles" size="sm" />',
-    '        </span>',
+    '        <IconCircle :icon="faWandMagicSparkles" />',
     '        <p class="min-w-0 flex-1 truncate font-semibold text-gray-800 dark:text-gray-100">Assistant</p>',
-    '        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">gpt-4o-mini</span>',
+    '        <Badge label="gpt-4o-mini" />',
     '    </div>',
     '',
     '    <div ref="listEl" class="max-h-80 space-y-4 overflow-y-auto p-4">',
     '        <div v-for="message in messages" :key="message.id" class="flex gap-3" :class="message.role === \'user\' ? \'justify-end\' : \'\'">',
-    '            <span v-if="message.role === \'assistant\'" class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300">',
-    '                <NbIcon :name="faWandMagicSparkles" size="sm" />',
-    '            </span>',
+    '            <IconCircle v-if="message.role === \'assistant\'" :icon="faWandMagicSparkles" size="sm" />',
     '',
     '            <div v-if="message.role === \'user\'" class="max-w-[80%] rounded-lg bg-primary-600 px-3 py-2 text-sm text-white">{{ message.text }}</div>',
     '',
@@ -166,7 +162,7 @@ const snippet = [
     '            <PrimaryButton type="button" :disabled="streaming || !draft.trim()" @click="send()"><NbIcon :name="faPaperPlane" size="sm" /></PrimaryButton>',
     '        </div>',
     '    </div>',
-    '</div>',
+    '</Card>',
 ];
 </script>
 
@@ -181,30 +177,19 @@ const snippet = [
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto flex max-w-2xl flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Card padding="none" class="mx-auto max-w-2xl">
                     <div class="flex items-center gap-3 border-b border-gray-200 p-4 dark:border-gray-700">
-                        <span
-                            class="bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300 flex size-9 shrink-0 items-center justify-center rounded-lg"
-                        >
-                            <NbIcon :name="faWandMagicSparkles" size="sm" />
-                        </span>
+                        <IconCircle :icon="faWandMagicSparkles" />
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">Netblink Assistant</p>
                             <p class="truncate text-xs text-gray-500 dark:text-gray-400">Answers from your workspace</p>
                         </div>
-                        <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                            gpt-4o-mini
-                        </span>
+                        <Badge label="gpt-4o-mini" class="shrink-0" />
                     </div>
 
                     <div ref="listEl" class="max-h-80 space-y-4 overflow-y-auto p-4">
                         <div v-for="message in messages" :key="message.id" class="flex gap-3" :class="message.role === 'user' ? 'justify-end' : ''">
-                            <span
-                                v-if="message.role === 'assistant'"
-                                class="bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300 flex size-8 shrink-0 items-center justify-center rounded-lg"
-                            >
-                                <NbIcon :name="faWandMagicSparkles" size="sm" />
-                            </span>
+                            <IconCircle v-if="message.role === 'assistant'" :icon="faWandMagicSparkles" size="sm" />
 
                             <div
                                 v-if="message.role === 'user'"
@@ -287,7 +272,7 @@ const snippet = [
                             </PrimaryButton>
                         </div>
                     </div>
-                </div>
+                </Card>
             </div>
 
             <CodePreview :code="snippet" filename="AiAssistantPanel.vue" />

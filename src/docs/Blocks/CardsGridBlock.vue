@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Dropdown, DropdownLink, DropdownSeparator, GravatarImg, CodePreview } from '../../index';
+import { Dropdown, DropdownLink, DropdownSeparator, GravatarImg, Card, Badge, IconButton, IconCircle, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faEllipsisVertical, faEnvelope, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -17,11 +17,7 @@ const members = [
 
 const memberSnippet = [
     '<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">',
-    '    <div',
-    '        v-for="member in members"',
-    '        :key="member.email"',
-    '        class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800"',
-    '    >',
+    '    <Card v-for="member in members" :key="member.email" padding="sm">',
     '        <div class="flex items-start justify-between">',
     '            <div class="flex items-center gap-3">',
     '                <GravatarImg :email="member.email" :size="64" class="h-12 w-12 rounded-full" />',
@@ -32,9 +28,7 @@ const memberSnippet = [
     '            </div>',
     '            <Dropdown align="end" :alignOffset="0">',
     '                <template #trigger>',
-    '                    <button class="focusable rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200">',
-    '                        <NbIcon :name="faEllipsisVertical" class="h-4 w-4" />',
-    '                    </button>',
+    '                    <IconButton :icon="faEllipsisVertical" :label="`Actions for ${member.name}`" size="sm" />',
     '                </template>',
     '                <template #content>',
     '                    <DropdownLink :href="`/team/${member.email}`"><NbIcon :name="faCircleUser" class="h-4 w-4" /> View profile</DropdownLink>',
@@ -47,18 +41,8 @@ const memberSnippet = [
     '            </Dropdown>',
     '        </div>',
     '',
-    '        <span',
-    '            class="mt-3 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium"',
-    '            :class="',
-    '                member.online',
-    '                    ? \'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300\'',
-    '                    : \'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400\'',
-    '            "',
-    '        >',
-    '            <span class="size-2 rounded-full" :class="member.online ? \'bg-green-500\' : \'bg-gray-400\'" />',
-    '            {{ member.online ? \'Online\' : \'Offline\' }}',
-    '        </span>',
-    '    </div>',
+    "        <Badge dot class=\"mt-3\" :variant=\"member.online ? 'success' : 'neutral'\" :label=\"member.online ? 'Online' : 'Offline'\" />",
+    '    </Card>',
     '</div>',
 ];
 
@@ -102,11 +86,7 @@ const conversations = ref([
     },
 ]);
 
-const statusStyles: Record<string, string> = {
-    Open: 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300',
-    Urgent: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300',
-    Closed: 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400',
-};
+const statusVariants = { Open: 'primary', Urgent: 'danger', Closed: 'neutral' } as const;
 
 function openConversation(id: number) {
     const conversation = conversations.value.find((c) => c.id === id);
@@ -115,29 +95,30 @@ function openConversation(id: number) {
 
 const conversationSnippet = [
     '<div class="space-y-3">',
-    '    <div',
+    '    <!-- clickable: role="button", Enter/Space and a hover state come with the Card -->',
+    '    <Card',
     '        v-for="conversation in conversations"',
     '        :key="conversation.id"',
+    '        clickable',
+    '        padding="sm"',
+    "        :class=\"conversation.unread && 'ring-2 ring-primary-500/50'\"",
     '        @click="openConversation(conversation.id)"',
-    '        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50"',
-    '        :class="conversation.unread ? \'ring-2 ring-primary-500/50\' : \'\'"',
     '    >',
-    '        <span class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300">',
-    '            <NbIcon :name="faEnvelope" class="h-5 w-5" />',
-    '            <span v-if="conversation.unread" class="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-primary-500 ring-2 ring-white dark:ring-gray-800" />',
-    '        </span>',
-    '',
-    '        <div class="min-w-0 flex-1">',
-    '            <div class="flex items-center justify-between gap-2">',
-    '                <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ conversation.from }}</p>',
-    '                <span class="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium" :class="statusStyles[conversation.status]">',
-    '                    {{ conversation.status }}',
-    '                </span>',
+    '        <div class="flex items-start gap-3">',
+    '            <span class="relative shrink-0">',
+    '                <IconCircle :icon="faEnvelope" />',
+    '                <span v-if="conversation.unread" class="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-primary-500 ring-2 ring-white dark:ring-gray-800" />',
+    '            </span>',
+    '            <div class="min-w-0 flex-1">',
+    '                <div class="flex items-center justify-between gap-2">',
+    '                    <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ conversation.from }}</p>',
+    '                    <Badge :variant="statusVariants[conversation.status]" :label="conversation.status" />',
+    '                </div>',
+    '                <p class="mt-1 truncate text-sm text-gray-600 dark:text-gray-400">{{ conversation.preview }}</p>',
+    '                <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">{{ conversation.messages }} messages &middot; {{ conversation.time }}</p>',
     '            </div>',
-    '            <p class="mt-1 truncate text-sm text-gray-600 dark:text-gray-400">{{ conversation.preview }}</p>',
-    '            <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">{{ conversation.messages }} messages &middot; {{ conversation.time }}</p>',
     '        </div>',
-    '    </div>',
+    '    </Card>',
     '</div>',
 ];
 </script>
@@ -152,11 +133,7 @@ const conversationSnippet = [
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    <div
-                        v-for="member in members"
-                        :key="member.email"
-                        class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    <Card v-for="member in members" :key="member.email" padding="sm">
                         <div class="flex items-start justify-between">
                             <div class="flex items-center gap-3">
                                 <GravatarImg :email="member.email" :size="64" class="h-12 w-12 rounded-full" />
@@ -167,11 +144,7 @@ const conversationSnippet = [
                             </div>
                             <Dropdown align="end" :alignOffset="0">
                                 <template #trigger>
-                                    <button
-                                        class="focusable rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200"
-                                    >
-                                        <NbIcon :name="faEllipsisVertical" class="h-4 w-4" />
-                                    </button>
+                                    <IconButton :icon="faEllipsisVertical" :label="`Actions for ${member.name}`" size="sm" />
                                 </template>
                                 <template #content>
                                     <DropdownLink href="#" @click.prevent><NbIcon :name="faCircleUser" class="h-4 w-4" /> View profile</DropdownLink>
@@ -182,18 +155,8 @@ const conversationSnippet = [
                             </Dropdown>
                         </div>
 
-                        <span
-                            class="mt-3 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium"
-                            :class="
-                                member.online
-                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
-                                    : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
-                            "
-                        >
-                            <span class="size-2 rounded-full" :class="member.online ? 'bg-green-500' : 'bg-gray-400'" />
-                            {{ member.online ? 'Online' : 'Offline' }}
-                        </span>
-                    </div>
+                        <Badge dot class="mt-3" :variant="member.online ? 'success' : 'neutral'" :label="member.online ? 'Online' : 'Offline'" />
+                    </Card>
                 </div>
             </div>
             <CodePreview :code="memberSnippet" filename="TeamGrid.vue" />
@@ -205,34 +168,32 @@ const conversationSnippet = [
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="space-y-3">
-                    <div
+                    <Card
                         v-for="conversation in conversations"
                         :key="conversation.id"
+                        clickable
+                        padding="sm"
+                        :class="conversation.unread && 'ring-2 ring-primary-500/50'"
                         @click="openConversation(conversation.id)"
-                        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700/50"
-                        :class="conversation.unread ? 'ring-2 ring-primary-500/50' : ''"
                     >
-                        <span
-                            class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-300"
-                        >
-                            <NbIcon :name="faEnvelope" class="h-5 w-5" />
-                            <span
-                                v-if="conversation.unread"
-                                class="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-primary-500 ring-2 ring-white dark:ring-gray-800"
-                            />
-                        </span>
-
-                        <div class="min-w-0 flex-1">
-                            <div class="flex items-center justify-between gap-2">
-                                <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ conversation.from }}</p>
-                                <span class="shrink-0 rounded-full px-2 py-0.5 text-xs font-medium" :class="statusStyles[conversation.status]">
-                                    {{ conversation.status }}
-                                </span>
+                        <div class="flex items-start gap-3">
+                            <span class="relative shrink-0">
+                                <IconCircle :icon="faEnvelope" />
+                                <span
+                                    v-if="conversation.unread"
+                                    class="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-primary-500 ring-2 ring-white dark:ring-gray-800"
+                                />
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-2">
+                                    <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ conversation.from }}</p>
+                                    <Badge :variant="statusVariants[conversation.status as keyof typeof statusVariants]" :label="conversation.status" />
+                                </div>
+                                <p class="mt-1 truncate text-sm text-gray-600 dark:text-gray-400">{{ conversation.preview }}</p>
+                                <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">{{ conversation.messages }} messages &middot; {{ conversation.time }}</p>
                             </div>
-                            <p class="mt-1 truncate text-sm text-gray-600 dark:text-gray-400">{{ conversation.preview }}</p>
-                            <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">{{ conversation.messages }} messages &middot; {{ conversation.time }}</p>
                         </div>
-                    </div>
+                    </Card>
                 </div>
             </div>
             <CodePreview :code="conversationSnippet" filename="InboxList.vue" />

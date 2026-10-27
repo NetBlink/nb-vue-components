@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PrimaryButton, SecondaryButton, CodePreview } from '../../index';
+import { PrimaryButton, SecondaryButton, Card, IconCircle, CodePreview } from '../../index';
 import { NbIcon } from '../../icons';
 import { faBolt, faShieldHalved, faChartLine, faCheck } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
@@ -22,13 +22,11 @@ const heroSnippet = [
 // Feature grid
 const featureGridSnippet = [
     '<div class="grid grid-cols-1 gap-6 md:grid-cols-3">',
-    '    <div v-for="feature in features" :key="feature.title" class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">',
-    '        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-400">',
-    '            <NbIcon :name="feature.icon" size="lg" />',
-    '        </div>',
+    '    <Card v-for="feature in features" :key="feature.title">',
+    '        <IconCircle :icon="feature.icon" size="lg" class="mb-4" />',
     '        <h4 class="text-base font-semibold text-gray-800 dark:text-gray-100">{{ feature.title }}</h4>',
     '        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ feature.copy }}</p>',
-    '    </div>',
+    '    </Card>',
     '</div>',
 ];
 
@@ -150,19 +148,11 @@ const footerSnippet = [
             </p>
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
                 <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-                    <div
-                        v-for="feature in features"
-                        :key="feature.title"
-                        class="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800"
-                    >
-                        <div
-                            class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-400"
-                        >
-                            <NbIcon :name="feature.icon" size="lg" />
-                        </div>
+                    <Card v-for="feature in features" :key="feature.title">
+                        <IconCircle :icon="feature.icon" size="lg" class="mb-4" />
                         <h4 class="text-base font-semibold text-gray-800 dark:text-gray-100">{{ feature.title }}</h4>
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ feature.copy }}</p>
-                    </div>
+                    </Card>
                 </div>
             </div>
             <CodePreview :code="featureGridSnippet" filename="FeatureGrid.vue" />

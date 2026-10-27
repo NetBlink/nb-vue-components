@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref } from 'vue';
-import { GravatarImg, PrimaryButton, CodePreview } from '../../index';
-import { NbIcon } from '../../icons';
+import { GravatarImg, Card, Badge, IconButton, NbTransition, NbTransitionGroup, CodePreview } from '../../index';
 import { faPaperclip, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import DocDemoCard from '../HelperComponents/DocDemoCard.vue';
 
@@ -66,21 +65,21 @@ function send() {
 }
 
 const snippet = [
-    '<div class="flex flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">',
+    '<Card padding="none">',
     '    <!-- Header -->',
     '    <div class="flex items-center gap-3 border-b border-gray-200 p-3 dark:border-gray-700">',
     '        <GravatarImg :email="contact.email" :size="80" class="h-10 w-10 shrink-0 rounded-full" />',
     '        <div class="min-w-0 flex-1">',
     '            <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ contact.name }}</p>',
-    '            <span class="inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">',
-    '                <span class="size-2 rounded-full bg-green-500" /> Online',
-    '            </span>',
+    '            <Badge dot variant="success" label="Online" />',
     '        </div>',
     '    </div>',
     '',
     '    <!-- Messages -->',
     '    <div ref="pane" class="max-h-80 space-y-3 overflow-y-auto p-4">',
     '        <p class="text-center text-xs text-gray-400 dark:text-gray-500">Today</p>',
+    '        <!-- new messages slide in -->',
+    '        <NbTransitionGroup tag="div" preset="slide-up" class="space-y-3">',
     '        <div v-for="message in messages" :key="message.id" class="flex" :class="message.from === \'me\' ? \'justify-end\' : \'justify-start\'">',
     '            <div class="max-w-[75%] min-w-0">',
     '                <div',
@@ -96,27 +95,26 @@ const snippet = [
     '                <p class="mt-1 text-xs text-gray-400 dark:text-gray-500" :class="message.from === \'me\' ? \'text-right\' : \'\'">{{ message.time }}</p>',
     '            </div>',
     '        </div>',
+    '        </NbTransitionGroup>',
+    '        <NbTransition>',
     '        <div v-if="typing" class="flex gap-1 rounded-2xl rounded-bl-sm bg-gray-100 px-3 py-3 w-fit dark:bg-gray-700">',
     '            <span v-for="dot in 3" :key="dot" class="chat-dot size-1.5 rounded-full bg-gray-400 dark:bg-gray-300" :style="{ animationDelay: `${(dot - 1) * 0.15}s` }" />',
     '        </div>',
+    '        </NbTransition>',
     '    </div>',
     '',
     '    <!-- Composer -->',
     '    <form class="flex items-center gap-2 border-t border-gray-200 p-3 dark:border-gray-700" @submit.prevent="send">',
-    '        <button type="button" class="focusable shrink-0 rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200">',
-    '            <NbIcon :name="faPaperclip" size="sm" />',
-    '        </button>',
+    '        <IconButton :icon="faPaperclip" label="Attach a file" class="rounded-full" />',
     '        <input',
     '            v-model="draft"',
     '            type="text"',
     '            placeholder="Write a message…"',
     '            class="focusable min-w-0 flex-1 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100"',
     '        />',
-    '        <PrimaryButton type="submit" :disabled="!draft.trim()" class="rounded-full">',
-    '            <NbIcon :name="faPaperPlane" size="sm" />',
-    '        </PrimaryButton>',
+    '        <IconButton type="submit" :icon="faPaperPlane" label="Send" theme="primary" :disabled="!draft.trim()" class="rounded-full" />',
     '    </form>',
-    '</div>',
+    '</Card>',
 ];
 </script>
 
@@ -127,25 +125,23 @@ const snippet = [
         <DocDemoCard>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
                 A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an
-                animated typing indicator, and a composer with a PrimaryButton send. Sending scrolls the pane and triggers a canned reply.
+                animated typing indicator, and a composer with an IconButton send. Sending scrolls the pane and triggers a canned reply.
             </p>
 
             <div class="mb-6 rounded border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">
-                <div class="mx-auto flex max-w-lg flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Card padding="none" class="mx-auto max-w-lg">
                     <div class="flex items-center gap-3 border-b border-gray-200 p-3 dark:border-gray-700">
                         <GravatarImg :email="contact.email" :size="80" class="h-10 w-10 shrink-0 rounded-full" />
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ contact.name }}</p>
-                            <span class="inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                                <span class="size-2 rounded-full bg-green-500" />
-                                Online
-                            </span>
+                            <Badge dot variant="success" label="Online" />
                         </div>
                     </div>
 
                     <div ref="pane" class="max-h-80 space-y-3 overflow-y-auto p-4">
                         <p class="text-center text-xs text-gray-400 dark:text-gray-500">Today</p>
 
+                        <NbTransitionGroup tag="div" preset="slide-up" class="space-y-3">
                         <div
                             v-for="message in messages"
                             :key="message.id"
@@ -172,6 +168,9 @@ const snippet = [
                             </div>
                         </div>
 
+                        </NbTransitionGroup>
+
+                        <NbTransition>
                         <div v-if="typing" class="flex w-fit gap-1 rounded-2xl rounded-bl-sm bg-gray-100 px-3 py-3 dark:bg-gray-700">
                             <span
                                 v-for="dot in 3"
@@ -180,16 +179,11 @@ const snippet = [
                                 :style="{ animationDelay: `${(dot - 1) * 0.15}s` }"
                             />
                         </div>
+                        </NbTransition>
                     </div>
 
                     <form class="flex items-center gap-2 border-t border-gray-200 p-3 dark:border-gray-700" @submit.prevent="send">
-                        <button
-                            type="button"
-                            aria-label="Attach a file"
-                            class="focusable shrink-0 rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200"
-                        >
-                            <NbIcon :name="faPaperclip" size="sm" />
-                        </button>
+                        <IconButton :icon="faPaperclip" label="Attach a file" class="rounded-full" />
                         <input
                             v-model="draft"
                             type="text"
@@ -197,11 +191,9 @@ const snippet = [
                             placeholder="Write a message…"
                             class="focusable min-w-0 flex-1 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 placeholder-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500"
                         />
-                        <PrimaryButton type="submit" :disabled="!draft.trim()" class="rounded-full">
-                            <NbIcon :name="faPaperPlane" size="sm" />
-                        </PrimaryButton>
+                        <IconButton type="submit" :icon="faPaperPlane" label="Send" theme="primary" :disabled="!draft.trim()" class="rounded-full" />
                     </form>
-                </div>
+                </Card>
             </div>
 
             <CodePreview :code="snippet" filename="ChatPanel.vue" />

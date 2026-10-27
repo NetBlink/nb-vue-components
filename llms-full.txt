@@ -2589,7 +2589,7 @@ A chat panel composed from TextInput, PrimaryButton and SecondaryButton: replies
 
 Source: `src/docs/Blocks/AiAssistantBlock.vue`
 
-Uses: `NbIcon`, `TextInput`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
+Uses: `Card`, `IconCircle`, `Badge`, `NbIcon`, `TextInput`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
 
 ### App Navbar
 
@@ -2613,7 +2613,7 @@ A responsive team member grid built from GravatarImg avatars, an online status p
 
 Source: `src/docs/Blocks/CardsGridBlock.vue`
 
-Uses: `GravatarImg`, `Dropdown`, `NbIcon`, `DropdownLink`, `DropdownSeparator`, `CodePreview`
+Uses: `Card`, `GravatarImg`, `Dropdown`, `IconButton`, `DropdownLink`, `NbIcon`, `DropdownSeparator`, `Badge`, `IconCircle`, `CodePreview`
 
 ### Charts & Data Viz
 
@@ -2621,15 +2621,15 @@ Two series on a smooth-curve area chart with a gradient fill that fades to trans
 
 Source: `src/docs/Blocks/ChartsBlock.vue`
 
-Uses: `CodePreview`, `NbIcon`
+Uses: `Card`, `CodePreview`, `NbIcon`
 
 ### Chat Interface
 
-A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an animated typing indicator, and a composer with a PrimaryButton send. Sending scrolls the pane and triggers a canned reply.
+A two-person messenger: GravatarImg header with an online pill, a scrollable bubble pane with day divider and timestamps, an animated typing indicator, and a composer with an IconButton send. Sending scrolls the pane and triggers a canned reply.
 
 Source: `src/docs/Blocks/ChatBlock.vue`
 
-Uses: `GravatarImg`, `NbIcon`, `PrimaryButton`, `CodePreview`
+Uses: `Card`, `GravatarImg`, `Badge`, `NbTransitionGroup`, `NbTransition`, `IconButton`, `CodePreview`
 
 ### CRUD Index Page
 
@@ -2647,13 +2647,21 @@ Source: `src/docs/Blocks/DashboardBlock.vue`
 
 Uses: `Card`, `Skeleton`, `DataTile`, `Spinner`, `SecondaryButton`, `IconCircle`, `EmptyState`, `Switch`, `CodePreview`
 
+### Empty & Error States
+
+A basic EmptyState: icon, title, short description, and a single call-to-action button.
+
+Source: `src/docs/Blocks/EmptyStatesBlock.vue`
+
+Uses: `EmptyState`, `PrimaryButton`, `NbIcon`, `SecondaryButton`, `LinkButton`, `CodePreview`
+
 ### Feeds & Timelines
 
-A reverse-chronological activity timeline: each event is a tinted row with a solid icon circle, a bold title with a right-aligned relative time, and a detail line. Pure markup plus NbIcon. Swap the tone map for your own statuses.
+A reverse-chronological activity feed: Timeline with layout="cards" gives each event a tinted row, an icon, a title with a right-aligned relative time, and a detail line. Map your own statuses to the colour variants.
 
 Source: `src/docs/Blocks/FeedTimelineBlock.vue`
 
-Uses: `NbIcon`, `Select`, `CodePreview`
+Uses: `Timeline`, `Select`, `Badge`, `Card`, `EmptyState`, `CodePreview`
 
 ### Form Layouts
 
@@ -2669,7 +2677,7 @@ A gradient hero band with an eyebrow pill, headline, supporting copy, and a CTA 
 
 Source: `src/docs/Blocks/MarketingBlock.vue`
 
-Uses: `PrimaryButton`, `SecondaryButton`, `NbIcon`, `CodePreview`
+Uses: `PrimaryButton`, `SecondaryButton`, `Card`, `IconCircle`, `NbIcon`, `CodePreview`
 
 ### Mega Menu
 
@@ -2694,14 +2702,6 @@ A three-step wizard: a Stepper whose rails fill as you advance, over a single fo
 Source: `src/docs/Blocks/WizardBlock.vue`
 
 Uses: `Stepper`, `Alert`, `Card`, `Input`, `Select`, `RadioButton`, `Checkbox`, `SecondaryButton`, `PrimaryButton`, `CodePreview`
-
-### No projects yet
-
-A basic empty state: centered gray icon, title, short description, and a single call-to-action button.
-
-Source: `src/docs/Blocks/EmptyStatesBlock.vue`
-
-Uses: `NbIcon`, `PrimaryButton`, `SecondaryButton`, `LinkButton`, `CodePreview`
 
 ### Orderable Fields
 
@@ -2753,11 +2753,11 @@ Uses: `NavLink`, `NbIcon`, `NavCollapse`, `Input`, `IconButton`, `EmptyState`, `
 
 ### Skeletons & Loading
 
-Skeleton primitives: an animated text-line stack, an avatar with two supporting lines, and an image card. All use animate-pulse on gray-200 / dark:gray-700 shapes.
+Skeleton primitives: a text-line stack, an avatar row with two supporting lines, and an image card built from a rect.
 
 Source: `src/docs/Blocks/SkeletonsBlock.vue`
 
-Uses: `Switch`, `SubmitButton`, `CodePreview`
+Uses: `Skeleton`, `Card`, `Switch`, `Avatar`, `SubmitButton`, `CodePreview`
 
 ### Tabbed Detail Page
 
