@@ -279,6 +279,7 @@ Full API for every component (props, defaults, slots, emits) is in `llms-full.tx
 - **CodePreview**, Read-only code block with a header bar showing a filename and a copy-to-clipboard button.
 - **CollapsableSection**, Card-shaped collapsible panel built on reka-ui `Collapsible`: a bordered box whose whole header row is the trigger, with a chevron that rotates when open.
 - **Collapse**, Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `SecondaryButton` whose label comes from the `button` tuple `[shown, hidden]` and can be replaced entirely via the `trigger` slot.
+- **ConfirmDialog**, Renders the questions asked with `confirm()` / `useConfirm()`, one at a time.
 - **ContentLoader**, Shows a placeholder (`#loading`, usually a Skeleton) while `loading` is true and the real content once it is false, cross-fading between them and easing the height change instead of popping.
 - **CopyButton**, the icon turns into a check and screen readers hear "Copied".
 - **DangerButton**, Danger Button component.

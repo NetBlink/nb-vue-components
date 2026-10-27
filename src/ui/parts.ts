@@ -118,6 +118,7 @@ export interface NbParts {
     Timeline: 'root' | 'item' | 'marker' | 'connector' | 'content' | 'title' | 'time' | 'description';
     SubNav: 'root' | 'list' | 'item' | 'badge' | 'indicator';
     CopyButton: 'root' | 'icon' | 'status';
+    ConfirmDialog: 'root' | 'actions';
     StarRating: 'root' | 'star' | 'fill';
     Divider: 'root' | 'line' | 'label';
     ContentLoader: 'root' | 'loading' | 'content';

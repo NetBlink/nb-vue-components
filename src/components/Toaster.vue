@@ -30,6 +30,7 @@
  * @motion fancy - springier, longer entries and a zoomed exit; the stack glides on a spring (override with `toast.move`)
  */
 
+import ConfirmDialog from './ConfirmDialog.vue';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { ToastProvider, ToastViewport } from 'reka-ui';
 import Toast from './Toast.vue';
@@ -374,5 +375,7 @@ onBeforeUnmount(() => {
                 @close="toast.dismiss(item.id)"
             />
         </ToastViewport>
+        <!-- confirm() questions render here too, so apps need nothing extra in the layout -->
+        <ConfirmDialog />
     </ToastProvider>
 </template>

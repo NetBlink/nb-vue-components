@@ -268,7 +268,7 @@ takes a `motion` prop for one instance. Each component's **Motion** line says wh
 
 # Component API reference
 
-Generated from source (94 exported components). Do not edit by hand, run `npm run docs:llms`.
+Generated from source (95 exported components). Do not edit by hand, run `npm run docs:llms`.
 
 ### Alert
 
@@ -567,6 +567,24 @@ Minimal show/hide disclosure built on reka-ui `Collapsible`, rendering a `Second
 | `body` | the spacing wrapper around the slot |
 
 **Motion:** `off`: opens and closes instantly; `simple`: the content's height animates quickly; `smooth`: the content's height animates in and out, the chevron turns; `fancy`: the height opens on a spring.
+
+### ConfirmDialog
+
+Renders the questions asked with `confirm()` / `useConfirm()`, one at a time. `<Toaster />` already includes one, so most apps never place it themselves; mount it directly only in an app without a Toaster. If several are mounted, the first one answers.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `ui` | `UiProp<NbParts['ConfirmDialog']>` | - | Classes per part, merged over the defaults |
+| `motion` | `MotionLevel` | - | Motion level for this instance |
+
+**Parts** (`:ui` keys; `class` goes to `root`):
+
+| Part | Element |
+| --- | --- |
+| `root` | the dialog panel (NewModal content) |
+| `actions` | the button row |
+
+**Motion:** `off`: opens and closes instantly; `simple`: a quick fade; `smooth`: the dialog fades and scales in, as NewModal does; `fancy`: the dialog grows out of the button that asked.
 
 ### ContentLoader
 

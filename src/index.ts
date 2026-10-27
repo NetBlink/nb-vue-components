@@ -85,6 +85,7 @@ import SubNav from './components/SubNav.vue';
 import CopyButton from './components/CopyButton.vue';
 import NbTransition from './components/NbTransition.vue';
 import NbTransitionGroup from './components/NbTransitionGroup.vue';
+import ConfirmDialog from './components/ConfirmDialog.vue';
 import StarRating from './components/StarRating.vue';
 import Divider from './components/Divider.vue';
 import ContentLoader from './components/ContentLoader.vue';
@@ -143,7 +144,7 @@ const components = {
     InfoButton, SuccessButton, ResponsiveNavLink, SecondaryButton, Section, Spinner, Stats,
     NavCollapse, DescriptionList, DescriptionListItem, DottedCarousel, Collapse, Tooltip, Tabs, Tab,
     Toast, Toaster, Button, DataTile, IconCircle,
-    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup, StarRating, Divider, ContentLoader, InlineCode,
+    Badge, Avatar, AvatarGroup, IconButton, Card, Breadcrumbs, PageHeader, EmptyState, Progress, Skeleton, Stepper, Timeline, SubNav, CopyButton, NbTransition, NbTransitionGroup, ConfirmDialog, StarRating, Divider, ContentLoader, InlineCode,
     // Helper components
     CodePreview, H2, PropsTable, InputWrapper, UnderConstruction,
 };
@@ -286,6 +287,7 @@ export {
     ContentLoader,
     Divider,
     StarRating,
+    ConfirmDialog,
     // Helper components
     CodePreview,
     H2,
@@ -331,6 +333,7 @@ export type { SubNavProps, SubNavItem } from './components/SubNav.vue';
 export type { CopyButtonProps, CopyButtonEmits } from './components/CopyButton.vue';
 export type { NbTransitionProps } from './components/NbTransition.vue';
 export type { NbTransitionGroupProps } from './components/NbTransitionGroup.vue';
+export type { ConfirmDialogProps } from './components/ConfirmDialog.vue';
 export type { StarRatingProps, StarRatingEmits } from './components/StarRating.vue';
 export type { DividerProps } from './components/Divider.vue';
 export type { ContentLoaderProps } from './components/ContentLoader.vue';

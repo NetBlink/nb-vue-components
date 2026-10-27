@@ -392,6 +392,37 @@
             }
         ]
     },
+    "ConfirmDialog": {
+        "parts": [
+            {
+                "name": "root",
+                "description": "the dialog panel (NewModal content)"
+            },
+            {
+                "name": "actions",
+                "description": "the button row"
+            }
+        ],
+        "classPart": "root",
+        "motion": [
+            {
+                "level": "off",
+                "description": "opens and closes instantly"
+            },
+            {
+                "level": "simple",
+                "description": "a quick fade"
+            },
+            {
+                "level": "smooth",
+                "description": "the dialog fades and scales in, as NewModal does"
+            },
+            {
+                "level": "fancy",
+                "description": "the dialog grows out of the button that asked"
+            }
+        ]
+    },
     "ContentLoader": {
         "parts": [
             {

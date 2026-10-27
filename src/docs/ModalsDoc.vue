@@ -15,6 +15,7 @@ import {
     PropsTable, InlineCode } from '../index';
 import { useForm } from '@inertiajs/vue3';
 import DocDemoCard from './HelperComponents/DocDemoCard.vue';
+import ConfirmDialogDoc from './sections/ConfirmDialogDoc.vue';
 
 // Modal state management
 const showBasic = ref(false);
@@ -245,6 +246,8 @@ const newModalSlots = [
             </DocDemoCard>
         </section>
 
+        <ConfirmDialogDoc />
+
         <section id="form">
             <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Form dialog</h3>
             <DocDemoCard>
@@ -350,6 +353,6 @@ const newModalSlots = [
             </div>
         </section>
 
-        <DocComponentMeta :names="['NewModal', 'Modal']" />
+        <DocComponentMeta :names="['NewModal', 'Modal', 'ConfirmDialog']" />
     </div>
 </template>
