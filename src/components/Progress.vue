@@ -79,7 +79,8 @@ const barMotion = computed(() => {
 </script>
 
 <template>
-    <div v-bind="attrs()" :class="cls('root', 'w-full')">
+    <!-- aria-label belongs to the progressbar below, not the wrapper -->
+    <div v-bind="attrs()" :aria-label="undefined" :class="cls('root', 'w-full')">
         <div v-if="label || (showValue && !indeterminate)" :class="cls('header', 'mb-1.5 flex items-center justify-between gap-3 text-xs font-medium text-gray-600 dark:text-gray-300')">
             <span v-if="label" :class="cls('label')">{{ label }}</span>
             <span v-if="showValue && !indeterminate" :class="cls('value', 'ml-auto tabular-nums')">{{ Math.round(percent) }}%</span>
