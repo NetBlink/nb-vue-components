@@ -307,7 +307,7 @@ export {
     InputWrapper,
     UnderConstruction,
 };
-export * from './Helpers';
+export { getRoute, numberFormat, moneyFormat, hasPermission, setInertiaRouter, getInertiaRouter, setInertiaPage, getInertiaPage, formatFileSize, copyText } from './Helpers';
 export * from './composables/useTable';
 export * from './composables';
 export * from './components/Tables/types';

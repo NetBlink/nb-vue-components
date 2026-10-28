@@ -26,7 +26,7 @@ const visible = computed(() =>
 const toggleTag = (tag: string) => (filters.tags = filters.tags.includes(tag) ? filters.tags.filter((t) => t !== tag) : [...filters.tags, tag]);
 
 const code = [
-    "const { filters, isFiltered, reset } = useQueryFilters({ search: '', status: 'all', tags: [], archived: false });",
+    "const { filters, isFiltered, reset } = useQueryFilters({ search: '', status: 'all', tags: [] as string[], archived: false });",
     '',
     '<FilterBar v-model:search="filters.search" :filtered="isFiltered" @clear="reset">',
     '    <Select v-model="filters.status" name="status" no-label :options="statusOptions" />',

@@ -651,7 +651,9 @@ nav::-webkit-scrollbar-thumb:hover {
         border-color var(--nb-theme-fade) ease,
         color var(--nb-theme-fade) ease,
         fill var(--nb-theme-fade) ease,
-        stroke var(--nb-theme-fade) ease !important;
+        stroke var(--nb-theme-fade) ease,
+        transform var(--nb-theme-fade) var(--ease-spring),
+        translate var(--nb-theme-fade) var(--ease-spring) !important;
 }
 
 /* Dark-mode switch at fancy: the new theme is revealed by a growing circle (script drives clip-path). */

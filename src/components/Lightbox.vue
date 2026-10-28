@@ -51,10 +51,11 @@ const index = defineModel<number>('index', { default: 0 });
 const { cls, attrs, motionAttrs, anim, level } = useUi('Lightbox', props, { classPart: 'panel' });
 
 const count = computed(() => props.images.length);
-const current = computed(() => props.images[Math.min(Math.max(index.value, 0), Math.max(count.value - 1, 0))]);
+const shown = computed(() => Math.min(Math.max(index.value, 0), Math.max(count.value - 1, 0)));
+const current = computed(() => props.images[shown.value]);
 const go = (step: number) => {
     if (count.value < 2) return;
-    index.value = (index.value + step + count.value) % count.value;
+    index.value = (shown.value + step + count.value) % count.value;
 };
 
 const MOTION: NbMotionTable<'overlay' | 'panel'> = {
@@ -133,14 +134,14 @@ const CONTROL = 'text-white hover:bg-white/15 hover:text-white focus-visible:rin
             <DialogContent
                 v-bind="attrs()"
                 aria-describedby=""
-                :class="cls('panel', 'fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 p-4 focus:outline-none sm:p-10', motionFor('panel'))"
+                :class="cls('panel', 'fixed inset-0 z-50 flex touch-pan-y flex-col items-center justify-center gap-3 p-4 focus:outline-none sm:p-10', motionFor('panel'))"
                 :style="origin"
                 @keydown="onKeydown"
                 @pointerdown="onPointerDown"
                 @pointerup="onPointerUp"
                 @click="onPanelClick"
             >
-                <DialogTitle class="sr-only">{{ current?.alt || `Image ${index + 1} of ${count}` }}</DialogTitle>
+                <DialogTitle class="sr-only">{{ current?.alt || `Image ${shown + 1} of ${count}` }}</DialogTitle>
                 <div data-lightbox-backdrop class="relative flex min-h-0 w-full flex-1 items-center justify-center">
                     <!-- Paging is frequent: a quick cross-fade at every level, so next/previous never feels slow -->
                     <NbTransition mode="out-in" :motion="level === 'off' ? 'off' : 'simple'">
@@ -155,7 +156,7 @@ const CONTROL = 'text-white hover:bg-white/15 hover:text-white focus-visible:rin
                     </NbTransition>
                 </div>
                 <p v-if="current?.caption" :class="cls('caption', 'max-w-2xl text-center text-sm text-white/80')">{{ current.caption }}</p>
-                <span v-if="count > 1" :class="cls('counter', 'text-xs tracking-wide text-white/60 tabular-nums')">{{ index + 1 }} / {{ count }}</span>
+                <span v-if="count > 1" :class="cls('counter', 'text-xs tracking-wide text-white/60 tabular-nums')">{{ shown + 1 }} / {{ count }}</span>
                 <IconButton v-if="count > 1" :icon="PREV" label="Previous image" size="lg" :class="cls('prev', 'absolute top-1/2 left-2 -translate-y-1/2 sm:left-4', CONTROL)" @click="go(-1)" />
                 <IconButton v-if="count > 1" :icon="NEXT" label="Next image" size="lg" :class="cls('next', 'absolute top-1/2 right-2 -translate-y-1/2 sm:right-4', CONTROL)" @click="go(1)" />
                 <DialogClose as-child>

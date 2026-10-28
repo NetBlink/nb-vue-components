@@ -46,7 +46,7 @@ export function fromQuery<T extends Record<string, unknown>>(search: string, def
         }
         const raw = params.get(key);
         if (raw === null) continue;
-        if (typeof fallback === 'number') out[key] = Number.isNaN(Number(raw)) ? fallback : Number(raw);
+        if (typeof fallback === 'number') out[key] = raw.trim() === '' || Number.isNaN(Number(raw)) ? fallback : Number(raw);
         else if (typeof fallback === 'boolean') out[key] = raw === '1' || raw === 'true';
         else out[key] = raw;
     }

@@ -79,7 +79,7 @@ const fillMotion = computed(() => (level.value === 'smooth' || level.value === '
         v-if="readonly"
         v-bind="attrs()"
         role="img"
-        :aria-label="`${modelValue} out of ${max}`"
+        :aria-label="`${label}: ${modelValue} out of ${max} stars`"
         :class="cls('root', 'inline-flex items-center gap-0.5')"
     >
         <span v-for="n in max" :key="n" :class="cls('star', 'relative inline-block', SIZES[size])" aria-hidden="true">
