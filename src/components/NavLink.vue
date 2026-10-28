@@ -13,6 +13,10 @@
  * @part root - the `Link`
  * @part icon - the icon slot wrapper
  * @part label - the label `<span>`
+ * @motion off - the active colours switch instantly
+ * @motion simple - colours change quickly
+ * @motion smooth - background and colour ease in
+ * @motion fancy - the active highlight pops in on a spring and links lift slightly on hover
  */
 
 import { computed } from 'vue';
@@ -36,13 +40,20 @@ export interface NavLinkProps {
 
 const props = defineProps<NavLinkProps>();
 
-const { cls, attrs } = useUi('NavLink', props);
+const { cls, attrs, level } = useUi('NavLink', props);
 
-const classes = computed(() =>
-    props.active
-        ? 'cursor-pointer focusable flex items-center p-2 text-base font-normal rounded-lg bg-accent-100 text-accent-900 dark:bg-primary-900/50 dark:text-primary-100'
-        : 'cursor-pointer focusable flex items-center p-2 text-base font-normal rounded-lg text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700'
-);
+const BASE = 'cursor-pointer focusable flex items-center rounded-lg px-3 py-2 text-sm font-medium';
+const ACTIVE = 'bg-primary-100 text-primary-800 dark:bg-primary-900/60 dark:text-primary-100';
+const IDLE = 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100';
+const MOTION: Record<MotionLevel, string> = {
+    off: '',
+    simple: 'transition-colors duration-150',
+    smooth: 'transition-colors duration-200 ease-(--ease-emphasised)',
+    fancy: 'transition-[color,background-color,translate] duration-300 ease-(--ease-spring) hover:-translate-y-px',
+};
+
+// fancy: the highlight pops in when a link becomes active.
+const classes = computed(() => [BASE, props.active ? ACTIVE : IDLE, MOTION[level.value], props.active && level.value === 'fancy' && 'animate-pop-in']);
 </script>
 
 <template>

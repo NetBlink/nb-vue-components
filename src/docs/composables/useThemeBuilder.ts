@@ -92,7 +92,7 @@ const DEFAULTS: ThemeState = {
     motion: {
         easing:        'cubic-bezier(0.16, 1, 0.3, 1)',
         durationQuick: '150ms',
-        durationBase:  '400ms',
+        durationBase:  '260ms',
     },
 };
 

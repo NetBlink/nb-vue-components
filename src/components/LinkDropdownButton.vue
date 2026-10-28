@@ -53,13 +53,14 @@ const MOTION: NbMotionTable<'content'> = {
     simple: { content: { enter: 'animate-fade-in-quick', leave: 'animate-fade-out' } },
     smooth: {
         content: {
-            enter: 'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade',
+            // Popovers open at --duration-popover: they hold short content, so they should feel snappy.
+            enter: 'data-[side=top]:animate-slide-down-fade data-[side=right]:animate-slide-left-fade data-[side=bottom]:animate-slide-up-fade data-[side=left]:animate-slide-right-fade [animation-duration:var(--duration-popover)]',
             leave: 'animate-fade-out',
         },
     },
     fancy: {
         content: {
-            enter: 'animate-pop-in origin-(--reka-dropdown-menu-content-transform-origin)',
+            enter: 'animate-pop-in origin-(--reka-dropdown-menu-content-transform-origin) [animation-duration:var(--duration-popover)]',
             leave: 'animate-zoom-out origin-(--reka-dropdown-menu-content-transform-origin)',
         },
     },

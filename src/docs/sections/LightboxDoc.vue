@@ -30,6 +30,7 @@ const props = [
     { prop: 'images', type: '{ src, alt?, caption? }[]', default: '-', description: 'The images', required: true },
     { prop: 'open', type: 'boolean', default: 'false', description: 'Shown (v-model:open)' },
     { prop: 'index', type: 'number', default: '0', description: 'Current image (v-model:index)' },
+    { prop: 'closeOnBackdrop', type: 'boolean', default: 'true', description: 'Close when the dark area around the image is clicked' },
     { prop: 'motion', type: "'off' | 'simple' | 'smooth' | 'fancy'", default: '-', description: 'Motion level for this instance' },
 ];
 </script>
@@ -39,7 +40,7 @@ const props = [
         <h3 class="mb-4 border-b-2 border-gray-200 pb-2 text-xl font-semibold text-gray-800 dark:border-gray-700 dark:text-gray-100">Lightbox</h3>
         <DocDemoCard>
             <p class="mb-6 text-gray-600 dark:text-gray-400">
-                Click a picture to view it full screen. Arrows, the arrow keys or a swipe move between images; Esc closes.
+                Click a picture to view it full screen. Arrows, the arrow keys or a swipe move between images; Esc or a click on the dark area closes.
             </p>
             <div class="mb-6 flex flex-wrap gap-3">
                 <button

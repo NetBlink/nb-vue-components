@@ -111,18 +111,19 @@ defineExpose({
                         {{ value }}
                     </div>
                     <span :class="cls('actions', 'ml-4 shrink-0')">
-                        <button type="button" @click="toggleEditing" :class="cls('edit', 'text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-lg font-bold')" v-if="editable">
+                        <button type="button" @click="toggleEditing" :aria-label="`Edit ${label ?? ''}`.trim()" :class="cls('edit', 'text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-lg font-bold')" v-if="editable">
                             <NbIcon name="$edit" />
                         </button>
                         <slot name="buttons" />
                     </span>
                 </template>
                 <template v-else>
-                    <div :class="cls('value', 'slot-edit grow')">
+                    <!-- [&>*]:mb-0: an Input's own bottom margin would make the row taller while editing -->
+                    <div :class="cls('value', 'slot-edit grow [&>*]:mb-0')">
                         <slot name="edit" />
                     </div>
                     <span :class="cls('actions', 'ml-4 shrink-0')">
-                        <button type="button" @click="toggleEditing" :class="cls('edit', 'text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-xl font-bold')">
+                        <button type="button" @click="toggleEditing" :aria-label="`Done editing ${label ?? ''}`.trim()" :class="cls('edit', 'text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 text-lg font-bold')">
                             <NbIcon name="$edit-alt" />
                         </button>
                     </span>

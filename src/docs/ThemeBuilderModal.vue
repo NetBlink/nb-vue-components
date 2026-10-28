@@ -320,7 +320,7 @@ function onMotionDurationBaseInput(e: Event): void {
                             :value="state.motion.durationBase"
                             @input="onMotionDurationBaseInput"
                             class="rounded-md border border-gray-300 bg-white px-3 py-2 font-mono text-sm dark:border-gray-600 dark:bg-gray-900"
-                            placeholder="400ms"
+                            placeholder="260ms"
                         />
                     </label>
                 </div>

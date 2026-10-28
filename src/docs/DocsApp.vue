@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick, watch } from 'vue';
 import { NbIcon } from '../icons';
+import { Tabs, NbTransition } from '../index';
 import { useDarkMode } from '../composables/useDarkMode';
 import { useMotion, MOTION_LEVELS } from '../ui/motion';
 
@@ -154,6 +155,10 @@ const blockGroups: NavGroup[] = [
 // Components/Blocks switch under the foundations separator. Foundations stay
 // reachable in both modes; only the grouped list below the switch swaps.
 const mode = ref<'components' | 'blocks'>('components');
+const MODE_TABS = [
+    { value: 'components', label: 'Components' },
+    { value: 'blocks', label: 'Blocks' },
+];
 const modeGroups = computed<NavGroup[]>(() => (mode.value === 'components' ? componentGroups : blockGroups));
 
 const flatten = (groups: NavGroup[]): SectionMap => groups.reduce((all, g) => ({ ...all, ...g.sections }), {});
@@ -434,28 +439,25 @@ function onMainScroll(e: Event): void {
                      then a segmented toggle deciding which list renders below. -->
                 <li class="my-2 border-t border-white/10 pt-3" aria-hidden="true"></li>
                 <li>
-                    <div class="flex rounded-md bg-white/5 p-1 text-sm" role="tablist" aria-label="Documentation mode">
-                        <button
-                            role="tab"
-                            :aria-selected="mode === 'components'"
-                            @click="setMode('components')"
-                            class="flex-1 rounded px-2 py-1.5 transition-colors"
-                            :class="mode === 'components' ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
-                        >
-                            Components
-                        </button>
-                        <button
-                            role="tab"
-                            :aria-selected="mode === 'blocks'"
-                            @click="setMode('blocks')"
-                            class="flex-1 rounded px-2 py-1.5 transition-colors"
-                            :class="mode === 'blocks' ? 'bg-primary-600 text-white' : 'text-primary-100/70 hover:text-white'"
-                        >
-                            Blocks
-                        </button>
-                    </div>
+                    <Tabs
+                        :model-value="mode"
+                        :tabs="MODE_TABS"
+                        variant="pills"
+                        fitted
+                        aria-label="Documentation mode"
+                        :ui="{
+                            list: 'bg-white/5 dark:bg-white/5',
+                            trigger: 'text-primary-100/70 hover:text-white data-[state=active]:text-white dark:text-primary-100/70 dark:hover:text-white dark:data-[state=active]:text-white',
+                            indicator: 'bg-primary-600 shadow-none dark:bg-primary-600',
+                        }"
+                        @update:model-value="(value) => setMode(value as 'components' | 'blocks')"
+                    />
                 </li>
 
+                <!-- The page list cross-fades when switching between Components and Blocks -->
+                <NbTransition mode="out-in">
+                <li :key="mode">
+                <ul class="m-0 flex list-none flex-col gap-2 p-0">
                 <template v-for="group in modeGroups" :key="group.label">
                     <li class="text-primary-100/50 mt-3 mb-0.5 px-2 text-[11px] font-semibold tracking-wider uppercase select-none">
                         {{ group.label }}
@@ -494,6 +496,9 @@ function onMainScroll(e: Event): void {
                     </transition>
                     </li>
                 </template>
+                </ul>
+                </li>
+                </NbTransition>
             </ul>
 
             <!-- Motion level and dark mode: stay put while the list above scrolls -->

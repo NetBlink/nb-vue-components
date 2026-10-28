@@ -1698,8 +1698,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "the active colours switch instantly"
+            },
+            {
+                "level": "simple",
+                "description": "colours change quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "background and colour ease in"
+            },
+            {
+                "level": "fancy",
+                "description": "the active highlight pops in on a spring and links lift slightly on hover"
             }
         ]
     },
@@ -2014,8 +2026,20 @@
         "classPart": "root",
         "motion": [
             {
-                "level": "all",
-                "description": "only hover and focus colour transitions, which `off` makes instant"
+                "level": "off",
+                "description": "the active colours switch instantly"
+            },
+            {
+                "level": "simple",
+                "description": "colours change quickly"
+            },
+            {
+                "level": "smooth",
+                "description": "background, border and colour ease in"
+            },
+            {
+                "level": "fancy",
+                "description": "the same on a spring, and the label nudges right on hover"
             }
         ]
     },
@@ -2665,7 +2689,7 @@
             },
             {
                 "level": "fancy",
-                "description": "the new panel fades in with a small rise, the old one fades out with a small drop"
+                "description": "the new panel fades and scales in, staying inside the tabs; the old one fades out"
             }
         ]
     },

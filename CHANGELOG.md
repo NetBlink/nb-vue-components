@@ -23,7 +23,10 @@
 - Docs: a Motion page, a motion switcher with a sliding pill above the dark-mode toggle, dark mode that follows the motion level, shorter full-width text, and animated blocks.
 
 ### Changed
-- `CodePreview` copies through `CopyButton`, so its copy control is an icon button.
+- Motion is faster: `--duration-base` is 260ms (was 400ms) and `--duration-slow` 380ms (was 600ms); exits at the fancy level use `--duration-quick`. Dropdown, LinkDropdownButton and Tooltip open at the new `--duration-popover` (180ms).
+- `NavLink`, `ResponsiveNavLink` and `NavCollapse` use the primary palette and the library's type scale (`text-sm font-medium` for NavLink), and follow the motion levels: colours ease in from smooth; at fancy the active link pops in and links lift on hover.
+- `Lightbox` closes when the dark area around the image is clicked (`closeOnBackdrop`, default true); changing image is a quick fade at every level.
+- `CodePreview` copies through `CopyButton`, so its copy control is an icon button; `ui.copy` classes now land on the CopyButton wrapper.
 - `CopyButton` keeps its accessible name after copying; only the live region announces it.
 
 ### Fixed
@@ -34,6 +37,10 @@
 - `Avatar` folds its presence into its name instead of announcing it as a live region.
 - `Progress` puts `aria-label` on the progress bar only.
 - `IconCircle` icons were smaller than intended with FontAwesome.
+- Collapsing content no longer snaps its borders away on the last frame.
+- A leaving tab panel (and ContentLoader layer) is pinned where it was, instead of being pushed below the new one and out of its container (which also showed an extra page scrollbar).
+- Editing a `DescriptionListItem` no longer makes the row taller, and its edit buttons have accessible names.
+- `<Input type="select">` and `SimpleSelect` were white in dark mode.
 
 ## [4.0.0-beta.0] - 2026-10-26
 

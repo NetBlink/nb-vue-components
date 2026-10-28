@@ -23,8 +23,9 @@
     /* Motion */
     --ease-emphasised: cubic-bezier(0.16, 1, 0.3, 1);
     --duration-quick:  150ms;
-    --duration-base:   400ms;
-    --duration-slow:   600ms;
+    --duration-base:   260ms;
+    --duration-slow:   380ms;
+    --duration-popover: 180ms;
     /* Overshoots a little before settling; used by the `fancy` motion level. */
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -79,6 +80,7 @@
     --animate-toast-spring-bottom: toastInBottom var(--duration-slow) var(--ease-spring);
     --animate-check-pop:          checkPop        var(--duration-base) var(--ease-spring);
     --animate-typing-dot:         typingDot       1.2s ease-in-out infinite;
+    --animate-scale-fade-in:      scaleFadeIn     var(--duration-slow) var(--ease-emphasised);
 
     /* Plain colors */
     --color-dark:  #161b1c;
@@ -447,6 +449,17 @@
 }
 
 /* `fancy` level keyframes. */
+/* Like popIn without the spring's overshoot: for panels that must stay inside their box. */
+@keyframes scaleFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 @keyframes popIn {
     from {
         opacity: 0;
@@ -626,8 +639,8 @@
 .nb-slide-down-fancy-leave-active,
 .nb-scale-fancy-leave-active {
     transition:
-        opacity var(--duration-base) ease-in,
-        transform var(--duration-base) var(--ease-emphasised);
+        opacity var(--duration-quick) ease-in,
+        transform var(--duration-quick) ease-in;
 }
 .nb-fade-quick-enter-from,
 .nb-fade-quick-leave-to,

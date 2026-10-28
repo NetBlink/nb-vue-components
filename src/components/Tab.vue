@@ -11,7 +11,7 @@
  * @motion off - panels swap instantly
  * @motion simple - panels swap instantly
  * @motion smooth - the new panel fades in, the old one fades out
- * @motion fancy - the new panel fades in with a small rise, the old one fades out with a small drop
+ * @motion fancy - the new panel fades and scales in, staying inside the tabs; the old one fades out
  */
 import { TabsContent, injectTabsRootContext } from 'reka-ui';
 import { computed, ref, watch } from 'vue';
@@ -35,7 +35,8 @@ const { cls, attrs, anim } = useUi('Tab', props);
 
 const MOTION: NbMotionTable<'root'> = {
     smooth: { root: { enter: 'animate-fade-in', leave: 'animate-fade-out' } },
-    fancy: { root: { enter: 'animate-slide-up-fade', leave: 'animate-slide-down-fade-out' } },
+    // Scale, not slide: a sliding panel briefly pokes out of the tabs (and can add a page scrollbar).
+    fancy: { root: { enter: 'animate-scale-fade-in', leave: 'animate-fade-out' } },
 };
 
 const tabs = injectTabsRootContext();
@@ -45,14 +46,20 @@ const panel = ref<{ $el?: unknown } | null>(null);
 
 /*
  * reka-ui keeps the old panel until its leave animation ends. It leaves the
- * flow at its current width while it fades, so the new panel takes its place
- * instead of stacking under it for a moment.
+ * flow pinned where it is (measured before the new panel is inserted, which
+ * can sit above it in the DOM) and at its current width, so the new panel takes
+ * its place instead of the old one being pushed down past the tabs' edge.
  */
 watch(
     active,
     (now) => {
         const el = panel.value?.$el;
-        if (el instanceof HTMLElement) el.style.width = now || !leave.value ? '' : `${el.offsetWidth}px`;
+        if (!(el instanceof HTMLElement)) return;
+        const pin = !now && !!leave.value;
+        const margin = pin ? getComputedStyle(el) : null;
+        el.style.width = pin ? `${el.offsetWidth}px` : '';
+        el.style.top = pin ? `${el.offsetTop - parseFloat(margin!.marginTop)}px` : '';
+        el.style.left = pin ? `${el.offsetLeft - parseFloat(margin!.marginLeft)}px` : '';
     },
     { flush: 'pre' }
 );

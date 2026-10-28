@@ -10,6 +10,10 @@
  * @prop {boolean} [active=false] - apply the active styling
  * @slot default - link label
  * @part root - the `Link`
+ * @motion off - the active colours switch instantly
+ * @motion simple - colours change quickly
+ * @motion smooth - background, border and colour ease in
+ * @motion fancy - the same on a spring, and the label nudges right on hover
  */
 
 import { computed } from 'vue';
@@ -33,13 +37,20 @@ export interface ResponsiveNavLinkProps {
 
 const props = defineProps<ResponsiveNavLinkProps>();
 
-const { cls, attrs } = useUi('ResponsiveNavLink', props);
+const { cls, attrs, level } = useUi('ResponsiveNavLink', props);
 
-const classes = computed(() =>
-    props.active
-        ? 'cursor-pointer focusable block w-full pl-3 pr-4 py-2 border-l-4 border-accent-400 text-left text-base font-medium text-accent-700 bg-accent-50 focus:outline-hidden focus:text-accent-800 focus:bg-accent-100 focus:border-accent-700 transition duration-150 ease-in-out dark:border-primary-400 dark:bg-primary-900/40 dark:text-primary-100 dark:focus:bg-primary-900/60 dark:focus:text-primary-50'
-        : 'cursor-pointer focusable block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-left text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-hidden focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:hover:border-gray-600 dark:focus:bg-gray-800 dark:focus:text-gray-100 dark:focus:border-gray-600'
-);
+const BASE = 'cursor-pointer focusable block w-full border-l-4 py-2 pr-4 pl-3 text-left text-base font-medium focus:outline-hidden';
+const ACTIVE = 'border-primary-500 bg-primary-100/70 text-primary-800 dark:border-primary-400 dark:bg-primary-900/40 dark:text-primary-100';
+const IDLE =
+    'border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:focus:border-gray-600 dark:focus:bg-gray-800 dark:focus:text-gray-100';
+const MOTION: Record<MotionLevel, string> = {
+    off: '',
+    simple: 'transition-colors duration-150',
+    smooth: 'transition-colors duration-200 ease-(--ease-emphasised)',
+    fancy: 'transition-[color,background-color,border-color,padding] duration-300 ease-(--ease-spring) hover:pl-4',
+};
+
+const classes = computed(() => [BASE, props.active ? ACTIVE : IDLE, MOTION[level.value]]);
 </script>
 
 <template>

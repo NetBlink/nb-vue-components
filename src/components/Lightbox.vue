@@ -36,13 +36,15 @@ export interface LightboxImage {
 export interface LightboxProps {
     /** The images */
     images: LightboxImage[];
+    /** Close when the dark area around the image is clicked */
+    closeOnBackdrop?: boolean;
     /** Classes per part, merged over the defaults */
     ui?: UiProp<NbParts['Lightbox']>;
     /** Motion level for this instance */
     motion?: MotionLevel;
 }
 
-const props = defineProps<LightboxProps>();
+const props = withDefaults(defineProps<LightboxProps>(), { closeOnBackdrop: true });
 const open = defineModel<boolean>('open', { default: false });
 const index = defineModel<number>('index', { default: 0 });
 
@@ -97,12 +99,26 @@ const onKeydown = (event: KeyboardEvent) => {
 };
 
 let swipeX: number | null = null;
-const onPointerDown = (event: PointerEvent) => (swipeX = event.pointerType === 'mouse' ? null : event.clientX);
+let swiped = false;
+const onPointerDown = (event: PointerEvent) => {
+    swiped = false;
+    swipeX = event.pointerType === 'mouse' ? null : event.clientX;
+};
 const onPointerUp = (event: PointerEvent) => {
     if (swipeX === null) return;
     const dx = event.clientX - swipeX;
     swipeX = null;
-    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+    if (Math.abs(dx) > 50) {
+        swiped = true;
+        go(dx < 0 ? 1 : -1);
+    }
+};
+
+// The panel fills the screen, so "outside" is the panel itself and the area around the image.
+const onPanelClick = (event: MouseEvent) => {
+    if (!props.closeOnBackdrop || swiped) return;
+    const target = event.target as HTMLElement;
+    if (target === event.currentTarget || target.dataset.lightboxBackdrop !== undefined) open.value = false;
 };
 
 const PREV = { svg: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>' };
@@ -122,10 +138,12 @@ const CONTROL = 'text-white hover:bg-white/15 hover:text-white focus-visible:rin
                 @keydown="onKeydown"
                 @pointerdown="onPointerDown"
                 @pointerup="onPointerUp"
+                @click="onPanelClick"
             >
                 <DialogTitle class="sr-only">{{ current?.alt || `Image ${index + 1} of ${count}` }}</DialogTitle>
-                <div class="relative flex min-h-0 w-full flex-1 items-center justify-center">
-                    <NbTransition mode="out-in" :motion="level">
+                <div data-lightbox-backdrop class="relative flex min-h-0 w-full flex-1 items-center justify-center">
+                    <!-- Paging is frequent: a quick cross-fade at every level, so next/previous never feels slow -->
+                    <NbTransition mode="out-in" :motion="level === 'off' ? 'off' : 'simple'">
                         <img
                             v-if="current"
                             :key="current.src"

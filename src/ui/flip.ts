@@ -24,7 +24,7 @@ const readMs = (name: string, fallback: number): number => {
 export function motionTokens(): { quick: number; base: number; ease: string; spring: string } {
     return {
         quick: readMs('--duration-quick', 150),
-        base: readMs('--duration-base', 400),
+        base: readMs('--duration-base', 260),
         ease: readToken('--ease-emphasised') || EASE,
         spring: readToken('--ease-spring') || SPRING,
     };
@@ -35,7 +35,7 @@ export function motionTiming(level: MotionLevel, kind: 'enter' | 'leave' = 'ente
     if (level === 'off') return { duration: 0, easing: 'linear' };
     const { quick, base, ease, spring } = motionTokens();
     if (level === 'simple') return { duration: quick, easing: 'ease-out' };
-    // With the default tokens: 600ms / 250ms at fancy, 400ms / 200ms at smooth.
+    // With the default tokens: 390ms / 160ms at fancy, 260ms / 130ms at smooth.
     if (level === 'fancy') return kind === 'enter' ? { duration: base * 1.5, easing: spring } : { duration: base * 0.625, easing: ease };
     return kind === 'enter' ? { duration: base, easing: ease } : { duration: base * 0.5, easing: ease };
 }
@@ -123,23 +123,24 @@ export function useFlip(container: () => Element | null | undefined, enabled: ()
  * height 0 and vanishes the frame it is removed. A negative margin in the collapsed
  * frame cancels it, so the neighbours glide instead of jumping at the end.
  */
-function spacingPull(el: HTMLElement): Keyframe {
+function spacingPull(el: HTMLElement): { top: number; bottom: number } {
+    const none = { top: 0, bottom: 0 };
     const parent = el.parentElement;
-    if (!parent) return {};
+    if (!parent) return none;
     const style = getComputedStyle(parent);
     const prev = el.previousElementSibling;
     const next = el.nextElementSibling;
     if (/flex|grid/.test(style.display)) {
         const column = style.display.includes('grid') || style.flexDirection.startsWith('column');
         const gap = column ? parseFloat(style.rowGap) || 0 : 0;
-        if (!gap || (!prev && !next)) return {};
-        return prev ? { marginTop: `${-gap}px` } : { marginBottom: `${-gap}px` };
+        if (!gap || (!prev && !next)) return none;
+        return prev ? { top: -gap, bottom: 0 } : { top: 0, bottom: -gap };
     }
     if (prev && !next) {
         const above = parseFloat(getComputedStyle(prev).marginBottom) || 0;
-        if (above) return { marginTop: `${-above}px` };
+        if (above) return { top: -above, bottom: 0 };
     }
-    return {};
+    return none;
 }
 
 /**
@@ -150,12 +151,14 @@ function spacingPull(el: HTMLElement): Keyframe {
  */
 export function collapseFrames(el: HTMLElement, extra: { open?: Keyframe; closed?: Keyframe } = {}): { open: Keyframe; closed: Keyframe } {
     const style = getComputedStyle(el);
+    // Borders can't shrink smoothly (browsers round any width under 1px up to 1px), so they stay
+    // put and a negative margin takes their thickness back: the box really ends at 0px tall.
+    const borders = (parseFloat(style.borderTopWidth) || 0) + (parseFloat(style.borderBottomWidth) || 0);
+    const pull = spacingPull(el);
     const open: Keyframe = {
         height: `${el.offsetHeight}px`,
         paddingTop: style.paddingTop,
         paddingBottom: style.paddingBottom,
-        borderTopWidth: style.borderTopWidth,
-        borderBottomWidth: style.borderBottomWidth,
         marginTop: style.marginTop,
         marginBottom: style.marginBottom,
         opacity: 1,
@@ -166,13 +169,11 @@ export function collapseFrames(el: HTMLElement, extra: { open?: Keyframe; closed
         height: '0px',
         paddingTop: '0px',
         paddingBottom: '0px',
-        borderTopWidth: '0px',
-        borderBottomWidth: '0px',
-        marginTop: '0px',
-        marginBottom: '0px',
+        // A last child's bottom margin would collapse into its parent, so its compensation goes on top.
+        marginTop: `${pull.top - (el.nextElementSibling ? 0 : borders)}px`,
+        marginBottom: `${pull.bottom - (el.nextElementSibling ? borders : 0)}px`,
         opacity: 0,
         overflow: 'hidden',
-        ...spacingPull(el),
         ...extra.closed,
     };
     return { open, closed };

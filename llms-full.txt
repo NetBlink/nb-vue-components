@@ -1345,6 +1345,7 @@ Full-screen image viewer. Open it at an image (`v-model:open`, `v-model:index`),
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `images` | `LightboxImage[]` | **required** | The images |
+| `closeOnBackdrop` | `boolean` | - | Close when the dark area around the image is clicked |
 | `ui` | `UiProp<NbParts['Lightbox']>` | - | Classes per part, merged over the defaults |
 | `motion` | `MotionLevel` | - | Motion level for this instance |
 
@@ -1561,7 +1562,7 @@ sidebar / header navigation link wrapping an Inertia `<Link>`. The caller decide
 | `icon` | the icon slot wrapper |
 | `label` | the label `<span>` |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: the active colours switch instantly; `simple`: colours change quickly; `smooth`: background and colour ease in; `fancy`: the active highlight pops in on a spring and links lift slightly on hover.
 
 ### NbTransition
 
@@ -1816,7 +1817,7 @@ mobile/stacked variant of `NavLink`. Same `href` / `active` API as NavLink, but 
 | --- | --- |
 | `root` | the `Link` |
 
-**Motion:** all levels: only hover and focus colour transitions, which `off` makes instant.
+**Motion:** `off`: the active colours switch instantly; `simple`: colours change quickly; `smooth`: background, border and colour ease in; `fancy`: the same on a spring, and the label nudges right on hover.
 
 ### RichSelect
 
@@ -2356,7 +2357,7 @@ a single panel inside `<Tabs>`. `value` must match the `value` of the correspond
 | --- | --- |
 | `root` | the panel |
 
-**Motion:** `off`: panels swap instantly; `simple`: panels swap instantly; `smooth`: the new panel fades in, the old one fades out; `fancy`: the new panel fades in with a small rise, the old one fades out with a small drop.
+**Motion:** `off`: panels swap instantly; `simple`: panels swap instantly; `smooth`: the new panel fades in, the old one fades out; `fancy`: the new panel fades and scales in, staying inside the tabs; the old one fades out.
 
 ### Table
 

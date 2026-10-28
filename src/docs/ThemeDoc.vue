@@ -65,7 +65,10 @@ const totalLines = computed(() => v4Snippet.value.split('\n').length);
 const motionTokens = [
     { prop: '--ease-emphasised', type: 'easing',   default: 'cubic-bezier(0.16, 1, 0.3, 1)', description: 'Default easing curve. Used by all named animations.' },
     { prop: '--duration-quick',  type: 'duration', default: '150ms',                          description: 'Short transitions (hover, focus).' },
-    { prop: '--duration-base',   type: 'duration', default: '400ms',                          description: 'Standard transitions (modals, tooltips, collapse).' },
+    { prop: '--duration-base',   type: 'duration', default: '260ms',                          description: 'Standard transitions (modals, collapse, panels).' },
+    { prop: '--duration-slow',   type: 'duration', default: '380ms',                          description: 'Fancy-level entrances (springs, growing dialogs).' },
+    { prop: '--duration-popover', type: 'duration', default: '180ms',                         description: 'Dropdowns and tooltips opening.' },
+    { prop: '--ease-spring',     type: 'easing',   default: 'cubic-bezier(0.34, 1.56, 0.64, 1)', description: 'Springy curve used at the fancy level.' },
 ];
 
 const motionAnimations = [

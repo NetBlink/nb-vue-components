@@ -62,7 +62,18 @@ onBeforeUnmount(() => clearTimeout(timer));
 // The outgoing layer is pinned where it is (out of the flow) so the wrapper takes the
 // incoming layer's height, and the wrapper eases from its old height to that one.
 let fromHeight = 0;
-watch(showLoading, () => (fromHeight = root.value?.offsetHeight ?? 0), { flush: 'pre' });
+// The layer about to leave is measured before the new one is inserted (the placeholder sits
+// above the content in the DOM, so measuring later would pin the content too low).
+let leaving: { top: number; left: number; width: number } | null = null;
+watch(
+    showLoading,
+    () => {
+        fromHeight = root.value?.offsetHeight ?? 0;
+        const layer = root.value?.firstElementChild as HTMLElement | null;
+        leaving = layer ? { top: layer.offsetTop, left: layer.offsetLeft, width: layer.offsetWidth } : null;
+    },
+    { flush: 'pre' },
+);
 watch(
     showLoading,
     () => {
@@ -78,7 +89,8 @@ watch(
 
 const pinLeaving = (el: Element) => {
     const layer = el as HTMLElement;
-    Object.assign(layer.style, { position: 'absolute', top: `${layer.offsetTop}px`, left: `${layer.offsetLeft}px`, width: `${layer.offsetWidth}px` });
+    const at = leaving ?? { top: layer.offsetTop, left: layer.offsetLeft, width: layer.offsetWidth };
+    Object.assign(layer.style, { position: 'absolute', top: `${at.top}px`, left: `${at.left}px`, width: `${at.width}px` });
 };
 </script>
 

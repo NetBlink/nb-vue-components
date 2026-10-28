@@ -70,7 +70,7 @@ watch(
                     :class="
                         cls(
                             'trigger',
-                            'focusable group flex w-full cursor-pointer items-center rounded-lg p-2 text-base text-gray-900 dark:text-gray-100 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700'
+                            'focusable group flex w-full cursor-pointer items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100'
                         )
                     "
                 >

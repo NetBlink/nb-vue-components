@@ -137,7 +137,8 @@ const indicatorClasses = computed(() => [
 </script>
 
 <template>
-    <TabsRoot v-model="model" :defaultValue="fallback" v-bind="attrs()" :class="cls('root')">
+    <!-- relative: a leaving panel is positioned over the new one inside the tabs, not against the page -->
+    <TabsRoot v-model="model" :defaultValue="fallback" v-bind="attrs()" :class="cls('root', 'relative')">
         <TabsList :class="cls('list', listClasses)" :aria-label="$attrs['aria-label'] as string">
             <TabsTrigger v-for="tab in tabs" :key="tab.value" :value="tab.value" :disabled="tab.disabled" :class="cls('trigger', triggerClasses)">
                 <slot name="trigger" :tab="tab" :active="(model ?? fallback) === tab.value">
